@@ -1,20 +1,19 @@
 //
-//  StartScreen.m
+//  DebugMenu.m
 //  traderpog
 //
 //  Created by Shu Chiun Cheah on 7/8/12.
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
-#import "StartScreen.h"
 #import "DebugMenu.h"
 #import "UINavigationController+Pog.h"
 
-@interface StartScreen ()
+@interface DebugMenu ()
 
 @end
 
-@implementation StartScreen
+@implementation DebugMenu
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,12 +42,12 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (IBAction)didPressStart:(id)sender {
+- (IBAction)didPressClose:(id)sender 
+{
+    [self.navigationController popToRightViewControllerAnimated:YES];
 }
 
-- (IBAction)didPressDebug:(id)sender 
+- (IBAction)didPressResetGame:(id)sender 
 {
-    DebugMenu* menu = [[DebugMenu alloc] initWithNibName:@"DebugMenu" bundle:nil];
-    [self.navigationController pushFromRightViewController:menu animated:YES];
 }
 @end

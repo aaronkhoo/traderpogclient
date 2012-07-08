@@ -20,6 +20,10 @@
 		C4E3819D15AA0C5B00924A86 /* StartScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E3819B15AA0C5B00924A86 /* StartScreen.m */; };
 		C4E3819E15AA0C5B00924A86 /* StartScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E3819C15AA0C5B00924A86 /* StartScreen.xib */; };
 		C4E381AB15AA381F00924A86 /* ImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E381AA15AA381F00924A86 /* ImageManager.m */; };
+		C4E381B415AA39DA00924A86 /* DebugMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E381B215AA39DA00924A86 /* DebugMenu.m */; };
+		C4E381B515AA39DA00924A86 /* DebugMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E381B315AA39DA00924A86 /* DebugMenu.xib */; };
+		C4E381B915AA3B4C00924A86 /* UINavigationController+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E381B815AA3B4C00924A86 /* UINavigationController+Pog.m */; };
+		C4E381BB15AA3B8600924A86 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4E381BA15AA3B8600924A86 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +46,12 @@
 		C4E3819C15AA0C5B00924A86 /* StartScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StartScreen.xib; path = Game/UI/StartScreen.xib; sourceTree = "<group>"; };
 		C4E381A915AA381F00924A86 /* ImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageManager.h; sourceTree = "<group>"; };
 		C4E381AA15AA381F00924A86 /* ImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageManager.m; sourceTree = "<group>"; };
+		C4E381B115AA39DA00924A86 /* DebugMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugMenu.h; path = Game/UI/DebugMenu.h; sourceTree = "<group>"; };
+		C4E381B215AA39DA00924A86 /* DebugMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugMenu.m; path = Game/UI/DebugMenu.m; sourceTree = "<group>"; };
+		C4E381B315AA39DA00924A86 /* DebugMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DebugMenu.xib; path = Game/UI/DebugMenu.xib; sourceTree = "<group>"; };
+		C4E381B715AA3B4C00924A86 /* UINavigationController+Pog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+Pog.h"; sourceTree = "<group>"; };
+		C4E381B815AA3B4C00924A86 /* UINavigationController+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+Pog.m"; sourceTree = "<group>"; };
+		C4E381BA15AA3B8600924A86 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4E381BB15AA3B8600924A86 /* QuartzCore.framework in Frameworks */,
 				C41ED12D15A6B33E00995F53 /* UIKit.framework in Frameworks */,
 				C41ED12F15A6B33E00995F53 /* Foundation.framework in Frameworks */,
 				C41ED13115A6B33E00995F53 /* CoreGraphics.framework in Frameworks */,
@@ -82,6 +93,7 @@
 		C41ED12B15A6B33E00995F53 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C4E381BA15AA3B8600924A86 /* QuartzCore.framework */,
 				C41ED12C15A6B33E00995F53 /* UIKit.framework */,
 				C41ED12E15A6B33E00995F53 /* Foundation.framework */,
 				C41ED13015A6B33E00995F53 /* CoreGraphics.framework */,
@@ -126,6 +138,9 @@
 				C4E3819A15AA0C5B00924A86 /* StartScreen.h */,
 				C4E3819B15AA0C5B00924A86 /* StartScreen.m */,
 				C4E3819C15AA0C5B00924A86 /* StartScreen.xib */,
+				C4E381B115AA39DA00924A86 /* DebugMenu.h */,
+				C4E381B215AA39DA00924A86 /* DebugMenu.m */,
+				C4E381B315AA39DA00924A86 /* DebugMenu.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -134,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				C4E381A815AA381F00924A86 /* Renderer */,
+				C4E381B615AA3B4C00924A86 /* UI */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -145,6 +161,15 @@
 				C4E381AA15AA381F00924A86 /* ImageManager.m */,
 			);
 			path = Renderer;
+			sourceTree = "<group>";
+		};
+		C4E381B615AA3B4C00924A86 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				C4E381B715AA3B4C00924A86 /* UINavigationController+Pog.h */,
+				C4E381B815AA3B4C00924A86 /* UINavigationController+Pog.m */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -204,6 +229,7 @@
 				C41ED14D15A6B42200995F53 /* Default.png in Resources */,
 				C41ED14F15A6B42600995F53 /* Default@2x.png in Resources */,
 				C4E3819E15AA0C5B00924A86 /* StartScreen.xib in Resources */,
+				C4E381B515AA39DA00924A86 /* DebugMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,6 +244,8 @@
 				C41ED13D15A6B33E00995F53 /* AppDelegate.m in Sources */,
 				C4E3819D15AA0C5B00924A86 /* StartScreen.m in Sources */,
 				C4E381AB15AA381F00924A86 /* ImageManager.m in Sources */,
+				C4E381B415AA39DA00924A86 /* DebugMenu.m in Sources */,
+				C4E381B915AA3B4C00924A86 /* UINavigationController+Pog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
