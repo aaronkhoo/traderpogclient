@@ -3,21 +3,43 @@
 //  traderpog
 //
 //  Created by Shu Chiun Cheah on 7/5/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
 #import "AppDelegate.h"
+#import "StartScreen.h"
+#import "ImageManager.h"
+
+@interface AppDelegate()
+{
+    NSDate* _lastEnteredBackgroundDate;
+}
+@property (nonatomic,retain) NSDate* lastEnteredBackgroundDate;
+- (void) appInit;
+- (void) appShutdown;
+- (void) setupNavigationController;
+- (void) teardownNavigationController;
+@end
 
 @implementation AppDelegate
 
 @synthesize window = _window;
+@synthesize rootController = _rootController;
+@synthesize navController = _navController;
+@synthesize lastEnteredBackgroundDate = _lastEnteredBackgroundDate;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+
+    // setup navigation controller
+    [self setupNavigationController];
+    
+    _lastEnteredBackgroundDate = nil;
+    [self appInit];
+    
     return YES;
 }
 
@@ -45,7 +67,52 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [self appShutdown];
+    [self teardownNavigationController];
+}
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application 
+{
+    // memory warning
+    
+    // unload frontmenu backgroud if we're not in the frontend
+    UIViewController* topController = [self.navController topViewController];
+    if(![topController isMemberOfClass:[StartScreen class]])
+    {
+        [[ImageManager getInstance] unloadFrontMenuBackground];
+    }
+}
+
+#pragma mark - private methods
+- (void) appInit
+{
+    [ImageManager getInstance];
+
+    // load up frontmenu background
+    [[ImageManager getInstance] loadFrontMenuBackground];
+}
+
+- (void) appShutdown
+{
+    [ImageManager destroyInstance];
+}
+
+- (void) setupNavigationController
+{
+    // create the root view controller first
+    self.rootController = [[StartScreen alloc] initWithNibName:@"StartScreen" bundle:nil];
+    
+    // add it to our navigation controller
+    self.navController = [[UINavigationController alloc] initWithRootViewController:[self rootController]];
+    [self.navController setNavigationBarHidden:YES];
+    [self.window addSubview:[[self navController]view]];
+}
+
+- (void) teardownNavigationController
+{
+    [self.navController.view removeFromSuperview];
+    self.rootController = nil;
+    self.navController = nil;
 }
 
 @end
