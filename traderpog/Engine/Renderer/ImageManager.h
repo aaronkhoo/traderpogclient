@@ -11,7 +11,7 @@
 @interface ImageManager : NSObject
 
 // frontend menu
-- (void) loadFrontMenuBackground;       // ok to call this repeatedly
+- (void) loadFrontMenuBackgroundNamed:(NSString*)imageName;       // ok to call this repeatedly
 - (void) unloadFrontMenuBackground;
 
 // singleton

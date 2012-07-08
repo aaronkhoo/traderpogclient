@@ -89,7 +89,7 @@
     [ImageManager getInstance];
 
     // load up frontmenu background
-    [[ImageManager getInstance] loadFrontMenuBackground];
+    [[ImageManager getInstance] loadFrontMenuBackgroundNamed:@"Default.png"];
 }
 
 - (void) appShutdown

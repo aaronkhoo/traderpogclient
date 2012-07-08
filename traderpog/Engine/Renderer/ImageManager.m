@@ -30,15 +30,17 @@
 }
 
 #pragma mark - frontend menu
-- (void) loadFrontMenuBackground
+- (void) loadFrontMenuBackgroundNamed:(NSString *)imageName
 {
     if(![self frontMenuBgView])
     {
         AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        NSString* backgroundImageName = @"Default.png";
+        NSString* backgroundImageName = imageName;
         if([[UIScreen mainScreen] scale] > 1.0f)
         {
-            backgroundImageName = @"Default@2x.png";
+            backgroundImageName = [NSString stringWithFormat:@"%@@2x.%@", 
+                                   [imageName stringByDeletingPathExtension],
+                                   [imageName pathExtension]];
         }
         UIImage* backgroundImage = [UIImage imageNamed:backgroundImageName];
         UIImageView* imageView = [[UIImageView alloc] initWithFrame:delegate.window.bounds];
