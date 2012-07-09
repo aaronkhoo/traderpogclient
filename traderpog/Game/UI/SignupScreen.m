@@ -74,6 +74,8 @@
         }
         
         NSLog(@"proceed to setting up new player");
+        // TODO: register account
+        // TODO: this is where a new view-controller can be pushed to show progress of account registration
     }
 }
 
