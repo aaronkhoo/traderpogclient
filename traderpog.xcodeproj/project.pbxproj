@@ -24,6 +24,10 @@
 		C4E381B515AA39DA00924A86 /* DebugMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E381B315AA39DA00924A86 /* DebugMenu.xib */; };
 		C4E381B915AA3B4C00924A86 /* UINavigationController+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E381B815AA3B4C00924A86 /* UINavigationController+Pog.m */; };
 		C4E381BB15AA3B8600924A86 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4E381BA15AA3B8600924A86 /* QuartzCore.framework */; };
+		C4E381BF15AABB2400924A86 /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E381BE15AABB2400924A86 /* GameManager.m */; };
+		C4E381C615AABC7400924A86 /* SignupScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E381C415AABC7400924A86 /* SignupScreen.m */; };
+		C4E381C715AABC7400924A86 /* SignupScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E381C515AABC7400924A86 /* SignupScreen.xib */; };
+		C4E381CE15AABECC00924A86 /* PogUIUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E381CD15AABECC00924A86 /* PogUIUtility.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +56,13 @@
 		C4E381B715AA3B4C00924A86 /* UINavigationController+Pog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+Pog.h"; sourceTree = "<group>"; };
 		C4E381B815AA3B4C00924A86 /* UINavigationController+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+Pog.m"; sourceTree = "<group>"; };
 		C4E381BA15AA3B8600924A86 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		C4E381BD15AABB2400924A86 /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameManager.h; path = Game/Sim/GameManager.h; sourceTree = "<group>"; };
+		C4E381BE15AABB2400924A86 /* GameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameManager.m; path = Game/Sim/GameManager.m; sourceTree = "<group>"; };
+		C4E381C315AABC7400924A86 /* SignupScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SignupScreen.h; path = Game/UI/SignupScreen.h; sourceTree = "<group>"; };
+		C4E381C415AABC7400924A86 /* SignupScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SignupScreen.m; path = Game/UI/SignupScreen.m; sourceTree = "<group>"; };
+		C4E381C515AABC7400924A86 /* SignupScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SignupScreen.xib; path = Game/UI/SignupScreen.xib; sourceTree = "<group>"; };
+		C4E381CC15AABECC00924A86 /* PogUIUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PogUIUtility.h; sourceTree = "<group>"; };
+		C4E381CD15AABECC00924A86 /* PogUIUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PogUIUtility.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +138,7 @@
 		C4E3819815AA0BCE00924A86 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				C4E381BC15AABB0500924A86 /* Sim */,
 				C4E3819915AA0BF400924A86 /* UI */,
 			);
 			name = Game;
@@ -141,6 +153,9 @@
 				C4E381B115AA39DA00924A86 /* DebugMenu.h */,
 				C4E381B215AA39DA00924A86 /* DebugMenu.m */,
 				C4E381B315AA39DA00924A86 /* DebugMenu.xib */,
+				C4E381C315AABC7400924A86 /* SignupScreen.h */,
+				C4E381C415AABC7400924A86 /* SignupScreen.m */,
+				C4E381C515AABC7400924A86 /* SignupScreen.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -166,10 +181,21 @@
 		C4E381B615AA3B4C00924A86 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				C4E381CC15AABECC00924A86 /* PogUIUtility.h */,
+				C4E381CD15AABECC00924A86 /* PogUIUtility.m */,
 				C4E381B715AA3B4C00924A86 /* UINavigationController+Pog.h */,
 				C4E381B815AA3B4C00924A86 /* UINavigationController+Pog.m */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		C4E381BC15AABB0500924A86 /* Sim */ = {
+			isa = PBXGroup;
+			children = (
+				C4E381BD15AABB2400924A86 /* GameManager.h */,
+				C4E381BE15AABB2400924A86 /* GameManager.m */,
+			);
+			name = Sim;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,6 +256,7 @@
 				C41ED14F15A6B42600995F53 /* Default@2x.png in Resources */,
 				C4E3819E15AA0C5B00924A86 /* StartScreen.xib in Resources */,
 				C4E381B515AA39DA00924A86 /* DebugMenu.xib in Resources */,
+				C4E381C715AABC7400924A86 /* SignupScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +273,9 @@
 				C4E381AB15AA381F00924A86 /* ImageManager.m in Sources */,
 				C4E381B415AA39DA00924A86 /* DebugMenu.m in Sources */,
 				C4E381B915AA3B4C00924A86 /* UINavigationController+Pog.m in Sources */,
+				C4E381BF15AABB2400924A86 /* GameManager.m in Sources */,
+				C4E381C615AABC7400924A86 /* SignupScreen.m in Sources */,
+				C4E381CE15AABECC00924A86 /* PogUIUtility.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

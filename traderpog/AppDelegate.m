@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "StartScreen.h"
 #import "ImageManager.h"
+#import "GameManager.h"
 
 @interface AppDelegate()
 {
@@ -87,6 +88,7 @@
 - (void) appInit
 {
     [ImageManager getInstance];
+    [GameManager getInstance];
 
     // load up frontmenu background
     [[ImageManager getInstance] loadFrontMenuBackgroundNamed:@"Default.png"];
@@ -94,6 +96,7 @@
 
 - (void) appShutdown
 {
+    [GameManager destroyInstance];
     [ImageManager destroyInstance];
 }
 

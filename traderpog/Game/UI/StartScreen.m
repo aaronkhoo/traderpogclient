@@ -8,7 +8,9 @@
 
 #import "StartScreen.h"
 #import "DebugMenu.h"
+#import "SignupScreen.h"
 #import "UINavigationController+Pog.h"
+#import "GameManager.h"
 
 @interface StartScreen ()
 
@@ -43,7 +45,11 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (IBAction)didPressStart:(id)sender {
+- (IBAction)didPressStart:(id)sender 
+{
+    
+    UIViewController* controller = [[SignupScreen alloc] initWithNibName:@"SignupScreen" bundle:nil];
+    [self.navigationController pushFadeInViewController:controller animated:YES];
 }
 
 - (IBAction)didPressDebug:(id)sender 
