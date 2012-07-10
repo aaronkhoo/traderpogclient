@@ -10,8 +10,18 @@
 #import "Player.h"
 #import "LoadingScreen.h"
 #import "PogProfileAPI.h"
+#import "SetupNewPlayer.h"
+#import "UINavigationController+Pog.h"
+#import <CoreLocation/CoreLocation.h>
+
+@interface GameManager ()
+{
+    SetupNewPlayer* _newPlayerSequence;
+}
+@end
 
 @implementation GameManager
+@synthesize gameState = _gameState;
 @synthesize player = _player;
 @synthesize loadingScreen = _loadingScreen;
 
@@ -20,6 +30,7 @@
     self = [super init];
     if(self)
     {
+        _gameState = kGameStateFrontUI;
         _player = nil;
         _loadingScreen = nil;
     }
@@ -27,16 +38,35 @@
 }
 
 #pragma mark - public methods
-- (void) newGameWithEmail:(NSString*)email;
+- (void) setupNewPlayerWithEmail:(NSString *)email loadingScreen:(LoadingScreen *)loadingScreen
 {
-    // register new account
-    if([self loadingScreen])
-    {
-        [self.loadingScreen.bigLabel setText:@"Entering PogVerse"];
-        [self.loadingScreen.progressLabel setText:@"Registering new account"];
-    }
-    [[PogProfileAPI getInstance] setDelegate:self];
-    [[PogProfileAPI getInstance] newUserWithEmail:email];
+    _gameState = kGameStateSetupNewPlayer;
+    _loadingScreen = loadingScreen;
+    _newPlayerSequence = [[SetupNewPlayer alloc] initWithEmail:email loadingScreen:loadingScreen];
+}
+
+- (void) completeSetupNewPlayer
+{
+    _newPlayerSequence = nil;
+    UINavigationController* nav = self.loadingScreen.navigationController;
+    [nav popToRootViewControllerAnimated:NO];
+    
+    NSLog(@"start game");
+    _gameState = kGameStateGameView;
+}
+
+- (void) abortSetupNewPlayer
+{
+    _newPlayerSequence = nil;
+    [self.loadingScreen.navigationController popToRootViewControllerAnimated:YES];
+    
+    _gameState = kGameStateFrontUI;
+}
+
+- (void) setupHomebaseAtLocation:(CLLocation *)location
+{
+    // TODO: create homebase
+    NSLog(@"setup homebase at location (%f, %f)", location.coordinate.longitude, location.coordinate.latitude);
 }
 
 - (void) loadGame

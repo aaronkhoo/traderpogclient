@@ -80,8 +80,7 @@
         LoadingScreen* loading = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
         [self.navigationController pushFadeInViewController:loading animated:YES];
 
-        [[GameManager getInstance] setLoadingScreen:loading];
-        [[GameManager getInstance] newGameWithEmail:userEmail];
+        [[GameManager getInstance] setupNewPlayerWithEmail:userEmail loadingScreen:loading];
     }
 }
 

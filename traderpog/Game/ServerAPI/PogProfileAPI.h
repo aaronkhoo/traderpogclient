@@ -16,15 +16,13 @@ extern NSString* const kPogProfileNotificationDidNewUserLogin;
 {
     NSString* _uuid;
     NSString* _userId;
-    NSObject<PogProfileDelegate>* _delegate;
+    __weak NSObject<PogProfileDelegate>* _delegate;
 }
 @property (nonatomic,readonly) NSString* uuid;
 @property (nonatomic,readonly) NSString* userId;
-@property (nonatomic) NSObject<PogProfileDelegate>* delegate;
+@property (nonatomic,weak) NSObject<PogProfileDelegate>* delegate;
 
 - (void) newUserWithEmail:(NSString*)email;
-
-
 
 // singleton
 +(PogProfileAPI*) getInstance;

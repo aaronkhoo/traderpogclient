@@ -9,19 +9,36 @@
 #import <UIKit/UIKit.h>
 #import "PogProfileDelegate.h"
 
+enum kGameStates
+{
+    kGameStateFrontUI = 0,
+    kGameStateSetupNewPlayer,
+    kGameStateGameView,
+    
+    kGameStateNum
+};
+
 @class Player;
 @class LoadingScreen;
+@class CLLocation;
 @interface GameManager : NSObject<PogProfileDelegate>
 {
+    int _gameState;
     Player* _player;
 
     __weak LoadingScreen* _loadingScreen;
+    
 }
+@property (nonatomic,readonly) int gameState;
 @property (nonatomic,strong) Player* player;
 @property (nonatomic,weak) LoadingScreen* loadingScreen;
 
 // public methods
-- (void) newGameWithEmail:(NSString*)email;
+- (void) setupNewPlayerWithEmail:(NSString*)email loadingScreen:(LoadingScreen*)loadingScreen;
+- (void) completeSetupNewPlayer;
+- (void) abortSetupNewPlayer;
+- (void) setupHomebaseAtLocation:(CLLocation*)location;
+
 - (void) loadGame;
 
 // singleton

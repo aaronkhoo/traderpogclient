@@ -48,7 +48,7 @@
 - (IBAction)didPressStart:(id)sender 
 {
     [[GameManager getInstance] loadGame];
-    if([[GameManager getInstance] player])
+    if([[GameManager getInstance] gameState] == kGameStateGameView)
     {
         // TODO: proceed with registered user sequence
     }
