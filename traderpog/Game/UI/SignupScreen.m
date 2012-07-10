@@ -8,6 +8,9 @@
 
 #import "SignupScreen.h"
 #import "PogUIUtility.h"
+#import "LoadingScreen.h"
+#import "UINavigationController+Pog.h"
+#import "GameManager.h"
 
 @interface SignupScreen ()
 
@@ -73,9 +76,12 @@
             NSLog(@"player name %@", [components objectAtIndex:0]);
         }
         
-        NSLog(@"proceed to setting up new player");
-        // TODO: register account
-        // TODO: this is where a new view-controller can be pushed to show progress of account registration
+        // show loading screen and commence new player sequence
+        LoadingScreen* loading = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
+        [self.navigationController pushFadeInViewController:loading animated:YES];
+
+        [[GameManager getInstance] setLoadingScreen:loading];
+        [[GameManager getInstance] newGameWithEmail:userEmail];
     }
 }
 

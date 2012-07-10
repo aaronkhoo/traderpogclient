@@ -7,12 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PogProfileDelegate.h"
 
-@interface GameManager : NSObject
+@class Player;
+@class LoadingScreen;
+@interface GameManager : NSObject<PogProfileDelegate>
 {
-    BOOL _isUserRegistered;
+    Player* _player;
+
+    __weak LoadingScreen* _loadingScreen;
 }
-@property (nonatomic) BOOL isUserRegistered;
+@property (nonatomic,strong) Player* player;
+@property (nonatomic,weak) LoadingScreen* loadingScreen;
+
+// public methods
+- (void) newGameWithEmail:(NSString*)email;
+- (void) loadGame;
 
 // singleton
 +(GameManager*) getInstance;

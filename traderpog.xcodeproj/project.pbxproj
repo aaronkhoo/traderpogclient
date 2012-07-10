@@ -18,6 +18,12 @@
 		C41E0CA015AC0391006662DF /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C9515AC0391006662DF /* AFXMLRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C41E0CA115AC0391006662DF /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C9715AC0391006662DF /* UIImageView+AFNetworking.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C41E0CA515AC0441006662DF /* MKMapView+ZoomLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0CA415AC0441006662DF /* MKMapView+ZoomLevel.m */; };
+		C41E0CA815AC04DE006662DF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E0CA715AC04DE006662DF /* MapKit.framework */; };
+		C41E0CAA15AC04E5006662DF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E0CA915AC04E5006662DF /* CoreLocation.framework */; };
+		C41E0CAD15AC0C5E006662DF /* PogProfileAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0CAC15AC0C5E006662DF /* PogProfileAPI.m */; };
+		C41E0CB015AC0D5A006662DF /* AFClientManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0CAF15AC0D5A006662DF /* AFClientManager.m */; };
+		C41E0CB315AC0FB6006662DF /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0CB215AC0FB6006662DF /* Player.m */; };
+		C41E0CB615AC1552006662DF /* DebugOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0CB515AC1552006662DF /* DebugOptions.m */; };
 		C41ED12D15A6B33E00995F53 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41ED12C15A6B33E00995F53 /* UIKit.framework */; };
 		C41ED12F15A6B33E00995F53 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41ED12E15A6B33E00995F53 /* Foundation.framework */; };
 		C41ED13115A6B33E00995F53 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41ED13015A6B33E00995F53 /* CoreGraphics.framework */; };
@@ -28,6 +34,9 @@
 		C41ED14B15A6B41700995F53 /* AppIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C41ED14A15A6B41700995F53 /* AppIcon@2x.png */; };
 		C41ED14D15A6B42200995F53 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = C41ED14C15A6B42200995F53 /* Default.png */; };
 		C41ED14F15A6B42600995F53 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C41ED14E15A6B42600995F53 /* Default@2x.png */; };
+		C4945B8015AC26D900EEC0C0 /* LoadingScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B7E15AC26D900EEC0C0 /* LoadingScreen.m */; };
+		C4945B8115AC26D900EEC0C0 /* LoadingScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4945B7F15AC26D900EEC0C0 /* LoadingScreen.xib */; };
+		C4945B8415AC2D2C00EEC0C0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4945B8315AC2D2C00EEC0C0 /* SystemConfiguration.framework */; };
 		C4E3819D15AA0C5B00924A86 /* StartScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E3819B15AA0C5B00924A86 /* StartScreen.m */; };
 		C4E3819E15AA0C5B00924A86 /* StartScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E3819C15AA0C5B00924A86 /* StartScreen.xib */; };
 		C4E381AB15AA381F00924A86 /* ImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E381AA15AA381F00924A86 /* ImageManager.m */; };
@@ -65,6 +74,17 @@
 		C41E0C9715AC0391006662DF /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
 		C41E0CA315AC0441006662DF /* MKMapView+ZoomLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+ZoomLevel.h"; sourceTree = "<group>"; };
 		C41E0CA415AC0441006662DF /* MKMapView+ZoomLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+ZoomLevel.m"; sourceTree = "<group>"; };
+		C41E0CA715AC04DE006662DF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		C41E0CA915AC04E5006662DF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		C41E0CAB15AC0C5E006662DF /* PogProfileAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PogProfileAPI.h; path = Game/ServerAPI/PogProfileAPI.h; sourceTree = "<group>"; };
+		C41E0CAC15AC0C5E006662DF /* PogProfileAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PogProfileAPI.m; path = Game/ServerAPI/PogProfileAPI.m; sourceTree = "<group>"; };
+		C41E0CAE15AC0D5A006662DF /* AFClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFClientManager.h; path = Game/ServerAPI/AFClientManager.h; sourceTree = "<group>"; };
+		C41E0CAF15AC0D5A006662DF /* AFClientManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFClientManager.m; path = Game/ServerAPI/AFClientManager.m; sourceTree = "<group>"; };
+		C41E0CB115AC0FB6006662DF /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Player.h; path = Game/Sim/Player.h; sourceTree = "<group>"; };
+		C41E0CB215AC0FB6006662DF /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Player.m; path = Game/Sim/Player.m; sourceTree = "<group>"; };
+		C41E0CB415AC1552006662DF /* DebugOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugOptions.h; path = Game/Sim/DebugOptions.h; sourceTree = "<group>"; };
+		C41E0CB515AC1552006662DF /* DebugOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugOptions.m; path = Game/Sim/DebugOptions.m; sourceTree = "<group>"; };
+		C41E0CB715AC1846006662DF /* PogProfileDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PogProfileDelegate.h; path = Game/ServerAPI/PogProfileDelegate.h; sourceTree = "<group>"; };
 		C41ED12815A6B33E00995F53 /* traderpog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = traderpog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C41ED12C15A6B33E00995F53 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C41ED12E15A6B33E00995F53 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -79,6 +99,10 @@
 		C41ED14A15A6B41700995F53 /* AppIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@2x.png"; sourceTree = "<group>"; };
 		C41ED14C15A6B42200995F53 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		C41ED14E15A6B42600995F53 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		C4945B7D15AC26D900EEC0C0 /* LoadingScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingScreen.h; sourceTree = "<group>"; };
+		C4945B7E15AC26D900EEC0C0 /* LoadingScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingScreen.m; sourceTree = "<group>"; };
+		C4945B7F15AC26D900EEC0C0 /* LoadingScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingScreen.xib; sourceTree = "<group>"; };
+		C4945B8315AC2D2C00EEC0C0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C4E3819A15AA0C5B00924A86 /* StartScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartScreen.h; path = Game/UI/StartScreen.h; sourceTree = "<group>"; };
 		C4E3819B15AA0C5B00924A86 /* StartScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartScreen.m; path = Game/UI/StartScreen.m; sourceTree = "<group>"; };
 		C4E3819C15AA0C5B00924A86 /* StartScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StartScreen.xib; path = Game/UI/StartScreen.xib; sourceTree = "<group>"; };
@@ -104,6 +128,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4945B8415AC2D2C00EEC0C0 /* SystemConfiguration.framework in Frameworks */,
+				C41E0CAA15AC04E5006662DF /* CoreLocation.framework in Frameworks */,
+				C41E0CA815AC04DE006662DF /* MapKit.framework in Frameworks */,
 				C4E381BB15AA3B8600924A86 /* QuartzCore.framework in Frameworks */,
 				C41ED12D15A6B33E00995F53 /* UIKit.framework in Frameworks */,
 				C41ED12F15A6B33E00995F53 /* Foundation.framework in Frameworks */,
@@ -162,6 +189,18 @@
 			path = External/MKMapViewZoomLevel;
 			sourceTree = "<group>";
 		};
+		C41E0CA615AC048A006662DF /* ServerAPI */ = {
+			isa = PBXGroup;
+			children = (
+				C41E0CAE15AC0D5A006662DF /* AFClientManager.h */,
+				C41E0CAF15AC0D5A006662DF /* AFClientManager.m */,
+				C41E0CAB15AC0C5E006662DF /* PogProfileAPI.h */,
+				C41E0CAC15AC0C5E006662DF /* PogProfileAPI.m */,
+				C41E0CB715AC1846006662DF /* PogProfileDelegate.h */,
+			);
+			name = ServerAPI;
+			sourceTree = "<group>";
+		};
 		C41ED11D15A6B33E00995F53 = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +225,9 @@
 		C41ED12B15A6B33E00995F53 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C4945B8315AC2D2C00EEC0C0 /* SystemConfiguration.framework */,
+				C41E0CA915AC04E5006662DF /* CoreLocation.framework */,
+				C41E0CA715AC04DE006662DF /* MapKit.framework */,
 				C4E381BA15AA3B8600924A86 /* QuartzCore.framework */,
 				C41ED12C15A6B33E00995F53 /* UIKit.framework */,
 				C41ED12E15A6B33E00995F53 /* Foundation.framework */,
@@ -220,6 +262,7 @@
 		C4E3819815AA0BCE00924A86 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				C41E0CA615AC048A006662DF /* ServerAPI */,
 				C4E381BC15AABB0500924A86 /* Sim */,
 				C4E3819915AA0BF400924A86 /* UI */,
 			);
@@ -268,6 +311,9 @@
 				C4E381CD15AABECC00924A86 /* PogUIUtility.m */,
 				C4E381B715AA3B4C00924A86 /* UINavigationController+Pog.h */,
 				C4E381B815AA3B4C00924A86 /* UINavigationController+Pog.m */,
+				C4945B7D15AC26D900EEC0C0 /* LoadingScreen.h */,
+				C4945B7E15AC26D900EEC0C0 /* LoadingScreen.m */,
+				C4945B7F15AC26D900EEC0C0 /* LoadingScreen.xib */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -275,8 +321,12 @@
 		C4E381BC15AABB0500924A86 /* Sim */ = {
 			isa = PBXGroup;
 			children = (
+				C41E0CB415AC1552006662DF /* DebugOptions.h */,
+				C41E0CB515AC1552006662DF /* DebugOptions.m */,
 				C4E381BD15AABB2400924A86 /* GameManager.h */,
 				C4E381BE15AABB2400924A86 /* GameManager.m */,
+				C41E0CB115AC0FB6006662DF /* Player.h */,
+				C41E0CB215AC0FB6006662DF /* Player.m */,
 			);
 			name = Sim;
 			sourceTree = "<group>";
@@ -340,6 +390,7 @@
 				C4E3819E15AA0C5B00924A86 /* StartScreen.xib in Resources */,
 				C4E381B515AA39DA00924A86 /* DebugMenu.xib in Resources */,
 				C4E381C715AABC7400924A86 /* SignupScreen.xib in Resources */,
+				C4945B8115AC26D900EEC0C0 /* LoadingScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,6 +421,11 @@
 				C41E0CA015AC0391006662DF /* AFXMLRequestOperation.m in Sources */,
 				C41E0CA115AC0391006662DF /* UIImageView+AFNetworking.m in Sources */,
 				C41E0CA515AC0441006662DF /* MKMapView+ZoomLevel.m in Sources */,
+				C41E0CAD15AC0C5E006662DF /* PogProfileAPI.m in Sources */,
+				C41E0CB015AC0D5A006662DF /* AFClientManager.m in Sources */,
+				C41E0CB315AC0FB6006662DF /* Player.m in Sources */,
+				C41E0CB615AC1552006662DF /* DebugOptions.m in Sources */,
+				C4945B8015AC26D900EEC0C0 /* LoadingScreen.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

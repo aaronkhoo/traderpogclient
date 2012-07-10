@@ -10,6 +10,7 @@
 #import "StartScreen.h"
 #import "ImageManager.h"
 #import "GameManager.h"
+#import "PogProfileAPI.h"
 
 @interface AppDelegate()
 {
@@ -89,6 +90,8 @@
 {
     [ImageManager getInstance];
     [GameManager getInstance];
+    [PogProfileAPI getInstance];
+    [[PogProfileAPI getInstance] setDelegate:[GameManager getInstance]];
 
     // load up frontmenu background
     [[ImageManager getInstance] loadFrontMenuBackgroundNamed:@"Default.png"];
@@ -96,6 +99,7 @@
 
 - (void) appShutdown
 {
+    [PogProfileAPI destroyInstance];
     [GameManager destroyInstance];
     [ImageManager destroyInstance];
 }

@@ -47,7 +47,8 @@
 
 - (IBAction)didPressStart:(id)sender 
 {
-    if([[GameManager getInstance] isUserRegistered])
+    [[GameManager getInstance] loadGame];
+    if([[GameManager getInstance] player])
     {
         // TODO: proceed with registered user sequence
     }
