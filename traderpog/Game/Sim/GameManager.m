@@ -12,11 +12,17 @@
 #import "PogProfileAPI.h"
 #import "SetupNewPlayer.h"
 #import "UINavigationController+Pog.h"
+#import "GameViewController.h"
 #import <CoreLocation/CoreLocation.h>
 
 @interface GameManager ()
 {
     SetupNewPlayer* _newPlayerSequence;
+    GameViewController* _gameViewController;
+    
+    // HACK (should remove after Homebase implementation is added)
+    CLLocationCoordinate2D _initCoord;
+    // HACK
 }
 @end
 
@@ -53,6 +59,8 @@
     
     NSLog(@"start game");
     _gameState = kGameStateGameView;
+    _gameViewController = [[GameViewController alloc] initAtCoordinate:_initCoord];
+    [nav pushFadeInViewController:_gameViewController animated:YES];
 }
 
 - (void) abortSetupNewPlayer
@@ -67,6 +75,7 @@
 {
     // TODO: create homebase
     NSLog(@"setup homebase at location (%f, %f)", location.coordinate.longitude, location.coordinate.latitude);
+    _initCoord = location.coordinate;
 }
 
 - (void) loadGame

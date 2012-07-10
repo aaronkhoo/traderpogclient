@@ -34,6 +34,9 @@
 		C41ED14B15A6B41700995F53 /* AppIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C41ED14A15A6B41700995F53 /* AppIcon@2x.png */; };
 		C41ED14D15A6B42200995F53 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = C41ED14C15A6B42200995F53 /* Default.png */; };
 		C41ED14F15A6B42600995F53 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C41ED14E15A6B42600995F53 /* Default@2x.png */; };
+		C481145F15ACB927007FA214 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C481145D15ACB927007FA214 /* GameViewController.m */; };
+		C481146015ACB927007FA214 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C481145E15ACB927007FA214 /* GameViewController.xib */; };
+		C481146915ACBFED007FA214 /* MapControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146815ACBFED007FA214 /* MapControl.m */; };
 		C4945B8015AC26D900EEC0C0 /* LoadingScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B7E15AC26D900EEC0C0 /* LoadingScreen.m */; };
 		C4945B8115AC26D900EEC0C0 /* LoadingScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4945B7F15AC26D900EEC0C0 /* LoadingScreen.xib */; };
 		C4945B8415AC2D2C00EEC0C0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4945B8315AC2D2C00EEC0C0 /* SystemConfiguration.framework */; };
@@ -102,6 +105,11 @@
 		C41ED14A15A6B41700995F53 /* AppIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@2x.png"; sourceTree = "<group>"; };
 		C41ED14C15A6B42200995F53 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		C41ED14E15A6B42600995F53 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		C481145C15ACB927007FA214 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameViewController.h; path = Game/UI/GameViewController.h; sourceTree = "<group>"; };
+		C481145D15ACB927007FA214 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameViewController.m; path = Game/UI/GameViewController.m; sourceTree = "<group>"; };
+		C481145E15ACB927007FA214 /* GameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GameViewController.xib; path = Game/UI/GameViewController.xib; sourceTree = "<group>"; };
+		C481146715ACBFED007FA214 /* MapControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapControl.h; path = Game/UI/MapControl.h; sourceTree = "<group>"; };
+		C481146815ACBFED007FA214 /* MapControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapControl.m; path = Game/UI/MapControl.m; sourceTree = "<group>"; };
 		C4945B7D15AC26D900EEC0C0 /* LoadingScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingScreen.h; sourceTree = "<group>"; };
 		C4945B7E15AC26D900EEC0C0 /* LoadingScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingScreen.m; sourceTree = "<group>"; };
 		C4945B7F15AC26D900EEC0C0 /* LoadingScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingScreen.xib; sourceTree = "<group>"; };
@@ -301,6 +309,11 @@
 				C4E381C315AABC7400924A86 /* SignupScreen.h */,
 				C4E381C415AABC7400924A86 /* SignupScreen.m */,
 				C4E381C515AABC7400924A86 /* SignupScreen.xib */,
+				C481145C15ACB927007FA214 /* GameViewController.h */,
+				C481145D15ACB927007FA214 /* GameViewController.m */,
+				C481145E15ACB927007FA214 /* GameViewController.xib */,
+				C481146715ACBFED007FA214 /* MapControl.h */,
+				C481146815ACBFED007FA214 /* MapControl.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -414,6 +427,7 @@
 				C4E381B515AA39DA00924A86 /* DebugMenu.xib in Resources */,
 				C4E381C715AABC7400924A86 /* SignupScreen.xib in Resources */,
 				C4945B8115AC26D900EEC0C0 /* LoadingScreen.xib in Resources */,
+				C481146015ACB927007FA214 /* GameViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +466,8 @@
 				C4945B8815AC91B500EEC0C0 /* CLLocation+Pog.m in Sources */,
 				C4945B8B15AC936600EEC0C0 /* HiAccuracyLocator.m in Sources */,
 				C4945B8E15AC974000EEC0C0 /* SetupNewPlayer.m in Sources */,
+				C481145F15ACB927007FA214 /* GameViewController.m in Sources */,
+				C481146915ACBFED007FA214 /* MapControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
