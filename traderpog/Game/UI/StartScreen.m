@@ -47,9 +47,16 @@
 
 - (IBAction)didPressStart:(id)sender 
 {
-    
-    UIViewController* controller = [[SignupScreen alloc] initWithNibName:@"SignupScreen" bundle:nil];
-    [self.navigationController pushFadeInViewController:controller animated:YES];
+    if([[GameManager getInstance] isUserRegistered])
+    {
+        // TODO: proceed with registered user sequence
+    }
+    else 
+    {
+        // proceed to SignupScreen
+        UIViewController* controller = [[SignupScreen alloc] initWithNibName:@"SignupScreen" bundle:nil];
+        [self.navigationController pushFadeInViewController:controller animated:YES];
+    }
 }
 
 - (IBAction)didPressDebug:(id)sender 
