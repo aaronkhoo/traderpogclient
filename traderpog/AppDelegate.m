@@ -11,6 +11,7 @@
 #import "ImageManager.h"
 #import "GameManager.h"
 #import "PogProfileAPI.h"
+#import "Player.h"
 
 @interface AppDelegate()
 {
@@ -55,6 +56,8 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
+    [[Player getInstance] appDidEnterBackground];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -90,6 +93,7 @@
 {
     [ImageManager getInstance];
     [GameManager getInstance];
+    [Player getInstance];
     [PogProfileAPI getInstance];
     [[PogProfileAPI getInstance] setDelegate:[GameManager getInstance]];
 
@@ -100,6 +104,7 @@
 - (void) appShutdown
 {
     [PogProfileAPI destroyInstance];
+    [Player destroyInstance];
     [GameManager destroyInstance];
     [ImageManager destroyInstance];
 }

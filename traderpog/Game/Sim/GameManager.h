@@ -38,6 +38,7 @@ enum kGameStates
 - (void) completeSetupNewPlayer;
 - (void) abortSetupNewPlayer;
 - (void) setupHomebaseAtLocation:(CLLocation*)location;
++ (NSString*) documentsDirectory;
 
 - (void) loadGame;
 

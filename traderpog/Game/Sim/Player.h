@@ -18,4 +18,11 @@
 }
 - (id) initWithUserId:(NSString*)userId;
 
+// system
+- (void) appDidEnterBackground;
+
+// singleton
++(Player*) getInstance;
++(void) destroyInstance;
+
 @end
