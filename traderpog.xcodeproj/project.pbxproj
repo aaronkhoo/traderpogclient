@@ -37,6 +37,8 @@
 		C481145F15ACB927007FA214 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C481145D15ACB927007FA214 /* GameViewController.m */; };
 		C481146015ACB927007FA214 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C481145E15ACB927007FA214 /* GameViewController.xib */; };
 		C481146915ACBFED007FA214 /* MapControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146815ACBFED007FA214 /* MapControl.m */; };
+		C481146C15AD024C007FA214 /* TradePost.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146B15AD024C007FA214 /* TradePost.m */; };
+		C481146F15AD0605007FA214 /* WorldState.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146E15AD0605007FA214 /* WorldState.m */; };
 		C4945B8015AC26D900EEC0C0 /* LoadingScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B7E15AC26D900EEC0C0 /* LoadingScreen.m */; };
 		C4945B8115AC26D900EEC0C0 /* LoadingScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4945B7F15AC26D900EEC0C0 /* LoadingScreen.xib */; };
 		C4945B8415AC2D2C00EEC0C0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4945B8315AC2D2C00EEC0C0 /* SystemConfiguration.framework */; };
@@ -110,6 +112,10 @@
 		C481145E15ACB927007FA214 /* GameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GameViewController.xib; path = Game/UI/GameViewController.xib; sourceTree = "<group>"; };
 		C481146715ACBFED007FA214 /* MapControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapControl.h; path = Game/UI/MapControl.h; sourceTree = "<group>"; };
 		C481146815ACBFED007FA214 /* MapControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapControl.m; path = Game/UI/MapControl.m; sourceTree = "<group>"; };
+		C481146A15AD024B007FA214 /* TradePost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradePost.h; path = Game/Sim/TradePost.h; sourceTree = "<group>"; };
+		C481146B15AD024C007FA214 /* TradePost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradePost.m; path = Game/Sim/TradePost.m; sourceTree = "<group>"; };
+		C481146D15AD0604007FA214 /* WorldState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorldState.h; path = Game/Sim/WorldState.h; sourceTree = "<group>"; };
+		C481146E15AD0605007FA214 /* WorldState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorldState.m; path = Game/Sim/WorldState.m; sourceTree = "<group>"; };
 		C4945B7D15AC26D900EEC0C0 /* LoadingScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingScreen.h; sourceTree = "<group>"; };
 		C4945B7E15AC26D900EEC0C0 /* LoadingScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingScreen.m; sourceTree = "<group>"; };
 		C4945B7F15AC26D900EEC0C0 /* LoadingScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingScreen.xib; sourceTree = "<group>"; };
@@ -363,6 +369,10 @@
 				C41E0CB215AC0FB6006662DF /* Player.m */,
 				C4945B8C15AC974000EEC0C0 /* SetupNewPlayer.h */,
 				C4945B8D15AC974000EEC0C0 /* SetupNewPlayer.m */,
+				C481146A15AD024B007FA214 /* TradePost.h */,
+				C481146B15AD024C007FA214 /* TradePost.m */,
+				C481146D15AD0604007FA214 /* WorldState.h */,
+				C481146E15AD0605007FA214 /* WorldState.m */,
 			);
 			name = Sim;
 			sourceTree = "<group>";
@@ -468,6 +478,8 @@
 				C4945B8E15AC974000EEC0C0 /* SetupNewPlayer.m in Sources */,
 				C481145F15ACB927007FA214 /* GameViewController.m in Sources */,
 				C481146915ACBFED007FA214 /* MapControl.m in Sources */,
+				C481146C15AD024C007FA214 /* TradePost.m in Sources */,
+				C481146F15AD0605007FA214 /* WorldState.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
