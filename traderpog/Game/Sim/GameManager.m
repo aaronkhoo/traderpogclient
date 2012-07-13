@@ -15,6 +15,8 @@
 #import "GameViewController.h"
 #import <CoreLocation/CoreLocation.h>
 
+static NSString* const kGameManagerWorldFilename = @"world.sav";
+
 @interface GameManager ()
 {
     SetupNewPlayer* _newPlayerSequence;
