@@ -43,6 +43,13 @@
     return self;
 }
 
++ (NSString*) documentsDirectory
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    return documentsDirectory;
+}
+
 #pragma mark - public methods
 - (void) setupNewPlayerWithEmail:(NSString *)email loadingScreen:(LoadingScreen *)loadingScreen
 {
@@ -80,7 +87,6 @@
 
 - (void) loadGame
 {
-    // TODO: load from saved game file if any
 }
 
 #pragma mark - PogProfileDelegate
