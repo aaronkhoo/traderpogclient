@@ -90,7 +90,8 @@ static NSString* const kPlayerFilename = @"player.sav";
         NSData* readData = [NSData dataWithContentsOfFile:filepath];
         if(readData)
         {
-            current_player = [NSKeyedUnarchiver unarchiveObjectWithData:readData];        }
+            current_player = [NSKeyedUnarchiver unarchiveObjectWithData:readData];        
+        }
     }
     return current_player;
 }

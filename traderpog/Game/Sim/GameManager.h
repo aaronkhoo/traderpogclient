@@ -13,8 +13,8 @@
 
 enum kGameStates
 {
-    kGameStateFrontUI = 0,
-    kGameStateSetupNewPlayer,
+    kGameStateNew = 0,
+    kGameStateLocateNewPlayer,
     kGameStateSetupFirstPost,
     kGameStateGameView,
     

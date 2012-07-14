@@ -16,6 +16,7 @@
 #import "GameViewController.h"
 #import "NewHomeSelectItem.h"
 #import "ModalNavControl.h"
+#import "HiAccuracyLocator.h"
 #import <CoreLocation/CoreLocation.h>
 
 static NSString* const kGameManagerWorldFilename = @"world.sav";
@@ -24,29 +25,37 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 {
     SetupNewPlayer* _newPlayerSequence;
     GameViewController* _gameViewController;
+    HiAccuracyLocator* _playerLocator;
+    CLLocation* _playerLocation;
     
     // HACK (should remove after Homebase implementation is added)
     CLLocationCoordinate2D _initCoord;
     // HACK
 }
 @property (nonatomic,strong) ModalNavControl* modalNav;
+@property (nonatomic,strong) HiAccuracyLocator* playerLocator;
 
 - (void) startModalNavControlInView:(UIView*)parentView withController:(UIViewController *)viewController;
 - (void) finishModalNavControl;
+- (void) locateNewPlayer;
+- (void) finishLocateNewPlayer;
+- (void) registerAllNotificationHandlers;
 @end
 
 @implementation GameManager
 @synthesize gameState = _gameState;
 @synthesize loadingScreen = _loadingScreen;
 @synthesize modalNav;
+@synthesize playerLocator = _playerLocator;
 
 - (id) init
 {
     self = [super init];
     if(self)
     {
-        _gameState = kGameStateFrontUI;
+        _gameState = kGameStateNew;
         _loadingScreen = nil;
+        [self registerAllNotificationHandlers];
     }
     return self;
 }
@@ -78,6 +87,29 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     // bucks + membership status.
 }
 
+- (void) locateNewPlayer
+{
+    _playerLocator = [[HiAccuracyLocator alloc] init];
+    [self.playerLocator startUpdatingLocation];
+}
+
+- (void) finishLocateNewPlayer
+{
+    _playerLocation = [self.playerLocator bestLocation];
+}
+
+- (void) registerAllNotificationHandlers
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleNewPlayerLocated:)
+                                                 name:kUserLocated
+                                               object:[self playerLocator]];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleNewPlayerLocationDenied:)
+                                                 name:kUserLocationDenied
+                                               object:[self playerLocator]];    
+}
+
 + (NSString*) documentsDirectory
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -89,32 +121,30 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 #pragma mark - public methods
 - (void) setupNewPlayerWithEmail:(NSString *)email loadingScreen:(LoadingScreen *)loadingScreen
 {
-    _gameState = kGameStateSetupNewPlayer;
-    _loadingScreen = loadingScreen;
-    _newPlayerSequence = [[SetupNewPlayer alloc] initWithEmail:email loadingScreen:loadingScreen];
+//    _gameState = kGameStateSetupNewPlayer;
+//    _loadingScreen = loadingScreen;
+//    _newPlayerSequence = [[SetupNewPlayer alloc] initWithEmail:email loadingScreen:loadingScreen];
 }
 
 - (void) completeSetupNewPlayer
 {
-    _newPlayerSequence = nil;
-    UINavigationController* nav = self.loadingScreen.navigationController;
-    [nav popToRootViewControllerAnimated:NO];
+//    _newPlayerSequence = nil;
+//    UINavigationController* nav = self.loadingScreen.navigationController;
+//    [nav popToRootViewControllerAnimated:NO];
     
-    NSLog(@"start game");
-    _gameState = kGameStateGameView;
-    _gameViewController = [[GameViewController alloc] initAtCoordinate:_initCoord];
-    [nav pushFadeInViewController:_gameViewController animated:YES];
+//    NSLog(@"start game");
+//    _gameState = kGameStateGameView;
+//    _gameViewController = [[GameViewController alloc] initAtCoordinate:_initCoord];
+//    [nav pushFadeInViewController:_gameViewController animated:YES];
     
-    NewHomeSelectItem* itemScreen = [[NewHomeSelectItem alloc] initWithNibName:@"NewHomeSelectItem" bundle:nil];
-    [self startModalNavControlInView:_gameViewController.view withController:itemScreen];
+//    NewHomeSelectItem* itemScreen = [[NewHomeSelectItem alloc] initWithNibName:@"NewHomeSelectItem" bundle:nil];
+//    [self startModalNavControlInView:_gameViewController.view withController:itemScreen];
 }
 
 - (void) abortSetupNewPlayer
 {
-    _newPlayerSequence = nil;
-    [self.loadingScreen.navigationController popToRootViewControllerAnimated:YES];
-    
-    _gameState = kGameStateFrontUI;
+//    _newPlayerSequence = nil;
+//    [self.loadingScreen.navigationController popToRootViewControllerAnimated:YES];    
 }
 
 - (void) setupHomebaseAtLocation:(CLLocation *)location
@@ -128,15 +158,9 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {
     // TODO: Account for callname and success 
-    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    UINavigationController* nav = appDelegate.navController;
-    [nav popToRootViewControllerAnimated:NO];
 
-    NSLog(@"start game");
-    _gameState = kGameStateGameView;
-    CLLocationCoordinate2D location = {.latitude =  38.481057, .longitude =  -86.032563};
-    _gameViewController = [[GameViewController alloc] initAtCoordinate:location];
-    [nav pushFadeInViewController:_gameViewController animated:YES];
+    _gameState = kGameStateLocateNewPlayer;
+    [self locateNewPlayer];
 }
 
 #pragma mark - ModalNavDelegate
@@ -148,6 +172,30 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         self.modalNav = nil;
     }
 }
+
+#pragma mark - location notifications
+- (void) handleNewPlayerLocated:(NSNotification *)note
+{
+    [self finishLocateNewPlayer];
+
+    // proceed to SetupFirstPost
+    _gameState = kGameStateSetupFirstPost;
+    _gameViewController = [[GameViewController alloc] initAtCoordinate:_playerLocation.coordinate];
+    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    UINavigationController* nav = appDelegate.navController;
+    [nav pushFadeInViewController:_gameViewController animated:YES];
+    
+    NewHomeSelectItem* itemScreen = [[NewHomeSelectItem alloc] initWithNibName:@"NewHomeSelectItem" bundle:nil];
+    [self startModalNavControlInView:_gameViewController.view withController:itemScreen];
+}
+
+- (void) handleNewPlayerLocationDenied:(NSNotification *)note
+{
+    // abort all the way back to the start screen
+    _gameState = kGameStateNew;
+    [self.loadingScreen.navigationController popToRootViewControllerAnimated:YES];    
+}
+
 
 #pragma mark - Singleton
 static GameManager* singleton = nil;
