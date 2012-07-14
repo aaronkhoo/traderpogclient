@@ -11,6 +11,7 @@
 #import "LoadingScreen.h"
 #import "UINavigationController+Pog.h"
 #import "GameManager.h"
+#import "Player.h"
 
 @interface SignupScreen ()
 
@@ -30,18 +31,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    [PogUIUtility createScrimAndBorderForView:_contentView];    
-    _textField.delegate = self;
-    
-    // show keyboard immediately
-    [_textField becomeFirstResponder];
 }
 
 - (void)viewDidUnload
 {
-    _textField = nil;
-    _contentView = nil;
     [super viewDidUnload];
 }
 
@@ -50,6 +43,17 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (IBAction)createNewAccount
+{
+    // Calling server to create new account
+    [[Player getInstance] createNewPlayerOnServer:@""];
+    
+    // show loading screen and commence new player sequence
+    LoadingScreen* loading = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
+    [self.navigationController pushFadeInViewController:loading animated:YES];
+}
+
+/*
 #pragma mark - UITextFieldDelegate
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
 {
@@ -83,6 +87,6 @@
         [[GameManager getInstance] setupNewPlayerWithEmail:userEmail loadingScreen:loading];
     }
 }
-
+*/
 
 @end

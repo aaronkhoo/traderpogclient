@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "PogProfileDelegate.h"
 #import "ModalNavDelegate.h"
+#import "HttpCallbackDelegate.h"
 
 enum kGameStates
 {
     kGameStateFrontUI = 0,
     kGameStateSetupNewPlayer,
+    kGameStateSetupFirstPost,
     kGameStateGameView,
     
     kGameStateNum
@@ -22,15 +24,13 @@ enum kGameStates
 @class Player;
 @class LoadingScreen;
 @class CLLocation;
-@interface GameManager : NSObject<PogProfileDelegate,ModalNavDelegate>
+@interface GameManager : NSObject<HttpCallbackDelegate,ModalNavDelegate>
 {
     int _gameState;
-    Player* _player;
 
     __weak LoadingScreen* _loadingScreen;
 }
 @property (nonatomic,readonly) int gameState;
-@property (nonatomic,strong) Player* player;
 @property (nonatomic,weak) LoadingScreen* loadingScreen;
 
 // public methods
@@ -38,9 +38,8 @@ enum kGameStates
 - (void) completeSetupNewPlayer;
 - (void) abortSetupNewPlayer;
 - (void) setupHomebaseAtLocation:(CLLocation*)location;
-+ (NSString*) documentsDirectory;
-
 - (void) loadGame;
++ (NSString*) documentsDirectory;
 
 // singleton
 +(GameManager*) getInstance;

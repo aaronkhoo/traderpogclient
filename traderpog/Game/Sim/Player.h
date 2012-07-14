@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HttpCallbackDelegate.h"
 
 @interface Player : NSObject<NSCoding>
 {
@@ -15,8 +16,23 @@
     
     // id
     NSString* _userId;
+    
+    // User data
+    NSInteger _id;
+    BOOL _member;
+    NSInteger _bucks;
+    NSString* _secretkey;
+    NSString* _facebookid;
+    NSString* _email;
+    
+    // Delegate for callbacks to inform interested parties of completion
+    __weak NSObject<HttpCallbackDelegate>* _delegate;
 }
+
+@property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
+
 - (id) initWithUserId:(NSString*)userId;
+- (void) createNewPlayerOnServer:(NSString*)facebookid;
 
 // system
 - (void) appDidEnterBackground;

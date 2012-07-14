@@ -11,9 +11,9 @@
 #import "AFJSONRequestOperation.h"
 
 static NSString* const kPogProfileBaseURLString = @"10.0.1.12";
-static NSString* const kTraderPogBaseURLString = @"10.0.1.12";
+static NSString* const kTraderPogBaseURLString = @"strong-rain-5460.herokuapp.com";
 static NSString* const kPogProfilePort = @"3000";
-static NSString* const kTraderPogPort = @"3001";
+static NSString* const kTraderPogPort = @"80";
 
 @implementation AFClientManager
 @synthesize pogProfile = _pogProfile;
@@ -69,6 +69,9 @@ static NSString* const kTraderPogPort = @"3001";
     
     //  Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
     [_traderPog setDefaultHeader:@"Accept" value:@"application/json"];
+    
+    // Encode parameters in JSON format
+    _traderPog.parameterEncoding = AFJSONParameterEncoding;
 }
 
 #pragma mark - singleton

@@ -92,10 +92,10 @@
 - (void) appInit
 {
     [ImageManager getInstance];
-    [GameManager getInstance];
     [Player getInstance];
+    [GameManager getInstance];
     [PogProfileAPI getInstance];
-    [[PogProfileAPI getInstance] setDelegate:[GameManager getInstance]];
+    [[Player getInstance] setDelegate:[GameManager getInstance]];
 
     // load up frontmenu background
     [[ImageManager getInstance] loadFrontMenuBackgroundNamed:@"Default.png"];
@@ -104,8 +104,8 @@
 - (void) appShutdown
 {
     [PogProfileAPI destroyInstance];
-    [Player destroyInstance];
     [GameManager destroyInstance];
+    [Player destroyInstance];
     [ImageManager destroyInstance];
 }
 

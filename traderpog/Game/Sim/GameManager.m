@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "GameManager.h"
 #import "Player.h"
 #import "LoadingScreen.h"
@@ -36,7 +37,6 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 
 @implementation GameManager
 @synthesize gameState = _gameState;
-@synthesize player = _player;
 @synthesize loadingScreen = _loadingScreen;
 @synthesize modalNav;
 
@@ -46,7 +46,6 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     if(self)
     {
         _gameState = kGameStateFrontUI;
-        _player = nil;
         _loadingScreen = nil;
     }
     return self;
@@ -71,6 +70,13 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     }
 }
 
+
+- (void) loadGame
+{
+    // loadGame should be responsible for reloading any data from the server it requires 
+    // before the main game sequence starts. For example, any player profile stuff like
+    // bucks + membership status.
+}
 
 + (NSString*) documentsDirectory
 {
@@ -118,14 +124,19 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     _initCoord = location.coordinate;
 }
 
-- (void) loadGame
+#pragma mark - HttpCallbackDelegate
+- (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {
-}
+    // TODO: Account for callname and success 
+    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    UINavigationController* nav = appDelegate.navController;
+    [nav popToRootViewControllerAnimated:NO];
 
-#pragma mark - PogProfileDelegate
-- (void) didCompleteAccountRegistrationForUserId:(NSString *)userId
-{
-    self.player = [[Player alloc] initWithUserId:userId];
+    NSLog(@"start game");
+    _gameState = kGameStateGameView;
+    CLLocationCoordinate2D location = {.latitude =  38.481057, .longitude =  -86.032563};
+    _gameViewController = [[GameViewController alloc] initAtCoordinate:location];
+    [nav pushFadeInViewController:_gameViewController animated:YES];
 }
 
 #pragma mark - ModalNavDelegate
