@@ -13,6 +13,8 @@
 #import "SetupNewPlayer.h"
 #import "UINavigationController+Pog.h"
 #import "GameViewController.h"
+#import "NewHomeSelectItem.h"
+#import "ModalNavControl.h"
 #import <CoreLocation/CoreLocation.h>
 
 static NSString* const kGameManagerWorldFilename = @"world.sav";
@@ -26,12 +28,17 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     CLLocationCoordinate2D _initCoord;
     // HACK
 }
+@property (nonatomic,strong) ModalNavControl* modalNav;
+
+- (void) startModalNavControlInView:(UIView*)parentView withController:(UIViewController *)viewController;
+- (void) finishModalNavControl;
 @end
 
 @implementation GameManager
 @synthesize gameState = _gameState;
 @synthesize player = _player;
 @synthesize loadingScreen = _loadingScreen;
+@synthesize modalNav;
 
 - (id) init
 {
@@ -45,12 +52,33 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     return self;
 }
 
+#pragma mark - internal methods
+- (void) startModalNavControlInView:(UIView*)parentView withController:(UIViewController *)viewController
+{
+    ModalNavControl* modal = [[ModalNavControl alloc] init];
+    [parentView addSubview:modal.view];
+    [modal.navController pushViewController:viewController animated:NO]; 
+    modal.delegate = self;
+    self.modalNav = modal;
+}
+
+- (void) finishModalNavControl
+{
+    if([self modalNav])
+    {
+        [self.modalNav.view removeFromSuperview];
+        self.modalNav = nil;
+    }
+}
+
+
 + (NSString*) documentsDirectory
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     return documentsDirectory;
 }
+
 
 #pragma mark - public methods
 - (void) setupNewPlayerWithEmail:(NSString *)email loadingScreen:(LoadingScreen *)loadingScreen
@@ -70,6 +98,9 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     _gameState = kGameStateGameView;
     _gameViewController = [[GameViewController alloc] initAtCoordinate:_initCoord];
     [nav pushFadeInViewController:_gameViewController animated:YES];
+    
+    NewHomeSelectItem* itemScreen = [[NewHomeSelectItem alloc] initWithNibName:@"NewHomeSelectItem" bundle:nil];
+    [self startModalNavControlInView:_gameViewController.view withController:itemScreen];
 }
 
 - (void) abortSetupNewPlayer
@@ -95,6 +126,16 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 - (void) didCompleteAccountRegistrationForUserId:(NSString *)userId
 {
     self.player = [[Player alloc] initWithUserId:userId];
+}
+
+#pragma mark - ModalNavDelegate
+- (void) dismissModal
+{
+    if([self modalNav])
+    {
+        [self.modalNav.view removeFromSuperview];
+        self.modalNav = nil;
+    }
 }
 
 #pragma mark - Singleton

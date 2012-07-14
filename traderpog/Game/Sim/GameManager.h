@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PogProfileDelegate.h"
+#import "ModalNavDelegate.h"
 
 enum kGameStates
 {
@@ -21,13 +22,12 @@ enum kGameStates
 @class Player;
 @class LoadingScreen;
 @class CLLocation;
-@interface GameManager : NSObject<PogProfileDelegate>
+@interface GameManager : NSObject<PogProfileDelegate,ModalNavDelegate>
 {
     int _gameState;
     Player* _player;
 
     __weak LoadingScreen* _loadingScreen;
-    
 }
 @property (nonatomic,readonly) int gameState;
 @property (nonatomic,strong) Player* player;

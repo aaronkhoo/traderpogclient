@@ -34,6 +34,12 @@
 		C41ED14B15A6B41700995F53 /* AppIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C41ED14A15A6B41700995F53 /* AppIcon@2x.png */; };
 		C41ED14D15A6B42200995F53 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = C41ED14C15A6B42200995F53 /* Default.png */; };
 		C41ED14F15A6B42600995F53 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C41ED14E15A6B42600995F53 /* Default@2x.png */; };
+		C42FC48B15B10116006D29A3 /* NewHomeSelectItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C42FC48915B10116006D29A3 /* NewHomeSelectItem.m */; };
+		C42FC48C15B10116006D29A3 /* NewHomeSelectItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = C42FC48A15B10116006D29A3 /* NewHomeSelectItem.xib */; };
+		C42FC49015B13293006D29A3 /* ModalNavControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C42FC48E15B13293006D29A3 /* ModalNavControl.m */; };
+		C42FC49115B13293006D29A3 /* ModalNavControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = C42FC48F15B13293006D29A3 /* ModalNavControl.xib */; };
+		C42FC49615B141A3006D29A3 /* ModalNavRoot.m in Sources */ = {isa = PBXBuildFile; fileRef = C42FC49415B141A3006D29A3 /* ModalNavRoot.m */; };
+		C42FC49715B141A3006D29A3 /* ModalNavRoot.xib in Resources */ = {isa = PBXBuildFile; fileRef = C42FC49515B141A3006D29A3 /* ModalNavRoot.xib */; };
 		C481145F15ACB927007FA214 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C481145D15ACB927007FA214 /* GameViewController.m */; };
 		C481146015ACB927007FA214 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C481145E15ACB927007FA214 /* GameViewController.xib */; };
 		C481146915ACBFED007FA214 /* MapControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146815ACBFED007FA214 /* MapControl.m */; };
@@ -108,6 +114,16 @@
 		C41ED14A15A6B41700995F53 /* AppIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@2x.png"; sourceTree = "<group>"; };
 		C41ED14C15A6B42200995F53 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		C41ED14E15A6B42600995F53 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		C42FC48815B10116006D29A3 /* NewHomeSelectItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewHomeSelectItem.h; path = Game/UI/NewHomeSelectItem.h; sourceTree = "<group>"; };
+		C42FC48915B10116006D29A3 /* NewHomeSelectItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewHomeSelectItem.m; path = Game/UI/NewHomeSelectItem.m; sourceTree = "<group>"; };
+		C42FC48A15B10116006D29A3 /* NewHomeSelectItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NewHomeSelectItem.xib; path = Game/UI/NewHomeSelectItem.xib; sourceTree = "<group>"; };
+		C42FC48D15B13293006D29A3 /* ModalNavControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalNavControl.h; sourceTree = "<group>"; };
+		C42FC48E15B13293006D29A3 /* ModalNavControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModalNavControl.m; sourceTree = "<group>"; };
+		C42FC48F15B13293006D29A3 /* ModalNavControl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModalNavControl.xib; sourceTree = "<group>"; };
+		C42FC49215B13318006D29A3 /* ModalNavDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModalNavDelegate.h; sourceTree = "<group>"; };
+		C42FC49315B141A3006D29A3 /* ModalNavRoot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalNavRoot.h; sourceTree = "<group>"; };
+		C42FC49415B141A3006D29A3 /* ModalNavRoot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModalNavRoot.m; sourceTree = "<group>"; };
+		C42FC49515B141A3006D29A3 /* ModalNavRoot.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModalNavRoot.xib; sourceTree = "<group>"; };
 		C481145C15ACB927007FA214 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameViewController.h; path = Game/UI/GameViewController.h; sourceTree = "<group>"; };
 		C481145D15ACB927007FA214 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameViewController.m; path = Game/UI/GameViewController.m; sourceTree = "<group>"; };
 		C481145E15ACB927007FA214 /* GameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GameViewController.xib; path = Game/UI/GameViewController.xib; sourceTree = "<group>"; };
@@ -323,6 +339,9 @@
 				C481145E15ACB927007FA214 /* GameViewController.xib */,
 				C481146715ACBFED007FA214 /* MapControl.h */,
 				C481146815ACBFED007FA214 /* MapControl.m */,
+				C42FC48815B10116006D29A3 /* NewHomeSelectItem.h */,
+				C42FC48915B10116006D29A3 /* NewHomeSelectItem.m */,
+				C42FC48A15B10116006D29A3 /* NewHomeSelectItem.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -357,6 +376,13 @@
 				C4945B7D15AC26D900EEC0C0 /* LoadingScreen.h */,
 				C4945B7E15AC26D900EEC0C0 /* LoadingScreen.m */,
 				C4945B7F15AC26D900EEC0C0 /* LoadingScreen.xib */,
+				C42FC48D15B13293006D29A3 /* ModalNavControl.h */,
+				C42FC48E15B13293006D29A3 /* ModalNavControl.m */,
+				C42FC48F15B13293006D29A3 /* ModalNavControl.xib */,
+				C42FC49215B13318006D29A3 /* ModalNavDelegate.h */,
+				C42FC49315B141A3006D29A3 /* ModalNavRoot.h */,
+				C42FC49415B141A3006D29A3 /* ModalNavRoot.m */,
+				C42FC49515B141A3006D29A3 /* ModalNavRoot.xib */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -443,6 +469,9 @@
 				C4E381C715AABC7400924A86 /* SignupScreen.xib in Resources */,
 				C4945B8115AC26D900EEC0C0 /* LoadingScreen.xib in Resources */,
 				C481146015ACB927007FA214 /* GameViewController.xib in Resources */,
+				C42FC48C15B10116006D29A3 /* NewHomeSelectItem.xib in Resources */,
+				C42FC49115B13293006D29A3 /* ModalNavControl.xib in Resources */,
+				C42FC49715B141A3006D29A3 /* ModalNavRoot.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,6 +515,9 @@
 				C481146C15AD024C007FA214 /* TradePost.m in Sources */,
 				C481146F15AD0605007FA214 /* WorldState.m in Sources */,
 				C481147615B07D96007FA214 /* TradePostMgr.m in Sources */,
+				C42FC48B15B10116006D29A3 /* NewHomeSelectItem.m in Sources */,
+				C42FC49015B13293006D29A3 /* ModalNavControl.m in Sources */,
+				C42FC49615B141A3006D29A3 /* ModalNavRoot.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

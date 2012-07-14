@@ -117,7 +117,8 @@
     // add it to our navigation controller
     self.navController = [[UINavigationController alloc] initWithRootViewController:[self rootController]];
     [self.navController setNavigationBarHidden:YES];
-    [self.window addSubview:[[self navController]view]];
+//    [self.window addSubview:[[self navController]view]];
+    self.window.rootViewController = self.navController;
 }
 
 - (void) teardownNavigationController
