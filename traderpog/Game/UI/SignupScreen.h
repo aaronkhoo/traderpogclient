@@ -11,6 +11,8 @@
 @interface SignupScreen : UIViewController<UITextFieldDelegate>
 {
     __weak IBOutlet UIView *_contentView;
-    __weak IBOutlet UITextField *_textField;
 }
+
+- (IBAction)createNewAccount;
+
 @end

@@ -123,9 +123,7 @@
 
 #pragma mark - PogProfileDelegate
 - (void) didCompleteAccountRegistrationForUserId:(NSString *)userId
-{
-    [GameManager getInstance].player = [[Player alloc] initWithUserId:userId];
-    
+{    
     // next step
     [self locatePlayer];
 }

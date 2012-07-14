@@ -60,6 +60,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		38B0D75715B0F0BE00DD7900 /* HttpCallbackDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HttpCallbackDelegate.h; sourceTree = "<group>"; };
 		C41E0C8315AC0391006662DF /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		C41E0C8415AC0391006662DF /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		C41E0C8515AC0391006662DF /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -378,6 +379,7 @@
 				C481146E15AD0605007FA214 /* WorldState.m */,
 				C481147415B07D96007FA214 /* TradePostMgr.h */,
 				C481147515B07D96007FA214 /* TradePostMgr.m */,
+				38B0D75715B0F0BE00DD7900 /* HttpCallbackDelegate.h */,
 			);
 			name = Sim;
 			sourceTree = "<group>";
