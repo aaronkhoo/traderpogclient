@@ -12,7 +12,6 @@
 #import "TradePostMgr.h"
 #import "TradePost.h"
 #import "LoadingScreen.h"
-#import "PogProfileAPI.h"
 #import "SetupNewPlayer.h"
 #import "UINavigationController+Pog.h"
 #import "GameViewController.h"
@@ -205,17 +204,11 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     {
         [self locateNewPlayer];
     }
-    /* TODO: Account for callname and success 
-    else if (??Evaluate that first post is not ready yet) {
-    }
-    */
     else if(![[TradePostMgr getInstance] getHomebase])
     {
         // proceed to setup of first post
         NSLog(@"Create Homebase");
         self.gameViewController = [[GameViewController alloc] initAtCoordinate:_newPlayerLocation.coordinate];
-        AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-        UINavigationController* nav = appDelegate.navController;
         [nav pushFadeInViewController:self.gameViewController animated:YES];
         
         NewHomeSelectItem* itemScreen = [[NewHomeSelectItem alloc] initWithNibName:@"NewHomeSelectItem" bundle:nil];

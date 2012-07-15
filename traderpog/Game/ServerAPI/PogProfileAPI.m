@@ -44,10 +44,13 @@ static NSString* const kDefaultUserEmail = @"peterpog@geolopigs.com";
     self = [super init];
     if(self)
     {
-        // TODO: this needs fixing; it doesn't get re-registered when server ip gets reset
+        /*
+         TODO: this needs fixing; it doesn't get re-registered when server ip gets reset
         [[[AFClientManager sharedInstance] pogProfile] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status){
             [self handleNetworkReachabilityChanged:status];
-        }]; 
+        }];
+        */ 
+        
         // TODO
         
         NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
@@ -88,7 +91,7 @@ static NSString* const kDefaultUserEmail = @"peterpog@geolopigs.com";
                                     nil];
         
         // make a post request
-        AFHTTPClient* httpClient = [[AFClientManager sharedInstance] pogProfile];
+        AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
         [httpClient postPath:@"accounts.json" 
                                             parameters:parameters
                                                success:^(AFHTTPRequestOperation *operation, id responseObject){

@@ -105,6 +105,17 @@ static NSString* const kPlayerFilename = @"player.sav";
     }
 }
 
+- (void) removePlayerData
+{
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString* filepath = [Player playerFilepath];
+    NSError *error = nil;
+    if ([fileManager fileExistsAtPath:filepath]) 
+    {
+        [fileManager removeItemAtPath:filepath error:&error];
+    }
+}
+
 #pragma mark - Public
 
 - (void) appDidEnterBackground
@@ -128,23 +139,18 @@ static NSString* const kPlayerFilename = @"player.sav";
                      _id = [[responseObject valueForKeyPath:kKeyUserId] integerValue];
                      _secretkey = [responseObject valueForKeyPath:kKeySecretkey];
                      NSLog(@"user id is %i", _id);
-                     
+                     [self savePlayerData];
                      [self.delegate didCompleteHttpCallback:@"CreateNewUser", TRUE];
                  }
                  failure:^(AFHTTPRequestOperation* operation, NSError* error){
-                     /*
-                     // HACK
-                     // assign myself a default userid
-                     _userId = kDefaultUserId;
-                     NSLog(@"server connection failed %@, default user id is %@", error, _userId);
+                     UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
+                                                                       message:@"Unable to create account. Please try again later."
+                                                                      delegate:nil
+                                                             cancelButtonTitle:@"OK"
+                                                             otherButtonTitles:nil];
                      
-                     // artificially wait 1 second before returning for dev purposes
-                     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1.0f * NSEC_PER_SEC);
-                     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                         [self.delegate didCompleteAccountRegistrationForUserId:self.userId];
-                     });
-                     // HACK
-                      */
+                     [message show];
+                     [self.delegate didCompleteHttpCallback:@"CreateNewUser", FALSE];
                  }
      ];
 }

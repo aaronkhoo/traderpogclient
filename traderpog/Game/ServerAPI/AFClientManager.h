@@ -13,13 +13,10 @@
 @class AFHTTPClient;
 @interface AFClientManager : NSObject
 {
-    AFHTTPClient* _pogProfile;
     AFHTTPClient* _traderPog;
 }
-@property (nonatomic,readonly) AFHTTPClient* pogProfile;
 @property (nonatomic,readonly) AFHTTPClient* traderPog;
 
-- (void) resetPogProfileWithIp:(NSString*)serverIp;
 - (void) resetTraderPogWithIp:(NSString*)serverIp;
 
 // singelton
