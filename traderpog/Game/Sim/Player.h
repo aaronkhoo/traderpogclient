@@ -28,10 +28,9 @@
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
 }
-
+@property (nonatomic) NSInteger id;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
-- (id) initWithUserId:(NSString*)userId;
 - (void) createNewPlayerOnServer:(NSString*)facebookid;
 
 // system

@@ -47,17 +47,7 @@
 
 - (IBAction)didPressStart:(id)sender 
 {
-    if([[GameManager getInstance] gameState] == kGameStateGameView)
-    {
-        // TODO: proceed with registered user sequence
-        [[GameManager getInstance] loadGame];
-    }
-    else 
-    {
-        // proceed to SignupScreen
-        UIViewController* controller = [[SignupScreen alloc] initWithNibName:@"SignupScreen" bundle:nil];
-        [self.navigationController pushFadeInViewController:controller animated:YES];
-    }
+    [[GameManager getInstance] selectNextGameUI];
 }
 
 - (IBAction)didPressDebug:(id)sender 

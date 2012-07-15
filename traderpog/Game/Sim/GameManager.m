@@ -19,6 +19,9 @@
 #import "HiAccuracyLocator.h"
 #import <CoreLocation/CoreLocation.h>
 
+// List of Game UI screens that GameManager can kick off
+#import "SignupScreen.h"
+
 static NSString* const kGameManagerWorldFilename = @"world.sav";
 
 @interface GameManager ()
@@ -154,15 +157,6 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     _initCoord = location.coordinate;
 }
 
-#pragma mark - HttpCallbackDelegate
-- (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
-{
-    // TODO: Account for callname and success 
-
-    _gameState = kGameStateLocateNewPlayer;
-    [self locateNewPlayer];
-}
-
 #pragma mark - ModalNavDelegate
 - (void) dismissModal
 {
@@ -187,6 +181,42 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     
     NewHomeSelectItem* itemScreen = [[NewHomeSelectItem alloc] initWithNibName:@"NewHomeSelectItem" bundle:nil];
     [self startModalNavControlInView:_gameViewController.view withController:itemScreen];
+}
+
+- (void) selectNextGameUI
+{
+    // Get the navigation controller
+    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    UINavigationController* nav = appDelegate.navController;
+    
+    // No player has been created
+    if ([Player getInstance].id == 0) {
+        _gameState = kGameStateLocateNewPlayer;
+        
+        // proceed to SignupScreen
+        UIViewController* controller = [[SignupScreen alloc] initWithNibName:@"SignupScreen" bundle:nil];
+        [nav pushFadeInViewController:controller animated:YES];
+    }
+    /* TODO: Account for callname and success 
+    else if (??Evaluate that first post is not ready yet) {
+        _gameState = kGameStateSetupFirstPost;
+    }
+    */
+    else {
+        _gameState = kGameStateGameView;
+        
+        NSLog(@"start game");
+        // TODO: Use real Player position
+        CLLocationCoordinate2D location = {.latitude =  38.481057, .longitude =  -86.032563};
+        _gameViewController = [[GameViewController alloc] initAtCoordinate:location];
+        [nav pushFadeInViewController:_gameViewController animated:YES];
+    }
+}
+
+#pragma mark - HttpCallbackDelegate
+- (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
+{
+    [self selectNextGameUI];
 }
 
 - (void) handleNewPlayerLocationDenied:(NSNotification *)note

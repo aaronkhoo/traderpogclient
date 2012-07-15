@@ -20,6 +20,7 @@ static NSString* const kPlayerFilename = @"player.sav";
 
 @implementation Player
 @synthesize delegate = _delegate;
+@synthesize id = _id;
 
 - (id) init
 {
@@ -37,20 +38,11 @@ static NSString* const kPlayerFilename = @"player.sav";
         _id = 0;
         _facebookid = @"";
         _email = @"";
+        _member = FALSE;
+        _bucks = 0;
         
         // Initialize delegate
         _delegate = nil;
-    }
-    return self;
-}
-
-- (id) initWithUserId:(NSString *)userId
-{
-    self = [super init];
-    if(self)
-    {
-        _createdVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
-        _userId = userId;
     }
     return self;
 }
@@ -119,7 +111,6 @@ static NSString* const kPlayerFilename = @"player.sav";
 {
     [self savePlayerData];
 }
-
 
 - (void) createNewPlayerOnServer:(NSString*)facebookid
 {
