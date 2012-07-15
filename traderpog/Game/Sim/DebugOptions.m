@@ -48,7 +48,6 @@ static NSString* const keyDebugServerIp = @"serverIp";
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:_serverIp forKey:keyDebugServerIp];
     
-    [[AFClientManager sharedInstance] resetPogProfileWithIp:_serverIp];
     [[AFClientManager sharedInstance] resetTraderPogWithIp:_serverIp];
 }
 

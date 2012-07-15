@@ -10,13 +10,11 @@
 #import "AFClientManager.h"
 #import "AFJSONRequestOperation.h"
 
-static NSString* const kPogProfileBaseURLString = @"10.0.1.12";
 static NSString* const kTraderPogBaseURLString = @"strong-rain-5460.herokuapp.com";
 static NSString* const kPogProfilePort = @"3000";
 static NSString* const kTraderPogPort = @"80";
 
 @implementation AFClientManager
-@synthesize pogProfile = _pogProfile;
 @synthesize traderPog = _traderPog;
 
 - (id) init
@@ -24,10 +22,8 @@ static NSString* const kTraderPogPort = @"80";
     self = [super init];
     if(self)
     {
-        _pogProfile = nil;
         _traderPog = nil;
         
-        [self resetPogProfileWithIp:kPogProfileBaseURLString];
         [self resetTraderPogWithIp:kTraderPogBaseURLString];
     }
     return self;
@@ -36,23 +32,6 @@ static NSString* const kTraderPogPort = @"80";
 - (void) dealloc
 {
     [_traderPog unregisterHTTPOperationClass:[AFJSONRequestOperation class]];
-    [_pogProfile unregisterHTTPOperationClass:[AFJSONRequestOperation class]];
-}
-
-- (void) resetPogProfileWithIp:(NSString *)serverIp
-{
-    if(_pogProfile)
-    {
-        [_pogProfile unregisterHTTPOperationClass:[AFJSONRequestOperation class]];
-    }
-    NSString* urlString = [NSString stringWithFormat:@"http://%@:%@/", serverIp, kPogProfilePort];
-    NSLog(@"pogprofile client reset with server ip %@", urlString);    
-
-    _pogProfile = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:urlString]];
-    [_pogProfile registerHTTPOperationClass:[AFJSONRequestOperation class]];
-    
-    //  Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
-    [_pogProfile setDefaultHeader:@"Accept" value:@"application/json"];
 }
 
 - (void) resetTraderPogWithIp:(NSString *)serverIp
