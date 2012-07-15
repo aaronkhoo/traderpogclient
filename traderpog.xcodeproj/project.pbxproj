@@ -52,6 +52,8 @@
 		C4945B8815AC91B500EEC0C0 /* CLLocation+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B8715AC91B500EEC0C0 /* CLLocation+Pog.m */; };
 		C4945B8B15AC936600EEC0C0 /* HiAccuracyLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B8A15AC936600EEC0C0 /* HiAccuracyLocator.m */; };
 		C4945B8E15AC974000EEC0C0 /* SetupNewPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B8D15AC974000EEC0C0 /* SetupNewPlayer.m */; };
+		C4D5DDD515B2718100D5A746 /* ConfirmNewPost.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */; };
+		C4D5DDD615B2718100D5A746 /* ConfirmNewPost.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */; };
 		C4E3819D15AA0C5B00924A86 /* StartScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E3819B15AA0C5B00924A86 /* StartScreen.m */; };
 		C4E3819E15AA0C5B00924A86 /* StartScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E3819C15AA0C5B00924A86 /* StartScreen.xib */; };
 		C4E381AB15AA381F00924A86 /* ImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E381AA15AA381F00924A86 /* ImageManager.m */; };
@@ -146,6 +148,9 @@
 		C4945B8A15AC936600EEC0C0 /* HiAccuracyLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HiAccuracyLocator.m; sourceTree = "<group>"; };
 		C4945B8C15AC974000EEC0C0 /* SetupNewPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetupNewPlayer.h; path = Game/Sim/SetupNewPlayer.h; sourceTree = "<group>"; };
 		C4945B8D15AC974000EEC0C0 /* SetupNewPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetupNewPlayer.m; path = Game/Sim/SetupNewPlayer.m; sourceTree = "<group>"; };
+		C4D5DDD215B2718100D5A746 /* ConfirmNewPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmNewPost.h; path = Game/UI/ConfirmNewPost.h; sourceTree = "<group>"; };
+		C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfirmNewPost.m; path = Game/UI/ConfirmNewPost.m; sourceTree = "<group>"; };
+		C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConfirmNewPost.xib; path = Game/UI/ConfirmNewPost.xib; sourceTree = "<group>"; };
 		C4E3819A15AA0C5B00924A86 /* StartScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartScreen.h; path = Game/UI/StartScreen.h; sourceTree = "<group>"; };
 		C4E3819B15AA0C5B00924A86 /* StartScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartScreen.m; path = Game/UI/StartScreen.m; sourceTree = "<group>"; };
 		C4E3819C15AA0C5B00924A86 /* StartScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StartScreen.xib; path = Game/UI/StartScreen.xib; sourceTree = "<group>"; };
@@ -343,6 +348,9 @@
 				C42FC48815B10116006D29A3 /* NewHomeSelectItem.h */,
 				C42FC48915B10116006D29A3 /* NewHomeSelectItem.m */,
 				C42FC48A15B10116006D29A3 /* NewHomeSelectItem.xib */,
+				C4D5DDD215B2718100D5A746 /* ConfirmNewPost.h */,
+				C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */,
+				C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -474,6 +482,7 @@
 				C42FC48C15B10116006D29A3 /* NewHomeSelectItem.xib in Resources */,
 				C42FC49115B13293006D29A3 /* ModalNavControl.xib in Resources */,
 				C42FC49715B141A3006D29A3 /* ModalNavRoot.xib in Resources */,
+				C4D5DDD615B2718100D5A746 /* ConfirmNewPost.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,6 +529,7 @@
 				C42FC48B15B10116006D29A3 /* NewHomeSelectItem.m in Sources */,
 				C42FC49015B13293006D29A3 /* ModalNavControl.m in Sources */,
 				C42FC49615B141A3006D29A3 /* ModalNavRoot.m in Sources */,
+				C4D5DDD515B2718100D5A746 /* ConfirmNewPost.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

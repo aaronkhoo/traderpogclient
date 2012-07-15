@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface NewHomeSelectItem : UIViewController
 @property (weak, nonatomic) IBOutlet UIImageView *imageLeft;
@@ -15,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelLeft;
 @property (weak, nonatomic) IBOutlet UILabel *labelMiddle;
 @property (weak, nonatomic) IBOutlet UILabel *labelRight;
+
+- (id) initWithCoordinate:(CLLocationCoordinate2D)coord item:(NSString*)itemId;
 
 - (IBAction)didPressOkLeft:(id)sender;
 - (IBAction)didPressOkMiddle:(id)sender;

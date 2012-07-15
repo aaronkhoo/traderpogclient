@@ -7,9 +7,14 @@
 //
 
 #import "NewHomeSelectItem.h"
+#import "ConfirmNewPost.h"
+#import "UINavigationController+Pog.h"
 
 @interface NewHomeSelectItem ()
-
+{
+    CLLocationCoordinate2D _coordinate;
+    NSString* _itemId;
+}
 @end
 
 @implementation NewHomeSelectItem
@@ -20,11 +25,13 @@
 @synthesize labelMiddle;
 @synthesize labelRight;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id) initWithCoordinate:(CLLocationCoordinate2D)coord item:(NSString*)itemId;
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    self = [super initWithNibName:@"NewHomeSelectItem" bundle:nil];
+    if (self) 
+    {
+        _coordinate = coord;
+        _itemId = itemId;
     }
     return self;
 }
@@ -53,7 +60,9 @@
 
 - (IBAction)didPressOkLeft:(id)sender 
 {
-    [self.navigationController popToRootViewControllerAnimated:NO];
+    ConfirmNewPost* nextScreen = [[ConfirmNewPost alloc] initForHomebaseWithCoordinate:_coordinate
+                                                                                  item:_itemId];
+    [self.navigationController pushFadeInViewController:nextScreen animated:YES];
 }
 
 - (IBAction)didPressOkMiddle:(id)sender 

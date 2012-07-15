@@ -12,6 +12,10 @@
 @class TradePost;
 @interface TradePostMgr : NSObject
 
+- (TradePost*) newTradePostAtCoord:(CLLocationCoordinate2D)coord 
+                       sellingItem:(NSString*)itemId
+                        isHomebase:(BOOL)isHomebase;
+- (TradePost*) getTradePostWithId:(NSString*)postId;
 - (void) setHomebase:(TradePost*)newPost;
 - (TradePost*) getHomebase;
 
