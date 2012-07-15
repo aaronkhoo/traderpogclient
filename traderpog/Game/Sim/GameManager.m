@@ -218,7 +218,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         UINavigationController* nav = appDelegate.navController;
         [nav pushFadeInViewController:self.gameViewController animated:YES];
         
-        NewHomeSelectItem* itemScreen = [[NewHomeSelectItem alloc] initWithNibName:@"NewHomeSelectItem" bundle:nil];
+        NewHomeSelectItem* itemScreen = [[NewHomeSelectItem alloc] initWithCoordinate:_newPlayerLocation.coordinate];
         [self startModalNavControlInView:self.gameViewController.view withController:itemScreen];
     }
     else if(![self gameViewController])

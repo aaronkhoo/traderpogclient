@@ -8,16 +8,32 @@
 
 #import "NewHomeSelectItem.h"
 #import "ConfirmNewPost.h"
+#import "TradePostMgr.h"
+#import "TradeItemType.h"
 #import "UINavigationController+Pog.h"
+
+
+enum kItemSlots
+{
+    kItemSlotLeft = 0,
+    kItemSlotMiddle,
+    kItemSlotRight,
+    
+    kItemSlotNum
+};
 
 @interface NewHomeSelectItem ()
 {
     CLLocationCoordinate2D _coordinate;
-    NSString* _itemId;
 }
+@property (nonatomic,strong) NSArray* itemChoices;
+@property (nonatomic,strong) NSArray* itemUILabels;
+- (void) selectItemChoiceAtIndex:(unsigned int)index;
 @end
 
 @implementation NewHomeSelectItem
+@synthesize itemChoices;
+@synthesize itemUILabels;
 @synthesize imageLeft;
 @synthesize imageMiddle;
 @synthesize imageRight;
@@ -25,13 +41,14 @@
 @synthesize labelMiddle;
 @synthesize labelRight;
 
-- (id) initWithCoordinate:(CLLocationCoordinate2D)coord item:(NSString*)itemId;
+- (id) initWithCoordinate:(CLLocationCoordinate2D)coord;
 {
     self = [super initWithNibName:@"NewHomeSelectItem" bundle:nil];
     if (self) 
     {
         _coordinate = coord;
-        _itemId = itemId;
+        self.itemChoices = [[TradePostMgr getInstance] getItemTypesForTier:0];
+        NSAssert([self.itemChoices count] >= kItemSlotNum, @"FirstPost: Must have 3 items to choose from");
     }
     return self;
 }
@@ -39,7 +56,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    // setup item choices
+    self.itemUILabels = [NSArray arrayWithObjects:
+                         [self labelLeft],
+                         [self labelMiddle],
+                         [self labelRight], nil];
+    unsigned int count = 0;
+    for(UILabel* cur in [self itemUILabels])
+    {
+        [cur setText:[[self.itemChoices objectAtIndex:count] name]];
+        ++count;
+    }
 }
 
 - (void)viewDidUnload
@@ -50,6 +78,7 @@
     [self setImageLeft:nil];
     [self setImageMiddle:nil];
     [self setImageRight:nil];
+    [self setItemUILabels:nil];
     [super viewDidUnload];
 }
 
@@ -60,16 +89,25 @@
 
 - (IBAction)didPressOkLeft:(id)sender 
 {
-    ConfirmNewPost* nextScreen = [[ConfirmNewPost alloc] initForHomebaseWithCoordinate:_coordinate
-                                                                                  item:_itemId];
-    [self.navigationController pushFadeInViewController:nextScreen animated:YES];
+    [self selectItemChoiceAtIndex:kItemSlotLeft];
 }
 
 - (IBAction)didPressOkMiddle:(id)sender 
 {
+    [self selectItemChoiceAtIndex:kItemSlotMiddle];
 }
 
 - (IBAction)didPressOkRight:(id)sender 
 {
+    [self selectItemChoiceAtIndex:kItemSlotRight];
+}
+
+#pragma mark - internal methods
+- (void) selectItemChoiceAtIndex:(unsigned int)index
+{
+    TradeItemType* itemType = [self.itemChoices objectAtIndex:index];
+    ConfirmNewPost* nextScreen = [[ConfirmNewPost alloc] initForHomebaseWithCoordinate:_coordinate
+                                 itemType:itemType];
+    [self.navigationController pushFadeInViewController:nextScreen animated:YES];
 }
 @end

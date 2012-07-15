@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+@class TradeItemType;
 @interface TradePost : NSObject<NSCoding>
 {
     NSString*   _postId;
@@ -22,5 +23,5 @@
 @property (nonatomic) BOOL isHomebase;
 - (id) initWithPostId:(NSString*)postId
            coordinate:(CLLocationCoordinate2D)coordinate 
-                 item:(NSString *)itemId;
+                 itemType:(TradeItemType *)itemType;
 @end

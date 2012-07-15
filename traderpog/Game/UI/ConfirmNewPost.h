@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
+@class TradeItemType;
 @interface ConfirmNewPost : UIViewController
-- (id) initForTradePostWithCoordinate:(CLLocationCoordinate2D)coord item:(NSString*)itemId;
-- (id) initForHomebaseWithCoordinate:(CLLocationCoordinate2D)coord item:(NSString*)itemId;
+@property (weak, nonatomic) IBOutlet UILabel *contentLabel;
+- (id) initForTradePostWithCoordinate:(CLLocationCoordinate2D)coord itemType:(TradeItemType*)itemType;
+- (id) initForHomebaseWithCoordinate:(CLLocationCoordinate2D)coord itemType:(TradeItemType*)itemType;
 - (IBAction)didPressOk:(id)sender;
 @end

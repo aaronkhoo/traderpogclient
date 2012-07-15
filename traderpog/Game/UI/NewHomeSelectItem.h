@@ -17,7 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelMiddle;
 @property (weak, nonatomic) IBOutlet UILabel *labelRight;
 
-- (id) initWithCoordinate:(CLLocationCoordinate2D)coord item:(NSString*)itemId;
+- (id) initWithCoordinate:(CLLocationCoordinate2D)coord;
 
 - (IBAction)didPressOkLeft:(id)sender;
 - (IBAction)didPressOkMiddle:(id)sender;

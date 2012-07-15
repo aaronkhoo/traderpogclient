@@ -54,6 +54,8 @@
 		C4945B8E15AC974000EEC0C0 /* SetupNewPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B8D15AC974000EEC0C0 /* SetupNewPlayer.m */; };
 		C4D5DDD515B2718100D5A746 /* ConfirmNewPost.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */; };
 		C4D5DDD615B2718100D5A746 /* ConfirmNewPost.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */; };
+		C4D5DDDA15B3155B00D5A746 /* TradeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD915B3155B00D5A746 /* TradeItem.m */; };
+		C4D5DDDD15B3168100D5A746 /* TradeItemType.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDDC15B3168100D5A746 /* TradeItemType.m */; };
 		C4E3819D15AA0C5B00924A86 /* StartScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E3819B15AA0C5B00924A86 /* StartScreen.m */; };
 		C4E3819E15AA0C5B00924A86 /* StartScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E3819C15AA0C5B00924A86 /* StartScreen.xib */; };
 		C4E381AB15AA381F00924A86 /* ImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E381AA15AA381F00924A86 /* ImageManager.m */; };
@@ -151,6 +153,10 @@
 		C4D5DDD215B2718100D5A746 /* ConfirmNewPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmNewPost.h; path = Game/UI/ConfirmNewPost.h; sourceTree = "<group>"; };
 		C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfirmNewPost.m; path = Game/UI/ConfirmNewPost.m; sourceTree = "<group>"; };
 		C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConfirmNewPost.xib; path = Game/UI/ConfirmNewPost.xib; sourceTree = "<group>"; };
+		C4D5DDD815B3155B00D5A746 /* TradeItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradeItem.h; path = Game/Sim/TradeItem.h; sourceTree = "<group>"; };
+		C4D5DDD915B3155B00D5A746 /* TradeItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradeItem.m; path = Game/Sim/TradeItem.m; sourceTree = "<group>"; };
+		C4D5DDDB15B3168000D5A746 /* TradeItemType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradeItemType.h; path = Game/Sim/TradeItemType.h; sourceTree = "<group>"; };
+		C4D5DDDC15B3168100D5A746 /* TradeItemType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradeItemType.m; path = Game/Sim/TradeItemType.m; sourceTree = "<group>"; };
 		C4E3819A15AA0C5B00924A86 /* StartScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartScreen.h; path = Game/UI/StartScreen.h; sourceTree = "<group>"; };
 		C4E3819B15AA0C5B00924A86 /* StartScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartScreen.m; path = Game/UI/StartScreen.m; sourceTree = "<group>"; };
 		C4E3819C15AA0C5B00924A86 /* StartScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StartScreen.xib; path = Game/UI/StartScreen.xib; sourceTree = "<group>"; };
@@ -409,6 +415,10 @@
 				C4945B8D15AC974000EEC0C0 /* SetupNewPlayer.m */,
 				C481146A15AD024B007FA214 /* TradePost.h */,
 				C481146B15AD024C007FA214 /* TradePost.m */,
+				C4D5DDD815B3155B00D5A746 /* TradeItem.h */,
+				C4D5DDD915B3155B00D5A746 /* TradeItem.m */,
+				C4D5DDDB15B3168000D5A746 /* TradeItemType.h */,
+				C4D5DDDC15B3168100D5A746 /* TradeItemType.m */,
 				C481146D15AD0604007FA214 /* WorldState.h */,
 				C481146E15AD0605007FA214 /* WorldState.m */,
 				C481147415B07D96007FA214 /* TradePostMgr.h */,
@@ -530,6 +540,8 @@
 				C42FC49015B13293006D29A3 /* ModalNavControl.m in Sources */,
 				C42FC49615B141A3006D29A3 /* ModalNavRoot.m in Sources */,
 				C4D5DDD515B2718100D5A746 /* ConfirmNewPost.m in Sources */,
+				C4D5DDDA15B3155B00D5A746 /* TradeItem.m in Sources */,
+				C4D5DDDD15B3168100D5A746 /* TradeItemType.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

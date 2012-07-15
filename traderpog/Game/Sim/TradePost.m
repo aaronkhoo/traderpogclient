@@ -7,6 +7,7 @@
 //
 
 #import "TradePost.h"
+#import "TradeItemType.h"
 
 static NSString* const kKeyPostId = @"postId";
 static NSString* const kKeyLong = @"longitude";
@@ -22,14 +23,14 @@ static NSString* const kKeyHomebaseBool = @"homebaseBool";
 
 - (id) initWithPostId:(NSString*)postId
            coordinate:(CLLocationCoordinate2D)coordinate 
-                 item:(NSString *)itemId
+                 itemType:(TradeItemType *)itemType
 {
     self = [super init];
     if(self)
     {
         _postId = postId;
         _coord = coordinate;
-        _itemId = itemId;
+        _itemId = [itemType itemId];
         _isHomebase = NO;
     }
     return self;

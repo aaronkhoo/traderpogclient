@@ -10,6 +10,7 @@
 #import "StartScreen.h"
 #import "ImageManager.h"
 #import "GameManager.h"
+#import "TradePostMgr.h"
 #import "PogProfileAPI.h"
 #import "Player.h"
 
@@ -93,6 +94,7 @@
 {
     [ImageManager getInstance];
     [Player getInstance];
+    [TradePostMgr getInstance];
     [GameManager getInstance];
     [PogProfileAPI getInstance];
     [[Player getInstance] setDelegate:[GameManager getInstance]];
@@ -105,6 +107,7 @@
 {
     [PogProfileAPI destroyInstance];
     [GameManager destroyInstance];
+    [TradePostMgr destroyInstance];
     [Player destroyInstance];
     [ImageManager destroyInstance];
 }
