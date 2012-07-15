@@ -14,9 +14,7 @@
 enum kGameStates
 {
     kGameStateNew = 0,
-    kGameStateLocateNewPlayer,
-    kGameStateSetupFirstPost,
-    kGameStateGameView,
+    kGameStateGameLoop,
     
     kGameStateNum
 };

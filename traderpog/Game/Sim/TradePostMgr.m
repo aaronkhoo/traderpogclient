@@ -11,7 +11,6 @@
 
 @interface TradePostMgr ()
 {
-    TradePost* _homebase;
     NSMutableDictionary* _activePosts;
 }
 @property (nonatomic) NSMutableDictionary* activePosts;
@@ -26,7 +25,6 @@
     self = [super init];
     if(self)
     {
-        _homebase = nil;
         _activePosts = [NSMutableDictionary dictionaryWithCapacity:10];
     }
     return self;
@@ -52,14 +50,18 @@
     return result;
 }
 
-- (void) setHomebase:(TradePost *)newPost
-{
-    _homebase = newPost;
-}
-
 - (TradePost*) getHomebase
 {
-    return _homebase;
+    TradePost* result = nil;
+    for(TradePost* cur in self.activePosts.allValues)
+    {
+        if([cur isHomebase])
+        {
+            result = cur;
+            break;
+        }
+    }
+    return result;
 }
 
 

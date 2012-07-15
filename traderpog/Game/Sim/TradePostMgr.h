@@ -16,7 +16,6 @@
                        sellingItem:(NSString*)itemId
                         isHomebase:(BOOL)isHomebase;
 - (TradePost*) getTradePostWithId:(NSString*)postId;
-- (void) setHomebase:(TradePost*)newPost;
 - (TradePost*) getHomebase;
 
 // singleton

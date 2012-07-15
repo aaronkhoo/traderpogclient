@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "GameManager.h"
 #import "Player.h"
+#import "TradePostMgr.h"
+#import "TradePost.h"
 #import "LoadingScreen.h"
 #import "PogProfileAPI.h"
 #import "SetupNewPlayer.h"
@@ -36,6 +38,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     // HACK
 }
 @property (nonatomic,strong) ModalNavControl* modalNav;
+@property (nonatomic,strong) GameViewController* gameViewController;
 @property (nonatomic,strong) HiAccuracyLocator* playerLocator;
 
 - (void) startModalNavControlInView:(UIView*)parentView withController:(UIViewController *)viewController;
@@ -49,6 +52,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 @synthesize gameState = _gameState;
 @synthesize loadingScreen = _loadingScreen;
 @synthesize modalNav;
+@synthesize gameViewController = _gameViewController;
 @synthesize playerLocator = _playerLocator;
 
 - (id) init
@@ -59,6 +63,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         _gameState = kGameStateNew;
         _loadingScreen = nil;
         _newPlayerLocation = nil;
+        _gameViewController = nil;
         [self registerAllNotificationHandlers];
     }
     return self;
@@ -69,7 +74,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 {
     ModalNavControl* modal = [[ModalNavControl alloc] init];
     [parentView addSubview:modal.view];
-    [modal.navController pushViewController:viewController animated:NO]; 
+    [modal.navController pushFadeInViewController:viewController animated:YES]; 
     modal.delegate = self;
     self.modalNav = modal;
 }
@@ -195,39 +200,49 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         // proceed to SignupScreen
         UIViewController* controller = [[SignupScreen alloc] initWithNibName:@"SignupScreen" bundle:nil];
         [nav pushFadeInViewController:controller animated:YES];
-        _gameState = kGameStateNew;
     }
     else if(!_newPlayerLocation)
     {
         [self locateNewPlayer];
-        _gameState = kGameStateLocateNewPlayer;        
     }
     /* TODO: Account for callname and success 
     else if (??Evaluate that first post is not ready yet) {
-        _gameState = kGameStateSetupFirstPost;
     }
     */
-    else if(kGameStateLocateNewPlayer == _gameState)    // TEMP HACK
+    else if(![[TradePostMgr getInstance] getHomebase])
     {
-        // proceed to SetupFirstPost
-        _gameState = kGameStateSetupFirstPost;
-        _gameViewController = [[GameViewController alloc] initAtCoordinate:_newPlayerLocation.coordinate];
+        // proceed to setup of first post
+        NSLog(@"Create Homebase");
+        self.gameViewController = [[GameViewController alloc] initAtCoordinate:_newPlayerLocation.coordinate];
         AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         UINavigationController* nav = appDelegate.navController;
-        [nav pushFadeInViewController:_gameViewController animated:YES];
+        [nav pushFadeInViewController:self.gameViewController animated:YES];
         
         NewHomeSelectItem* itemScreen = [[NewHomeSelectItem alloc] initWithNibName:@"NewHomeSelectItem" bundle:nil];
-        [self startModalNavControlInView:_gameViewController.view withController:itemScreen];
+        [self startModalNavControlInView:self.gameViewController.view withController:itemScreen];
     }
-    else 
+    else if(![self gameViewController])
     {
-        _gameState = kGameStateGameView;
-        
         NSLog(@"start game");
         // TODO: Use real Player position
         CLLocationCoordinate2D location = {.latitude =  38.481057, .longitude =  -86.032563};
-        _gameViewController = [[GameViewController alloc] initAtCoordinate:location];
-        [nav pushFadeInViewController:_gameViewController animated:YES];
+        self.gameViewController = [[GameViewController alloc] initAtCoordinate:location];
+        [nav pushFadeInViewController:self.gameViewController animated:YES];
+    }
+    else
+    {
+        // handle in-game states
+        switch(_gameState)
+        {
+            case kGameStateNew:
+                _gameState = kGameStateGameLoop;
+                NSLog(@"start gameloop");
+                break;
+                
+            default:
+                // do nothing
+                break;
+        }
     }
 }
 

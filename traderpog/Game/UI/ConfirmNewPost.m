@@ -9,6 +9,7 @@
 #import "ConfirmNewPost.h"
 #import "TradePostMgr.h"
 #import "TradePost.h"
+#import "GameManager.h"
 
 @interface ConfirmNewPost ()
 @property (nonatomic) CLLocationCoordinate2D postCoord;
@@ -66,5 +67,6 @@
                                         sellingItem:self.postItem
                                          isHomebase:self.isHomebase];
     [self.navigationController popToRootViewControllerAnimated:NO];
+    [[GameManager getInstance] selectNextGameUI];
 }
 @end
