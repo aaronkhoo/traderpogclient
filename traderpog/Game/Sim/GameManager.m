@@ -29,7 +29,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     SetupNewPlayer* _newPlayerSequence;
     GameViewController* _gameViewController;
     HiAccuracyLocator* _playerLocator;
-    CLLocation* _playerLocation;
+    CLLocation* _newPlayerLocation;
     
     // HACK (should remove after Homebase implementation is added)
     CLLocationCoordinate2D _initCoord;
@@ -58,6 +58,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     {
         _gameState = kGameStateNew;
         _loadingScreen = nil;
+        _newPlayerLocation = nil;
         [self registerAllNotificationHandlers];
     }
     return self;
@@ -98,7 +99,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 
 - (void) finishLocateNewPlayer
 {
-    _playerLocation = [self.playerLocator bestLocation];
+    _newPlayerLocation = [self.playerLocator bestLocation];
 }
 
 - (void) registerAllNotificationHandlers
@@ -196,21 +197,21 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         [nav pushFadeInViewController:controller animated:YES];
         _gameState = kGameStateNew;
     }
+    else if(!_newPlayerLocation)
+    {
+        [self locateNewPlayer];
+        _gameState = kGameStateLocateNewPlayer;        
+    }
     /* TODO: Account for callname and success 
     else if (??Evaluate that first post is not ready yet) {
         _gameState = kGameStateSetupFirstPost;
     }
     */
-    else if(kGameStateNew == _gameState)
-    {
-        [self locateNewPlayer];
-        _gameState = kGameStateLocateNewPlayer;
-    }
-    else if(kGameStateLocateNewPlayer == _gameState)
+    else if(kGameStateLocateNewPlayer == _gameState)    // TEMP HACK
     {
         // proceed to SetupFirstPost
         _gameState = kGameStateSetupFirstPost;
-        _gameViewController = [[GameViewController alloc] initAtCoordinate:_playerLocation.coordinate];
+        _gameViewController = [[GameViewController alloc] initAtCoordinate:_newPlayerLocation.coordinate];
         AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         UINavigationController* nav = appDelegate.navController;
         [nav pushFadeInViewController:_gameViewController animated:YES];
