@@ -8,6 +8,8 @@
 
 #import "MapControl.h"
 #import "MKMapView+ZoomLevel.h"
+#import "TradePost.h"
+#import "TradePostAnnotation.h"
 
 static const NSUInteger kDefaultZoomLevel = 15;
 
@@ -20,9 +22,17 @@ static const NSUInteger kDefaultZoomLevel = 15;
     if(self)
     {
         self.view = mapView;
+        mapView.delegate = self;
         [mapView setCenterCoordinate:initCoord zoomLevel:kDefaultZoomLevel animated:NO];
     }
     return self;
+}
+
+#pragma mark - annotations
+- (void) addAnnotationForTradePost:(TradePost *)tradePost
+{
+    TradePostAnnotation* annotation = [[TradePostAnnotation alloc] initWithTradePost:tradePost];
+    [self.view addAnnotation:annotation];
 }
 
 #pragma mark MKMapViewDelegate
@@ -57,7 +67,10 @@ static const NSUInteger kDefaultZoomLevel = 15;
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
     MKAnnotationView* result = nil;
-    
+    if([annotation conformsToProtocol:@protocol(MapAnnotationProtocol)])
+    {
+        result = [((NSObject<MapAnnotationProtocol>*)annotation) annotationViewInMap:mapView];
+    }
     return result;
 }
 

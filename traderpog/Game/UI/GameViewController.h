@@ -10,7 +10,12 @@
 #import <CoreLocation/CoreLocation.h>
 
 @class MKMapView;
+@class MapControl;
 @interface GameViewController : UIViewController
+{
+    MapControl* _mapControl;
+}
+@property (nonatomic, strong) MapControl* mapControl;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 - (id) initAtCoordinate:(CLLocationCoordinate2D)coord;

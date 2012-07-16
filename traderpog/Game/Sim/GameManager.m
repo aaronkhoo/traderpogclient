@@ -19,6 +19,7 @@
 #import "ModalNavControl.h"
 #import "HiAccuracyLocator.h"
 #import "CLLocation+Pog.h"
+#import "MapControl.h"
 #import <CoreLocation/CoreLocation.h>
 
 // List of Game UI screens that GameManager can kick off
@@ -41,10 +42,10 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 @property (nonatomic,strong) GameViewController* gameViewController;
 @property (nonatomic,strong) HiAccuracyLocator* playerLocator;
 
-- (void) startModalNavControlInView:(UIView*)parentView withController:(UIViewController *)viewController;
-- (void) finishModalNavControl;
+- (void) startModalNavControlInView:(UIView*)parentView 
+                     withController:(UIViewController *)viewController
+                    completionBlock:(ModalNavCompletionBlock)completionBlock;
 - (void) locateNewPlayer;
-- (void) finishLocateNewPlayer;
 - (void) registerAllNotificationHandlers;
 @end
 
@@ -70,24 +71,17 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 }
 
 #pragma mark - internal methods
-- (void) startModalNavControlInView:(UIView*)parentView withController:(UIViewController *)viewController
+- (void) startModalNavControlInView:(UIView*)parentView 
+                     withController:(UIViewController *)viewController
+                    completionBlock:(ModalNavCompletionBlock)completionBlock
 {
     ModalNavControl* modal = [[ModalNavControl alloc] init];
     [parentView addSubview:modal.view];
     [modal.navController pushFadeInViewController:viewController animated:YES]; 
     modal.delegate = self;
+    modal.completionBlock = completionBlock;
     self.modalNav = modal;
 }
-
-- (void) finishModalNavControl
-{
-    if([self modalNav])
-    {
-        [self.modalNav.view removeFromSuperview];
-        self.modalNav = nil;
-    }
-}
-
 
 - (void) loadGame
 {
@@ -213,7 +207,12 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         [nav pushFadeInViewController:self.gameViewController animated:YES];
         
         NewHomeSelectItem* itemScreen = [[NewHomeSelectItem alloc] initWithCoordinate:_newPlayerLocation.coordinate];
-        [self startModalNavControlInView:self.gameViewController.view withController:itemScreen];
+        [self startModalNavControlInView:self.gameViewController.view 
+                          withController:itemScreen
+                         completionBlock:^(BOOL finished){
+                             // when the new post sequence is completed, drop an annotation for the new Homebase
+                             [self.gameViewController.mapControl addAnnotationForTradePost:[[TradePostMgr getInstance] getHomebase]];
+                         }];
     }
     else if(![self gameViewController])
     {

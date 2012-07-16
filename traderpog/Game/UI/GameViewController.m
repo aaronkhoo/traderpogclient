@@ -12,9 +12,7 @@
 @interface GameViewController ()
 {
     CLLocationCoordinate2D _initCoord;
-    MapControl* _mapControl;
 }
-@property (nonatomic, strong) MapControl* mapControl;
 @end
 
 @implementation GameViewController

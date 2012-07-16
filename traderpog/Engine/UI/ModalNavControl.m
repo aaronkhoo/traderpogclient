@@ -17,12 +17,14 @@
 @synthesize delegate;
 @synthesize navController;
 @synthesize navRoot;
+@synthesize completionBlock;
+
 - (id)init
 {
     self = [super initWithNibName:@"ModalNavControl" bundle:nil];
     if(self) 
     {
-        
+        self.completionBlock = nil;
     }
     return self;
 }
@@ -42,6 +44,7 @@
     [super viewDidUnload];
     self.navRoot = nil;
     self.navController = nil;
+    self.completionBlock = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -57,6 +60,13 @@
     {
         // dismiss myself if stack has been fully popped
         [self.delegate dismissModal];
+        
+        // call completion block
+        if(self.completionBlock)
+        {
+            self.completionBlock(YES);
+            self.completionBlock = nil;
+        }
     }
 }
 
