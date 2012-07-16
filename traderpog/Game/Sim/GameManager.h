@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PogProfileDelegate.h"
 #import "ModalNavDelegate.h"
 #import "HttpCallbackDelegate.h"
 
@@ -32,9 +31,6 @@ enum kGameStates
 @property (nonatomic,weak) LoadingScreen* loadingScreen;
 
 // public methods
-- (void) setupNewPlayerWithEmail:(NSString*)email loadingScreen:(LoadingScreen*)loadingScreen;
-- (void) completeSetupNewPlayer;
-- (void) abortSetupNewPlayer;
 - (void) setupHomebaseAtLocation:(CLLocation*)location;
 - (void) loadGame;
 - (void) selectNextGameUI;

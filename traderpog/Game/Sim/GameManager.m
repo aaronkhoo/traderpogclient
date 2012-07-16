@@ -12,7 +12,6 @@
 #import "TradePostMgr.h"
 #import "TradePost.h"
 #import "LoadingScreen.h"
-#import "SetupNewPlayer.h"
 #import "UINavigationController+Pog.h"
 #import "GameViewController.h"
 #import "NewHomeSelectItem.h"
@@ -29,7 +28,6 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 
 @interface GameManager ()
 {
-    SetupNewPlayer* _newPlayerSequence;
     GameViewController* _gameViewController;
     HiAccuracyLocator* _playerLocator;
     CLLocation* _newPlayerLocation;
@@ -122,33 +120,6 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 
 
 #pragma mark - public methods
-- (void) setupNewPlayerWithEmail:(NSString *)email loadingScreen:(LoadingScreen *)loadingScreen
-{
-//    _gameState = kGameStateSetupNewPlayer;
-//    _loadingScreen = loadingScreen;
-//    _newPlayerSequence = [[SetupNewPlayer alloc] initWithEmail:email loadingScreen:loadingScreen];
-}
-
-- (void) completeSetupNewPlayer
-{
-//    _newPlayerSequence = nil;
-//    UINavigationController* nav = self.loadingScreen.navigationController;
-//    [nav popToRootViewControllerAnimated:NO];
-    
-//    NSLog(@"start game");
-//    _gameState = kGameStateGameView;
-//    _gameViewController = [[GameViewController alloc] initAtCoordinate:_initCoord];
-//    [nav pushFadeInViewController:_gameViewController animated:YES];
-    
-//    NewHomeSelectItem* itemScreen = [[NewHomeSelectItem alloc] initWithNibName:@"NewHomeSelectItem" bundle:nil];
-//    [self startModalNavControlInView:_gameViewController.view withController:itemScreen];
-}
-
-- (void) abortSetupNewPlayer
-{
-//    _newPlayerSequence = nil;
-//    [self.loadingScreen.navigationController popToRootViewControllerAnimated:YES];    
-}
 
 - (void) setupHomebaseAtLocation:(CLLocation *)location
 {

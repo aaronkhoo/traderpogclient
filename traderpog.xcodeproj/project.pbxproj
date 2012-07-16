@@ -20,7 +20,6 @@
 		C41E0CA515AC0441006662DF /* MKMapView+ZoomLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0CA415AC0441006662DF /* MKMapView+ZoomLevel.m */; };
 		C41E0CA815AC04DE006662DF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E0CA715AC04DE006662DF /* MapKit.framework */; };
 		C41E0CAA15AC04E5006662DF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E0CA915AC04E5006662DF /* CoreLocation.framework */; };
-		C41E0CAD15AC0C5E006662DF /* PogProfileAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0CAC15AC0C5E006662DF /* PogProfileAPI.m */; };
 		C41E0CB015AC0D5A006662DF /* AFClientManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0CAF15AC0D5A006662DF /* AFClientManager.m */; };
 		C41E0CB315AC0FB6006662DF /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0CB215AC0FB6006662DF /* Player.m */; };
 		C41E0CB615AC1552006662DF /* DebugOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0CB515AC1552006662DF /* DebugOptions.m */; };
@@ -51,7 +50,6 @@
 		C4945B8415AC2D2C00EEC0C0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4945B8315AC2D2C00EEC0C0 /* SystemConfiguration.framework */; };
 		C4945B8815AC91B500EEC0C0 /* CLLocation+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B8715AC91B500EEC0C0 /* CLLocation+Pog.m */; };
 		C4945B8B15AC936600EEC0C0 /* HiAccuracyLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B8A15AC936600EEC0C0 /* HiAccuracyLocator.m */; };
-		C4945B8E15AC974000EEC0C0 /* SetupNewPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B8D15AC974000EEC0C0 /* SetupNewPlayer.m */; };
 		C4D5DDD515B2718100D5A746 /* ConfirmNewPost.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */; };
 		C4D5DDD615B2718100D5A746 /* ConfirmNewPost.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */; };
 		C4D5DDDA15B3155B00D5A746 /* TradeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD915B3155B00D5A746 /* TradeItem.m */; };
@@ -99,15 +97,12 @@
 		C41E0CA415AC0441006662DF /* MKMapView+ZoomLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+ZoomLevel.m"; sourceTree = "<group>"; };
 		C41E0CA715AC04DE006662DF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		C41E0CA915AC04E5006662DF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		C41E0CAB15AC0C5E006662DF /* PogProfileAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PogProfileAPI.h; path = Game/ServerAPI/PogProfileAPI.h; sourceTree = "<group>"; };
-		C41E0CAC15AC0C5E006662DF /* PogProfileAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PogProfileAPI.m; path = Game/ServerAPI/PogProfileAPI.m; sourceTree = "<group>"; };
 		C41E0CAE15AC0D5A006662DF /* AFClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFClientManager.h; path = Game/ServerAPI/AFClientManager.h; sourceTree = "<group>"; };
 		C41E0CAF15AC0D5A006662DF /* AFClientManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFClientManager.m; path = Game/ServerAPI/AFClientManager.m; sourceTree = "<group>"; };
 		C41E0CB115AC0FB6006662DF /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Player.h; path = Game/Sim/Player.h; sourceTree = "<group>"; };
 		C41E0CB215AC0FB6006662DF /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Player.m; path = Game/Sim/Player.m; sourceTree = "<group>"; };
 		C41E0CB415AC1552006662DF /* DebugOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugOptions.h; path = Game/Sim/DebugOptions.h; sourceTree = "<group>"; };
 		C41E0CB515AC1552006662DF /* DebugOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugOptions.m; path = Game/Sim/DebugOptions.m; sourceTree = "<group>"; };
-		C41E0CB715AC1846006662DF /* PogProfileDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PogProfileDelegate.h; path = Game/ServerAPI/PogProfileDelegate.h; sourceTree = "<group>"; };
 		C41ED12815A6B33E00995F53 /* traderpog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = traderpog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C41ED12C15A6B33E00995F53 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C41ED12E15A6B33E00995F53 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -151,8 +146,6 @@
 		C4945B8715AC91B500EEC0C0 /* CLLocation+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+Pog.m"; sourceTree = "<group>"; };
 		C4945B8915AC936600EEC0C0 /* HiAccuracyLocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HiAccuracyLocator.h; sourceTree = "<group>"; };
 		C4945B8A15AC936600EEC0C0 /* HiAccuracyLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HiAccuracyLocator.m; sourceTree = "<group>"; };
-		C4945B8C15AC974000EEC0C0 /* SetupNewPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetupNewPlayer.h; path = Game/Sim/SetupNewPlayer.h; sourceTree = "<group>"; };
-		C4945B8D15AC974000EEC0C0 /* SetupNewPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetupNewPlayer.m; path = Game/Sim/SetupNewPlayer.m; sourceTree = "<group>"; };
 		C4D5DDD215B2718100D5A746 /* ConfirmNewPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmNewPost.h; path = Game/UI/ConfirmNewPost.h; sourceTree = "<group>"; };
 		C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfirmNewPost.m; path = Game/UI/ConfirmNewPost.m; sourceTree = "<group>"; };
 		C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConfirmNewPost.xib; path = Game/UI/ConfirmNewPost.xib; sourceTree = "<group>"; };
@@ -257,9 +250,6 @@
 			children = (
 				C41E0CAE15AC0D5A006662DF /* AFClientManager.h */,
 				C41E0CAF15AC0D5A006662DF /* AFClientManager.m */,
-				C41E0CAB15AC0C5E006662DF /* PogProfileAPI.h */,
-				C41E0CAC15AC0C5E006662DF /* PogProfileAPI.m */,
-				C41E0CB715AC1846006662DF /* PogProfileDelegate.h */,
 			);
 			name = ServerAPI;
 			sourceTree = "<group>";
@@ -459,8 +449,6 @@
 				C4E381BE15AABB2400924A86 /* GameManager.m */,
 				C41E0CB115AC0FB6006662DF /* Player.h */,
 				C41E0CB215AC0FB6006662DF /* Player.m */,
-				C4945B8C15AC974000EEC0C0 /* SetupNewPlayer.h */,
-				C4945B8D15AC974000EEC0C0 /* SetupNewPlayer.m */,
 				C481146A15AD024B007FA214 /* TradePost.h */,
 				C481146B15AD024C007FA214 /* TradePost.m */,
 				C4D5DDD815B3155B00D5A746 /* TradeItem.h */,
@@ -572,14 +560,12 @@
 				C41E0CA015AC0391006662DF /* AFXMLRequestOperation.m in Sources */,
 				C41E0CA115AC0391006662DF /* UIImageView+AFNetworking.m in Sources */,
 				C41E0CA515AC0441006662DF /* MKMapView+ZoomLevel.m in Sources */,
-				C41E0CAD15AC0C5E006662DF /* PogProfileAPI.m in Sources */,
 				C41E0CB015AC0D5A006662DF /* AFClientManager.m in Sources */,
 				C41E0CB315AC0FB6006662DF /* Player.m in Sources */,
 				C41E0CB615AC1552006662DF /* DebugOptions.m in Sources */,
 				C4945B8015AC26D900EEC0C0 /* LoadingScreen.m in Sources */,
 				C4945B8815AC91B500EEC0C0 /* CLLocation+Pog.m in Sources */,
 				C4945B8B15AC936600EEC0C0 /* HiAccuracyLocator.m in Sources */,
-				C4945B8E15AC974000EEC0C0 /* SetupNewPlayer.m in Sources */,
 				C481145F15ACB927007FA214 /* GameViewController.m in Sources */,
 				C481146915ACBFED007FA214 /* MapControl.m in Sources */,
 				C481146C15AD024C007FA214 /* TradePost.m in Sources */,

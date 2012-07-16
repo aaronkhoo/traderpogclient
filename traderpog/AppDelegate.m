@@ -11,7 +11,6 @@
 #import "ImageManager.h"
 #import "GameManager.h"
 #import "TradePostMgr.h"
-#import "PogProfileAPI.h"
 #import "Player.h"
 
 @interface AppDelegate()
@@ -96,7 +95,6 @@
     [Player getInstance];
     [TradePostMgr getInstance];
     [GameManager getInstance];
-    [PogProfileAPI getInstance];
     [[Player getInstance] setDelegate:[GameManager getInstance]];
 
     // load up frontmenu background
@@ -105,7 +103,6 @@
 
 - (void) appShutdown
 {
-    [PogProfileAPI destroyInstance];
     [GameManager destroyInstance];
     [TradePostMgr destroyInstance];
     [Player destroyInstance];
