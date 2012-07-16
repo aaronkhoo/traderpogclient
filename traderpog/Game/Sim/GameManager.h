@@ -31,7 +31,6 @@ enum kGameStates
 @property (nonatomic,weak) LoadingScreen* loadingScreen;
 
 // public methods
-- (void) setupHomebaseAtLocation:(CLLocation*)location;
 - (void) loadGame;
 - (void) selectNextGameUI;
 + (NSString*) documentsDirectory;

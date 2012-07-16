@@ -30,11 +30,6 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 {
     GameViewController* _gameViewController;
     HiAccuracyLocator* _playerLocator;
-    CLLocation* _newPlayerLocation;
-    
-    // HACK (should remove after Homebase implementation is added)
-    CLLocationCoordinate2D _initCoord;
-    // HACK
 }
 @property (nonatomic,strong) ModalNavControl* modalNav;
 @property (nonatomic,strong) GameViewController* gameViewController;
@@ -61,7 +56,6 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     {
         _gameState = kGameStateNew;
         _loadingScreen = nil;
-        _newPlayerLocation = nil;
         _gameViewController = nil;
         [self registerAllNotificationHandlers];
     }
@@ -94,11 +88,6 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     [self.playerLocator startUpdatingLocation];
 }
 
-- (void) finishLocateNewPlayer
-{
-    _newPlayerLocation = [self.playerLocator bestLocation];
-}
-
 - (void) registerAllNotificationHandlers
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -118,16 +107,6 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     return documentsDirectory;
 }
 
-
-#pragma mark - public methods
-
-- (void) setupHomebaseAtLocation:(CLLocation *)location
-{
-    // TODO: create homebase
-    NSLog(@"setup homebase at location (%f, %f)", location.coordinate.longitude, location.coordinate.latitude);
-    _initCoord = location.coordinate;
-}
-
 #pragma mark - ModalNavDelegate
 - (void) dismissModal
 {
@@ -141,8 +120,6 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 #pragma mark - location notifications
 - (void) handleNewPlayerLocated:(NSNotification *)note
 {
-    [self finishLocateNewPlayer];
-
     [self selectNextGameUI];
 }
 
@@ -166,18 +143,20 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         UIViewController* controller = [[SignupScreen alloc] initWithNibName:@"SignupScreen" bundle:nil];
         [nav pushFadeInViewController:controller animated:YES];
     }
-    else if(!_newPlayerLocation)
+    // Current player location has not been determined yet
+    else if(![self.playerLocator bestLocation])
     {
         [self locateNewPlayer];
     }
+    // Player has no posts 
     else if(![[TradePostMgr getInstance] getHomebase])
     {
         // proceed to setup of first post
         NSLog(@"Create Homebase");
-        self.gameViewController = [[GameViewController alloc] initAtCoordinate:_newPlayerLocation.coordinate];
+        self.gameViewController = [[GameViewController alloc] initAtCoordinate:[self.playerLocator bestLocation].coordinate];
         [nav pushFadeInViewController:self.gameViewController animated:YES];
         
-        NewHomeSelectItem* itemScreen = [[NewHomeSelectItem alloc] initWithCoordinate:_newPlayerLocation.coordinate];
+        NewHomeSelectItem* itemScreen = [[NewHomeSelectItem alloc] initWithCoordinate:[self.playerLocator bestLocation].coordinate];
         [self startModalNavControlInView:self.gameViewController.view 
                           withController:itemScreen
                          completionBlock:^(BOOL finished){
@@ -185,19 +164,12 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
                              [self.gameViewController.mapControl addAnnotationForTradePost:[[TradePostMgr getInstance] getHomebase]];
                          }];
     }
+    // Player account exists + player has a post + player location has been located
     else if(![self gameViewController])
     {
         NSLog(@"start game");
     
-        // HACK
-        // TODO: this is when an existing player starts a game; need to robustly handle location availability
-        CLLocation* location = _newPlayerLocation;
-        if(!location)
-        {
-            location = [CLLocation geoloPigs];
-        }
-        // HACK
-        self.gameViewController = [[GameViewController alloc] initAtCoordinate:[location coordinate]];
+        self.gameViewController = [[GameViewController alloc] initAtCoordinate:[self.playerLocator bestLocation].coordinate];
         [nav pushFadeInViewController:self.gameViewController animated:YES];
     }
     else
