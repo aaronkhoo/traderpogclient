@@ -18,6 +18,7 @@
 #import "NewHomeSelectItem.h"
 #import "ModalNavControl.h"
 #import "HiAccuracyLocator.h"
+#import "CLLocation+Pog.h"
 #import <CoreLocation/CoreLocation.h>
 
 // List of Game UI screens that GameManager can kick off
@@ -217,9 +218,16 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     else if(![self gameViewController])
     {
         NSLog(@"start game");
-        // TODO: Use real Player position
-        CLLocationCoordinate2D location = {.latitude =  38.481057, .longitude =  -86.032563};
-        self.gameViewController = [[GameViewController alloc] initAtCoordinate:location];
+    
+        // HACK
+        // TODO: this is when an existing player starts a game; need to robustly handle location availability
+        CLLocation* location = _newPlayerLocation;
+        if(!location)
+        {
+            location = [CLLocation geoloPigs];
+        }
+        // HACK
+        self.gameViewController = [[GameViewController alloc] initAtCoordinate:[location coordinate]];
         [nav pushFadeInViewController:self.gameViewController animated:YES];
     }
     else
