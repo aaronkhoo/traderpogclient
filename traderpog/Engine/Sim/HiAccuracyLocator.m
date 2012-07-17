@@ -86,8 +86,8 @@ static NSTimeInterval kLocationUpdateTimeout = 6.0;
                 {
                     // if timed-out and no location, 
                     // TODO: show player a list of locations to place their Homebase
-                    // For now, default to San Francisco
-                    self.bestLocation = [CLLocation geoloPigs];
+                    // For now, default to Penang
+                    self.bestLocation = [CLLocation penang];
                 }
                 [[NSNotificationCenter defaultCenter] postNotificationName:kUserLocated object:self];
                 break;

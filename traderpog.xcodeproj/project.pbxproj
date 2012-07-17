@@ -68,6 +68,8 @@
 		C4E381C615AABC7400924A86 /* SignupScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E381C415AABC7400924A86 /* SignupScreen.m */; };
 		C4E381C715AABC7400924A86 /* SignupScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E381C515AABC7400924A86 /* SignupScreen.xib */; };
 		C4E381CE15AABECC00924A86 /* PogUIUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E381CD15AABECC00924A86 /* PogUIUtility.m */; };
+		C4FA8F5B15B54A7200E82A93 /* CreateAccount.png in Resources */ = {isa = PBXBuildFile; fileRef = C4FA8F5915B54A7200E82A93 /* CreateAccount.png */; };
+		C4FA8F5C15B54A7200E82A93 /* FBSignIn.png in Resources */ = {isa = PBXBuildFile; fileRef = C4FA8F5A15B54A7200E82A93 /* FBSignIn.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -177,6 +179,8 @@
 		C4E381C515AABC7400924A86 /* SignupScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SignupScreen.xib; path = Game/UI/SignupScreen.xib; sourceTree = "<group>"; };
 		C4E381CC15AABECC00924A86 /* PogUIUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PogUIUtility.h; sourceTree = "<group>"; };
 		C4E381CD15AABECC00924A86 /* PogUIUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PogUIUtility.m; sourceTree = "<group>"; };
+		C4FA8F5915B54A7200E82A93 /* CreateAccount.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CreateAccount.png; path = assets/UI/CreateAccount.png; sourceTree = SOURCE_ROOT; };
+		C4FA8F5A15B54A7200E82A93 /* FBSignIn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FBSignIn.png; path = assets/UI/FBSignIn.png; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -346,6 +350,7 @@
 		C4D5DDEB15B3D04700D5A746 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C4FA8F4E15B5401000E82A93 /* UI */,
 				C4D5DDEC15B3D05600D5A746 /* Map */,
 			);
 			name = Resources;
@@ -464,6 +469,15 @@
 			name = Sim;
 			sourceTree = "<group>";
 		};
+		C4FA8F4E15B5401000E82A93 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				C4FA8F5915B54A7200E82A93 /* CreateAccount.png */,
+				C4FA8F5A15B54A7200E82A93 /* FBSignIn.png */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -530,6 +544,8 @@
 				C42FC49715B141A3006D29A3 /* ModalNavRoot.xib in Resources */,
 				C4D5DDD615B2718100D5A746 /* ConfirmNewPost.xib in Resources */,
 				C4D5DDEE15B3D12B00D5A746 /* HomeBase.png in Resources */,
+				C4FA8F5B15B54A7200E82A93 /* CreateAccount.png in Resources */,
+				C4FA8F5C15B54A7200E82A93 /* FBSignIn.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

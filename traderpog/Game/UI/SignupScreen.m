@@ -45,12 +45,15 @@
 
 - (IBAction)createNewAccount
 {
-    // Calling server to create new account
-    [[Player getInstance] createNewPlayerOnServer:@""];
-    
     // show loading screen and commence new player sequence
     LoadingScreen* loading = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
     [self.navigationController pushFadeInViewController:loading animated:YES];
+
+    // Calling server to create new account
+    [[Player getInstance] createNewPlayerOnServer:@""];
+}
+
+- (IBAction)connectToFacebook:(id)sender {
 }
 
 @end

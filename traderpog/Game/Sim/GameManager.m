@@ -127,7 +127,9 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 {
     // abort all the way back to the start screen
     _gameState = kGameStateNew;
-    [self.loadingScreen.navigationController popToRootViewControllerAnimated:YES];    
+    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    UINavigationController* nav = appDelegate.navController;
+    [nav popFadeOutToRootViewControllerAnimated:YES];    
 }
 
 - (void) selectNextGameUI

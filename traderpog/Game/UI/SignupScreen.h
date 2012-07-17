@@ -9,10 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface SignupScreen : UIViewController<UITextFieldDelegate>
-{
-    __weak IBOutlet UIView *_contentView;
-}
 
 - (IBAction)createNewAccount;
+- (IBAction)connectToFacebook:(id)sender;
 
 @end
