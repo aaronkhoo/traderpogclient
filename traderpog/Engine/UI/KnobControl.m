@@ -1,0 +1,282 @@
+//
+//  KnobControl.m
+//  traderpog
+//
+//  Created by Shu Chiun Cheah on 7/6/12.
+//  Copyright (c) 2012 GeoloPigs. All rights reserved.
+//
+
+#import "KnobControl.h"
+#import "KnobSlice.h"
+
+static const float kRenderOffsetFactor = 1.0f; // offset angle is this factor multiplied with sliceWidth 
+
+// units in fraction of Knob-radius
+static const float kActivateWidth = 1.0f;
+static const float kActivateHeight = 0.1f;
+
+@interface KnobControl ()
+{
+    CGAffineTransform _logicalTransform;
+    float _deltaAngle;
+    CGAffineTransform _startTransform;
+}
+- (float) sliceWidth;
+- (CGAffineTransform) renderTransformFromLogicalTransform:(CGAffineTransform)xform;
+- (void) buildSlicesEven;
+- (void) buildSlicesOdd;
+- (void) createWheelRender;
+- (float) distFromCenter:(CGPoint)point;
+@end
+
+@implementation KnobControl
+@synthesize numSlices = _numSlices;
+@synthesize slices = _slices;
+@synthesize container = _container;
+@synthesize selectedSlice = _selectedSlice;
+@synthesize activateButton;
+
+- (id)initWithFrame:(CGRect)frame 
+          numSlices:(unsigned int)numSlices
+{
+    self = [super initWithFrame:frame];
+    if (self) 
+    {
+        _numSlices = numSlices;
+        _logicalTransform = CGAffineTransformIdentity;
+        _selectedSlice = 0;
+        
+        [self createWheelRender];
+    }
+    return self;
+}
+
+#pragma mark - internal methods
+- (CGAffineTransform) renderTransformFromLogicalTransform:(CGAffineTransform)xform
+{
+    return CGAffineTransformRotate(xform, kRenderOffsetFactor * [self sliceWidth]);    
+}
+
+- (float) sliceWidth
+{
+    return M_PI * 2.0f / [self numSlices];
+}
+
+// Slices are ordered clockwise starting at the negative x-axis 
+- (void) buildSlicesOdd
+{
+    CGFloat fanWidth = [self sliceWidth];
+    CGFloat mid = 0;
+    for (unsigned int i = 0; i < [self numSlices]; i++) 
+    {
+        float midAngle = mid;
+        float minAngle = mid - (fanWidth / 2.0f);
+        float maxAngle = mid + (fanWidth / 2.0f);
+        KnobSlice* newSlice = [[KnobSlice alloc] initWithMin:minAngle
+                                                                 mid:midAngle
+                                                                 max:maxAngle
+                                                              radius:self.container.bounds.size.width / 2.0f
+                                                               angle:fanWidth
+                                                               index:i];
+        [self.slices addObject:newSlice];
+        
+        mid -= fanWidth;
+        if (newSlice.minAngle < - M_PI) 
+        {
+            mid = -mid;
+            mid -= fanWidth; 
+        }
+    }
+}
+
+- (void) buildSlicesEven
+{
+    CGFloat fanWidth = [self sliceWidth];
+    CGFloat mid = 0;
+    for (unsigned int i = 0; i < [self numSlices]; i++) 
+    {
+        float midAngle = mid;
+        float minAngle = mid - (fanWidth/2);
+        float maxAngle = mid + (fanWidth/2);
+        if ((maxAngle - fanWidth) < - M_PI) 
+        {
+            mid = M_PI;
+            midAngle = mid;
+            minAngle = fabsf(maxAngle);
+        }
+        KnobSlice* newSlice = [[KnobSlice alloc] initWithMin:minAngle
+                                                                 mid:midAngle
+                                                                 max:maxAngle
+                                                              radius:self.container.bounds.size.width / 2.0f
+                                                               angle:fanWidth
+                                                               index:i];
+        [self.slices addObject:newSlice];
+        
+        mid -= fanWidth;
+    }
+}
+
+- (void) createWheelRender
+{
+    _container = [[UIView alloc] initWithFrame:self.bounds];
+    self.slices = [NSMutableArray arrayWithCapacity:self.numSlices];
+    if(0 == ([self numSlices] % 2))
+    {
+        [self buildSlicesEven];
+    }
+    else 
+    {
+        [self buildSlicesOdd];
+    }
+    
+    for(KnobSlice* curSlice in self.slices)
+    {
+        [self.container addSubview:[curSlice view]];
+    }
+    
+    self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform];
+    self.container.userInteractionEnabled = NO;
+    [self addSubview:[self container]];    
+}
+
+- (float) distFromCenter:(CGPoint)point
+{
+    CGPoint center = CGPointMake(self.bounds.size.width/2, 
+                                 self.bounds.size.height/2);
+    float dx = point.x - center.x;
+    float dy = point.y - center.y;
+    return sqrt(dx*dx + dy*dy);
+}
+
+#pragma mark - UIControl
+- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event 
+{
+    BOOL beginTracking = YES;
+    CGPoint touchPoint = [touch locationInView:self];
+    float dist = [self distFromCenter:touchPoint];
+    float minDist = _container.bounds.size.width * 0.5f * 0.7f;
+    float maxDist = _container.bounds.size.width * 0.5f;
+    if((minDist <= dist) && (dist <= maxDist))
+    {
+        float dx = touchPoint.x - self.container.center.x;
+        float dy = touchPoint.y - self.container.center.y;
+        
+        // angle at start
+        _deltaAngle = atan2(dy,dx); 
+        
+        // transform at start
+        _startTransform = _logicalTransform;
+        beginTracking = YES;
+    }
+    else 
+    {
+        // ignore if user taps too close to the center of the wheel
+        beginTracking = NO;
+    }
+    return beginTracking;
+}
+
+- (void) cancelTrackingWithEvent:(UIEvent *)event
+{
+    NSLog(@"TRACKING CANCELED!!");
+}
+
+- (BOOL)continueTrackingWithTouch:(UITouch*)touch withEvent:(UIEvent*)event
+{
+    BOOL shouldEndTracking = NO;
+    CGPoint pt = [touch locationInView:self];
+    float dx = pt.x  - self.container.center.x;
+    float dy = pt.y  - self.container.center.y;
+    float ang = atan2(dy,dx);
+    float angleDifference = _deltaAngle - ang;
+    CGAffineTransform newTransform = CGAffineTransformRotate(_startTransform, -angleDifference);
+    
+    // transform.a is cos(t) and transform.b is sin(t) according
+    // to documentation of CGAffineTransformMakeRotation
+    CGFloat radians = atan2f(newTransform.b, newTransform.a);
+    unsigned int newSelectedSlice = self.selectedSlice;
+    unsigned int index = 0;
+    for (KnobSlice *cur in [self slices]) 
+    {
+        // check if min and max are different signs (when numSectors is even)
+        if((cur.minAngle > 0.0f) && (cur.maxAngle < 0.0f))
+        {
+            if((cur.maxAngle > radians) || (cur.minAngle < radians))
+            {
+                newSelectedSlice = index;
+                break;
+            }
+        }
+        else if ((radians > cur.minAngle) && (radians < cur.maxAngle)) 
+        {
+            newSelectedSlice = index;
+			break;
+        }
+        ++index;
+    }
+    
+    // commit changes
+    _logicalTransform = newTransform;
+    self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform];
+    self.selectedSlice = newSelectedSlice;
+    
+    return !shouldEndTracking;
+}
+
+- (void)endTrackingWithTouch:(UITouch*)touch withEvent:(UIEvent*)event
+{
+    // transform.a is cos(t) and transform.b is sin(t) according
+    // to documentation of CGAffineTransformMakeRotation
+    CGFloat radians = atan2f(_logicalTransform.b, _logicalTransform.a);
+    CGFloat newVal = 0.0;
+    unsigned int index = 0;
+    for (KnobSlice *cur in [self slices]) 
+    {
+        // check if min and max are different signs (when numSectors is even)
+        if((cur.minAngle > 0.0f) && (cur.maxAngle < 0.0f))
+        {
+            if((cur.maxAngle > radians) || (cur.minAngle < radians))
+            {
+                if(radians > 0.0f)
+                {
+                    newVal = radians - M_PI;
+                }
+                else 
+                {
+                    newVal = M_PI + radians;
+                }
+                self.selectedSlice = index;
+            }
+        }
+        else if ((radians > cur.minAngle) && (radians < cur.maxAngle)) 
+        {
+            newVal = radians - cur.midAngle;
+            self.selectedSlice = index;
+			break;
+        }
+        ++index;
+    }
+    
+    {
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.2];
+        CGAffineTransform t = CGAffineTransformRotate(_logicalTransform, -newVal);
+        _logicalTransform = t;
+        self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform];
+        
+        // important: levelContentViewsWithItem relies on _absAngle to scale the selected bubble
+        [UIView commitAnimations];
+    }
+}
+
+
+/*
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect
+{
+    // Drawing code
+}
+*/
+
+@end
