@@ -11,6 +11,7 @@
 #import "ImageManager.h"
 #import "GameManager.h"
 #import "TradePostMgr.h"
+#import "TradeItemTypes.h"
 #import "Player.h"
 
 @interface AppDelegate()
@@ -93,9 +94,13 @@
 {
     [ImageManager getInstance];
     [Player getInstance];
+    [TradeItemTypes getInstance];
     [TradePostMgr getInstance];
     [GameManager getInstance];
+    
+    // Setting up the HTTP callback delegates
     [[Player getInstance] setDelegate:[GameManager getInstance]];
+    [[TradeItemTypes getInstance] setDelegate:[GameManager getInstance]];
 
     // load up frontmenu background
     [[ImageManager getInstance] loadFrontMenuBackgroundNamed:@"Default.png"];
@@ -105,6 +110,7 @@
 {
     [GameManager destroyInstance];
     [TradePostMgr destroyInstance];
+    [TradeItemTypes destroyInstance];
     [Player destroyInstance];
     [ImageManager destroyInstance];
 }

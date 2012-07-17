@@ -25,6 +25,22 @@
     return self;
 }
 
+- (id) initWithDictionary:(NSDictionary*)dict
+{
+    self = [super init];
+    if(self)
+    {
+        _itemId = [dict valueForKeyPath:@"id"];
+        _name = [dict valueForKeyPath:@"localized_name"];
+        _desc = [dict valueForKeyPath:@"localized_desc"];
+        _price =[[dict valueForKeyPath:@"price"] integerValue];
+        _supplymax =[[dict valueForKeyPath:@"supplymax"] integerValue];
+        _supplyrate =[[dict valueForKeyPath:@"supplyrate"] integerValue];
+        _multiplier =[[dict valueForKeyPath:@"multiplier"] integerValue];
+    }
+    return self;
+}
+
 #pragma mark - convenience methods
 + (TradeItemType*) itemWithId:(NSString *)itemId name:(NSString *)name desc:(NSString *)desc
 {

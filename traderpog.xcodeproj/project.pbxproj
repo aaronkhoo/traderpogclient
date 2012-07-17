@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		42A2989115B5F1E700384A52 /* KnobControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2988D15B5F1E700384A52 /* KnobControl.m */; };
 		42A2989215B5F1E700384A52 /* KnobSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2989015B5F1E700384A52 /* KnobSlice.m */; };
+		387BF59115B519F100972DC0 /* TradeItemTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 387BF59015B519F100972DC0 /* TradeItemTypes.m */; };
 		C41E0C9815AC0391006662DF /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C8415AC0391006662DF /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C41E0C9915AC0391006662DF /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C8615AC0391006662DF /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C41E0C9A15AC0391006662DF /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C8815AC0391006662DF /* AFImageRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -75,6 +76,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		387BF58F15B519F000972DC0 /* TradeItemTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeItemTypes.h; sourceTree = "<group>"; };
+		387BF59015B519F100972DC0 /* TradeItemTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeItemTypes.m; sourceTree = "<group>"; };
 		38B0D75715B0F0BE00DD7900 /* HttpCallbackDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HttpCallbackDelegate.h; sourceTree = "<group>"; };
 		42A2988C15B5F1E700384A52 /* KnobControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobControl.h; sourceTree = "<group>"; };
 		42A2988D15B5F1E700384A52 /* KnobControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KnobControl.m; sourceTree = "<group>"; };
@@ -477,6 +480,8 @@
 				C481147415B07D96007FA214 /* TradePostMgr.h */,
 				C481147515B07D96007FA214 /* TradePostMgr.m */,
 				38B0D75715B0F0BE00DD7900 /* HttpCallbackDelegate.h */,
+				387BF58F15B519F000972DC0 /* TradeItemTypes.h */,
+				387BF59015B519F100972DC0 /* TradeItemTypes.m */,
 			);
 			name = Sim;
 			sourceTree = "<group>";
@@ -609,6 +614,7 @@
 				C4D5DDEA15B3CF0800D5A746 /* TradePostAnnotationView.m in Sources */,
 				42A2989115B5F1E700384A52 /* KnobControl.m in Sources */,
 				42A2989215B5F1E700384A52 /* KnobSlice.m in Sources */,
+				387BF59115B519F100972DC0 /* TradeItemTypes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

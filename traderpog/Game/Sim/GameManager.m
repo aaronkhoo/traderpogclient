@@ -11,6 +11,7 @@
 #import "Player.h"
 #import "TradePostMgr.h"
 #import "TradePost.h"
+#import "TradeItemTypes.h"
 #import "LoadingScreen.h"
 #import "UINavigationController+Pog.h"
 #import "GameViewController.h"
@@ -150,6 +151,11 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     {
         [self locateNewPlayer];
     }
+    // Get item list from server if we don't have it already
+    else if([[TradeItemTypes getInstance] needsRefresh])
+    {
+        [[TradeItemTypes getInstance] retrieveItemsFromServer];
+    }
     // Player has no posts 
     else if(![[TradePostMgr getInstance] getHomebase])
     {
@@ -196,7 +202,6 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 {
     [self selectNextGameUI];
 }
-
 
 
 #pragma mark - Singleton
