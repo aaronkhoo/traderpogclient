@@ -16,15 +16,12 @@
     NSMutableDictionary* _activePosts;
 }
 @property (nonatomic) NSMutableDictionary* activePosts;
-// HACK
-@property (nonatomic,strong) NSArray* tier0ItemTypes;
-// HACK
+
 - (void) loadTradePosts;
 @end
 
 @implementation TradePostMgr
 @synthesize activePosts = _activePosts;
-@synthesize tier0ItemTypes;
 
 - (id) init
 {
@@ -32,13 +29,6 @@
     if(self)
     {
         _activePosts = [NSMutableDictionary dictionaryWithCapacity:10];
-
-        // HACK
-        self.tier0ItemTypes = [NSArray arrayWithObjects:
-                               [TradeItemType itemWithId:@"1" name:@"Rice" desc:@"Great with Kung Pao dishes"],
-                               [TradeItemType itemWithId:@"2" name:@"Eggs" desc:@"Omelette essential"],
-                               [TradeItemType itemWithId:@"3" name:@"Grain" desc:@"Great with PBJ"], nil];
-        // HACK
     }
     return self;
 }
@@ -76,16 +66,6 @@
     }
     return result;
 }
-
-- (NSArray*) getItemTypesForTier:(unsigned int)tier
-{
-    // TODO: implement item list retrieval from server
-    
-    // HACK
-    return [self tier0ItemTypes];
-    // HACK
-}
-
 
 #pragma mark - internal methods
 - (void) loadTradePosts

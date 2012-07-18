@@ -14,6 +14,7 @@ static double const refreshTime = -(60 * 15);
 
 @implementation TradeItemTypes
 @synthesize delegate = _delegate;
+@synthesize itemTypes = _itemTypes;
 
 - (id) init
 {
@@ -78,13 +79,7 @@ static TradeItemTypes* singleton = nil;
 	{
 		if (!singleton)
 		{
-            // First, try to load the player data from disk
-            //singleton = [TradeItemTypes loadPlayerData];
-            if (!singleton)
-            {
-                // OK, no saved data available. Go ahead and create a new Player. 
-                singleton = [[TradeItemTypes alloc] init];
-            }
+            singleton = [[TradeItemTypes alloc] init];
 		}
 	}
 	return singleton;

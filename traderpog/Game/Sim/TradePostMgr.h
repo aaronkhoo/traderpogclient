@@ -18,7 +18,6 @@
                         isHomebase:(BOOL)isHomebase;
 - (TradePost*) getTradePostWithId:(NSString*)postId;
 - (TradePost*) getHomebase;
-- (NSArray*) getItemTypesForTier:(unsigned int)tier;
 
 
 // singleton

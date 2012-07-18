@@ -10,6 +10,7 @@
 #import "ConfirmNewPost.h"
 #import "TradePostMgr.h"
 #import "TradeItemType.h"
+#import "TradeItemTypes.h"
 #import "UINavigationController+Pog.h"
 
 
@@ -26,13 +27,11 @@ enum kItemSlots
 {
     CLLocationCoordinate2D _coordinate;
 }
-@property (nonatomic,strong) NSArray* itemChoices;
 @property (nonatomic,strong) NSArray* itemUILabels;
 - (void) selectItemChoiceAtIndex:(unsigned int)index;
 @end
 
 @implementation NewHomeSelectItem
-@synthesize itemChoices;
 @synthesize itemUILabels;
 @synthesize imageLeft;
 @synthesize imageMiddle;
@@ -47,8 +46,6 @@ enum kItemSlots
     if (self) 
     {
         _coordinate = coord;
-        self.itemChoices = [[TradePostMgr getInstance] getItemTypesForTier:0];
-        NSAssert([self.itemChoices count] >= kItemSlotNum, @"FirstPost: Must have 3 items to choose from");
     }
     return self;
 }
@@ -65,7 +62,7 @@ enum kItemSlots
     unsigned int count = 0;
     for(UILabel* cur in [self itemUILabels])
     {
-        [cur setText:[[self.itemChoices objectAtIndex:count] name]];
+        [cur setText:[[[[TradeItemTypes getInstance] itemTypes] objectAtIndex:count] name]];
         ++count;
     }
 }
@@ -105,7 +102,7 @@ enum kItemSlots
 #pragma mark - internal methods
 - (void) selectItemChoiceAtIndex:(unsigned int)index
 {
-    TradeItemType* itemType = [self.itemChoices objectAtIndex:index];
+    TradeItemType* itemType = [[[TradeItemTypes getInstance] itemTypes] objectAtIndex:index];
     ConfirmNewPost* nextScreen = [[ConfirmNewPost alloc] initForHomebaseWithCoordinate:_coordinate
                                  itemType:itemType];
     [self.navigationController pushFadeInViewController:nextScreen animated:YES];

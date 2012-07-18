@@ -19,6 +19,7 @@ static NSString* const kTradeItemTypes_ReceiveItems = @"TradeItemType_ReceiveIte
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
 }
+@property (nonatomic,strong) NSMutableArray* itemTypes;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 // Public methods
