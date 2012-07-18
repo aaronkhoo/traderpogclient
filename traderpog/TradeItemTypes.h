@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "HttpCallbackDelegate.h"
 
+static NSString* const kTradeItemTypes_ReceiveItems = @"TradeItemType_ReceiveItems";
+
 @interface TradeItemTypes : NSObject
 {
-    NSMutableArray* itemTypes;
-    NSDate* lastUpdate;
+    NSMutableArray* _itemTypes;
+    NSDate* _lastUpdate;
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;

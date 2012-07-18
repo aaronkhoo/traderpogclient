@@ -9,13 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "HttpCallbackDelegate.h"
 
+static NSString* const kPlayer_CreateNewUser = @"CreateNewUser";
+
 @interface Player : NSObject<NSCoding>
 {
     // internal
     NSString* _createdVersion;
-    
-    // id
-    NSString* _userId;
     
     // User data
     NSInteger _id;
@@ -25,10 +24,13 @@
     NSString* _facebookid;
     NSString* _email;
     
+    BOOL _dataRefreshed;
+    
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
 }
 @property (nonatomic) NSInteger id;
+@property (nonatomic) BOOL dataRefreshed;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 - (void) createNewPlayerOnServer:(NSString*)facebookid;

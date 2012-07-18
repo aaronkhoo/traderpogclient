@@ -20,16 +20,15 @@ static double const refreshTime = -(60 * 15);
     self = [super init];
     if(self)
     {
-        itemTypes = nil;
-        lastUpdate = nil;
-        itemTypes = [[NSMutableArray alloc] init];
+        _lastUpdate = nil;
+        _itemTypes = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
 - (BOOL) needsRefresh
 {
-    return (!lastUpdate) || ([lastUpdate timeIntervalSinceNow] < refreshTime);
+    return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime);
 }
 
 - (void) createItemsArray:(id)responseObject
@@ -37,7 +36,7 @@ static double const refreshTime = -(60 * 15);
     for (NSDictionary* item in responseObject)
     {
         TradeItemType* current = [[TradeItemType alloc] initWithDictionary:item];
-        [itemTypes addObject:current];
+        [_itemTypes addObject:current];
     }
 }
 
@@ -50,8 +49,8 @@ static double const refreshTime = -(60 * 15);
                  success:^(AFHTTPRequestOperation *operation, id responseObject){                     
                      NSLog(@"Retrieved: %@", responseObject);
                      [self createItemsArray:responseObject];
-                     lastUpdate = [NSDate date];
-                     [self.delegate didCompleteHttpCallback:@"RetrieveItems", TRUE];
+                     _lastUpdate = [NSDate date];
+                     [self.delegate didCompleteHttpCallback:kTradeItemTypes_ReceiveItems, TRUE];
                  }
                  failure:^(AFHTTPRequestOperation* operation, NSError* error){
                      UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
@@ -61,7 +60,7 @@ static double const refreshTime = -(60 * 15);
                                                              otherButtonTitles:nil];
                      
                      [message show];
-                     [self.delegate didCompleteHttpCallback:@"RetrieveItems", FALSE];
+                     [self.delegate didCompleteHttpCallback:kTradeItemTypes_ReceiveItems, FALSE];
                  }
      ];
 }

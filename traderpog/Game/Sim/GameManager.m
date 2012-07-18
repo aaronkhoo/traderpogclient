@@ -29,6 +29,9 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 
 @interface GameManager ()
 {
+    BOOL _gameInfoRefreshed;
+    BOOL _gameInfoRefreshSucceeded;
+    NSInteger _gameInfoRefreshCount;
     GameViewController* _gameViewController;
     HiAccuracyLocator* _playerLocator;
 }
@@ -58,6 +61,14 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         _gameState = kGameStateNew;
         _loadingScreen = nil;
         _gameViewController = nil;
+        _gameInfoRefreshed = FALSE;
+        _gameInfoRefreshSucceeded = TRUE;
+        
+        // This counter is used to track how many game info refresh
+        // requests are still in flight. See loadGameInfo function for
+        // more details.
+        _gameInfoRefreshCount = 0;
+        
         [self registerAllNotificationHandlers];
     }
     return self;
@@ -76,11 +87,16 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     self.modalNav = modal;
 }
 
-- (void) loadGame
+- (void) loadGameInfo
 {
     // loadGame should be responsible for reloading any data from the server it requires 
-    // before the main game sequence starts. For example, any player profile stuff like
-    // bucks + membership status.
+    // before the main game sequence starts. 
+    
+    if ([[TradeItemTypes getInstance] needsRefresh])
+    {
+        [[TradeItemTypes getInstance] retrieveItemsFromServer];   
+        _gameInfoRefreshCount++;
+    }
 }
 
 - (void) locateNewPlayer
@@ -146,15 +162,18 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         UIViewController* controller = [[SignupScreen alloc] initWithNibName:@"SignupScreen" bundle:nil];
         [nav pushFadeInViewController:controller animated:YES];
     }
+    else if (!_gameInfoRefreshed)
+    {
+        // show loading screen and load game info from server
+        _gameInfoRefreshSucceeded = TRUE;
+        LoadingScreen* loading = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
+        [nav pushFadeInViewController:loading animated:YES];
+        [self loadGameInfo];
+    }
     // Current player location has not been determined yet
     else if(![self.playerLocator bestLocation])
     {
         [self locateNewPlayer];
-    }
-    // Get item list from server if we don't have it already
-    else if([[TradeItemTypes getInstance] needsRefresh])
-    {
-        [[TradeItemTypes getInstance] retrieveItemsFromServer];
     }
     // Player has no posts 
     else if(![[TradePostMgr getInstance] getHomebase])
@@ -200,7 +219,27 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {
-    [self selectNextGameUI];
+    // Game is presently in gameinfo refresh mode. Only call selectNextGameUI 
+    // if the refresh is complete. 
+    if (_gameInfoRefreshCount > 0)
+    {
+        _gameInfoRefreshSucceeded = success;
+        if ([callName compare:kTradeItemTypes_ReceiveItems] == NSOrderedSame)
+        {
+            _gameInfoRefreshCount--;
+        }
+        if (_gameInfoRefreshCount == 0)
+        {
+            // If one of the refreshes failed, then treat the refresh process as failed.
+            _gameInfoRefreshed = _gameInfoRefreshSucceeded;
+            // Recall selectNextGameUI
+            [self selectNextGameUI];
+        }
+    }
+    else 
+    {
+        [self selectNextGameUI];
+    }
 }
 
 

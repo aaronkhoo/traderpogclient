@@ -16,11 +16,13 @@ static NSString* const kKeyUserId = @"id";
 static NSString* const kKeySecretkey = @"secretkey";
 static NSString* const kKeyFacebookId = @"fbid";
 static NSString* const kKeyEmail = @"email";
+static NSString* const kKeyBucks = @"bucks";
 static NSString* const kPlayerFilename = @"player.sav";
 
 @implementation Player
 @synthesize delegate = _delegate;
 @synthesize id = _id;
+@synthesize dataRefreshed = _dataRefreshed;
 
 - (id) init
 {
@@ -40,6 +42,8 @@ static NSString* const kPlayerFilename = @"player.sav";
         _email = @"";
         _member = FALSE;
         _bucks = 0;
+        
+        _dataRefreshed = FALSE;
         
         // Initialize delegate
         _delegate = nil;
@@ -138,9 +142,11 @@ static NSString* const kPlayerFilename = @"player.sav";
                  success:^(AFHTTPRequestOperation *operation, id responseObject){                     
                      _id = [[responseObject valueForKeyPath:kKeyUserId] integerValue];
                      _secretkey = [responseObject valueForKeyPath:kKeySecretkey];
+                     _bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
+                     _dataRefreshed = TRUE;
                      NSLog(@"user id is %i", _id);
                      [self savePlayerData];
-                     [self.delegate didCompleteHttpCallback:@"CreateNewUser", TRUE];
+                     [self.delegate didCompleteHttpCallback:kPlayer_CreateNewUser, TRUE];
                  }
                  failure:^(AFHTTPRequestOperation* operation, NSError* error){
                      UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
@@ -150,7 +156,7 @@ static NSString* const kPlayerFilename = @"player.sav";
                                                              otherButtonTitles:nil];
                      
                      [message show];
-                     [self.delegate didCompleteHttpCallback:@"CreateNewUser", FALSE];
+                     [self.delegate didCompleteHttpCallback:kPlayer_CreateNewUser, FALSE];
                  }
      ];
 }
