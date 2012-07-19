@@ -20,9 +20,10 @@
 @property (nonatomic,assign) unsigned int numSlices;
 @property (nonatomic,strong) NSMutableArray* slices;
 @property (nonatomic,assign) unsigned int selectedSlice;
-@property (nonatomic,strong) UIButton* activateButton;
+@property (nonatomic,strong) UIButton* centerButton;
 
 - (id)initWithFrame:(CGRect)frame 
           numSlices:(unsigned int)numSlices;
+- (void) setBackgroundImage:(UIImage*)image;
 
 @end

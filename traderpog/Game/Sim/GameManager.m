@@ -218,6 +218,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
                          completionBlock:^(BOOL finished){
                              // when the new post sequence is completed, drop an annotation for the new Homebase
                              [self.gameViewController.mapControl addAnnotationForTradePost:[[TradePostMgr getInstance] getHomebase]];
+                             [self.gameViewController showKnobAnimated:YES delay:0.5f];
                          }];
     }
     // Player account exists + player has a post + player location has been located

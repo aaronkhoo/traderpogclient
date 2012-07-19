@@ -12,8 +12,7 @@
 static const float kRenderOffsetFactor = 1.0f; // offset angle is this factor multiplied with sliceWidth 
 
 // units in fraction of Knob-radius
-static const float kActivateWidth = 1.0f;
-static const float kActivateHeight = 0.1f;
+static const float kKnobCenterRadiusFrac = 0.7f;
 
 @interface KnobControl ()
 {
@@ -21,12 +20,16 @@ static const float kActivateHeight = 0.1f;
     float _deltaAngle;
     CGAffineTransform _startTransform;
 }
+@property (nonatomic,strong) UIImageView* backgroundImageView;
 - (float) sliceWidth;
-- (CGAffineTransform) renderTransformFromLogicalTransform:(CGAffineTransform)xform;
+- (CGAffineTransform) renderTransformFromLogicalTransform:(CGAffineTransform)xform reverse:(BOOL)reverse;
 - (void) buildSlicesEven;
 - (void) buildSlicesOdd;
 - (void) createWheelRender;
+- (void) createCenterButton;
 - (float) distFromCenter:(CGPoint)point;
+
+- (void) didPressCenterButton:(id)sender;
 @end
 
 @implementation KnobControl
@@ -34,7 +37,8 @@ static const float kActivateHeight = 0.1f;
 @synthesize slices = _slices;
 @synthesize container = _container;
 @synthesize selectedSlice = _selectedSlice;
-@synthesize activateButton;
+@synthesize centerButton;
+@synthesize backgroundImageView;
 
 - (id)initWithFrame:(CGRect)frame 
           numSlices:(unsigned int)numSlices
@@ -47,14 +51,25 @@ static const float kActivateHeight = 0.1f;
         _selectedSlice = 0;
         
         [self createWheelRender];
+        [self createCenterButton];
     }
     return self;
 }
 
-#pragma mark - internal methods
-- (CGAffineTransform) renderTransformFromLogicalTransform:(CGAffineTransform)xform
+- (void) setBackgroundImage:(UIImage *)image
 {
-    return CGAffineTransformRotate(xform, kRenderOffsetFactor * [self sliceWidth]);    
+    [self.backgroundImageView setImage:image];
+}
+
+#pragma mark - internal methods
+- (CGAffineTransform) renderTransformFromLogicalTransform:(CGAffineTransform)xform reverse:(BOOL)reverse
+{
+    float factor = 1.0f;
+    if(reverse)
+    {
+        factor = -1.0f;
+    }
+    return CGAffineTransformRotate(xform, factor * kRenderOffsetFactor * [self sliceWidth]);    
 }
 
 - (float) sliceWidth
@@ -134,9 +149,30 @@ static const float kActivateHeight = 0.1f;
         [self.container addSubview:[curSlice view]];
     }
     
-    self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform];
+    self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform reverse:NO];
     self.container.userInteractionEnabled = NO;
     [self addSubview:[self container]];    
+
+    // setup background-image-view
+    // Note on transform: the wheel rendering transform is offset such that the current selection is upward;
+    // however, we need the background to not offset; thus the reverse transform here;
+    self.backgroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+    [self.backgroundImageView setTransform:[self renderTransformFromLogicalTransform:_logicalTransform reverse:YES]];
+    [self.container addSubview:[self backgroundImageView]];
+}
+
+- (void) createCenterButton
+{
+    self.centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    float containerRadius = _container.bounds.size.width * 0.5f;
+    float centerRadius = containerRadius * kKnobCenterRadiusFrac;
+    CGRect centerRect = CGRectMake(containerRadius - centerRadius, 
+                                   containerRadius - centerRadius, 
+                                   centerRadius * 2.0f, centerRadius);
+    [self.centerButton setFrame:centerRect];
+    [self.centerButton setBackgroundColor:[UIColor clearColor]];
+    [self.centerButton addTarget:self action:@selector(didPressCenterButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:[self centerButton]];
 }
 
 - (float) distFromCenter:(CGPoint)point
@@ -154,7 +190,7 @@ static const float kActivateHeight = 0.1f;
     BOOL beginTracking = YES;
     CGPoint touchPoint = [touch locationInView:self];
     float dist = [self distFromCenter:touchPoint];
-    float minDist = _container.bounds.size.width * 0.5f * 0.7f;
+    float minDist = _container.bounds.size.width * 0.5f * kKnobCenterRadiusFrac;
     float maxDist = _container.bounds.size.width * 0.5f;
     if((minDist <= dist) && (dist <= maxDist))
     {
@@ -217,7 +253,7 @@ static const float kActivateHeight = 0.1f;
     
     // commit changes
     _logicalTransform = newTransform;
-    self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform];
+    self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform reverse:NO];
     self.selectedSlice = newSelectedSlice;
     
     return !shouldEndTracking;
@@ -262,11 +298,17 @@ static const float kActivateHeight = 0.1f;
         [UIView setAnimationDuration:0.2];
         CGAffineTransform t = CGAffineTransformRotate(_logicalTransform, -newVal);
         _logicalTransform = t;
-        self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform];
+        self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform reverse:NO];
         
         // important: levelContentViewsWithItem relies on _absAngle to scale the selected bubble
         [UIView commitAnimations];
     }
+}
+
+#pragma mark - button actions
+- (void) didPressCenterButton:(id)sender
+{
+    NSLog(@"Hello");
 }
 
 

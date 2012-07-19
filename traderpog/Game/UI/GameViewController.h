@@ -19,4 +19,6 @@
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 - (id) initAtCoordinate:(CLLocationCoordinate2D)coord;
+- (void) showKnobAnimated:(BOOL)isAnimated delay:(NSTimeInterval)delay;
+- (void) dismissKnobAnimated:(BOOL)isAnimated;
 @end

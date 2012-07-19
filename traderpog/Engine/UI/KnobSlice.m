@@ -36,7 +36,7 @@
         // create container view
         CGRect viewRect = CGRectMake(0.0f, 0.0f, _radius, 40.0f);
         UIView* newView = [[UIView alloc] initWithFrame:viewRect];
-        newView.backgroundColor = [UIColor grayColor];
+        newView.backgroundColor = [UIColor clearColor];
         newView.layer.anchorPoint = CGPointMake(1.0f, 0.5f);
         
         // view-layer's position is expressed in its super-layer's coordinate system
