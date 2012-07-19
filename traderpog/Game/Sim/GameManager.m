@@ -44,6 +44,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
                     completionBlock:(ModalNavCompletionBlock)completionBlock;
 - (void) locateNewPlayer;
 - (void) registerAllNotificationHandlers;
+- (void) popLoadingScreenIfNecessary:(UINavigationController*)nav;
 @end
 
 @implementation GameManager
@@ -149,6 +150,15 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     [nav popFadeOutToRootViewControllerAnimated:YES];    
 }
 
+- (void) popLoadingScreenIfNecessary:(UINavigationController*)nav
+{
+    NSString* currentViewName = [[nav visibleViewController] nibName];
+    if ([currentViewName compare:@"LoadingScreen"] == NSOrderedSame)
+    {
+        [nav popFadeOutViewControllerAnimated:YES];  
+    }
+}
+
 - (void) selectNextGameUI
 {
     // Get the navigation controller
@@ -166,18 +176,37 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     {
         // show loading screen and load game info from server
         _gameInfoRefreshSucceeded = TRUE;
-        LoadingScreen* loading = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
-        [nav pushFadeInViewController:loading animated:YES];
+        
+        // first check the view on the stack, if the top view is not LoadingScreen,
+        // then push that onto the stack
+        UIViewController* current = [nav visibleViewController];
+        if ([[current nibName] compare:@"LoadingScreen"] != NSOrderedSame)
+        {
+            current = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
+            [nav pushFadeInViewController:current animated:YES];
+        }
+        LoadingScreen* loading = (LoadingScreen*)current;
+        loading.progressLabel.text = @"Loading game info";
         [self loadGameInfo];
     }
     // Current player location has not been determined yet
     else if(![self.playerLocator bestLocation])
     {
+        // Make sure the top viewController is the LoadingScreen, if so then
+        // update the progress text
+        UIViewController* current = [nav visibleViewController];
+        if ([[current nibName] compare:@"LoadingScreen"] == NSOrderedSame)
+        {
+            LoadingScreen* loading = (LoadingScreen*)current;
+            loading.progressLabel.text = @"Determing player location";
+        }        
         [self locateNewPlayer];
     }
     // Player has no posts 
     else if(![[TradePostMgr getInstance] getHomebase])
-    {
+    {        
+        [self popLoadingScreenIfNecessary:nav];
+        
         // proceed to setup of first post
         NSLog(@"Create Homebase");
         self.gameViewController = [[GameViewController alloc] initAtCoordinate:[self.playerLocator bestLocation].coordinate];
@@ -194,6 +223,8 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     // Player account exists + player has a post + player location has been located
     else if(![self gameViewController])
     {
+        [self popLoadingScreenIfNecessary:nav];
+        
         NSLog(@"start game");
     
         self.gameViewController = [[GameViewController alloc] initAtCoordinate:[self.playerLocator bestLocation].coordinate];

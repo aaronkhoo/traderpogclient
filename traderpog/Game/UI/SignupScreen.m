@@ -47,6 +47,7 @@
 {
     // show loading screen and commence new player sequence
     LoadingScreen* loading = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
+    loading.progressLabel.text = @"Creating Account";
     [self.navigationController pushFadeInViewController:loading animated:YES];
 
     // Calling server to create new account
