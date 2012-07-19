@@ -54,6 +54,7 @@
 		C4945B8815AC91B500EEC0C0 /* CLLocation+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B8715AC91B500EEC0C0 /* CLLocation+Pog.m */; };
 		C4945B8B15AC936600EEC0C0 /* HiAccuracyLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B8A15AC936600EEC0C0 /* HiAccuracyLocator.m */; };
 		C4BBE44215B7DD7800F582DE /* startButton.png in Resources */ = {isa = PBXBuildFile; fileRef = C4BBE44115B7DD7800F582DE /* startButton.png */; };
+		C4BBE44915B7E7C600F582DE /* SignupBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = C4BBE44815B7E7C600F582DE /* SignupBackground.png */; };
 		C4D5DDD515B2718100D5A746 /* ConfirmNewPost.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */; };
 		C4D5DDD615B2718100D5A746 /* ConfirmNewPost.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */; };
 		C4D5DDDA15B3155B00D5A746 /* TradeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD915B3155B00D5A746 /* TradeItem.m */; };
@@ -160,6 +161,7 @@
 		C4945B8915AC936600EEC0C0 /* HiAccuracyLocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HiAccuracyLocator.h; sourceTree = "<group>"; };
 		C4945B8A15AC936600EEC0C0 /* HiAccuracyLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HiAccuracyLocator.m; sourceTree = "<group>"; };
 		C4BBE44115B7DD7800F582DE /* startButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = startButton.png; path = assets/UI/startButton.png; sourceTree = SOURCE_ROOT; };
+		C4BBE44815B7E7C600F582DE /* SignupBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SignupBackground.png; path = assets/UI/SignupBackground.png; sourceTree = SOURCE_ROOT; };
 		C4D5DDD215B2718100D5A746 /* ConfirmNewPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmNewPost.h; path = Game/UI/ConfirmNewPost.h; sourceTree = "<group>"; };
 		C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfirmNewPost.m; path = Game/UI/ConfirmNewPost.m; sourceTree = "<group>"; };
 		C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConfirmNewPost.xib; path = Game/UI/ConfirmNewPost.xib; sourceTree = "<group>"; };
@@ -491,6 +493,7 @@
 		C4FA8F4E15B5401000E82A93 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				C4BBE44815B7E7C600F582DE /* SignupBackground.png */,
 				C4BBE44115B7DD7800F582DE /* startButton.png */,
 				C4FA8F5915B54A7200E82A93 /* CreateAccount.png */,
 				C4FA8F5A15B54A7200E82A93 /* FBSignIn.png */,
@@ -567,6 +570,7 @@
 				C4FA8F5B15B54A7200E82A93 /* CreateAccount.png in Resources */,
 				C4FA8F5C15B54A7200E82A93 /* FBSignIn.png in Resources */,
 				C4BBE44215B7DD7800F582DE /* startButton.png in Resources */,
+				C4BBE44915B7E7C600F582DE /* SignupBackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
