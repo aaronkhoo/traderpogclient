@@ -93,10 +93,27 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     // loadGame should be responsible for reloading any data from the server it requires 
     // before the main game sequence starts. 
     
+    // Load player information
+    if ([[Player getInstance] needsRefresh])
+    {
+        [[Player getInstance] getPlayerDataFromServer];
+        _gameInfoRefreshCount++;
+    }
+    
+    // Load item information
     if ([[TradeItemTypes getInstance] needsRefresh])
     {
         [[TradeItemTypes getInstance] retrieveItemsFromServer];   
         _gameInfoRefreshCount++;
+    }
+    
+    // We got to this point and there was nothing to refresh, 
+    // so just call selectNextGameUI to move on
+    if (_gameInfoRefreshCount == 0)
+    {
+        // First indicate that gameInfo has been refreshed
+        _gameInfoRefreshed = TRUE;
+        [self selectNextGameUI];
     }
 }
 
@@ -157,6 +174,14 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     {
         [nav popFadeOutViewControllerAnimated:YES];  
     }
+}
+
+- (void) applicationWillEnterForeground
+{
+    // Reset
+    _gameInfoRefreshed = false;
+    _gameInfoRefreshCount = 0;
+    [self selectNextGameUI];
 }
 
 - (void) selectNextGameUI
@@ -233,6 +258,11 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     }
     else
     {
+        // TODO: Validate this is correct behavior
+        // Right now, pop any loading screens if they are on the stack when 
+        // we come in here. 
+        [self popLoadingScreenIfNecessary:nav];
+        
         // handle in-game states
         switch(_gameState)
         {
@@ -255,17 +285,18 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     // if the refresh is complete. 
     if (_gameInfoRefreshCount > 0)
     {
-        _gameInfoRefreshSucceeded = success;
-        if ([callName compare:kTradeItemTypes_ReceiveItems] == NSOrderedSame)
+        if ([callName compare:kTradeItemTypes_ReceiveItems] == NSOrderedSame ||
+            [callName compare:kPlayer_GetPlayerData] == NSOrderedSame)
         {
             _gameInfoRefreshCount--;
-        }
-        if (_gameInfoRefreshCount == 0)
-        {
-            // If one of the refreshes failed, then treat the refresh process as failed.
-            _gameInfoRefreshed = _gameInfoRefreshSucceeded;
-            // Recall selectNextGameUI
-            [self selectNextGameUI];
+            _gameInfoRefreshSucceeded = _gameInfoRefreshSucceeded && success;
+            if (_gameInfoRefreshCount == 0)
+            {
+                // If one of the refreshes failed, then treat the entire refresh process as failed.
+                _gameInfoRefreshed = _gameInfoRefreshSucceeded;
+                // Recall selectNextGameUI
+                [self selectNextGameUI];
+            }
         }
     }
     else 

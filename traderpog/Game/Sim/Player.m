@@ -17,7 +17,10 @@ static NSString* const kKeySecretkey = @"secretkey";
 static NSString* const kKeyFacebookId = @"fbid";
 static NSString* const kKeyEmail = @"email";
 static NSString* const kKeyBucks = @"bucks";
+static NSString* const kKeyMember = @"member";
 static NSString* const kPlayerFilename = @"player.sav";
+
+static double const refreshTime = -(60 * 15);
 
 @implementation Player
 @synthesize delegate = _delegate;
@@ -43,12 +46,17 @@ static NSString* const kPlayerFilename = @"player.sav";
         _member = FALSE;
         _bucks = 0;
         
-        _dataRefreshed = FALSE;
+        _lastUpdate = nil;
         
         // Initialize delegate
         _delegate = nil;
     }
     return self;
+}
+
+- (BOOL) needsRefresh
+{
+    return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime);
 }
 
 #pragma mark - NSCoding
@@ -127,6 +135,34 @@ static NSString* const kPlayerFilename = @"player.sav";
     [self savePlayerData];
 }
 
+- (void) getPlayerDataFromServer
+{    
+    // make a get request
+    AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
+    NSString* path = [NSString stringWithFormat:@"users/%d.json", _id];
+    [httpClient getPath:path
+              parameters:nil
+                 success:^(AFHTTPRequestOperation *operation, id responseObject){                     
+                     _bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
+                     _email = [responseObject valueForKeyPath:kKeyEmail];
+                     _facebookid = [responseObject valueForKeyPath:kKeyFacebookId];
+                     _member = [[responseObject valueForKeyPath:kKeyMember] boolValue];
+                     _lastUpdate = [NSDate date];
+                     [self.delegate didCompleteHttpCallback:kPlayer_GetPlayerData, TRUE];
+                 }
+                 failure:^(AFHTTPRequestOperation* operation, NSError* error){
+                     UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
+                                                                       message:@"Unable to retrieve player data. Please try again later."
+                                                                      delegate:nil
+                                                             cancelButtonTitle:@"OK"
+                                                             otherButtonTitles:nil];
+                     
+                     [message show];
+                     [self.delegate didCompleteHttpCallback:kPlayer_GetPlayerData, FALSE];
+                 }
+     ];
+}
+
 - (void) createNewPlayerOnServer:(NSString*)facebookid
 {
     // post parameters
@@ -143,7 +179,7 @@ static NSString* const kPlayerFilename = @"player.sav";
                      _id = [[responseObject valueForKeyPath:kKeyUserId] integerValue];
                      _secretkey = [responseObject valueForKeyPath:kKeySecretkey];
                      _bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
-                     _dataRefreshed = TRUE;
+                     _lastUpdate = [NSDate date];
                      NSLog(@"user id is %i", _id);
                      [self savePlayerData];
                      [self.delegate didCompleteHttpCallback:kPlayer_CreateNewUser, TRUE];

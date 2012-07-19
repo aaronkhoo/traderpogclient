@@ -35,6 +35,9 @@ enum kGameStates
 - (void) selectNextGameUI;
 + (NSString*) documentsDirectory;
 
+// system
+- (void) applicationWillEnterForeground;
+
 // singleton
 +(GameManager*) getInstance;
 +(void) destroyInstance;

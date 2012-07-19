@@ -10,6 +10,7 @@
 #import "HttpCallbackDelegate.h"
 
 static NSString* const kPlayer_CreateNewUser = @"CreateNewUser";
+static NSString* const kPlayer_GetPlayerData = @"GetPlayerData";
 
 @interface Player : NSObject<NSCoding>
 {
@@ -24,7 +25,7 @@ static NSString* const kPlayer_CreateNewUser = @"CreateNewUser";
     NSString* _facebookid;
     NSString* _email;
     
-    BOOL _dataRefreshed;
+    NSDate* _lastUpdate;
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
@@ -33,7 +34,9 @@ static NSString* const kPlayer_CreateNewUser = @"CreateNewUser";
 @property (nonatomic) BOOL dataRefreshed;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
+- (BOOL) needsRefresh;
 - (void) createNewPlayerOnServer:(NSString*)facebookid;
+- (void) getPlayerDataFromServer;
 
 // system
 - (void) appDidEnterBackground;
