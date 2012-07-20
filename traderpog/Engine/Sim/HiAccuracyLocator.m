@@ -28,6 +28,7 @@ static NSTimeInterval kLocationUpdateTimeout = 6.0;
 {
     CLLocationManager* _locationManager;
     BOOL        _isLocating;
+    NSDate*     _startTimestamp;
 }
 
 - (void) updatingLocationTimedOut;
@@ -36,6 +37,7 @@ static NSTimeInterval kLocationUpdateTimeout = 6.0;
 
 @implementation HiAccuracyLocator
 @synthesize bestLocation = _bestLocation;
+@synthesize delegate;
 
 - (id) init
 {
@@ -47,6 +49,8 @@ static NSTimeInterval kLocationUpdateTimeout = 6.0;
         _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
         _bestLocation = nil;
         _isLocating = NO;
+        _startTimestamp = [NSDate date];
+        self.delegate = nil;
     }
     return self;
 }
@@ -61,6 +65,8 @@ static NSTimeInterval kLocationUpdateTimeout = 6.0;
         [self performSelector:@selector(updatingLocationTimedOut) withObject:nil afterDelay:kLocationUpdateTimeout];
     }
     [_locationManager startUpdatingLocation];
+    _startTimestamp = [NSDate date];
+    _bestLocation = nil;
     _isLocating = YES;
 }
 
@@ -78,18 +84,39 @@ static NSTimeInterval kLocationUpdateTimeout = 6.0;
         {
             case kStopReasonDesiredAccuracy:
                 [[NSNotificationCenter defaultCenter] postNotificationName:kUserLocated object:self];
+                if([self delegate])
+                {
+                    [self.delegate locator:self didLocateUser:YES];
+                }
                 break;
                 
             case kStopReasonLocationUnknown:
-            case kStopReasonTimedOut:
                 if(nil == [self bestLocation])
                 {
-                    // if timed-out and no location, 
-                    // TODO: show player a list of locations to place their Homebase
-                    // For now, default to Penang
+                    // if timed-out and no location, default the Penang 
                     self.bestLocation = [CLLocation penang];
                 }
                 [[NSNotificationCenter defaultCenter] postNotificationName:kUserLocated object:self];
+                if([self delegate])
+                {
+                    [self.delegate locator:self didLocateUser:NO];
+                }
+                
+            case kStopReasonTimedOut:
+            {
+                BOOL hasRealLocation = YES;
+                if(nil == [self bestLocation])
+                {
+                    // if timed-out and no location, default the Penang 
+                    self.bestLocation = [CLLocation penang];
+                    hasRealLocation = NO;
+                }
+                [[NSNotificationCenter defaultCenter] postNotificationName:kUserLocated object:self];
+                if([self delegate])
+                {
+                    [self.delegate locator:self didLocateUser:hasRealLocation];
+                }
+            }
                 break;
                 
             case kStopReasonDenied:
@@ -121,7 +148,12 @@ static NSTimeInterval kLocationUpdateTimeout = 6.0;
         // test the age of the location measurement to determine if the measurement is cached
         // in most cases you will not want to rely on cached measurements
         NSTimeInterval locationAge = -[newLocation.timestamp timeIntervalSinceNow];
-        if (locationAge <= 5.0)
+        NSTimeInterval bestAge = -[_startTimestamp timeIntervalSinceNow];
+        if([self bestLocation])
+        {
+            bestAge = -[self.bestLocation.timestamp timeIntervalSinceNow];
+        }
+        if (locationAge <= bestAge)
         {
             // test that the horizontal accuracy does not indicate an invalid measurement
             if (newLocation.horizontalAccuracy > 0)
@@ -171,6 +203,10 @@ static NSTimeInterval kLocationUpdateTimeout = 6.0;
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:kUserLocationDenied object:self];
+    if([self delegate])
+    {
+        [self.delegate locator:self didLocateUser:NO];
+    }
 }
 
 

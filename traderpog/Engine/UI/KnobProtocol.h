@@ -10,11 +10,12 @@
 
 @class KnobControl;
 @protocol KnobProtocol <NSObject>
-- (void) wheelDidMoveTo:(unsigned int)index;
-- (void) wheelDidSelect:(unsigned int)index;
+//- (void) wheelDidMoveTo:(unsigned int)index;
+//- (void) wheelDidSelect:(unsigned int)index;
+- (void) didPressKnobCenter;
 @end
 
 @protocol KnobDataSource <NSObject>
-- (unsigned int) numItemsInWheel:(PogKnobControl*)knob;
-- (UIView*) knob:(PogKnobControl*)knob viewAtIndex:(unsigned int)index;
+- (unsigned int) numItemsInWheel:(KnobControl*)knob;
+- (UIView*) knob:(KnobControl*)knob viewAtIndex:(unsigned int)index;
 @end

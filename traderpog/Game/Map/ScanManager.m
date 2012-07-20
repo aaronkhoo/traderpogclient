@@ -18,6 +18,15 @@ enum kScanStates
     kScanStateNum
 };
 
+@interface ScanManager ()
+{
+    ScanCompletionBlock _completion;
+}
+- (void) startLocate;
+- (void) startScan;
+- (void) abortLocateScan;
+@end
+
 @implementation ScanManager
 @synthesize state = _state;
 @synthesize locator = _locator;
@@ -29,8 +38,60 @@ enum kScanStates
     {
         _state = kScanStateIdle;
         _locator = [[HiAccuracyLocator alloc] init];
+        _locator.delegate = self;
+        _completion = nil;
     }
     return self;
+}
+
+- (BOOL) locateAndScanWithCompletion:(ScanCompletionBlock)completion
+{
+    BOOL success = NO;
+    
+    if(kScanStateIdle == [self state])
+    {
+        _completion = completion;
+        [self startLocate];
+    }
+    
+    return success;
+}
+
+#pragma mark - scan state processing
+- (void) startLocate
+{
+    [self.locator startUpdatingLocation];
+    _state = kScanStateLocating;
+}
+
+- (void) startScan
+{
+    // TODO: ask TradePostMgr to scan
+    NSLog(@"scanning...");
+    _state = kScanStateScanning;
+}
+
+- (void) abortLocateScan
+{
+    _state = kScanStateIdle;
+    if(_completion)
+    {
+        _completion(NO);
+    }    
+}
+
+#pragma mark - HiAccuracyLocatorDelegate
+- (void) locator:(HiAccuracyLocator *)locator didLocateUser:(BOOL)didLocateUser
+{
+    if(didLocateUser)
+    {
+        [self startScan];
+    }
+    else 
+    {
+        // location failed
+        [self abortLocateScan];
+    }
 }
 
 #pragma mark - Singleton

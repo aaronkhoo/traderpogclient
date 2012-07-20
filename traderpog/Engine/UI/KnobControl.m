@@ -39,6 +39,7 @@ static const float kKnobCenterRadiusFrac = 0.7f;
 @synthesize selectedSlice = _selectedSlice;
 @synthesize centerButton;
 @synthesize backgroundImageView;
+@synthesize delegate;
 
 - (id)initWithFrame:(CGRect)frame 
           numSlices:(unsigned int)numSlices
@@ -308,7 +309,7 @@ static const float kKnobCenterRadiusFrac = 0.7f;
 #pragma mark - button actions
 - (void) didPressCenterButton:(id)sender
 {
-    NSLog(@"Hello");
+    [self.delegate didPressKnobCenter];
 }
 
 

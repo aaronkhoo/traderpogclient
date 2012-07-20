@@ -7,15 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HiAccuracyLocatorDelegate.h"
+
+typedef void (^ScanCompletionBlock)(BOOL finished);
 
 @class HiAccuracyLocator;
-@interface ScanManager : NSObject
+@interface ScanManager : NSObject<HiAccuracyLocatorDelegate>
 {
     unsigned int _state;
     HiAccuracyLocator* _locator;
 }
 @property (nonatomic) unsigned int state;
 @property (nonatomic,readonly) HiAccuracyLocator* locator;
+
+- (BOOL) locateAndScanWithCompletion:(ScanCompletionBlock)completion;
 
 // singleton
 +(ScanManager*) getInstance;

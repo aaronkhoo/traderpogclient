@@ -81,6 +81,7 @@ static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
     self.knob = [[KnobControl alloc] initWithFrame:knobFrame numSlices:4];
     [self.knob setBackgroundImage:[UIImage imageNamed:@"startButton.png"]];
     [self.view addSubview:[self knob]];
+    [self.knob setDelegate:self];
     
     float buttonHeight = kKnobShowButtonHeightFrac * viewFrame.size.height;
     CGRect buttonRect = CGRectMake(knobFrame.origin.x, (viewFrame.size.height - buttonHeight), 
@@ -151,5 +152,10 @@ static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
     [self showKnobAnimated:YES delay:0.0f];
 }
 
+#pragma mark - KnobProtocol
+- (void) didPressKnobCenter
+{
+    NSLog(@"hello");
+}
 
 @end

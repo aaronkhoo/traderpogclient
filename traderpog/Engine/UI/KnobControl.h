@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "KnobProtocol.h"
 
 @interface KnobControl : UIControl
 {
@@ -21,6 +22,7 @@
 @property (nonatomic,strong) NSMutableArray* slices;
 @property (nonatomic,assign) unsigned int selectedSlice;
 @property (nonatomic,strong) UIButton* centerButton;
+@property (nonatomic,weak) NSObject<KnobProtocol>* delegate;
 
 - (id)initWithFrame:(CGRect)frame 
           numSlices:(unsigned int)numSlices;

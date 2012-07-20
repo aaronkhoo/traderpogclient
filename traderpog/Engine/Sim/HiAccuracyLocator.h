@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
-
+#import "HiAccuracyLocatorDelegate.h"
 extern NSString* const kUserLocated;
 extern NSString* const kUserLocationDenied;
 
@@ -16,8 +16,9 @@ extern NSString* const kUserLocationDenied;
 {
     CLLocation* _bestLocation;
 }
-@property (nonatomic,retain) CLLocation* bestLocation;
-
+@property (nonatomic,strong) CLLocation* bestLocation;
+@property (nonatomic,weak) NSObject<HiAccuracyLocatorDelegate>* delegate;
+           
 - (void) startUpdatingLocation;
 
 @end
