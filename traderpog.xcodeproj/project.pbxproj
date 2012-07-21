@@ -58,6 +58,10 @@
 		C4BBE45115B92B7600F582DE /* ScanManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE45015B92B7600F582DE /* ScanManager.m */; };
 		C4BBE45315B9A51D00F582DE /* startButton_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = C4BBE45215B9A51D00F582DE /* startButton_shadow.png */; };
 		C4BBE45715BA741C00F582DE /* MathUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE45515BA741C00F582DE /* MathUtils.c */; };
+		C4BBE45A15BA93B800F582DE /* TradePostCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE45915BA93B800F582DE /* TradePostCallout.m */; };
+		C4BBE45E15BA99B500F582DE /* TradePostCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE45C15BA99B500F582DE /* TradePostCalloutView.m */; };
+		C4BBE45F15BA99B500F582DE /* TradePostCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4BBE45D15BA99B500F582DE /* TradePostCalloutView.xib */; };
+		C4BBE46215BA9A8600F582DE /* CalloutAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE46115BA9A8600F582DE /* CalloutAnnotationView.m */; };
 		C4D5DDD515B2718100D5A746 /* ConfirmNewPost.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */; };
 		C4D5DDD615B2718100D5A746 /* ConfirmNewPost.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */; };
 		C4D5DDDA15B3155B00D5A746 /* TradeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD915B3155B00D5A746 /* TradeItem.m */; };
@@ -171,6 +175,13 @@
 		C4BBE45415B9A9EF00F582DE /* HiAccuracyLocatorDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HiAccuracyLocatorDelegate.h; sourceTree = "<group>"; };
 		C4BBE45515BA741C00F582DE /* MathUtils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MathUtils.c; sourceTree = "<group>"; };
 		C4BBE45615BA741C00F582DE /* MathUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathUtils.h; sourceTree = "<group>"; };
+		C4BBE45815BA93B800F582DE /* TradePostCallout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradePostCallout.h; path = Game/Map/TradePostCallout.h; sourceTree = "<group>"; };
+		C4BBE45915BA93B800F582DE /* TradePostCallout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradePostCallout.m; path = Game/Map/TradePostCallout.m; sourceTree = "<group>"; };
+		C4BBE45B15BA99B500F582DE /* TradePostCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradePostCalloutView.h; path = Game/Map/TradePostCalloutView.h; sourceTree = "<group>"; };
+		C4BBE45C15BA99B500F582DE /* TradePostCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradePostCalloutView.m; path = Game/Map/TradePostCalloutView.m; sourceTree = "<group>"; };
+		C4BBE45D15BA99B500F582DE /* TradePostCalloutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TradePostCalloutView.xib; path = Game/Map/TradePostCalloutView.xib; sourceTree = "<group>"; };
+		C4BBE46015BA9A8600F582DE /* CalloutAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalloutAnnotationView.h; path = Map/CalloutAnnotationView.h; sourceTree = "<group>"; };
+		C4BBE46115BA9A8600F582DE /* CalloutAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalloutAnnotationView.m; path = Map/CalloutAnnotationView.m; sourceTree = "<group>"; };
 		C4D5DDD215B2718100D5A746 /* ConfirmNewPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmNewPost.h; path = Game/UI/ConfirmNewPost.h; sourceTree = "<group>"; };
 		C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfirmNewPost.m; path = Game/UI/ConfirmNewPost.m; sourceTree = "<group>"; };
 		C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConfirmNewPost.xib; path = Game/UI/ConfirmNewPost.xib; sourceTree = "<group>"; };
@@ -363,6 +374,11 @@
 				C4D5DDE915B3CF0800D5A746 /* TradePostAnnotationView.m */,
 				C4BBE44F15B92B7600F582DE /* ScanManager.h */,
 				C4BBE45015B92B7600F582DE /* ScanManager.m */,
+				C4BBE45815BA93B800F582DE /* TradePostCallout.h */,
+				C4BBE45915BA93B800F582DE /* TradePostCallout.m */,
+				C4BBE45B15BA99B500F582DE /* TradePostCalloutView.h */,
+				C4BBE45C15BA99B500F582DE /* TradePostCalloutView.m */,
+				C4BBE45D15BA99B500F582DE /* TradePostCalloutView.xib */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -370,6 +386,8 @@
 		C4D5DDDF15B398BE00D5A746 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				C4BBE46015BA9A8600F582DE /* CalloutAnnotationView.h */,
+				C4BBE46115BA9A8600F582DE /* CalloutAnnotationView.m */,
 				C4D5DDE015B3B34A00D5A746 /* MapProtocols.h */,
 			);
 			name = Map;
@@ -587,6 +605,7 @@
 				C4BBE44215B7DD7800F582DE /* startButton.png in Resources */,
 				C4BBE44915B7E7C600F582DE /* SignupBackground.png in Resources */,
 				C4BBE45315B9A51D00F582DE /* startButton_shadow.png in Resources */,
+				C4BBE45F15BA99B500F582DE /* TradePostCalloutView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -641,6 +660,9 @@
 				387BF59115B519F100972DC0 /* TradeItemTypes.m in Sources */,
 				C4BBE45115B92B7600F582DE /* ScanManager.m in Sources */,
 				C4BBE45715BA741C00F582DE /* MathUtils.c in Sources */,
+				C4BBE45A15BA93B800F582DE /* TradePostCallout.m in Sources */,
+				C4BBE45E15BA99B500F582DE /* TradePostCalloutView.m in Sources */,
+				C4BBE46215BA9A8600F582DE /* CalloutAnnotationView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
