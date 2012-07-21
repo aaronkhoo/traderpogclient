@@ -9,6 +9,7 @@
 #import "GameViewController.h"
 #import "MapControl.h"
 #import "KnobControl.h"
+#import "ScanManager.h"
 
 @interface GameViewController ()
 {
@@ -21,6 +22,7 @@
 - (void) initKnob;
 - (void) shutdownKnob;
 - (void) didPressShowKnob:(id)sender;
+- (void) handleScanResultTradePosts:(NSArray*)tradePosts;
 @end
 
 @implementation GameViewController
@@ -59,6 +61,16 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - trade posts
+- (void) handleScanResultTradePosts:(NSArray *)tradePosts
+{
+    // add annotations
+    for(TradePost* cur in tradePosts)
+    {
+        [self.mapControl addAnnotationForTradePost:cur];
+    }
 }
 
 #pragma mark - HUD UI controls
@@ -155,7 +167,13 @@ static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
 #pragma mark - KnobProtocol
 - (void) didPressKnobCenter
 {
-    NSLog(@"hello");
+    [[ScanManager getInstance] locateAndScanInMap:[self mapView] 
+                                       completion:^(BOOL finished, NSArray* tradePosts){
+                                           if(finished)
+                                           {
+                                               [self handleScanResultTradePosts:tradePosts];
+                                           }
+                                       }];
 }
 
 @end

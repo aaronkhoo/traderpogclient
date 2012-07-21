@@ -13,6 +13,7 @@
 #import "TradePostMgr.h"
 #import "TradeItemTypes.h"
 #import "Player.h"
+#import "ScanManager.h"
 
 @interface AppDelegate()
 {
@@ -99,6 +100,7 @@
     [TradeItemTypes getInstance];
     [TradePostMgr getInstance];
     [GameManager getInstance];
+    [ScanManager getInstance];
     
     // Setting up the HTTP callback delegates
     [[Player getInstance] setDelegate:[GameManager getInstance]];
@@ -110,6 +112,7 @@
 
 - (void) appShutdown
 {
+    [ScanManager destroyInstance];
     [GameManager destroyInstance];
     [TradePostMgr destroyInstance];
     [TradeItemTypes destroyInstance];

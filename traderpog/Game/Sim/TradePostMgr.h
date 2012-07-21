@@ -13,12 +13,14 @@
 @class TradeItemType;
 @interface TradePostMgr : NSObject
 
+- (TradePost*) newNPCTradePostAtCoord:(CLLocationCoordinate2D)coord
+                          sellingItem:(TradeItemType*)itemType;
 - (TradePost*) newTradePostAtCoord:(CLLocationCoordinate2D)coord 
                        sellingItem:(TradeItemType*)itemType
                         isHomebase:(BOOL)isHomebase;
 - (TradePost*) getTradePostWithId:(NSString*)postId;
 - (TradePost*) getHomebase;
-
+- (NSArray*) getTradePostsAtCoord:(CLLocationCoordinate2D)coord radius:(float)radius;
 
 // singleton
 +(TradePostMgr*) getInstance;

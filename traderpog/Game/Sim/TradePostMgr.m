@@ -14,6 +14,9 @@
 @interface TradePostMgr ()
 {
     NSMutableDictionary* _activePosts;
+    
+    // for NPC posts generation
+    unsigned int _npcPostIndex;
 }
 @property (nonatomic) NSMutableDictionary* activePosts;
 
@@ -29,8 +32,19 @@
     if(self)
     {
         _activePosts = [NSMutableDictionary dictionaryWithCapacity:10];
+        _npcPostIndex = 0;
     }
     return self;
+}
+
+- (TradePost*) newNPCTradePostAtCoord:(CLLocationCoordinate2D)coord
+                          sellingItem:(TradeItemType*)itemType
+{
+    NSString* postId = [NSString stringWithFormat:@"NPCPost%d", _npcPostIndex];
+    ++_npcPostIndex;
+    TradePost* newPost = [[TradePost alloc] initWithPostId:postId coordinate:coord itemType:itemType];
+    [self.activePosts setObject:newPost forKey:postId];
+    return newPost;
 }
 
 - (TradePost*) newTradePostAtCoord:(CLLocationCoordinate2D)coord 
@@ -64,6 +78,17 @@
             break;
         }
     }
+    return result;
+}
+
+- (NSArray*) getTradePostsAtCoord:(CLLocationCoordinate2D)coord radius:(float)radius
+{
+    NSArray* result = nil;
+    
+    // HACK
+    // TODO: implement query from server
+    // HACK
+    
     return result;
 }
 
