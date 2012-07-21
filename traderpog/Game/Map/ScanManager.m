@@ -102,7 +102,7 @@ static const unsigned int kScanNumPosts = 3;
     _state = kScanStateScanning;
     
     // retrieve existing posts
-    NSMutableArray* posts = [NSMutableArray arrayWithArray:[[TradePostMgr getInstance] getTradePostsAtCoord:scanCoord radius:kScanRadius]];
+    NSMutableArray* posts = [[TradePostMgr getInstance] getTradePostsAtCoord:scanCoord radius:kScanRadius maxNum:kScanNumPosts];
     
     // generate new locations we there isn't enough existing posts
     if([posts count] < kScanNumPosts)
@@ -135,6 +135,7 @@ static const unsigned int kScanNumPosts = 3;
     // complete scan
     if(_completion)
     {
+        NSLog(@"done");
         self.mapView = nil;
         _completion(YES, posts);
     }

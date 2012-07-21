@@ -20,7 +20,9 @@
                         isHomebase:(BOOL)isHomebase;
 - (TradePost*) getTradePostWithId:(NSString*)postId;
 - (TradePost*) getHomebase;
-- (NSArray*) getTradePostsAtCoord:(CLLocationCoordinate2D)coord radius:(float)radius;
+- (NSMutableArray*) getTradePostsAtCoord:(CLLocationCoordinate2D)coord 
+                           radius:(float)radius 
+                           maxNum:(unsigned int)maxNum;
 
 // singleton
 +(TradePostMgr*) getInstance;

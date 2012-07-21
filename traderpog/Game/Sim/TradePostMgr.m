@@ -14,17 +14,21 @@
 @interface TradePostMgr ()
 {
     NSMutableDictionary* _activePosts;
+    NSMutableDictionary* _npcPosts;
     
     // for NPC posts generation
     unsigned int _npcPostIndex;
 }
-@property (nonatomic) NSMutableDictionary* activePosts;
+@property (nonatomic,strong) NSMutableDictionary* activePosts;
+@property (nonatomic,strong) NSMutableDictionary* npcPosts;
 
+- (BOOL) post:(TradePost*)post isWithinDistance:(float)distance fromCoord:(CLLocationCoordinate2D)coord;
 - (void) loadTradePosts;
 @end
 
 @implementation TradePostMgr
 @synthesize activePosts = _activePosts;
+@synthesize npcPosts = _npcPosts;
 
 - (id) init
 {
@@ -32,6 +36,7 @@
     if(self)
     {
         _activePosts = [NSMutableDictionary dictionaryWithCapacity:10];
+        _npcPosts = [NSMutableDictionary dictionaryWithCapacity:10];
         _npcPostIndex = 0;
     }
     return self;
@@ -43,7 +48,7 @@
     NSString* postId = [NSString stringWithFormat:@"NPCPost%d", _npcPostIndex];
     ++_npcPostIndex;
     TradePost* newPost = [[TradePost alloc] initWithPostId:postId coordinate:coord itemType:itemType];
-    [self.activePosts setObject:newPost forKey:postId];
+    [self.npcPosts setObject:newPost forKey:postId];
     return newPost;
 }
 
@@ -81,18 +86,65 @@
     return result;
 }
 
-- (NSArray*) getTradePostsAtCoord:(CLLocationCoordinate2D)coord radius:(float)radius
+- (NSMutableArray*) getTradePostsAtCoord:(CLLocationCoordinate2D)coord 
+                           radius:(float)radius 
+                           maxNum:(unsigned int)maxNum
 {
-    NSArray* result = nil;
+    NSMutableArray* result = [NSMutableArray arrayWithCapacity:5];
     
     // HACK
     // TODO: implement query from server
     // HACK
     
+    // query active posts
+    unsigned int num = 0;
+    for(TradePost* cur in self.activePosts.allValues)
+    {
+        if((![cur isHomebase]) &&
+           [self post:cur isWithinDistance:radius fromCoord:coord])
+        {
+            [result addObject:cur];
+            ++num;
+            if(num >= maxNum)
+            {
+                break;
+            }
+        }
+    }
+    
+    // query npc posts
+    for(TradePost* cur in self.npcPosts.allValues)
+    {
+        if([self post:cur isWithinDistance:radius fromCoord:coord])
+        {
+            [result addObject:cur];
+            ++num;
+            if(num >= maxNum)
+            {
+                break;
+            }
+        }        
+    }
+    
     return result;
 }
 
 #pragma mark - internal methods
+- (BOOL) post:(TradePost*)post isWithinDistance:(float)distance fromCoord:(CLLocationCoordinate2D)coord
+{
+    BOOL result = NO;
+    
+    CLLocation* center = [[CLLocation alloc] initWithLatitude:coord.latitude longitude:coord.longitude];
+    CLLocation* postLoc = [[CLLocation alloc] initWithLatitude:post.coord.latitude longitude:post.coord.longitude];
+    CLLocationDistance dist = [postLoc distanceFromLocation:center];
+    if(dist <= distance)
+    {
+        result = YES;
+    }
+    
+    return result;
+}
+
 - (void) loadTradePosts
 {
     // HACK

@@ -31,8 +31,11 @@ static const NSUInteger kDefaultZoomLevel = 15;
 #pragma mark - annotations
 - (void) addAnnotationForTradePost:(TradePost *)tradePost
 {
-    TradePostAnnotation* annotation = [[TradePostAnnotation alloc] initWithTradePost:tradePost];
-    [self.view addAnnotation:annotation];
+    if(![tradePost annotation])
+    {
+        TradePostAnnotation* annotation = [[TradePostAnnotation alloc] initWithTradePost:tradePost];
+        [self.view addAnnotation:annotation];
+    }
 }
 
 #pragma mark MKMapViewDelegate

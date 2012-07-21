@@ -19,8 +19,14 @@
     if(self)
     {
         _tradePost = tradePost;
+        tradePost.annotation = self;
     }
     return self;
+}
+
+- (void) dealloc
+{
+    self.tradePost.annotation = nil;
 }
 
 #pragma mark - MKAnnotation delegate

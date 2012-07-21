@@ -20,6 +20,7 @@ static NSString* const kKeyHomebaseBool = @"homebaseBool";
 @synthesize coord = _coord;
 @synthesize itemId = _itemId;
 @synthesize isHomebase = _isHomebase;
+@synthesize annotation = _annotation;
 
 - (id) initWithPostId:(NSString*)postId
            coordinate:(CLLocationCoordinate2D)coordinate 
@@ -32,6 +33,7 @@ static NSString* const kKeyHomebaseBool = @"homebaseBool";
         _coord = coordinate;
         _itemId = [itemType itemId];
         _isHomebase = NO;
+        _annotation = nil;
     }
     return self;
 }
@@ -54,6 +56,8 @@ static NSString* const kKeyHomebaseBool = @"homebaseBool";
     self.itemId = [aDecoder decodeObjectForKey:kKeyItem];
     self.isHomebase = [aDecoder decodeBoolForKey:kKeyHomebaseBool];
     
+    // this will be set later when the Posts get added to the map on world restore
+    self.annotation = nil;
     return self;
 }
 
