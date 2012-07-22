@@ -332,10 +332,8 @@
 
 - (void)setContentView:(UIView *)newContentView
 {
-    UIView* oldView = _contentView;
+    [_contentView removeFromSuperview];
     _contentView = newContentView;
-
-    [oldView removeFromSuperview];
     
     [self addSubview:newContentView];
     newContentView.transform = CGAffineTransformMakeTranslation(7 + CalloutMapAnnotationViewInset, 7 +CalloutMapAnnotationViewInset);
