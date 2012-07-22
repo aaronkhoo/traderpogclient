@@ -15,6 +15,8 @@
 @synthesize curPostId = _curPostId;
 @synthesize nextPostId = _nextPostId;
 @synthesize flightPathRender = _flightPathRender;
+@synthesize annotation = _annotation;
+@synthesize coord = _coord;
 
 - (id) initAtPost:(TradePost*)tradePost
 {
@@ -24,6 +26,8 @@
         _curPostId = [tradePost postId];
         _nextPostId = nil;
         _flightPathRender = nil;
+        _annotation = nil;
+        _coord = [tradePost coord];
     }
     return self;
 }

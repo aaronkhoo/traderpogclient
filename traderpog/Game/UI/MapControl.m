@@ -12,6 +12,8 @@
 #import "TradePostAnnotation.h"
 #import "FlightPathOverlay.h"
 #import "FlightPathView.h"
+#import "Flyer.h"
+#import "FlyerAnnotation.h"
 
 static const NSUInteger kDefaultZoomLevel = 15;
 
@@ -36,6 +38,15 @@ static const NSUInteger kDefaultZoomLevel = 15;
     if(![tradePost annotation])
     {
         TradePostAnnotation* annotation = [[TradePostAnnotation alloc] initWithTradePost:tradePost];
+        [self.view addAnnotation:annotation];
+    }
+}
+
+- (void) addAnnotationForFlyer:(Flyer *)flyer
+{
+    if(![flyer annotation])
+    {
+        FlyerAnnotation* annotation = [[FlyerAnnotation alloc] initWithFlyer:flyer];
         [self.view addAnnotation:annotation];
     }
 }
@@ -73,6 +84,15 @@ static const NSUInteger kDefaultZoomLevel = 15;
 
 - (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
 {
+    for(MKAnnotationView* cur in views) 
+    {
+        if([[cur annotation] isKindOfClass:[FlyerAnnotation class]])
+        {
+            // from Flyer annotation to the front
+            [[cur superview] bringSubviewToFront:cur];
+            break;
+        }
+    }
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation

@@ -292,6 +292,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     
     // add rendering
     [self.gameViewController.mapView addOverlay:[flyer flightPathRender]];
+    [self.gameViewController.mapControl addAnnotationForFlyer:flyer];
 }
 
 #pragma mark - HttpCallbackDelegate

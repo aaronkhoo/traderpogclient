@@ -14,9 +14,11 @@
 #import <MapKit/MapKit.h>
 
 @class TradePost;
+@class Flyer;
 @interface MapControl : NSObject<MKMapViewDelegate>
 @property (nonatomic,strong) MKMapView* view;
 
 - (id) initWithMapView:(MKMapView*)mapView andCenter:(CLLocationCoordinate2D)initCoord;
 - (void) addAnnotationForTradePost:(TradePost*)tradePost;
+- (void) addAnnotationForFlyer:(Flyer*)flyer;
 @end
