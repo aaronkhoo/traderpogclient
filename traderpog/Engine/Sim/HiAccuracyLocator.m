@@ -156,8 +156,6 @@ static NSTimeInterval kLocationUpdateTimeout = 6.0;
             bestAge = -[self.bestLocation.timestamp timeIntervalSinceNow];
         }
         
-        NSLog(@"locationAge %lf; bestAge %lf", locationAge, bestAge);
-        
         if (locationAge <= bestAge)
         {
             // test that the horizontal accuracy does not indicate an invalid measurement
@@ -171,13 +169,9 @@ static NSTimeInterval kLocationUpdateTimeout = 6.0;
                     // store best location
                     self.bestLocation = newLocation;
 
-                    NSLog(@"stored best location");
-
                     // test the measurement to see if it meets the desired accuracy
                     if (newLocation.horizontalAccuracy <= _locationManager.desiredAccuracy) 
                     {
-                        NSLog(@"desired accuracy met");
-
                         // we can also cancel our previous performSelector:withObject:afterDelay: - it's no longer necessary
                         [NSObject cancelPreviousPerformRequestsWithTarget:self 
                                                                  selector:@selector(updatingLocationTimedOut) 

@@ -84,7 +84,6 @@ static const float kFlyerDefaultSpeedMetersPerSec = 100.0f;
         float angle = [MKMapView angleBetweenCoordinateA:[self srcCoord] coordinateB:[self destCoord]];
         angle += M_PI_2;
         _transform = CGAffineTransformMakeRotation(angle);
-        NSLog(@"depart angle %f", angle);
     }
 }
 
