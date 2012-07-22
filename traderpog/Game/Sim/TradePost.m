@@ -8,6 +8,7 @@
 
 #import "TradePost.h"
 #import "TradeItemType.h"
+#import "TradePostAnnotation.h"
 
 static NSString* const kKeyPostId = @"postId";
 static NSString* const kKeyLong = @"longitude";
@@ -17,7 +18,6 @@ static NSString* const kKeyHomebaseBool = @"homebaseBool";
 
 @implementation TradePost
 @synthesize postId = _postId;
-@synthesize coord = _coord;
 @synthesize itemId = _itemId;
 @synthesize isHomebase = _isHomebase;
 @synthesize annotation = _annotation;
@@ -36,6 +36,21 @@ static NSString* const kKeyHomebaseBool = @"homebaseBool";
         _annotation = nil;
     }
     return self;
+}
+
+#pragma mark - getters/setters
+- (CLLocationCoordinate2D) coord
+{
+    return _coord;
+}
+
+- (void) setCoord:(CLLocationCoordinate2D)coord
+{
+    _coord = coord;
+    if([self annotation])
+    {
+        [self.annotation setCoordinate:coord];
+    }
 }
 
 #pragma mark - NSCoding

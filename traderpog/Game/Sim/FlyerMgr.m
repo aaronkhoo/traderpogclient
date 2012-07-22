@@ -39,6 +39,13 @@
     // HACK
 }
 
+- (void) updateFlyersAtDate:(NSDate *)currentTime
+{
+    for(Flyer* cur in _playerFlyers)
+    {
+        [cur updateAtDate:currentTime];
+    }
+}
 
 
 #pragma mark - Singleton

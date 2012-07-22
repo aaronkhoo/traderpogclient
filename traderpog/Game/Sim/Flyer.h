@@ -14,14 +14,16 @@
 @class FlyerAnnotation;
 @interface Flyer : NSObject
 {
+    float     _flightSpeed;
     NSString* _curPostId;
     NSString* _nextPostId;
-    FlightPathOverlay* _flightPathRender;
 
     // transient variables (not saved; reconstructed after load)
     __weak FlyerAnnotation* _annotation;
     CLLocationCoordinate2D _coord;
+    FlightPathOverlay* _flightPathRender;
 }
+@property (nonatomic) float flightSpeed;
 @property (nonatomic,strong) NSString* curPostId;
 @property (nonatomic,strong) NSString* nextPostId;
 @property (nonatomic,strong) FlightPathOverlay* flightPathRender;
@@ -30,4 +32,6 @@
 
 - (id) initAtPost:(TradePost*)tradePost;
 - (void) departForPostId:(NSString*)postId;
+- (void) updateAtDate:(NSDate*)currentTime;
+
 @end

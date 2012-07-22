@@ -10,8 +10,16 @@
 #import "Flyer.h"
 #import "FlyerAnnotationView.h"
 
+@interface FlyerAnnotation ()
+{
+    CLLocationCoordinate2D _coord;
+}
+@property (nonatomic) CLLocationCoordinate2D coord;
+@end
+
 @implementation FlyerAnnotation
 @synthesize flyer = _flyer;
+@synthesize coord = _coord;
 
 - (id) initWithFlyer:(Flyer *)flyer
 {
@@ -19,6 +27,7 @@
     if(self)
     {
         _flyer = flyer;
+        _coord = [flyer coord];
         flyer.annotation = self;
     }
     return self;
@@ -32,7 +41,30 @@
 #pragma mark - MKAnnotation delegate
 - (CLLocationCoordinate2D) coordinate
 {
-    return [self.flyer coord];
+    return [self coord];
+}
+
+- (void) setCoordinate:(CLLocationCoordinate2D)newCoordinate
+{
+    self.coord = newCoordinate;
+    /*
+    self.curLocation = [[[CLLocation alloc] initWithLatitude:newCoordinate.latitude longitude:newCoordinate.longitude] autorelease];
+    if(_flyerAnnotView)
+    {
+        // mapView can decide to throw annotation-views into its reuse queue any time
+        // so, if the view we have retained no longer belongs to us, clear it
+        if(_flyerAnnotView && ([_flyerAnnotView annotation] != self))
+        {
+            NSLog(@"coordinate: flyer annotation recycled %@ (%@, %@)", _name, self, [_flyerAnnotView annotation]);
+            [_flyerAnnotView release];
+            _flyerAnnotView = nil;
+        }
+        else
+        {
+            [_flyerAnnotView setAnnotation:self];
+        }
+    }
+     */
 }
 
 #pragma mark - MapAnnotationProtocol

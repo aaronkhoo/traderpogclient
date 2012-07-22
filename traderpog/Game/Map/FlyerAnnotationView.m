@@ -35,12 +35,8 @@ NSString* const kFlyerAnnotationViewReuseId = @"FlyerAnnotationView";
         self.opaque = NO;
         
         // annotation-view anchor is at the center of the view;
-        // so, shift the image so that its bottom is at the coordinate
         UIView* contentView = [[UIView alloc] initWithFrame:myFrame];
         UIImageView* imageView = [[UIImageView alloc] initWithImage:resizedImage];
-        [imageView setFrame:CGRectMake(myFrame.origin.x, 
-                                       myFrame.origin.y-(resizeRect.size.height/4.0f), 
-                                       resizeRect.size.width, resizeRect.size.height)];
         [contentView addSubview:imageView];
         
         [self addSubview:contentView];

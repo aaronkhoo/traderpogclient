@@ -10,8 +10,16 @@
 #import "TradePost.h"
 #import "TradePostAnnotationView.h"
 
+@interface TradePostAnnotation ()
+{
+    CLLocationCoordinate2D _coord;    
+}
+@property (nonatomic) CLLocationCoordinate2D coord;
+@end
+
 @implementation TradePostAnnotation
 @synthesize tradePost = _tradePost;
+@synthesize coord = _coord;
 
 - (id) initWithTradePost:(TradePost *)tradePost
 {
@@ -19,6 +27,7 @@
     if(self)
     {
         _tradePost = tradePost;
+        _coord = [tradePost coord];
         tradePost.annotation = self;
     }
     return self;
@@ -32,7 +41,12 @@
 #pragma mark - MKAnnotation delegate
 - (CLLocationCoordinate2D) coordinate
 {
-    return [self.tradePost coord];
+    return [self coord];
+}
+
+- (void) setCoordinate:(CLLocationCoordinate2D)newCoordinate
+{
+    self.coord = newCoordinate;
 }
 
 #pragma mark - MapAnnotationProtocol

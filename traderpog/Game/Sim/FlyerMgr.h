@@ -18,6 +18,7 @@
 
 - (Flyer*) newPlayerFlyerAtTradePost:(TradePost*)tradePost;
 - (void) loadFlyersFromServer;
+- (void) updateFlyersAtDate:(NSDate*)currentTime;
 
 // singleton
 +(FlyerMgr*) getInstance;
