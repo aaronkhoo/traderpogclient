@@ -32,4 +32,24 @@
     CLLocationCoordinate2D midCoord = MKCoordinateForMapPoint(midPoint);
     return midCoord;
 }
+
++ (float) angleBetweenCoordinateA:(CLLocationCoordinate2D)coordA coordinateB:(CLLocationCoordinate2D)coordB
+{
+    float angle = 0.0f;
+    MKMapPoint pointA = MKMapPointForCoordinate(coordA);
+    MKMapPoint pointB = MKMapPointForCoordinate(coordB);
+    
+    MKMapPoint routeVec = MKMapPointMake(pointB.x - pointA.x, pointB.y - pointA.y);
+    double magnitude = sqrt(routeVec.x * routeVec.x + routeVec.y * routeVec.y);
+    routeVec.x /= magnitude;
+    routeVec.y /= magnitude;
+    
+    // MKMapPoint x-positive points to the right and y-positive points down
+    // this is the same as CGAffineTransform, which is zero-angle at x-positive,
+    // and positive angle is clockwise
+    angle = atan2(routeVec.y, routeVec.x);
+    
+    return angle;
+}
+
 @end

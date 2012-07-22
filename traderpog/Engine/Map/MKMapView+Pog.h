@@ -11,4 +11,5 @@
 @interface MKMapView (Pog)
 + (MKMapRect) boundingRectForCoordinateA:(CLLocationCoordinate2D)coordA coordinateB:(CLLocationCoordinate2D)coordB;
 + (CLLocationCoordinate2D) centerBetweenCoordinateA:(CLLocationCoordinate2D)coordA coordinateB:(CLLocationCoordinate2D)coordB;
++ (float) angleBetweenCoordinateA:(CLLocationCoordinate2D)coordA coordinateB:(CLLocationCoordinate2D)coordB;
 @end

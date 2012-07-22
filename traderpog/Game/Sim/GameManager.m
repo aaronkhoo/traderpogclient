@@ -253,8 +253,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     else if(![[[FlyerMgr getInstance] playerFlyers] count])
     {
         // create player's first flyer
-        Flyer* flyer = [[FlyerMgr getInstance] newPlayerFlyerAtTradePost:[[TradePostMgr getInstance] getHomebase]];
-        [self.gameViewController.mapControl addAnnotationForFlyer:flyer];
+        [[FlyerMgr getInstance] newPlayerFlyerAtTradePost:[[TradePostMgr getInstance] getHomebase]];
     }
     else if(![self gameViewController])
     {
@@ -291,11 +290,13 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 {
     // remove old rendering
     [self.gameViewController.mapControl dismissFlightPathForFlyer:flyer];
+    [self.gameViewController.mapControl dismissAnnotationForFlyer:flyer];
     
     [flyer departForPostId:[tradePost postId]];
     
     // add rendering
     [self.gameViewController.mapControl showFlightPathForFlyer:flyer];
+    [self.gameViewController.mapControl addAnnotationForFlyer:flyer];
 }
 
 #pragma mark - HttpCallbackDelegate

@@ -48,6 +48,16 @@ static const NSUInteger kDefaultZoomLevel = 15;
     {
         FlyerAnnotation* annotation = [[FlyerAnnotation alloc] initWithFlyer:flyer];
         [self.view addAnnotation:annotation];
+        flyer.annotation = annotation;
+    }
+}
+
+- (void) dismissAnnotationForFlyer:(Flyer *)flyer
+{
+    if([flyer annotation])
+    {
+        [self.view removeAnnotation:[flyer annotation]];
+        flyer.annotation = nil;
     }
 }
 

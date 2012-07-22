@@ -12,6 +12,7 @@
 #import "FlyerAnnotation.h"
 #import "TradePostMgr.h"
 #import "PogUIUtility.h"
+#import "MKMapView+Pog.h"
 
 static const float kFlyerDefaultSpeedMetersPerSec = 100.0f;
 
@@ -43,6 +44,7 @@ static const float kFlyerDefaultSpeedMetersPerSec = 100.0f;
 @synthesize departureDate = _departureDate;
 @synthesize srcCoord = _srcCoord;
 @synthesize destCoord = _destCoord;
+@synthesize transform = _transform;
 
 - (id) initAtPost:(TradePost*)tradePost
 {
@@ -59,6 +61,7 @@ static const float kFlyerDefaultSpeedMetersPerSec = 100.0f;
         _srcCoord = _coord;
         _destCoord = _coord;
         _metersToDest = 0.0;
+        _transform = CGAffineTransformIdentity;
     }
     return self;
 }
@@ -76,6 +79,12 @@ static const float kFlyerDefaultSpeedMetersPerSec = 100.0f;
         self.srcCoord = [[[TradePostMgr getInstance] getTradePostWithId:[self curPostId]] coord];
         self.destCoord = [[[TradePostMgr getInstance] getTradePostWithId:[self nextPostId]] coord];
         self.flightPathRender = [[FlightPathOverlay alloc] initWithSrcCoord:[self srcCoord] destCoord:[self destCoord]];
+        
+        // flyer zero-angle is up; so, need to offset it by 90 degrees
+        float angle = [MKMapView angleBetweenCoordinateA:[self srcCoord] coordinateB:[self destCoord]];
+        angle += M_PI_2;
+        _transform = CGAffineTransformMakeRotation(angle);
+        NSLog(@"depart angle %f", angle);
     }
 }
 
@@ -86,11 +95,6 @@ static const float kFlyerDefaultSpeedMetersPerSec = 100.0f;
         // enroute
         CLLocationCoordinate2D curCoord = [self flyerCoordinateNow];
         self.coord = curCoord;
-        /*
-         NSLog(@"Flyer enroute (%lf, %lf) (%lf, %lf): (%lf, %lf)", self.srcCoord.latitude, self.srcCoord.longitude,
-         self.destCoord.latitude, self.destCoord.longitude,
-         curCoord.latitude, curCoord.longitude);
-         */
         if([self annotation])
         {
             [self.annotation setCoordinate:curCoord];

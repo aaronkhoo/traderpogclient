@@ -13,13 +13,16 @@
 @interface FlyerAnnotation ()
 {
     CLLocationCoordinate2D _coord;
+    CGAffineTransform _transform;
 }
 @property (nonatomic) CLLocationCoordinate2D coord;
+@property (nonatomic) CGAffineTransform transform;
 @end
 
 @implementation FlyerAnnotation
 @synthesize flyer = _flyer;
 @synthesize coord = _coord;
+@synthesize transform = _transform;
 
 - (id) initWithFlyer:(Flyer *)flyer
 {
@@ -28,15 +31,11 @@
     {
         _flyer = flyer;
         _coord = [flyer coord];
-        flyer.annotation = self;
+        _transform = [flyer transform];
     }
     return self;
 }
 
-- (void) dealloc
-{
-    self.flyer.annotation = nil;
-}
 
 #pragma mark - MKAnnotation delegate
 - (CLLocationCoordinate2D) coordinate
@@ -79,7 +78,7 @@
     {
         annotationView = [[FlyerAnnotationView alloc] initWithAnnotation:self];
     }
-    
+    annotationView.transform = [self transform];
     return annotationView;
 }
 

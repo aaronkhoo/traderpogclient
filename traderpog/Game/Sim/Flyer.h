@@ -22,6 +22,7 @@
     __weak FlyerAnnotation* _annotation;
     CLLocationCoordinate2D _coord;
     FlightPathOverlay* _flightPathRender;
+    CGAffineTransform _transform;
 }
 @property (nonatomic) float flightSpeed;
 @property (nonatomic,strong) NSString* curPostId;
@@ -29,6 +30,7 @@
 @property (nonatomic,strong) FlightPathOverlay* flightPathRender;
 @property (nonatomic,weak) FlyerAnnotation* annotation;
 @property (nonatomic) CLLocationCoordinate2D coord;
+@property (nonatomic,readonly) CGAffineTransform transform;
 
 - (id) initAtPost:(TradePost*)tradePost;
 - (void) departForPostId:(NSString*)postId;
