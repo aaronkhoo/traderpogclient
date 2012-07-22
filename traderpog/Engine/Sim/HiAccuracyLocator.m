@@ -59,11 +59,7 @@ static NSTimeInterval kLocationUpdateTimeout = 6.0;
 #pragma mark - controls
 - (void) startUpdatingLocation
 {
-    if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized)
-    {
-        // if user has not yet made a decision, don't install a timeout
-        [self performSelector:@selector(updatingLocationTimedOut) withObject:nil afterDelay:kLocationUpdateTimeout];
-    }
+    [self performSelector:@selector(updatingLocationTimedOut) withObject:nil afterDelay:kLocationUpdateTimeout];
     [_locationManager startUpdatingLocation];
     _startTimestamp = [NSDate date];
     _bestLocation = nil;
@@ -72,7 +68,16 @@ static NSTimeInterval kLocationUpdateTimeout = 6.0;
 
 - (void) updatingLocationTimedOut
 {
-    [self stopUpdatingLocation:kStopReasonTimedOut];
+    if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined)
+    {
+        // if user not yet determined authorization, renew the timeout
+        [self performSelector:@selector(updatingLocationTimedOut) withObject:nil afterDelay:kLocationUpdateTimeout];
+    }
+    else 
+    {
+        // otherwise, just timeout
+        [self stopUpdatingLocation:kStopReasonTimedOut];
+    }
 }
 
 - (void) stopUpdatingLocation:(StopReason)reason

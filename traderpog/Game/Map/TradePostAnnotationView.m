@@ -34,7 +34,7 @@ NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
         self.frame = myFrame;
         
         // setup tradepost image
-        UIImage *annotationImage = [UIImage imageNamed:@"Homebase.png"];
+        UIImage *annotationImage = [UIImage imageNamed:@"HomeBase.png"];
         CGRect resizeRect = CGRectMake(0.0f, 0.0f, 80.0f, 80.0f);
         UIGraphicsBeginImageContext(resizeRect.size);
         [annotationImage drawInRect:resizeRect];
