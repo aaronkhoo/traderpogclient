@@ -29,6 +29,7 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
     
     // HACK
     UILabel* _labelScan;
+    UIActivityIndicatorView* _scanActivity;
     // HACK
 }
 @property (nonatomic,strong) KnobControl* knob;
@@ -195,6 +196,11 @@ static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
     [labelScan setHidden:YES];
     _labelScan = labelScan;
     [self.view addSubview:labelScan];
+    
+    _scanActivity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [_scanActivity setFrame:labelRect];
+    [_scanActivity setHidden:YES];
+    [self.view addSubview:_scanActivity];
     // HACK
     
     float buttonHeight = kKnobShowButtonHeightFrac * viewFrame.size.height;
@@ -276,12 +282,20 @@ static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
 #pragma mark - KnobProtocol
 - (void) didPressKnobCenter
 {
+    //HACK
+    [_scanActivity setHidden:NO];
+    [_scanActivity startAnimating];
+    //HACK
     [[ScanManager getInstance] locateAndScanInMap:[self mapView] 
                                        completion:^(BOOL finished, NSArray* tradePosts){
                                            if(finished)
                                            {
                                                [self handleScanResultTradePosts:tradePosts];
                                            }
+                                           //HACK
+                                           [_scanActivity stopAnimating];
+                                           [_scanActivity setHidden:YES];
+                                           //HACK
                                        }];
 }
 
