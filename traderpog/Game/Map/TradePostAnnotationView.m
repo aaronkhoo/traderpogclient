@@ -8,8 +8,16 @@
 
 #import "TradePostAnnotationView.h"
 #import "TradePostAnnotation.h"
+#import "TradePostCallout.h"
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
+
+@interface TradePostAnnotationView ()
+{
+    TradePostCallout* _calloutAnnotation;
+}
+@end
+
 @implementation TradePostAnnotationView
 
 - (id) initWithAnnotation:(TradePostAnnotation *)annotation
@@ -44,6 +52,8 @@ NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
         [contentView addSubview:imageView];
         
         [self addSubview:contentView];
+        
+        _calloutAnnotation = nil;
     }
     return self;
 }
@@ -51,6 +61,10 @@ NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
 #pragma mark - MKAnnotationView
 - (void)setAnnotation:(id<MKAnnotation>)annotation
 {
+    if(_calloutAnnotation) 
+    {
+        [_calloutAnnotation setCoordinate:annotation.coordinate];
+    }
     [super setAnnotation:annotation];
     self.enabled = YES;
 }
@@ -58,12 +72,22 @@ NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
 #pragma mark - PogMapAnnotationViewProtocol
 - (void)didSelectAnnotationViewInMap:(MKMapView*) mapView;
 {    
-    NSLog(@"tradepost selected");
+    if(!_calloutAnnotation)
+    {
+        TradePostAnnotation* tradePostAnnotation = (TradePostAnnotation*) [self annotation];
+        _calloutAnnotation = [[TradePostCallout alloc] initWithTradePost:[tradePostAnnotation tradePost]];
+        _calloutAnnotation.parentAnnotationView = self;
+        [mapView addAnnotation:_calloutAnnotation];
+    }
 }
 
 - (void)didDeselectAnnotationViewInMap:(MKMapView*) mapView;
 {
-    NSLog(@"tradepost deselected");
+    if(_calloutAnnotation)
+    {
+        [mapView removeAnnotation:_calloutAnnotation];
+        _calloutAnnotation = nil;
+    }
 }
 
 @end

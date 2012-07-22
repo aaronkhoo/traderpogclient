@@ -49,6 +49,7 @@
 	if ((self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier])) {
 		self.enabled = NO;
 		self.backgroundColor = [UIColor clearColor];
+        self.clipsToBounds = YES;
 	}
 	return self;
 }

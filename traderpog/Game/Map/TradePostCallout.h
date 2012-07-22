@@ -11,12 +11,14 @@
 #import "MapProtocols.h"
 
 @class TradePost;
+@class TradePostCalloutView;
 @interface TradePostCallout : NSObject<MKAnnotation,MapAnnotationProtocol>
 {
     CLLocationCoordinate2D _coord;
     __weak TradePost* _tradePost;
 }
 @property (nonatomic,weak) TradePost* tradePost;
+@property (nonatomic,weak) MKAnnotationView* parentAnnotationView;
 - (id) initWithTradePost:(TradePost*)tradePost;
 
 @end

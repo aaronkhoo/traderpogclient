@@ -53,14 +53,20 @@ static const NSUInteger kDefaultZoomLevel = 15;
 {
 }
 
-- (void)mapView:(MKMapView*)mapView didSelectAnnotationView:(MKAnnotationView *)view
+- (void)mapView:(MKMapView*)mapView didSelectAnnotationView:(MKAnnotationView *)annotationView
 {
-    NSLog(@"didSelect");
+    if([annotationView conformsToProtocol:@protocol(MapAnnotationViewProtocol)])
+    {
+        [((NSObject<MapAnnotationViewProtocol>*)annotationView) didSelectAnnotationViewInMap:mapView];
+    }
 }
 
-- (void)mapView:(MKMapView*)mapView didDeselectAnnotationView:(MKAnnotationView *)view
+- (void)mapView:(MKMapView*)mapView didDeselectAnnotationView:(MKAnnotationView *)annotationView
 {
-    NSLog(@"didDeselect");
+    if([annotationView conformsToProtocol:@protocol(MapAnnotationViewProtocol)])
+    {
+        [((NSObject<MapAnnotationViewProtocol>*)annotationView) didDeselectAnnotationViewInMap:mapView];
+    }
 }
 
 - (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views

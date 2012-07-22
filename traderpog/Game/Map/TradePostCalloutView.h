@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CalloutAnnotationView.h"
 
-@interface TradePostCalloutView : UIViewController
+extern NSString* const kTradePostCalloutViewReuseId;
+
+@interface TradePostCalloutView : CalloutAnnotationView
 
 @end

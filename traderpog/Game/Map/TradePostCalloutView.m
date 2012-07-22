@@ -8,37 +8,23 @@
 
 #import "TradePostCalloutView.h"
 
+NSString* const kTradePostCalloutViewReuseId = @"PostCalloutView";
+
 @interface TradePostCalloutView ()
 
 @end
 
 @implementation TradePostCalloutView
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id) initWithAnnotation:(id<MKAnnotation>)annotation
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    self = [super initWithAnnotation:annotation reuseIdentifier:kTradePostCalloutViewReuseId];
+    if(self)
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"TradePostCalloutView" owner:self options:nil];
     }
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
 
 @end

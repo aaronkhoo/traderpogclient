@@ -8,9 +8,17 @@
 
 #import "TradePostCallout.h"
 #import "TradePost.h"
+#import "TradePostCalloutView.h"
+
+@interface TradePostCallout ()
+{
+    TradePostCalloutView* _calloutView;
+}
+@end
 
 @implementation TradePostCallout
 @synthesize tradePost = _tradePost;
+@synthesize parentAnnotationView;
 
 - (id) initWithTradePost:(TradePost*)tradePost
 {
@@ -27,15 +35,13 @@
 - (void)setCoordinate:(CLLocationCoordinate2D)newCoordinate
 {
     _coord = newCoordinate;
-    /*
     if(_calloutView) 
     {
         // mapView can decide to throw annotation-views into its reuse queue any time
         // so, if the view we have retained no longer belongs to us, clear it
         if([_calloutView annotation] != self)
         {
-            NSLog(@"coordinate: post callout annotation recycled %@", self.tradePost.name);
-            [_calloutView release];
+            NSLog(@"coordinate: post callout annotation recycled %@", self.tradePost.postId);
             _calloutView = nil;
         }
         else 
@@ -44,7 +50,6 @@
             [_calloutView setAnnotation:self];
         }
     }
-     */
 }
 
 - (CLLocationCoordinate2D)coordinate
@@ -55,31 +60,28 @@
 #pragma mark - MapAnnotationProtocol
 - (MKAnnotationView*)annotationViewInMap:(MKMapView *)mapView;
 {
-    return nil;
-    /*
     // mapView can decide to throw annotation-views into its reuse queue any time
     // so, if the view we have retained no longer belongs to us, clear it
     if(_calloutView && ([_calloutView annotation] != self))
     {
-        NSLog(@"post callout annotation recycled %@ (%@) (%@)", self.tradePost.name, self, [_calloutView annotation]);
-        [_calloutView release];
+        NSLog(@"post callout annotation recycled %@ (%@) (%@)", self.tradePost.postId, self, [_calloutView annotation]);
         _calloutView = nil;
     }
     
     if(!_calloutView)
     {
-        _calloutView = [(PostCalloutView*) [mapView dequeueReusableAnnotationViewWithIdentifier:kPostCalloutViewReuseId] retain];
+        _calloutView = (TradePostCalloutView*) [mapView dequeueReusableAnnotationViewWithIdentifier:kTradePostCalloutViewReuseId];
         if(!_calloutView) 
         {
-            _calloutView = [[PostCalloutView alloc] initWithAnnotation:self];
+            _calloutView = [[TradePostCalloutView alloc] initWithAnnotation:self];
         } 
         else 
         {
             _calloutView.annotation = self;
         }
-        [_calloutView reset];
         _calloutView.parentAnnotationView = self.parentAnnotationView;
         _calloutView.mapView = mapView;
+        /*
         if([_tradePost supplyLevelSufficientForSaleForIdentifier:[_tradeItem identifier]])
         {
             // setup trade variables
@@ -117,9 +119,9 @@
             [_calloutView.priceLabel setText:@"Replenishing..."];
             [_calloutView.plusButton setHidden:YES];
         }
+         */
     }
     return _calloutView;
-     */
 }
 
 
