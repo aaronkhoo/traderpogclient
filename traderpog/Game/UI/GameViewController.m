@@ -10,15 +10,31 @@
 #import "MapControl.h"
 #import "KnobControl.h"
 #import "ScanManager.h"
+#import <QuartzCore/QuartzCore.h>
+
+static const NSInteger kDisplayLinkFrameInterval = 1;
+static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
 
 @interface GameViewController ()
 {
+    // display link (for sim-render-loop)
+    CADisplayLink* _displayLink;
+    BOOL _displayLinkActive;
+    CFTimeInterval _prevTime;
+    
     CLLocationCoordinate2D _initCoord;
     KnobControl* _knob;
     UIButton* _buttonShowKnob;
 }
 @property (nonatomic,strong) KnobControl* knob;
 @property (nonatomic,strong) UIButton* buttonShowKnob;
+
+- (void) startDisplayLink;
+- (void) stopDisplayLink;
+- (void) displayUpdate;
+- (void) updateSim:(NSTimeInterval)elapsed;
+- (void) updateRender:(NSTimeInterval)elapsed;
+
 - (void) initKnob;
 - (void) shutdownKnob;
 - (void) didPressShowKnob:(id)sender;
@@ -50,10 +66,15 @@
     
     // create knob
     [self initKnob];
+    
+    [self startDisplayLink];
 }
 
 - (void)viewDidUnload
 {
+    [self stopDisplayLink];
+    
+    [self shutdownKnob];
     self.mapControl = nil;
     [super viewDidUnload];
 }
@@ -62,6 +83,63 @@
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+#pragma mark - display link
+- (void) startDisplayLink
+{
+    if(!_displayLinkActive)
+    {
+        _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayUpdate)];
+        [_displayLink setFrameInterval:kDisplayLinkFrameInterval];
+        [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+        _displayLinkActive = YES;
+    }
+}
+
+- (void) stopDisplayLink
+{
+    if(_displayLinkActive)
+    {
+        [_displayLink invalidate];
+        _displayLink = nil;
+        _displayLinkActive = NO;
+    }
+}
+
+- (void) displayUpdate
+{
+    CFTimeInterval displayElapsed = 0.0;
+    
+    // update time
+    if(_prevTime > 0.0)
+    {
+        displayElapsed = [_displayLink timestamp] - _prevTime;
+    }
+    else
+    {
+        displayElapsed = [_displayLink timestamp];
+    }
+    _prevTime = [_displayLink timestamp];
+    if(displayElapsed > kDisplayLinkMaxFrametime)
+    {
+        displayElapsed = kDisplayLinkMaxFrametime;
+    }
+    
+    [self updateSim:displayElapsed];
+    
+//    NSDate* currentTime = [NSDate date];
+    
+    [self updateRender:displayElapsed];
+}
+
+- (void) updateSim:(NSTimeInterval)elapsed
+{
+}
+
+- (void) updateRender:(NSTimeInterval)elapsed
+{
+}
+
 
 #pragma mark - trade posts
 - (void) handleScanResultTradePosts:(NSArray *)tradePosts
