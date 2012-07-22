@@ -20,6 +20,9 @@
 #import "HiAccuracyLocator.h"
 #import "CLLocation+Pog.h"
 #import "MapControl.h"
+#import "FlyerMgr.h"
+#import "Flyer.h"
+#import "FlightPathOverlay.h"
 #import <CoreLocation/CoreLocation.h>
 
 // List of Game UI screens that GameManager can kick off
@@ -246,7 +249,12 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
                              [self.gameViewController showKnobAnimated:YES delay:0.5f];
                          }];
     }
-    // Player account exists + player has a post + player location has been located
+    // Player account exists + player has a post + player location has been located, but no flyer
+    else if(![[[FlyerMgr getInstance] playerFlyers] count])
+    {
+        // create player's first flyer
+        [[FlyerMgr getInstance] newPlayerFlyerAtTradePost:[[TradePostMgr getInstance] getHomebase]];
+    }
     else if(![self gameViewController])
     {
         [self popLoadingScreenIfNecessary:nav];
@@ -276,6 +284,14 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
                 break;
         }
     }
+}
+
+- (void) flyer:(Flyer *)flyer departForTradePost:(TradePost *)tradePost
+{
+    [flyer departForPostId:[tradePost postId]];
+    
+    // add rendering
+    [self.gameViewController.mapView addOverlay:[flyer flightPathRender]];
 }
 
 #pragma mark - HttpCallbackDelegate

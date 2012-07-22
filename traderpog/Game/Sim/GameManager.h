@@ -21,6 +21,8 @@ enum kGameStates
 @class Player;
 @class LoadingScreen;
 @class CLLocation;
+@class Flyer;
+@class TradePost;
 @interface GameManager : NSObject<HttpCallbackDelegate,ModalNavDelegate>
 {
     int _gameState;
@@ -33,6 +35,8 @@ enum kGameStates
 // public methods
 - (void) loadGameInfo;
 - (void) selectNextGameUI;
+- (void) flyer:(Flyer*)flyer departForTradePost:(TradePost*)tradePost;
+
 + (NSString*) documentsDirectory;
 
 // system

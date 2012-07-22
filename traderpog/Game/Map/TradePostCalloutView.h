@@ -12,5 +12,6 @@
 extern NSString* const kTradePostCalloutViewReuseId;
 
 @interface TradePostCalloutView : CalloutAnnotationView
+- (IBAction)didPressGo:(id)sender;
 
 @end

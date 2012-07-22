@@ -69,6 +69,10 @@
 - (TradePost*) getTradePostWithId:(NSString *)postId
 {
     TradePost* result = [self.activePosts objectForKey:postId];
+    if(!result)
+    {
+        result = [self.npcPosts objectForKey:postId];
+    }
     return result;
 }
 

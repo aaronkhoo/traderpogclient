@@ -7,6 +7,10 @@
 //
 
 #import "TradePostCalloutView.h"
+#import "GameManager.h"
+#import "FlyerMgr.h"
+#import "Flyer.h"
+#import "TradePostAnnotation.h"
 
 NSString* const kTradePostCalloutViewReuseId = @"PostCalloutView";
 
@@ -27,4 +31,10 @@ NSString* const kTradePostCalloutViewReuseId = @"PostCalloutView";
 }
 
 
+- (IBAction)didPressGo:(id)sender 
+{
+    Flyer* flyer = [[[FlyerMgr getInstance] playerFlyers] objectAtIndex:0];
+    TradePostAnnotation* destPostAnnotation = (TradePostAnnotation*)[[self parentAnnotationView] annotation];
+    [[GameManager getInstance] flyer:flyer departForTradePost:[destPostAnnotation tradePost]];
+}
 @end

@@ -65,6 +65,8 @@
 		C4BBE46715BBBFF200F582DE /* FlightPathOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE46415BBBFF100F582DE /* FlightPathOverlay.m */; };
 		C4BBE46815BBBFF200F582DE /* FlightPathView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE46615BBBFF100F582DE /* FlightPathView.m */; };
 		C4BBE46B15BBD68000F582DE /* MKMapView+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE46A15BBD68000F582DE /* MKMapView+Pog.m */; };
+		C4BBE46E15BBDA2C00F582DE /* Flyer.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE46D15BBDA2C00F582DE /* Flyer.m */; };
+		C4BBE47115BBEF0000F582DE /* FlyerMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE47015BBEEFF00F582DE /* FlyerMgr.m */; };
 		C4D5DDD515B2718100D5A746 /* ConfirmNewPost.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */; };
 		C4D5DDD615B2718100D5A746 /* ConfirmNewPost.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */; };
 		C4D5DDDA15B3155B00D5A746 /* TradeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD915B3155B00D5A746 /* TradeItem.m */; };
@@ -191,6 +193,10 @@
 		C4BBE46615BBBFF100F582DE /* FlightPathView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlightPathView.m; path = Game/Map/FlightPathView.m; sourceTree = "<group>"; };
 		C4BBE46915BBD68000F582DE /* MKMapView+Pog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MKMapView+Pog.h"; path = "Map/MKMapView+Pog.h"; sourceTree = "<group>"; };
 		C4BBE46A15BBD68000F582DE /* MKMapView+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MKMapView+Pog.m"; path = "Map/MKMapView+Pog.m"; sourceTree = "<group>"; };
+		C4BBE46C15BBDA2C00F582DE /* Flyer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Flyer.h; path = Game/Sim/Flyer.h; sourceTree = "<group>"; };
+		C4BBE46D15BBDA2C00F582DE /* Flyer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Flyer.m; path = Game/Sim/Flyer.m; sourceTree = "<group>"; };
+		C4BBE46F15BBEEFF00F582DE /* FlyerMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerMgr.h; path = Game/Sim/FlyerMgr.h; sourceTree = "<group>"; };
+		C4BBE47015BBEEFF00F582DE /* FlyerMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerMgr.m; path = Game/Sim/FlyerMgr.m; sourceTree = "<group>"; };
 		C4D5DDD215B2718100D5A746 /* ConfirmNewPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmNewPost.h; path = Game/UI/ConfirmNewPost.h; sourceTree = "<group>"; };
 		C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfirmNewPost.m; path = Game/UI/ConfirmNewPost.m; sourceTree = "<group>"; };
 		C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConfirmNewPost.xib; path = Game/UI/ConfirmNewPost.xib; sourceTree = "<group>"; };
@@ -533,6 +539,10 @@
 				38B0D75715B0F0BE00DD7900 /* HttpCallbackDelegate.h */,
 				387BF58F15B519F000972DC0 /* TradeItemTypes.h */,
 				387BF59015B519F100972DC0 /* TradeItemTypes.m */,
+				C4BBE46C15BBDA2C00F582DE /* Flyer.h */,
+				C4BBE46D15BBDA2C00F582DE /* Flyer.m */,
+				C4BBE46F15BBEEFF00F582DE /* FlyerMgr.h */,
+				C4BBE47015BBEEFF00F582DE /* FlyerMgr.m */,
 			);
 			name = Sim;
 			sourceTree = "<group>";
@@ -681,6 +691,8 @@
 				C4BBE46715BBBFF200F582DE /* FlightPathOverlay.m in Sources */,
 				C4BBE46815BBBFF200F582DE /* FlightPathView.m in Sources */,
 				C4BBE46B15BBD68000F582DE /* MKMapView+Pog.m in Sources */,
+				C4BBE46E15BBDA2C00F582DE /* Flyer.m in Sources */,
+				C4BBE47115BBEF0000F582DE /* FlyerMgr.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

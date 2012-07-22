@@ -10,6 +10,8 @@
 #import "MKMapView+ZoomLevel.h"
 #import "TradePost.h"
 #import "TradePostAnnotation.h"
+#import "FlightPathOverlay.h"
+#import "FlightPathView.h"
 
 static const NSUInteger kDefaultZoomLevel = 15;
 
@@ -87,6 +89,11 @@ static const NSUInteger kDefaultZoomLevel = 15;
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay 
 {
 	MKOverlayView *result = nil;
+    
+    FlightPathView* pathView = [[FlightPathView alloc] initWithFlightPathOverlay:overlay];
+    pathView.mapView = mapView;
+    result = pathView;
+    
 	return result;
 }
 

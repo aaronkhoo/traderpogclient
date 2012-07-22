@@ -14,6 +14,7 @@
 #import "TradeItemTypes.h"
 #import "Player.h"
 #import "ScanManager.h"
+#import "FlyerMgr.h"
 
 @interface AppDelegate()
 {
@@ -99,6 +100,7 @@
     [Player getInstance];
     [TradeItemTypes getInstance];
     [TradePostMgr getInstance];
+    [FlyerMgr getInstance];
     [GameManager getInstance];
     [ScanManager getInstance];
     
@@ -114,6 +116,7 @@
 {
     [ScanManager destroyInstance];
     [GameManager destroyInstance];
+    [FlyerMgr destroyInstance];
     [TradePostMgr destroyInstance];
     [TradeItemTypes destroyInstance];
     [Player destroyInstance];
