@@ -26,6 +26,10 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
     CLLocationCoordinate2D _initCoord;
     KnobControl* _knob;
     UIButton* _buttonShowKnob;
+    
+    // HACK
+    UILabel* _labelScan;
+    // HACK
 }
 @property (nonatomic,strong) KnobControl* knob;
 @property (nonatomic,strong) UIButton* buttonShowKnob;
@@ -176,6 +180,23 @@ static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
     [self.view addSubview:[self knob]];
     [self.knob setDelegate:self];
     
+    // HACK
+    // TODO: the label needs to be on the KnobSlices
+    CGRect labelRect = knobFrame;
+    labelRect.origin.y += 5.0f;
+    labelRect.size.height = knobFrame.size.height / 2.0f;
+    UILabel* labelScan = [[UILabel alloc] initWithFrame:labelRect];
+    [labelScan setFont:[UIFont fontWithName:@"Marker Felt" size:20]];
+    [labelScan setTextColor:[UIColor whiteColor]];
+    [labelScan setText:@"SCAN"];
+    [labelScan setTextAlignment:UITextAlignmentCenter];
+    [labelScan setBackgroundColor:[UIColor clearColor]];
+    [labelScan setEnabled:YES];
+    [labelScan setHidden:YES];
+    _labelScan = labelScan;
+    [self.view addSubview:labelScan];
+    // HACK
+    
     float buttonHeight = kKnobShowButtonHeightFrac * viewFrame.size.height;
     CGRect buttonRect = CGRectMake(knobFrame.origin.x, (viewFrame.size.height - buttonHeight), 
                                    knobFrame.size.width, buttonHeight);
@@ -208,11 +229,18 @@ static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
                          animations:^(void){
                              [self.knob setTransform:showTransform];
                          }
-                         completion:nil];
+                         completion:^(BOOL finished){
+                             //HACK
+                             [_labelScan setHidden:NO];
+                             //HACK
+                         }];
     }
     else 
     {
         [self.knob setTransform:showTransform];
+        //HACK
+        [_labelScan setHidden:NO];
+        //HACK
     }
     [self.buttonShowKnob setHidden:YES];
 }
