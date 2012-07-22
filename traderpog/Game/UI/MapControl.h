@@ -21,4 +21,6 @@
 - (id) initWithMapView:(MKMapView*)mapView andCenter:(CLLocationCoordinate2D)initCoord;
 - (void) addAnnotationForTradePost:(TradePost*)tradePost;
 - (void) addAnnotationForFlyer:(Flyer*)flyer;
+- (void) dismissFlightPathForFlyer:(Flyer*)flyer;
+- (void) showFlightPathForFlyer:(Flyer*)flyer;
 @end

@@ -104,6 +104,11 @@ static const float kFlyerDefaultSpeedMetersPerSec = 100.0f;
              */
         }
         
+        if([self flightPathRender])
+        {
+            [self.flightPathRender setCurCoord:curCoord];
+        }
+        
         NSTimeInterval elapsed = -[self.departureDate timeIntervalSinceNow];
         CLLocationDistance routeDist = metersDistance([self srcCoord], [self destCoord]);
         _metersToDest = routeDist - (elapsed * self.flightSpeed);

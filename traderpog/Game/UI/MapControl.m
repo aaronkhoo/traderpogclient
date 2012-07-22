@@ -51,6 +51,22 @@ static const NSUInteger kDefaultZoomLevel = 15;
     }
 }
 
+- (void) dismissFlightPathForFlyer:(Flyer*)flyer
+{
+    if([flyer flightPathRender])
+    {
+        [self.view removeOverlay:[flyer flightPathRender]];
+    }
+}
+
+- (void) showFlightPathForFlyer:(Flyer *)flyer
+{
+    if([flyer flightPathRender])
+    {
+        [self.view addOverlay:[flyer flightPathRender]];
+    }
+}
+
 #pragma mark MKMapViewDelegate
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
