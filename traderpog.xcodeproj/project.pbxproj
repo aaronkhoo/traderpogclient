@@ -205,6 +205,7 @@
 		C4BBE47515BC5F4F00F582DE /* FlyerAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerAnnotationView.h; path = Game/Map/FlyerAnnotationView.h; sourceTree = "<group>"; };
 		C4BBE47615BC5F5000F582DE /* FlyerAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerAnnotationView.m; path = Game/Map/FlyerAnnotationView.m; sourceTree = "<group>"; };
 		C4BBE47815BC603F00F582DE /* Flyer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Flyer.png; path = assets/Map/Flyer.png; sourceTree = SOURCE_ROOT; };
+		C4BBE47C15BC955000F582DE /* traderpog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = traderpog.entitlements; sourceTree = "<group>"; };
 		C4D5DDD215B2718100D5A746 /* ConfirmNewPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmNewPost.h; path = Game/UI/ConfirmNewPost.h; sourceTree = "<group>"; };
 		C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfirmNewPost.m; path = Game/UI/ConfirmNewPost.m; sourceTree = "<group>"; };
 		C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConfirmNewPost.xib; path = Game/UI/ConfirmNewPost.xib; sourceTree = "<group>"; };
@@ -354,6 +355,7 @@
 		C41ED13215A6B33E00995F53 /* traderpog */ = {
 			isa = PBXGroup;
 			children = (
+				C4BBE47C15BC955000F582DE /* traderpog.entitlements */,
 				C41ED13B15A6B33E00995F53 /* AppDelegate.h */,
 				C41ED13C15A6B33E00995F53 /* AppDelegate.m */,
 				C4E3819815AA0BCE00924A86 /* Game */,
@@ -732,7 +734,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Shu Cheah (E5BBYQ3T93)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -746,7 +748,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FC131A5E-1D57-4362-B8D9-BEA278D518BC";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -764,7 +767,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -774,6 +777,7 @@
 		C41ED14115A6B33E00995F53 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = traderpog/traderpog.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "traderpog/traderpog-Prefix.pch";
 				INFOPLIST_FILE = "traderpog/traderpog-Info.plist";
@@ -786,6 +790,7 @@
 		C41ED14215A6B33E00995F53 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = traderpog/traderpog.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "traderpog/traderpog-Prefix.pch";
 				INFOPLIST_FILE = "traderpog/traderpog-Info.plist";
@@ -795,6 +800,42 @@
 			};
 			name = Release;
 		};
+		C4BBE47A15BC952100F582DE /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: GeoloPigs Inc";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1FFB5A0F-D693-493E-9071-5AE08B30D54A";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Distribution;
+		};
+		C4BBE47B15BC952100F582DE /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = traderpog/traderpog.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "traderpog/traderpog-Prefix.pch";
+				INFOPLIST_FILE = "traderpog/traderpog-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Distribution;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -803,6 +844,7 @@
 			buildConfigurations = (
 				C41ED13E15A6B33E00995F53 /* Debug */,
 				C41ED13F15A6B33E00995F53 /* Release */,
+				C4BBE47A15BC952100F582DE /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -812,6 +854,7 @@
 			buildConfigurations = (
 				C41ED14115A6B33E00995F53 /* Debug */,
 				C41ED14215A6B33E00995F53 /* Release */,
+				C4BBE47B15BC952100F582DE /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
