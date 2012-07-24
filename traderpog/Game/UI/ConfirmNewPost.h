@@ -13,6 +13,5 @@
 @interface ConfirmNewPost : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *contentLabel;
 - (id) initForTradePostWithCoordinate:(CLLocationCoordinate2D)coord itemType:(TradeItemType*)itemType;
-- (id) initForHomebaseWithCoordinate:(CLLocationCoordinate2D)coord itemType:(TradeItemType*)itemType;
 - (IBAction)didPressOk:(id)sender;
 @end

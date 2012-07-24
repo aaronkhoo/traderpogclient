@@ -107,6 +107,7 @@
     // Setting up the HTTP callback delegates
     [[Player getInstance] setDelegate:[GameManager getInstance]];
     [[TradeItemTypes getInstance] setDelegate:[GameManager getInstance]];
+    [[TradePostMgr getInstance] setDelegate:[GameManager getInstance]];
 
     // load up frontmenu background
     [[ImageManager getInstance] loadFrontMenuBackgroundNamed:@"Default.png"];

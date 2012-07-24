@@ -35,7 +35,6 @@ enum kGameStates
 // public methods
 - (void) loadGameInfo;
 - (void) selectNextGameUI;
-- (void) selectNextStartupStep;
 - (void) flyer:(Flyer*)flyer departForTradePost:(TradePost*)tradePost;
 
 + (NSString*) documentsDirectory;

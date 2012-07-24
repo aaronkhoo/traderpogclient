@@ -20,14 +20,10 @@ static NSString* const kKeyItemId = @"item_info_id";
 static NSString* const kKeyImgPath= @"img";
 static NSString* const kKeySupplyRateLevel = @"supplymaxlevel";
 static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
-static NSString* const kKeyHomebaseBool = @"homebaseBool";
-
-static NSString* const kPlayer_CreateNewPost = @"CreateNewPost";
 
 @implementation TradePost
 @synthesize postId = _postId;
 @synthesize itemId = _itemId;
-@synthesize isHomebase = _isHomebase;
 @synthesize annotation = _annotation;
 @synthesize delegate = _delegate;
 
@@ -41,7 +37,6 @@ static NSString* const kPlayer_CreateNewPost = @"CreateNewPost";
         _postId = postId;
         _coord = coordinate;
         _itemId = [itemType itemId];
-        _isHomebase = NO;
         _annotation = nil;
     }
     return self;
@@ -55,8 +50,23 @@ static NSString* const kPlayer_CreateNewPost = @"CreateNewPost";
     {
         _coord = coordinate;
         _itemId = [itemType itemId];
-        _isHomebase = NO;
         _annotation = nil;
+    }
+    return self;
+}
+
+- (id) initWithDictionary:(NSDictionary*)dict
+{
+    self = [super init];
+    if(self)
+    {
+        _postId = [dict valueForKeyPath:@"id"];
+        _coord.latitude = [[dict valueForKeyPath:@"localized_name"] doubleValue];
+        _coord.longitude = [[dict valueForKeyPath:@"localized_desc"] doubleValue];
+        _itemId = [dict valueForKeyPath:@""];
+        _imgPath = [dict valueForKeyPath:@"price"];
+        _supplyMaxLevel =[[dict valueForKeyPath:@"supplymax"] integerValue];
+        _supplyRateLevel =[[dict valueForKeyPath:@"supplyrate"] integerValue];
     }
     return self;
 }
@@ -81,7 +91,7 @@ static NSString* const kPlayer_CreateNewPost = @"CreateNewPost";
                      _imgPath = [responseObject valueForKeyPath:kKeyImgPath];
                      _supplyMaxLevel = [[responseObject valueForKeyPath:kKeySupplyMaxLevel] integerValue];
                      _supplyRateLevel = [[responseObject valueForKeyPath:kKeySupplyRateLevel] integerValue];
-                     [self.delegate didCompleteHttpCallback:kPlayer_CreateNewPost, TRUE];
+                     [self.delegate didCompleteHttpCallback:kTradePost_CreateNewPost, TRUE];
                  }
                  failure:^(AFHTTPRequestOperation* operation, NSError* error){
                      UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
@@ -91,7 +101,7 @@ static NSString* const kPlayer_CreateNewPost = @"CreateNewPost";
                                                              otherButtonTitles:nil];
                      
                      [message show];
-                     [self.delegate didCompleteHttpCallback:kPlayer_CreateNewPost, FALSE];
+                     [self.delegate didCompleteHttpCallback:kTradePost_CreateNewPost, FALSE];
                  }
      ];
 }

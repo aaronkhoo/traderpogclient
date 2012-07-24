@@ -10,17 +10,29 @@
 #import <CoreLocation/CoreLocation.h>
 #import "HttpCallbackDelegate.h"
 
+static NSString* const kTradePostMgr_ReceivePosts = @"TradePostMgr_ReceivePosts";
+
 @class TradePost;
 @class TradeItemType;
 @interface TradePostMgr : NSObject<HttpCallbackDelegate>
+{
+    NSDate* _lastUpdate;
+    
+    // Delegate for callbacks to inform interested parties of completion
+    __weak NSObject<HttpCallbackDelegate>* _delegate;
+}
+@property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
+// Public methods
+- (BOOL) needsRefresh;
+- (void) retrievePostsFromServer;
+- (NSInteger) postsCount;
 - (TradePost*) newNPCTradePostAtCoord:(CLLocationCoordinate2D)coord
                           sellingItem:(TradeItemType*)itemType;
 - (BOOL) newTradePostAtCoord:(CLLocationCoordinate2D)coord 
-                              sellingItem:(TradeItemType*)itemType
-                              isHomebase:(BOOL)isHomebase;
+                              sellingItem:(TradeItemType*)itemType;
 - (TradePost*) getTradePostWithId:(NSString*)postId;
-- (TradePost*) getHomebase;
+- (TradePost*) getFirstTradePost;
 - (void) setTempPostToActive;
 - (NSMutableArray*) getTradePostsAtCoord:(CLLocationCoordinate2D)coord 
                                   radius:(float)radius 

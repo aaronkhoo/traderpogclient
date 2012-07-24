@@ -103,7 +103,7 @@ enum kItemSlots
 - (void) selectItemChoiceAtIndex:(unsigned int)index
 {
     TradeItemType* itemType = [[[TradeItemTypes getInstance] itemTypes] objectAtIndex:index];
-    ConfirmNewPost* nextScreen = [[ConfirmNewPost alloc] initForHomebaseWithCoordinate:_coordinate
+    ConfirmNewPost* nextScreen = [[ConfirmNewPost alloc] initForTradePostWithCoordinate:_coordinate
                                  itemType:itemType];
     [self.navigationController pushFadeInViewController:nextScreen animated:YES];
 }

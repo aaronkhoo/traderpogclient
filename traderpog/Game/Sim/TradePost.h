@@ -10,6 +10,8 @@
 #import <CoreLocation/CoreLocation.h>
 #import "HttpCallbackDelegate.h"
 
+static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
+
 @class TradeItemType;
 @class TradePostAnnotation;
 @interface TradePost : NSObject
@@ -17,7 +19,6 @@
     NSString*   _postId;
     CLLocationCoordinate2D _coord;
     NSString*   _itemId;
-    BOOL        _isHomebase;
     NSString*   _imgPath;
     NSInteger   _supplyMaxLevel;
     NSInteger   _supplyRateLevel;
@@ -31,7 +32,6 @@
 @property (nonatomic) NSString* postId;
 @property (nonatomic) CLLocationCoordinate2D coord;
 @property (nonatomic) NSString* itemId;
-@property (nonatomic) BOOL isHomebase;
 @property (nonatomic,weak) TradePostAnnotation* annotation;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
@@ -41,4 +41,5 @@
 - (id) initWithCoordinates:(CLLocationCoordinate2D)coordinate 
                            itemType:(TradeItemType *)itemType;
 - (void) createNewPostOnServer;
+- (id) initWithDictionary:(NSDictionary*)dict;
 @end

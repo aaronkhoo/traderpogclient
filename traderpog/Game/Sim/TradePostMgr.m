@@ -6,11 +6,15 @@
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
+#import "AFClientManager.h"
 #import "GameManager.h"
+#import "Player.h"
 #import "TradePostMgr.h"
 #import "TradePost.h"
 #import "TradeItem.h"
 #import "TradeItemType.h"
+
+static double const refreshTime = -(60 * 15);
 
 @interface TradePostMgr ()
 {
@@ -26,13 +30,14 @@
 @property (nonatomic,strong) NSMutableDictionary* activePosts;
 @property (nonatomic,strong) NSMutableDictionary* npcPosts;
 
+
 - (BOOL) post:(TradePost*)post isWithinDistance:(float)distance fromCoord:(CLLocationCoordinate2D)coord;
-- (void) loadTradePosts;
 @end
 
 @implementation TradePostMgr
 @synthesize activePosts = _activePosts;
 @synthesize npcPosts = _npcPosts;
+@synthesize delegate = _delegate;
 
 - (id) init
 {
@@ -47,6 +52,16 @@
     return self;
 }
 
+- (BOOL) needsRefresh
+{
+    return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime);
+}
+
+- (NSInteger) postsCount
+{
+    return _activePosts.count;
+}
+
 - (TradePost*) newNPCTradePostAtCoord:(CLLocationCoordinate2D)coord
                           sellingItem:(TradeItemType*)itemType
 {
@@ -59,13 +74,11 @@
 
 - (BOOL) newTradePostAtCoord:(CLLocationCoordinate2D)coord 
                               sellingItem:(TradeItemType *)itemType
-                              isHomebase:(BOOL)isHomebase
 {
     if (_tempTradePost == nil)
     {
         TradePost* newPost = [[TradePost alloc] initWithCoordinates:coord itemType:itemType];
         [newPost setDelegate:[TradePostMgr getInstance]];
-        newPost.isHomebase = isHomebase;
         _tempTradePost = newPost;
         [_tempTradePost createNewPostOnServer];
         return TRUE;
@@ -93,18 +106,10 @@
     return result;
 }
 
-- (TradePost*) getHomebase
+- (TradePost*) getFirstTradePost
 {
-    TradePost* result = nil;
-    for(TradePost* cur in self.activePosts.allValues)
-    {
-        if([cur isHomebase])
-        {
-            result = cur;
-            break;
-        }
-    }
-    return result;
+    id key = [[_activePosts allKeys] objectAtIndex:0];
+    return [_activePosts objectForKey:key];
 }
 
 - (NSMutableArray*) getTradePostsAtCoord:(CLLocationCoordinate2D)coord 
@@ -149,6 +154,43 @@
     return result;
 }
 
+- (void) createItemsArray:(id)responseObject
+{
+    for (NSDictionary* item in responseObject)
+    {
+        TradePost* current = [[TradePost alloc] initWithDictionary:item];
+        [self.activePosts setObject:current forKey:current.postId];
+    }
+}
+
+- (void) retrievePostsFromServer
+{
+    // make a post request
+    AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
+    NSString *userId = [NSString stringWithFormat:@"%d", [[Player getInstance] id]];
+    [httpClient setDefaultHeader:@"user_id" value:userId];
+    [httpClient getPath:@"posts.json" 
+             parameters:nil
+                success:^(AFHTTPRequestOperation *operation, id responseObject){                     
+                    NSLog(@"Retrieved: %@", responseObject);
+                    [self createItemsArray:responseObject];
+                    _lastUpdate = [NSDate date];
+                    [self.delegate didCompleteHttpCallback:kTradePostMgr_ReceivePosts, TRUE];
+                }
+                failure:^(AFHTTPRequestOperation* operation, NSError* error){
+                    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
+                                                                      message:@"Unable to create retrieve items. Please try again later."
+                                                                     delegate:nil
+                                                            cancelButtonTitle:@"OK"
+                                                            otherButtonTitles:nil];
+                    
+                    [message show];
+                    [self.delegate didCompleteHttpCallback:kTradePostMgr_ReceivePosts, FALSE];
+                }
+     ];
+    [httpClient setDefaultHeader:@"user_id" value:nil];
+}
+
 #pragma mark - internal methods
 - (BOOL) post:(TradePost*)post isWithinDistance:(float)distance fromCoord:(CLLocationCoordinate2D)coord
 {
@@ -163,13 +205,6 @@
     }
     
     return result;
-}
-
-- (void) loadTradePosts
-{
-    // HACK
-    // TODO: implement load from server 
-    // HACK
 }
 
 #pragma mark - HttpCallbackDelegate
@@ -193,7 +228,6 @@ static TradePostMgr* singleton = nil;
             if (!singleton)
             {
                 singleton = [[TradePostMgr alloc] init];
-                [singleton loadTradePosts];
             }
 		}
 	}

@@ -15,14 +15,12 @@
 @interface ConfirmNewPost ()
 @property (nonatomic) CLLocationCoordinate2D postCoord;
 @property (nonatomic,weak) TradeItemType* postItem;
-@property (nonatomic) BOOL isHomebase;
 @end
 
 @implementation ConfirmNewPost
 @synthesize contentLabel;
 @synthesize postCoord;
 @synthesize postItem;
-@synthesize isHomebase;
 
 - (id)initForTradePostWithCoordinate:(CLLocationCoordinate2D)coord itemType:(TradeItemType *)itemType
 {
@@ -31,19 +29,6 @@
     {
         self.postCoord = coord;
         self.postItem = itemType;
-        self.isHomebase = NO;
-    }
-    return self;
-}
-
-- (id)initForHomebaseWithCoordinate:(CLLocationCoordinate2D)coord itemType:(TradeItemType *)itemType
-{
-    self = [super initWithNibName:@"ConfirmNewPost" bundle:nil];
-    if (self) 
-    {
-        self.postCoord = coord;
-        self.postItem = itemType;
-        self.isHomebase = YES;
     }
     return self;
 }
@@ -71,8 +56,7 @@
 - (IBAction)didPressOk:(id)sender 
 {
     if ([[TradePostMgr getInstance] newTradePostAtCoord:self.postCoord 
-                                        sellingItem:self.postItem
-                                         isHomebase:self.isHomebase])
+                                            sellingItem:self.postItem])
     {
         [self.navigationController popToRootViewControllerAnimated:NO];
         [[GameManager getInstance] selectNextGameUI];
