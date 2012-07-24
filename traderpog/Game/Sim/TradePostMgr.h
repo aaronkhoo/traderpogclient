@@ -8,21 +8,23 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import "HttpCallbackDelegate.h"
 
 @class TradePost;
 @class TradeItemType;
-@interface TradePostMgr : NSObject
+@interface TradePostMgr : NSObject<HttpCallbackDelegate>
 
 - (TradePost*) newNPCTradePostAtCoord:(CLLocationCoordinate2D)coord
                           sellingItem:(TradeItemType*)itemType;
-- (TradePost*) newTradePostAtCoord:(CLLocationCoordinate2D)coord 
-                       sellingItem:(TradeItemType*)itemType
-                        isHomebase:(BOOL)isHomebase;
+- (BOOL) newTradePostAtCoord:(CLLocationCoordinate2D)coord 
+                              sellingItem:(TradeItemType*)itemType
+                              isHomebase:(BOOL)isHomebase;
 - (TradePost*) getTradePostWithId:(NSString*)postId;
 - (TradePost*) getHomebase;
+- (void) setTempPostToActive;
 - (NSMutableArray*) getTradePostsAtCoord:(CLLocationCoordinate2D)coord 
-                           radius:(float)radius 
-                           maxNum:(unsigned int)maxNum;
+                                  radius:(float)radius 
+                                  maxNum:(unsigned int)maxNum;
 
 // singleton
 +(TradePostMgr*) getInstance;

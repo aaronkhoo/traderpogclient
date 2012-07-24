@@ -187,6 +187,56 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     [self selectNextGameUI];
 }
 
+- (void) selectNextStartupStep
+{
+    // Get the navigation controller
+    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    UINavigationController* nav = appDelegate.navController;
+    
+    // Make sure the top viewController is the LoadingScreen, if so then
+    // update the progress text
+    UIViewController* current = [nav visibleViewController];
+    LoadingScreen* loading = NULL;
+    if ([[current nibName] compare:@"LoadingScreen"] == NSOrderedSame)
+    {
+        loading = (LoadingScreen*)current;
+    } 
+    
+    // Player has no posts 
+    if(![[TradePostMgr getInstance] getHomebase])
+    {        
+        if (loading != NULL)
+        {
+            loading.progressLabel.text = @"Generating initial trade post";
+        } 
+        
+        NSArray* itemsArray = [[TradeItemTypes getInstance] getItemTypesForTier:1];
+        NSInteger index = arc4random() % (itemsArray.count);
+        if (![[TradePostMgr getInstance] newTradePostAtCoord:[self.playerLocator bestLocation].coordinate
+                                            sellingItem:[itemsArray objectAtIndex:index]
+                                             isHomebase:TRUE])
+        {
+            // Something failed in the trade post creation, probably because another post
+            // creation was already in flight. We should never get into this state. Log and 
+            // move on so we can fix this during debug.
+            NSLog(@"First trade post creation failed!");
+        }
+    }
+    // Player account exists + player has a post + player location has been located, but no flyer
+    else if(![[[FlyerMgr getInstance] playerFlyers] count])
+    {
+        if (loading != NULL)
+        {
+            loading.progressLabel.text = @"Generating first flyer";
+        } 
+        
+        // create player's first flyer
+        [[FlyerMgr getInstance] newPlayerFlyerAtTradePost:[[TradePostMgr getInstance] getHomebase]];
+        
+        [self selectNextGameUI];
+    }
+}
+
 - (void) selectNextGameUI
 {
     // Get the navigation controller
@@ -217,43 +267,34 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         loading.progressLabel.text = @"Loading game info";
         [self loadGameInfo];
     }
-    // Current player location has not been determined yet
     else if(![self.playerLocator bestLocation])
     {
-        // Make sure the top viewController is the LoadingScreen, if so then
-        // update the progress text
+        // first check the view on the stack, if the top view is not LoadingScreen,
+        // then push that onto the stack
         UIViewController* current = [nav visibleViewController];
-        if ([[current nibName] compare:@"LoadingScreen"] == NSOrderedSame)
+        if ([[current nibName] compare:@"LoadingScreen"] != NSOrderedSame)
         {
-            LoadingScreen* loading = (LoadingScreen*)current;
-            loading.progressLabel.text = @"Determing player location";
-        }        
+            current = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
+            [nav pushFadeInViewController:current animated:YES];
+        }
+        LoadingScreen* loading = (LoadingScreen*)current;
+        loading.progressLabel.text = @"Determining player location";     
         [self locateNewPlayer];
     }
-    // Player has no posts 
-    else if(![[TradePostMgr getInstance] getHomebase])
+    // Still within startup sequence (either missing first trade post or first flyer)
+    else if(![[TradePostMgr getInstance] getHomebase] ||
+            ![[[FlyerMgr getInstance] playerFlyers] count])
     {        
-        [self popLoadingScreenIfNecessary:nav];
+        // first check the view on the stack, if the top view is not LoadingScreen,
+        // then push that onto the stack
+        UIViewController* current = [nav visibleViewController];
+        if ([[current nibName] compare:@"LoadingScreen"] != NSOrderedSame)
+        {
+            current = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
+            [nav pushFadeInViewController:current animated:YES];
+        }
         
-        // proceed to setup of first post
-        NSLog(@"Create Homebase");
-        self.gameViewController = [[GameViewController alloc] initAtCoordinate:[self.playerLocator bestLocation].coordinate];
-        [nav pushFadeInViewController:self.gameViewController animated:YES];
-        
-        NewHomeSelectItem* itemScreen = [[NewHomeSelectItem alloc] initWithCoordinate:[self.playerLocator bestLocation].coordinate];
-        [self startModalNavControlInView:self.gameViewController.view 
-                          withController:itemScreen
-                         completionBlock:^(BOOL finished){
-                             // when the new post sequence is completed, drop an annotation for the new Homebase
-                             [self.gameViewController.mapControl addAnnotationForTradePost:[[TradePostMgr getInstance] getHomebase]];
-                             [self.gameViewController showKnobAnimated:YES delay:0.5f];
-                         }];
-    }
-    // Player account exists + player has a post + player location has been located, but no flyer
-    else if(![[[FlyerMgr getInstance] playerFlyers] count])
-    {
-        // create player's first flyer
-        [[FlyerMgr getInstance] newPlayerFlyerAtTradePost:[[TradePostMgr getInstance] getHomebase]];
+        [self selectNextStartupStep];
     }
     else if(![self gameViewController])
     {
@@ -263,6 +304,8 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     
         self.gameViewController = [[GameViewController alloc] initAtCoordinate:[self.playerLocator bestLocation].coordinate];
         [nav pushFadeInViewController:self.gameViewController animated:YES];
+        
+        [self selectNextGameUI];
     }
     else
     {
@@ -277,6 +320,11 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
             case kGameStateNew:
                 _gameState = kGameStateGameLoop;
                 NSLog(@"start gameloop");
+                
+                // display the posts in the area
+                [self.gameViewController.mapControl refreshMap:[self.playerLocator bestLocation].coordinate];
+                [self.gameViewController showKnobAnimated:YES delay:0.5f];
+                
                 break;
                 
             default:
@@ -328,7 +376,6 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         [self selectNextGameUI];
     }
 }
-
 
 #pragma mark - Singleton
 static GameManager* singleton = nil;

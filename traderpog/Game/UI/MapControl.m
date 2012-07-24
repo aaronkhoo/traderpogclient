@@ -8,6 +8,7 @@
 
 #import "MapControl.h"
 #import "MKMapView+ZoomLevel.h"
+#import "TradePostMgr.h"
 #import "TradePost.h"
 #import "TradePostAnnotation.h"
 #import "FlightPathOverlay.h"
@@ -16,6 +17,10 @@
 #import "FlyerAnnotation.h"
 
 static const NSUInteger kDefaultZoomLevel = 15;
+
+// TODO: Rationalize placement of these constants
+static const float kScanRadius = 300.0f;    // meters
+static const unsigned int kScanNumPosts = 3;
 
 @implementation MapControl
 @synthesize view;
@@ -33,6 +38,26 @@ static const NSUInteger kDefaultZoomLevel = 15;
 }
 
 #pragma mark - annotations
+- (void) refreshMap:(CLLocationCoordinate2D)coord 
+{
+    // Start by removing all annotations on the map
+    [view removeAnnotations:view.annotations];
+    
+    // Get the array of posts in the vicinity
+    NSArray* postsArray = [[TradePostMgr getInstance] getTradePostsAtCoord:coord radius:kScanRadius maxNum:kScanNumPosts];
+    
+    // Create an array of annotations from posts
+    NSMutableArray* postsAnnotationArray = [[NSMutableArray alloc] init];
+    for (TradePost* post in postsArray)
+    {
+        TradePostAnnotation* annotation = [[TradePostAnnotation alloc] initWithTradePost:post];
+        [postsAnnotationArray addObject:annotation];
+    }
+    
+    // Put the posts onto the map
+    [view addAnnotations:postsAnnotationArray];
+}
+
 - (void) addAnnotationForTradePost:(TradePost *)tradePost
 {
     if(![tradePost annotation])

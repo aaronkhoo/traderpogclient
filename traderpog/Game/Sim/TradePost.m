@@ -6,21 +6,30 @@
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
+#import "AFClientManager.h"
+#import "Player.h"
 #import "TradePost.h"
 #import "TradeItemType.h"
 #import "TradePostAnnotation.h"
 
-static NSString* const kKeyPostId = @"postId";
+static NSString* const kKeyPostId = @"id";
+static NSString* const kKeyUserId = @"user_id";
 static NSString* const kKeyLong = @"longitude";
 static NSString* const kKeyLat = @"latitude";
-static NSString* const kKeyItem = @"item";
+static NSString* const kKeyItemId = @"item_info_id";
+static NSString* const kKeyImgPath= @"img";
+static NSString* const kKeySupplyRateLevel = @"supplymaxlevel";
+static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
 static NSString* const kKeyHomebaseBool = @"homebaseBool";
+
+static NSString* const kPlayer_CreateNewPost = @"CreateNewPost";
 
 @implementation TradePost
 @synthesize postId = _postId;
 @synthesize itemId = _itemId;
 @synthesize isHomebase = _isHomebase;
 @synthesize annotation = _annotation;
+@synthesize delegate = _delegate;
 
 - (id) initWithPostId:(NSString*)postId
            coordinate:(CLLocationCoordinate2D)coordinate 
@@ -38,6 +47,55 @@ static NSString* const kKeyHomebaseBool = @"homebaseBool";
     return self;
 }
 
+- (id) initWithCoordinates:(CLLocationCoordinate2D)coordinate 
+                           itemType:(TradeItemType *)itemType
+{
+    self = [super init];
+    if(self)
+    {
+        _coord = coordinate;
+        _itemId = [itemType itemId];
+        _isHomebase = NO;
+        _annotation = nil;
+    }
+    return self;
+}
+
+- (void) createNewPostOnServer
+{
+    // post parameters
+    NSString *userId = [NSString stringWithFormat:@"%d", [[Player getInstance] id]];
+    NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                userId, kKeyUserId,
+                                [NSNumber numberWithDouble:_coord.longitude], kKeyLong, 
+                                [NSNumber numberWithDouble:_coord.latitude], kKeyLat, 
+                                _itemId, kKeyItemId,
+                                nil];
+    
+    // make a post request
+    AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
+    [httpClient postPath:@"posts.json" 
+              parameters:parameters
+                 success:^(AFHTTPRequestOperation *operation, id responseObject){                     
+                     _postId = [responseObject valueForKeyPath:kKeyPostId];
+                     _imgPath = [responseObject valueForKeyPath:kKeyImgPath];
+                     _supplyMaxLevel = [[responseObject valueForKeyPath:kKeySupplyMaxLevel] integerValue];
+                     _supplyRateLevel = [[responseObject valueForKeyPath:kKeySupplyRateLevel] integerValue];
+                     [self.delegate didCompleteHttpCallback:kPlayer_CreateNewPost, TRUE];
+                 }
+                 failure:^(AFHTTPRequestOperation* operation, NSError* error){
+                     UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
+                                                                       message:@"Unable to create post. Please try again later."
+                                                                      delegate:nil
+                                                             cancelButtonTitle:@"OK"
+                                                             otherButtonTitles:nil];
+                     
+                     [message show];
+                     [self.delegate didCompleteHttpCallback:kPlayer_CreateNewPost, FALSE];
+                 }
+     ];
+}
+
 #pragma mark - getters/setters
 - (CLLocationCoordinate2D) coord
 {
@@ -51,29 +109,6 @@ static NSString* const kKeyHomebaseBool = @"homebaseBool";
     {
         [self.annotation setCoordinate:coord];
     }
-}
-
-#pragma mark - NSCoding
-- (void) encodeWithCoder:(NSCoder *)aCoder
-{
-    [aCoder encodeObject:self.postId forKey:kKeyPostId];
-    [aCoder encodeDouble:self.coord.latitude forKey:kKeyLat];
-    [aCoder encodeDouble:self.coord.longitude forKey:kKeyLong];
-    [aCoder encodeObject:self.itemId forKey:kKeyItem];
-    [aCoder encodeBool:self.isHomebase forKey:kKeyHomebaseBool];
-}
-
-- (id) initWithCoder:(NSCoder *)aDecoder
-{
-    self.postId = [aDecoder decodeObjectForKey:kKeyPostId];
-    self.coord = CLLocationCoordinate2DMake([aDecoder decodeDoubleForKey:kKeyLat], 
-                                            [aDecoder decodeDoubleForKey:kKeyLong]);
-    self.itemId = [aDecoder decodeObjectForKey:kKeyItem];
-    self.isHomebase = [aDecoder decodeBoolForKey:kKeyHomebaseBool];
-    
-    // this will be set later when the Posts get added to the map on world restore
-    self.annotation = nil;
-    return self;
 }
 
 @end

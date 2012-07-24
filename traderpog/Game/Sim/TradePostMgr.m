@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
+#import "GameManager.h"
 #import "TradePostMgr.h"
 #import "TradePost.h"
 #import "TradeItem.h"
@@ -18,6 +19,9 @@
     
     // for NPC posts generation
     unsigned int _npcPostIndex;
+    
+    // User trade post in the midst of being generated
+    TradePost* _tempTradePost;
 }
 @property (nonatomic,strong) NSMutableDictionary* activePosts;
 @property (nonatomic,strong) NSMutableDictionary* npcPosts;
@@ -38,6 +42,7 @@
         _activePosts = [NSMutableDictionary dictionaryWithCapacity:10];
         _npcPosts = [NSMutableDictionary dictionaryWithCapacity:10];
         _npcPostIndex = 0;
+        _tempTradePost = nil;
     }
     return self;
 }
@@ -52,18 +57,30 @@
     return newPost;
 }
 
-- (TradePost*) newTradePostAtCoord:(CLLocationCoordinate2D)coord 
-                       sellingItem:(TradeItemType *)itemType
-                        isHomebase:(BOOL)isHomebase
+- (BOOL) newTradePostAtCoord:(CLLocationCoordinate2D)coord 
+                              sellingItem:(TradeItemType *)itemType
+                              isHomebase:(BOOL)isHomebase
 {
-    // HACK
-    // need to ask server for post id
-    NSString* postId = @"post1";
-    // HACK
-    TradePost* newPost = [[TradePost alloc] initWithPostId:postId coordinate:coord itemType:itemType];
-    newPost.isHomebase = isHomebase;
-    [self.activePosts setObject:newPost forKey:postId];
-    return newPost;
+    if (_tempTradePost == nil)
+    {
+        TradePost* newPost = [[TradePost alloc] initWithCoordinates:coord itemType:itemType];
+        [newPost setDelegate:[TradePostMgr getInstance]];
+        newPost.isHomebase = isHomebase;
+        _tempTradePost = newPost;
+        [_tempTradePost createNewPostOnServer];
+        return TRUE;
+    }
+    
+    return FALSE;
+}
+
+- (void) setTempPostToActive
+{
+    if (_tempTradePost)
+    {
+        [self.activePosts setObject:_tempTradePost forKey:_tempTradePost.postId];
+        _tempTradePost = nil;
+    }
 }
 
 - (TradePost*) getTradePostWithId:(NSString *)postId
@@ -104,8 +121,7 @@
     unsigned int num = 0;
     for(TradePost* cur in self.activePosts.allValues)
     {
-        if((![cur isHomebase]) &&
-           [self post:cur isWithinDistance:radius fromCoord:coord])
+        if([self post:cur isWithinDistance:radius fromCoord:coord])
         {
             [result addObject:cur];
             ++num;
@@ -156,6 +172,15 @@
     // HACK
 }
 
+#pragma mark - HttpCallbackDelegate
+- (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
+{
+    if (success)
+    {
+        [self setTempPostToActive];
+    }
+    [[GameManager getInstance] selectNextGameUI];
+}
 
 #pragma mark - Singleton
 static TradePostMgr* singleton = nil;

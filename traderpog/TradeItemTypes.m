@@ -68,7 +68,15 @@ static double const refreshTime = -(60 * 15);
 
 - (NSArray*) getItemTypesForTier:(unsigned int)tier
 {
-    return nil;
+    NSMutableArray* itemArray = [[NSMutableArray alloc] init];
+    for (TradeItemType* item in _itemTypes)
+    {
+        if ([item tier] == tier)
+        {
+            [itemArray addObject:item];
+        }
+    }
+    return (NSArray*)itemArray;
 }
 
 #pragma mark - Singleton

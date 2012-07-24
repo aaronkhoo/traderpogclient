@@ -8,25 +8,37 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import "HttpCallbackDelegate.h"
 
 @class TradeItemType;
 @class TradePostAnnotation;
-@interface TradePost : NSObject<NSCoding>
+@interface TradePost : NSObject
 {
     NSString*   _postId;
     CLLocationCoordinate2D _coord;
     NSString*   _itemId;
     BOOL        _isHomebase;
+    NSString*   _imgPath;
+    NSInteger   _supplyMaxLevel;
+    NSInteger   _supplyRateLevel;
     
     // transient variables (not saved; reconstructed after load)
     __weak TradePostAnnotation* _annotation;
+    
+    // Delegate for callbacks to inform interested parties of completion
+    __weak NSObject<HttpCallbackDelegate>* _delegate;
 }
 @property (nonatomic) NSString* postId;
 @property (nonatomic) CLLocationCoordinate2D coord;
 @property (nonatomic) NSString* itemId;
 @property (nonatomic) BOOL isHomebase;
 @property (nonatomic,weak) TradePostAnnotation* annotation;
+@property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
+
 - (id) initWithPostId:(NSString*)postId
            coordinate:(CLLocationCoordinate2D)coordinate 
                  itemType:(TradeItemType *)itemType;
+- (id) initWithCoordinates:(CLLocationCoordinate2D)coordinate 
+                           itemType:(TradeItemType *)itemType;
+- (void) createNewPostOnServer;
 @end

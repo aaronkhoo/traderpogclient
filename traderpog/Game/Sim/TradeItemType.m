@@ -12,18 +12,7 @@
 @synthesize itemId = _itemId;
 @synthesize name = _name;
 @synthesize desc = _desc;
-
-- (id) initWithItemId:(NSString *)itemId name:(NSString *)name desc:(NSString *)desc
-{
-    self = [super init];
-    if(self)
-    {
-        _itemId = itemId;
-        _name = name;
-        _desc = desc;
-    }
-    return self;
-}
+@synthesize tier = _tier;
 
 - (id) initWithDictionary:(NSDictionary*)dict
 {
@@ -37,16 +26,9 @@
         _supplymax =[[dict valueForKeyPath:@"supplymax"] integerValue];
         _supplyrate =[[dict valueForKeyPath:@"supplyrate"] integerValue];
         _multiplier =[[dict valueForKeyPath:@"multiplier"] integerValue];
+        _tier = [[dict valueForKeyPath:@"tier"] integerValue];
     }
     return self;
-}
-
-#pragma mark - convenience methods
-+ (TradeItemType*) itemWithId:(NSString *)itemId name:(NSString *)name desc:(NSString *)desc
-{
-    TradeItemType* newItemType = [[TradeItemType alloc] initWithItemId:itemId name:name desc:desc];
-    NSLog(@"newItemType %@, %@, %@", itemId, name, desc);
-    return newItemType;
 }
 
 @end

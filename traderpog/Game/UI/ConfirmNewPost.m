@@ -70,10 +70,19 @@
 
 - (IBAction)didPressOk:(id)sender 
 {
-    [[TradePostMgr getInstance] newTradePostAtCoord:self.postCoord 
+    if ([[TradePostMgr getInstance] newTradePostAtCoord:self.postCoord 
                                         sellingItem:self.postItem
-                                         isHomebase:self.isHomebase];
-    [self.navigationController popToRootViewControllerAnimated:NO];
-    [[GameManager getInstance] selectNextGameUI];
+                                         isHomebase:self.isHomebase])
+    {
+        [self.navigationController popToRootViewControllerAnimated:NO];
+        [[GameManager getInstance] selectNextGameUI];
+    }
+    else 
+    {
+        // Something failed in the trade post creation, probably because another post
+        // creation was already in flight. We should never get into this state. Log and 
+        // move on so we can fix this during debug.
+        NSLog(@"First trade post creation failed!");
+    }
 }
 @end

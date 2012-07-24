@@ -17,14 +17,13 @@
     NSInteger _supplymax;
     NSInteger _supplyrate;
     NSInteger _multiplier;
+    NSInteger _tier;
 }
 @property (nonatomic,strong) NSString* itemId;
 @property (nonatomic,strong) NSString* name;
 @property (nonatomic,strong) NSString* desc;
+@property (nonatomic) NSInteger tier;
 
-- (id) initWithItemId:(NSString*)itemId name:(NSString*)name desc:(NSString*)desc;
 - (id) initWithDictionary:(NSDictionary*)dict;
 
-// convenience methods
-+ (TradeItemType*) itemWithId:(NSString*)itemId name:(NSString*)name desc:(NSString*)desc;
 @end
