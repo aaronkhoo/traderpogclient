@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GameViewController.h"
 #import "ModalNavDelegate.h"
 #import "HttpCallbackDelegate.h"
 
@@ -31,6 +32,7 @@ enum kGameStates
 }
 @property (nonatomic,readonly) int gameState;
 @property (nonatomic,weak) LoadingScreen* loadingScreen;
+@property (nonatomic,strong) GameViewController* gameViewController;
 
 // public methods
 - (void) loadGameInfo;

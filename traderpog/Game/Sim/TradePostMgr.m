@@ -62,6 +62,15 @@ static double const refreshTime = -(60 * 15);
     return _activePosts.count;
 }
 
+- (void) annotatePostsOnMap
+{
+    for (id key in _activePosts)
+    {
+        TradePost* post = [_activePosts objectForKey:key];
+        [[[GameManager getInstance] gameViewController].mapControl addAnnotationForTradePost:post];
+    }
+}
+
 - (TradePost*) newNPCTradePostAtCoord:(CLLocationCoordinate2D)coord
                           sellingItem:(TradeItemType*)itemType
 {
@@ -91,7 +100,22 @@ static double const refreshTime = -(60 * 15);
 {
     if (_tempTradePost)
     {
+        // The temp TradePost has been successfully uploaded to the server, so move it
+        // to the active list.
         [self.activePosts setObject:_tempTradePost forKey:_tempTradePost.postId];
+        
+        // Add this tradepost as an annotation to the mapcontrol instance if the map control has already
+        // been created. If it hasn't, then log and skip this step. It's possible that the mapcontrol
+        // doesn't exist yet during the startup flow. This will be taken care of properly, see GameManager
+        // for more details. 
+        if ([[GameManager getInstance] gameViewController].mapControl)
+        {
+            [[[GameManager getInstance] gameViewController].mapControl addAnnotationForTradePost:_tempTradePost];   
+        }
+        else 
+        {
+            NSLog(@"Map control has not been initialized!");
+        }
         _tempTradePost = nil;
     }
 }

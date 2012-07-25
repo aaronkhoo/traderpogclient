@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "HttpCallbackDelegate.h"
+#import "MapControl.h"
 
 static NSString* const kTradePostMgr_ReceivePosts = @"TradePostMgr_ReceivePosts";
 
@@ -27,6 +28,7 @@ static NSString* const kTradePostMgr_ReceivePosts = @"TradePostMgr_ReceivePosts"
 - (BOOL) needsRefresh;
 - (void) retrievePostsFromServer;
 - (NSInteger) postsCount;
+- (void) annotatePostsOnMap;
 - (TradePost*) newNPCTradePostAtCoord:(CLLocationCoordinate2D)coord
                           sellingItem:(TradeItemType*)itemType;
 - (BOOL) newTradePostAtCoord:(CLLocationCoordinate2D)coord 

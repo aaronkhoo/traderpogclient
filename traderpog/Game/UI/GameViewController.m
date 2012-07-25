@@ -52,6 +52,12 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
 @synthesize mapControl = _mapControl;
 @synthesize knob = _knob;
 @synthesize buttonShowKnob = _buttonShowKnob;
+@synthesize coord = _initCoord;
+
+- (id)init
+{
+    return [super initWithNibName:@"GameViewController" bundle:nil];
+}
 
 - (id)initAtCoordinate:(CLLocationCoordinate2D)coord
 {
@@ -59,6 +65,7 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
     if (self) 
     {
         _initCoord = coord;
+        _mapControl = nil;
     }
     return self;
 }

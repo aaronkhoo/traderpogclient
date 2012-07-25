@@ -18,7 +18,9 @@
 }
 @property (nonatomic, strong) MapControl* mapControl;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (nonatomic) CLLocationCoordinate2D coord;
 
+- (id) init;
 - (id) initAtCoordinate:(CLLocationCoordinate2D)coord;
 - (void) showKnobAnimated:(BOOL)isAnimated delay:(NSTimeInterval)delay;
 - (void) dismissKnobAnimated:(BOOL)isAnimated;

@@ -14,7 +14,6 @@
 #import "TradeItemTypes.h"
 #import "LoadingScreen.h"
 #import "UINavigationController+Pog.h"
-#import "GameViewController.h"
 #import "NewHomeSelectItem.h"
 #import "ModalNavControl.h"
 #import "HiAccuracyLocator.h"
@@ -39,7 +38,6 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     HiAccuracyLocator* _playerLocator;
 }
 @property (nonatomic,strong) ModalNavControl* modalNav;
-@property (nonatomic,strong) GameViewController* gameViewController;
 @property (nonatomic,strong) HiAccuracyLocator* playerLocator;
 
 - (void) startModalNavControlInView:(UIView*)parentView 
@@ -282,23 +280,19 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         
         [self selectNextGameUI];
     }
-    else if(![self gameViewController])
-    {
-        [self popLoadingScreenIfNecessary:nav];
-        
-        NSLog(@"start game");
-    
-        self.gameViewController = [[GameViewController alloc] initAtCoordinate:[self.playerLocator bestLocation].coordinate];
-        [nav pushFadeInViewController:self.gameViewController animated:YES];
-        
-        [self selectNextGameUI];
-    }
     else
-    {
-        // TODO: Validate this is correct behavior
+    {        
         // Right now, pop any loading screens if they are on the stack when 
         // we come in here. 
         [self popLoadingScreenIfNecessary:nav];
+        
+        if (![self gameViewController])
+        {        
+            _gameViewController = [[GameViewController alloc] initAtCoordinate:[self.playerLocator bestLocation].coordinate];
+            
+            // push the gameViewController onto the stack
+            [nav pushFadeInViewController:self.gameViewController animated:YES];
+        }
         
         // handle in-game states
         switch(_gameState)
@@ -307,8 +301,9 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
                 _gameState = kGameStateGameLoop;
                 NSLog(@"start gameloop");
                 
-                // display the posts in the area
-                [self.gameViewController.mapControl refreshMap:[self.playerLocator bestLocation].coordinate];
+                // Annotate any posts we currently know about already
+                [[TradePostMgr getInstance] annotatePostsOnMap];
+                
                 [self.gameViewController showKnobAnimated:YES delay:0.5f];
                 
                 break;

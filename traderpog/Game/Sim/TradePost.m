@@ -61,12 +61,12 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
     if(self)
     {
         _postId = [dict valueForKeyPath:@"id"];
-        _coord.latitude = [[dict valueForKeyPath:@"localized_name"] doubleValue];
-        _coord.longitude = [[dict valueForKeyPath:@"localized_desc"] doubleValue];
-        _itemId = [dict valueForKeyPath:@""];
-        _imgPath = [dict valueForKeyPath:@"price"];
-        _supplyMaxLevel =[[dict valueForKeyPath:@"supplymax"] integerValue];
-        _supplyRateLevel =[[dict valueForKeyPath:@"supplyrate"] integerValue];
+        _coord.latitude = [[dict valueForKeyPath:@"latitude"] doubleValue];
+        _coord.longitude = [[dict valueForKeyPath:@"longitude"] doubleValue];
+        _itemId = [dict valueForKeyPath:@"item_info_id"];
+        _imgPath = [dict valueForKeyPath:@"img"];
+        _supplyMaxLevel =[[dict valueForKeyPath:@"supplymaxlevel"] integerValue];
+        _supplyRateLevel =[[dict valueForKeyPath:@"supplyratelevel"] integerValue];
     }
     return self;
 }
