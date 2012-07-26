@@ -55,6 +55,7 @@
 		C4945B8415AC2D2C00EEC0C0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4945B8315AC2D2C00EEC0C0 /* SystemConfiguration.framework */; };
 		C4945B8815AC91B500EEC0C0 /* CLLocation+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B8715AC91B500EEC0C0 /* CLLocation+Pog.m */; };
 		C4945B8B15AC936600EEC0C0 /* HiAccuracyLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B8A15AC936600EEC0C0 /* HiAccuracyLocator.m */; };
+		C4A311D315C19C400050273B /* BrowseArea.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A311D215C19C400050273B /* BrowseArea.m */; };
 		C4BBE44215B7DD7800F582DE /* startButton.png in Resources */ = {isa = PBXBuildFile; fileRef = C4BBE44115B7DD7800F582DE /* startButton.png */; };
 		C4BBE44915B7E7C600F582DE /* SignupBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = C4BBE44815B7E7C600F582DE /* SignupBackground.png */; };
 		C4BBE45115B92B7600F582DE /* ScanManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE45015B92B7600F582DE /* ScanManager.m */; };
@@ -181,6 +182,8 @@
 		C4945B8715AC91B500EEC0C0 /* CLLocation+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+Pog.m"; sourceTree = "<group>"; };
 		C4945B8915AC936600EEC0C0 /* HiAccuracyLocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HiAccuracyLocator.h; sourceTree = "<group>"; };
 		C4945B8A15AC936600EEC0C0 /* HiAccuracyLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HiAccuracyLocator.m; sourceTree = "<group>"; };
+		C4A311D115C19C400050273B /* BrowseArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrowseArea.h; path = Map/BrowseArea.h; sourceTree = "<group>"; };
+		C4A311D215C19C400050273B /* BrowseArea.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrowseArea.m; path = Map/BrowseArea.m; sourceTree = "<group>"; };
 		C4BBE44115B7DD7800F582DE /* startButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = startButton.png; path = assets/UI/startButton.png; sourceTree = SOURCE_ROOT; };
 		C4BBE44815B7E7C600F582DE /* SignupBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SignupBackground.png; path = assets/UI/SignupBackground.png; sourceTree = SOURCE_ROOT; };
 		C4BBE44F15B92B7600F582DE /* ScanManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScanManager.h; path = Game/Map/ScanManager.h; sourceTree = "<group>"; };
@@ -425,6 +428,8 @@
 		C4D5DDDF15B398BE00D5A746 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				C4A311D115C19C400050273B /* BrowseArea.h */,
+				C4A311D215C19C400050273B /* BrowseArea.m */,
 				C4BBE46915BBD68000F582DE /* MKMapView+Pog.h */,
 				C4BBE46A15BBD68000F582DE /* MKMapView+Pog.m */,
 				C4BBE46015BA9A8600F582DE /* CalloutAnnotationView.h */,
@@ -723,6 +728,7 @@
 				385972FA15C0B900003DBA04 /* FlyerType.m in Sources */,
 				385972FF15C0BBDA003DBA04 /* TradeItemTypes.m in Sources */,
 				3859730215C0BFD5003DBA04 /* FlyerTypes.m in Sources */,
+				C4A311D315C19C400050273B /* BrowseArea.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
