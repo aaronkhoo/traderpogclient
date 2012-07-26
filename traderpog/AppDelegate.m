@@ -15,6 +15,7 @@
 #import "Player.h"
 #import "ScanManager.h"
 #import "FlyerMgr.h"
+#import "FlyerTypes.h"
 
 @interface AppDelegate()
 {
@@ -100,6 +101,7 @@
     [Player getInstance];
     [TradeItemTypes getInstance];
     [TradePostMgr getInstance];
+    [FlyerTypes getInstance];
     [FlyerMgr getInstance];
     [GameManager getInstance];
     [ScanManager getInstance];
@@ -108,6 +110,7 @@
     [[Player getInstance] setDelegate:[GameManager getInstance]];
     [[TradeItemTypes getInstance] setDelegate:[GameManager getInstance]];
     [[TradePostMgr getInstance] setDelegate:[GameManager getInstance]];
+    [[FlyerTypes getInstance] setDelegate:[GameManager getInstance]];
 
     // load up frontmenu background
     [[ImageManager getInstance] loadFrontMenuBackgroundNamed:@"Default.png"];
