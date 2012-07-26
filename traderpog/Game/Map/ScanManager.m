@@ -107,7 +107,7 @@ static const unsigned int kScanNumPosts = 3;
     // generate new locations we there isn't enough existing posts
     if([posts count] < kScanNumPosts)
     {
-        NSArray* itemTypes = [[TradeItemTypes getInstance] getItemTypesForTier:0];
+        NSArray* itemTypes = [[TradeItemTypes getInstance] getItemTypesForTier:kTradeItemTierMin];
         unsigned int numPosts = kScanNumPosts - [posts count];
         float curAngle = RandomFrac() * 2.0 * M_PI;
         float angleIncr = 2.0 * M_PI / ((float) numPosts);
