@@ -107,6 +107,7 @@ static NSTimeInterval kLocationUpdateTimeout = 6.0;
                 {
                     [self.delegate locator:self didLocateUser:NO];
                 }
+                break;
                 
             case kStopReasonTimedOut:
             {

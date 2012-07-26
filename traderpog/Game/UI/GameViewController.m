@@ -293,7 +293,7 @@ static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
     [_scanActivity setHidden:NO];
     [_scanActivity startAnimating];
     //HACK
-    [[ScanManager getInstance] locateAndScanInMap:[self mapView] 
+    [[ScanManager getInstance] locateAndScanInMap:[self mapControl] 
                                        completion:^(BOOL finished, NSArray* tradePosts){
                                            if(finished)
                                            {

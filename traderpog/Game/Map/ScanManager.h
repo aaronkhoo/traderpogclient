@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <MapKit/MapKit.h>
 #import "HiAccuracyLocatorDelegate.h"
 
 typedef void (^ScanCompletionBlock)(BOOL finished, NSArray* tradePosts);
 
 @class HiAccuracyLocator;
+@class MapControl;
 @interface ScanManager : NSObject<HiAccuracyLocatorDelegate>
 {
     unsigned int _state;
@@ -21,7 +21,7 @@ typedef void (^ScanCompletionBlock)(BOOL finished, NSArray* tradePosts);
 @property (nonatomic) unsigned int state;
 @property (nonatomic,readonly) HiAccuracyLocator* locator;
 
-- (BOOL) locateAndScanInMap:(MKMapView*)mapView completion:(ScanCompletionBlock)completion;
+- (BOOL) locateAndScanInMap:(MapControl*)map completion:(ScanCompletionBlock)completion;
 
 // singleton
 +(ScanManager*) getInstance;

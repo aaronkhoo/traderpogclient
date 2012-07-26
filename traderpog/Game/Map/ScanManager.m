@@ -12,6 +12,8 @@
 #import "TradePostMgr.h"
 #import "TradeItemTypes.h"
 #import "TradeItemType.h"
+#import "MapControl.h"
+#import <MapKit/MapKit.h>
 #include "MathUtils.h"
 
 enum kScanStates
@@ -30,9 +32,9 @@ static const unsigned int kScanNumPosts = 3;
 @interface ScanManager ()
 {
     ScanCompletionBlock _completion;
-    __weak MKMapView* _mapView;
+    __weak MapControl* _map;
 }
-@property (nonatomic,weak) MKMapView* mapView;
+@property (nonatomic,weak) MapControl* map;
 - (void) startLocate;
 - (void) startScanAtCoord:(CLLocationCoordinate2D)scanCoord;
 - (void) abortLocateScan;
@@ -42,7 +44,7 @@ static const unsigned int kScanNumPosts = 3;
 @implementation ScanManager
 @synthesize state = _state;
 @synthesize locator = _locator;
-@synthesize mapView = _mapView;
+@synthesize map = _map;
 
 - (id) init
 {
@@ -53,19 +55,19 @@ static const unsigned int kScanNumPosts = 3;
         _locator = [[HiAccuracyLocator alloc] init];
         _locator.delegate = self;
         _completion = nil;
-        self.mapView = nil;
+        self.map = nil;
     }
     return self;
 }
 
-- (BOOL) locateAndScanInMap:(MKMapView*)mapView completion:(ScanCompletionBlock)completion
+- (BOOL) locateAndScanInMap:(MapControl*)map completion:(ScanCompletionBlock)completion
 {
     BOOL success = NO;
     
     if(kScanStateIdle == [self state])
     {
         _completion = completion;
-        self.mapView = mapView;
+        self.map = map;
         [self startLocate];
     }
     
@@ -136,7 +138,7 @@ static const unsigned int kScanNumPosts = 3;
     if(_completion)
     {
         NSLog(@"done");
-        self.mapView = nil;
+        self.map = nil;
         _completion(YES, posts);
     }
     _state = kScanStateIdle;
@@ -147,7 +149,7 @@ static const unsigned int kScanNumPosts = 3;
     _state = kScanStateIdle;
     if(_completion)
     {
-        self.mapView = nil;
+        self.map = nil;
         _completion(NO, nil);
     }    
 }
@@ -158,9 +160,9 @@ static const unsigned int kScanNumPosts = 3;
     if(didLocateUser)
     {
         // center map on my location
-        if([self mapView])
+        if([self map])
         {
-            [self.mapView setCenterCoordinate:locator.bestLocation.coordinate zoomLevel:kScanLocateZoomLevel animated:NO];
+            [self.map centerOn:locator.bestLocation.coordinate animated:YES];
         }
         
         // start the scan

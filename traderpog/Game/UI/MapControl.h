@@ -15,7 +15,7 @@
 
 @class TradePost;
 @class Flyer;
-@interface MapControl : NSObject<MKMapViewDelegate>
+@interface MapControl : NSObject<MKMapViewDelegate,UIGestureRecognizerDelegate>
 @property (nonatomic,strong) MKMapView* view;
 
 - (id) initWithMapView:(MKMapView*)mapView andCenter:(CLLocationCoordinate2D)initCoord;
@@ -24,4 +24,5 @@
 - (void) dismissAnnotationForFlyer:(Flyer*)flyer;
 - (void) dismissFlightPathForFlyer:(Flyer*)flyer;
 - (void) showFlightPathForFlyer:(Flyer*)flyer;
+- (void) centerOn:(CLLocationCoordinate2D)coord animated:(BOOL)isAnimated;
 @end
