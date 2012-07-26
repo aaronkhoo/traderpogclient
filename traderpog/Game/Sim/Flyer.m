@@ -6,15 +6,18 @@
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
+#import "AFClientManager.h"
 #import "Flyer.h"
 #import "TradePost.h"
 #import "FlightPathOverlay.h"
 #import "FlyerAnnotation.h"
 #import "TradePostMgr.h"
+#import "Player.h"
 #import "PogUIUtility.h"
 #import "MKMapView+Pog.h"
 
 static const float kFlyerDefaultSpeedMetersPerSec = 100.0f;
+static NSString* const kKeyFlyerId = @"flyer_info_id";
 
 @interface Flyer ()
 {
@@ -35,6 +38,7 @@ static const float kFlyerDefaultSpeedMetersPerSec = 100.0f;
 @end
 
 @implementation Flyer
+@synthesize flyerId = _flyerId;
 @synthesize flightSpeed = _flightSpeed;
 @synthesize curPostId = _curPostId;
 @synthesize nextPostId = _nextPostId;
@@ -45,6 +49,7 @@ static const float kFlyerDefaultSpeedMetersPerSec = 100.0f;
 @synthesize srcCoord = _srcCoord;
 @synthesize destCoord = _destCoord;
 @synthesize transform = _transform;
+@synthesize delegate = _delegate;
 
 - (id) initAtPost:(TradePost*)tradePost
 {
@@ -64,6 +69,48 @@ static const float kFlyerDefaultSpeedMetersPerSec = 100.0f;
         _transform = CGAffineTransformIdentity;
     }
     return self;
+}
+
+- (id) initWithPostAndFlyerId:(TradePost*)tradePost, NSString* flyerId
+{
+    self = [super init];
+    if(self)
+    {
+        _flyerId = flyerId;
+        _coord = [tradePost coord];
+
+    }
+    return self;
+}
+
+- (void) createNewUserFlyerOnServer
+{
+    // post parameters
+    NSString *userFlyerPath = [NSString stringWithFormat:@"users/%d/user_flyers", [[Player getInstance] id]];
+    NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                _flyerId, kKeyFlyerId,
+                                nil];
+    
+    // make a post request
+    AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
+    [httpClient setDefaultHeader:@"init_post" value:_curPostId];
+    [httpClient postPath:userFlyerPath
+              parameters:parameters
+                 success:^(AFHTTPRequestOperation *operation, id responseObject){
+                     [self.delegate didCompleteHttpCallback:kFlyer_CreateNewFlyer, TRUE];
+                 }
+                 failure:^(AFHTTPRequestOperation* operation, NSError* error){
+                     UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
+                                                                       message:@"Unable to create flyer. Please try again later."
+                                                                      delegate:nil
+                                                             cancelButtonTitle:@"OK"
+                                                             otherButtonTitles:nil];
+                     
+                     [message show];
+                     [self.delegate didCompleteHttpCallback:kFlyer_CreateNewFlyer, FALSE];
+                 }
+     ];
+    [httpClient setDefaultHeader:@"init_post" value:nil];
 }
 
 #pragma mark - flight public
