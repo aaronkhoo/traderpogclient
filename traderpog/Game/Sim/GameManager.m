@@ -21,6 +21,7 @@
 #import "MapControl.h"
 #import "FlyerMgr.h"
 #import "Flyer.h"
+#import "FlyerTypes.h"
 #import "FlightPathOverlay.h"
 #import <CoreLocation/CoreLocation.h>
 
@@ -112,6 +113,13 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     if ([[TradePostMgr getInstance] needsRefresh])
     {
         [[TradePostMgr getInstance] retrievePostsFromServer];   
+        _gameInfoRefreshCount++;
+    }
+    
+    // Load flyers information
+    if ([[FlyerTypes getInstance] needsRefresh])
+    {
+        [[FlyerTypes getInstance] retrieveFlyersFromServer];   
         _gameInfoRefreshCount++;
     }
     
@@ -340,7 +348,8 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     {
         if ([callName compare:kTradeItemTypes_ReceiveItems] == NSOrderedSame ||
             [callName compare:kPlayer_GetPlayerData] == NSOrderedSame ||
-            [callName compare:kTradePostMgr_ReceivePosts] == NSOrderedSame)
+            [callName compare:kTradePostMgr_ReceivePosts] == NSOrderedSame ||
+            [callName compare:kFlyerTypes_ReceiveFlyers] == NSOrderedSame)
         {
             _gameInfoRefreshCount--;
             _gameInfoRefreshSucceeded = _gameInfoRefreshSucceeded && success;

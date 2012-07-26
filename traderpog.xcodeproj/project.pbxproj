@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		387BF59115B519F100972DC0 /* TradeItemTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 387BF59015B519F100972DC0 /* TradeItemTypes.m */; };
+		385972FA15C0B900003DBA04 /* FlyerType.m in Sources */ = {isa = PBXBuildFile; fileRef = 385972F915C0B8FF003DBA04 /* FlyerType.m */; };
+		385972FF15C0BBDA003DBA04 /* TradeItemTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 385972FE15C0BBD9003DBA04 /* TradeItemTypes.m */; };
+		3859730215C0BFD5003DBA04 /* FlyerTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 3859730115C0BFD4003DBA04 /* FlyerTypes.m */; };
 		42A2989115B5F1E700384A52 /* KnobControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2988D15B5F1E700384A52 /* KnobControl.m */; };
 		42A2989215B5F1E700384A52 /* KnobSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2989015B5F1E700384A52 /* KnobSlice.m */; };
 		C41E0C9815AC0391006662DF /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C8415AC0391006662DF /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -48,7 +50,6 @@
 		C481146C15AD024C007FA214 /* TradePost.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146B15AD024C007FA214 /* TradePost.m */; };
 		C481146F15AD0605007FA214 /* WorldState.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146E15AD0605007FA214 /* WorldState.m */; };
 		C481147615B07D96007FA214 /* TradePostMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = C481147515B07D96007FA214 /* TradePostMgr.m */; };
-		C483BAF215C11DA1005E9ED9 /* BrowseArea.m in Sources */ = {isa = PBXBuildFile; fileRef = C483BAF115C11DA1005E9ED9 /* BrowseArea.m */; };
 		C4945B8015AC26D900EEC0C0 /* LoadingScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B7E15AC26D900EEC0C0 /* LoadingScreen.m */; };
 		C4945B8115AC26D900EEC0C0 /* LoadingScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4945B7F15AC26D900EEC0C0 /* LoadingScreen.xib */; };
 		C4945B8415AC2D2C00EEC0C0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4945B8315AC2D2C00EEC0C0 /* SystemConfiguration.framework */; };
@@ -94,9 +95,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		387BF58F15B519F000972DC0 /* TradeItemTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeItemTypes.h; sourceTree = "<group>"; };
-		387BF59015B519F100972DC0 /* TradeItemTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeItemTypes.m; sourceTree = "<group>"; };
-		38B0D75715B0F0BE00DD7900 /* HttpCallbackDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HttpCallbackDelegate.h; sourceTree = "<group>"; };
+		385972F815C0B8FE003DBA04 /* FlyerType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerType.h; path = Game/Sim/FlyerType.h; sourceTree = "<group>"; };
+		385972F915C0B8FF003DBA04 /* FlyerType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerType.m; path = Game/Sim/FlyerType.m; sourceTree = "<group>"; };
+		385972FC15C0BADB003DBA04 /* HttpCallbackDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HttpCallbackDelegate.h; path = Game/Sim/HttpCallbackDelegate.h; sourceTree = "<group>"; };
+		385972FD15C0BBD8003DBA04 /* TradeItemTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradeItemTypes.h; path = Game/Sim/TradeItemTypes.h; sourceTree = "<group>"; };
+		385972FE15C0BBD9003DBA04 /* TradeItemTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradeItemTypes.m; path = Game/Sim/TradeItemTypes.m; sourceTree = "<group>"; };
+		3859730015C0BFD2003DBA04 /* FlyerTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerTypes.h; path = Game/Sim/FlyerTypes.h; sourceTree = "<group>"; };
+		3859730115C0BFD4003DBA04 /* FlyerTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerTypes.m; path = Game/Sim/FlyerTypes.m; sourceTree = "<group>"; };
 		42A2988C15B5F1E700384A52 /* KnobControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobControl.h; sourceTree = "<group>"; };
 		42A2988D15B5F1E700384A52 /* KnobControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KnobControl.m; sourceTree = "<group>"; };
 		42A2988E15B5F1E700384A52 /* KnobProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobProtocol.h; sourceTree = "<group>"; };
@@ -168,8 +173,6 @@
 		C481146E15AD0605007FA214 /* WorldState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorldState.m; path = Game/Sim/WorldState.m; sourceTree = "<group>"; };
 		C481147415B07D96007FA214 /* TradePostMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradePostMgr.h; path = Game/Sim/TradePostMgr.h; sourceTree = "<group>"; };
 		C481147515B07D96007FA214 /* TradePostMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradePostMgr.m; path = Game/Sim/TradePostMgr.m; sourceTree = "<group>"; };
-		C483BAF015C11DA1005E9ED9 /* BrowseArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrowseArea.h; path = Map/BrowseArea.h; sourceTree = "<group>"; };
-		C483BAF115C11DA1005E9ED9 /* BrowseArea.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrowseArea.m; path = Map/BrowseArea.m; sourceTree = "<group>"; };
 		C4945B7D15AC26D900EEC0C0 /* LoadingScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingScreen.h; sourceTree = "<group>"; };
 		C4945B7E15AC26D900EEC0C0 /* LoadingScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingScreen.m; sourceTree = "<group>"; };
 		C4945B7F15AC26D900EEC0C0 /* LoadingScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingScreen.xib; sourceTree = "<group>"; };
@@ -422,8 +425,6 @@
 		C4D5DDDF15B398BE00D5A746 /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				C483BAF015C11DA1005E9ED9 /* BrowseArea.h */,
-				C483BAF115C11DA1005E9ED9 /* BrowseArea.m */,
 				C4BBE46915BBD68000F582DE /* MKMapView+Pog.h */,
 				C4BBE46A15BBD68000F582DE /* MKMapView+Pog.m */,
 				C4BBE46015BA9A8600F582DE /* CalloutAnnotationView.h */,
@@ -540,6 +541,9 @@
 		C4E381BC15AABB0500924A86 /* Sim */ = {
 			isa = PBXGroup;
 			children = (
+				385972FD15C0BBD8003DBA04 /* TradeItemTypes.h */,
+				385972FE15C0BBD9003DBA04 /* TradeItemTypes.m */,
+				385972FC15C0BADB003DBA04 /* HttpCallbackDelegate.h */,
 				C41E0CB415AC1552006662DF /* DebugOptions.h */,
 				C41E0CB515AC1552006662DF /* DebugOptions.m */,
 				C4E381BD15AABB2400924A86 /* GameManager.h */,
@@ -556,13 +560,14 @@
 				C481146E15AD0605007FA214 /* WorldState.m */,
 				C481147415B07D96007FA214 /* TradePostMgr.h */,
 				C481147515B07D96007FA214 /* TradePostMgr.m */,
-				38B0D75715B0F0BE00DD7900 /* HttpCallbackDelegate.h */,
-				387BF58F15B519F000972DC0 /* TradeItemTypes.h */,
-				387BF59015B519F100972DC0 /* TradeItemTypes.m */,
 				C4BBE46C15BBDA2C00F582DE /* Flyer.h */,
 				C4BBE46D15BBDA2C00F582DE /* Flyer.m */,
 				C4BBE46F15BBEEFF00F582DE /* FlyerMgr.h */,
 				C4BBE47015BBEEFF00F582DE /* FlyerMgr.m */,
+				385972F815C0B8FE003DBA04 /* FlyerType.h */,
+				385972F915C0B8FF003DBA04 /* FlyerType.m */,
+				3859730015C0BFD2003DBA04 /* FlyerTypes.h */,
+				3859730115C0BFD4003DBA04 /* FlyerTypes.m */,
 			);
 			name = Sim;
 			sourceTree = "<group>";
@@ -703,7 +708,6 @@
 				C4D5DDEA15B3CF0800D5A746 /* TradePostAnnotationView.m in Sources */,
 				42A2989115B5F1E700384A52 /* KnobControl.m in Sources */,
 				42A2989215B5F1E700384A52 /* KnobSlice.m in Sources */,
-				387BF59115B519F100972DC0 /* TradeItemTypes.m in Sources */,
 				C4BBE45115B92B7600F582DE /* ScanManager.m in Sources */,
 				C4BBE45715BA741C00F582DE /* MathUtils.c in Sources */,
 				C4BBE45A15BA93B800F582DE /* TradePostCallout.m in Sources */,
@@ -716,7 +720,9 @@
 				C4BBE47115BBEF0000F582DE /* FlyerMgr.m in Sources */,
 				C4BBE47415BC5ED200F582DE /* FlyerAnnotation.m in Sources */,
 				C4BBE47715BC5F5100F582DE /* FlyerAnnotationView.m in Sources */,
-				C483BAF215C11DA1005E9ED9 /* BrowseArea.m in Sources */,
+				385972FA15C0B900003DBA04 /* FlyerType.m in Sources */,
+				385972FF15C0BBDA003DBA04 /* TradeItemTypes.m in Sources */,
+				3859730215C0BFD5003DBA04 /* FlyerTypes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

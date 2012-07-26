@@ -29,7 +29,7 @@ static NSString* const keyDebugServerIp = @"serverIp";
         }
         else 
         {
-            _serverIp = [NSString stringWithString:@"76.103.214.206"];
+            _serverIp = @"76.103.214.206";
             [userDefaults setObject:_serverIp forKey:keyDebugServerIp];
         } 
     }
