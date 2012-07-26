@@ -11,6 +11,8 @@
 #import "AFClientManager.h"
 
 static double const refreshTime = -(60 * 15);
+const unsigned int kTradeItemTierMin = 1;
+NSString* const kTradeItemTypes_ReceiveItems = @"TradeItemType_ReceiveItems";
 
 @implementation TradeItemTypes
 @synthesize delegate = _delegate;
@@ -68,6 +70,7 @@ static double const refreshTime = -(60 * 15);
 
 - (NSArray*) getItemTypesForTier:(unsigned int)tier
 {
+    tier = MAX(kTradeItemTierMin, tier);
     NSMutableArray* itemArray = [[NSMutableArray alloc] init];
     for (TradeItemType* item in _itemTypes)
     {

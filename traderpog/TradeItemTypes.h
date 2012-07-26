@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "HttpCallbackDelegate.h"
 
-static NSString* const kTradeItemTypes_ReceiveItems = @"TradeItemType_ReceiveItems";
+extern NSString* const kTradeItemTypes_ReceiveItems;
+extern const unsigned int kTradeItemTierMin;
 
 @interface TradeItemTypes : NSObject
 {
