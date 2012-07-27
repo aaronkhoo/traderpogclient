@@ -9,6 +9,7 @@
 #import "GameViewController.h"
 #import "MapControl.h"
 #import "KnobControl.h"
+#import "KnobSlice.h"
 #import "ScanManager.h"
 #import "FlyerMgr.h"
 #import <QuartzCore/QuartzCore.h>
@@ -181,7 +182,7 @@ static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
     CGRect viewFrame = self.view.frame;
     float knobRadius = kKnobRadiusFrac * viewFrame.size.width;
     CGRect knobFrame = CGRectMake((viewFrame.size.width - knobRadius)/2.0f, 
-                                  viewFrame.size.height - (knobRadius / 2.0f),
+                                  viewFrame.size.height - (knobRadius / 2.5f),
                                   knobRadius, knobRadius);
     self.knob = [[KnobControl alloc] initWithFrame:knobFrame numSlices:4];
     [self.knob setBackgroundImage:[UIImage imageNamed:@"startButton.png"]];
@@ -189,23 +190,39 @@ static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
     [self.knob setDelegate:self];
     
     // HACK
-    // TODO: the label needs to be on the KnobSlices
-    CGRect labelRect = knobFrame;
-    labelRect.origin.y += 5.0f;
-    labelRect.size.height = knobFrame.size.height / 2.0f;
-    UILabel* labelScan = [[UILabel alloc] initWithFrame:labelRect];
-    [labelScan setFont:[UIFont fontWithName:@"Marker Felt" size:20]];
-    [labelScan setTextColor:[UIColor whiteColor]];
-    [labelScan setText:@"SCAN"];
-    [labelScan setTextAlignment:UITextAlignmentCenter];
-    [labelScan setBackgroundColor:[UIColor clearColor]];
-    [labelScan setEnabled:YES];
-    [labelScan setHidden:YES];
-    _labelScan = labelScan;
-    [self.view addSubview:labelScan];
-    
+    // TODO: create a data-source for Knob to pull slot labels from so that
+    // these can change dynamically
+    unsigned int sliceCount = 0;
+    for(KnobSlice* cur in [self.knob slices])
+    {
+        switch(sliceCount)
+        {
+            case 1:
+                [cur setText:@"BEACON"];
+                break;
+                
+            case 2:
+                [cur setText:@"POST"];
+                break;
+                
+            case 3:
+                [cur setText:@"FLYER"];
+                break;
+
+            default:
+            case 0:
+                [cur setText:@"SCAN"];
+                break;
+        }
+        ++sliceCount;
+    }
+    // HACK
+        
     _scanActivity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    [_scanActivity setFrame:labelRect];
+    CGRect activityRect = knobFrame;
+    activityRect.origin.y += 5.0f;
+    activityRect.size.height = knobFrame.size.height / 2.0f;
+    [_scanActivity setFrame:activityRect];
     [_scanActivity setHidden:YES];
     [self.view addSubview:_scanActivity];
     // HACK

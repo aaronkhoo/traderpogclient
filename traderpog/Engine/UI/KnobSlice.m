@@ -11,7 +11,8 @@
 
 @interface KnobSlice ()
 {
-    UIView* _contentView;
+    UIView* _contentContainer;
+    UILabel* _contentLabel;
 }
 @end
 
@@ -33,7 +34,7 @@
         _maxAngle = max;
         _radius = radius;
         
-        // create container view
+        // create slice view
         CGRect viewRect = CGRectMake(0.0f, 0.0f, _radius, 40.0f);
         UIView* newView = [[UIView alloc] initWithFrame:viewRect];
         newView.backgroundColor = [UIColor clearColor];
@@ -47,22 +48,34 @@
         // that's why it's angle is opposite of the mid,min,max logical angles
         newView.transform = CGAffineTransformMakeRotation(angle * index);
         
-        _view = newView;    
-        _contentView = nil;
+        _view = newView;   
+        
+        // create content-container that is attached to the outer edge of the container and oriented
+        // such that it is horizontal when the container view is pointing up
+        CGRect contentRect = CGRectMake(0.0f, 0.0f, _radius, 40.0f);
+        UIView* newContainer = [[UIView alloc] initWithFrame:contentRect];
+        newContainer.layer.position = CGPointMake(contentRect.size.width * 0.4f, contentRect.size.height * 0.5f);
+        newContainer.backgroundColor = [UIColor clearColor];
+        CGAffineTransform contentTransform = CGAffineTransformMakeRotation(-M_PI_2);
+        newContainer.transform = contentTransform;
+        [_view addSubview:newContainer];
+        _contentContainer = newContainer;
+        
+        UILabel* sliceLabel = [[UILabel alloc] initWithFrame:contentRect];
+        [sliceLabel setTextAlignment:UITextAlignmentCenter];
+        [sliceLabel setFont:[UIFont fontWithName:@"Marker Felt" size:20.0f]];
+        [sliceLabel setBackgroundColor:[UIColor clearColor]];
+        [sliceLabel setTextColor:[UIColor whiteColor]];
+        [_contentContainer addSubview:sliceLabel];
+        _contentLabel = sliceLabel;
     }
     return self;
 }
 
-- (void) setContent:(UIView *)view
+- (void) setText:(NSString *)text
 {
-    if(_contentView)
-    {
-        [_contentView removeFromSuperview];
-        _contentView = nil;
-    }
-    
-    _contentView = view;
-    [_view addSubview:_contentView];
+    [_contentLabel setText:text];
 }
+
 
 @end

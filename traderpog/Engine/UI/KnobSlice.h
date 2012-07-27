@@ -24,6 +24,6 @@
 - (id) initWithMin:(float)min mid:(float)mid max:(float)max 
             radius:(float)radius angle:(float)angle
              index:(unsigned int)index;
-- (void) setContent:(UIView*)view;
+- (void) setText:(NSString*)text;
 
 @end

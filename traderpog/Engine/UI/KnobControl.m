@@ -135,6 +135,15 @@ static const float kKnobCenterRadiusFrac = 0.7f;
 - (void) createWheelRender
 {
     _container = [[UIView alloc] initWithFrame:self.bounds];
+    
+    // setup background-image-view
+    // Note on transform: the wheel rendering transform is offset such that the current selection is upward;
+    // however, we need the background to not offset; thus the reverse transform here;
+    self.backgroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+    [self.backgroundImageView setTransform:[self renderTransformFromLogicalTransform:_logicalTransform reverse:YES]];
+    [self.container addSubview:[self backgroundImageView]];
+
+    // setup slices
     self.slices = [NSMutableArray arrayWithCapacity:self.numSlices];
     if(0 == ([self numSlices] % 2))
     {
@@ -154,12 +163,6 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     self.container.userInteractionEnabled = NO;
     [self addSubview:[self container]];    
 
-    // setup background-image-view
-    // Note on transform: the wheel rendering transform is offset such that the current selection is upward;
-    // however, we need the background to not offset; thus the reverse transform here;
-    self.backgroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
-    [self.backgroundImageView setTransform:[self renderTransformFromLogicalTransform:_logicalTransform reverse:YES]];
-    [self.container addSubview:[self backgroundImageView]];
 }
 
 - (void) createCenterButton
