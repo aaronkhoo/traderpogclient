@@ -20,6 +20,7 @@
 
 @implementation FlyerMgr
 @synthesize playerFlyers = _playerFlyers;
+@synthesize delegate = _delegate;
 
 - (id) init
 {
