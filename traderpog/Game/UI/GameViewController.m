@@ -26,7 +26,6 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
     
     CLLocationCoordinate2D _initCoord;
     KnobControl* _knob;
-    UIButton* _buttonShowKnob;
     
     // HACK
     UILabel* _labelScan;
@@ -34,7 +33,6 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
     // HACK
 }
 @property (nonatomic,strong) KnobControl* knob;
-@property (nonatomic,strong) UIButton* buttonShowKnob;
 
 - (void) startDisplayLink;
 - (void) stopDisplayLink;
@@ -52,7 +50,6 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
 @synthesize mapView;
 @synthesize mapControl = _mapControl;
 @synthesize knob = _knob;
-@synthesize buttonShowKnob = _buttonShowKnob;
 @synthesize coord = _initCoord;
 
 - (id)init
@@ -227,22 +224,11 @@ static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
     [self.view addSubview:_scanActivity];
     // HACK
     
-    float buttonHeight = kKnobShowButtonHeightFrac * viewFrame.size.height;
-    CGRect buttonRect = CGRectMake(knobFrame.origin.x, (viewFrame.size.height - buttonHeight), 
-                                   knobFrame.size.width, buttonHeight);
-    self.buttonShowKnob = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [self.buttonShowKnob setFrame:buttonRect];
-    [self.buttonShowKnob setTitle:@"^" forState:UIControlStateNormal];
-    [self.buttonShowKnob addTarget:self action:@selector(didPressShowKnob:) forControlEvents:UIControlEventTouchUpInside];
-    //[self.view addSubview:[self buttonShowKnob]];
-     
     [self dismissKnobAnimated:NO];
 }
 
 - (void) shutdownKnob
 {
-    [self.buttonShowKnob removeFromSuperview];
-    self.buttonShowKnob = nil;
     [self.knob removeFromSuperview];
     self.knob = nil;    
 }
@@ -272,7 +258,6 @@ static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
         [_labelScan setHidden:NO];
         //HACK
     }
-    [self.buttonShowKnob setHidden:YES];
 }
 
 - (void) dismissKnobAnimated:(BOOL)isAnimated
@@ -287,14 +272,12 @@ static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
                          }
                          completion:^(BOOL finished){
                              [self.knob setEnabled:NO];
-                             [self.buttonShowKnob setEnabled:YES];
                          }];
     }
     else
     {
         [self.knob setTransform:hiddenTransform];
         [self.knob setEnabled:NO];
-        [self.buttonShowKnob setEnabled:YES];
     }
 }
 
