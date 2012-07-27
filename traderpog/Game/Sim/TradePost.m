@@ -62,7 +62,7 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
     self = [super init];
     if(self)
     {
-        _postId = [dict valueForKeyPath:@"id"];
+        _postId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:@"id"] integerValue]];
         _coord.latitude = [[dict valueForKeyPath:@"latitude"] doubleValue];
         _coord.longitude = [[dict valueForKeyPath:@"longitude"] doubleValue];
         _itemId = [dict valueForKeyPath:@"item_info_id"];

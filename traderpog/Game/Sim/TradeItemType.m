@@ -23,7 +23,7 @@
     self = [super init];
     if(self)
     {
-        _itemId = [dict valueForKeyPath:@"id"];
+        _itemId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:@"id"] integerValue]];
         _name = [dict valueForKeyPath:@"localized_name"];
         _desc = [dict valueForKeyPath:@"localized_desc"];
         _price =[[dict valueForKeyPath:@"price"] integerValue];

@@ -19,7 +19,7 @@
     self = [super init];
     if(self)
     {
-        _flyerId = [dict valueForKeyPath:@"id"];
+        _flyerId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:@"id"] integerValue]];
         _name = [dict valueForKeyPath:@"localized_name"];
         _desc = [dict valueForKeyPath:@"localized_desc"];
         _price =[[dict valueForKeyPath:@"price"] integerValue];

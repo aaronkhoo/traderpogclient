@@ -284,9 +284,15 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         loading.progressLabel.text = @"Generating first flyer";
         
         // create player's first flyer
-        [[FlyerMgr getInstance] newPlayerFlyerAtTradePost:[[TradePostMgr getInstance] getFirstTradePost]];
-        
-        [self selectNextGameUI];
+        NSArray* flyersArray = [[FlyerTypes getInstance] getFlyersForTier:1];
+        NSInteger index = arc4random() % (flyersArray.count);
+        if (![[FlyerMgr getInstance] newPlayerFlyerAtTradePost:[[TradePostMgr getInstance] getFirstTradePost]                                    firstFlyer:[flyersArray objectAtIndex:index]])
+        {
+            // Something failed in the flyer creation, probably because another flyer
+            // creation was already in flight. We should never get into this state. Log and
+            // move on so we can fix this during debug.
+            NSLog(@"First flyer creation failed!");
+        }
     }
     else
     {        
