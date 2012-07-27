@@ -12,6 +12,10 @@
 @synthesize itemId = _itemId;
 @synthesize name = _name;
 @synthesize desc = _desc;
+@synthesize price = _price;
+@synthesize supplymax = _supplymax;
+@synthesize supplyrate = _supplyrate;
+@synthesize multiplier = _multiplier;
 @synthesize tier = _tier;
 
 - (id) initWithDictionary:(NSDictionary*)dict

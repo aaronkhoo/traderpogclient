@@ -22,6 +22,10 @@
 @property (nonatomic,strong) NSString* itemId;
 @property (nonatomic,strong) NSString* name;
 @property (nonatomic,strong) NSString* desc;
+@property (nonatomic) NSInteger price;
+@property (nonatomic) NSInteger supplymax;
+@property (nonatomic) NSInteger supplyrate;
+@property (nonatomic) NSInteger multiplier;
 @property (nonatomic) NSInteger tier;
 
 - (id) initWithDictionary:(NSDictionary*)dict;

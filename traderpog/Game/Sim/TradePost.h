@@ -25,6 +25,7 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
     
     // transient variables (not saved; reconstructed after load)
     __weak TradePostAnnotation* _annotation;
+    unsigned int _supplyLevel;
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
@@ -33,6 +34,7 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 @property (nonatomic) CLLocationCoordinate2D coord;
 @property (nonatomic) NSString* itemId;
 @property (nonatomic,weak) TradePostAnnotation* annotation;
+@property (nonatomic) unsigned int supplyLevel;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 - (id) initWithPostId:(NSString*)postId

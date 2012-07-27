@@ -19,6 +19,8 @@ NSString* const kTradePostCalloutViewReuseId = @"PostCalloutView";
 @end
 
 @implementation TradePostCalloutView
+@synthesize itemName;
+@synthesize itemSupplyLevel;
 
 - (id) initWithAnnotation:(id<MKAnnotation>)annotation
 {

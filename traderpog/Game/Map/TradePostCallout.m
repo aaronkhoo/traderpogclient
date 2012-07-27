@@ -9,6 +9,9 @@
 #import "TradePostCallout.h"
 #import "TradePost.h"
 #import "TradePostCalloutView.h"
+#import "TradeItemTypes.h"
+#import "TradeItem.h"
+#import "PogUIUtility.h"
 
 @interface TradePostCallout ()
 {
@@ -62,11 +65,15 @@
 {
     // mapView can decide to throw annotation-views into its reuse queue any time
     // so, if the view we have retained no longer belongs to us, clear it
+    // HACK (SCC)
+    // This seems like it can be problematic;
+    // Revisit!!
     if(_calloutView && ([_calloutView annotation] != self))
     {
         NSLog(@"post callout annotation recycled %@ (%@) (%@)", self.tradePost.postId, self, [_calloutView annotation]);
         _calloutView = nil;
     }
+    // HACK (SCC)
     
     if(!_calloutView)
     {
@@ -81,6 +88,15 @@
         }
         _calloutView.parentAnnotationView = self.parentAnnotationView;
         _calloutView.mapView = mapView;
+        NSString* supplyText = [PogUIUtility commaSeparatedStringFromUnsignedInt:[self.tradePost supplyLevel]];
+        [_calloutView.itemSupplyLevel setText:supplyText];
+        
+        TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:[self.tradePost itemId]];
+        if(itemType)
+        {
+            [_calloutView .itemName setText:[itemType name]];
+        }
+        
         /*
         if([_tradePost supplyLevelSufficientForSaleForIdentifier:[_tradeItem identifier]])
         {

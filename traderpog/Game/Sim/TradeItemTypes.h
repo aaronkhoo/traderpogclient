@@ -12,6 +12,7 @@
 extern NSString* const kTradeItemTypes_ReceiveItems;
 extern const unsigned int kTradeItemTierMin;
 
+@class TradeItemType;
 @interface TradeItemTypes : NSObject
 {
     NSMutableArray* _itemTypes;
@@ -29,6 +30,7 @@ extern const unsigned int kTradeItemTierMin;
 
 // Returns an array of TradeItemType
 - (NSArray*) getItemTypesForTier:(unsigned int)tier;
+- (TradeItemType*) getItemTypeForId:(NSString*)itemId;
 
 // singleton
 +(TradeItemTypes*) getInstance;

@@ -14,9 +14,17 @@ static double const refreshTime = -(60 * 15);
 const unsigned int kTradeItemTierMin = 1;
 NSString* const kTradeItemTypes_ReceiveItems = @"TradeItemType_ReceiveItems";
 
+@interface TradeItemTypes ()
+{
+    NSMutableDictionary* _itemTypeReg;
+}
+@property (nonatomic,strong) NSMutableDictionary* itemTypeReg;
+@end
+
 @implementation TradeItemTypes
 @synthesize delegate = _delegate;
 @synthesize itemTypes = _itemTypes;
+@synthesize itemTypeReg = _itemTypeReg;
 
 - (id) init
 {
@@ -25,6 +33,7 @@ NSString* const kTradeItemTypes_ReceiveItems = @"TradeItemType_ReceiveItems";
     {
         _lastUpdate = nil;
         _itemTypes = [[NSMutableArray alloc] init];
+        _itemTypeReg = [NSMutableDictionary dictionaryWithCapacity:10];
     }
     return self;
 }
@@ -34,11 +43,12 @@ NSString* const kTradeItemTypes_ReceiveItems = @"TradeItemType_ReceiveItems";
     return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime);
 }
 
-- (void) createItemsArray:(id)responseObject
+- (void) createItemsReg:(id)responseObject
 {
     for (NSDictionary* item in responseObject)
     {
         TradeItemType* current = [[TradeItemType alloc] initWithDictionary:item];
+        [_itemTypeReg setObject:current forKey:[current itemId]];
         [_itemTypes addObject:current];
     }
 }
@@ -51,7 +61,7 @@ NSString* const kTradeItemTypes_ReceiveItems = @"TradeItemType_ReceiveItems";
               parameters:nil
                  success:^(AFHTTPRequestOperation *operation, id responseObject){                     
                      NSLog(@"Retrieved: %@", responseObject);
-                     [self createItemsArray:responseObject];
+                     [self createItemsReg:responseObject];
                      _lastUpdate = [NSDate date];
                      [self.delegate didCompleteHttpCallback:kTradeItemTypes_ReceiveItems, TRUE];
                  }
@@ -80,6 +90,18 @@ NSString* const kTradeItemTypes_ReceiveItems = @"TradeItemType_ReceiveItems";
         }
     }
     return (NSArray*)itemArray;
+}
+
+- (TradeItemType*) getItemTypeForId:(NSString *)itemId
+{
+    TradeItemType* itemType = [self.itemTypeReg objectForKey:itemId];
+    if(!itemType)
+    {
+        // HACK
+        // TODO: retrieve from server
+        // HACK
+    }
+    return itemType;
 }
 
 #pragma mark - Singleton

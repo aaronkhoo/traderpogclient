@@ -25,6 +25,7 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
 @synthesize postId = _postId;
 @synthesize itemId = _itemId;
 @synthesize annotation = _annotation;
+@synthesize supplyLevel = _supplyLevel;
 @synthesize delegate = _delegate;
 
 - (id) initWithPostId:(NSString*)postId
@@ -38,6 +39,7 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
         _coord = coordinate;
         _itemId = [itemType itemId];
         _annotation = nil;
+        _supplyLevel = [itemType supplymax];
     }
     return self;
 }
@@ -67,6 +69,10 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
         _imgPath = [dict valueForKeyPath:@"img"];
         _supplyMaxLevel =[[dict valueForKeyPath:@"supplymaxlevel"] integerValue];
         _supplyRateLevel =[[dict valueForKeyPath:@"supplyratelevel"] integerValue];
+        
+        // transient variables
+        _supplyLevel = _supplyMaxLevel;
+        _annotation = nil;
     }
     return self;
 }

@@ -12,6 +12,8 @@
 extern NSString* const kTradePostCalloutViewReuseId;
 
 @interface TradePostCalloutView : CalloutAnnotationView
+@property (weak, nonatomic) IBOutlet UILabel *itemName;
+@property (weak, nonatomic) IBOutlet UILabel *itemSupplyLevel;
 - (IBAction)didPressGo:(id)sender;
 
 @end
