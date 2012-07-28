@@ -30,12 +30,12 @@ NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
         
         // set size of view
         CGRect myFrame = self.frame;
-        myFrame.size = CGSizeMake(80.0f, 80.0f);
+        myFrame.size = CGSizeMake(120.0f, 120.0f);
         self.frame = myFrame;
         
         // setup tradepost image
         UIImage *annotationImage = [UIImage imageNamed:@"HomeBase.png"];
-        CGRect resizeRect = CGRectMake(0.0f, 0.0f, 80.0f, 80.0f);
+        CGRect resizeRect = CGRectMake(0.0f, 0.0f, 120.0f, 120.0f);
         UIGraphicsBeginImageContext(resizeRect.size);
         [annotationImage drawInRect:resizeRect];
         UIImage *resizedImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -47,7 +47,7 @@ NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
         UIView* contentView = [[UIView alloc] initWithFrame:myFrame];
         UIImageView* imageView = [[UIImageView alloc] initWithImage:resizedImage];
         [imageView setFrame:CGRectMake(myFrame.origin.x, 
-                                       myFrame.origin.y-(resizeRect.size.height/4.0f), 
+                                       myFrame.origin.y, 
                                        resizeRect.size.width, resizeRect.size.height)];
         [contentView addSubview:imageView];
         

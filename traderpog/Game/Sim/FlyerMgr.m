@@ -40,10 +40,15 @@
         [newFlyer setDelegate:[FlyerMgr getInstance]];
         _tempFlyer = newFlyer;
         [_tempFlyer createNewUserFlyerOnServer];
-        return TRUE;
     }
     
-    return FALSE;
+    BOOL result = NO;
+    if(_tempFlyer)
+    {
+        result = YES;
+    }
+    
+    return result;
 }
 
 - (void) setTempFlyerToActive
@@ -90,7 +95,10 @@
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {
-    if (success)
+    // HACK
+    // TODO: re-enable this if(success) check when integration with server is done
+    //if (success)
+    // HACK
     {
         [self setTempFlyerToActive];
     }
