@@ -170,7 +170,7 @@ static const float kKnobAnimInDuration = 0.5f;
 static const float kKnobAnimOutDuration = 0.25f;
 
 // all knob position consts are expressed in terms of fraction of view-width
-static const float kKnobRadiusFrac = 0.4f;  // frac of view-width
+static const float kKnobRadiusFrac = 0.5f;  // frac of view-width
 static const float kKnobHiddenYOffsetFrac = (kKnobRadiusFrac * 0.4f); // frac of view-width
 static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
 

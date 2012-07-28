@@ -28,7 +28,8 @@ static const float kKnobCenterRadiusFrac = 0.7f;
 - (void) createWheelRender;
 - (void) createCenterButton;
 - (float) distFromCenter:(CGPoint)point;
-
+- (void) refreshSliceViewDidSelect;
+- (void) refreshSliceViewDidBeginTouch;
 - (void) didPressCenterButton:(id)sender;
 @end
 
@@ -53,6 +54,9 @@ static const float kKnobCenterRadiusFrac = 0.7f;
         
         [self createWheelRender];
         [self createCenterButton];
+        
+        // initial refresh of sliceview
+        [self refreshSliceViewDidSelect];
     }
     return self;
 }
@@ -170,9 +174,11 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     self.centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     float containerRadius = _container.bounds.size.width * 0.5f;
     float centerRadius = containerRadius * kKnobCenterRadiusFrac;
-    CGRect centerRect = CGRectMake(containerRadius - centerRadius, 
-                                   containerRadius - centerRadius, 
-                                   centerRadius * 2.0f, centerRadius);
+    float centerWidth = centerRadius * 1.3f;
+    float centerHeight = centerRadius * 0.8f;
+    CGRect centerRect = CGRectMake(containerRadius - (centerWidth * 0.5f), 
+                                   containerRadius - centerHeight, 
+                                   centerWidth, centerHeight);
     [self.centerButton setFrame:centerRect];
     [self.centerButton setBackgroundColor:[UIColor clearColor]];
     [self.centerButton addTarget:self action:@selector(didPressCenterButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -186,6 +192,47 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     float dx = point.x - center.x;
     float dy = point.y - center.y;
     return sqrt(dx*dx + dy*dy);
+}
+
+- (void) refreshSliceViewDidSelect
+{
+    // make selected slice bigger
+    unsigned int sliceIndex = 0;
+    for(KnobSlice* cur in _slices)
+    {
+        if([self selectedSlice] == sliceIndex)
+        {
+            [UIView animateWithDuration:0.2f 
+                             animations:^(void){
+                                 [cur useBigText];
+                             }
+                             completion:nil];
+        }
+        else 
+        {
+            [cur.view setHidden:YES];
+        }
+        ++sliceIndex;
+    }
+}
+
+- (void) refreshSliceViewDidBeginTouch
+{
+    // unhide all slices and make them the same size
+    unsigned int sliceIndex = 0;
+    for(KnobSlice* cur in _slices)
+    {
+        if([self selectedSlice] == sliceIndex)
+        {
+            [UIView animateWithDuration:0.2f 
+                             animations:^(void){
+                                 [cur useSmallText];
+                             }
+                             completion:nil];            
+        }
+        [cur.view setHidden:NO];
+        ++sliceIndex;
+    }
 }
 
 #pragma mark - UIControl
@@ -207,6 +254,8 @@ static const float kKnobCenterRadiusFrac = 0.7f;
         // transform at start
         _startTransform = _logicalTransform;
         beginTracking = YES;
+        
+        [self refreshSliceViewDidBeginTouch];
     }
     else 
     {
@@ -223,7 +272,6 @@ static const float kKnobCenterRadiusFrac = 0.7f;
 
 - (BOOL)continueTrackingWithTouch:(UITouch*)touch withEvent:(UIEvent*)event
 {
-    BOOL shouldEndTracking = NO;
     CGPoint pt = [touch locationInView:self];
     float dx = pt.x  - self.container.center.x;
     float dy = pt.y  - self.container.center.y;
@@ -260,7 +308,7 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform reverse:NO];
     self.selectedSlice = newSelectedSlice;
     
-    return !shouldEndTracking;
+    return YES;
 }
 
 - (void)endTrackingWithTouch:(UITouch*)touch withEvent:(UIEvent*)event
@@ -297,16 +345,17 @@ static const float kKnobCenterRadiusFrac = 0.7f;
         ++index;
     }
     
+    // animate to resting position
     {
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:0.2];
         CGAffineTransform t = CGAffineTransformRotate(_logicalTransform, -newVal);
         _logicalTransform = t;
         self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform reverse:NO];
-        
-        // important: levelContentViewsWithItem relies on _absAngle to scale the selected bubble
         [UIView commitAnimations];
     }
+    
+    [self refreshSliceViewDidSelect];
 }
 
 #pragma mark - button actions

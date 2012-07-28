@@ -228,6 +228,7 @@
 		C4D5DDE815B3CF0700D5A746 /* TradePostAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradePostAnnotationView.h; path = Game/Map/TradePostAnnotationView.h; sourceTree = "<group>"; };
 		C4D5DDE915B3CF0800D5A746 /* TradePostAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradePostAnnotationView.m; path = Game/Map/TradePostAnnotationView.m; sourceTree = "<group>"; };
 		C4D5DDED15B3D12B00D5A746 /* HomeBase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HomeBase.png; path = assets/Map/HomeBase.png; sourceTree = SOURCE_ROOT; };
+		C4E2A5C815C45B7100AEAF13 /* KnobDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KnobDelegate.h; sourceTree = "<group>"; };
 		C4E3819A15AA0C5B00924A86 /* StartScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartScreen.h; path = Game/UI/StartScreen.h; sourceTree = "<group>"; };
 		C4E3819B15AA0C5B00924A86 /* StartScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartScreen.m; path = Game/UI/StartScreen.m; sourceTree = "<group>"; };
 		C4E3819C15AA0C5B00924A86 /* StartScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StartScreen.xib; path = Game/UI/StartScreen.xib; sourceTree = "<group>"; };
@@ -539,6 +540,7 @@
 				42A2988E15B5F1E700384A52 /* KnobProtocol.h */,
 				42A2988F15B5F1E700384A52 /* KnobSlice.h */,
 				42A2989015B5F1E700384A52 /* KnobSlice.m */,
+				C4E2A5C815C45B7100AEAF13 /* KnobDelegate.h */,
 			);
 			path = UI;
 			sourceTree = "<group>";

@@ -9,10 +9,15 @@
 #import "KnobSlice.h"
 #import <QuartzCore/QuartzCore.h>
 
+static const float kSliceTextSmallScale = 0.5f;
+static const float kSliceTextBigScale = 1.0f;
+
 @interface KnobSlice ()
 {
     UIView* _contentContainer;
     UILabel* _contentLabel;
+    CGAffineTransform _labelTransformSmall;
+    CGAffineTransform _labelTransformBig;
 }
 @end
 
@@ -60,14 +65,24 @@
         newContainer.transform = contentTransform;
         [_view addSubview:newContainer];
         _contentContainer = newContainer;
-        
-        UILabel* sliceLabel = [[UILabel alloc] initWithFrame:contentRect];
+
+        // label
+        CGRect labelRect = CGRectInset(contentRect, -15.0f, -15.0f);
+        UILabel* sliceLabel = [[UILabel alloc] initWithFrame:labelRect];
         [sliceLabel setTextAlignment:UITextAlignmentCenter];
-        [sliceLabel setFont:[UIFont fontWithName:@"Marker Felt" size:20.0f]];
+        [sliceLabel setFont:[UIFont fontWithName:@"Marker Felt" size:35.0f]];
         [sliceLabel setBackgroundColor:[UIColor clearColor]];
         [sliceLabel setTextColor:[UIColor whiteColor]];
         [_contentContainer addSubview:sliceLabel];
         _contentLabel = sliceLabel;
+
+        // setup preset transforms for text label
+        _labelTransformBig = CGAffineTransformMakeScale(kSliceTextBigScale, kSliceTextBigScale);
+        _labelTransformBig = CGAffineTransformTranslate(_labelTransformBig, 0.0f, labelRect.size.height * 0.2f);
+        _labelTransformSmall = CGAffineTransformMakeScale(kSliceTextSmallScale, kSliceTextSmallScale);
+        
+        // init all slices as small (Knob will make them big when selected)
+        [self useSmallText];
     }
     return self;
 }
@@ -75,6 +90,16 @@
 - (void) setText:(NSString *)text
 {
     [_contentLabel setText:text];
+}
+
+- (void) useBigText
+{
+    [_contentLabel setTransform:_labelTransformBig];
+}
+
+- (void) useSmallText
+{
+    [_contentLabel setTransform:_labelTransformSmall];
 }
 
 

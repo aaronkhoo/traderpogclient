@@ -25,5 +25,7 @@
             radius:(float)radius angle:(float)angle
              index:(unsigned int)index;
 - (void) setText:(NSString*)text;
+- (void) useBigText;
+- (void) useSmallText;
 
 @end
