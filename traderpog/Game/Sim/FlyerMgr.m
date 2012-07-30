@@ -50,15 +50,9 @@ static double const refreshTime = -(60 * 15);
         [newFlyer setDelegate:[FlyerMgr getInstance]];
         _tempFlyer = newFlyer;
         [_tempFlyer createNewUserFlyerOnServer];
-    }
-    
-    BOOL result = NO;
-    if(_tempFlyer)
-    {
-        result = YES;
-    }
-    
-    return result;
+        return TRUE;
+    }    
+    return FALSE;
 }
 
 - (void) setTempFlyerToActive
@@ -131,10 +125,7 @@ static double const refreshTime = -(60 * 15);
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {
-    // HACK
-    // TODO: re-enable this if(success) check when integration with server is done
-    //if (success)
-    // HACK
+    if (success)
     {
         [self setTempFlyerToActive];
     }
