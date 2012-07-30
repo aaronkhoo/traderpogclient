@@ -111,6 +111,7 @@
     [[TradeItemTypes getInstance] setDelegate:[GameManager getInstance]];
     [[TradePostMgr getInstance] setDelegate:[GameManager getInstance]];
     [[FlyerTypes getInstance] setDelegate:[GameManager getInstance]];
+    [[FlyerMgr getInstance] setDelegate:[GameManager getInstance]];
 
     // load up frontmenu background
     [[ImageManager getInstance] loadFrontMenuBackgroundNamed:@"Default.png"];

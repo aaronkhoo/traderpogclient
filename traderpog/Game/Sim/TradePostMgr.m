@@ -189,7 +189,7 @@ static double const refreshTime = -(60 * 15);
 
 - (void) retrievePostsFromServer
 {
-    // make a post request
+    // make a get request
     AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
     NSString *userId = [NSString stringWithFormat:@"%d", [[Player getInstance] id]];
     [httpClient setDefaultHeader:@"user_id" value:userId];

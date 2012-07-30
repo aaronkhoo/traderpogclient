@@ -10,11 +10,14 @@
 #import "HttpCallbackDelegate.h"
 #import <Foundation/Foundation.h>
 
+static NSString* const kFlyerMgr_ReceiveFlyers = @"FlyerMgr_ReceiveFlyers";
+
 @class Flyer;
 @class TradePost;
 @interface FlyerMgr : NSObject<HttpCallbackDelegate>
 {
     NSMutableArray* _playerFlyers;
+    NSDate* _lastUpdate;
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
@@ -22,9 +25,10 @@
 @property (nonatomic,strong) NSMutableArray* playerFlyers;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
+- (BOOL) needsRefresh;
 - (BOOL) newPlayerFlyerAtTradePost:(TradePost*)tradePost
                         firstFlyer:(FlyerType*)flyerType;
-- (void) loadFlyersFromServer;
+- (void) retrieveUserFlyersFromServer;
 - (void) updateFlyersAtDate:(NSDate*)currentTime;
 
 // singleton

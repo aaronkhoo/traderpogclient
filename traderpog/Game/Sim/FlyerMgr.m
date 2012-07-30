@@ -6,9 +6,11 @@
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
+#import "AFClientManager.h"
 #import "FlyerMgr.h"
 #import "Flyer.h"
 #import "GameManager.h"
+#import "Player.h"
 #import "TradePost.h"
 
 @interface FlyerMgr ()
@@ -17,6 +19,8 @@
     Flyer* _tempFlyer;
 }
 @end
+
+static double const refreshTime = -(60 * 15);
 
 @implementation FlyerMgr
 @synthesize playerFlyers = _playerFlyers;
@@ -28,8 +32,14 @@
     if(self)
     {
         _playerFlyers = [NSMutableArray arrayWithCapacity:10];
+        _lastUpdate = nil;
     }
     return self;
+}
+
+- (BOOL) needsRefresh
+{
+    return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime);
 }
 
 - (BOOL) newPlayerFlyerAtTradePost:(TradePost*)tradePost firstFlyer:(FlyerType*)flyerType
@@ -75,13 +85,39 @@
     }
 }
 
-- (void) loadFlyersFromServer
+- (void) createFlyerssArray:(id)responseObject
 {
-    // HACK
-    
-    // TODO: load from server
-    
-    // HACK
+    for (NSDictionary* flyer in responseObject)
+    {
+        Flyer* current = [[Flyer alloc] initWithDictionary:flyer];
+        [self.playerFlyers addObject:current];
+    }
+}
+
+- (void) retrieveUserFlyersFromServer
+{
+    // make a get request
+    AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
+    NSString *userFlyerPath = [NSString stringWithFormat:@"users/%d/user_flyers", [[Player getInstance] id]];
+    [httpClient getPath:userFlyerPath
+             parameters:nil
+                success:^(AFHTTPRequestOperation *operation, id responseObject){
+                    NSLog(@"Retrieved: %@", responseObject);
+                    [self createFlyerssArray:responseObject];
+                    _lastUpdate = [NSDate date];
+                    [self.delegate didCompleteHttpCallback:kFlyerMgr_ReceiveFlyers, TRUE];
+                }
+                failure:^(AFHTTPRequestOperation* operation, NSError* error){
+                    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
+                                                                      message:@"Unable to create retrieve flyers. Please try again later."
+                                                                     delegate:nil
+                                                            cancelButtonTitle:@"OK"
+                                                            otherButtonTitles:nil];
+                    
+                    [message show];
+                    [self.delegate didCompleteHttpCallback:kFlyerMgr_ReceiveFlyers, FALSE];
+                }
+     ];
 }
 
 - (void) updateFlyersAtDate:(NSDate *)currentTime

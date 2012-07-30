@@ -78,7 +78,72 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
     {
         _flyerId = flyerId;
         _coord = [tradePost coord];
+        
+        _flightSpeed = kFlyerDefaultSpeedMetersPerSec;
+        _curPostId = [tradePost postId];
+        _nextPostId = nil;
+        _flightPathRender = nil;
+        _annotation = nil;
+        _departureDate = nil;
+        _srcCoord = _coord;
+        _destCoord = _coord;
+        _metersToDest = 0.0;
+        _transform = CGAffineTransformIdentity;
 
+    }
+    return self;
+}
+
+- (id) initWithDictionary:(NSDictionary*)dict
+{
+    self = [super init];
+    if(self)
+    {
+        _annotation = nil;
+        
+        _flyerId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:@"flyer_info_id"] integerValue]];
+        
+        NSArray* paths_array = [dict valueForKeyPath:@"flyer_paths"];
+        NSDictionary* path_dict = [paths_array objectAtIndex:0];
+        _curPostId = [NSString stringWithFormat:@"%d", [[path_dict valueForKeyPath:@"post1"] integerValue]];
+        if (_curPostId == nil)
+        {
+            // No post ID, so it must be stored in the longitude/latitude values
+            _srcCoord.latitude = [[dict valueForKeyPath:@"latitude1"] doubleValue];
+            _srcCoord.longitude = [[dict valueForKeyPath:@"longitude1"] doubleValue];
+        }
+        else
+        {
+            _srcCoord = [[[TradePostMgr getInstance] getTradePostWithId:_curPostId] coord];
+        }
+        _nextPostId = [NSString stringWithFormat:@"%d", [[path_dict valueForKeyPath:@"post2"] integerValue]];;
+        if ([_curPostId compare:_nextPostId] == NSOrderedSame)
+        {
+            // If the server indicated curPostId and nextPostId are the same,
+            // then the flyer is at its original position, which means it isn't moving
+            _nextPostId = nil;
+            _departureDate = nil;
+        }
+        else
+        {
+            if (_nextPostId == nil)
+            {
+                // No post ID, so it must be stored in the longitude/latitude values
+                _destCoord.latitude = [[dict valueForKeyPath:@"latitude2"] doubleValue];
+                _destCoord.longitude = [[dict valueForKeyPath:@"longitude2"] doubleValue];
+            }
+            else
+            {
+                _destCoord = [[[TradePostMgr getInstance] getTradePostWithId:_nextPostId] coord];
+            }
+        }
+        
+        // TODO: Not sure this is the correct behavior
+        _coord = _srcCoord;
+        _flightPathRender = nil;
+        _annotation = nil;
+        _metersToDest = 0.0;
+        _transform = CGAffineTransformIdentity;
     }
     return self;
 }
@@ -93,7 +158,7 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
     
     // make a post request
     AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
-    [httpClient setDefaultHeader:@"init_post" value:_curPostId];
+    [httpClient setDefaultHeader:@"Init-Post-Id" value:_curPostId];
     [httpClient postPath:userFlyerPath
               parameters:parameters
                  success:^(AFHTTPRequestOperation *operation, id responseObject){

@@ -46,5 +46,6 @@ static NSString* const kFlyer_CreateNewFlyer = @"Flyer_CreateNewFlyer";
 - (void) createNewUserFlyerOnServer;
 - (void) departForPostId:(NSString*)postId;
 - (void) updateAtDate:(NSDate*)currentTime;
+- (id) initWithDictionary:(NSDictionary*)dict;
 
 @end
