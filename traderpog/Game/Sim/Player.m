@@ -18,6 +18,8 @@ static NSString* const kKeyFacebookId = @"fbid";
 static NSString* const kKeyEmail = @"email";
 static NSString* const kKeyBucks = @"bucks";
 static NSString* const kKeyMember = @"member";
+static NSString* const kKeyFbAccessToken = @"fbaccesstoken";
+static NSString* const kKeyFbExpiration = @"fbexpiration";
 static NSString* const kPlayerFilename = @"player.sav";
 
 static double const refreshTime = -(60 * 15);
@@ -26,6 +28,7 @@ static double const refreshTime = -(60 * 15);
 @synthesize delegate = _delegate;
 @synthesize id = _id;
 @synthesize dataRefreshed = _dataRefreshed;
+@synthesize facebook = _facebook;
 
 - (id) init
 {
@@ -45,11 +48,15 @@ static double const refreshTime = -(60 * 15);
         _email = @"";
         _member = FALSE;
         _bucks = 0;
+        _fbAccessToken = nil;
+        _fbExpiration = nil;
         
         _lastUpdate = nil;
         
         // Initialize delegate
         _delegate = nil;
+        
+        _facebook = nil;
     }
     return self;
 }
@@ -64,13 +71,18 @@ static double const refreshTime = -(60 * 15);
 {
     [aCoder encodeObject:_createdVersion forKey:kKeyVersion];
     [aCoder encodeInteger:_id forKey:kKeyUserId];
-    [aCoder encodeObject:_secretkey forKey:kKeySecretkey];}
+    [aCoder encodeObject:_secretkey forKey:kKeySecretkey];
+    [aCoder encodeObject:_fbAccessToken forKey:kKeyFbAccessToken];
+    [aCoder encodeObject:_fbExpiration forKey:kKeyFbExpiration];
+}
 
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
     _createdVersion = [aDecoder decodeObjectForKey:kKeyVersion];
     _id = [aDecoder decodeIntegerForKey:kKeyUserId];
-    _secretkey = [aDecoder decodeObjectForKey:kKeySecretkey];    
+    _secretkey = [aDecoder decodeObjectForKey:kKeySecretkey];
+    _fbAccessToken = [aDecoder decodeObjectForKey:kKeyFbAccessToken];
+    _fbExpiration = [aDecoder decodeObjectForKey:kKeyFbExpiration];
     return self;
 }
 
@@ -195,6 +207,51 @@ static double const refreshTime = -(60 * 15);
                      [self.delegate didCompleteHttpCallback:kPlayer_CreateNewUser, FALSE];
                  }
      ];
+}
+
+#pragma mark - Facebook functions
+
+- (void)initializeFacebook
+{
+    if (!_facebook)
+    {
+        _facebook = [[Facebook alloc] initWithAppId:@"462130833811786" andDelegate:self];
+        
+        if (_fbAccessToken && _fbExpiration) {
+            _facebook.accessToken = _fbAccessToken;
+            _facebook.expirationDate = _fbExpiration;
+        }
+    }
+    
+    if (![_facebook isSessionValid]) {
+        [_facebook authorize:nil];
+    }
+}
+
+- (void)fbDidLogin {
+    _fbAccessToken = [_facebook accessToken];
+    _fbExpiration = [_facebook expirationDate];
+    [self savePlayerData];
+}
+
+- (void)fbDidNotLogin:(BOOL)cancelled
+{
+    // TODO: Still needs to be implemented
+}
+
+- (void)fbDidExtendToken:(NSString *)accessToken expiresAt:(NSDate *)expiresAt
+{
+    // TODO: Still needs to be implemented
+}
+
+- (void)fbDidLogout
+{
+    // TODO: Still needs to be implemented
+}
+
+- (void)fbSessionInvalidated
+{
+    // TODO: Still needs to be implemented
 }
 
 #pragma mark - Singleton
