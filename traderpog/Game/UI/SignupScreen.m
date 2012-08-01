@@ -55,7 +55,7 @@
 }
 
 - (IBAction)connectToFacebook:(id)sender {
-    [[Player getInstance] initializeFacebook];
+    [[Player getInstance] authorizeFacebook];
 }
 
 @end

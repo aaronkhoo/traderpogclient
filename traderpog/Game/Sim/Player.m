@@ -53,13 +53,14 @@ static double const refreshTime = -(60 * 15);
         _bucks = 0;
         _fbAccessToken = nil;
         _fbExpiration = nil;
+        _fbFriends = nil;
         
         _lastUpdate = nil;
         
         // Initialize delegate
         _delegate = nil;
         
-        _facebook = nil;
+        [self initializeFacebook];
     }
     return self;
 }
@@ -109,7 +110,8 @@ static double const refreshTime = -(60 * 15);
         NSData* readData = [NSData dataWithContentsOfFile:filepath];
         if(readData)
         {
-            current_player = [NSKeyedUnarchiver unarchiveObjectWithData:readData];        
+            current_player = [NSKeyedUnarchiver unarchiveObjectWithData:readData];
+            [current_player initializeFacebook];
         }
     }
     return current_player;
@@ -223,10 +225,18 @@ static double const refreshTime = -(60 * 15);
         if (_fbAccessToken && _fbExpiration) {
             _facebook.accessToken = _fbAccessToken;
             _facebook.expirationDate = _fbExpiration;
+            
+            if ([_facebook.expirationDate timeIntervalSinceNow] < 0)
+            {
+                [_facebook extendAccessTokenIfNeeded];
+            }
         }
     }
-    
-    if (![_facebook isSessionValid]) {
+}
+
+- (void)authorizeFacebook
+{
+    if (_facebook && ![_facebook isSessionValid]) {
         [_facebook authorize:nil];
     }
 }
@@ -247,7 +257,9 @@ static double const refreshTime = -(60 * 15);
 
 - (void)fbDidExtendToken:(NSString *)accessToken expiresAt:(NSDate *)expiresAt
 {
-    // TODO: Still needs to be implemented
+    _fbAccessToken = [_facebook accessToken];
+    _fbExpiration = [_facebook expirationDate];
+    [self savePlayerData];
 }
 
 - (void)fbDidLogout
@@ -260,22 +272,28 @@ static double const refreshTime = -(60 * 15);
     // TODO: Still needs to be implemented
 }
 
+- (void)parseFacebookFriends:(NSArray*)friendsArray
+{
+    _fbFriends = @"";
+    for (id object in friendsArray) {
+        NSDictionary* dict = (NSDictionary*)object;
+        if ([_fbFriends length] > 0)
+        {
+            _fbFriends = [_fbFriends stringByAppendingString:@"|"];
+        }
+        _fbFriends = [_fbFriends stringByAppendingString:[dict valueForKeyPath:@"id"]];
+    }
+    NSLog(@"Friends: %@", _fbFriends);
+}
+
 - (void)request:(FBRequest *)request didLoad:(id)result
 {
     NSLog(@"Facebook request %@ loaded", [request url]);
     
-    //handling a user info request
-    if ([[request url] rangeOfString:@"/me"].location != NSNotFound)
+    //handling a user friends info request
+    if ([[request url] rangeOfString:@"me/friends"].location != NSNotFound)
     {
-        // show loading screen 
-        LoadingScreen* loading = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
-        loading.progressLabel.text = @"Storing Facebook info";
-        AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-        UINavigationController* nav = appDelegate.navController;
-        [nav pushFadeInViewController:loading animated:YES];
-        
-        // Grab the facebook ID for the current user
-        _facebookid = [result valueForKeyPath:@"id"];
+        [self parseFacebookFriends:[result valueForKeyPath:@"data"]];
         
         if ([Player getInstance].id == 0)
         {
@@ -291,12 +309,23 @@ static double const refreshTime = -(60 * 15);
             // with this user
             // TODO: implement this
         }
-            
     }
-    //handling a user friends info request
-    else if ([[request url] rangeOfString:@"me/friends"].location != NSNotFound)
+        //handling a user info request
+    else if ([[request url] rangeOfString:@"/me"].location != NSNotFound)
     {
-        /* handle user request in here */
+        // show loading screen
+        LoadingScreen* loading = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
+        loading.progressLabel.text = @"Storing Facebook info";
+        AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        UINavigationController* nav = appDelegate.navController;
+        [nav pushFadeInViewController:loading animated:YES];
+        
+        // Grab the facebook ID for the current user
+        _facebookid = [result valueForKeyPath:@"id"];
+        
+        // get the logged-in user's friends
+        [_facebook requestWithGraphPath:@"me/friends" andDelegate:self];
+        
     }
 }
 

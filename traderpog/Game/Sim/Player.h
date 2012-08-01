@@ -27,6 +27,7 @@ static NSString* const kPlayer_GetPlayerData = @"GetPlayerData";
     NSString* _email;
     NSString* _fbAccessToken;
     NSDate* _fbExpiration;
+    NSString* _fbFriends;
     
     NSDate* _lastUpdate;
     
@@ -41,6 +42,7 @@ static NSString* const kPlayer_GetPlayerData = @"GetPlayerData";
 @property (nonatomic, retain) Facebook *facebook;
 
 - (void)initializeFacebook;
+- (void)authorizeFacebook;
 - (BOOL) needsRefresh;
 - (void) createNewPlayerOnServer;
 - (void) getPlayerDataFromServer;
