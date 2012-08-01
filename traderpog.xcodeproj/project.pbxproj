@@ -12,6 +12,9 @@
 		3859730215C0BFD5003DBA04 /* FlyerTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 3859730115C0BFD4003DBA04 /* FlyerTypes.m */; };
 		38B6DAEF15C85A9D00F37BD9 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 38B6DAE215C85A9D00F37BD9 /* FBDialog.bundle */; };
 		38B6DAF015C85A9D00F37BD9 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38B6DAE815C85A9D00F37BD9 /* libfacebook_ios_sdk.a */; };
+		42094DB615C9B236001FA77D /* WheelBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB015C9B235001FA77D /* WheelBubble.m */; };
+		42094DB715C9B236001FA77D /* WheelControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB215C9B236001FA77D /* WheelControl.m */; };
+		42094DB815C9B236001FA77D /* WheelSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB515C9B236001FA77D /* WheelSlice.m */; };
 		42A2989115B5F1E700384A52 /* KnobControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2988D15B5F1E700384A52 /* KnobControl.m */; };
 		42A2989215B5F1E700384A52 /* KnobSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2989015B5F1E700384A52 /* KnobSlice.m */; };
 		C41E0C9815AC0391006662DF /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C8415AC0391006662DF /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -120,6 +123,13 @@
 		38B6DAEC15C85A9D00F37BD9 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
 		38B6DAED15C85A9D00F37BD9 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
 		38B6DAEE15C85A9D00F37BD9 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		42094DAF15C9B235001FA77D /* WheelBubble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WheelBubble.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		42094DB015C9B235001FA77D /* WheelBubble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WheelBubble.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		42094DB115C9B235001FA77D /* WheelControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WheelControl.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		42094DB215C9B236001FA77D /* WheelControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WheelControl.m; sourceTree = "<group>"; };
+		42094DB315C9B236001FA77D /* WheelProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WheelProtocol.h; sourceTree = "<group>"; };
+		42094DB415C9B236001FA77D /* WheelSlice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WheelSlice.h; sourceTree = "<group>"; };
+		42094DB515C9B236001FA77D /* WheelSlice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WheelSlice.m; sourceTree = "<group>"; };
 		42A2988C15B5F1E700384A52 /* KnobControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobControl.h; sourceTree = "<group>"; };
 		42A2988D15B5F1E700384A52 /* KnobControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KnobControl.m; sourceTree = "<group>"; };
 		42A2988E15B5F1E700384A52 /* KnobProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobProtocol.h; sourceTree = "<group>"; };
@@ -580,6 +590,13 @@
 				42A2988E15B5F1E700384A52 /* KnobProtocol.h */,
 				42A2988F15B5F1E700384A52 /* KnobSlice.h */,
 				42A2989015B5F1E700384A52 /* KnobSlice.m */,
+				42094DAF15C9B235001FA77D /* WheelBubble.h */,
+				42094DB015C9B235001FA77D /* WheelBubble.m */,
+				42094DB115C9B235001FA77D /* WheelControl.h */,
+				42094DB215C9B236001FA77D /* WheelControl.m */,
+				42094DB315C9B236001FA77D /* WheelProtocol.h */,
+				42094DB415C9B236001FA77D /* WheelSlice.h */,
+				42094DB515C9B236001FA77D /* WheelSlice.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -771,6 +788,9 @@
 				385972FF15C0BBDA003DBA04 /* TradeItemTypes.m in Sources */,
 				3859730215C0BFD5003DBA04 /* FlyerTypes.m in Sources */,
 				C4A311D315C19C400050273B /* BrowseArea.m in Sources */,
+				42094DB615C9B236001FA77D /* WheelBubble.m in Sources */,
+				42094DB715C9B236001FA77D /* WheelControl.m in Sources */,
+				42094DB815C9B236001FA77D /* WheelSlice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
