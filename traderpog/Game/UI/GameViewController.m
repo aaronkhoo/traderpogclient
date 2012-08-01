@@ -17,6 +17,16 @@
 static const NSInteger kDisplayLinkFrameInterval = 1;
 static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
 
+enum kKnobSlices
+{
+    kKnobSliceScan = 0,
+    kKnobSliceFlyer,
+    kKnobSliceBeacon,
+    kKnobSlicePost,
+    
+    kKnobSliceNum
+};
+
 @interface GameViewController ()
 {
     // display link (for sim-render-loop)
@@ -181,40 +191,10 @@ static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
     CGRect knobFrame = CGRectMake((viewFrame.size.width - knobRadius)/2.0f, 
                                   viewFrame.size.height - (knobRadius / 2.5f),
                                   knobRadius, knobRadius);
-    self.knob = [[KnobControl alloc] initWithFrame:knobFrame numSlices:4];
+    self.knob = [[KnobControl alloc] initWithFrame:knobFrame delegate:self];
     [self.knob setBackgroundImage:[UIImage imageNamed:@"startButton.png"]];
     [self.view addSubview:[self knob]];
-    [self.knob setDelegate:self];
-    
-    // HACK
-    // TODO: create a data-source for Knob to pull slot labels from so that
-    // these can change dynamically
-    unsigned int sliceCount = 0;
-    for(KnobSlice* cur in [self.knob slices])
-    {
-        switch(sliceCount)
-        {
-            case 1:
-                [cur setText:@"BEACON"];
-                break;
-                
-            case 2:
-                [cur setText:@"POST"];
-                break;
-                
-            case 3:
-                [cur setText:@"FLYER"];
-                break;
-
-            default:
-            case 0:
-                [cur setText:@"SCAN"];
-                break;
-        }
-        ++sliceCount;
-    }
-    // HACK
-        
+            
     _scanActivity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     CGRect activityRect = knobFrame;
     activityRect.origin.y += 5.0f;
@@ -287,23 +267,60 @@ static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
 }
 
 #pragma mark - KnobProtocol
-- (void) didPressKnobCenter
+- (unsigned int) numItemsInKnob:(KnobControl *)knob
 {
-    //HACK
-    [_scanActivity setHidden:NO];
-    [_scanActivity startAnimating];
-    //HACK
-    [[ScanManager getInstance] locateAndScanInMap:[self mapControl] 
-                                       completion:^(BOOL finished, NSArray* tradePosts){
-                                           if(finished)
-                                           {
-                                               [self handleScanResultTradePosts:tradePosts];
-                                           }
-                                           //HACK
-                                           [_scanActivity stopAnimating];
-                                           [_scanActivity setHidden:YES];
-                                           //HACK
-                                       }];
+    unsigned int result = kKnobSliceNum;
+    return result;
+}
+
+- (NSString*) knob:(KnobControl *)knob titleAtIndex:(unsigned int)index
+{
+    NSArray* titles = [NSArray arrayWithObjects:
+                       @"SCAN",
+                       @"FLYER",
+                       @"BEACON",
+                       @"POST",
+                       nil];
+    if(index >= [titles count])
+    {
+        index = 0;
+    }
+    return [titles objectAtIndex:index];
+}
+
+
+- (void) didPressKnobAtIndex:(unsigned int)index
+{
+    switch(index)
+    {
+        case kKnobSliceFlyer:
+            NSLog(@"Flyer");
+            break;
+                  
+        case kKnobSliceBeacon:
+            NSLog(@"Beacon");
+            break;
+            
+        case kKnobSlicePost:
+            NSLog(@"Post");
+            break;
+            
+        default:
+        case kKnobSliceScan:
+            // TODO: make the visuals nicer?
+            [_scanActivity setHidden:NO];
+            [_scanActivity startAnimating];
+            [[ScanManager getInstance] locateAndScanInMap:[self mapControl] 
+                                               completion:^(BOOL finished, NSArray* tradePosts){
+                                                   if(finished)
+                                                   {
+                                                       [self handleScanResultTradePosts:tradePosts];
+                                                   }
+                                                   [_scanActivity stopAnimating];
+                                                   [_scanActivity setHidden:YES];
+                                               }];
+            break;
+    }
 }
 
 @end

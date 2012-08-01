@@ -24,8 +24,7 @@
 @property (nonatomic,strong) UIButton* centerButton;
 @property (nonatomic,weak) NSObject<KnobProtocol>* delegate;
 
-- (id)initWithFrame:(CGRect)frame 
-          numSlices:(unsigned int)numSlices;
+- (id)initWithFrame:(CGRect)frame delegate:(NSObject<KnobProtocol>*)delegate;
 - (void) setBackgroundImage:(UIImage*)image;
 
 @end

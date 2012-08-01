@@ -30,6 +30,7 @@ static const float kKnobCenterRadiusFrac = 0.7f;
 - (float) distFromCenter:(CGPoint)point;
 - (void) refreshSliceViewDidSelect;
 - (void) refreshSliceViewDidBeginTouch;
+- (void) refreshSliceTitles;
 - (void) didPressCenterButton:(id)sender;
 @end
 
@@ -40,20 +41,21 @@ static const float kKnobCenterRadiusFrac = 0.7f;
 @synthesize selectedSlice = _selectedSlice;
 @synthesize centerButton;
 @synthesize backgroundImageView;
-@synthesize delegate;
+@synthesize delegate = _delegate;
 
-- (id)initWithFrame:(CGRect)frame 
-          numSlices:(unsigned int)numSlices
+- (id)initWithFrame:(CGRect)frame delegate:(NSObject<KnobProtocol>*)delegate
 {
     self = [super initWithFrame:frame];
     if (self) 
     {
-        _numSlices = numSlices;
+        self.delegate = delegate;
+        _numSlices = [self.delegate numItemsInKnob:self];
         _logicalTransform = CGAffineTransformIdentity;
         _selectedSlice = 0;
         
         [self createWheelRender];
         [self createCenterButton];
+        [self refreshSliceTitles];
         
         // initial refresh of sliceview
         [self refreshSliceViewDidSelect];
@@ -235,6 +237,16 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     }
 }
 
+- (void) refreshSliceTitles
+{
+    unsigned int sliceCount = 0;
+    for(KnobSlice* cur in [self slices])
+    {
+        [cur setText:[self.delegate knob:self titleAtIndex:sliceCount]];
+        ++sliceCount;
+    }
+}
+
 #pragma mark - UIControl
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event 
 {
@@ -361,7 +373,7 @@ static const float kKnobCenterRadiusFrac = 0.7f;
 #pragma mark - button actions
 - (void) didPressCenterButton:(id)sender
 {
-    [self.delegate didPressKnobCenter];
+    [self.delegate didPressKnobAtIndex:[self selectedSlice]];
 }
 
 
