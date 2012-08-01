@@ -93,7 +93,7 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
     [httpClient postPath:@"posts.json" 
               parameters:parameters
                  success:^(AFHTTPRequestOperation *operation, id responseObject){                     
-                     _postId = [responseObject valueForKeyPath:kKeyPostId];
+                     _postId = [NSString stringWithFormat:@"%d", [[responseObject valueForKeyPath:kKeyPostId] integerValue]];
                      _imgPath = [responseObject valueForKeyPath:kKeyImgPath];
                      _supplyMaxLevel = [[responseObject valueForKeyPath:kKeySupplyMaxLevel] integerValue];
                      _supplyRateLevel = [[responseObject valueForKeyPath:kKeySupplyRateLevel] integerValue];

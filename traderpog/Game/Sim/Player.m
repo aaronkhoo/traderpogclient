@@ -9,6 +9,9 @@
 #import "GameManager.h"
 #import "Player.h"
 #import "AFClientManager.h"
+#import "AppDelegate.h"
+#import "LoadingScreen.h"
+#import "UINavigationController+Pog.h"
 
 // encoding keys
 static NSString* const kKeyVersion = @"version";
@@ -175,11 +178,11 @@ static double const refreshTime = -(60 * 15);
      ];
 }
 
-- (void) createNewPlayerOnServer:(NSString*)facebookid
+- (void) createNewPlayerOnServer
 {
     // post parameters
     NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
-                                _facebookid, kKeyFacebookId, 
+                                _facebookid, kKeyFacebookId,
                                 _email, kKeyEmail, 
                                 nil];
     
@@ -232,6 +235,9 @@ static double const refreshTime = -(60 * 15);
     _fbAccessToken = [_facebook accessToken];
     _fbExpiration = [_facebook expirationDate];
     [self savePlayerData];
+    
+    // get information about the currently logged in user
+    [_facebook requestWithGraphPath:@"me" andDelegate:self];
 }
 
 - (void)fbDidNotLogin:(BOOL)cancelled
@@ -252,6 +258,46 @@ static double const refreshTime = -(60 * 15);
 - (void)fbSessionInvalidated
 {
     // TODO: Still needs to be implemented
+}
+
+- (void)request:(FBRequest *)request didLoad:(id)result
+{
+    NSLog(@"Facebook request %@ loaded", [request url]);
+    
+    //handling a user info request
+    if ([[request url] rangeOfString:@"/me"].location != NSNotFound)
+    {
+        // show loading screen 
+        LoadingScreen* loading = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
+        loading.progressLabel.text = @"Storing Facebook info";
+        AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        UINavigationController* nav = appDelegate.navController;
+        [nav pushFadeInViewController:loading animated:YES];
+        
+        // Grab the facebook ID for the current user
+        _facebookid = [result valueForKeyPath:@"id"];
+        
+        if ([Player getInstance].id == 0)
+        {
+            // Player has not yet been created or retrieved.
+            // First try retrieving based on facebookid
+            // TODO: Implement this. Cheat first and go straight to user account creation
+            [self createNewPlayerOnServer];
+            
+        }
+        else
+        {
+            // Player has already been created. Associate facebookid
+            // with this user
+            // TODO: implement this
+        }
+            
+    }
+    //handling a user friends info request
+    else if ([[request url] rangeOfString:@"me/friends"].location != NSNotFound)
+    {
+        /* handle user request in here */
+    }
 }
 
 #pragma mark - Singleton

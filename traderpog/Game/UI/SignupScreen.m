@@ -51,16 +51,10 @@
     [self.navigationController pushFadeInViewController:loading animated:YES];
 
     // Calling server to create new account
-    [[Player getInstance] createNewPlayerOnServer:@""];
+    [[Player getInstance] createNewPlayerOnServer];
 }
 
 - (IBAction)connectToFacebook:(id)sender {
-    
-    // show loading screen and commence facebook sequence
-    LoadingScreen* loading = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
-    loading.progressLabel.text = @"Connecting to Facebook";
-    [self.navigationController pushFadeInViewController:loading animated:YES];
-
     [[Player getInstance] initializeFacebook];
 }
 

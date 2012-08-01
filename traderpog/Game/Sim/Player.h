@@ -13,7 +13,7 @@
 static NSString* const kPlayer_CreateNewUser = @"CreateNewUser";
 static NSString* const kPlayer_GetPlayerData = @"GetPlayerData";
 
-@interface Player : NSObject<NSCoding, FBSessionDelegate>
+@interface Player : NSObject<NSCoding, FBSessionDelegate, FBRequestDelegate>
 {
     // internal
     NSString* _createdVersion;
@@ -42,7 +42,7 @@ static NSString* const kPlayer_GetPlayerData = @"GetPlayerData";
 
 - (void)initializeFacebook;
 - (BOOL) needsRefresh;
-- (void) createNewPlayerOnServer:(NSString*)facebookid;
+- (void) createNewPlayerOnServer;
 - (void) getPlayerDataFromServer;
 
 // system
