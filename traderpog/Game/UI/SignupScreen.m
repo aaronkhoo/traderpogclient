@@ -51,10 +51,11 @@
     [self.navigationController pushFadeInViewController:loading animated:YES];
 
     // Calling server to create new account
-    [[Player getInstance] createNewPlayerOnServer:@""];
+    [[Player getInstance] createNewPlayerOnServer];
 }
 
 - (IBAction)connectToFacebook:(id)sender {
+    [[Player getInstance] initializeFacebook];
 }
 
 @end

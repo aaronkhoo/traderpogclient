@@ -6,13 +6,14 @@
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
+#import "FBConnect.h"
 #import <UIKit/UIKit.h>
 #import "HttpCallbackDelegate.h"
 
 static NSString* const kPlayer_CreateNewUser = @"CreateNewUser";
 static NSString* const kPlayer_GetPlayerData = @"GetPlayerData";
 
-@interface Player : NSObject<NSCoding>
+@interface Player : NSObject<NSCoding, FBSessionDelegate, FBRequestDelegate>
 {
     // internal
     NSString* _createdVersion;
@@ -24,18 +25,24 @@ static NSString* const kPlayer_GetPlayerData = @"GetPlayerData";
     NSString* _secretkey;
     NSString* _facebookid;
     NSString* _email;
+    NSString* _fbAccessToken;
+    NSDate* _fbExpiration;
     
     NSDate* _lastUpdate;
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
+    
+    Facebook* _facebook;
 }
 @property (nonatomic) NSInteger id;
 @property (nonatomic) BOOL dataRefreshed;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
+@property (nonatomic, retain) Facebook *facebook;
 
+- (void)initializeFacebook;
 - (BOOL) needsRefresh;
-- (void) createNewPlayerOnServer:(NSString*)facebookid;
+- (void) createNewPlayerOnServer;
 - (void) getPlayerDataFromServer;
 
 // system

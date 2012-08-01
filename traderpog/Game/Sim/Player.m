@@ -9,6 +9,9 @@
 #import "GameManager.h"
 #import "Player.h"
 #import "AFClientManager.h"
+#import "AppDelegate.h"
+#import "LoadingScreen.h"
+#import "UINavigationController+Pog.h"
 
 // encoding keys
 static NSString* const kKeyVersion = @"version";
@@ -18,6 +21,8 @@ static NSString* const kKeyFacebookId = @"fbid";
 static NSString* const kKeyEmail = @"email";
 static NSString* const kKeyBucks = @"bucks";
 static NSString* const kKeyMember = @"member";
+static NSString* const kKeyFbAccessToken = @"fbaccesstoken";
+static NSString* const kKeyFbExpiration = @"fbexpiration";
 static NSString* const kPlayerFilename = @"player.sav";
 
 static double const refreshTime = -(60 * 15);
@@ -26,6 +31,7 @@ static double const refreshTime = -(60 * 15);
 @synthesize delegate = _delegate;
 @synthesize id = _id;
 @synthesize dataRefreshed = _dataRefreshed;
+@synthesize facebook = _facebook;
 
 - (id) init
 {
@@ -45,11 +51,15 @@ static double const refreshTime = -(60 * 15);
         _email = @"";
         _member = FALSE;
         _bucks = 0;
+        _fbAccessToken = nil;
+        _fbExpiration = nil;
         
         _lastUpdate = nil;
         
         // Initialize delegate
         _delegate = nil;
+        
+        _facebook = nil;
     }
     return self;
 }
@@ -64,13 +74,18 @@ static double const refreshTime = -(60 * 15);
 {
     [aCoder encodeObject:_createdVersion forKey:kKeyVersion];
     [aCoder encodeInteger:_id forKey:kKeyUserId];
-    [aCoder encodeObject:_secretkey forKey:kKeySecretkey];}
+    [aCoder encodeObject:_secretkey forKey:kKeySecretkey];
+    [aCoder encodeObject:_fbAccessToken forKey:kKeyFbAccessToken];
+    [aCoder encodeObject:_fbExpiration forKey:kKeyFbExpiration];
+}
 
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
     _createdVersion = [aDecoder decodeObjectForKey:kKeyVersion];
     _id = [aDecoder decodeIntegerForKey:kKeyUserId];
-    _secretkey = [aDecoder decodeObjectForKey:kKeySecretkey];    
+    _secretkey = [aDecoder decodeObjectForKey:kKeySecretkey];
+    _fbAccessToken = [aDecoder decodeObjectForKey:kKeyFbAccessToken];
+    _fbExpiration = [aDecoder decodeObjectForKey:kKeyFbExpiration];
     return self;
 }
 
@@ -163,11 +178,11 @@ static double const refreshTime = -(60 * 15);
      ];
 }
 
-- (void) createNewPlayerOnServer:(NSString*)facebookid
+- (void) createNewPlayerOnServer
 {
     // post parameters
     NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
-                                _facebookid, kKeyFacebookId, 
+                                _facebookid, kKeyFacebookId,
                                 _email, kKeyEmail, 
                                 nil];
     
@@ -195,6 +210,94 @@ static double const refreshTime = -(60 * 15);
                      [self.delegate didCompleteHttpCallback:kPlayer_CreateNewUser, FALSE];
                  }
      ];
+}
+
+#pragma mark - Facebook functions
+
+- (void)initializeFacebook
+{
+    if (!_facebook)
+    {
+        _facebook = [[Facebook alloc] initWithAppId:@"462130833811786" andDelegate:self];
+        
+        if (_fbAccessToken && _fbExpiration) {
+            _facebook.accessToken = _fbAccessToken;
+            _facebook.expirationDate = _fbExpiration;
+        }
+    }
+    
+    if (![_facebook isSessionValid]) {
+        [_facebook authorize:nil];
+    }
+}
+
+- (void)fbDidLogin {
+    _fbAccessToken = [_facebook accessToken];
+    _fbExpiration = [_facebook expirationDate];
+    [self savePlayerData];
+    
+    // get information about the currently logged in user
+    [_facebook requestWithGraphPath:@"me" andDelegate:self];
+}
+
+- (void)fbDidNotLogin:(BOOL)cancelled
+{
+    // TODO: Still needs to be implemented
+}
+
+- (void)fbDidExtendToken:(NSString *)accessToken expiresAt:(NSDate *)expiresAt
+{
+    // TODO: Still needs to be implemented
+}
+
+- (void)fbDidLogout
+{
+    // TODO: Still needs to be implemented
+}
+
+- (void)fbSessionInvalidated
+{
+    // TODO: Still needs to be implemented
+}
+
+- (void)request:(FBRequest *)request didLoad:(id)result
+{
+    NSLog(@"Facebook request %@ loaded", [request url]);
+    
+    //handling a user info request
+    if ([[request url] rangeOfString:@"/me"].location != NSNotFound)
+    {
+        // show loading screen 
+        LoadingScreen* loading = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
+        loading.progressLabel.text = @"Storing Facebook info";
+        AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        UINavigationController* nav = appDelegate.navController;
+        [nav pushFadeInViewController:loading animated:YES];
+        
+        // Grab the facebook ID for the current user
+        _facebookid = [result valueForKeyPath:@"id"];
+        
+        if ([Player getInstance].id == 0)
+        {
+            // Player has not yet been created or retrieved.
+            // First try retrieving based on facebookid
+            // TODO: Implement this. Cheat first and go straight to user account creation
+            [self createNewPlayerOnServer];
+            
+        }
+        else
+        {
+            // Player has already been created. Associate facebookid
+            // with this user
+            // TODO: implement this
+        }
+            
+    }
+    //handling a user friends info request
+    else if ([[request url] rangeOfString:@"me/friends"].location != NSNotFound)
+    {
+        /* handle user request in here */
+    }
 }
 
 #pragma mark - Singleton

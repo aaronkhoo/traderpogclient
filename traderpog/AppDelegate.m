@@ -35,6 +35,15 @@
 @synthesize navController = _navController;
 @synthesize lastEnteredBackgroundDate = _lastEnteredBackgroundDate;
 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return [[[Player getInstance] facebook] handleOpenURL:url];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [[[Player getInstance] facebook] handleOpenURL:url];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
