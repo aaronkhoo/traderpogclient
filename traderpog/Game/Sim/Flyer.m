@@ -175,7 +175,7 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
                      [self.delegate didCompleteHttpCallback:kFlyer_CreateNewFlyer, FALSE];
                  }
      ];
-    [httpClient setDefaultHeader:@"init_post" value:nil];
+    [httpClient setDefaultHeader:@"Init-Post-Id" value:nil];
 }
 
 #pragma mark - flight public
