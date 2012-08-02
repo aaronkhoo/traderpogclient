@@ -12,6 +12,7 @@
 
 static NSString* const kPlayer_CreateNewUser = @"CreateNewUser";
 static NSString* const kPlayer_GetPlayerData = @"GetPlayerData";
+static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFacebook";
 
 @interface Player : NSObject<NSCoding, FBSessionDelegate, FBRequestDelegate>
 {
