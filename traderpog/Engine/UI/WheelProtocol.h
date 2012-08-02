@@ -17,6 +17,5 @@
 
 @protocol WheelDataSource <NSObject>
 - (unsigned int) numItemsInWheel:(WheelControl*)wheel;
-- (void) wheel:(WheelControl*) didSelectItemAt:(unsigned int)index;
-- (WheelBubble*) wheel:(WheelControl*)wheel viewAtIndex:(unsigned int)index;
+- (WheelBubble*) wheel:(WheelControl*)wheel bubbleAtIndex:(unsigned int)index;
 @end

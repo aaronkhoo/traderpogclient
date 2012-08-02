@@ -12,6 +12,9 @@
 #import "GameManager.h"
 #import "Player.h"
 #import "TradePost.h"
+#import "WheelControl.h"
+#import "WheelBubble.h"
+#import "PogUIUtility.h"
 
 @interface FlyerMgr ()
 {    
@@ -131,6 +134,33 @@ static double const refreshTime = -(60 * 15);
     }
     [[GameManager getInstance] selectNextGameUI];
 }
+
+#pragma mark - WheelDataSource
+- (unsigned int) numItemsInWheel:(WheelControl *)wheel
+{
+    unsigned int num = [_playerFlyers count];
+    return num;
+}
+
+
+- (WheelBubble*) wheel:(WheelControl *)wheel bubbleAtIndex:(unsigned int)index
+{
+    WheelBubble* contentView = [wheel dequeueResuableBubble];
+    UILabel* labelView = nil;
+    if(nil == contentView)
+    {
+        CGRect contentRect = CGRectMake(5.0f, 5.0f, 30.0f, 30.0f);
+        contentView = [[WheelBubble alloc] initWithFrame:contentRect];
+    }
+    labelView = [contentView labelView];
+    labelView.backgroundColor = [UIColor clearColor];
+    [labelView setText:[NSString stringWithFormat:@"%d", index]];
+    contentView.backgroundColor = [UIColor redColor];
+    
+    [PogUIUtility setCircleForView:contentView];
+    return contentView;
+}
+
 
 #pragma mark - Singleton
 static FlyerMgr* singleton = nil;

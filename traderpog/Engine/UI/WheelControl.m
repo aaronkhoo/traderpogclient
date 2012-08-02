@@ -332,7 +332,7 @@ static const int kLabelViewTag = 10;
                 [curSlice wheel:self setContentBubble:nil];
                 curSlice.value = i;
                 [sliceView setHidden:NO];
-                WheelBubble* contentView = [self.dataSource wheel:self viewAtIndex:iterSliceIndex];
+                WheelBubble* contentView = [self.dataSource wheel:self bubbleAtIndex:iterSliceIndex];
                 [curSlice wheel:self setContentBubble:contentView];
                 [self levelContentViewForSlice:curSlice item:0 numItems:numItems];
             }

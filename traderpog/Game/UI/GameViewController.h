@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "KnobProtocol.h"
+#import "WheelProtocol.h"
 
 @class MKMapView;
 @class MapControl;
-@interface GameViewController : UIViewController<KnobProtocol>
+@interface GameViewController : UIViewController<KnobProtocol,WheelProtocol>
 {
     MapControl* _mapControl;
 }

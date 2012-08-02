@@ -8,13 +8,14 @@
 
 #import "FlyerTYpe.h"
 #import "HttpCallbackDelegate.h"
+#import "WheelProtocol.h"
 #import <Foundation/Foundation.h>
 
 static NSString* const kFlyerMgr_ReceiveFlyers = @"FlyerMgr_ReceiveFlyers";
 
 @class Flyer;
 @class TradePost;
-@interface FlyerMgr : NSObject<HttpCallbackDelegate>
+@interface FlyerMgr : NSObject<HttpCallbackDelegate,WheelDataSource>
 {
     NSMutableArray* _playerFlyers;
     NSDate* _lastUpdate;

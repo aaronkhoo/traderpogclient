@@ -12,6 +12,8 @@
 #import "KnobSlice.h"
 #import "ScanManager.h"
 #import "FlyerMgr.h"
+#import "WheelControl.h"
+#import "WheelProtocol.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -36,6 +38,7 @@ enum kKnobSlices
     
     CLLocationCoordinate2D _initCoord;
     KnobControl* _knob;
+    WheelControl* _flyerWheel;
     
     // HACK
     UILabel* _labelScan;
@@ -43,6 +46,7 @@ enum kKnobSlices
     // HACK
 }
 @property (nonatomic,strong) KnobControl* knob;
+@property (nonatomic,strong) WheelControl* flyerWheel;
 
 - (void) startDisplayLink;
 - (void) stopDisplayLink;
@@ -54,12 +58,15 @@ enum kKnobSlices
 - (void) shutdownKnob;
 - (void) didPressShowKnob:(id)sender;
 - (void) handleScanResultTradePosts:(NSArray*)tradePosts;
+- (void) initWheels;
+- (void) shutdownWheels;
 @end
 
 @implementation GameViewController
 @synthesize mapView;
 @synthesize mapControl = _mapControl;
 @synthesize knob = _knob;
+@synthesize flyerWheel = _flyerWheel;
 @synthesize coord = _initCoord;
 
 - (id)init
@@ -87,6 +94,7 @@ enum kKnobSlices
     
     // create knob
     [self initKnob];
+    [self initWheels];
     
     [self startDisplayLink];
 }
@@ -95,6 +103,7 @@ enum kKnobSlices
 {
     [self stopDisplayLink];
     
+    [self shutdownWheels];
     [self shutdownKnob];
     self.mapControl = nil;
     [super viewDidUnload];
@@ -183,7 +192,7 @@ static const float kKnobAnimOutDuration = 0.25f;
 static const float kKnobRadiusFrac = 0.5f;  // frac of view-width
 static const float kKnobHiddenYOffsetFrac = (kKnobRadiusFrac * 0.4f); // frac of view-width
 static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
-
+static const float kWheelRadiusFrac = 0.7f;
 - (void) initKnob
 {
     CGRect viewFrame = self.view.frame;
@@ -266,6 +275,25 @@ static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
     [self showKnobAnimated:YES delay:0.0f];
 }
 
+- (void) initWheels
+{
+    CGRect viewFrame = self.view.frame;
+    float radius = kWheelRadiusFrac * viewFrame.size.width;
+    CGRect wheelFrame = CGRectMake((viewFrame.size.width - radius)/2.0f,
+                                   viewFrame.size.height - radius,
+                                   radius, radius);
+    self.flyerWheel = [[WheelControl alloc] initWithFrame:wheelFrame
+                                                 delegate:self
+                                               dataSource:[FlyerMgr getInstance]
+                                                numSlices:12];
+    //[self.view addSubview:[self flyerWheel]];
+}
+
+- (void) shutdownWheels
+{
+    
+}
+
 #pragma mark - KnobProtocol
 - (unsigned int) numItemsInKnob:(KnobControl *)knob
 {
@@ -322,5 +350,18 @@ static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
             break;
     }
 }
+
+#pragma mark - WheelProtocol
+- (void) wheelDidMoveTo:(unsigned int)index
+{
+    NSLog(@"wheel moved to %d",index);
+}
+
+- (void) wheelDidSelect:(unsigned int)index
+{
+    NSLog(@"wheel did select %d", index);
+}
+
+
 
 @end
