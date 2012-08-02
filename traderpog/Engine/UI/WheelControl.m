@@ -228,7 +228,8 @@ static const int kLabelViewTag = 10;
     [self addSubview:_centerCircle];
     
     // create container for wheel
-    _container = [[UIView alloc] initWithFrame:wheelFrame];
+    _wheelView = [[UIView alloc] initWithFrame:wheelFrame];
+    _container = [[UIView alloc] initWithFrame:_wheelView.bounds];
     self.slices = [NSMutableArray arrayWithCapacity:self.numSlices];
     if(0 == ([self numSlices] % 2))
     {
@@ -247,7 +248,9 @@ static const int kLabelViewTag = 10;
     _logicalTransform = CGAffineTransformIdentity;
     self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform];
     self.container.userInteractionEnabled = NO;
-    [self addSubview:[self container]];
+    _wheelView.userInteractionEnabled = NO;
+    [_wheelView addSubview:[self container]];
+    [self addSubview:_wheelView];
 }
 
 
@@ -583,10 +586,10 @@ static const float kSelectedOffset = -6.5f;
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event 
 {
     BOOL beginTracking = YES;
-    CGPoint touchPoint = [touch locationInView:self.container];
+    CGPoint touchPoint = [touch locationInView:_wheelView];
     float dist = [self distFromCenter:touchPoint];
     float minDist = _container.bounds.size.width * 0.5f * 0.7f;
-    float maxDist = _container.bounds.size.width * 0.5f;
+    float maxDist = _container.bounds.size.width * 0.6f;
     if((minDist <= dist) && (dist <= maxDist))
     {
         float dx = touchPoint.x - self.container.center.x;
@@ -619,7 +622,7 @@ static const float kSelectedOffset = -6.5f;
 - (BOOL)continueTrackingWithTouch:(UITouch*)touch withEvent:(UIEvent*)event
 {
     BOOL shouldEndTracking = NO;
-    CGPoint pt = [touch locationInView:self.container];
+    CGPoint pt = [touch locationInView:_wheelView];
     float dx = pt.x  - self.container.center.x;
     float dy = pt.y  - self.container.center.y;
     float ang = atan2(dy,dx);

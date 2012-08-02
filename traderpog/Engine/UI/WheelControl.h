@@ -16,6 +16,7 @@
     __weak id<WheelDataSource>  _dataSource;
     UIView*                 _centerCircle;
     UIView*                 _container;
+    UIView*                 _wheelView;
     UIView*                 _previewView;
     unsigned int            _numSlices;
     NSMutableArray*         _reuseQueue;    // WheelBubble
