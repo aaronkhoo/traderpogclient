@@ -13,6 +13,7 @@ static NSString* const keyDebugServerIp = @"serverIp";
 
 @implementation DebugOptions
 @synthesize useServer = _useServer;
+@synthesize localDev = _localDev;
 
 - (id) init
 {
@@ -20,6 +21,7 @@ static NSString* const keyDebugServerIp = @"serverIp";
     if(self)
     {
         _useServer = NO;
+        _localDev = NO;
         
         NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
         NSString* serverIpString = [userDefaults objectForKey:keyDebugServerIp];
@@ -62,6 +64,21 @@ static NSString* const keyDebugServerIp = @"serverIp";
     else 
     {
         _useServer = NO;
+    }
+}
+
+- (void) setOnOffLocalDev:(id)sender
+{
+    UISwitch* senderSwitch = sender;
+    if([senderSwitch isOn])
+    {
+        _localDev = YES;
+        NSLog(@"localDev ON");
+    }
+    else
+    {
+        _localDev = NO;
+        NSLog(@"localDev OFF");
     }
 }
 

@@ -13,11 +13,14 @@
 {
     NSString* _serverIp;
     BOOL _useServer;
+    BOOL _localDev;
 }
 @property (nonatomic) NSString* serverIp;
 @property (nonatomic) BOOL useServer;
+@property (nonatomic) BOOL localDev;
 
 - (void) setOnOffUseServer:(id)sender;
+- (void) setOnOffLocalDev:(id)sender;
 
 // singleton
 +(DebugOptions*) getInstance;

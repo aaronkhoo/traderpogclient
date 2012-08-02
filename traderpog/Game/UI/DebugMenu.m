@@ -7,13 +7,16 @@
 //
 
 #import "DebugMenu.h"
+#import "DebugOptions.h"
 #import "UINavigationController+Pog.h"
 
 @interface DebugMenu ()
-
+- (void) setupOnOff;
+- (void) teardownOnOff;
 @end
 
 @implementation DebugMenu
+@synthesize localDevSwitch;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,20 +30,34 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    [self setupOnOff];
 }
 
 - (void)viewDidUnload
 {
+    [self teardownOnOff];
+    [self setLocalDevSwitch:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+- (void) setupOnOff
+{
+    DebugOptions* debugOptions = [DebugOptions getInstance];
+    [self.localDevSwitch addTarget:debugOptions action:@selector(setOnOffLocalDev:) forControlEvents:UIControlEventValueChanged];
+    self.localDevSwitch.on = [debugOptions localDev];
+}
+
+- (void) teardownOnOff
+{
+    DebugOptions* debugOptions = [DebugOptions getInstance];
+    [self.localDevSwitch removeTarget:debugOptions action:@selector(setOnOffLocalDev:) forControlEvents:UIControlEventValueChanged];
+}
+
 
 - (IBAction)didPressClose:(id)sender 
 {

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface DebugMenu : UIViewController
+@property (weak, nonatomic) IBOutlet UISwitch *localDevSwitch;
 
 - (IBAction)didPressClose:(id)sender;
 - (IBAction)didPressResetGame:(id)sender;

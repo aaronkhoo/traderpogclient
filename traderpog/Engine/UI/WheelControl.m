@@ -441,6 +441,7 @@ static const float kSelectedOffset = -6.5f;
 {
     if(isAnimated)
     {
+        [self setHidden:NO];
         _state = kWheelStateTransitionIn;
         CGAffineTransform inStep = CGAffineTransformRotate(_logicalTransform, -M_PI + (kWheelRenderOffsetFactor * [self sliceWidth]));
         [UIView animateWithDuration:0.5f 
@@ -465,6 +466,7 @@ static const float kSelectedOffset = -6.5f;
     }
     else 
     {
+        [self setHidden:NO];
         _state = kWheelStateActive;
         _logicalTransform = _pushedWheelTransform;
         self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform];
@@ -488,7 +490,8 @@ static const float kSelectedOffset = -6.5f;
                          }
                          completion:^(BOOL finished){
                              _logicalTransform = outTransform;
-                             _state = kWheelStateHidden;                                                  
+                             _state = kWheelStateHidden;
+                             [self setHidden:YES];
                          }];
     }
     else 
@@ -497,6 +500,7 @@ static const float kSelectedOffset = -6.5f;
         _logicalTransform = outTransform;
         self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform];
         self.container.alpha = 0.0f;
+        [self setHidden:YES];
     }
 }
 

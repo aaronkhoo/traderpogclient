@@ -190,15 +190,17 @@ static const float kKnobAnimOutDuration = 0.25f;
 
 // all knob position consts are expressed in terms of fraction of view-width
 static const float kKnobRadiusFrac = 0.5f;  // frac of view-width
+static const float kKnobFrameYOffsetFrac = (kKnobRadiusFrac * 0.10f);
 static const float kKnobHiddenYOffsetFrac = (kKnobRadiusFrac * 0.4f); // frac of view-width
 static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
-static const float kWheelRadiusFrac = 0.7f;
+static const float kWheelRadiusFrac = 0.75f;
 - (void) initKnob
 {
     CGRect viewFrame = self.view.frame;
     float knobRadius = kKnobRadiusFrac * viewFrame.size.width;
+    float knobYOffset = kKnobFrameYOffsetFrac * viewFrame.size.width;
     CGRect knobFrame = CGRectMake((viewFrame.size.width - knobRadius)/2.0f, 
-                                  viewFrame.size.height - (knobRadius / 2.5f),
+                                  knobYOffset + viewFrame.size.height - (knobRadius/2.0f),
                                   knobRadius, knobRadius);
     self.knob = [[KnobControl alloc] initWithFrame:knobFrame delegate:self];
     [self.knob setBackgroundImage:[UIImage imageNamed:@"startButton.png"]];
@@ -279,14 +281,15 @@ static const float kWheelRadiusFrac = 0.7f;
 {
     CGRect viewFrame = self.view.frame;
     float radius = kWheelRadiusFrac * viewFrame.size.width;
+    float yoffset = kKnobFrameYOffsetFrac * viewFrame.size.width;
     CGRect wheelFrame = CGRectMake((viewFrame.size.width - radius)/2.0f,
-                                   viewFrame.size.height - radius,
+                                   yoffset + viewFrame.size.height - (radius/2.0f),
                                    radius, radius);
     self.flyerWheel = [[WheelControl alloc] initWithFrame:wheelFrame
                                                  delegate:self
                                                dataSource:[FlyerMgr getInstance]
                                                 numSlices:12];
-    //[self.view addSubview:[self flyerWheel]];
+    [self.view addSubview:[self flyerWheel]];
 }
 
 - (void) shutdownWheels
@@ -322,7 +325,7 @@ static const float kWheelRadiusFrac = 0.7f;
     switch(index)
     {
         case kKnobSliceFlyer:
-            NSLog(@"Flyer");
+            [self.flyerWheel showWheelAnimated:YES withDelay:0.0f];
             break;
                   
         case kKnobSliceBeacon:
