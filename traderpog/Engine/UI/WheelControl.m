@@ -54,6 +54,7 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
 @property (nonatomic,retain) NSMutableArray* slices;
 @property (nonatomic,assign) unsigned int selectedSlice;
 - (void) createWheelRender;
+- (void) createPreviewCircleWithFrame:(CGRect)previewFrame;
 - (float) distFromCenter:(CGPoint)point;
 - (void) buildSlicesEven;
 - (void) buildSlicesOdd;
@@ -84,6 +85,7 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
 - (id)initWithFrame:(CGRect)frame 
            delegate:(id)delegate 
          dataSource:(id)dataSource
+       previewFrame:(CGRect)previewFrame
           numSlices:(unsigned int)numSlices
 {
     self = [super initWithFrame:frame];
@@ -98,6 +100,14 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
         self.selectedSlice = 0;
         _selectedBeacon = 0;
         [self createWheelRender];
+        
+        // previewFrame is given in terms of the superview; so, need to transform
+        // it into localframe
+        CGRect localPreviewFrame = CGRectMake(previewFrame.origin.x - frame.origin.x,
+                                              previewFrame.origin.y - frame.origin.y,
+                                              previewFrame.size.width,
+                                              previewFrame.size.height);
+        [self createPreviewCircleWithFrame:localPreviewFrame];
         _springEngaged = NO;
         _absAngle = 0.0f;
         _pushedWheelTransform = CGAffineTransformIdentity;
@@ -229,6 +239,14 @@ static const int kLabelViewTag = 10;
     self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform];
     self.container.userInteractionEnabled = NO;
     [self addSubview:[self container]];
+}
+
+- (void) createPreviewCircleWithFrame:(CGRect)previewFrame
+{
+    _previewCircle = [[UIView alloc] initWithFrame:previewFrame];
+    [_previewCircle setBackgroundColor:[UIColor greenColor]];
+    [PogUIUtility setCircleForView:_previewCircle withBorderWidth:5.0f borderColor:[UIColor darkGrayColor]];
+    [self addSubview:_previewCircle];
 }
 
 - (float) distFromCenter:(CGPoint)point
