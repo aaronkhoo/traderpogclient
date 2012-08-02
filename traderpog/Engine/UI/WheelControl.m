@@ -500,12 +500,13 @@ static const float kSelectedOffset = -6.5f;
         [self setHidden:NO];
         _state = kWheelStateTransitionIn;
         CGAffineTransform inStep = CGAffineTransformRotate(_logicalTransform, -M_PI + (kWheelRenderOffsetFactor * [self sliceWidth]));
-        [UIView animateWithDuration:0.5f 
+        [UIView animateWithDuration:0.3f
                               delay:delay
                             options:UIViewAnimationCurveEaseInOut
                          animations:^(void){
                              self.container.transform = [self renderTransformFromLogicalTransform:inStep];
                              self.container.alpha = 1.0f;
+                             [_previewView setTransform:CGAffineTransformIdentity];
                          }
                          completion:^(BOOL finished){
                              [UIView animateWithDuration:0.2f
@@ -527,12 +528,16 @@ static const float kSelectedOffset = -6.5f;
         _logicalTransform = _pushedWheelTransform;
         self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform];
         self.container.alpha = 1.0f;
+        [_previewView setTransform:CGAffineTransformIdentity];
     }
 }
 
 - (void) hideWheelAnimated:(BOOL)isAnimated withDelay:(float)delay
 {
     CGAffineTransform outTransform = CGAffineTransformRotate(_logicalTransform, M_PI - (kWheelRenderOffsetFactor * [self sliceWidth]));
+    CGSize parentSize = self.bounds.size;
+    CGAffineTransform offPreview = CGAffineTransformMakeTranslation(-0.8f * parentSize.width, 0.0f);
+    
     _pushedWheelTransform = _logicalTransform;
     if(isAnimated)
     {
@@ -543,6 +548,7 @@ static const float kSelectedOffset = -6.5f;
                          animations:^(void){
                              self.container.transform = [self renderTransformFromLogicalTransform:outTransform];
                              self.container.alpha = 0.0f;
+                             [_previewView setTransform:offPreview];
                          }
                          completion:^(BOOL finished){
                              _logicalTransform = outTransform;
@@ -556,6 +562,7 @@ static const float kSelectedOffset = -6.5f;
         _logicalTransform = outTransform;
         self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform];
         self.container.alpha = 0.0f;
+        [_previewView setTransform:offPreview];
         [self setHidden:YES];
     }
 }
@@ -576,7 +583,7 @@ static const float kSelectedOffset = -6.5f;
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event 
 {
     BOOL beginTracking = YES;
-    CGPoint touchPoint = [touch locationInView:self];
+    CGPoint touchPoint = [touch locationInView:self.container];
     float dist = [self distFromCenter:touchPoint];
     float minDist = _container.bounds.size.width * 0.5f * 0.7f;
     float maxDist = _container.bounds.size.width * 0.5f;
@@ -612,7 +619,7 @@ static const float kSelectedOffset = -6.5f;
 - (BOOL)continueTrackingWithTouch:(UITouch*)touch withEvent:(UIEvent*)event
 {
     BOOL shouldEndTracking = NO;
-    CGPoint pt = [touch locationInView:self];
+    CGPoint pt = [touch locationInView:self.container];
     float dx = pt.x  - self.container.center.x;
     float dy = pt.y  - self.container.center.y;
     float ang = atan2(dy,dx);
