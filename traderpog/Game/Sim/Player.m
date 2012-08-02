@@ -9,6 +9,7 @@
 #import "GameManager.h"
 #import "Player.h"
 #import "AFClientManager.h"
+#import "AFHTTPRequestOperation.h"
 #import "AppDelegate.h"
 #import "LoadingScreen.h"
 #import "UINavigationController+Pog.h"
@@ -150,6 +151,46 @@ static double const refreshTime = -(60 * 15);
 - (void) appDidEnterBackground
 {
     [self savePlayerData];
+}
+
+- (void) getPlayerDataFromServerUsingFacebookId
+{
+    // make a get request
+    AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
+    NSString* path = [NSString stringWithFormat:@"users/facebook"];
+    [httpClient setDefaultHeader:@"Facebook-Id" value:_facebookid];
+    [httpClient getPath:path
+             parameters:nil
+                success:^(AFHTTPRequestOperation *operation, id responseObject){
+                    _id = [[responseObject valueForKeyPath:kKeyUserId] integerValue];
+                    _secretkey = [responseObject valueForKeyPath:kKeySecretkey];
+                    _bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
+                    _email = [responseObject valueForKeyPath:kKeyEmail];
+                    _member = [[responseObject valueForKeyPath:kKeyMember] boolValue];
+                    _lastUpdate = [NSDate date];
+                    [self.delegate didCompleteHttpCallback:kPlayer_GetPlayerDataWithFacebook, TRUE];
+                }
+                failure:^(AFHTTPRequestOperation* operation, NSError* error){
+                    if ([[operation response] statusCode] == 404)
+                    {
+                        // Unable to retrieve data based on facebookid. So, create a
+                        // new account with this facebook id.
+                        [self createNewPlayerOnServer];
+                    }
+                    else
+                    {
+                        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
+                                                                          message:@"Unable to retrieve player data. Please try again later."
+                                                                         delegate:nil
+                                                                cancelButtonTitle:@"OK"
+                                                                otherButtonTitles:nil];
+                        
+                        [message show];
+                        [self.delegate didCompleteHttpCallback:kPlayer_GetPlayerDataWithFacebook, FALSE];
+                    }
+                }
+     ];
+    [httpClient setDefaultHeader:@"Facebook-Id" value:nil];
 }
 
 - (void) getPlayerDataFromServer
@@ -300,7 +341,7 @@ static double const refreshTime = -(60 * 15);
             // Player has not yet been created or retrieved.
             // First try retrieving based on facebookid
             // TODO: Implement this. Cheat first and go straight to user account creation
-            [self createNewPlayerOnServer];
+            [self getPlayerDataFromServerUsingFacebookId];
             
         }
         else
