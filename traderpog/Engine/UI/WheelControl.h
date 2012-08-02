@@ -13,7 +13,7 @@
 @interface WheelControl : UIControl
 {
     __weak id<WheelProtocol>    _delegate;
-    __weak id<PogWheelDataSource>  _dataSource;
+    __weak id<WheelDataSource>  _dataSource;
     UIView*                 _centerCircle;
     UIView*                 _container;
     unsigned int            _numSlices;
@@ -21,7 +21,7 @@
     NSMutableArray*         _activeQueue;   // WheelBubble
 }
 @property (nonatomic,weak) id<WheelProtocol> delegate;
-@property (nonatomic,weak) id<PogWheelDataSource> dataSource;
+@property (nonatomic,weak) id<WheelDataSource> dataSource;
 @property (nonatomic,strong) UIView* container;
 @property (nonatomic) unsigned int numSlices;
 
