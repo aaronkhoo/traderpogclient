@@ -293,9 +293,10 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
                                      viewFrame.size.height - (kWheelPreviewYHeightFrac * previewSize),
                                      previewSize,
                                      previewSize);
-    self.flyerWheel = [[WheelControl alloc] initWithFrame:wheelFrame
+    self.flyerWheel = [[WheelControl alloc] initWithFrame:self.view.bounds
                                                  delegate:self
                                                dataSource:[FlyerMgr getInstance]
+                                               wheelFrame:wheelFrame
                                              previewFrame:previewFrame
                                                 numSlices:12];
     [self.view addSubview:[self flyerWheel]];
@@ -372,6 +373,11 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
 - (void) wheelDidSelect:(unsigned int)index
 {
     NSLog(@"wheel did select %d", index);
+}
+
+- (void) wheel:(WheelControl*)wheel didPressOkOnIndex:(unsigned int)index
+{
+    NSLog(@"wheel ok on %d", index);
 }
 
 

@@ -13,6 +13,7 @@
 @protocol WheelProtocol <NSObject>
 - (void) wheelDidMoveTo:(unsigned int)index;
 - (void) wheelDidSelect:(unsigned int)index;
+- (void) wheel:(WheelControl*)wheel didPressOkOnIndex:(unsigned int)index;
 @end
 
 @protocol WheelDataSource <NSObject>

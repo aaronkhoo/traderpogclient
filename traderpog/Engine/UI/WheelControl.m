@@ -50,11 +50,14 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
                                             // the current selection is one notch above the bottom of the screen
     unsigned int _state;
     CGAffineTransform _pushedWheelTransform;
+    
+    UIView* _previewCircle;
+    UIButton* _buttonOk;
+    UIButton* _buttonClose;
 }
 @property (nonatomic,retain) NSMutableArray* slices;
 @property (nonatomic,assign) unsigned int selectedSlice;
-- (void) createWheelRender;
-- (void) createPreviewCircleWithFrame:(CGRect)previewFrame;
+- (void) createWheelRenderWithFrame:(CGRect)wheelFrame;
 - (float) distFromCenter:(CGPoint)point;
 - (void) buildSlicesEven;
 - (void) buildSlicesOdd;
@@ -72,6 +75,11 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
                         withItem:(unsigned int)itemIndex 
                     overNumItems:(unsigned int)numItems
                         absAngle:(float)absAng;
+
+- (void) createPreviewCircleWithFrame:(CGRect)previewFrame;
+- (void) didOkInPreview:(id)sender;
+- (void) didCloseInPreview:(id)sender;
+
 @end
 
 @implementation WheelControl
@@ -85,6 +93,7 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
 - (id)initWithFrame:(CGRect)frame 
            delegate:(id)delegate 
          dataSource:(id)dataSource
+         wheelFrame:(CGRect)wheelFrame
        previewFrame:(CGRect)previewFrame
           numSlices:(unsigned int)numSlices
 {
@@ -99,7 +108,7 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
         _activeQueue = [NSMutableArray arrayWithCapacity:10];
         self.selectedSlice = 0;
         _selectedBeacon = 0;
-        [self createWheelRender];
+        [self createWheelRenderWithFrame:wheelFrame];
         
         // previewFrame is given in terms of the superview; so, need to transform
         // it into localframe
@@ -211,15 +220,15 @@ static const int kLabelViewTag = 10;
 }
 
 #pragma mark - internal
-- (void) createWheelRender
+- (void) createWheelRenderWithFrame:(CGRect)wheelFrame
 {
     // create a center circle and place it at the bottom-most layer
-    _centerCircle = [[UIView alloc] initWithFrame:CGRectInset(self.bounds, 40.0f, 40.0f)];
+    _centerCircle = [[UIView alloc] initWithFrame:CGRectInset(wheelFrame, 40.0f, 40.0f)];
     [PogUIUtility setCircleForView:_centerCircle withBorderWidth:5.0f borderColor:[UIColor blackColor]];
     [self addSubview:_centerCircle];
     
     // create container for wheel
-    _container = [[UIView alloc] initWithFrame:self.bounds];
+    _container = [[UIView alloc] initWithFrame:wheelFrame];
     self.slices = [NSMutableArray arrayWithCapacity:self.numSlices];
     if(0 == ([self numSlices] % 2))
     {
@@ -241,18 +250,47 @@ static const int kLabelViewTag = 10;
     [self addSubview:[self container]];
 }
 
+
+static const float kPreviewButtonSizeFrac = 0.25f;
+static const float kPreviewButtonOkXFrac = 0.75f;
+static const float kPreviewButtonOkYFrac = 0.4f;
+static const float kPreviewButtonCloseXFrac = 0.7f;
+static const float kPreviewButtonCloseYFrac = 0.7f;
 - (void) createPreviewCircleWithFrame:(CGRect)previewFrame
 {
-    _previewCircle = [[UIView alloc] initWithFrame:previewFrame];
+    _previewView = [[UIView alloc] initWithFrame:previewFrame];
+    [_previewView setBackgroundColor:[UIColor clearColor]];
+    [_previewView setClipsToBounds:NO];
+    [self addSubview:_previewView];
+    _previewCircle = [[UIView alloc] initWithFrame:[_previewView bounds]];
     [_previewCircle setBackgroundColor:[UIColor greenColor]];
     [PogUIUtility setCircleForView:_previewCircle withBorderWidth:5.0f borderColor:[UIColor darkGrayColor]];
-    [self addSubview:_previewCircle];
+    [_previewView addSubview:_previewCircle];
+    
+    CGRect okRect = CGRectMake(kPreviewButtonOkXFrac * previewFrame.size.width,
+                               kPreviewButtonOkYFrac * previewFrame.size.width,
+                               kPreviewButtonSizeFrac * previewFrame.size.width,
+                               kPreviewButtonSizeFrac * previewFrame.size.height);
+    _buttonOk = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [_buttonOk setTitle:@"OK" forState:UIControlStateNormal];
+    [_buttonOk setFrame:okRect];
+    [_buttonOk addTarget:self action:@selector(didOkInPreview:) forControlEvents:UIControlEventTouchUpInside];
+    [_previewView addSubview:_buttonOk];
+    CGRect closeRect = CGRectMake(kPreviewButtonCloseXFrac * previewFrame.size.width,
+                                  kPreviewButtonCloseYFrac * previewFrame.size.width,
+                                  kPreviewButtonSizeFrac * previewFrame.size.width,
+                                  kPreviewButtonSizeFrac * previewFrame.size.height);
+    _buttonClose = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [_buttonClose setTitle:@"X" forState:UIControlStateNormal];
+    [_buttonClose setFrame:closeRect];
+    [_buttonClose addTarget:self action:@selector(didCloseInPreview:) forControlEvents:UIControlEventTouchUpInside];
+    [_previewView addSubview:_buttonClose];
 }
 
 - (float) distFromCenter:(CGPoint)point
 {
-    CGPoint center = CGPointMake(self.bounds.size.width/2, 
-                                 self.bounds.size.height/2);
+    CGPoint center = CGPointMake(self.container.bounds.size.width/2,
+                                 self.container.bounds.size.height/2);
     float dx = point.x - center.x;
     float dy = point.y - center.y;
     return sqrt(dx*dx + dy*dy);
@@ -520,6 +558,18 @@ static const float kSelectedOffset = -6.5f;
         self.container.alpha = 0.0f;
         [self setHidden:YES];
     }
+}
+
+#pragma mark - preview controls
+- (void) didOkInPreview:(id)sender
+{
+    [self hideWheelAnimated:YES withDelay:0.0f];
+    [self.delegate wheel:self didPressOkOnIndex:[self selectedSlice]];
+}
+
+- (void) didCloseInPreview:(id)sender
+{
+    [self hideWheelAnimated:YES withDelay:0.0f];
 }
 
 #pragma mark - UIControl

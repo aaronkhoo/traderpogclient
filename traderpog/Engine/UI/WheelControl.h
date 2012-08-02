@@ -16,7 +16,7 @@
     __weak id<WheelDataSource>  _dataSource;
     UIView*                 _centerCircle;
     UIView*                 _container;
-    UIView*                 _previewCircle;
+    UIView*                 _previewView;
     unsigned int            _numSlices;
     NSMutableArray*         _reuseQueue;    // WheelBubble
     NSMutableArray*         _activeQueue;   // WheelBubble
@@ -29,6 +29,7 @@
 - (id)initWithFrame:(CGRect)frame 
            delegate:(id)delegate 
          dataSource:(id)dataSource
+         wheelFrame:(CGRect)wheelFrame
        previewFrame:(CGRect)previewFrame
           numSlices:(unsigned int)numSlices;
 - (void) initBeaconSlots;
