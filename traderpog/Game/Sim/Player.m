@@ -275,14 +275,27 @@ static double const refreshTime = -(60 * 15);
     }
 }
 
+- (BOOL) facebookSessionValid
+{
+    return _facebook && [_facebook isSessionValid];
+}
+
 - (void)authorizeFacebook
 {
+    // if necessary, pop facebook UI to obtain user authorization. 
     if (_facebook && ![_facebook isSessionValid]) {
         [_facebook authorize:nil];
     }
 }
 
 - (void)fbDidLogin {
+    // show loading screen
+    LoadingScreen* loading = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
+    loading.progressLabel.text = @"Storing Facebook info";
+    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    UINavigationController* nav = appDelegate.navController;
+    [nav pushFadeInViewController:loading animated:YES];
+    
     _fbAccessToken = [_facebook accessToken];
     _fbExpiration = [_facebook expirationDate];
     [self savePlayerData];
@@ -293,7 +306,8 @@ static double const refreshTime = -(60 * 15);
 
 - (void)fbDidNotLogin:(BOOL)cancelled
 {
-    // TODO: Still needs to be implemented
+    // Do nothing. This should pop the user back to the previous UI, which will
+    // allow them to continue as before. 
 }
 
 - (void)fbDidExtendToken:(NSString *)accessToken expiresAt:(NSDate *)expiresAt
@@ -339,8 +353,6 @@ static double const refreshTime = -(60 * 15);
         if ([Player getInstance].id == 0)
         {
             // Player has not yet been created or retrieved.
-            // First try retrieving based on facebookid
-            // TODO: Implement this. Cheat first and go straight to user account creation
             [self getPlayerDataFromServerUsingFacebookId];
             
         }
@@ -348,19 +360,13 @@ static double const refreshTime = -(60 * 15);
         {
             // Player has already been created. Associate facebookid
             // with this user
-            // TODO: implement this
+            // TODO: PUT facebook id and friends into user data
+            // TODO: Force a refresh of beacons
         }
     }
         //handling a user info request
     else if ([[request url] rangeOfString:@"/me"].location != NSNotFound)
-    {
-        // show loading screen
-        LoadingScreen* loading = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
-        loading.progressLabel.text = @"Storing Facebook info";
-        AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-        UINavigationController* nav = appDelegate.navController;
-        [nav pushFadeInViewController:loading animated:YES];
-        
+    {        
         // Grab the facebook ID for the current user
         _facebookid = [result valueForKeyPath:@"id"];
         

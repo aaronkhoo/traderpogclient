@@ -47,6 +47,7 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
 - (BOOL) needsRefresh;
 - (void) createNewPlayerOnServer;
 - (void) getPlayerDataFromServer;
+- (BOOL) facebookSessionValid;
 
 // system
 - (void) appDidEnterBackground;
