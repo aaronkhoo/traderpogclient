@@ -12,13 +12,15 @@
 @interface ImageManager ()
 {
     UIView* _frontMenuBgView;
+    NSMutableDictionary* _imageLib;
 }
 @property (strong,nonatomic) UIView* frontMenuBgView;
+@property (nonatomic,strong) NSMutableDictionary* imageLib;
 @end
 
 @implementation ImageManager
 @synthesize frontMenuBgView = _frontMenuBgView;
-
+@synthesize imageLib = _imageLib;
 - (id) init
 {
     self = [super init];
