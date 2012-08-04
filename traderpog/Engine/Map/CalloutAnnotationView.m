@@ -12,7 +12,7 @@
 
 #define CalloutMapAnnotationViewBottomShadowBufferSize 6.0f
 #define CalloutMapAnnotationViewContentHeightBuffer 8.0f
-#define CalloutMapAnnotationViewHeightAboveParent 7.2f
+#define CalloutMapAnnotationViewHeightAboveParent 12.0f
 #define CalloutMapAnnotationViewInset 4.0f
 
 @interface CalloutAnnotationView()
@@ -85,9 +85,7 @@
 	
 	//Add half our height plus half of the height of the annotation we are tied to so that our bottom lines up to its top
 	//Then take into account its offset and the extra space needed for our drop shadow
-	CGFloat yOffset = -(self.frame.size.height / 2 + 
-						self.parentAnnotationView.frame.size.height / 2) - CalloutMapAnnotationViewHeightAboveParent;
-	
+	CGFloat yOffset = -((self.frame.size.height / 2) + (self.parentAnnotationView.frame.size.height * 0.45f));
 	self.centerOffset = CGPointMake(xOffset, yOffset);
 }
 
