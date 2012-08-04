@@ -16,6 +16,7 @@
 #import "Flyer.h"
 #import "FlyerAnnotation.h"
 #import "BrowseArea.h"
+#import "CalloutAnnotationView.h"
 
 static const NSUInteger kDefaultZoomLevel = 15;
 
@@ -152,7 +153,6 @@ static const float kBrowseAreaRadius = 900.0f;
     {
         if([[cur annotation] isKindOfClass:[FlyerAnnotation class]])
         {
-            // from Flyer annotation to the front
             [[cur superview] bringSubviewToFront:cur];
             break;
         }

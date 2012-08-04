@@ -12,7 +12,7 @@
 
 #define CalloutMapAnnotationViewBottomShadowBufferSize 6.0f
 #define CalloutMapAnnotationViewContentHeightBuffer 8.0f
-#define CalloutMapAnnotationViewHeightAboveParent 12.0f
+#define CalloutMapAnnotationViewHeightAboveParent 7.2f
 #define CalloutMapAnnotationViewInset 4.0f
 
 @interface CalloutAnnotationView()
@@ -225,7 +225,7 @@
 	[color setFill];
 	CGContextAddPath(context, path);
 	CGContextSaveGState(context);
-	CGContextSetShadowWithColor(context, CGSizeMake (0, self.yShadowOffset), 6, [UIColor colorWithWhite:0 alpha:.5].CGColor);
+	//CGContextSetShadowWithColor(context, CGSizeMake (0, self.yShadowOffset), 6, [UIColor colorWithWhite:0 alpha:.5].CGColor);
 	CGContextFillPath(context);
 	CGContextRestoreGState(context);
 	

@@ -12,23 +12,54 @@
 @interface ImageManager ()
 {
     UIView* _frontMenuBgView;
-    NSMutableDictionary* _imageLib;
+    NSMutableDictionary* _imageCache;
 }
 @property (strong,nonatomic) UIView* frontMenuBgView;
-@property (nonatomic,strong) NSMutableDictionary* imageLib;
+@property (nonatomic,strong) NSMutableDictionary* imageCache;
 @end
 
 @implementation ImageManager
 @synthesize frontMenuBgView = _frontMenuBgView;
-@synthesize imageLib = _imageLib;
+@synthesize imageCache = _imageCache;
 - (id) init
 {
     self = [super init];
     if(self)
     {
         _frontMenuBgView = nil;
+        _imageCache = [NSMutableDictionary dictionaryWithCapacity:10];
     }
     return self;
+}
+
+#pragma mark - image accessors
+- (UIImage*) getImageWithUrl:(NSString *)url fallbackNamed:(NSString *)fallback
+{
+    UIImage* result = nil;
+
+    // check cache first
+    NSString* imageKey = url;
+    if(!imageKey)
+    {
+        imageKey = fallback;
+    }
+    result = [self.imageCache objectForKey:imageKey];
+
+    // HACK
+    // TODO: load from URL
+    if(!result && url)
+    {
+        
+    }
+    // HACK
+    
+    // check main bundle
+    if(!result)
+    {
+        result = [UIImage imageNamed:fallback];
+    }
+    
+    return result;
 }
 
 #pragma mark - frontend menu

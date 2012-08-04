@@ -9,6 +9,8 @@
 #import "TradePostAnnotationView.h"
 #import "TradePostAnnotation.h"
 #import "TradePostCallout.h"
+#import "ImageManager.h"
+#import "TradePost.h"
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
 
@@ -34,7 +36,18 @@ NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
         self.frame = myFrame;
         
         // setup tradepost image
-        UIImage *annotationImage = [UIImage imageNamed:@"HomeBase.png"];
+        TradePost* tradePost = [annotation tradePost];
+        UIImage* annotationImage = nil;
+        if([tradePost isOwnPost])
+        {
+            annotationImage = [[ImageManager getInstance] getImageWithUrl:[tradePost imgPath]
+                                                            fallbackNamed:@"HomeBase.png"];
+        }
+        else
+        {
+            annotationImage = [[ImageManager getInstance] getImageWithUrl:[tradePost imgPath]
+                                                            fallbackNamed:@"TradePost.png"];
+        }
         CGRect resizeRect = CGRectMake(0.0f, 0.0f, 120.0f, 120.0f);
         UIGraphicsBeginImageContext(resizeRect.size);
         [annotationImage drawInRect:resizeRect];

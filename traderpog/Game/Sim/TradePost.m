@@ -26,8 +26,10 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
 @synthesize itemId = _itemId;
 @synthesize annotation = _annotation;
 @synthesize supplyLevel = _supplyLevel;
+@synthesize isOwnPost = _isOwnPost;
 @synthesize delegate = _delegate;
 
+// call this to create NPC posts
 - (id) initWithPostId:(NSString*)postId
            coordinate:(CLLocationCoordinate2D)coordinate 
                  itemType:(TradeItemType *)itemType
@@ -40,10 +42,14 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
         _itemId = [itemType itemId];
         _annotation = nil;
         _supplyLevel = [itemType supplymax];
+        
+        // NPC post
+        _isOwnPost = NO;
     }
     return self;
 }
 
+// call this to create player posts
 - (id) initWithCoordinates:(CLLocationCoordinate2D)coordinate 
                            itemType:(TradeItemType *)itemType
 {
@@ -53,6 +59,9 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
         _coord = coordinate;
         _itemId = [itemType itemId];
         _annotation = nil;
+        
+        // client can only create tradePosts for current player;
+        _isOwnPost = YES;
     }
     return self;
 }
@@ -69,6 +78,11 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
         _imgPath = [dict valueForKeyPath:@"img"];
         _supplyMaxLevel =[[dict valueForKeyPath:@"supplymaxlevel"] integerValue];
         _supplyRateLevel =[[dict valueForKeyPath:@"supplyratelevel"] integerValue];
+        
+        // HACK
+        // TODO: get this from server
+        _isOwnPost = YES;
+        // HACK
         
         // transient variables
         _supplyLevel = _supplyMaxLevel;
