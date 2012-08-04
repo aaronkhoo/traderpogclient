@@ -86,6 +86,7 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
 @implementation WheelControl
 @synthesize delegate = _delegate;
 @synthesize dataSource = _dataSource;
+@synthesize superMap = _superMap;
 @synthesize container = _container;
 @synthesize previewView = _previewView;
 @synthesize numSlices = _numSlices;
@@ -95,6 +96,7 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
 - (id)initWithFrame:(CGRect)frame 
            delegate:(id)delegate 
          dataSource:(id)dataSource
+           superMap:(MapControl*)superMap
          wheelFrame:(CGRect)wheelFrame
        previewFrame:(CGRect)previewFrame
           numSlices:(unsigned int)numSlices
@@ -105,6 +107,7 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
         self.numSlices = numSlices;
         self.delegate = delegate;
         self.dataSource = dataSource;
+        self.superMap = superMap;
         
         _reuseQueue = [NSMutableArray arrayWithCapacity:10];
         _activeQueue = [NSMutableArray arrayWithCapacity:10];
@@ -270,6 +273,8 @@ static const float kPreviewButtonCloseYFrac = 0.7f;
     _previewCircle = [[UIView alloc] initWithFrame:[_previewView bounds]];
     [_previewCircle setBackgroundColor:[UIColor greenColor]];
     [PogUIUtility setCircleForView:_previewCircle withBorderWidth:5.0f borderColor:[UIColor darkGrayColor]];
+    _previewContent = [self.dataSource wheel:self previewContentInitAtIndex:0];
+    [_previewCircle addSubview:_previewContent];
     [_previewView addSubview:_previewCircle];
     
     CGRect okRect = CGRectMake(kPreviewButtonOkXFrac * previewFrame.size.width,
@@ -395,12 +400,6 @@ static const float kPreviewButtonCloseYFrac = 0.7f;
                 [sliceView setHidden:NO];
                 WheelBubble* contentView = [self.dataSource wheel:self bubbleAtIndex:iterSliceIndex];
                 [curSlice wheel:self setContentBubble:contentView];
-                if(_previewContent)
-                {
-                    [_previewContent removeFromSuperview];
-                }
-                _previewContent = [self.dataSource wheel:self previewContentInitAtIndex:iterSliceIndex];
-                [_previewCircle addSubview:_previewContent];
                 [self levelContentViewForSlice:curSlice item:0 numItems:numItems];
             }
         }

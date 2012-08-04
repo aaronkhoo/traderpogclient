@@ -189,6 +189,33 @@ static double const refreshTime = -(60 * 15);
     return result;
 }
 
+#pragma mark - WheelProtocol
+- (void) wheelDidMoveTo:(unsigned int)index
+{
+    NSLog(@"wheel moved to %d",index);
+}
+
+- (void) wheelDidSettleAt:(unsigned int)index
+{
+    if([_playerFlyers count])
+    {
+        index = MIN(index, [_playerFlyers count]-1);
+        Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
+        [_previewMap centerOn:[curFlyer coord] animated:YES];
+    }
+}
+
+- (void) wheel:(WheelControl*)wheel didPressOkOnIndex:(unsigned int)index
+{
+    if([_playerFlyers count])
+    {
+        index = MIN(index, [_playerFlyers count]-1);
+        Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
+        [wheel.superMap centerOn:[curFlyer coord] animated:YES];
+    }    
+}
+
+
 #pragma mark - Singleton
 static FlyerMgr* singleton = nil;
 + (FlyerMgr*) getInstance

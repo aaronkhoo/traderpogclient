@@ -10,10 +10,12 @@
 #import "WheelProtocol.h"
 
 @class WheelBubble;
+@class MapControl;
 @interface WheelControl : UIControl
 {
     __weak id<WheelProtocol>    _delegate;
     __weak id<WheelDataSource>  _dataSource;
+    __weak MapControl*      _superMap;
     UIView*                 _centerCircle;
     UIView*                 _container;
     UIView*                 _wheelView;
@@ -24,6 +26,7 @@
 }
 @property (nonatomic,weak) id<WheelProtocol> delegate;
 @property (nonatomic,weak) id<WheelDataSource> dataSource;
+@property (nonatomic,weak) MapControl* superMap;
 @property (nonatomic,strong) UIView* container;
 @property (nonatomic,readonly) UIView* previewView;
 @property (nonatomic) unsigned int numSlices;
@@ -31,6 +34,7 @@
 - (id)initWithFrame:(CGRect)frame 
            delegate:(id)delegate 
          dataSource:(id)dataSource
+           superMap:(MapControl*)superMap
          wheelFrame:(CGRect)wheelFrame
        previewFrame:(CGRect)previewFrame
           numSlices:(unsigned int)numSlices;

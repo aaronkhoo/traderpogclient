@@ -294,8 +294,9 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
                                      previewSize,
                                      previewSize);
     self.flyerWheel = [[WheelControl alloc] initWithFrame:self.view.bounds
-                                                 delegate:self
+                                                 delegate:[FlyerMgr getInstance]
                                                dataSource:[FlyerMgr getInstance]
+                                                 superMap:self.mapControl
                                                wheelFrame:wheelFrame
                                              previewFrame:previewFrame
                                                 numSlices:12];
@@ -362,22 +363,6 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
                                                }];
             break;
     }
-}
-
-#pragma mark - WheelProtocol
-- (void) wheelDidMoveTo:(unsigned int)index
-{
-    NSLog(@"wheel moved to %d",index);
-}
-
-- (void) wheelDidSettleAt:(unsigned int)index
-{
-    NSLog(@"wheel did select %d", index);
-}
-
-- (void) wheel:(WheelControl*)wheel didPressOkOnIndex:(unsigned int)index
-{
-    NSLog(@"wheel ok on %d", index);
 }
 
 

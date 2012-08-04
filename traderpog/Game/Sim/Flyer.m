@@ -123,6 +123,7 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
             // then the flyer is at its original position, which means it isn't moving
             _nextPostId = nil;
             _departureDate = nil;
+            _coord = _srcCoord;
         }
         else
         {
@@ -138,12 +139,19 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
             }
         }
         
-        // TODO: Not sure this is the correct behavior
-        _coord = _srcCoord;
+        // HACK
+        // TODO: read from server
+        _flightSpeed = kFlyerDefaultSpeedMetersPerSec;
+        _departureDate = [NSDate date];
+        //HACK
+        
+        // init runtime transient vars
+        _coord = [self flyerCoordinateNow];
         _flightPathRender = nil;
         _annotation = nil;
         _metersToDest = 0.0;
         _transform = CGAffineTransformIdentity;
+
     }
     return self;
 }
