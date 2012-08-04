@@ -12,11 +12,12 @@
 @class WheelControl;
 @protocol WheelProtocol <NSObject>
 - (void) wheelDidMoveTo:(unsigned int)index;
-- (void) wheelDidSelect:(unsigned int)index;
+- (void) wheelDidSettleAt:(unsigned int)index;
 - (void) wheel:(WheelControl*)wheel didPressOkOnIndex:(unsigned int)index;
 @end
 
 @protocol WheelDataSource <NSObject>
 - (unsigned int) numItemsInWheel:(WheelControl*)wheel;
 - (WheelBubble*) wheel:(WheelControl*)wheel bubbleAtIndex:(unsigned int)index;
+- (UIView*) wheel:(WheelControl*)wheel previewContentInitAtIndex:(unsigned int)index;
 @end

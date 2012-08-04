@@ -370,7 +370,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
     NSLog(@"wheel moved to %d",index);
 }
 
-- (void) wheelDidSelect:(unsigned int)index
+- (void) wheelDidSettleAt:(unsigned int)index
 {
     NSLog(@"wheel did select %d", index);
 }

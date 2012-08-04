@@ -25,6 +25,7 @@
 @property (nonatomic,weak) id<WheelProtocol> delegate;
 @property (nonatomic,weak) id<WheelDataSource> dataSource;
 @property (nonatomic,strong) UIView* container;
+@property (nonatomic,readonly) UIView* previewView;
 @property (nonatomic) unsigned int numSlices;
 
 - (id)initWithFrame:(CGRect)frame 

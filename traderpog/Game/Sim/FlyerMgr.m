@@ -15,11 +15,16 @@
 #import "WheelControl.h"
 #import "WheelBubble.h"
 #import "PogUIUtility.h"
+#import "MapControl.h"
+
 
 @interface FlyerMgr ()
 {    
     // User flyer in the midst of being generated
     Flyer* _tempFlyer;
+    
+    // Flyer Wheel datasource
+    MapControl* _previewMap;
 }
 @end
 
@@ -36,6 +41,7 @@ static double const refreshTime = -(60 * 15);
     {
         _playerFlyers = [NSMutableArray arrayWithCapacity:10];
         _lastUpdate = nil;
+        _previewMap = nil;
     }
     return self;
 }
@@ -161,6 +167,27 @@ static double const refreshTime = -(60 * 15);
     return contentView;
 }
 
+- (UIView*) wheel:(WheelControl*)wheel previewContentInitAtIndex:(unsigned int)index;
+{
+    MKMapView* result = nil;
+    if([_playerFlyers count])
+    {
+        if(_previewMap)
+        {
+            result = [_previewMap view];
+        }
+        else
+        {
+            CGRect superFrame = wheel.previewView.bounds;
+            result = [[MKMapView alloc] initWithFrame:superFrame];
+            index = MIN(index, [_playerFlyers count]-1);
+            Flyer* initFlyer = [_playerFlyers objectAtIndex:index];
+            _previewMap = [[MapControl alloc] initWithMapView:result
+                                                    andCenter:[initFlyer coord]];
+        }
+    }
+    return result;
+}
 
 #pragma mark - Singleton
 static FlyerMgr* singleton = nil;

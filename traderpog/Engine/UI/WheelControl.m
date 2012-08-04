@@ -52,6 +52,7 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
     CGAffineTransform _pushedWheelTransform;
     
     UIView* _previewCircle;
+    UIView* _previewContent;
     UIButton* _buttonOk;
     UIButton* _buttonClose;
 }
@@ -86,6 +87,7 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
 @synthesize delegate = _delegate;
 @synthesize dataSource = _dataSource;
 @synthesize container = _container;
+@synthesize previewView = _previewView;
 @synthesize numSlices = _numSlices;
 @synthesize slices = _slices;
 @synthesize selectedSlice = _selectedSlice;
@@ -122,7 +124,7 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
         _pushedWheelTransform = CGAffineTransformIdentity;
 
         [self initBeaconSlots];
-        [self.delegate wheelDidSelect:_selectedBeacon];
+        [self.delegate wheelDidSettleAt:_selectedBeacon];
 
         // init wheel to be hidden
         [self hideWheelAnimated:NO withDelay:0.0f];
@@ -393,6 +395,12 @@ static const float kPreviewButtonCloseYFrac = 0.7f;
                 [sliceView setHidden:NO];
                 WheelBubble* contentView = [self.dataSource wheel:self bubbleAtIndex:iterSliceIndex];
                 [curSlice wheel:self setContentBubble:contentView];
+                if(_previewContent)
+                {
+                    [_previewContent removeFromSuperview];
+                }
+                _previewContent = [self.dataSource wheel:self previewContentInitAtIndex:iterSliceIndex];
+                [_previewCircle addSubview:_previewContent];
                 [self levelContentViewForSlice:curSlice item:0 numItems:numItems];
             }
         }
@@ -738,7 +746,7 @@ static const float kSelectedOffset = -6.5f;
                                 // so, inform delegate here
                                 if(shouldEndTracking)
                                 {
-                                    [self.delegate wheelDidSelect:_selectedBeacon];
+                                    [self.delegate wheelDidSettleAt:_selectedBeacon];
                                 }
                             }];
         /*
@@ -817,7 +825,7 @@ static const float kSelectedOffset = -6.5f;
         _absAngle = [self midAngleAtItemIndex:beaconSlot forNumItems:numItems];
         [self levelContentViewsWithItem:beaconSlot numItems:numItems];
         [UIView commitAnimations];
-        [self.delegate wheelDidSelect:_selectedBeacon];
+        [self.delegate wheelDidSettleAt:_selectedBeacon];
     }
     else 
     {
@@ -834,7 +842,7 @@ static const float kSelectedOffset = -6.5f;
     }
     
     _selectedBeacon = beaconSlot;
-    [self.delegate wheelDidSelect:_selectedBeacon];
+    [self.delegate wheelDidSettleAt:_selectedBeacon];
 }
 
 /*
