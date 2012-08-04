@@ -19,14 +19,17 @@ static NSString* const kKeyVersion = @"version";
 static NSString* const kKeyUserId = @"id";
 static NSString* const kKeySecretkey = @"secretkey";
 static NSString* const kKeyFacebookId = @"fbid";
+static NSString* const kKeyFacebookFriends = @"fb_friends";
 static NSString* const kKeyEmail = @"email";
 static NSString* const kKeyBucks = @"bucks";
 static NSString* const kKeyMember = @"member";
 static NSString* const kKeyFbAccessToken = @"fbaccesstoken";
 static NSString* const kKeyFbExpiration = @"fbexpiration";
+static NSString* const kKeyFbFriendsRefresh = @"fbfriendsrefresh";
 static NSString* const kPlayerFilename = @"player.sav";
 
-static double const refreshTime = -(60 * 15);
+static double const refreshTime = -(60 * 15);  // 15 min
+static double const refreshTimeFriends = -(60 * 60 * 24 * 2);  // 2 days
 
 @implementation Player
 @synthesize delegate = _delegate;
@@ -57,6 +60,7 @@ static double const refreshTime = -(60 * 15);
         _fbFriends = nil;
         
         _lastUpdate = nil;
+        _fbFriendsUpdate = nil;
         
         // Initialize delegate
         _delegate = nil;
@@ -71,6 +75,13 @@ static double const refreshTime = -(60 * 15);
     return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime);
 }
 
+- (BOOL) needsFriendsRefresh
+{
+    // Check that facebook is initialized first. Then check to see if
+    // the friends list needs to be updated. 
+    return (_facebook && ((!_fbFriendsUpdate) || ([_fbFriendsUpdate timeIntervalSinceNow] < refreshTimeFriends)));
+}
+
 #pragma mark - NSCoding
 - (void) encodeWithCoder:(NSCoder *)aCoder
 {
@@ -79,6 +90,7 @@ static double const refreshTime = -(60 * 15);
     [aCoder encodeObject:_secretkey forKey:kKeySecretkey];
     [aCoder encodeObject:_fbAccessToken forKey:kKeyFbAccessToken];
     [aCoder encodeObject:_fbExpiration forKey:kKeyFbExpiration];
+    [aCoder encodeObject:_fbFriendsUpdate forKey:kKeyFbFriendsRefresh];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
@@ -88,6 +100,7 @@ static double const refreshTime = -(60 * 15);
     _secretkey = [aDecoder decodeObjectForKey:kKeySecretkey];
     _fbAccessToken = [aDecoder decodeObjectForKey:kKeyFbAccessToken];
     _fbExpiration = [aDecoder decodeObjectForKey:kKeyFbExpiration];
+    _fbFriendsUpdate = [aDecoder decodeObjectForKey:kKeyFbFriendsRefresh];
     return self;
 }
 
@@ -226,6 +239,7 @@ static double const refreshTime = -(60 * 15);
     // post parameters
     NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 _facebookid, kKeyFacebookId,
+                                _fbFriends, kKeyFacebookFriends,
                                 _email, kKeyEmail, 
                                 nil];
     
@@ -252,6 +266,38 @@ static double const refreshTime = -(60 * 15);
                      [message show];
                      [self.delegate didCompleteHttpCallback:kPlayer_CreateNewUser, FALSE];
                  }
+     ];
+}
+
+- (void) updatePlayerOnServer
+{
+    // post parameters
+    NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                _facebookid, kKeyFacebookId,
+                                _fbFriends, kKeyFacebookFriends,
+                                _email, kKeyEmail,
+                                nil];
+    
+    // make a post request
+    AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
+    NSString* path = [NSString stringWithFormat:@"users/%d.json", _id];
+    [httpClient putPath:path
+             parameters:parameters
+                success:^(AFHTTPRequestOperation *operation, id responseObject){
+                    NSLog(@"Player data updated");
+                    _fbFriendsUpdate = [NSDate date];
+                    [self.delegate didCompleteHttpCallback:kPlayer_SavePlayerData, TRUE];
+                }
+                failure:^(AFHTTPRequestOperation* operation, NSError* error){
+                    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
+                                                                      message:@"Unable to save player data. Please try again later."
+                                                                     delegate:nil
+                                                            cancelButtonTitle:@"OK"
+                                                            otherButtonTitles:nil];
+                    
+                    [message show];
+                    [self.delegate didCompleteHttpCallback:kPlayer_SavePlayerData, FALSE];
+                }
      ];
 }
 
@@ -354,13 +400,12 @@ static double const refreshTime = -(60 * 15);
         {
             // Player has not yet been created or retrieved.
             [self getPlayerDataFromServerUsingFacebookId];
-            
         }
         else
         {
             // Player has already been created. Associate facebookid
             // with this user
-            // TODO: PUT facebook id and friends into user data
+            [self updatePlayerOnServer];
             // TODO: Force a refresh of beacons
         }
     }
@@ -370,10 +415,14 @@ static double const refreshTime = -(60 * 15);
         // Grab the facebook ID for the current user
         _facebookid = [result valueForKeyPath:@"id"];
         
-        // get the logged-in user's friends
-        [_facebook requestWithGraphPath:@"me/friends" andDelegate:self];
-        
+        [self getFacebookFriendsList];
     }
+}
+         
+- (void) getFacebookFriendsList
+{
+    // get the logged-in user's friends
+    [_facebook requestWithGraphPath:@"me/friends" andDelegate:self];
 }
 
 #pragma mark - Singleton

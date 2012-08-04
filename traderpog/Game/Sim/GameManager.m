@@ -130,6 +130,13 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         _gameInfoRefreshCount++;
     }
     
+    // Refresh friends data from Facebook if necessary
+    if ([[Player getInstance] facebookSessionValid] && [[Player getInstance] needsFriendsRefresh])
+    {
+        [[Player getInstance] getFacebookFriendsList];
+        _gameInfoRefreshCount++;
+    }
+    
     // We got to this point and there was nothing to refresh, 
     // so just call selectNextGameUI to move on
     if (_gameInfoRefreshCount == 0)
@@ -363,7 +370,8 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
             [callName compare:kPlayer_GetPlayerData] == NSOrderedSame ||
             [callName compare:kTradePostMgr_ReceivePosts] == NSOrderedSame ||
             [callName compare:kFlyerTypes_ReceiveFlyers] == NSOrderedSame ||
-            [callName compare:kFlyerMgr_ReceiveFlyers] == NSOrderedSame)
+            [callName compare:kFlyerMgr_ReceiveFlyers] == NSOrderedSame ||
+            [callName compare:kPlayer_SavePlayerData] == NSOrderedSame)
         {
             _gameInfoRefreshCount--;
             _gameInfoRefreshSucceeded = _gameInfoRefreshSucceeded && success;

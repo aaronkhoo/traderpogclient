@@ -11,6 +11,7 @@
 #import "HttpCallbackDelegate.h"
 
 static NSString* const kPlayer_CreateNewUser = @"CreateNewUser";
+static NSString* const kPlayer_SavePlayerData = @"SavePlayerData";
 static NSString* const kPlayer_GetPlayerData = @"GetPlayerData";
 static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFacebook";
 
@@ -31,6 +32,7 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
     NSString* _fbFriends;
     
     NSDate* _lastUpdate;
+    NSDate* _fbFriendsUpdate;
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
@@ -44,10 +46,12 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
 
 - (void)initializeFacebook;
 - (void)authorizeFacebook;
-- (BOOL) needsRefresh;
-- (void) createNewPlayerOnServer;
-- (void) getPlayerDataFromServer;
-- (BOOL) facebookSessionValid;
+- (BOOL)needsRefresh;
+- (BOOL)needsFriendsRefresh;
+- (void)createNewPlayerOnServer;
+- (void)getPlayerDataFromServer;
+- (BOOL)facebookSessionValid;
+- (void)getFacebookFriendsList;
 
 // system
 - (void) appDidEnterBackground;
