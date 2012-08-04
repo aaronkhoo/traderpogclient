@@ -12,6 +12,7 @@
 #import "KnobSlice.h"
 #import "ScanManager.h"
 #import "FlyerMgr.h"
+#import "TradePostMgr.h"
 #import "WheelControl.h"
 #import "WheelProtocol.h"
 #import <QuartzCore/QuartzCore.h>
@@ -39,6 +40,7 @@ enum kKnobSlices
     CLLocationCoordinate2D _initCoord;
     KnobControl* _knob;
     WheelControl* _flyerWheel;
+    WheelControl* _postWheel;
     
     // HACK
     UILabel* _labelScan;
@@ -47,6 +49,7 @@ enum kKnobSlices
 }
 @property (nonatomic,strong) KnobControl* knob;
 @property (nonatomic,strong) WheelControl* flyerWheel;
+@property (nonatomic,strong) WheelControl* postWheel;
 
 - (void) startDisplayLink;
 - (void) stopDisplayLink;
@@ -67,6 +70,7 @@ enum kKnobSlices
 @synthesize mapControl = _mapControl;
 @synthesize knob = _knob;
 @synthesize flyerWheel = _flyerWheel;
+@synthesize postWheel = _postWheel;
 @synthesize coord = _initCoord;
 
 - (id)init
@@ -301,6 +305,14 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
                                              previewFrame:previewFrame
                                                 numSlices:12];
     [self.view addSubview:[self flyerWheel]];
+    self.postWheel = [[WheelControl alloc] initWithFrame:self.view.bounds
+                                                 delegate:[TradePostMgr getInstance]
+                                               dataSource:[TradePostMgr getInstance]
+                                                 superMap:self.mapControl
+                                               wheelFrame:wheelFrame
+                                             previewFrame:previewFrame
+                                                numSlices:12];
+    [self.view addSubview:[self postWheel]];
 }
 
 - (void) shutdownWheels
@@ -344,7 +356,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
             break;
             
         case kKnobSlicePost:
-            NSLog(@"Post");
+            [self.flyerWheel showWheelAnimated:YES withDelay:0.0f];
             break;
             
         default:

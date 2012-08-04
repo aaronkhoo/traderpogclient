@@ -10,12 +10,13 @@
 #import <CoreLocation/CoreLocation.h>
 #import "HttpCallbackDelegate.h"
 #import "MapControl.h"
+#import "WheelProtocol.h"
 
 static NSString* const kTradePostMgr_ReceivePosts = @"TradePostMgr_ReceivePosts";
 
 @class TradePost;
 @class TradeItemType;
-@interface TradePostMgr : NSObject<HttpCallbackDelegate>
+@interface TradePostMgr : NSObject<HttpCallbackDelegate,WheelDataSource,WheelProtocol>
 {
     NSDate* _lastUpdate;
     

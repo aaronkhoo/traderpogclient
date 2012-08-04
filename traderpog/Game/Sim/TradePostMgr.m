@@ -13,6 +13,10 @@
 #import "TradePost.h"
 #import "TradeItem.h"
 #import "TradeItemType.h"
+#import "WheelControl.h"
+#import "WheelBubble.h"
+#import "PogUIUtility.h"
+#import "MapControl.h"
 
 static double const refreshTime = -(60 * 15);
 
@@ -26,6 +30,9 @@ static double const refreshTime = -(60 * 15);
     
     // User trade post in the midst of being generated
     TradePost* _tempTradePost;
+    
+    // for wheel
+    MapControl* _previewMap;
 }
 @property (nonatomic,strong) NSMutableDictionary* activePosts;
 @property (nonatomic,strong) NSMutableDictionary* npcPosts;
@@ -48,6 +55,7 @@ static double const refreshTime = -(60 * 15);
         _npcPosts = [NSMutableDictionary dictionaryWithCapacity:10];
         _npcPostIndex = 0;
         _tempTradePost = nil;
+        _previewMap = nil;
     }
     return self;
 }
@@ -240,6 +248,82 @@ static double const refreshTime = -(60 * 15);
     }
     [[GameManager getInstance] selectNextGameUI];
 }
+
+#pragma mark - WheelDataSource
+- (unsigned int) numItemsInWheel:(WheelControl *)wheel
+{
+    unsigned int num = [_activePosts count];
+    return num;
+}
+
+
+- (WheelBubble*) wheel:(WheelControl *)wheel bubbleAtIndex:(unsigned int)index
+{
+    WheelBubble* contentView = [wheel dequeueResuableBubble];
+    UILabel* labelView = nil;
+    if(nil == contentView)
+    {
+        CGRect contentRect = CGRectMake(5.0f, 5.0f, 30.0f, 30.0f);
+        contentView = [[WheelBubble alloc] initWithFrame:contentRect];
+    }
+    labelView = [contentView labelView];
+    labelView.backgroundColor = [UIColor clearColor];
+    [labelView setText:[NSString stringWithFormat:@"%d", index]];
+    contentView.backgroundColor = [UIColor redColor];
+    
+    [PogUIUtility setCircleForView:contentView];
+    return contentView;
+}
+
+- (UIView*) wheel:(WheelControl*)wheel previewContentInitAtIndex:(unsigned int)index;
+{
+    MKMapView* result = nil;
+    if([_activePosts count])
+    {
+        if(_previewMap)
+        {
+            result = [_previewMap view];
+        }
+        else
+        {
+            CGRect superFrame = wheel.previewView.bounds;
+            result = [[MKMapView alloc] initWithFrame:superFrame];
+            index = MIN(index, [_activePosts count]-1);
+            TradePost* initPost = [_activePosts.allValues objectAtIndex:index];
+            _previewMap = [[MapControl alloc] initWithMapView:result
+                                                    andCenter:[initPost coord]];
+        }
+    }
+    return result;
+}
+
+#pragma mark - WheelProtocol
+- (void) wheelDidMoveTo:(unsigned int)index
+{
+    NSLog(@"wheel moved to %d",index);
+}
+
+- (void) wheelDidSettleAt:(unsigned int)index
+{
+    if([_activePosts count])
+    {
+        index = MIN(index, [_activePosts count]-1);
+        TradePost* cur = [_activePosts.allValues objectAtIndex:index];
+        [_previewMap centerOn:[cur coord] animated:YES];
+    }
+}
+
+- (void) wheel:(WheelControl*)wheel didPressOkOnIndex:(unsigned int)index
+{
+    if([_activePosts count])
+    {
+        index = MIN(index, [_activePosts count]-1);
+        TradePost* cur = [_activePosts.allValues objectAtIndex:index];
+        [wheel.superMap centerOn:[cur coord] animated:YES];
+    }
+}
+
+
 
 #pragma mark - Singleton
 static TradePostMgr* singleton = nil;
