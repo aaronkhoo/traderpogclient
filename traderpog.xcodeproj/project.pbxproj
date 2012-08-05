@@ -16,6 +16,7 @@
 		42094DB715C9B236001FA77D /* WheelControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB215C9B236001FA77D /* WheelControl.m */; };
 		42094DB815C9B236001FA77D /* WheelSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB515C9B236001FA77D /* WheelSlice.m */; };
 		4264B6B015CD93F300621548 /* TradePost.png in Resources */ = {isa = PBXBuildFile; fileRef = 4264B6AF15CD93F300621548 /* TradePost.png */; };
+		429AFD5F15CEC31C0096943A /* startButtonG_noBorder.png in Resources */ = {isa = PBXBuildFile; fileRef = 429AFD5E15CEC31C0096943A /* startButtonG_noBorder.png */; };
 		42A2989115B5F1E700384A52 /* KnobControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2988D15B5F1E700384A52 /* KnobControl.m */; };
 		42A2989215B5F1E700384A52 /* KnobSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2989015B5F1E700384A52 /* KnobSlice.m */; };
 		C41E0C9815AC0391006662DF /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C8415AC0391006662DF /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -62,10 +63,8 @@
 		C4945B8815AC91B500EEC0C0 /* CLLocation+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B8715AC91B500EEC0C0 /* CLLocation+Pog.m */; };
 		C4945B8B15AC936600EEC0C0 /* HiAccuracyLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B8A15AC936600EEC0C0 /* HiAccuracyLocator.m */; };
 		C4A311D315C19C400050273B /* BrowseArea.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A311D215C19C400050273B /* BrowseArea.m */; };
-		C4BBE44215B7DD7800F582DE /* startButton.png in Resources */ = {isa = PBXBuildFile; fileRef = C4BBE44115B7DD7800F582DE /* startButton.png */; };
 		C4BBE44915B7E7C600F582DE /* SignupBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = C4BBE44815B7E7C600F582DE /* SignupBackground.png */; };
 		C4BBE45115B92B7600F582DE /* ScanManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE45015B92B7600F582DE /* ScanManager.m */; };
-		C4BBE45315B9A51D00F582DE /* startButton_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = C4BBE45215B9A51D00F582DE /* startButton_shadow.png */; };
 		C4BBE45715BA741C00F582DE /* MathUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE45515BA741C00F582DE /* MathUtils.c */; };
 		C4BBE45A15BA93B800F582DE /* TradePostCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE45915BA93B800F582DE /* TradePostCallout.m */; };
 		C4BBE45E15BA99B500F582DE /* TradePostCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE45C15BA99B500F582DE /* TradePostCalloutView.m */; };
@@ -133,6 +132,7 @@
 		42094DB415C9B236001FA77D /* WheelSlice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WheelSlice.h; sourceTree = "<group>"; };
 		42094DB515C9B236001FA77D /* WheelSlice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WheelSlice.m; sourceTree = "<group>"; };
 		4264B6AF15CD93F300621548 /* TradePost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TradePost.png; path = assets/Map/TradePost.png; sourceTree = SOURCE_ROOT; };
+		429AFD5E15CEC31C0096943A /* startButtonG_noBorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = startButtonG_noBorder.png; path = assets/UI/startButtonG_noBorder.png; sourceTree = SOURCE_ROOT; };
 		42A2988C15B5F1E700384A52 /* KnobControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobControl.h; sourceTree = "<group>"; };
 		42A2988D15B5F1E700384A52 /* KnobControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KnobControl.m; sourceTree = "<group>"; };
 		42A2988E15B5F1E700384A52 /* KnobProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobProtocol.h; sourceTree = "<group>"; };
@@ -214,11 +214,9 @@
 		C4945B8A15AC936600EEC0C0 /* HiAccuracyLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HiAccuracyLocator.m; sourceTree = "<group>"; };
 		C4A311D115C19C400050273B /* BrowseArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrowseArea.h; path = Map/BrowseArea.h; sourceTree = "<group>"; };
 		C4A311D215C19C400050273B /* BrowseArea.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrowseArea.m; path = Map/BrowseArea.m; sourceTree = "<group>"; };
-		C4BBE44115B7DD7800F582DE /* startButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = startButton.png; path = assets/UI/startButton.png; sourceTree = SOURCE_ROOT; };
 		C4BBE44815B7E7C600F582DE /* SignupBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SignupBackground.png; path = assets/UI/SignupBackground.png; sourceTree = SOURCE_ROOT; };
 		C4BBE44F15B92B7600F582DE /* ScanManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScanManager.h; path = Game/Map/ScanManager.h; sourceTree = "<group>"; };
 		C4BBE45015B92B7600F582DE /* ScanManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScanManager.m; path = Game/Map/ScanManager.m; sourceTree = "<group>"; };
-		C4BBE45215B9A51D00F582DE /* startButton_shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = startButton_shadow.png; path = assets/UI/startButton_shadow.png; sourceTree = SOURCE_ROOT; };
 		C4BBE45415B9A9EF00F582DE /* HiAccuracyLocatorDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HiAccuracyLocatorDelegate.h; sourceTree = "<group>"; };
 		C4BBE45515BA741C00F582DE /* MathUtils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MathUtils.c; sourceTree = "<group>"; };
 		C4BBE45615BA741C00F582DE /* MathUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathUtils.h; sourceTree = "<group>"; };
@@ -644,8 +642,7 @@
 		C4FA8F4E15B5401000E82A93 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				C4BBE44115B7DD7800F582DE /* startButton.png */,
-				C4BBE45215B9A51D00F582DE /* startButton_shadow.png */,
+				429AFD5E15CEC31C0096943A /* startButtonG_noBorder.png */,
 				C4BBE44815B7E7C600F582DE /* SignupBackground.png */,
 				C4FA8F5915B54A7200E82A93 /* CreateAccount.png */,
 				C4FA8F5A15B54A7200E82A93 /* FBSignIn.png */,
@@ -721,14 +718,13 @@
 				C4D5DDEE15B3D12B00D5A746 /* HomeBase.png in Resources */,
 				C4FA8F5B15B54A7200E82A93 /* CreateAccount.png in Resources */,
 				C4FA8F5C15B54A7200E82A93 /* FBSignIn.png in Resources */,
-				C4BBE44215B7DD7800F582DE /* startButton.png in Resources */,
 				C4BBE44915B7E7C600F582DE /* SignupBackground.png in Resources */,
-				C4BBE45315B9A51D00F582DE /* startButton_shadow.png in Resources */,
 				C4BBE45F15BA99B500F582DE /* TradePostCalloutView.xib in Resources */,
 				C4BBE47915BC603F00F582DE /* Flyer.png in Resources */,
 				38B6DAEF15C85A9D00F37BD9 /* FBDialog.bundle in Resources */,
 				4264B6B015CD93F300621548 /* TradePost.png in Resources */,
 				C4BFC9B815CEBE6D009B7122 /* FlyerLanded.png in Resources */,
+				429AFD5F15CEC31C0096943A /* startButtonG_noBorder.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
