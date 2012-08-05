@@ -8,6 +8,9 @@
 
 #import "KnobControl.h"
 #import "KnobSlice.h"
+#import "PogUIUtility.h"
+#import "CircleView.h"
+#import <QuartzCore/QuartzCore.h>
 
 static const float kRenderOffsetFactor = 1.0f; // offset angle is this factor multiplied with sliceWidth 
 
@@ -21,6 +24,9 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     CGAffineTransform _startTransform;
 }
 @property (nonatomic,strong) UIImageView* backgroundImageView;
+@property (nonatomic,strong) UIView* colorCircle;
+@property (nonatomic,strong) UIView* shadowCircle;
+@property (nonatomic,strong) CircleView* circle;
 - (float) sliceWidth;
 - (CGAffineTransform) renderTransformFromLogicalTransform:(CGAffineTransform)xform reverse:(BOOL)reverse;
 - (void) buildSlicesEven;
@@ -41,6 +47,9 @@ static const float kKnobCenterRadiusFrac = 0.7f;
 @synthesize selectedSlice = _selectedSlice;
 @synthesize centerButton;
 @synthesize backgroundImageView;
+@synthesize colorCircle;
+@synthesize shadowCircle;
+@synthesize circle;
 @synthesize delegate = _delegate;
 
 - (id)initWithFrame:(CGRect)frame delegate:(NSObject<KnobProtocol>*)delegate
@@ -149,6 +158,30 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     [self.backgroundImageView setTransform:[self renderTransformFromLogicalTransform:_logicalTransform reverse:YES]];
     [self.container addSubview:[self backgroundImageView]];
 
+    // color circle on top of background image to apply color to it
+    self.colorCircle = [[UIView alloc] initWithFrame:self.bounds];
+    [self.colorCircle setBackgroundColor:[UIColor blackColor]];
+    [PogUIUtility setCircleForView:[self colorCircle] withBorderWidth:0.0f borderColor:[UIColor darkGrayColor]];
+    
+    self.shadowCircle = [[UIView alloc] initWithFrame:self.bounds];
+    [PogUIUtility setCircleForView:[self shadowCircle] withBorderWidth:0.0f borderColor:[UIColor darkGrayColor]];
+    [self.shadowCircle setBackgroundColor:[UIColor clearColor]];
+    CGPoint circleCenter = CGPointMake(self.bounds.origin.x + (self.bounds.size.width * 0.5f),
+                                       self.bounds.origin.y + (self.bounds.size.height * 0.5f));
+    UIBezierPath* circlePath = [UIBezierPath bezierPathWithArcCenter:circleCenter
+                                                              radius:self.bounds.size.width * 0.49f
+                                                          startAngle:0.0f
+                                                            endAngle:2.0f * M_PI
+                                                           clockwise:YES];
+    self.shadowCircle.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.shadowCircle.layer.shadowOpacity = 1.0f;
+    self.shadowCircle.layer.shadowOffset = CGSizeMake(0.0f, 1.0f);
+    self.shadowCircle.layer.shadowRadius = 3.0f;
+    self.shadowCircle.layer.masksToBounds = NO;
+    [self.shadowCircle.layer setShadowPath:circlePath.CGPath];
+    [self.container addSubview:[self colorCircle]];
+    [self.container addSubview:[self shadowCircle]];
+    
     // setup slices
     self.slices = [NSMutableArray arrayWithCapacity:self.numSlices];
     if(0 == ([self numSlices] % 2))
@@ -216,6 +249,13 @@ static const float kKnobCenterRadiusFrac = 0.7f;
         }
         ++sliceIndex;
     }
+    
+    UIColor* knobColor = [self.delegate knob:self colorAtIndex:[self selectedSlice]];
+    [UIView animateWithDuration:0.2f
+                     animations:^(void){
+                         self.shadowCircle.layer.shadowColor = knobColor.CGColor;
+                     }
+                     completion:nil];
 }
 
 - (void) refreshSliceViewDidBeginTouch
@@ -235,6 +275,12 @@ static const float kKnobCenterRadiusFrac = 0.7f;
         [cur.view setHidden:NO];
         ++sliceIndex;
     }
+    
+    [UIView animateWithDuration:0.2f
+                     animations:^(void){
+                         self.shadowCircle.layer.shadowColor = [UIColor darkGrayColor].CGColor;
+                     }
+                     completion:nil];
 }
 
 - (void) refreshSliceTitles

@@ -210,7 +210,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
                                   knobYOffset + viewFrame.size.height - (knobRadius/2.0f),
                                   knobRadius, knobRadius);
     self.knob = [[KnobControl alloc] initWithFrame:knobFrame delegate:self];
-    [self.knob setBackgroundImage:[UIImage imageNamed:@"startButton.png"]];
+    [self.knob setBackgroundImage:[UIImage imageNamed:@"startButtonG_noBorder.png"]];
     [self.view addSubview:[self knob]];
             
     _scanActivity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
@@ -342,6 +342,30 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
     return [titles objectAtIndex:index];
 }
 
+- (UIColor*) knob:(KnobControl *)knob colorAtIndex:(unsigned int)index
+{
+    UIColor* result = nil;
+    switch(index)
+    {
+        case kKnobSliceFlyer:
+            result = [UIColor colorWithRed:0.0f/255.0f green:112.0f/255.0f blue:185.0f/255.0f alpha:1.0f];
+            break;
+            
+        case kKnobSliceBeacon:
+            result = [UIColor colorWithRed:2.0f/255.0f green:64.0f/255.0f blue:116.0f/255.0f alpha:1.0f];
+            break;
+            
+        case kKnobSlicePost:
+            result = [UIColor colorWithRed:229.0f/255.0f green:54.0f/255.0f blue:9.0f/255.0f alpha:1.0f];
+            break;
+            
+        default:
+        case kKnobSliceScan:
+            result = [UIColor colorWithRed:8.0f/255.0f green:67.0f/255.0f blue:8.0f/255.0f alpha:1.0f];
+            break;
+    }
+    return result;
+}
 
 - (void) didPressKnobAtIndex:(unsigned int)index
 {
@@ -377,6 +401,9 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
     }
 }
 
-
+- (void) knob:(KnobControl *)knob didSettleAt:(unsigned int)index
+{
+    
+}
 
 @end
