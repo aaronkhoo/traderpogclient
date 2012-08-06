@@ -119,10 +119,8 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
             }
         }
         
-        // HACK
-        // TODO: read from server
-        _departureDate = [NSDate date];
-        //HACK
+        NSString* utcdate = [path_dict valueForKeyPath:@"created_at"];
+        [self storeDepartureDate:utcdate];
         
         // init runtime transient vars
         _coord = [self flyerCoordinateNow];
@@ -139,6 +137,20 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
 {
     FlyerType* current  = [[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex];
     return [current speed];
+}
+
+- (void) storeDepartureDate:(NSString*)utcdate
+{
+    // Set up conversion of RFC 3339 time format
+    NSDateFormatter *rfc3339DateFormatter = [[NSDateFormatter alloc] init];
+    NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    
+    [rfc3339DateFormatter setLocale:enUSPOSIXLocale];
+    [rfc3339DateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"];
+    [rfc3339DateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    
+    // Convert the RFC 3339 date time string to an NSDate.
+    _departureDate= [rfc3339DateFormatter dateFromString:utcdate];
 }
 
 - (void) createNewUserFlyerOnServer
