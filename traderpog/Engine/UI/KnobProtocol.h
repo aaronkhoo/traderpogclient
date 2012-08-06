@@ -14,6 +14,7 @@
 - (unsigned int) numItemsInKnob:(KnobControl*)knob;
 - (NSString*) knob:(KnobControl*)knob titleAtIndex:(unsigned int)index;
 - (UIColor*) knob:(KnobControl*)knob colorAtIndex:(unsigned int)index;
+- (UIColor*) knob:(KnobControl *)knob borderColorAtIndex:(unsigned int)index;
 - (void) knob:(KnobControl*)knob didSettleAt:(unsigned int)index;
 
 @end

@@ -156,7 +156,7 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     // however, we need the background to not offset; thus the reverse transform here;
     self.backgroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
     [self.backgroundImageView setTransform:[self renderTransformFromLogicalTransform:_logicalTransform reverse:YES]];
-    [self.container addSubview:[self backgroundImageView]];
+    //[self.container addSubview:[self backgroundImageView]];
 
     // color circle on top of background image to apply color to it
     self.colorCircle = [[UIView alloc] initWithFrame:self.bounds];
@@ -179,8 +179,13 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     self.shadowCircle.layer.shadowRadius = 3.0f;
     self.shadowCircle.layer.masksToBounds = NO;
     [self.shadowCircle.layer setShadowPath:circlePath.CGPath];
-    [self.container addSubview:[self colorCircle]];
-    [self.container addSubview:[self shadowCircle]];
+    //[self.container addSubview:[self colorCircle]];
+    //[self.container addSubview:[self shadowCircle]];
+    
+    self.circle = [[CircleView alloc] initWithFrame:self.bounds
+                                        borderWidth:5.0f
+                                        borderColor:[UIColor redColor]];
+    [self.container addSubview:[self circle]];
     
     // setup slices
     self.slices = [NSMutableArray arrayWithCapacity:self.numSlices];
@@ -251,9 +256,11 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     }
     
     UIColor* knobColor = [self.delegate knob:self colorAtIndex:[self selectedSlice]];
+    UIColor* borderColor = [self.delegate knob:self borderColorAtIndex:[self selectedSlice]];
     [UIView animateWithDuration:0.2f
                      animations:^(void){
-                         self.shadowCircle.layer.shadowColor = knobColor.CGColor;
+                         self.circle.coloredView.layer.shadowColor = knobColor.CGColor;
+                         self.circle.layer.borderColor = borderColor.CGColor;
                      }
                      completion:nil];
 }

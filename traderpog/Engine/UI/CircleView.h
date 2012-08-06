@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CircleView : UIView
+@property (nonatomic,strong) UIView* coloredView;
 
 - (id)initWithFrame:(CGRect)frame
         borderWidth:(CGFloat)borderWidth

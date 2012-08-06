@@ -367,6 +367,31 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
     return result;
 }
 
+- (UIColor*) knob:(KnobControl *)knob borderColorAtIndex:(unsigned int)index
+{
+    UIColor* result = nil;
+    switch(index)
+    {
+        case kKnobSliceFlyer:
+            result = [UIColor colorWithRed:93.0f/255.0f green:155.0f/255.0f blue:207.0f/255.0f alpha:1.0f];
+            break;
+            
+        case kKnobSliceBeacon:
+            result = [UIColor colorWithRed:27.0f/255.0f green:89.0f/255.0f blue:141.0f/255.0f alpha:1.0f];
+            break;
+            
+        case kKnobSlicePost:
+            result = [UIColor colorWithRed:177.0f/255.0f green:0.0f/255.0f blue:0.0f/255.0f alpha:1.0f];
+            break;
+            
+        default:
+        case kKnobSliceScan:
+            result = [UIColor colorWithRed:48.0f/255.0f green:80.0f/255.0f blue:107.0f/255.0f alpha:1.0f];
+            break;
+    }
+    return result;
+}
+
 - (void) didPressKnobAtIndex:(unsigned int)index
 {
     switch(index)
