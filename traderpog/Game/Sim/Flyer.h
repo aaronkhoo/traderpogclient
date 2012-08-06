@@ -17,8 +17,7 @@ static NSString* const kFlyer_CreateNewFlyer = @"Flyer_CreateNewFlyer";
 @class FlyerAnnotation;
 @interface Flyer : NSObject
 {
-    NSString* _flyerId;
-    float     _flightSpeed;
+    NSInteger _flyerTypeIndex;
     NSString* _curPostId;
     NSString* _nextPostId;
 
@@ -31,8 +30,6 @@ static NSString* const kFlyer_CreateNewFlyer = @"Flyer_CreateNewFlyer";
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
 }
-@property (nonatomic) NSString* flyerId;
-@property (nonatomic) float flightSpeed;
 @property (nonatomic,strong) NSString* curPostId;
 @property (nonatomic,strong) NSString* nextPostId;
 @property (nonatomic,strong) FlightPathOverlay* flightPathRender;
@@ -41,8 +38,7 @@ static NSString* const kFlyer_CreateNewFlyer = @"Flyer_CreateNewFlyer";
 @property (nonatomic,readonly) CGAffineTransform transform;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
-- (id) initAtPost:(TradePost*)tradePost;
-- (id) initWithPostAndFlyerId:(TradePost*)tradePost, NSString* flyerId;
+- (id) initWithPostAndFlyer:(TradePost*)tradePost, NSInteger flyerTypeIndex;
 - (void) createNewUserFlyerOnServer;
 - (void) departForPostId:(NSString*)postId;
 - (void) updateAtDate:(NSDate*)currentTime;

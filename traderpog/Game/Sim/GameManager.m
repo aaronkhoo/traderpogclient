@@ -300,7 +300,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         // create player's first flyer
         NSArray* flyersArray = [[FlyerTypes getInstance] getFlyersForTier:1];
         NSInteger index = arc4random() % (flyersArray.count);
-        if (![[FlyerMgr getInstance] newPlayerFlyerAtTradePost:[[TradePostMgr getInstance] getFirstTradePost]                                    firstFlyer:[flyersArray objectAtIndex:index]])
+        if (![[FlyerMgr getInstance] newPlayerFlyerAtTradePost:[[TradePostMgr getInstance] getFirstTradePost]                                    firstFlyer:index])
         {
             // Something failed in the flyer creation, probably because another flyer
             // creation was already in flight. We should never get into this state. Log and
@@ -331,6 +331,9 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
                 
                 // Annotate any posts we currently know about already
                 [[TradePostMgr getInstance] annotatePostsOnMap];
+                
+                // Annotate any flyers we currently know about
+                [[FlyerMgr getInstance] annotateFlyersOnMap];
                 
                 [self.gameViewController showKnobAnimated:YES delay:0.5f];
                 

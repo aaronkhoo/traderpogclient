@@ -13,6 +13,7 @@
 @synthesize name = _name;
 @synthesize desc = _desc;
 @synthesize tier = _tier;
+@synthesize speed = _speed;
 
 - (id) initWithDictionary:(NSDictionary*)dict
 {

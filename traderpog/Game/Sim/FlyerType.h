@@ -24,6 +24,7 @@
 @property (nonatomic,strong) NSString* name;
 @property (nonatomic,strong) NSString* desc;
 @property (nonatomic) NSInteger tier;
+@property (nonatomic) NSInteger speed;
 
 - (id) initWithDictionary:(NSDictionary*)dict;
 

@@ -28,9 +28,10 @@ static NSString* const kFlyerMgr_ReceiveFlyers = @"FlyerMgr_ReceiveFlyers";
 
 - (BOOL) needsRefresh;
 - (BOOL) newPlayerFlyerAtTradePost:(TradePost*)tradePost
-                        firstFlyer:(FlyerType*)flyerType;
+                        firstFlyer:(NSInteger)flyerTypeIndex;
 - (void) retrieveUserFlyersFromServer;
 - (void) updateFlyersAtDate:(NSDate*)currentTime;
+- (void) annotateFlyersOnMap;
 
 // singleton
 +(FlyerMgr*) getInstance;

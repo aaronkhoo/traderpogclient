@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
+#import "FlyerType.h"
 #import <Foundation/Foundation.h>
 #import "HttpCallbackDelegate.h"
 
@@ -25,6 +26,9 @@ static NSString* const kFlyerTypes_ReceiveFlyers = @"FlyerTypes_ReceiveFlyers";
 // Public methods
 - (BOOL) needsRefresh;
 - (void) retrieveFlyersFromServer;
+
+- (FlyerType*) getFlyerTypeById:(NSString*)flyerId;
+- (NSInteger) getFlyerIndexById:(NSString*)flyerId;
 
 // Returns an array of FlyerType
 - (NSArray*) getFlyersForTier:(unsigned int)tier;

@@ -51,11 +51,11 @@ static double const refreshTime = -(60 * 15);
     return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime);
 }
 
-- (BOOL) newPlayerFlyerAtTradePost:(TradePost*)tradePost firstFlyer:(FlyerType*)flyerType
+- (BOOL) newPlayerFlyerAtTradePost:(TradePost*)tradePost firstFlyer:(NSInteger)flyerTypeIndex
 {
     if (_tempFlyer == nil)
     {
-        Flyer* newFlyer = [[Flyer alloc] initWithPostAndFlyerId:tradePost, [flyerType flyerId]];
+        Flyer* newFlyer = [[Flyer alloc] initWithPostAndFlyer:tradePost, flyerTypeIndex];
         [newFlyer setDelegate:[FlyerMgr getInstance]];
         _tempFlyer = newFlyer;
         [_tempFlyer createNewUserFlyerOnServer];
@@ -125,9 +125,17 @@ static double const refreshTime = -(60 * 15);
 
 - (void) updateFlyersAtDate:(NSDate *)currentTime
 {
-    for(Flyer* cur in _playerFlyers)
+    for (Flyer* cur in _playerFlyers)
     {
         [cur updateAtDate:currentTime];
+    }
+}
+
+- (void) annotateFlyersOnMap
+{
+    for (Flyer* currentFlyer in _playerFlyers)
+    {
+        [[[GameManager getInstance] gameViewController].mapControl addAnnotationForFlyer:currentFlyer];
     }
 }
 

@@ -8,6 +8,8 @@
 
 #import "AFClientManager.h"
 #import "Flyer.h"
+#import "FlyerType.h"
+#import "FlyerTypes.h"
 #import "TradePost.h"
 #import "FlightPathOverlay.h"
 #import "FlyerAnnotation.h"
@@ -38,8 +40,6 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
 @end
 
 @implementation Flyer
-@synthesize flyerId = _flyerId;
-@synthesize flightSpeed = _flightSpeed;
 @synthesize curPostId = _curPostId;
 @synthesize nextPostId = _nextPostId;
 @synthesize flightPathRender = _flightPathRender;
@@ -51,35 +51,14 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
 @synthesize transform = _transform;
 @synthesize delegate = _delegate;
 
-- (id) initAtPost:(TradePost*)tradePost
+- (id) initWithPostAndFlyer:(TradePost*)tradePost, NSInteger flyerTypeIndex
 {
     self = [super init];
     if(self)
     {
-        _flightSpeed = kFlyerDefaultSpeedMetersPerSec;
-        _curPostId = [tradePost postId];
-        _nextPostId = nil;
-        _flightPathRender = nil;
-        _annotation = nil;
-        _coord = [tradePost coord];
-        _departureDate = nil;
-        _srcCoord = _coord;
-        _destCoord = _coord;
-        _metersToDest = 0.0;
-        _transform = CGAffineTransformIdentity;
-    }
-    return self;
-}
-
-- (id) initWithPostAndFlyerId:(TradePost*)tradePost, NSString* flyerId
-{
-    self = [super init];
-    if(self)
-    {
-        _flyerId = flyerId;
+        _flyerTypeIndex = flyerTypeIndex;
         _coord = [tradePost coord];
         
-        _flightSpeed = kFlyerDefaultSpeedMetersPerSec;
         _curPostId = [tradePost postId];
         _nextPostId = nil;
         _flightPathRender = nil;
@@ -101,7 +80,8 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
     {
         _annotation = nil;
         
-        _flyerId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:@"flyer_info_id"] integerValue]];
+        NSString* flyerTypeId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:@"flyer_info_id"] integerValue]];
+        _flyerTypeIndex = [[FlyerTypes getInstance] getFlyerIndexById:flyerTypeId];
         
         NSArray* paths_array = [dict valueForKeyPath:@"flyer_paths"];
         NSDictionary* path_dict = [paths_array objectAtIndex:0];
@@ -141,7 +121,6 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
         
         // HACK
         // TODO: read from server
-        _flightSpeed = kFlyerDefaultSpeedMetersPerSec;
         _departureDate = [NSDate date];
         //HACK
         
@@ -156,12 +135,20 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
     return self;
 }
 
+- (NSInteger) getFlyerSpeed
+{
+    FlyerType* current  = [[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex];
+    return [current speed];
+}
+
 - (void) createNewUserFlyerOnServer
 {
     // post parameters
     NSString *userFlyerPath = [NSString stringWithFormat:@"users/%d/user_flyers", [[Player getInstance] id]];
+    FlyerType* current  = [[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex];
+    NSString* flyerId = [current flyerId];
     NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
-                                _flyerId, kKeyFlyerId,
+                                flyerId, kKeyFlyerId,
                                 nil];
     
     // make a post request
@@ -234,7 +221,7 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
         
         NSTimeInterval elapsed = -[self.departureDate timeIntervalSinceNow];
         CLLocationDistance routeDist = metersDistance([self srcCoord], [self destCoord]);
-        _metersToDest = routeDist - (elapsed * self.flightSpeed);
+        _metersToDest = routeDist - (elapsed * [self getFlyerSpeed]);
         if(_metersToDest <= 0.0)
         {
             _metersToDest = 0.0;
@@ -295,7 +282,7 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
         double distPoints = sqrt((routeVec.x * routeVec.x) + (routeVec.y * routeVec.y));
         MKMapPoint routeVecNormalized = MKMapPointMake(routeVec.x / distPoints, routeVec.y / distPoints);
         
-        CLLocationDistance distTraveledMeters = [self flightSpeed] * elapsed;
+        CLLocationDistance distTraveledMeters = [self getFlyerSpeed] * elapsed;
         if(distTraveledMeters < distMeters)
         {
             double distTraveledPoints = (distTraveledMeters / distMeters) * distPoints;

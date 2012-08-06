@@ -7,7 +7,6 @@
 //
 
 #import "FlyerTypes.h"
-#import "FlyerType.h"
 #import "AFClientManager.h"
 
 static double const refreshTime = -(60 * 15);
@@ -64,6 +63,40 @@ static double const refreshTime = -(60 * 15);
                     [self.delegate didCompleteHttpCallback:kFlyerTypes_ReceiveFlyers, FALSE];
                 }
      ];
+}
+
+- (FlyerType*) getFlyerTypeById:(NSString*)flyerId
+{
+    FlyerType* current = nil;
+    for (FlyerType* flyer in _flyerTypes)
+    {
+        if ([[flyer flyerId] compare:flyerId] == NSOrderedSame)
+        {
+            current = flyer;
+        }
+    }
+    return current;
+}
+
+- (NSInteger) getFlyerIndexById:(NSString*)flyerId
+{
+    BOOL found = false;
+    NSInteger current = 0;
+    for (FlyerType* flyer in _flyerTypes)
+    {
+        if ([[flyer flyerId] compare:flyerId] == NSOrderedSame)
+        {
+            found = true;
+            break;
+        }
+        current++;
+    }
+    if (!found)
+    {
+        current = -1;
+        NSLog(@"Could not match flyerId to list of flyer types!");
+    }
+    return current;
 }
 
 - (NSArray*) getFlyersForTier:(unsigned int)tier
