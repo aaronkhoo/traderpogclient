@@ -26,10 +26,12 @@ static NSString* const kKeyMember = @"member";
 static NSString* const kKeyFbAccessToken = @"fbaccesstoken";
 static NSString* const kKeyFbExpiration = @"fbexpiration";
 static NSString* const kKeyFbFriendsRefresh = @"fbfriendsrefresh";
+static NSString* const kKeyFbPostUpdate = @"fbpostupdate";
 static NSString* const kPlayerFilename = @"player.sav";
 
 static double const refreshTime = -(60 * 15);  // 15 min
 static double const refreshTimeFriends = -(60 * 60 * 24 * 2);  // 2 days
+static double const refreshTimePost = -(60 * 60 * 24);  // 1 day
 
 @implementation Player
 @synthesize delegate = _delegate;
@@ -61,6 +63,7 @@ static double const refreshTimeFriends = -(60 * 60 * 24 * 2);  // 2 days
         
         _lastUpdate = nil;
         _fbFriendsUpdate = nil;
+        _fbPostUpdate = nil;
         
         // Initialize delegate
         _delegate = nil;
@@ -82,6 +85,11 @@ static double const refreshTimeFriends = -(60 * 60 * 24 * 2);  // 2 days
     return (_facebook && ((!_fbFriendsUpdate) || ([_fbFriendsUpdate timeIntervalSinceNow] < refreshTimeFriends)));
 }
 
+- (BOOL) canUpdateFacebookFeed
+{
+    return (_facebook && ((!_fbPostUpdate) || ([_fbPostUpdate timeIntervalSinceNow] < refreshTimePost)));
+}
+
 #pragma mark - NSCoding
 - (void) encodeWithCoder:(NSCoder *)aCoder
 {
@@ -91,6 +99,7 @@ static double const refreshTimeFriends = -(60 * 60 * 24 * 2);  // 2 days
     [aCoder encodeObject:_fbAccessToken forKey:kKeyFbAccessToken];
     [aCoder encodeObject:_fbExpiration forKey:kKeyFbExpiration];
     [aCoder encodeObject:_fbFriendsUpdate forKey:kKeyFbFriendsRefresh];
+    [aCoder encodeObject:_fbPostUpdate forKey:kKeyFbPostUpdate];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
@@ -101,6 +110,7 @@ static double const refreshTimeFriends = -(60 * 60 * 24 * 2);  // 2 days
     _fbAccessToken = [aDecoder decodeObjectForKey:kKeyFbAccessToken];
     _fbExpiration = [aDecoder decodeObjectForKey:kKeyFbExpiration];
     _fbFriendsUpdate = [aDecoder decodeObjectForKey:kKeyFbFriendsRefresh];
+    _fbPostUpdate = [aDecoder decodeObjectForKey:kKeyFbPostUpdate];
     return self;
 }
 
@@ -330,7 +340,28 @@ static double const refreshTimeFriends = -(60 * 60 * 24 * 2);  // 2 days
 {
     // if necessary, pop facebook UI to obtain user authorization. 
     if (_facebook && ![_facebook isSessionValid]) {
-        [_facebook authorize:nil];
+        NSArray *permissions = [[NSArray alloc] initWithObjects:
+                                @"publish_actions",
+                                nil];
+        [_facebook authorize:permissions];
+    }
+}
+
+- (void)updateFacebookFeed:(NSString*)message
+{
+    if ([self canUpdateFacebookFeed])
+    {
+        NSMutableDictionary* params1 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                        //appId, @"api_key",
+                                        message, @"message",
+                                        //@"https://www.mybantu.com", @"link",
+                                        //@"https:/www.mybantu.com/myphoto.png", @"picture",
+                                        @"TraderPog", @"name",
+                                        @"Pogs Can Fly", @"description",
+                                        //    @"100001309042820", @"target_id",
+                                        nil];
+        [_facebook requestWithGraphPath:@"me/feed" andParams:params1 andHttpMethod:@"POST" andDelegate:self];
+        _fbPostUpdate = [NSDate date];
     }
 }
 
@@ -394,6 +425,8 @@ static double const refreshTimeFriends = -(60 * 60 * 24 * 2);  // 2 days
     //handling a user friends info request
     if ([[request url] rangeOfString:@"me/friends"].location != NSNotFound)
     {
+        NSLog(@"Facebook /me/friends call completed");
+        
         [self parseFacebookFriends:[result valueForKeyPath:@"data"]];
         
         if ([Player getInstance].id == 0)
@@ -409,13 +442,23 @@ static double const refreshTimeFriends = -(60 * 60 * 24 * 2);  // 2 days
             // TODO: Force a refresh of beacons
         }
     }
-        //handling a user info request
+    else if ([[request url] rangeOfString:@"me/feed"].location != NSNotFound)
+    {
+        NSLog(@"Facebook /me/feed call completed");
+    }
+    //handling a user info request
     else if ([[request url] rangeOfString:@"/me"].location != NSNotFound)
-    {        
+    {
+        NSLog(@"Facebook /me call completed");
+        
         // Grab the facebook ID for the current user
         _facebookid = [result valueForKeyPath:@"id"];
         
         [self getFacebookFriendsList];
+    }
+    else
+    {
+        NSLog(@"Unknown FBRequest didLoad completion.");
     }
 }
          

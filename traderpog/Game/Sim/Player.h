@@ -33,6 +33,7 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
     
     NSDate* _lastUpdate;
     NSDate* _fbFriendsUpdate;
+    NSDate* _fbPostUpdate;
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
@@ -52,6 +53,7 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
 - (void)getPlayerDataFromServer;
 - (BOOL)facebookSessionValid;
 - (void)getFacebookFriendsList;
+- (void)updateFacebookFeed:(NSString*)message;
 
 // system
 - (void) appDidEnterBackground;
