@@ -79,6 +79,7 @@
 		C4BBE47715BC5F5100F582DE /* FlyerAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE47615BC5F5000F582DE /* FlyerAnnotationView.m */; };
 		C4BBE47915BC603F00F582DE /* Flyer.png in Resources */ = {isa = PBXBuildFile; fileRef = C4BBE47815BC603F00F582DE /* Flyer.png */; };
 		C4BFC9B815CEBE6D009B7122 /* FlyerLanded.png in Resources */ = {isa = PBXBuildFile; fileRef = C4BFC9B715CEBE6D009B7122 /* FlyerLanded.png */; };
+		C4BFC9C715CFC7EE009B7122 /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BFC9C615CFC7EE009B7122 /* CircleView.m */; };
 		C4D5DDD515B2718100D5A746 /* ConfirmNewPost.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */; };
 		C4D5DDD615B2718100D5A746 /* ConfirmNewPost.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */; };
 		C4D5DDDA15B3155B00D5A746 /* TradeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD915B3155B00D5A746 /* TradeItem.m */; };
@@ -244,6 +245,8 @@
 		C4BBE47815BC603F00F582DE /* Flyer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Flyer.png; path = assets/Map/Flyer.png; sourceTree = SOURCE_ROOT; };
 		C4BBE47C15BC955000F582DE /* traderpog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = traderpog.entitlements; sourceTree = "<group>"; };
 		C4BFC9B715CEBE6D009B7122 /* FlyerLanded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FlyerLanded.png; path = assets/Map/FlyerLanded.png; sourceTree = SOURCE_ROOT; };
+		C4BFC9C515CFC7EE009B7122 /* CircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleView.h; sourceTree = "<group>"; };
+		C4BFC9C615CFC7EE009B7122 /* CircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleView.m; sourceTree = "<group>"; };
 		C4D5DDD215B2718100D5A746 /* ConfirmNewPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmNewPost.h; path = Game/UI/ConfirmNewPost.h; sourceTree = "<group>"; };
 		C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfirmNewPost.m; path = Game/UI/ConfirmNewPost.m; sourceTree = "<group>"; };
 		C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConfirmNewPost.xib; path = Game/UI/ConfirmNewPost.xib; sourceTree = "<group>"; };
@@ -575,6 +578,8 @@
 		C4E381B615AA3B4C00924A86 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				C4BFC9C515CFC7EE009B7122 /* CircleView.h */,
+				C4BFC9C615CFC7EE009B7122 /* CircleView.m */,
 				C4E381CC15AABECC00924A86 /* PogUIUtility.h */,
 				C4E381CD15AABECC00924A86 /* PogUIUtility.m */,
 				C4E381B715AA3B4C00924A86 /* UINavigationController+Pog.h */,
@@ -795,6 +800,7 @@
 				42094DB615C9B236001FA77D /* WheelBubble.m in Sources */,
 				42094DB715C9B236001FA77D /* WheelControl.m in Sources */,
 				42094DB815C9B236001FA77D /* WheelSlice.m in Sources */,
+				C4BFC9C715CFC7EE009B7122 /* CircleView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
