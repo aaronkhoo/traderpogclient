@@ -18,6 +18,8 @@ static const float kSliceTextBigScale = 1.0f;
     UILabel* _contentLabel;
     CGAffineTransform _labelTransformSmall;
     CGAffineTransform _labelTransformBig;
+    CGAffineTransform _decalTransformSmall;
+    CGAffineTransform _decalTransformBig;
 }
 @end
 
@@ -85,12 +87,13 @@ static const float kSliceTextBigScale = 1.0f;
         [sliceLabel setTextColor:[UIColor whiteColor]];
         [_contentContainer addSubview:sliceLabel];
         _contentLabel = sliceLabel;
-
         
         // setup preset transforms for text label
         _labelTransformBig = CGAffineTransformMakeScale(kSliceTextBigScale, kSliceTextBigScale);
         _labelTransformBig = CGAffineTransformTranslate(_labelTransformBig, 0.0f, labelRect.size.height * 0.2f);
         _labelTransformSmall = CGAffineTransformMakeScale(kSliceTextSmallScale, kSliceTextSmallScale);
+        _decalTransformBig = CGAffineTransformIdentity;
+        _decalTransformSmall = CGAffineTransformMakeScale(kSliceTextSmallScale, kSliceTextSmallScale);
         
         // init all slices as small (Knob will make them big when selected)
         [self useSmallText];
@@ -106,11 +109,14 @@ static const float kSliceTextBigScale = 1.0f;
 - (void) useBigText
 {
     [_contentLabel setTransform:_labelTransformBig];
+    [_decal setTransform:_decalTransformBig];
 }
 
 - (void) useSmallText
 {
     [_contentLabel setTransform:_labelTransformSmall];
+    [_decal setTransform:_decalTransformSmall];
+    [_decal setAlpha:0.5];
 }
 
 

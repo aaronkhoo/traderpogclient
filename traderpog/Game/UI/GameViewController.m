@@ -15,6 +15,7 @@
 #import "TradePostMgr.h"
 #import "WheelControl.h"
 #import "WheelProtocol.h"
+#import "UIImage+Pog.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -194,7 +195,7 @@ static const float kKnobAnimOutDuration = 0.25f;
 
 // all knob position consts are expressed in terms of fraction of view-width
 static const float kKnobRadiusFrac = 0.5f;  // frac of view-width
-static const float kKnobFrameYOffsetFrac = (kKnobRadiusFrac * 0.10f);
+static const float kKnobFrameYOffsetFrac = (kKnobRadiusFrac * 0.05f);
 static const float kKnobHiddenYOffsetFrac = (kKnobRadiusFrac * 0.4f); // frac of view-width
 static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
 static const float kWheelRadiusFrac = 0.75f;
@@ -212,13 +213,6 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
     self.knob = [[KnobControl alloc] initWithFrame:knobFrame delegate:self];
     [self.view addSubview:[self knob]];
 
-    // decal
-//    CGRect decalFrame = CGRectMake(0.0f, 0.0f,
-  //                                 knobFrame.size.width * 0.25f,
-    //                               knobFrame.size.height * 0.25f);
-    UIImage* knobDecalImage = [UIImage imageNamed:@"Yun.png"];
-    [self.knob setDecalImageForAllSlices:knobDecalImage];
-    
     // HACK
     _scanActivity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     CGRect activityRect = knobFrame;
@@ -349,28 +343,34 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
     return [titles objectAtIndex:index];
 }
 
-- (UIColor*) knob:(KnobControl *)knob colorAtIndex:(unsigned int)index
+- (UIColor*) colorAtIndex:(unsigned int)index withAlpha:(CGFloat)alpha
 {
     UIColor* result = nil;
     switch(index)
     {
         case kKnobSliceFlyer:
-            result = [UIColor colorWithRed:0.0f/255.0f green:112.0f/255.0f blue:185.0f/255.0f alpha:1.0f];
+            result = [UIColor colorWithRed:0.0f/255.0f green:112.0f/255.0f blue:185.0f/255.0f alpha:alpha];
             break;
             
         case kKnobSliceBeacon:
-            result = [UIColor colorWithRed:2.0f/255.0f green:64.0f/255.0f blue:116.0f/255.0f alpha:1.0f];
+            result = [UIColor colorWithRed:2.0f/255.0f green:64.0f/255.0f blue:116.0f/255.0f alpha:alpha];
             break;
             
         case kKnobSlicePost:
-            result = [UIColor colorWithRed:229.0f/255.0f green:54.0f/255.0f blue:9.0f/255.0f alpha:1.0f];
+            result = [UIColor colorWithRed:229.0f/255.0f green:54.0f/255.0f blue:9.0f/255.0f alpha:alpha];
             break;
             
         default:
         case kKnobSliceScan:
-            result = [UIColor colorWithRed:8.0f/255.0f green:67.0f/255.0f blue:67.0f/255.0f alpha:1.0f];
+            result = [UIColor colorWithRed:8.0f/255.0f green:67.0f/255.0f blue:67.0f/255.0f alpha:alpha];
             break;
     }
+    return result;
+}
+
+- (UIColor*) knob:(KnobControl *)knob colorAtIndex:(unsigned int)index
+{
+    UIColor* result = [self colorAtIndex:index withAlpha:1.0f];
     return result;
 }
 
@@ -396,6 +396,13 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
             result = [UIColor colorWithRed:48.0f/255.0f green:80.0f/255.0f blue:107.0f/255.0f alpha:1.0f];
             break;
     }
+    return result;
+}
+
+- (UIImage*) knob:(KnobControl*)knob decalImageAtIndex:(unsigned int)index
+{
+    UIColor* color = [self colorAtIndex:index withAlpha:1.0f];
+    UIImage* result = [UIImage imageNamed:@"Yun.png" withColor:color];
     return result;
 }
 

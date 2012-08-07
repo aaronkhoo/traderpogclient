@@ -192,7 +192,7 @@ static const float kKnobCenterRadiusFrac = 0.7f;
                                         borderWidth:5.0f
                                         borderColor:[UIColor redColor]];
     [self.container addSubview:[self circle]];
-
+    
     // setup slices
     self.slices = [NSMutableArray arrayWithCapacity:self.numSlices];
     if(0 == ([self numSlices] % 2))
@@ -204,9 +204,16 @@ static const float kKnobCenterRadiusFrac = 0.7f;
         [self buildSlicesOdd];
     }
     
+    unsigned int sliceIndex = 0;
     for(KnobSlice* curSlice in self.slices)
     {
         [self.container addSubview:[curSlice view]];
+        
+        // setup decal
+        UIImage* decalImage = [self.delegate knob:self decalImageAtIndex:sliceIndex];
+        [curSlice.decal setImage:decalImage];
+        [curSlice.decal setAlpha:0.35f];
+        ++sliceIndex;
     }
     
     self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform reverse:NO];
