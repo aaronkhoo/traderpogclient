@@ -37,7 +37,7 @@
                                                                clockwise:YES];
         self.coloredView.layer.shadowOpacity = 1.0f;
         self.coloredView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
-        self.coloredView.layer.shadowRadius = 2.0f;
+        self.coloredView.layer.shadowRadius = 4.0f;
         self.coloredView.layer.masksToBounds = NO;
         [self.coloredView.layer setShadowPath:circlePath.CGPath];
         

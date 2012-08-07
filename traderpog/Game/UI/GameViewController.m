@@ -330,10 +330,10 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
 - (NSString*) knob:(KnobControl *)knob titleAtIndex:(unsigned int)index
 {
     NSArray* titles = [NSArray arrayWithObjects:
-                       @"SCAN",
-                       @"FLYER",
-                       @"BEACON",
-                       @"POST",
+                       @"Scan",
+                       @"Flyers",
+                       @"Beacons",
+                       @"Posts",
                        nil];
     if(index >= [titles count])
     {
@@ -361,7 +361,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
             
         default:
         case kKnobSliceScan:
-            result = [UIColor colorWithRed:8.0f/255.0f green:67.0f/255.0f blue:8.0f/255.0f alpha:1.0f];
+            result = [UIColor colorWithRed:8.0f/255.0f green:67.0f/255.0f blue:67.0f/255.0f alpha:1.0f];
             break;
     }
     return result;
