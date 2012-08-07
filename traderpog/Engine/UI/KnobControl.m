@@ -23,9 +23,6 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     float _deltaAngle;
     CGAffineTransform _startTransform;
 }
-@property (nonatomic,strong) UIImageView* backgroundImageView;
-@property (nonatomic,strong) UIView* colorCircle;
-@property (nonatomic,strong) UIView* shadowCircle;
 @property (nonatomic,strong) CircleView* circle;
 - (float) sliceWidth;
 - (CGAffineTransform) renderTransformFromLogicalTransform:(CGAffineTransform)xform reverse:(BOOL)reverse;
@@ -46,9 +43,6 @@ static const float kKnobCenterRadiusFrac = 0.7f;
 @synthesize container = _container;
 @synthesize selectedSlice = _selectedSlice;
 @synthesize centerButton;
-@synthesize backgroundImageView;
-@synthesize colorCircle;
-@synthesize shadowCircle;
 @synthesize circle;
 @synthesize delegate = _delegate;
 
@@ -70,19 +64,6 @@ static const float kKnobCenterRadiusFrac = 0.7f;
         [self refreshSliceViewDidSelect];
     }
     return self;
-}
-
-- (void) setBackgroundImage:(UIImage *)image
-{
-    [self.backgroundImageView setImage:image];
-}
-
-- (void) setDecalImageForAllSlices:(UIImage *)image
-{
-    for(KnobSlice* cur in [self slices])
-    {
-        [cur.decal setImage:image];
-    }
 }
 
 #pragma mark - internal methods
@@ -158,36 +139,7 @@ static const float kKnobCenterRadiusFrac = 0.7f;
 - (void) createWheelRender
 {
     _container = [[UIView alloc] initWithFrame:self.bounds];
-    
-    // setup background-image-view
-    // Note on transform: the wheel rendering transform is offset such that the current selection is upward;
-    // however, we need the background to not offset; thus the reverse transform here;
-    self.backgroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
-    [self.backgroundImageView setTransform:[self renderTransformFromLogicalTransform:_logicalTransform reverse:YES]];
-    //[self.container addSubview:[self backgroundImageView]];
-
-    // color circle on top of background image to apply color to it
-    self.colorCircle = [[UIView alloc] initWithFrame:self.bounds];
-    [self.colorCircle setBackgroundColor:[UIColor blackColor]];
-    [PogUIUtility setCircleForView:[self colorCircle] withBorderWidth:0.0f borderColor:[UIColor darkGrayColor]];
-    
-    self.shadowCircle = [[UIView alloc] initWithFrame:self.bounds];
-    [PogUIUtility setCircleForView:[self shadowCircle] withBorderWidth:0.0f borderColor:[UIColor darkGrayColor]];
-    [self.shadowCircle setBackgroundColor:[UIColor clearColor]];
-    CGPoint circleCenter = CGPointMake(self.bounds.origin.x + (self.bounds.size.width * 0.5f),
-                                       self.bounds.origin.y + (self.bounds.size.height * 0.5f));
-    UIBezierPath* circlePath = [UIBezierPath bezierPathWithArcCenter:circleCenter
-                                                              radius:self.bounds.size.width * 0.49f
-                                                          startAngle:0.0f
-                                                            endAngle:2.0f * M_PI
-                                                           clockwise:YES];
-    self.shadowCircle.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.shadowCircle.layer.shadowOpacity = 1.0f;
-    self.shadowCircle.layer.shadowOffset = CGSizeMake(0.0f, 1.0f);
-    self.shadowCircle.layer.shadowRadius = 3.0f;
-    self.shadowCircle.layer.masksToBounds = NO;
-    [self.shadowCircle.layer setShadowPath:circlePath.CGPath];
-    
+        
     self.circle = [[CircleView alloc] initWithFrame:self.bounds
                                         borderWidth:5.0f
                                         borderColor:[UIColor redColor]];

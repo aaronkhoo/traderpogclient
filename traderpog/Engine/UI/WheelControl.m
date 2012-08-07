@@ -227,11 +227,6 @@ static const int kLabelViewTag = 10;
 #pragma mark - internal
 - (void) createWheelRenderWithFrame:(CGRect)wheelFrame
 {
-    // create a center circle and place it at the bottom-most layer
-    _centerCircle = [[UIView alloc] initWithFrame:CGRectInset(wheelFrame, 40.0f, 40.0f)];
-    [PogUIUtility setCircleForView:_centerCircle withBorderWidth:5.0f borderColor:[UIColor blackColor]];
-    [self addSubview:_centerCircle];
-    
     // create container for wheel
     _wheelView = [[UIView alloc] initWithFrame:wheelFrame];
     _container = [[UIView alloc] initWithFrame:_wheelView.bounds];

@@ -16,7 +16,6 @@
     __weak id<WheelProtocol>    _delegate;
     __weak id<WheelDataSource>  _dataSource;
     __weak MapControl*      _superMap;
-    UIView*                 _centerCircle;
     UIView*                 _container;
     UIView*                 _wheelView;
     UIView*                 _previewView;

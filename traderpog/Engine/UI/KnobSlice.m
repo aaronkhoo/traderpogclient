@@ -94,6 +94,7 @@ static const float kSliceTextBigScale = 1.0f;
         _labelTransformSmall = CGAffineTransformMakeScale(kSliceTextSmallScale, kSliceTextSmallScale);
         _decalTransformBig = CGAffineTransformIdentity;
         _decalTransformSmall = CGAffineTransformMakeScale(kSliceTextSmallScale, kSliceTextSmallScale);
+        _decalTransformSmall = CGAffineTransformTranslate(_decalTransformSmall, 0.0f, -labelRect.size.height * 0.2f);
         
         // init all slices as small (Knob will make them big when selected)
         [self useSmallText];

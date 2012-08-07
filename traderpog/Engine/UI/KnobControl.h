@@ -25,6 +25,4 @@
 @property (nonatomic,weak) NSObject<KnobProtocol>* delegate;
 
 - (id)initWithFrame:(CGRect)frame delegate:(NSObject<KnobProtocol>*)delegate;
-- (void) setBackgroundImage:(UIImage*)image;
-- (void) setDecalImageForAllSlices:(UIImage*)image;
 @end
