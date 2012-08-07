@@ -26,6 +26,7 @@ static const float kSliceTextBigScale = 1.0f;
 @synthesize minAngle = _minAngle;
 @synthesize midAngle = _midAngle;
 @synthesize maxAngle = _maxAngle;
+@synthesize decal = _decal;
 
 - (id) initWithMin:(float)min mid:(float)mid max:(float)max 
             radius:(float)radius angle:(float)angle
@@ -66,8 +67,17 @@ static const float kSliceTextBigScale = 1.0f;
         [_view addSubview:newContainer];
         _contentContainer = newContainer;
 
-        // label
         CGRect labelRect = CGRectInset(contentRect, -15.0f, -15.0f);
+
+        // decal
+        CGRect decalRect = CGRectMake(0.0f, 0.0f,
+                                      labelRect.size.height,
+                                      labelRect.size.height);
+        _decal = [[UIImageView alloc] initWithFrame:decalRect];
+        [_decal setBackgroundColor:[UIColor clearColor]];
+        [_contentContainer addSubview:_decal];
+
+        // label
         UILabel* sliceLabel = [[UILabel alloc] initWithFrame:labelRect];
         [sliceLabel setTextAlignment:UITextAlignmentCenter];
         [sliceLabel setFont:[UIFont fontWithName:@"Marker Felt" size:35.0f]];
@@ -76,6 +86,7 @@ static const float kSliceTextBigScale = 1.0f;
         [_contentContainer addSubview:sliceLabel];
         _contentLabel = sliceLabel;
 
+        
         // setup preset transforms for text label
         _labelTransformBig = CGAffineTransformMakeScale(kSliceTextBigScale, kSliceTextBigScale);
         _labelTransformBig = CGAffineTransformTranslate(_labelTransformBig, 0.0f, labelRect.size.height * 0.2f);

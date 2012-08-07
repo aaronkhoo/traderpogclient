@@ -15,11 +15,13 @@
     float _maxAngle;
     float _radius;
     UIView* _view;
+    UIImageView* _decal;
 }
 @property (nonatomic,strong) UIView* view;
 @property (nonatomic,assign) float minAngle;
 @property (nonatomic,assign) float midAngle;
 @property (nonatomic,assign) float maxAngle;
+@property (nonatomic,readonly) UIImageView* decal;
 
 - (id) initWithMin:(float)min mid:(float)mid max:(float)max 
             radius:(float)radius angle:(float)angle

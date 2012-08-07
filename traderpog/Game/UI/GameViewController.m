@@ -210,9 +210,16 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
                                   knobYOffset + viewFrame.size.height - (knobRadius/2.0f),
                                   knobRadius, knobRadius);
     self.knob = [[KnobControl alloc] initWithFrame:knobFrame delegate:self];
-    [self.knob setBackgroundImage:[UIImage imageNamed:@"startButtonG_noBorder.png"]];
     [self.view addSubview:[self knob]];
-            
+
+    // decal
+//    CGRect decalFrame = CGRectMake(0.0f, 0.0f,
+  //                                 knobFrame.size.width * 0.25f,
+    //                               knobFrame.size.height * 0.25f);
+    UIImage* knobDecalImage = [UIImage imageNamed:@"Yun.png"];
+    [self.knob setDecalImageForAllSlices:knobDecalImage];
+    
+    // HACK
     _scanActivity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     CGRect activityRect = knobFrame;
     activityRect.origin.y += 5.0f;

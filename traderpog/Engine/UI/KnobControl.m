@@ -77,6 +77,14 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     [self.backgroundImageView setImage:image];
 }
 
+- (void) setDecalImageForAllSlices:(UIImage *)image
+{
+    for(KnobSlice* cur in [self slices])
+    {
+        [cur.decal setImage:image];
+    }
+}
+
 #pragma mark - internal methods
 - (CGAffineTransform) renderTransformFromLogicalTransform:(CGAffineTransform)xform reverse:(BOOL)reverse
 {
@@ -179,14 +187,12 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     self.shadowCircle.layer.shadowRadius = 3.0f;
     self.shadowCircle.layer.masksToBounds = NO;
     [self.shadowCircle.layer setShadowPath:circlePath.CGPath];
-    //[self.container addSubview:[self colorCircle]];
-    //[self.container addSubview:[self shadowCircle]];
     
     self.circle = [[CircleView alloc] initWithFrame:self.bounds
                                         borderWidth:5.0f
                                         borderColor:[UIColor redColor]];
     [self.container addSubview:[self circle]];
-    
+
     // setup slices
     self.slices = [NSMutableArray arrayWithCapacity:self.numSlices];
     if(0 == ([self numSlices] % 2))
