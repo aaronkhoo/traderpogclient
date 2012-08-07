@@ -285,7 +285,8 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     
     [UIView animateWithDuration:0.2f
                      animations:^(void){
-                         self.shadowCircle.layer.shadowColor = [UIColor darkGrayColor].CGColor;
+                         self.circle.coloredView.layer.shadowColor = [UIColor grayColor].CGColor;
+                         self.circle.layer.borderColor = [UIColor darkGrayColor].CGColor;
                      }
                      completion:nil];
 }
