@@ -76,7 +76,6 @@
     {
         annotationView = [[FlyerAnnotationView alloc] initWithAnnotation:self];
     }
-    annotationView.transform = [self transform];
     return annotationView;
 }
 
