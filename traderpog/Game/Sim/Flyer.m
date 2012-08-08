@@ -203,6 +203,10 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
         float angle = [MKMapView angleBetweenCoordinateA:[self srcCoord] coordinateB:[self destCoord]];
         angle += M_PI_2;
         _transform = CGAffineTransformMakeRotation(angle);
+        if([self annotation])
+        {
+            [self.annotation setTransform:_transform];
+        }
     }
 }
 

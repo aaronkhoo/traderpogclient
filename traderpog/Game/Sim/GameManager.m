@@ -352,13 +352,11 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     {
         // remove old rendering
         [self.gameViewController.mapControl dismissFlightPathForFlyer:flyer];
-        [self.gameViewController.mapControl dismissAnnotationForFlyer:flyer];
         
         [flyer departForPostId:[tradePost postId]];
         
         // add rendering
         [self.gameViewController.mapControl showFlightPathForFlyer:flyer];
-        [self.gameViewController.mapControl addAnnotationForFlyer:flyer];
     }
 }
 

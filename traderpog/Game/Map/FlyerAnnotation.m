@@ -13,10 +13,8 @@
 @interface FlyerAnnotation ()
 {
     CLLocationCoordinate2D _coord;
-    CGAffineTransform _transform;
 }
 @property (nonatomic) CLLocationCoordinate2D coord;
-@property (nonatomic) CGAffineTransform transform;
 @end
 
 @implementation FlyerAnnotation

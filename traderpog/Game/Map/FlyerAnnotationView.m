@@ -10,6 +10,7 @@
 #import "FlyerAnnotation.h"
 
 NSString* const kFlyerAnnotationViewReuseId = @"FlyerAnnotationView";
+static NSString* const kFlyerTransformKey = @"transform";
 
 @implementation FlyerAnnotationView
 - (id) initWithAnnotation:(FlyerAnnotation *)annotation
@@ -42,8 +43,25 @@ NSString* const kFlyerAnnotationViewReuseId = @"FlyerAnnotationView";
         [self addSubview:contentView];
         
 //        _calloutAnnotation = nil;
+        
+        // observe flyer transform
+        [annotation addObserver:self forKeyPath:kFlyerTransformKey options:0 context:nil];
     }
     return self;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+					  ofObject:(id)object
+						change:(NSDictionary *)change
+					   context:(void *)context
+{
+    //    NSLog(@"%@ value changed", keyPath);
+    if(([object isMemberOfClass:[FlyerAnnotation class]]) &&
+       ([keyPath isEqualToString:kFlyerTransformKey]))
+    {
+        FlyerAnnotation* annotation = (FlyerAnnotation*)object;
+        [self setTransform:[annotation transform]];
+    }
 }
 
 #pragma mark - MKAnnotationView

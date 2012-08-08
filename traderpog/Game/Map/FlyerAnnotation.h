@@ -14,7 +14,9 @@
 @interface FlyerAnnotation : NSObject<MKAnnotation, MapAnnotationProtocol>
 {
     Flyer* _flyer;
+    CGAffineTransform _transform;
 }
 @property (nonatomic,readonly) Flyer* flyer;
+@property (nonatomic) CGAffineTransform transform;
 - (id) initWithFlyer:(Flyer*)flyer;
 @end
