@@ -20,6 +20,8 @@
 #import "MKMapView+Pog.h"
 
 static const float kFlyerDefaultSpeedMetersPerSec = 100.0f;
+static const NSInteger kStormCountOne = 10;
+static const NSInteger kStormCountTwo = 5;
 static NSString* const kKeyUserFlyerId = @"id";
 static NSString* const kKeyFlyerPathId = @"id";
 static NSString* const kKeyDepartureDate = @"created_at";
@@ -37,7 +39,7 @@ static NSString* const kKeyDone = @"done";
 @interface Flyer ()
 {
     // temp variable for storing next flight path before it is confirmed by server
-    BOOL _creatingNextFlyerPath;
+    BOOL _updatingFlyerPathOnServer;
     NSString* _projectedNextPost;
     
     // flight enroute processing
@@ -54,6 +56,7 @@ static NSString* const kKeyDone = @"done";
 - (CLLocationCoordinate2D) flyerCoordinateAtTimeSinceDeparture:(NSTimeInterval)elapsed;
 - (CLLocationCoordinate2D) flyerCoordinateNow;
 - (CLLocationCoordinate2D) flyerCoordinateAtTimeAhead:(NSTimeInterval)timeAhead;
+- (NSDictionary*) createParametersForFlyerPath;
 @end
 
 @implementation Flyer
@@ -73,7 +76,7 @@ static NSString* const kKeyDone = @"done";
     self = [super init];
     if(self)
     {
-        _creatingNextFlyerPath = FALSE;
+        _updatingFlyerPathOnServer = FALSE;
         _projectedNextPost = nil;
         
         _flyerTypeIndex = flyerTypeIndex;
@@ -100,7 +103,7 @@ static NSString* const kKeyDone = @"done";
     if(self)
     {
         _annotation = nil;
-        _creatingNextFlyerPath = FALSE;
+        _updatingFlyerPathOnServer = FALSE;
         _projectedNextPost = nil;
         
         _userFlyerId = [dict valueForKeyPath:kKeyUserFlyerId];
@@ -214,6 +217,25 @@ static NSString* const kKeyDone = @"done";
     [httpClient setDefaultHeader:@"Init-Post-Id" value:nil];
 }
 
+- (NSInteger) getStormsCount
+{
+    // Get a number between 1 and 100
+    NSInteger rndNumber = (arc4random() % 100) + 1;
+    
+    if (rndNumber <= kStormCountTwo)
+    {
+        return 1;
+    }
+    else if (rndNumber <= (kStormCountOne + kStormCountTwo))
+    {
+        return 2;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
 - (NSDictionary*) createParametersForFlyerPath
 {
     NSMutableDictionary* parameters = [NSMutableDictionary dictionaryWithCapacity:6];
@@ -254,6 +276,11 @@ static NSString* const kKeyDone = @"done";
         [parameters setObject:_projectedNextPost forKey:kKeyPost2];
     }
     
+    // Set a storm count
+    NSInteger stormCount = [self getStormsCount];
+    [parameters setObject:[NSNumber numberWithInteger:stormCount] forKey:kKeyStorms];
+    [parameters setObject:[NSNumber numberWithInteger:0] forKey:kKeyStormed];
+    
     return parameters;
 }
 
@@ -275,7 +302,7 @@ static NSString* const kKeyDone = @"done";
                      [self storeDepartureDate:utcdate];
                      _nextPostId = _projectedNextPost;
                      [self createRenderingForFlyer];
-                     _creatingNextFlyerPath = FALSE;
+                     _updatingFlyerPathOnServer = FALSE;
                      //[self.delegate didCompleteHttpCallback:kFlyer_CreateNewFlyerPath, TRUE];
                  }
                  failure:^(AFHTTPRequestOperation* operation, NSError* error){
@@ -286,7 +313,7 @@ static NSString* const kKeyDone = @"done";
                                                              otherButtonTitles:nil];
                      
                      [message show];
-                     _creatingNextFlyerPath = FALSE;
+                     _updatingFlyerPathOnServer = FALSE;
                      //[self.delegate didCompleteHttpCallback:kFlyer_CreateNewFlyerPath, FALSE];
                  }
      ];
@@ -321,7 +348,13 @@ static NSString* const kKeyDone = @"done";
 - (void) createRenderingForFlyer
 {    
     // create renderer
-    self.srcCoord = [[[TradePostMgr getInstance] getTradePostWithId:[self curPostId]] coord];
+    if ([self curPostId])
+    {
+        // If a current post is specified, then use that post's coordinates.
+        // Otherwise, the srcCoords are already specified. This happens when the source post is
+        // an NPC post that isn't stored on the server.
+        self.srcCoord = [[[TradePostMgr getInstance] getTradePostWithId:[self curPostId]] coord];   
+    }
     self.destCoord = [[[TradePostMgr getInstance] getTradePostWithId:[self nextPostId]] coord];
     self.flightPathRender = [[FlightPathOverlay alloc] initWithSrcCoord:[self srcCoord] destCoord:[self destCoord]];
     
@@ -345,8 +378,8 @@ static NSString* const kKeyDone = @"done";
        (![self nextPostId]))
     {        
         // Store the next post in a temp variable first
+        _updatingFlyerPathOnServer = TRUE;
         _projectedNextPost = postId;
-        _creatingNextFlyerPath = TRUE;
         [self createFlyerPathOnServer];
         return TRUE;
     }
@@ -355,7 +388,7 @@ static NSString* const kKeyDone = @"done";
 
 - (void) updateAtDate:(NSDate *)currentTime
 {
-    if(!_creatingNextFlyerPath && [self nextPostId])
+    if(!_updatingFlyerPathOnServer && [self nextPostId])
     {
         // enroute
         CLLocationCoordinate2D curCoord = [self flyerCoordinateNow];
