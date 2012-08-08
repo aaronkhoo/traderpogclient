@@ -11,6 +11,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 static NSString* const kFlyer_CreateNewFlyer = @"Flyer_CreateNewFlyer";
+static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 
 @class TradePost;
 @class FlightPathOverlay;
@@ -18,6 +19,8 @@ static NSString* const kFlyer_CreateNewFlyer = @"Flyer_CreateNewFlyer";
 @interface Flyer : NSObject
 {
     NSInteger _flyerTypeIndex;
+    NSString* _userFlyerId;
+    NSString* _flyerPathId;
     NSString* _curPostId;
     NSString* _nextPostId;
 
@@ -40,7 +43,7 @@ static NSString* const kFlyer_CreateNewFlyer = @"Flyer_CreateNewFlyer";
 
 - (id) initWithPostAndFlyer:(TradePost*)tradePost, NSInteger flyerTypeIndex;
 - (void) createNewUserFlyerOnServer;
-- (void) departForPostId:(NSString*)postId;
+- (BOOL) departForPostId:(NSString*)postId;
 - (void) updateAtDate:(NSDate*)currentTime;
 - (id) initWithDictionary:(NSDictionary*)dict;
 

@@ -349,14 +349,12 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 - (void) flyer:(Flyer *)flyer departForTradePost:(TradePost *)tradePost
 {
     if([flyer curPostId] != [tradePost postId])
-    {
-        // remove old rendering
-        [self.gameViewController.mapControl dismissFlightPathForFlyer:flyer];
-        
-        [flyer departForPostId:[tradePost postId]];
-        
-        // add rendering
-        [self.gameViewController.mapControl showFlightPathForFlyer:flyer];
+    {        
+        if ([flyer departForPostId:[tradePost postId]])
+        {
+            // Flyer path was successfully created. Delete the old path from the view.
+            [self.gameViewController.mapControl dismissFlightPathForFlyer:flyer];
+        }
     }
 }
 

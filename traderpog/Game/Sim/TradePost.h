@@ -24,6 +24,7 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
     NSInteger   _supplyRateLevel;
     
     BOOL        _isOwnPost;
+    BOOL        _isNPCPost;
     
     // transient variables (not saved; reconstructed after load)
     __weak TradePostAnnotation* _annotation;
@@ -38,6 +39,7 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 @property (nonatomic,weak) TradePostAnnotation* annotation;
 @property (nonatomic) unsigned int supplyLevel;
 @property (nonatomic) BOOL isOwnPost;
+@property (nonatomic) BOOL isNPCPost;
 @property (nonatomic,readonly) NSString* imgPath;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 

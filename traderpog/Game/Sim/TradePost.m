@@ -27,6 +27,7 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
 @synthesize annotation = _annotation;
 @synthesize supplyLevel = _supplyLevel;
 @synthesize isOwnPost = _isOwnPost;
+@synthesize isNPCPost = _isNPCPost;
 @synthesize delegate = _delegate;
 
 // call this to create NPC posts
@@ -45,6 +46,7 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
         
         // NPC post
         _isOwnPost = NO;
+        _isNPCPost = YES;
     }
     return self;
 }
@@ -62,6 +64,7 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
         
         // client can only create tradePosts for current player;
         _isOwnPost = YES;
+        _isNPCPost = NO;
     }
     return self;
 }
@@ -78,6 +81,8 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
         _imgPath = [dict valueForKeyPath:@"img"];
         _supplyMaxLevel =[[dict valueForKeyPath:@"supplymaxlevel"] integerValue];
         _supplyRateLevel =[[dict valueForKeyPath:@"supplyratelevel"] integerValue];
+        
+        _isNPCPost = NO;
         
         // HACK
         // TODO: get this from server

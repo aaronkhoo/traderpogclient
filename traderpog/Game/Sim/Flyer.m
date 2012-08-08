@@ -10,19 +10,36 @@
 #import "Flyer.h"
 #import "FlyerType.h"
 #import "FlyerTypes.h"
-#import "TradePost.h"
 #import "FlightPathOverlay.h"
 #import "FlyerAnnotation.h"
+#import "GameManager.h"
+#import "TradePost.h"
 #import "TradePostMgr.h"
 #import "Player.h"
 #import "PogUIUtility.h"
 #import "MKMapView+Pog.h"
 
 static const float kFlyerDefaultSpeedMetersPerSec = 100.0f;
+static NSString* const kKeyUserFlyerId = @"id";
+static NSString* const kKeyFlyerPathId = @"id";
+static NSString* const kKeyDepartureDate = @"created_at";
 static NSString* const kKeyFlyerId = @"flyer_info_id";
+static NSString* const kKeyPost1 = @"post1";
+static NSString* const kKeyPost2 = @"post2";
+static NSString* const kKeyLongitude1 = @"longitude1";
+static NSString* const kKeyLatitude1 = @"latitude1";
+static NSString* const kKeyLongitude2 = @"longitude2";
+static NSString* const kKeyLatitude2 = @"latitude2";
+static NSString* const kKeyStorms= @"storms";
+static NSString* const kKeyStormed= @"stormed";
+static NSString* const kKeyDone = @"done";
 
 @interface Flyer ()
 {
+    // temp variable for storing next flight path before it is confirmed by server
+    BOOL _creatingNextFlyerPath;
+    NSString* _projectedNextPost;
+    
     // flight enroute processing
     NSDate* _departureDate;
     CLLocationCoordinate2D _srcCoord;
@@ -56,8 +73,12 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
     self = [super init];
     if(self)
     {
+        _creatingNextFlyerPath = FALSE;
+        _projectedNextPost = nil;
+        
         _flyerTypeIndex = flyerTypeIndex;
         _coord = [tradePost coord];
+        _flyerPathId = nil;
         
         _curPostId = [tradePost postId];
         _nextPostId = nil;
@@ -79,47 +100,54 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
     if(self)
     {
         _annotation = nil;
+        _creatingNextFlyerPath = FALSE;
+        _projectedNextPost = nil;
+        
+        _userFlyerId = [dict valueForKeyPath:kKeyUserFlyerId];
         
         NSString* flyerTypeId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:@"flyer_info_id"] integerValue]];
         _flyerTypeIndex = [[FlyerTypes getInstance] getFlyerIndexById:flyerTypeId];
         
         NSArray* paths_array = [dict valueForKeyPath:@"flyer_paths"];
         NSDictionary* path_dict = [paths_array objectAtIndex:0];
-        _curPostId = [NSString stringWithFormat:@"%d", [[path_dict valueForKeyPath:@"post1"] integerValue]];
-        if (_curPostId == nil)
+        id obj = [path_dict valueForKeyPath:@"post1"];
+        if ((NSNull *)obj == [NSNull null])
         {
             // No post ID, so it must be stored in the longitude/latitude values
-            _srcCoord.latitude = [[dict valueForKeyPath:@"latitude1"] doubleValue];
-            _srcCoord.longitude = [[dict valueForKeyPath:@"longitude1"] doubleValue];
+            _srcCoord.latitude = [[path_dict valueForKeyPath:@"latitude1"] doubleValue];
+            _srcCoord.longitude = [[path_dict valueForKeyPath:@"longitude1"] doubleValue];
         }
         else
         {
+            _curPostId = [NSString stringWithFormat:@"%d", [obj integerValue]];
             _srcCoord = [[[TradePostMgr getInstance] getTradePostWithId:_curPostId] coord];
         }
-        _nextPostId = [NSString stringWithFormat:@"%d", [[path_dict valueForKeyPath:@"post2"] integerValue]];;
-        if ([_curPostId compare:_nextPostId] == NSOrderedSame)
+        
+        obj = [path_dict valueForKeyPath:@"post2"];
+        if ((NSNull *)obj == [NSNull null])
         {
-            // If the server indicated curPostId and nextPostId are the same,
-            // then the flyer is at its original position, which means it isn't moving
-            _nextPostId = nil;
-            _departureDate = nil;
-            _coord = _srcCoord;
+            // No post ID, so it must be stored in the longitude/latitude values
+            _destCoord.latitude = [[path_dict valueForKeyPath:@"latitude2"] doubleValue];
+            _destCoord.longitude = [[path_dict valueForKeyPath:@"longitude2"] doubleValue];
         }
         else
         {
-            if (_nextPostId == nil)
+            _nextPostId = [NSString stringWithFormat:@"%d", [obj integerValue]];
+            if (_curPostId && [_curPostId compare:_nextPostId] == NSOrderedSame)
             {
-                // No post ID, so it must be stored in the longitude/latitude values
-                _destCoord.latitude = [[dict valueForKeyPath:@"latitude2"] doubleValue];
-                _destCoord.longitude = [[dict valueForKeyPath:@"longitude2"] doubleValue];
+                // If the server indicated curPostId and nextPostId are the same,
+                // then the flyer is at its original position, which means it isn't moving
+                _nextPostId = nil;
+                _departureDate = nil;
+                _coord = _srcCoord;
             }
             else
             {
-                _destCoord = [[[TradePostMgr getInstance] getTradePostWithId:_nextPostId] coord];
+                _destCoord = [[[TradePostMgr getInstance] getTradePostWithId:_nextPostId] coord];   
             }
         }
         
-        NSString* utcdate = [path_dict valueForKeyPath:@"created_at"];
+        NSString* utcdate = [path_dict valueForKeyPath:kKeyDepartureDate];
         [self storeDepartureDate:utcdate];
         
         // init runtime transient vars
@@ -169,6 +197,7 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
     [httpClient postPath:userFlyerPath
               parameters:parameters
                  success:^(AFHTTPRequestOperation *operation, id responseObject){
+                     _userFlyerId = [responseObject valueForKeyPath:kKeyUserFlyerId];
                      [self.delegate didCompleteHttpCallback:kFlyer_CreateNewFlyer, TRUE];
                  }
                  failure:^(AFHTTPRequestOperation* operation, NSError* error){
@@ -185,34 +214,148 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
     [httpClient setDefaultHeader:@"Init-Post-Id" value:nil];
 }
 
+- (NSDictionary*) createParametersForFlyerPath
+{
+    NSMutableDictionary* parameters = [NSMutableDictionary dictionaryWithCapacity:6];
+    
+    // Source post
+    if (_curPostId)
+    {
+        TradePost* post1 = [[TradePostMgr getInstance] getTradePostWithId:_curPostId];
+        if (post1.isNPCPost)
+        {
+            CLLocationCoordinate2D location = post1.coord;
+            [parameters setValue:[NSNumber numberWithDouble:location.longitude] forKey:kKeyLongitude1];
+            [parameters setValue:[NSNumber numberWithDouble:location.latitude] forKey:kKeyLatitude1];
+        }
+        else
+        {
+            [parameters setObject:_curPostId forKey:kKeyPost1];
+        }
+    }
+    else
+    {
+        // This can happen when the source location is retrieved from the server, and was an NPC trade post
+        // that didn't exist there, so the only info we have on it are the longitude/latitude.
+        [parameters setValue:[NSNumber numberWithDouble:_srcCoord.longitude] forKey:kKeyLongitude1];
+        [parameters setValue:[NSNumber numberWithDouble:_srcCoord.latitude] forKey:kKeyLatitude1];
+    }
+    
+    // Destination post
+    TradePost* post2 = [[TradePostMgr getInstance] getTradePostWithId:_projectedNextPost];
+    if (post2.isNPCPost)
+    {
+        CLLocationCoordinate2D location = post2.coord;
+        [parameters setValue:[NSNumber numberWithDouble:location.longitude] forKey:kKeyLongitude2];
+        [parameters setValue:[NSNumber numberWithDouble:location.latitude] forKey:kKeyLatitude2];
+    }
+    else
+    {
+        [parameters setObject:_projectedNextPost forKey:kKeyPost2];
+    }
+    
+    return parameters;
+}
+
+- (void) createFlyerPathOnServer
+{
+    // post parameters
+    NSString *flyerPathUrl = [NSString stringWithFormat:@"users/%d/user_flyers/%@/flyer_paths", [[Player getInstance] id],
+                               _userFlyerId];
+    NSDictionary* parameters = [self createParametersForFlyerPath];
+    
+    // make a post request
+    AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
+    [httpClient postPath:flyerPathUrl
+              parameters:parameters
+                 success:^(AFHTTPRequestOperation *operation, id responseObject){
+                     NSLog(@"FlyerPath created");
+                     _flyerPathId = [responseObject valueForKeyPath:kKeyFlyerPathId];
+                     NSString* utcdate = [responseObject valueForKeyPath:kKeyDepartureDate];
+                     [self storeDepartureDate:utcdate];
+                     _nextPostId = _projectedNextPost;
+                     [self createRenderingForFlyer];
+                     _creatingNextFlyerPath = FALSE;
+                     //[self.delegate didCompleteHttpCallback:kFlyer_CreateNewFlyerPath, TRUE];
+                 }
+                 failure:^(AFHTTPRequestOperation* operation, NSError* error){
+                     UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
+                                                                       message:@"Unable to create flyer path. Please try again later."
+                                                                      delegate:nil
+                                                             cancelButtonTitle:@"OK"
+                                                             otherButtonTitles:nil];
+                     
+                     [message show];
+                     _creatingNextFlyerPath = FALSE;
+                     //[self.delegate didCompleteHttpCallback:kFlyer_CreateNewFlyerPath, FALSE];
+                 }
+     ];
+}
+
+- (void) updateFlyerPath:(NSDictionary*)parameters
+{    
+    // make a post request
+    AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
+    NSString *flyerPathUrl = [NSString stringWithFormat:@"users/%d/user_flyers/%@/flyer_paths/%@",
+                              [[Player getInstance] id], _userFlyerId, _flyerPathId];
+    [httpClient putPath:flyerPathUrl
+             parameters:parameters
+                success:^(AFHTTPRequestOperation *operation, id responseObject){
+                    NSLog(@"Flyer path data updated");
+                    [self.delegate didCompleteHttpCallback:kPlayer_SavePlayerData, TRUE];
+                }
+                failure:^(AFHTTPRequestOperation* operation, NSError* error){
+                    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
+                                                                      message:@"Unable to update flyer path. Please try again later."
+                                                                     delegate:nil
+                                                            cancelButtonTitle:@"OK"
+                                                            otherButtonTitles:nil];
+                    
+                    [message show];
+                    [self.delegate didCompleteHttpCallback:kPlayer_SavePlayerData, FALSE];
+                }
+     ];
+}
+
+// Create rendering for flyer
+- (void) createRenderingForFlyer
+{    
+    // create renderer
+    self.srcCoord = [[[TradePostMgr getInstance] getTradePostWithId:[self curPostId]] coord];
+    self.destCoord = [[[TradePostMgr getInstance] getTradePostWithId:[self nextPostId]] coord];
+    self.flightPathRender = [[FlightPathOverlay alloc] initWithSrcCoord:[self srcCoord] destCoord:[self destCoord]];
+    
+    // flyer zero-angle is up; so, need to offset it by 90 degrees
+    float angle = [MKMapView angleBetweenCoordinateA:[self srcCoord] coordinateB:[self destCoord]];
+    angle += M_PI_2;
+    _transform = CGAffineTransformMakeRotation(angle);
+    if([self annotation])
+    {
+        [self.annotation setTransform:_transform];
+    }
+    
+    // add rendering
+    [[[[GameManager getInstance] gameViewController] mapControl] showFlightPathForFlyer:self];
+}
+
 #pragma mark - flight public
-- (void) departForPostId:(NSString *)postId
+- (BOOL) departForPostId:(NSString *)postId
 {
     if((![postId isEqualToString:[self curPostId]]) &&
        (![self nextPostId]))
-    {
-        self.nextPostId = postId;
-        self.departureDate = [NSDate date];
-        
-        // create renderer
-        self.srcCoord = [[[TradePostMgr getInstance] getTradePostWithId:[self curPostId]] coord];
-        self.destCoord = [[[TradePostMgr getInstance] getTradePostWithId:[self nextPostId]] coord];
-        self.flightPathRender = [[FlightPathOverlay alloc] initWithSrcCoord:[self srcCoord] destCoord:[self destCoord]];
-        
-        // flyer zero-angle is up; so, need to offset it by 90 degrees
-        float angle = [MKMapView angleBetweenCoordinateA:[self srcCoord] coordinateB:[self destCoord]];
-        angle += M_PI_2;
-        _transform = CGAffineTransformMakeRotation(angle);
-        if([self annotation])
-        {
-            [self.annotation setTransform:_transform];
-        }
+    {        
+        // Store the next post in a temp variable first
+        _projectedNextPost = postId;
+        _creatingNextFlyerPath = TRUE;
+        [self createFlyerPathOnServer];
+        return TRUE;
     }
+    return FALSE;
 }
 
 - (void) updateAtDate:(NSDate *)currentTime
 {
-    if([self nextPostId])
+    if(!_creatingNextFlyerPath && [self nextPostId])
     {
         // enroute
         CLLocationCoordinate2D curCoord = [self flyerCoordinateNow];
@@ -245,6 +388,7 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
             // arrived
             self.curPostId = [self nextPostId];
             self.nextPostId = nil;
+            [[[[GameManager getInstance] gameViewController] mapControl] dismissFlightPathForFlyer:self];
 //            [self didArriveAtPost:[self destPostId]];
    
             /*
@@ -288,8 +432,8 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
 
 - (CLLocationCoordinate2D) flyerCoordinateAtTimeSinceDeparture:(NSTimeInterval)elapsed
 {
-    CLLocationCoordinate2D coordNow = [self coord];
-    if([self nextPostId])
+    CLLocationCoordinate2D coordNow = [self srcCoord];
+    if([self departureDate] != nil)
     {
         CLLocationDistance distMeters = metersDistance([self srcCoord], [self destCoord]);
         MKMapPoint srcPoint = MKMapPointForCoordinate([self srcCoord]);
