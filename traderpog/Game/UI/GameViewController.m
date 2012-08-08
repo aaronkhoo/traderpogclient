@@ -419,7 +419,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
             break;
             
         case kKnobSlicePost:
-            [self.flyerWheel showWheelAnimated:YES withDelay:0.0f];
+            [self.postWheel showWheelAnimated:YES withDelay:0.0f];
             break;
             
         default:
