@@ -136,6 +136,8 @@ static double const refreshTime = -(60 * 15);
 {
     for (Flyer* currentFlyer in _playerFlyers)
     {
+        [currentFlyer flyerCoordinateNow];
+        [currentFlyer createRenderingForFlyer];
         [[[GameManager getInstance] gameViewController].mapControl addAnnotationForFlyer:currentFlyer];
     }
 }

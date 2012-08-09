@@ -191,6 +191,7 @@ static double const refreshTimePost = -(60 * 60 * 24);  // 1 day
                     _email = [responseObject valueForKeyPath:kKeyEmail];
                     _member = [[responseObject valueForKeyPath:kKeyMember] boolValue];
                     _lastUpdate = [NSDate date];
+                    [self savePlayerData];
                     [self.delegate didCompleteHttpCallback:kPlayer_GetPlayerDataWithFacebook, TRUE];
                 }
                 failure:^(AFHTTPRequestOperation* operation, NSError* error){

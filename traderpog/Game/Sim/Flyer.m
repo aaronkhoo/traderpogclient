@@ -55,7 +55,6 @@ static NSString* const kKeyDone = @"done";
 @property (nonatomic) CLLocationCoordinate2D destCoord;
 
 - (CLLocationCoordinate2D) flyerCoordinateAtTimeSinceDeparture:(NSTimeInterval)elapsed;
-- (CLLocationCoordinate2D) flyerCoordinateNow;
 - (CLLocationCoordinate2D) flyerCoordinateAtTimeAhead:(NSTimeInterval)timeAhead;
 - (NSDictionary*) createParametersForFlyerPath;
 @end
@@ -108,15 +107,24 @@ static NSString* const kKeyDone = @"done";
         _updatingFlyerPathOnServer = FALSE;
         _projectedNextPost = nil;
         
-        _userFlyerId = [dict valueForKeyPath:kKeyUserFlyerId];
+        _userFlyerId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:kKeyUserFlyerId] integerValue]];
         
         NSString* flyerTypeId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:kKeyFlyerId] integerValue]];
         _flyerTypeIndex = [[FlyerTypes getInstance] getFlyerIndexById:flyerTypeId];
         
         NSArray* paths_array = [dict valueForKeyPath:@"flyer_paths"];
         NSDictionary* path_dict = [paths_array objectAtIndex:0];
-        _doneWithCurrentPath = [[path_dict valueForKeyPath:kKeyDone] boolValue];
-        id obj = [path_dict valueForKeyPath:kKeyPost1];
+        id obj = [path_dict valueForKeyPath:kKeyDone];
+        if ((NSNull *)obj == [NSNull null])
+        {
+            _doneWithCurrentPath = FALSE;
+        }
+        else
+        {
+            _doneWithCurrentPath = [obj boolValue];
+        }
+
+        obj = [path_dict valueForKeyPath:kKeyPost1];
         if ((NSNull *)obj == [NSNull null])
         {
             // No post ID, so it must be stored in the longitude/latitude values
@@ -150,13 +158,13 @@ static NSString* const kKeyDone = @"done";
             
             _nextPostId = nil;
             _departureDate = nil;
-            _coord = _srcCoord;
         }
         
         NSString* utcdate = [path_dict valueForKeyPath:kKeyDepartureDate];
         [self storeDepartureDate:utcdate];
         
         // init runtime transient vars
+        _coord = _srcCoord;
         _flightPathRender = nil;
         _annotation = nil;
         _metersToDest = 0.0;
@@ -202,7 +210,7 @@ static NSString* const kKeyDone = @"done";
     [httpClient postPath:userFlyerPath
               parameters:parameters
                  success:^(AFHTTPRequestOperation *operation, id responseObject){
-                     _userFlyerId = [responseObject valueForKeyPath:kKeyUserFlyerId];
+                     _userFlyerId = [NSString stringWithFormat:@"%d", [[responseObject valueForKeyPath:kKeyUserFlyerId] integerValue]];
                      [self.delegate didCompleteHttpCallback:kFlyer_CreateNewFlyer, TRUE];
                  }
                  failure:^(AFHTTPRequestOperation* operation, NSError* error){
@@ -283,6 +291,8 @@ static NSString* const kKeyDone = @"done";
     [parameters setObject:[NSNumber numberWithInteger:stormCount] forKey:kKeyStorms];
     [parameters setObject:[NSNumber numberWithInteger:0] forKey:kKeyStormed];
     
+    [parameters setObject:[NSNumber numberWithBool:NO] forKey:kKeyDone];
+    
     return parameters;
 }
 
@@ -299,7 +309,7 @@ static NSString* const kKeyDone = @"done";
               parameters:parameters
                  success:^(AFHTTPRequestOperation *operation, id responseObject){
                      NSLog(@"FlyerPath created");
-                     _flyerPathId = [responseObject valueForKeyPath:kKeyFlyerPathId];
+                     _flyerPathId = [NSString stringWithFormat:@"%d", [[responseObject valueForKeyPath:kKeyFlyerPathId] integerValue]];
                      NSString* utcdate = [responseObject valueForKeyPath:kKeyDepartureDate];
                      [self storeDepartureDate:utcdate];
                      _nextPostId = _projectedNextPost;
@@ -355,7 +365,11 @@ static NSString* const kKeyDone = @"done";
         // an NPC post that isn't stored on the server.
         self.srcCoord = [[[TradePostMgr getInstance] getTradePostWithId:[self curPostId]] coord];   
     }
-    self.destCoord = [[[TradePostMgr getInstance] getTradePostWithId:[self nextPostId]] coord];
+    if ([self nextPostId])
+    {
+        // Same as above. 
+        self.destCoord = [[[TradePostMgr getInstance] getTradePostWithId:[self nextPostId]] coord];   
+    }
     self.flightPathRender = [[FlightPathOverlay alloc] initWithSrcCoord:[self srcCoord] destCoord:[self destCoord]];
     
     // flyer zero-angle is up; so, need to offset it by 90 degrees
@@ -415,7 +429,7 @@ static NSString* const kKeyDone = @"done";
 
 - (void) updateAtDate:(NSDate *)currentTime
 {
-    if(!_updatingFlyerPathOnServer && [self nextPostId])
+    if(!_updatingFlyerPathOnServer && !_doneWithCurrentPath)
     {
         // enroute
         CLLocationCoordinate2D curCoord = [self flyerCoordinateNow];

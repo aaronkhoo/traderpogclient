@@ -46,5 +46,7 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 - (BOOL) departForPostId:(NSString*)postId;
 - (void) updateAtDate:(NSDate*)currentTime;
 - (id) initWithDictionary:(NSDictionary*)dict;
+- (CLLocationCoordinate2D) flyerCoordinateNow;
+- (void) createRenderingForFlyer;
 
 @end
