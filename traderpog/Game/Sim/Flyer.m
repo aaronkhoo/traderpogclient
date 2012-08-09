@@ -41,6 +41,7 @@ static NSString* const kKeyDone = @"done";
     // temp variable for storing next flight path before it is confirmed by server
     BOOL _updatingFlyerPathOnServer;
     NSString* _projectedNextPost;
+    BOOL _doneWithCurrentPath;
     
     // flight enroute processing
     NSDate* _departureDate;
@@ -78,6 +79,7 @@ static NSString* const kKeyDone = @"done";
     {
         _updatingFlyerPathOnServer = FALSE;
         _projectedNextPost = nil;
+        _doneWithCurrentPath = FALSE;
         
         _flyerTypeIndex = flyerTypeIndex;
         _coord = [tradePost coord];
@@ -108,17 +110,18 @@ static NSString* const kKeyDone = @"done";
         
         _userFlyerId = [dict valueForKeyPath:kKeyUserFlyerId];
         
-        NSString* flyerTypeId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:@"flyer_info_id"] integerValue]];
+        NSString* flyerTypeId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:kKeyFlyerId] integerValue]];
         _flyerTypeIndex = [[FlyerTypes getInstance] getFlyerIndexById:flyerTypeId];
         
         NSArray* paths_array = [dict valueForKeyPath:@"flyer_paths"];
         NSDictionary* path_dict = [paths_array objectAtIndex:0];
-        id obj = [path_dict valueForKeyPath:@"post1"];
+        _doneWithCurrentPath = [[path_dict valueForKeyPath:kKeyDone] boolValue];
+        id obj = [path_dict valueForKeyPath:kKeyPost1];
         if ((NSNull *)obj == [NSNull null])
         {
             // No post ID, so it must be stored in the longitude/latitude values
-            _srcCoord.latitude = [[path_dict valueForKeyPath:@"latitude1"] doubleValue];
-            _srcCoord.longitude = [[path_dict valueForKeyPath:@"longitude1"] doubleValue];
+            _srcCoord.latitude = [[path_dict valueForKeyPath:kKeyLatitude1] doubleValue];
+            _srcCoord.longitude = [[path_dict valueForKeyPath:kKeyLongitude1] doubleValue];
         }
         else
         {
@@ -126,35 +129,34 @@ static NSString* const kKeyDone = @"done";
             _srcCoord = [[[TradePostMgr getInstance] getTradePostWithId:_curPostId] coord];
         }
         
-        obj = [path_dict valueForKeyPath:@"post2"];
+        obj = [path_dict valueForKeyPath:kKeyPost2];
         if ((NSNull *)obj == [NSNull null])
         {
             // No post ID, so it must be stored in the longitude/latitude values
-            _destCoord.latitude = [[path_dict valueForKeyPath:@"latitude2"] doubleValue];
-            _destCoord.longitude = [[path_dict valueForKeyPath:@"longitude2"] doubleValue];
+            _destCoord.latitude = [[path_dict valueForKeyPath:kKeyLatitude2] doubleValue];
+            _destCoord.longitude = [[path_dict valueForKeyPath:kKeyLongitude2] doubleValue];
         }
         else
         {
             _nextPostId = [NSString stringWithFormat:@"%d", [obj integerValue]];
-            if (_curPostId && [_curPostId compare:_nextPostId] == NSOrderedSame)
-            {
-                // If the server indicated curPostId and nextPostId are the same,
-                // then the flyer is at its original position, which means it isn't moving
-                _nextPostId = nil;
-                _departureDate = nil;
-                _coord = _srcCoord;
-            }
-            else
-            {
-                _destCoord = [[[TradePostMgr getInstance] getTradePostWithId:_nextPostId] coord];   
-            }
+            _destCoord = [[[TradePostMgr getInstance] getTradePostWithId:_nextPostId] coord];
+        }
+        
+        // Flyer was done flying on this path. Move next to source. Clear up next and dest.
+        if (_doneWithCurrentPath)
+        {
+            _curPostId = _nextPostId;
+            _srcCoord = _destCoord;
+            
+            _nextPostId = nil;
+            _departureDate = nil;
+            _coord = _srcCoord;
         }
         
         NSString* utcdate = [path_dict valueForKeyPath:kKeyDepartureDate];
         [self storeDepartureDate:utcdate];
         
         // init runtime transient vars
-        _coord = [self flyerCoordinateNow];
         _flightPathRender = nil;
         _annotation = nil;
         _metersToDest = 0.0;
@@ -303,7 +305,6 @@ static NSString* const kKeyDone = @"done";
                      _nextPostId = _projectedNextPost;
                      [self createRenderingForFlyer];
                      _updatingFlyerPathOnServer = FALSE;
-                     //[self.delegate didCompleteHttpCallback:kFlyer_CreateNewFlyerPath, TRUE];
                  }
                  failure:^(AFHTTPRequestOperation* operation, NSError* error){
                      UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
@@ -314,7 +315,6 @@ static NSString* const kKeyDone = @"done";
                      
                      [message show];
                      _updatingFlyerPathOnServer = FALSE;
-                     //[self.delegate didCompleteHttpCallback:kFlyer_CreateNewFlyerPath, FALSE];
                  }
      ];
 }
@@ -329,7 +329,7 @@ static NSString* const kKeyDone = @"done";
              parameters:parameters
                 success:^(AFHTTPRequestOperation *operation, id responseObject){
                     NSLog(@"Flyer path data updated");
-                    [self.delegate didCompleteHttpCallback:kPlayer_SavePlayerData, TRUE];
+                    _updatingFlyerPathOnServer = FALSE;
                 }
                 failure:^(AFHTTPRequestOperation* operation, NSError* error){
                     UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
@@ -339,7 +339,7 @@ static NSString* const kKeyDone = @"done";
                                                             otherButtonTitles:nil];
                     
                     [message show];
-                    [self.delegate didCompleteHttpCallback:kPlayer_SavePlayerData, FALSE];
+                    _updatingFlyerPathOnServer = FALSE;
                 }
      ];
 }
@@ -386,6 +386,33 @@ static NSString* const kKeyDone = @"done";
     return FALSE;
 }
 
+- (void) completeFlyerPath
+{
+    // Clearing up the various parameters properly as the Flyer has arrived at its destination
+    _metersToDest = 0.0;
+    self.curPostId = [self nextPostId];
+    self.nextPostId = nil;
+    [[[[GameManager getInstance] gameViewController] mapControl] dismissFlightPathForFlyer:self];
+    _updatingFlyerPathOnServer = TRUE;
+    NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [NSNumber numberWithBool:YES], kKeyDone,
+                                nil];
+    [self updateFlyerPath:parameters];
+    
+    /*
+    [self didArriveAtPost:[self destPostId]];
+    
+     NSString* timeString = [PogUIUtility stringFromTimeInterval:0.0];
+     UILabel* timeLabel = (UILabel*)[_timeTillDestView.subviews objectAtIndex:0];
+     [timeLabel setText:timeString];
+     
+     if(annotView)
+     {
+     [annotView hideEnrouteTimer];
+     }
+     */
+}
+
 - (void) updateAtDate:(NSDate *)currentTime
 {
     if(!_updatingFlyerPathOnServer && [self nextPostId])
@@ -416,24 +443,7 @@ static NSString* const kKeyDone = @"done";
         _metersToDest = routeDist - (elapsed * [self getFlyerSpeed]);
         if(_metersToDest <= 0.0)
         {
-            _metersToDest = 0.0;
-            
-            // arrived
-            self.curPostId = [self nextPostId];
-            self.nextPostId = nil;
-            [[[[GameManager getInstance] gameViewController] mapControl] dismissFlightPathForFlyer:self];
-//            [self didArriveAtPost:[self destPostId]];
-   
-            /*
-            NSString* timeString = [PogUIUtility stringFromTimeInterval:0.0];
-            UILabel* timeLabel = (UILabel*)[_timeTillDestView.subviews objectAtIndex:0];
-            [timeLabel setText:timeString];
-            
-            if(annotView)
-            {
-                [annotView hideEnrouteTimer];
-            }
-             */
+            [self completeFlyerPath];
         }
         else 
         {
