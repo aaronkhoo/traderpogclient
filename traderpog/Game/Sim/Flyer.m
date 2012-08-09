@@ -70,6 +70,7 @@ static NSString* const kKeyDone = @"done";
 @synthesize destCoord = _destCoord;
 @synthesize transform = _transform;
 @synthesize delegate = _delegate;
+@synthesize initializeFlyerOnMap = _initializeFlyerOnMap;
 
 - (id) initWithPostAndFlyer:(TradePost*)tradePost, NSInteger flyerTypeIndex
 {
@@ -79,6 +80,7 @@ static NSString* const kKeyDone = @"done";
         _updatingFlyerPathOnServer = FALSE;
         _projectedNextPost = nil;
         _doneWithCurrentPath = FALSE;
+        _initializeFlyerOnMap = FALSE;
         
         _flyerTypeIndex = flyerTypeIndex;
         _coord = [tradePost coord];
@@ -106,6 +108,7 @@ static NSString* const kKeyDone = @"done";
         _annotation = nil;
         _updatingFlyerPathOnServer = FALSE;
         _projectedNextPost = nil;
+        _initializeFlyerOnMap = FALSE;
         
         _userFlyerId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:kKeyUserFlyerId] integerValue]];
         
@@ -114,6 +117,9 @@ static NSString* const kKeyDone = @"done";
         
         NSArray* paths_array = [dict valueForKeyPath:@"flyer_paths"];
         NSDictionary* path_dict = [paths_array objectAtIndex:0];
+        
+        _flyerPathId = [NSString stringWithFormat:@"%d", [[path_dict valueForKeyPath:kKeyFlyerPathId] integerValue]];
+                                                          
         id obj = [path_dict valueForKeyPath:kKeyDone];
         if ((NSNull *)obj == [NSNull null])
         {
@@ -393,6 +399,7 @@ static NSString* const kKeyDone = @"done";
     {        
         // Store the next post in a temp variable first
         _updatingFlyerPathOnServer = TRUE;
+        _doneWithCurrentPath = FALSE;
         _projectedNextPost = postId;
         [self createFlyerPathOnServer];
         return TRUE;
@@ -405,6 +412,7 @@ static NSString* const kKeyDone = @"done";
     // Clearing up the various parameters properly as the Flyer has arrived at its destination
     _metersToDest = 0.0;
     self.curPostId = [self nextPostId];
+    _srcCoord = _destCoord;
     self.nextPostId = nil;
     [[[[GameManager getInstance] gameViewController] mapControl] dismissFlightPathForFlyer:self];
     _updatingFlyerPathOnServer = TRUE;
@@ -412,6 +420,7 @@ static NSString* const kKeyDone = @"done";
                                 [NSNumber numberWithBool:YES], kKeyDone,
                                 nil];
     [self updateFlyerPath:parameters];
+    _doneWithCurrentPath = TRUE;
     
     /*
     [self didArriveAtPost:[self destPostId]];
@@ -429,7 +438,7 @@ static NSString* const kKeyDone = @"done";
 
 - (void) updateAtDate:(NSDate *)currentTime
 {
-    if(!_updatingFlyerPathOnServer && !_doneWithCurrentPath)
+    if(_initializeFlyerOnMap && !_updatingFlyerPathOnServer && !_doneWithCurrentPath)
     {
         // enroute
         CLLocationCoordinate2D curCoord = [self flyerCoordinateNow];

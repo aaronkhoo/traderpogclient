@@ -79,7 +79,8 @@ static double const refreshTime = -(60 * 15);
         // for more details.
         if ([[GameManager getInstance] gameViewController].mapControl)
         {
-            //[[[GameManager getInstance] gameViewController].mapControl addAnnotation  ];
+            [[[GameManager getInstance] gameViewController].mapControl addAnnotationForFlyer:_tempFlyer];
+            _tempFlyer.initializeFlyerOnMap = TRUE;
         }
         else
         {
@@ -139,6 +140,7 @@ static double const refreshTime = -(60 * 15);
         [currentFlyer flyerCoordinateNow];
         [currentFlyer createRenderingForFlyer];
         [[[GameManager getInstance] gameViewController].mapControl addAnnotationForFlyer:currentFlyer];
+        currentFlyer.initializeFlyerOnMap = TRUE;
     }
 }
 
