@@ -18,6 +18,7 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 @class FlyerAnnotation;
 @interface Flyer : NSObject
 {
+    BOOL _initializeFlyerOnMap;
     NSInteger _flyerTypeIndex;
     NSString* _userFlyerId;
     NSString* _flyerPathId;
@@ -39,6 +40,7 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 @property (nonatomic,weak) FlyerAnnotation* annotation;
 @property (nonatomic) CLLocationCoordinate2D coord;
 @property (nonatomic,readonly) CGAffineTransform transform;
+@property (nonatomic) BOOL initializeFlyerOnMap;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 - (id) initWithPostAndFlyer:(TradePost*)tradePost, NSInteger flyerTypeIndex;
