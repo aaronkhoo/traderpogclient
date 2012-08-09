@@ -15,4 +15,5 @@
 + (CLLocation*) penang;
 + (CLLocation*) kualaLumpur;
 + (CLLocation*) sanFrancisco;
++ (CLLocation*) london;
 @end

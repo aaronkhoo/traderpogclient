@@ -13,10 +13,13 @@
 #import "TradePost.h"
 #import "TradeItem.h"
 #import "TradeItemType.h"
+#import "TradeItemTypes.h"
 #import "WheelControl.h"
 #import "WheelBubble.h"
 #import "PogUIUtility.h"
 #import "MapControl.h"
+#import "CLLocation+Pog.h"
+#import "BeaconMgr.h"
 
 static double const refreshTime = -(60 * 15);
 
@@ -37,8 +40,9 @@ static double const refreshTime = -(60 * 15);
 @property (nonatomic,strong) NSMutableDictionary* activePosts;
 @property (nonatomic,strong) NSMutableDictionary* npcPosts;
 
-
 - (BOOL) post:(TradePost*)post isWithinDistance:(float)distance fromCoord:(CLLocationCoordinate2D)coord;
+
+- (void) createPlaceholderBeaconPosts;
 @end
 
 @implementation TradePostMgr
@@ -193,6 +197,11 @@ static double const refreshTime = -(60 * 15);
         TradePost* current = [[TradePost alloc] initWithDictionary:item];
         [self.activePosts setObject:current forKey:current.postId];
     }
+    
+    // HACK
+    // remove after retrieve from server of friends posts is implemented
+    [self createPlaceholderBeaconPosts];
+    // HACK
 }
 
 - (void) retrievePostsFromServer
@@ -238,6 +247,35 @@ static double const refreshTime = -(60 * 15);
     
     return result;
 }
+
+// HACK
+// remove when retrieve from server is implemented
+- (void) createPlaceholderBeaconPosts
+{
+    NSArray* itemTypes = [[TradeItemTypes getInstance] getItemTypesForTier:1];
+    if(itemTypes && [itemTypes count])
+    {
+        TradeItemType* itemType = [itemTypes objectAtIndex:0];
+        NSString* postId0 = [NSString stringWithFormat:@"PlaceholderFriendPost%d", 0];
+        TradePost* newPost0 = [[TradePost alloc] initWithPostId:postId0
+                                                     coordinate:[CLLocation london].coordinate
+                                                       itemType:itemType];
+        newPost0.isOwnPost = NO;
+        newPost0.isNPCPost = NO;
+        [self.activePosts setObject:newPost0 forKey:postId0];
+
+        NSString* postId1 = [NSString stringWithFormat:@"PlaceholderFriendPost%d", 1];
+        TradePost* newPost1 = [[TradePost alloc] initWithPostId:postId1
+                                                     coordinate:[CLLocation penang].coordinate
+                                                       itemType:itemType];
+        newPost1.isOwnPost = NO;
+        newPost1.isNPCPost = NO;
+        [self.activePosts setObject:newPost1 forKey:postId1];
+    }
+    
+    [[BeaconMgr getInstance] createPlaceholderBeacons];
+}
+// HACK
 
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success

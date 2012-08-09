@@ -39,4 +39,11 @@
     CLLocation* result = [[CLLocation alloc] initWithLatitude:3.116667 longitude:101.7];
     return result;    
 }
+
++ (CLLocation*) london
+{
+    CLLocation* result = [[CLLocation alloc] initWithLatitude:51.5171 longitude:0.1062];
+    return result;
+}
+
 @end

@@ -16,6 +16,8 @@
 		42094DB715C9B236001FA77D /* WheelControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB215C9B236001FA77D /* WheelControl.m */; };
 		42094DB815C9B236001FA77D /* WheelSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB515C9B236001FA77D /* WheelSlice.m */; };
 		4264B6B015CD93F300621548 /* TradePost.png in Resources */ = {isa = PBXBuildFile; fileRef = 4264B6AF15CD93F300621548 /* TradePost.png */; };
+		4277385215D3A5CE004DCC13 /* BeaconMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385115D3A5CE004DCC13 /* BeaconMgr.m */; };
+		4277385615D3A971004DCC13 /* Beacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385515D3A971004DCC13 /* Beacon.m */; };
 		42A2989115B5F1E700384A52 /* KnobControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2988D15B5F1E700384A52 /* KnobControl.m */; };
 		42A2989215B5F1E700384A52 /* KnobSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2989015B5F1E700384A52 /* KnobSlice.m */; };
 		42E92B0815D0E19F0054686F /* Yun.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E92B0715D0E19F0054686F /* Yun.png */; };
@@ -135,6 +137,10 @@
 		42094DB415C9B236001FA77D /* WheelSlice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WheelSlice.h; sourceTree = "<group>"; };
 		42094DB515C9B236001FA77D /* WheelSlice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WheelSlice.m; sourceTree = "<group>"; };
 		4264B6AF15CD93F300621548 /* TradePost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TradePost.png; path = assets/Map/TradePost.png; sourceTree = SOURCE_ROOT; };
+		4277385015D3A5CE004DCC13 /* BeaconMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BeaconMgr.h; path = Game/Sim/BeaconMgr.h; sourceTree = "<group>"; };
+		4277385115D3A5CE004DCC13 /* BeaconMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeaconMgr.m; path = Game/Sim/BeaconMgr.m; sourceTree = "<group>"; };
+		4277385415D3A971004DCC13 /* Beacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Beacon.h; path = Game/Sim/Beacon.h; sourceTree = "<group>"; };
+		4277385515D3A971004DCC13 /* Beacon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Beacon.m; path = Game/Sim/Beacon.m; sourceTree = "<group>"; };
 		42A2988C15B5F1E700384A52 /* KnobControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobControl.h; sourceTree = "<group>"; };
 		42A2988D15B5F1E700384A52 /* KnobControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KnobControl.m; sourceTree = "<group>"; };
 		42A2988E15B5F1E700384A52 /* KnobProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobProtocol.h; sourceTree = "<group>"; };
@@ -639,6 +645,10 @@
 				C481146E15AD0605007FA214 /* WorldState.m */,
 				C481147415B07D96007FA214 /* TradePostMgr.h */,
 				C481147515B07D96007FA214 /* TradePostMgr.m */,
+				4277385415D3A971004DCC13 /* Beacon.h */,
+				4277385515D3A971004DCC13 /* Beacon.m */,
+				4277385015D3A5CE004DCC13 /* BeaconMgr.h */,
+				4277385115D3A5CE004DCC13 /* BeaconMgr.m */,
 				C4BBE46C15BBDA2C00F582DE /* Flyer.h */,
 				C4BBE46D15BBDA2C00F582DE /* Flyer.m */,
 				C4BBE46F15BBEEFF00F582DE /* FlyerMgr.h */,
@@ -811,6 +821,8 @@
 				42094DB815C9B236001FA77D /* WheelSlice.m in Sources */,
 				C4BFC9C715CFC7EE009B7122 /* CircleView.m in Sources */,
 				42E92B0D15D0E8E00054686F /* UIImage+Pog.m in Sources */,
+				4277385215D3A5CE004DCC13 /* BeaconMgr.m in Sources */,
+				4277385615D3A971004DCC13 /* Beacon.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
