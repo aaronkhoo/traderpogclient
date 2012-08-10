@@ -27,6 +27,7 @@ static double const refreshTime = -(60 * 15);
 {
     NSMutableDictionary* _activePosts;
     NSMutableDictionary* _npcPosts;
+    NSMutableDictionary* _friendsPosts;
     
     // for NPC posts generation
     unsigned int _npcPostIndex;
@@ -39,6 +40,7 @@ static double const refreshTime = -(60 * 15);
 }
 @property (nonatomic,strong) NSMutableDictionary* activePosts;
 @property (nonatomic,strong) NSMutableDictionary* npcPosts;
+@property (nonatomic,strong) NSMutableDictionary* friendsPosts;
 
 - (BOOL) post:(TradePost*)post isWithinDistance:(float)distance fromCoord:(CLLocationCoordinate2D)coord;
 @end
@@ -46,6 +48,7 @@ static double const refreshTime = -(60 * 15);
 @implementation TradePostMgr
 @synthesize activePosts = _activePosts;
 @synthesize npcPosts = _npcPosts;
+@synthesize friendsPosts = _friendsPosts;
 @synthesize delegate = _delegate;
 
 - (id) init
@@ -55,6 +58,7 @@ static double const refreshTime = -(60 * 15);
     {
         _activePosts = [NSMutableDictionary dictionaryWithCapacity:10];
         _npcPosts = [NSMutableDictionary dictionaryWithCapacity:10];
+        _friendsPosts = [NSMutableDictionary dictionaryWithCapacity:10];
         _npcPostIndex = 0;
         _tempTradePost = nil;
         _previewMap = nil;
@@ -137,6 +141,10 @@ static double const refreshTime = -(60 * 15);
     {
         result = [self.npcPosts objectForKey:postId];
     }
+    if(!result)
+    {
+        result = [self.friendsPosts objectForKey:postId];
+    }
     return result;
 }
 
@@ -151,11 +159,7 @@ static double const refreshTime = -(60 * 15);
                            maxNum:(unsigned int)maxNum
 {
     NSMutableArray* result = [NSMutableArray arrayWithCapacity:5];
-    
-    // HACK
-    // TODO: implement query from server
-    // HACK
-    
+        
     // query active posts
     unsigned int num = 0;
     for(TradePost* cur in self.activePosts.allValues)
@@ -185,6 +189,20 @@ static double const refreshTime = -(60 * 15);
         }        
     }
     
+    // query friends posts
+    for(TradePost* cur in self.friendsPosts.allValues)
+    {
+        if([self post:cur isWithinDistance:radius fromCoord:coord])
+        {
+            [result addObject:cur];
+            ++num;
+            if(num >= maxNum)
+            {
+                break;
+            }
+        }
+    }
+
     return result;
 }
 
@@ -255,7 +273,7 @@ static double const refreshTime = -(60 * 15);
                                                        itemType:itemType];
         newPost0.isOwnPost = NO;
         newPost0.isNPCPost = NO;
-        [self.activePosts setObject:newPost0 forKey:postId0];
+        [self.friendsPosts setObject:newPost0 forKey:postId0];
 
         NSString* postId1 = [NSString stringWithFormat:@"PlaceholderFriendPost%d", 1];
         TradePost* newPost1 = [[TradePost alloc] initWithPostId:postId1
@@ -263,7 +281,7 @@ static double const refreshTime = -(60 * 15);
                                                        itemType:itemType];
         newPost1.isOwnPost = NO;
         newPost1.isNPCPost = NO;
-        [self.activePosts setObject:newPost1 forKey:postId1];
+        [self.friendsPosts setObject:newPost1 forKey:postId1];
     }
     
     [[BeaconMgr getInstance] createPlaceholderBeacons];
