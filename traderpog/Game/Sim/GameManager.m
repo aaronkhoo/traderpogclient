@@ -315,7 +315,12 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         [self popLoadingScreenIfNecessary:nav];
         
         if (![self gameViewController])
-        {        
+        {
+            // HACK
+            // remove after retrieve from server of friends posts is implemented
+            [[TradePostMgr getInstance] createPlaceholderBeaconPosts];
+            // HACK
+
             _gameViewController = [[GameViewController alloc] initAtCoordinate:[self.playerLocator bestLocation].coordinate];
             
             // push the gameViewController onto the stack

@@ -41,8 +41,6 @@ static double const refreshTime = -(60 * 15);
 @property (nonatomic,strong) NSMutableDictionary* npcPosts;
 
 - (BOOL) post:(TradePost*)post isWithinDistance:(float)distance fromCoord:(CLLocationCoordinate2D)coord;
-
-- (void) createPlaceholderBeaconPosts;
 @end
 
 @implementation TradePostMgr
@@ -197,11 +195,6 @@ static double const refreshTime = -(60 * 15);
         TradePost* current = [[TradePost alloc] initWithDictionary:item];
         [self.activePosts setObject:current forKey:current.postId];
     }
-    
-    // HACK
-    // remove after retrieve from server of friends posts is implemented
-    [self createPlaceholderBeaconPosts];
-    // HACK
 }
 
 - (void) retrievePostsFromServer
