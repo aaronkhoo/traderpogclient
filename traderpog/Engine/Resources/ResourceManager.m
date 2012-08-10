@@ -29,6 +29,7 @@ static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpo
 @end
 
 @implementation ResourceManager
+@synthesize delegate = _delegate;
 
 - (id) init
 {
@@ -216,6 +217,7 @@ static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpo
     if (openBundle)
     {
         NSLog(@"Opening local resource package");
+        [self.delegate didCompleteHttpCallback:kResourceManager_PackageReady, TRUE];
     }
 }
 
@@ -238,6 +240,7 @@ static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpo
         {
             // HACK: Need to enable this when real file is ready to be unzipped
             //[data writeToFile:[ResourceManager resourcePackageFilepath] atomically:YES];
+            [self.delegate didCompleteHttpCallback:kResourceManager_PackageReady, TRUE];
         }
     }
 }

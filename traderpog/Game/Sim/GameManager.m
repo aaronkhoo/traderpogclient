@@ -23,6 +23,7 @@
 #import "Flyer.h"
 #import "FlyerTypes.h"
 #import "FlightPathOverlay.h"
+#import "ResourceManager.h"
 #import <CoreLocation/CoreLocation.h>
 
 // List of Game UI screens that GameManager can kick off
@@ -93,7 +94,10 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 - (void) loadGameInfo
 {
     // loadGame should be responsible for reloading any data from the server it requires 
-    // before the main game sequence starts. 
+    // before the main game sequence starts.
+    
+    [[ResourceManager getInstance] downloadResourceFileIfNecessary];
+    _gameInfoRefreshCount++;
     
     // Load player information
     if ([[Player getInstance] needsRefresh])
@@ -375,7 +379,8 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
             [callName compare:kTradePostMgr_ReceivePosts] == NSOrderedSame ||
             [callName compare:kFlyerTypes_ReceiveFlyers] == NSOrderedSame ||
             [callName compare:kFlyerMgr_ReceiveFlyers] == NSOrderedSame ||
-            [callName compare:kPlayer_SavePlayerData] == NSOrderedSame)
+            [callName compare:kPlayer_SavePlayerData] == NSOrderedSame ||
+            [callName compare:kResourceManager_PackageReady] == NSOrderedSame)
         {
             _gameInfoRefreshCount--;
             _gameInfoRefreshSucceeded = _gameInfoRefreshSucceeded && success;

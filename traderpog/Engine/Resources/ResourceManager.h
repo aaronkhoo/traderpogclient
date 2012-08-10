@@ -7,8 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HttpCallbackDelegate.h"
+
+static NSString* const kResourceManager_PackageReady = @"ResourceManager_PackageReady";
 
 @interface ResourceManager : NSObject
+{
+    // Delegate for callbacks to inform interested parties of completion
+    __weak NSObject<HttpCallbackDelegate>* _delegate;
+}
+@property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 - (void)downloadResourceFileIfNecessary;
 
