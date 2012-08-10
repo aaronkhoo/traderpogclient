@@ -79,7 +79,6 @@
 		C4BBE46B15BBD68000F582DE /* MKMapView+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE46A15BBD68000F582DE /* MKMapView+Pog.m */; };
 		C4BBE46E15BBDA2C00F582DE /* Flyer.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE46D15BBDA2C00F582DE /* Flyer.m */; };
 		C4BBE47115BBEF0000F582DE /* FlyerMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE47015BBEEFF00F582DE /* FlyerMgr.m */; };
-		C4BBE47415BC5ED200F582DE /* FlyerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE47315BC5ED000F582DE /* FlyerAnnotation.m */; };
 		C4BBE47715BC5F5100F582DE /* FlyerAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE47615BC5F5000F582DE /* FlyerAnnotationView.m */; };
 		C4BBE47915BC603F00F582DE /* Flyer.png in Resources */ = {isa = PBXBuildFile; fileRef = C4BBE47815BC603F00F582DE /* Flyer.png */; };
 		C4BFC9B815CEBE6D009B7122 /* FlyerLanded.png in Resources */ = {isa = PBXBuildFile; fileRef = C4BFC9B715CEBE6D009B7122 /* FlyerLanded.png */; };
@@ -249,8 +248,6 @@
 		C4BBE46D15BBDA2C00F582DE /* Flyer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Flyer.m; path = Game/Sim/Flyer.m; sourceTree = "<group>"; };
 		C4BBE46F15BBEEFF00F582DE /* FlyerMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerMgr.h; path = Game/Sim/FlyerMgr.h; sourceTree = "<group>"; };
 		C4BBE47015BBEEFF00F582DE /* FlyerMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerMgr.m; path = Game/Sim/FlyerMgr.m; sourceTree = "<group>"; };
-		C4BBE47215BC5ED000F582DE /* FlyerAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerAnnotation.h; path = Game/Map/FlyerAnnotation.h; sourceTree = "<group>"; };
-		C4BBE47315BC5ED000F582DE /* FlyerAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerAnnotation.m; path = Game/Map/FlyerAnnotation.m; sourceTree = "<group>"; };
 		C4BBE47515BC5F4F00F582DE /* FlyerAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerAnnotationView.h; path = Game/Map/FlyerAnnotationView.h; sourceTree = "<group>"; };
 		C4BBE47615BC5F5000F582DE /* FlyerAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerAnnotationView.m; path = Game/Map/FlyerAnnotationView.m; sourceTree = "<group>"; };
 		C4BBE47815BC603F00F582DE /* Flyer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Flyer.png; path = assets/Map/Flyer.png; sourceTree = SOURCE_ROOT; };
@@ -473,8 +470,6 @@
 				C4D5DDE615B3CA5B00D5A746 /* TradePostAnnotation.m */,
 				C4D5DDE815B3CF0700D5A746 /* TradePostAnnotationView.h */,
 				C4D5DDE915B3CF0800D5A746 /* TradePostAnnotationView.m */,
-				C4BBE47215BC5ED000F582DE /* FlyerAnnotation.h */,
-				C4BBE47315BC5ED000F582DE /* FlyerAnnotation.m */,
 				C4BBE47515BC5F4F00F582DE /* FlyerAnnotationView.h */,
 				C4BBE47615BC5F5000F582DE /* FlyerAnnotationView.m */,
 				C4BBE44F15B92B7600F582DE /* ScanManager.h */,
@@ -810,7 +805,6 @@
 				C4BBE46B15BBD68000F582DE /* MKMapView+Pog.m in Sources */,
 				C4BBE46E15BBDA2C00F582DE /* Flyer.m in Sources */,
 				C4BBE47115BBEF0000F582DE /* FlyerMgr.m in Sources */,
-				C4BBE47415BC5ED200F582DE /* FlyerAnnotation.m in Sources */,
 				C4BBE47715BC5F5100F582DE /* FlyerAnnotationView.m in Sources */,
 				385972FA15C0B900003DBA04 /* FlyerType.m in Sources */,
 				385972FF15C0BBDA003DBA04 /* TradeItemTypes.m in Sources */,

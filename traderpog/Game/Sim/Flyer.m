@@ -62,7 +62,6 @@ static NSString* const kKeyDone = @"done";
 @synthesize curPostId = _curPostId;
 @synthesize nextPostId = _nextPostId;
 @synthesize flightPathRender = _flightPathRender;
-@synthesize annotation = _annotation;
 @synthesize coord = _coord;
 @synthesize departureDate = _departureDate;
 @synthesize srcCoord = _srcCoord;
@@ -88,7 +87,6 @@ static NSString* const kKeyDone = @"done";
         _curPostId = [tradePost postId];
         _nextPostId = nil;
         _flightPathRender = nil;
-        _annotation = nil;
         _departureDate = nil;
         _srcCoord = _coord;
         _destCoord = _coord;
@@ -104,7 +102,6 @@ static NSString* const kKeyDone = @"done";
     self = [super init];
     if(self)
     {
-        _annotation = nil;
         _updatingFlyerPathOnServer = FALSE;
         _projectedNextPost = nil;
         _initializeFlyerOnMap = FALSE;
@@ -171,7 +168,6 @@ static NSString* const kKeyDone = @"done";
         // init runtime transient vars
         _coord = _srcCoord;
         _flightPathRender = nil;
-        _annotation = nil;
         _metersToDest = 0.0;
         _transform = CGAffineTransformIdentity;
 

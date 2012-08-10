@@ -9,7 +9,6 @@
 #import "AFClientManager.h"
 #import "FlyerMgr.h"
 #import "Flyer.h"
-#import "FlyerAnnotation.h"
 #import "GameManager.h"
 #import "Player.h"
 #import "TradePost.h"

@@ -17,7 +17,6 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 
 @class TradePost;
 @class FlightPathOverlay;
-@class FlyerAnnotation;
 @interface Flyer : NSObject<MKAnnotation, MapAnnotationProtocol>
 {
     BOOL _initializeFlyerOnMap;
@@ -28,7 +27,6 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
     NSString* _nextPostId;
 
     // transient variables (not saved; reconstructed after load)
-    __weak FlyerAnnotation* _annotation;
     CLLocationCoordinate2D _coord;
     FlightPathOverlay* _flightPathRender;
     CGAffineTransform _transform;
@@ -39,7 +37,6 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 @property (nonatomic,strong) NSString* curPostId;
 @property (nonatomic,strong) NSString* nextPostId;
 @property (nonatomic,strong) FlightPathOverlay* flightPathRender;
-@property (nonatomic,weak) FlyerAnnotation* annotation;
 @property (nonatomic) CLLocationCoordinate2D coord;
 @property (nonatomic) CGAffineTransform transform;
 @property (nonatomic) BOOL initializeFlyerOnMap;
