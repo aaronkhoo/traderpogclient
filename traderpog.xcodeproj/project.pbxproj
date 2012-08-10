@@ -10,6 +10,7 @@
 		385972FA15C0B900003DBA04 /* FlyerType.m in Sources */ = {isa = PBXBuildFile; fileRef = 385972F915C0B8FF003DBA04 /* FlyerType.m */; };
 		385972FF15C0BBDA003DBA04 /* TradeItemTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 385972FE15C0BBD9003DBA04 /* TradeItemTypes.m */; };
 		3859730215C0BFD5003DBA04 /* FlyerTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 3859730115C0BFD4003DBA04 /* FlyerTypes.m */; };
+		3887ACC415D4CB9700B4E0FA /* ResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3887ACC315D4CB9700B4E0FA /* ResourceManager.m */; };
 		38B6DAEF15C85A9D00F37BD9 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 38B6DAE215C85A9D00F37BD9 /* FBDialog.bundle */; };
 		38B6DAF015C85A9D00F37BD9 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38B6DAE815C85A9D00F37BD9 /* libfacebook_ios_sdk.a */; };
 		42094DB615C9B236001FA77D /* WheelBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB015C9B235001FA77D /* WheelBubble.m */; };
@@ -113,6 +114,8 @@
 		385972FE15C0BBD9003DBA04 /* TradeItemTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradeItemTypes.m; path = Game/Sim/TradeItemTypes.m; sourceTree = "<group>"; };
 		3859730015C0BFD2003DBA04 /* FlyerTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerTypes.h; path = Game/Sim/FlyerTypes.h; sourceTree = "<group>"; };
 		3859730115C0BFD4003DBA04 /* FlyerTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerTypes.m; path = Game/Sim/FlyerTypes.m; sourceTree = "<group>"; };
+		3887ACC215D4CB9700B4E0FA /* ResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResourceManager.h; path = Resources/ResourceManager.h; sourceTree = "<group>"; };
+		3887ACC315D4CB9700B4E0FA /* ResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResourceManager.m; path = Resources/ResourceManager.m; sourceTree = "<group>"; };
 		38B6DAE015C85A9D00F37BD9 /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
 		38B6DAE115C85A9D00F37BD9 /* FBConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBConnect.h; sourceTree = "<group>"; };
 		38B6DAE215C85A9D00F37BD9 /* FBDialog.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBDialog.bundle; sourceTree = "<group>"; };
@@ -309,6 +312,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3887ACC015D4CB6300B4E0FA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3887ACC215D4CB9700B4E0FA /* ResourceManager.h */,
+				3887ACC315D4CB9700B4E0FA /* ResourceManager.m */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		38B6DADF15C85A9D00F37BD9 /* facebook-ios-sdk */ = {
 			isa = PBXGroup;
 			children = (
@@ -563,6 +575,7 @@
 		C4E381A715AA381E00924A86 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				3887ACC015D4CB6300B4E0FA /* Resources */,
 				C41E0C8015AC032E006662DF /* External */,
 				C4E381A815AA381F00924A86 /* Renderer */,
 				C4E381B615AA3B4C00924A86 /* UI */,
@@ -817,6 +830,7 @@
 				42E92B0D15D0E8E00054686F /* UIImage+Pog.m in Sources */,
 				4277385215D3A5CE004DCC13 /* BeaconMgr.m in Sources */,
 				4277385615D3A971004DCC13 /* Beacon.m in Sources */,
+				3887ACC415D4CB9700B4E0FA /* ResourceManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

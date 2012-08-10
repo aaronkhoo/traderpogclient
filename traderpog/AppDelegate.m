@@ -17,6 +17,7 @@
 #import "FlyerMgr.h"
 #import "FlyerTypes.h"
 #import "BeaconMgr.h"
+#import "ResourceManager.h"
 
 @interface AppDelegate()
 {
@@ -116,6 +117,7 @@
     [BeaconMgr getInstance];
     [GameManager getInstance];
     [ScanManager getInstance];
+    [ResourceManager getInstance];
     
     // Setting up the HTTP callback delegates
     [[Player getInstance] setDelegate:[GameManager getInstance]];
@@ -138,6 +140,7 @@
     [TradeItemTypes destroyInstance];
     [Player destroyInstance];
     [ImageManager destroyInstance];
+    [ResourceManager destroyInstance];
 }
 
 - (void) setupNavigationController
