@@ -19,6 +19,9 @@
 @property (nonatomic,strong) MKMapView* view;
 
 - (id) initWithMapView:(MKMapView*)mapView andCenter:(CLLocationCoordinate2D)initCoord;
+- (id) initWithMapView:(MKMapView*)mapView
+             andCenter:(CLLocationCoordinate2D)initCoord
+           atZoomLevel:(unsigned int)zoomLevel;
 - (void) addAnnotationForTradePost:(TradePost*)tradePost;
 - (void) addAnnotationForFlyer:(Flyer*)flyer;
 - (void) dismissAnnotationForFlyer:(Flyer*)flyer;

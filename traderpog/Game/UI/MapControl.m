@@ -33,6 +33,9 @@ static const float kBrowseAreaRadius = 900.0f;
 @property (nonatomic,strong) BrowseArea* browseArea;
 @property (nonatomic) BOOL regionSetFromCode;
 @property (nonatomic,strong) UIPinchGestureRecognizer* pinchRecognizer;
+- (void) internalInitWithMapView:(MKMapView*)mapView
+                          center:(CLLocationCoordinate2D)initCoord
+                       zoomLevel:(unsigned int)zoomLevel;
 @end
 
 @implementation MapControl
@@ -41,23 +44,47 @@ static const float kBrowseAreaRadius = 900.0f;
 @synthesize regionSetFromCode = _regionSetFromCode;
 @synthesize pinchRecognizer = _pinchRecognizer;
 
+- (void) internalInitWithMapView:(MKMapView *)mapView
+                          center:(CLLocationCoordinate2D)initCoord
+                       zoomLevel:(unsigned int)zoomLevel
+{
+    self.view = mapView;
+    mapView.delegate = self;
+    [mapView setCenterCoordinate:initCoord zoomLevel:zoomLevel animated:NO];
+    
+    _browseArea = [[BrowseArea alloc] initWithCenterLoc:initCoord radius:kBrowseAreaRadius];
+    _regionSetFromCode = NO;
+    self.pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+    self.pinchRecognizer.delegate = self;
+    [self.view addGestureRecognizer:[self pinchRecognizer]];
+}
+
 - (id) initWithMapView:(MKMapView *)mapView andCenter:(CLLocationCoordinate2D)initCoord
 {
     self = [super init];
     if(self)
     {
-        self.view = mapView;
-        mapView.delegate = self;
-        [mapView setCenterCoordinate:initCoord zoomLevel:kDefaultZoomLevel animated:NO];
-
-        _browseArea = [[BrowseArea alloc] initWithCenterLoc:initCoord radius:kBrowseAreaRadius];
-        _regionSetFromCode = NO;
-        self.pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
-        self.pinchRecognizer.delegate = self;
-        [self.view addGestureRecognizer:[self pinchRecognizer]];
+        [self internalInitWithMapView:mapView
+                               center:initCoord
+                            zoomLevel:kDefaultZoomLevel];
     }
     return self;
 }
+
+- (id) initWithMapView:(MKMapView*)mapView
+             andCenter:(CLLocationCoordinate2D)initCoord
+           atZoomLevel:(unsigned int)zoomLevel
+{
+    self = [super init];
+    if(self)
+    {
+        [self internalInitWithMapView:mapView
+                               center:initCoord
+                            zoomLevel:zoomLevel];
+    }
+    return self;
+}
+
 
 - (void) dealloc
 {

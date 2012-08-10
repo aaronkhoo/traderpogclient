@@ -18,6 +18,9 @@
 #import "MapControl.h"
 
 
+static double const refreshTime = -(60 * 15);
+static NSUInteger kFlyerPreviewZoomLevel = 6;
+
 @interface FlyerMgr ()
 {    
     // User flyer in the midst of being generated
@@ -28,7 +31,6 @@
 }
 @end
 
-static double const refreshTime = -(60 * 15);
 
 @implementation FlyerMgr
 @synthesize playerFlyers = _playerFlyers;
@@ -71,6 +73,12 @@ static double const refreshTime = -(60 * 15);
         // The temp TradePost has been successfully uploaded to the server, so move it
         // to the active list.
         [_playerFlyers addObject:_tempFlyer];
+        
+        // if post previewMap creation, then add this new flyer to previewMap
+        if(_previewMap)
+        {
+            [_previewMap addAnnotationForFlyer:_tempFlyer];
+        }
         
         // Add this tradepost as an annotation to the mapcontrol instance if the map control has already
         // been created. If it hasn't, then log and skip this step. It's possible that the mapcontrol
@@ -195,7 +203,14 @@ static double const refreshTime = -(60 * 15);
             index = MIN(index, [_playerFlyers count]-1);
             Flyer* initFlyer = [_playerFlyers objectAtIndex:index];
             _previewMap = [[MapControl alloc] initWithMapView:result
-                                                    andCenter:[initFlyer coord]];
+                                                    andCenter:[initFlyer coord]
+                                                  atZoomLevel:kFlyerPreviewZoomLevel];
+            
+            // add all existing flyers to previewMap
+            for(Flyer* cur in _playerFlyers)
+            {
+                [_previewMap addAnnotationForFlyer:cur];
+            }
         }
     }
     return result;
