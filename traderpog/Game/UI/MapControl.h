@@ -28,4 +28,6 @@
 - (void) dismissFlightPathForFlyer:(Flyer*)flyer;
 - (void) showFlightPathForFlyer:(Flyer*)flyer;
 - (void) centerOn:(CLLocationCoordinate2D)coord animated:(BOOL)isAnimated;
+- (void) startTrackingAnnotation:(NSObject<MKAnnotation>*)annotation;
+- (void) stopTrackingAnnotation:(NSObject<MKAnnotation>*)annotation;
 @end

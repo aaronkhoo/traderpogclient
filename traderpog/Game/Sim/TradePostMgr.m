@@ -361,7 +361,20 @@ static double const refreshTime = -(60 * 15);
     }
 }
 
+- (void) wheel:(WheelControl *)wheel didPressCloseOnIndex:(unsigned int)index
+{
+    // do nothing
+}
 
+- (void) wheel:(WheelControl*)wheel willShowAtIndex:(unsigned int)index
+{
+    // do nothing
+}
+
+- (void) wheel:(WheelControl*)wheel willHideAtIndex:(unsigned int)index
+{
+    // do nothing
+}
 
 #pragma mark - Singleton
 static TradePostMgr* singleton = nil;

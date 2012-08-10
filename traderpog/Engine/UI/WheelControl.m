@@ -500,6 +500,7 @@ static const float kSelectedOffset = -6.5f;
 
 - (void) showWheelAnimated:(BOOL)isAnimated withDelay:(float)delay
 {
+    [self.delegate wheel:self willShowAtIndex:_selectedBeacon];
     if(isAnimated)
     {
         [self setHidden:NO];
@@ -544,6 +545,7 @@ static const float kSelectedOffset = -6.5f;
     CGAffineTransform offPreview = CGAffineTransformMakeTranslation(-0.8f * parentSize.width, 0.0f);
     
     _pushedWheelTransform = _logicalTransform;
+    [self.delegate wheel:self willHideAtIndex:_selectedBeacon];
     if(isAnimated)
     {
         _state = kWheelStateTransitionOut;
@@ -582,6 +584,7 @@ static const float kSelectedOffset = -6.5f;
 - (void) didCloseInPreview:(id)sender
 {
     [self hideWheelAnimated:YES withDelay:0.0f];
+    [self.delegate wheel:self didPressCloseOnIndex:[self selectedSlice]];
 }
 
 #pragma mark - UIControl

@@ -14,6 +14,9 @@
 - (void) wheelDidMoveTo:(unsigned int)index;
 - (void) wheelDidSettleAt:(unsigned int)index;
 - (void) wheel:(WheelControl*)wheel didPressOkOnIndex:(unsigned int)index;
+- (void) wheel:(WheelControl*)wheel didPressCloseOnIndex:(unsigned int)index;
+- (void) wheel:(WheelControl*)wheel willShowAtIndex:(unsigned int)index;
+- (void) wheel:(WheelControl*)wheel willHideAtIndex:(unsigned int)index;
 @end
 
 @protocol WheelDataSource <NSObject>

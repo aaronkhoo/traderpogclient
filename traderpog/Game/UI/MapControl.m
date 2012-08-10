@@ -18,6 +18,7 @@
 #import "CalloutAnnotationView.h"
 
 static const NSUInteger kDefaultZoomLevel = 15;
+static NSString* const kKeyCoordinate = @"coordinate";
 
 // TODO: Rationalize placement of these constants
 static const float kScanRadius = 300.0f;    // meters
@@ -33,6 +34,8 @@ static const float kBrowseAreaRadius = 900.0f;
 @property (nonatomic,strong) BrowseArea* browseArea;
 @property (nonatomic) BOOL regionSetFromCode;
 @property (nonatomic,strong) UIPinchGestureRecognizer* pinchRecognizer;
+@property (nonatomic,strong) NSObject<MKAnnotation>* trackedAnnotation;
+
 - (void) internalInitWithMapView:(MKMapView*)mapView
                           center:(CLLocationCoordinate2D)initCoord
                        zoomLevel:(unsigned int)zoomLevel;
@@ -132,6 +135,33 @@ static const float kBrowseAreaRadius = 900.0f;
     [self.view setCenterCoordinate:coord animated:isAnimated];
     [self.browseArea setCenterCoord:coord];
 }
+
+- (void) startTrackingAnnotation:(NSObject<MKAnnotation> *)annotation
+{
+    NSLog(@"start tracking");
+    [annotation addObserver:self forKeyPath:kKeyCoordinate options:0 context:nil];
+
+}
+
+- (void) stopTrackingAnnotation:(NSObject<MKAnnotation> *)annotation
+{
+    NSLog(@"stop tracking");
+    [annotation removeObserver:self forKeyPath:kKeyCoordinate];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+					  ofObject:(id)object
+						change:(NSDictionary *)change
+					   context:(void *)context
+{
+    if(([keyPath isEqualToString:kKeyCoordinate]) &&
+       ([object isMemberOfClass:[Flyer class]]))
+    {
+        NSObject<MKAnnotation>* annotation = (NSObject<MKAnnotation>*)object;
+        [self centerOn:[annotation coordinate] animated:YES];
+    }
+}
+
 
 #pragma mark MKMapViewDelegate
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control

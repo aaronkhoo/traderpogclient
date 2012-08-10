@@ -122,8 +122,20 @@
     }
 }
 
+- (void) wheel:(WheelControl *)wheel didPressCloseOnIndex:(unsigned int)index
+{
+    // do nothing
+}
 
+- (void) wheel:(WheelControl*)wheel willShowAtIndex:(unsigned int)index
+{
+    // do nothing
+}
 
+- (void) wheel:(WheelControl*)wheel willHideAtIndex:(unsigned int)index
+{
+    // do nothing
+}
 
 #pragma mark - Singleton
 static BeaconMgr* singleton = nil;
