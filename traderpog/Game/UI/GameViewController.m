@@ -44,6 +44,7 @@ enum kKnobSlices
     WheelControl* _flyerWheel;
     WheelControl* _postWheel;
     WheelControl* _beaconWheel;
+    Flyer* _trackedFlyer;
     
     // HACK
     UILabel* _labelScan;
@@ -54,6 +55,7 @@ enum kKnobSlices
 @property (nonatomic,strong) WheelControl* flyerWheel;
 @property (nonatomic,strong) WheelControl* postWheel;
 @property (nonatomic,strong) WheelControl* beaconWheel;
+@property (nonatomic,strong) Flyer* trackedFlyer;
 
 - (void) startDisplayLink;
 - (void) stopDisplayLink;
@@ -75,7 +77,9 @@ enum kKnobSlices
 @synthesize knob = _knob;
 @synthesize flyerWheel = _flyerWheel;
 @synthesize postWheel = _postWheel;
+@synthesize beaconWheel = _beaconWheel;
 @synthesize coord = _initCoord;
+@synthesize trackedFlyer = _trackedFlyer;
 
 - (id)init
 {
@@ -89,6 +93,7 @@ enum kKnobSlices
     {
         _initCoord = coord;
         _mapControl = nil;
+        _trackedFlyer = nil;
     }
     return self;
 }
@@ -99,6 +104,7 @@ enum kKnobSlices
     
     // create main mapview
     self.mapControl = [[MapControl alloc] initWithMapView:[self mapView] andCenter:_initCoord];
+    self.trackedFlyer = nil;
     
     // create knob
     [self initKnob];
@@ -113,6 +119,7 @@ enum kKnobSlices
     
     [self shutdownWheels];
     [self shutdownKnob];
+    [self.mapControl stopTrackingAnnotation];
     self.mapControl = nil;
     [super viewDidUnload];
 }

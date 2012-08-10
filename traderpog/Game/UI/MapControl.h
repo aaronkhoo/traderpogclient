@@ -17,6 +17,7 @@
 @class Flyer;
 @interface MapControl : NSObject<MKMapViewDelegate,UIGestureRecognizerDelegate>
 @property (nonatomic,strong) MKMapView* view;
+@property (nonatomic,strong) NSObject<MKAnnotation>* trackedAnnotation;
 
 - (id) initWithMapView:(MKMapView*)mapView andCenter:(CLLocationCoordinate2D)initCoord;
 - (id) initWithMapView:(MKMapView*)mapView
@@ -29,5 +30,5 @@
 - (void) showFlightPathForFlyer:(Flyer*)flyer;
 - (void) centerOn:(CLLocationCoordinate2D)coord animated:(BOOL)isAnimated;
 - (void) startTrackingAnnotation:(NSObject<MKAnnotation>*)annotation;
-- (void) stopTrackingAnnotation:(NSObject<MKAnnotation>*)annotation;
+- (void) stopTrackingAnnotation;
 @end

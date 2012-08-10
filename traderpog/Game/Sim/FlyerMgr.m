@@ -28,16 +28,13 @@ static NSUInteger kFlyerPreviewZoomLevel = 8;
     
     // Flyer Wheel datasource
     MapControl* _previewMap;
-    Flyer* _curFlyerInPreview;
 }
-@property (nonatomic,strong) Flyer* curFlyerInPreview;
 @end
 
 
 @implementation FlyerMgr
 @synthesize playerFlyers = _playerFlyers;
 @synthesize delegate = _delegate;
-@synthesize curFlyerInPreview = _curFlyerInPreview;
 
 - (id) init
 {
@@ -47,18 +44,8 @@ static NSUInteger kFlyerPreviewZoomLevel = 8;
         _playerFlyers = [NSMutableArray arrayWithCapacity:10];
         _lastUpdate = nil;
         _previewMap = nil;
-        _curFlyerInPreview = nil;
     }
     return self;
-}
-
-- (void) dealloc
-{
-    if([self curFlyerInPreview])
-    {
-        [_previewMap stopTrackingAnnotation:[self curFlyerInPreview]];
-        self.curFlyerInPreview = nil;
-    }
 }
 
 - (BOOL) needsRefresh
@@ -237,13 +224,8 @@ static NSUInteger kFlyerPreviewZoomLevel = 8;
     {
         index = MIN(index, [_playerFlyers count]-1);
         Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
-        if([self curFlyerInPreview] != curFlyer)
+        if([_previewMap trackedAnnotation] != curFlyer)
         {
-            if([self curFlyerInPreview])
-            {
-                [_previewMap stopTrackingAnnotation:[self curFlyerInPreview]];
-            }
-            self.curFlyerInPreview = curFlyer;
             [_previewMap centerOn:[curFlyer coord] animated:YES];
             [_previewMap startTrackingAnnotation:curFlyer];
         }
@@ -252,18 +234,7 @@ static NSUInteger kFlyerPreviewZoomLevel = 8;
 
 - (void) wheelDidSettleAt:(unsigned int)index
 {
-    /*
-    if([_playerFlyers count])
-    {
-        index = MIN(index, [_playerFlyers count]-1);
-        Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
-        if([self curFlyerInPreview] != curFlyer)
-        {
-            self.curFlyerInPreview = curFlyer;
-            [_previewMap centerOn:[curFlyer coord] animated:YES];
-        }
-    }
-     */
+    // do nothing
 }
 
 - (void) wheel:(WheelControl*)wheel didPressOkOnIndex:(unsigned int)index
@@ -273,21 +244,13 @@ static NSUInteger kFlyerPreviewZoomLevel = 8;
         index = MIN(index, [_playerFlyers count]-1);
         Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
         [wheel.superMap centerOn:[curFlyer coord] animated:YES];
-        if([self curFlyerInPreview])
-        {
-            [_previewMap stopTrackingAnnotation:[self curFlyerInPreview]];
-            self.curFlyerInPreview = nil;
-        }
+        [_previewMap stopTrackingAnnotation];
     }
 }
 
 - (void) wheel:(WheelControl *)wheel didPressCloseOnIndex:(unsigned int)index
 {
-    if([self curFlyerInPreview])
-    {
-        [_previewMap stopTrackingAnnotation:[self curFlyerInPreview]];
-        self.curFlyerInPreview = nil;
-    }
+    [_previewMap stopTrackingAnnotation];
 }
 
 - (void) wheel:(WheelControl*)wheel willShowAtIndex:(unsigned int)index
@@ -296,13 +259,8 @@ static NSUInteger kFlyerPreviewZoomLevel = 8;
     {
         index = MIN(index, [_playerFlyers count]-1);
         Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
-        if([self curFlyerInPreview] != curFlyer)
+        if([_previewMap trackedAnnotation] != curFlyer)
         {
-            if([self curFlyerInPreview])
-            {
-                [_previewMap stopTrackingAnnotation:[self curFlyerInPreview]];
-            }
-            self.curFlyerInPreview = curFlyer;
             [_previewMap centerOn:[curFlyer coord] animated:YES];
             [_previewMap startTrackingAnnotation:curFlyer];
         }
@@ -311,11 +269,7 @@ static NSUInteger kFlyerPreviewZoomLevel = 8;
 
 - (void) wheel:(WheelControl*)wheel willHideAtIndex:(unsigned int)index
 {
-    if([self curFlyerInPreview])
-    {
-        [_previewMap stopTrackingAnnotation:[self curFlyerInPreview]];
-        self.curFlyerInPreview = nil;
-    }
+    [_previewMap stopTrackingAnnotation];
 }
 
 

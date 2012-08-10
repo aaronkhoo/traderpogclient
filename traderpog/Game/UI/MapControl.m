@@ -34,7 +34,6 @@ static const float kBrowseAreaRadius = 900.0f;
 @property (nonatomic,strong) BrowseArea* browseArea;
 @property (nonatomic) BOOL regionSetFromCode;
 @property (nonatomic,strong) UIPinchGestureRecognizer* pinchRecognizer;
-@property (nonatomic,strong) NSObject<MKAnnotation>* trackedAnnotation;
 
 - (void) internalInitWithMapView:(MKMapView*)mapView
                           center:(CLLocationCoordinate2D)initCoord
@@ -46,6 +45,7 @@ static const float kBrowseAreaRadius = 900.0f;
 @synthesize browseArea = _browseArea;
 @synthesize regionSetFromCode = _regionSetFromCode;
 @synthesize pinchRecognizer = _pinchRecognizer;
+@synthesize trackedAnnotation;
 
 - (void) internalInitWithMapView:(MKMapView *)mapView
                           center:(CLLocationCoordinate2D)initCoord
@@ -60,6 +60,7 @@ static const float kBrowseAreaRadius = 900.0f;
     self.pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     self.pinchRecognizer.delegate = self;
     [self.view addGestureRecognizer:[self pinchRecognizer]];
+    self.trackedAnnotation = nil;
 }
 
 - (id) initWithMapView:(MKMapView *)mapView andCenter:(CLLocationCoordinate2D)initCoord
@@ -91,6 +92,7 @@ static const float kBrowseAreaRadius = 900.0f;
 
 - (void) dealloc
 {
+    [self stopTrackingAnnotation];
     [self.pinchRecognizer removeTarget:self action:@selector(handleGesture:)];
     [self.view removeGestureRecognizer:[self pinchRecognizer]];
 }
@@ -138,15 +140,24 @@ static const float kBrowseAreaRadius = 900.0f;
 
 - (void) startTrackingAnnotation:(NSObject<MKAnnotation> *)annotation
 {
-    NSLog(@"start tracking");
-    [annotation addObserver:self forKeyPath:kKeyCoordinate options:0 context:nil];
-
+    if([self trackedAnnotation] != annotation)
+    {
+        [self stopTrackingAnnotation];
+        
+        NSLog(@"start tracking");
+        [annotation addObserver:self forKeyPath:kKeyCoordinate options:0 context:nil];
+        self.trackedAnnotation = annotation;
+    }
 }
 
-- (void) stopTrackingAnnotation:(NSObject<MKAnnotation> *)annotation
+- (void) stopTrackingAnnotation
 {
-    NSLog(@"stop tracking");
-    [annotation removeObserver:self forKeyPath:kKeyCoordinate];
+    if([self trackedAnnotation])
+    {
+        NSLog(@"stop tracking");
+        [self.trackedAnnotation removeObserver:self forKeyPath:kKeyCoordinate];
+        self.trackedAnnotation = nil;
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -157,6 +168,7 @@ static const float kBrowseAreaRadius = 900.0f;
     if(([keyPath isEqualToString:kKeyCoordinate]) &&
        ([object isMemberOfClass:[Flyer class]]))
     {
+        NSLog(@"update tracking");
         NSObject<MKAnnotation>* annotation = (NSObject<MKAnnotation>*)object;
         [self centerOn:[annotation coordinate] animated:YES];
     }
