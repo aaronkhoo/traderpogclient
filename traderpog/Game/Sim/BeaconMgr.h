@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MapControl.h"
+#import "WheelProtocol.h"
 
-@interface BeaconMgr : NSObject
+@interface BeaconMgr : NSObject<WheelDataSource,WheelProtocol>
 {
     NSMutableDictionary* _activeBeacons;
 }

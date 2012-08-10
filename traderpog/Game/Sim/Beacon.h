@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface Beacon : NSObject
 {
@@ -15,6 +16,7 @@
 }
 @property (nonatomic,readonly) NSString* beaconId;
 @property (nonatomic,readonly) NSString* postId;
+@property (nonatomic) CLLocationCoordinate2D coord;
 
 - (id) initWithBeaconId:(NSString*)beaconId postId:(NSString *)postId;
 @end

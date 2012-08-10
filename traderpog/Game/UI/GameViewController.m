@@ -13,6 +13,7 @@
 #import "ScanManager.h"
 #import "FlyerMgr.h"
 #import "TradePostMgr.h"
+#import "BeaconMgr.h"
 #import "WheelControl.h"
 #import "WheelProtocol.h"
 #import "UIImage+Pog.h"
@@ -42,6 +43,7 @@ enum kKnobSlices
     KnobControl* _knob;
     WheelControl* _flyerWheel;
     WheelControl* _postWheel;
+    WheelControl* _beaconWheel;
     
     // HACK
     UILabel* _labelScan;
@@ -51,6 +53,7 @@ enum kKnobSlices
 @property (nonatomic,strong) KnobControl* knob;
 @property (nonatomic,strong) WheelControl* flyerWheel;
 @property (nonatomic,strong) WheelControl* postWheel;
+@property (nonatomic,strong) WheelControl* beaconWheel;
 
 - (void) startDisplayLink;
 - (void) stopDisplayLink;
@@ -314,11 +317,22 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
                                              previewFrame:previewFrame
                                                 numSlices:12];
     [self.view addSubview:[self postWheel]];
+
+    self.beaconWheel = [[WheelControl alloc] initWithFrame:self.view.bounds
+                                                delegate:[BeaconMgr getInstance]
+                                              dataSource:[BeaconMgr getInstance]
+                                                superMap:self.mapControl
+                                              wheelFrame:wheelFrame
+                                            previewFrame:previewFrame
+                                               numSlices:12];
+    [self.view addSubview:[self beaconWheel]];
 }
 
 - (void) shutdownWheels
 {
-    
+    self.flyerWheel = nil;
+    self.postWheel = nil;
+    self.beaconWheel = nil;
 }
 
 #pragma mark - KnobProtocol
@@ -415,7 +429,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
             break;
                   
         case kKnobSliceBeacon:
-            NSLog(@"Beacon");
+            [self.beaconWheel showWheelAnimated:YES withDelay:0.0f];
             break;
             
         case kKnobSlicePost:

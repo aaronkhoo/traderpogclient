@@ -16,7 +16,6 @@
     // transient variables
     CLLocationCoordinate2D _coord;
 }
-@property (nonatomic) CLLocationCoordinate2D coord;
 @end
 
 @implementation Beacon
@@ -30,6 +29,7 @@
     if(self)
     {
         _beaconId = beaconId;
+        _postId = postId;
         TradePost* post = [[TradePostMgr getInstance] getTradePostWithId:postId];
         if(post)
         {
