@@ -244,6 +244,7 @@ static NSUInteger kFlyerPreviewZoomLevel = 8;
         index = MIN(index, [_playerFlyers count]-1);
         Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
         [wheel.superMap centerOn:[curFlyer coord] animated:YES];
+        [wheel.superMap startTrackingAnnotation:curFlyer];
     }
 }
 

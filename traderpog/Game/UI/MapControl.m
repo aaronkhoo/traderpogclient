@@ -16,6 +16,7 @@
 #import "Flyer.h"
 #import "BrowseArea.h"
 #import "CalloutAnnotationView.h"
+#import "FlyerAnnotationView.h"
 
 static const NSUInteger kDefaultZoomLevel = 15;
 static NSString* const kKeyCoordinate = @"coordinate";
@@ -134,6 +135,10 @@ static const float kBrowseAreaRadius = 900.0f;
 
 - (void) centerOn:(CLLocationCoordinate2D)coord animated:(BOOL)isAnimated
 {
+    // stop any ongoing tracking
+    [self stopTrackingAnnotation];
+    
+    // center the map and browse area
     [self.view setCenterCoordinate:coord animated:isAnimated];
     [self.browseArea setCenterCoord:coord];
 }
@@ -168,9 +173,9 @@ static const float kBrowseAreaRadius = 900.0f;
     if(([keyPath isEqualToString:kKeyCoordinate]) &&
        ([object isMemberOfClass:[Flyer class]]))
     {
-        NSLog(@"update tracking");
         NSObject<MKAnnotation>* annotation = (NSObject<MKAnnotation>*)object;
-        [self centerOn:[annotation coordinate] animated:YES];
+        [self.view setCenterCoordinate:[annotation coordinate] animated:NO];
+        [self.browseArea setCenterCoord:[annotation coordinate]];
     }
 }
 
