@@ -244,13 +244,12 @@ static NSUInteger kFlyerPreviewZoomLevel = 8;
         index = MIN(index, [_playerFlyers count]-1);
         Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
         [wheel.superMap centerOn:[curFlyer coord] animated:YES];
-        [_previewMap stopTrackingAnnotation];
     }
 }
 
 - (void) wheel:(WheelControl *)wheel didPressCloseOnIndex:(unsigned int)index
 {
-    [_previewMap stopTrackingAnnotation];
+    // do nothing
 }
 
 - (void) wheel:(WheelControl*)wheel willShowAtIndex:(unsigned int)index
