@@ -225,12 +225,6 @@ static double const refreshTime = -(60 * 15);
         index = MIN(index, [_playerFlyers count]-1);
         Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
         [wheel.superMap centerOn:[curFlyer coord] animated:YES];
-        
-        // force flyer annotation's transform to refresh
-        if([curFlyer annotation])
-        {
-            [curFlyer.annotation setTransform:[curFlyer transform]];
-        }
     }
 }
 

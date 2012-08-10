@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "HttpCallbackDelegate.h"
+#import "MapProtocols.h"
 #import <CoreLocation/CoreLocation.h>
+#import <MapKit/MKAnnotation.h>
 
 static NSString* const kFlyer_CreateNewFlyer = @"Flyer_CreateNewFlyer";
 static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
@@ -16,7 +18,7 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 @class TradePost;
 @class FlightPathOverlay;
 @class FlyerAnnotation;
-@interface Flyer : NSObject
+@interface Flyer : NSObject<MKAnnotation, MapAnnotationProtocol>
 {
     BOOL _initializeFlyerOnMap;
     NSInteger _flyerTypeIndex;
@@ -39,7 +41,7 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 @property (nonatomic,strong) FlightPathOverlay* flightPathRender;
 @property (nonatomic,weak) FlyerAnnotation* annotation;
 @property (nonatomic) CLLocationCoordinate2D coord;
-@property (nonatomic,readonly) CGAffineTransform transform;
+@property (nonatomic) CGAffineTransform transform;
 @property (nonatomic) BOOL initializeFlyerOnMap;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 

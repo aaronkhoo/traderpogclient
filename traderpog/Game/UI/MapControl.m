@@ -14,7 +14,6 @@
 #import "FlightPathOverlay.h"
 #import "FlightPathView.h"
 #import "Flyer.h"
-#import "FlyerAnnotation.h"
 #import "BrowseArea.h"
 #import "CalloutAnnotationView.h"
 
@@ -77,21 +76,12 @@ static const float kBrowseAreaRadius = 900.0f;
 
 - (void) addAnnotationForFlyer:(Flyer *)flyer
 {
-    if(![flyer annotation])
-    {
-        FlyerAnnotation* annotation = [[FlyerAnnotation alloc] initWithFlyer:flyer];
-        [self.view addAnnotation:annotation];
-        flyer.annotation = annotation;
-    }
+    [self.view addAnnotation:flyer];
 }
 
 - (void) dismissAnnotationForFlyer:(Flyer *)flyer
 {
-    if([flyer annotation])
-    {
-        [self.view removeAnnotation:[flyer annotation]];
-        flyer.annotation = nil;
-    }
+    [self.view removeAnnotation:flyer];
 }
 
 - (void) dismissFlightPathForFlyer:(Flyer*)flyer
@@ -151,9 +141,11 @@ static const float kBrowseAreaRadius = 900.0f;
 {
     for(MKAnnotationView* cur in views) 
     {
-        if([[cur annotation] isKindOfClass:[FlyerAnnotation class]])
+        if([[cur annotation] isKindOfClass:[Flyer class]])
         {
+            Flyer* flyer = (Flyer*)[cur annotation];
             [[cur superview] bringSubviewToFront:cur];
+            [cur setTransform:[flyer transform]];
             break;
         }
     }

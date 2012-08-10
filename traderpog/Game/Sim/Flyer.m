@@ -11,7 +11,7 @@
 #import "FlyerType.h"
 #import "FlyerTypes.h"
 #import "FlightPathOverlay.h"
-#import "FlyerAnnotation.h"
+#import "FlyerAnnotationView.h"
 #import "GameManager.h"
 #import "TradePost.h"
 #import "TradePostMgr.h"
@@ -47,7 +47,6 @@ static NSString* const kKeyDone = @"done";
     NSDate* _departureDate;
     CLLocationCoordinate2D _srcCoord;
     CLLocationCoordinate2D _destCoord;
-    CLLocationCoordinate2D _renderCoord;    // this is always a little ahead of the current sim location
     CLLocationDistance _metersToDest;
 }
 @property (nonatomic,strong) NSDate* departureDate;
@@ -381,11 +380,7 @@ static NSString* const kKeyDone = @"done";
     // flyer zero-angle is up; so, need to offset it by 90 degrees
     float angle = [MKMapView angleBetweenCoordinateA:[self srcCoord] coordinateB:[self destCoord]];
     angle += M_PI_2;
-    _transform = CGAffineTransformMakeRotation(angle);
-    if([self annotation])
-    {
-        [self.annotation setTransform:_transform];
-    }
+    self.transform = CGAffineTransformMakeRotation(angle);
     
     // add rendering
     [[[[GameManager getInstance] gameViewController] mapControl] showFlightPathForFlyer:self];
@@ -442,19 +437,7 @@ static NSString* const kKeyDone = @"done";
     {
         // enroute
         CLLocationCoordinate2D curCoord = [self flyerCoordinateNow];
-        self.coord = curCoord;
-        if([self annotation])
-        {
-            [self.annotation setCoordinate:curCoord];
-            _renderCoord = [self flyerCoordinateAtTimeAhead:1.0f/8.0f];
-            /*
-            FlyerAnnotationView* annotView = nil;
-            if(_flyerAnnotView && ([_flyerAnnotView annotation] == self))
-            {
-                annotView = _flyerAnnotView;
-            } 
-             */
-        }
+        [self setCoordinate:curCoord];
         
         if([self flightPathRender])
         {
@@ -538,6 +521,51 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
     elapsed += timeAhead;
     CLLocationCoordinate2D coordNow = [self flyerCoordinateAtTimeSinceDeparture:elapsed];
     return coordNow;
+}
+
+
+#pragma mark - MKAnnotation delegate
+- (CLLocationCoordinate2D) coordinate
+{
+    return [self coord];
+}
+
+- (void) setCoordinate:(CLLocationCoordinate2D)newCoordinate
+{
+    self.coord = newCoordinate;
+    /*
+     self.curLocation = [[[CLLocation alloc] initWithLatitude:newCoordinate.latitude longitude:newCoordinate.longitude] autorelease];
+     if(_flyerAnnotView)
+     {
+     // mapView can decide to throw annotation-views into its reuse queue any time
+     // so, if the view we have retained no longer belongs to us, clear it
+     if(_flyerAnnotView && ([_flyerAnnotView annotation] != self))
+     {
+     NSLog(@"coordinate: flyer annotation recycled %@ (%@, %@)", _name, self, [_flyerAnnotView annotation]);
+     [_flyerAnnotView release];
+     _flyerAnnotView = nil;
+     }
+     else
+     {
+     [_flyerAnnotView setAnnotation:self];
+     }
+     }
+     */
+}
+
+#pragma mark - MapAnnotationProtocol
+- (MKAnnotationView*) annotationViewInMap:(MKMapView *)mapView
+{
+    MKAnnotationView* annotationView = (FlyerAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:kFlyerAnnotationViewReuseId];
+    if(annotationView)
+    {
+        annotationView.annotation = self;
+    }
+    else
+    {
+        annotationView = [[FlyerAnnotationView alloc] initWithAnnotation:self];
+    }
+    return annotationView;
 }
 
 

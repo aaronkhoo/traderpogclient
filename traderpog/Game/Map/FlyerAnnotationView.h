@@ -10,8 +10,7 @@
 #import "MapProtocols.h"
 
 extern NSString* const kFlyerAnnotationViewReuseId;
-@class FlyerAnnotation;
 @interface FlyerAnnotationView : MKAnnotationView<MapAnnotationViewProtocol>
 
-- (id) initWithAnnotation:(FlyerAnnotation*)annotation;
+- (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation;
 @end

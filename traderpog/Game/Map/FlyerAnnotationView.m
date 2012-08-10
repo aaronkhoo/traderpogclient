@@ -7,13 +7,13 @@
 //
 
 #import "FlyerAnnotationView.h"
-#import "FlyerAnnotation.h"
+#import "Flyer.h"
 
 NSString* const kFlyerAnnotationViewReuseId = @"FlyerAnnotationView";
 static NSString* const kFlyerTransformKey = @"transform";
 
 @implementation FlyerAnnotationView
-- (id) initWithAnnotation:(FlyerAnnotation *)annotation
+- (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation
 {
     self = [super initWithAnnotation:annotation reuseIdentifier:kFlyerAnnotationViewReuseId];
     if(self)
@@ -56,11 +56,11 @@ static NSString* const kFlyerTransformKey = @"transform";
 					   context:(void *)context
 {
     //    NSLog(@"%@ value changed", keyPath);
-    if(([object isMemberOfClass:[FlyerAnnotation class]]) &&
+    if(([object isMemberOfClass:[Flyer class]]) &&
        ([keyPath isEqualToString:kFlyerTransformKey]))
     {
-        FlyerAnnotation* annotation = (FlyerAnnotation*)object;
-        [self setTransform:[annotation transform]];
+        Flyer* flyer = (Flyer*)object;
+        [self setTransform:[flyer transform]];
     }
 }
 
