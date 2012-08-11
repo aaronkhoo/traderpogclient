@@ -26,8 +26,9 @@ static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpo
     NSURLConnection* _headConnection;
     NSURLConnection* _getConnection;
     NSMutableData* _dataBuffer;
+    NSBundle* _bundle;
 }
-
+- (NSString*)getResourcePath:(NSString*)subDir resourceName:(NSString*)resName;
 @end
 
 @implementation ResourceManager
@@ -42,6 +43,7 @@ static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpo
         _headConnection = nil;
         _getConnection = nil;
         _dataBuffer = nil;
+        _bundle = nil;
     }
     return self;
 }
@@ -74,6 +76,13 @@ static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpo
 {
     NSString* docsDir = [GameManager documentsDirectory];
     NSString* filepath = [docsDir stringByAppendingPathComponent:kResourcePackagePath];
+    return filepath;
+}
+
++ (NSString*) resourceBundlePath
+{
+    NSString* docsDir = [GameManager documentsDirectory];
+    NSString* filepath = [docsDir stringByAppendingPathComponent:kResourceBundleFilename];
     return filepath;
 }
 
@@ -120,6 +129,16 @@ static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpo
     {
         [fileManager removeItemAtPath:filepath error:&error];
     }
+}
+
+- (NSString*)getResourcePath:(NSString*)subDir resourceName:(NSString*)resName
+{
+    if (_bundle)
+    {
+        NSString* resourcePath = [NSString stringWithFormat:@"%@/%@",subDir, resName];
+        return [_bundle pathForResource:resourcePath ofType:nil];
+    }
+    return nil;
 }
 
 #pragma mark - Server call functions
@@ -219,6 +238,10 @@ static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpo
     if (openBundle)
     {
         NSLog(@"Opening local resource package");
+        
+        // Open the bundle file
+        _bundle = [NSBundle bundleWithPath:[ResourceManager resourceBundlePath]];
+        
         [self.delegate didCompleteHttpCallback:kResourceManager_PackageReady, TRUE];
     }
 }
@@ -247,7 +270,8 @@ static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpo
             [SSZipArchive unzipFileAtPath:[ResourceManager resourcePackageFilepath]
                             toDestination:[GameManager documentsDirectory]];
             
-            // HACK: Open the bundle file
+            // Open the bundle file
+            _bundle = [NSBundle bundleWithPath:[ResourceManager resourceBundlePath]];
             
             [self.delegate didCompleteHttpCallback:kResourceManager_PackageReady, TRUE];
         }
@@ -259,6 +283,16 @@ static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpo
 - (void)downloadResourceFileIfNecessary
 {
     [self sendRequestForResourcePackage:TRUE];
+}
+
+- (NSString*)getImagePath:(NSString*)resourceName
+{
+    return [self getResourcePath:@"images" resourceName:resourceName];
+}
+
+- (NSString*)getAudioPath:(NSString*)resourceName
+{
+    return [self getResourcePath:@"audio" resourceName:resourceName];
 }
 
 #pragma mark - Singleton
