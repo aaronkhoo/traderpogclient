@@ -8,12 +8,14 @@
 
 #import "GameManager.h"
 #import "ResourceManager.h"
+#import "SSZipArchive.h"
 
 static NSString* const kKeyVersion = @"version";
 static NSString* const kKeyLastModified = @"lastmodified";
 static NSString* const kResourceManagerFilename = @"resourcemanager.sav";
-static NSString* const kResourcePackagePath = @"flyer.png";
-static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpog/Flyer.png";
+static NSString* const kResourceBundleFilename = @"Resources.bundle";
+static NSString* const kResourcePackagePath = @"resources.zip";
+static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpog/resources.zip";
 
 @interface ResourceManager ()
 {
@@ -238,8 +240,15 @@ static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpo
         NSLog(@"Write resource package to disk. Size: %d", [data length]);
         if ([data length] > 0)
         {
-            // HACK: Need to enable this when real file is ready to be unzipped
-            //[data writeToFile:[ResourceManager resourcePackageFilepath] atomically:YES];
+            // Write the downloaded zip file to disk
+            [data writeToFile:[ResourceManager resourcePackageFilepath] atomically:YES];
+            
+            // Unzip the downloaded file into a bundle directory.
+            [SSZipArchive unzipFileAtPath:[ResourceManager resourcePackageFilepath]
+                            toDestination:[GameManager documentsDirectory]];
+            
+            // HACK: Open the bundle file
+            
             [self.delegate didCompleteHttpCallback:kResourceManager_PackageReady, TRUE];
         }
     }
