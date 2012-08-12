@@ -9,6 +9,7 @@
 #import "DebugMenu.h"
 #import "DebugOptions.h"
 #import "UINavigationController+Pog.h"
+#import "Player.h"
 
 @interface DebugMenu ()
 - (void) setupOnOff;
@@ -66,5 +67,10 @@
 
 - (IBAction)didPressResetGame:(id)sender 
 {
+}
+
+- (IBAction)didPressAdd200Coins:(id)sender
+{
+    [[Player getInstance] addBucks:200];
 }
 @end

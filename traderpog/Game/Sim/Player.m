@@ -32,6 +32,7 @@ static NSString* const kPlayerFilename = @"player.sav";
 static double const refreshTime = -(60 * 15);  // 15 min
 static double const refreshTimeFriends = -(60 * 60 * 24 * 2);  // 2 days
 static double const refreshTimePost = -(60 * 60 * 24);  // 1 day
+static const unsigned int kInitBucks = 500;
 
 @implementation Player
 @synthesize delegate = _delegate;
@@ -56,7 +57,7 @@ static double const refreshTimePost = -(60 * 60 * 24);  // 1 day
         _facebookid = @"";
         _email = @"";
         _member = FALSE;
-        _bucks = 0;
+        _bucks = kInitBucks;
         _fbAccessToken = nil;
         _fbExpiration = nil;
         _fbFriends = nil;
@@ -90,6 +91,22 @@ static double const refreshTimePost = -(60 * 60 * 24);  // 1 day
     return (_facebook && ((!_fbPostUpdate) || ([_fbPostUpdate timeIntervalSinceNow] < refreshTimePost)));
 }
 
+- (void) addBucks:(NSUInteger)newBucks
+{
+    _bucks += newBucks;
+}
+
+- (void) deductBucks:(NSUInteger)subBucks
+{
+    NSUInteger bucksToSub = MIN(_bucks, subBucks);
+    _bucks -= bucksToSub;
+}
+
+- (NSUInteger) bucks
+{
+    return _bucks;
+}
+
 #pragma mark - NSCoding
 - (void) encodeWithCoder:(NSCoder *)aCoder
 {
@@ -100,6 +117,7 @@ static double const refreshTimePost = -(60 * 60 * 24);  // 1 day
     [aCoder encodeObject:_fbExpiration forKey:kKeyFbExpiration];
     [aCoder encodeObject:_fbFriendsUpdate forKey:kKeyFbFriendsRefresh];
     [aCoder encodeObject:_fbPostUpdate forKey:kKeyFbPostUpdate];
+    [aCoder encodeObject:[NSNumber numberWithUnsignedInteger:_bucks] forKey:kKeyBucks];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
@@ -111,6 +129,15 @@ static double const refreshTimePost = -(60 * 60 * 24);  // 1 day
     _fbExpiration = [aDecoder decodeObjectForKey:kKeyFbExpiration];
     _fbFriendsUpdate = [aDecoder decodeObjectForKey:kKeyFbFriendsRefresh];
     _fbPostUpdate = [aDecoder decodeObjectForKey:kKeyFbPostUpdate];
+    NSNumber* bucksNumber = [aDecoder decodeObjectForKey:kKeyBucks];
+    if(bucksNumber)
+    {
+        _bucks = [bucksNumber unsignedIntegerValue];
+    }
+    else
+    {
+        _bucks = kInitBucks;
+    }
     return self;
 }
 
@@ -187,7 +214,11 @@ static double const refreshTimePost = -(60 * 60 * 24);  // 1 day
                 success:^(AFHTTPRequestOperation *operation, id responseObject){
                     _id = [[responseObject valueForKeyPath:kKeyUserId] integerValue];
                     _secretkey = [responseObject valueForKeyPath:kKeySecretkey];
-                    _bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
+                    
+                    // HACK; temp disabled until client can update bucks on server
+                    //_bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
+                    // HACK
+                    
                     _email = [responseObject valueForKeyPath:kKeyEmail];
                     _member = [[responseObject valueForKeyPath:kKeyMember] boolValue];
                     _lastUpdate = [NSDate date];
@@ -225,7 +256,9 @@ static double const refreshTimePost = -(60 * 60 * 24);  // 1 day
     [httpClient getPath:path
               parameters:nil
                  success:^(AFHTTPRequestOperation *operation, id responseObject){                     
-                     _bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
+                     // HACK; temp disabled until client can update bucks on server
+                     //_bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
+                     // HACK
                      _email = [responseObject valueForKeyPath:kKeyEmail];
                      _facebookid = [responseObject valueForKeyPath:kKeyFacebookId];
                      _member = [[responseObject valueForKeyPath:kKeyMember] boolValue];
@@ -251,7 +284,7 @@ static double const refreshTimePost = -(60 * 60 * 24);  // 1 day
     NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 _facebookid, kKeyFacebookId,
                                 _fbFriends, kKeyFacebookFriends,
-                                _email, kKeyEmail, 
+                                _email, kKeyEmail,
                                 nil];
     
     // make a post request
@@ -261,7 +294,10 @@ static double const refreshTimePost = -(60 * 60 * 24);  // 1 day
                  success:^(AFHTTPRequestOperation *operation, id responseObject){                     
                      _id = [[responseObject valueForKeyPath:kKeyUserId] integerValue];
                      _secretkey = [responseObject valueForKeyPath:kKeySecretkey];
-                     _bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
+
+                     // HACK; temp disabled until client can update bucks on server
+                     //_bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
+                     // HACK
                      _lastUpdate = [NSDate date];
                      NSLog(@"user id is %i", _id);
                      [self savePlayerData];

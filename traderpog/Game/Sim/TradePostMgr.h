@@ -31,7 +31,8 @@ static NSString* const kTradePostMgr_ReceivePosts = @"TradePostMgr_ReceivePosts"
 - (NSInteger) postsCount;
 - (void) annotatePostsOnMap;
 - (TradePost*) newNPCTradePostAtCoord:(CLLocationCoordinate2D)coord
-                          sellingItem:(TradeItemType*)itemType;
+                          sellingItem:(TradeItemType*)itemType
+                          supplyLevel:(unsigned int)supplyLevel;
 - (BOOL) newTradePostAtCoord:(CLLocationCoordinate2D)coord 
                               sellingItem:(TradeItemType*)itemType;
 - (TradePost*) getTradePostWithId:(NSString*)postId;

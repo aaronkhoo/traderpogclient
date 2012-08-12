@@ -34,6 +34,7 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
 - (id) initWithPostId:(NSString*)postId
            coordinate:(CLLocationCoordinate2D)coordinate 
                  itemType:(TradeItemType *)itemType
+          supplyLevel:(unsigned int)supply
 {
     self = [super init];
     if(self)
@@ -42,7 +43,7 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
         _coord = coordinate;
         _itemId = [itemType itemId];
         _annotation = nil;
-        _supplyLevel = [itemType supplymax];
+        _supplyLevel = MIN([itemType supplymax],supply);
         
         // NPC post
         _isOwnPost = NO;
@@ -129,6 +130,14 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
                      [self.delegate didCompleteHttpCallback:kTradePost_CreateNewPost, FALSE];
                  }
      ];
+}
+
+
+#pragma mark - trade
+- (void) deductNumItems:(unsigned int)num
+{
+    unsigned int numToSub = MIN([self supplyLevel], num);
+    self.supplyLevel -= numToSub;
 }
 
 #pragma mark - getters/setters

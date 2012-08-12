@@ -87,10 +87,15 @@ static double const refreshTime = -(60 * 15);
 
 - (TradePost*) newNPCTradePostAtCoord:(CLLocationCoordinate2D)coord
                           sellingItem:(TradeItemType*)itemType
+                          supplyLevel:(unsigned int)supplyLevel
 {
     NSString* postId = [NSString stringWithFormat:@"NPCPost%d", _npcPostIndex];
+    
     ++_npcPostIndex;
-    TradePost* newPost = [[TradePost alloc] initWithPostId:postId coordinate:coord itemType:itemType];
+    TradePost* newPost = [[TradePost alloc] initWithPostId:postId
+                                                coordinate:coord
+                                                  itemType:itemType
+                                               supplyLevel:supplyLevel];
     [self.npcPosts setObject:newPost forKey:postId];
     return newPost;
 }
@@ -270,7 +275,8 @@ static double const refreshTime = -(60 * 15);
         NSString* postId0 = [NSString stringWithFormat:@"PlaceholderFriendPost%d", 0];
         TradePost* newPost0 = [[TradePost alloc] initWithPostId:postId0
                                                      coordinate:[CLLocation london].coordinate
-                                                       itemType:itemType];
+                                                       itemType:itemType
+                                                    supplyLevel:[itemType supplymax]];
         newPost0.isOwnPost = NO;
         newPost0.isNPCPost = NO;
         [self.friendsPosts setObject:newPost0 forKey:postId0];
@@ -278,7 +284,8 @@ static double const refreshTime = -(60 * 15);
         NSString* postId1 = [NSString stringWithFormat:@"PlaceholderFriendPost%d", 1];
         TradePost* newPost1 = [[TradePost alloc] initWithPostId:postId1
                                                      coordinate:[CLLocation penang].coordinate
-                                                       itemType:itemType];
+                                                       itemType:itemType
+                                                    supplyLevel:[itemType supplymax]];
         newPost1.isOwnPost = NO;
         newPost1.isNPCPost = NO;
         [self.friendsPosts setObject:newPost1 forKey:postId1];

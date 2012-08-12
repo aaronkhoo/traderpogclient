@@ -13,6 +13,7 @@
 #import "TradeItemTypes.h"
 #import "TradeItemType.h"
 #import "MapControl.h"
+#import "Player.h"
 #import <MapKit/MapKit.h>
 #include "MathUtils.h"
 
@@ -122,8 +123,15 @@ static const unsigned int kScanNumPosts = 3;
             MKMapPoint newPoint = [self createPointFromCenter:scanCoord atDistance:newDistance angle:curAngle];
             CLLocationCoordinate2D newCoord = MKCoordinateForMapPoint(newPoint);
             
+            // select a random item type
+            unsigned int randItem = RandomWithinRange(0, [itemTypes count]-1);
+            TradeItemType* itemType = [itemTypes objectAtIndex:randItem];
+            float randPriceFactor = 1.0f - (RandomFrac() * 0.5f);
+            unsigned int playerBucks = [[Player getInstance] bucks];
+            unsigned int supplyLevel = (playerBucks / [itemType price]) * randPriceFactor;
             TradePost* newPost = [[TradePostMgr getInstance] newNPCTradePostAtCoord:newCoord
-                                                                        sellingItem:[itemTypes objectAtIndex:0]];
+                                                                        sellingItem:itemType
+                                                                        supplyLevel:supplyLevel];
             [posts addObject:newPost];
             
             curAngle = curAngle + angleIncr;

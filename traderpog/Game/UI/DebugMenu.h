@@ -13,4 +13,5 @@
 
 - (IBAction)didPressClose:(id)sender;
 - (IBAction)didPressResetGame:(id)sender;
+- (IBAction)didPressAdd200Coins:(id)sender;
 @end

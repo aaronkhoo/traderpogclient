@@ -17,6 +17,7 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 
 @class TradePost;
 @class FlightPathOverlay;
+@class TradeItemType;
 @interface Flyer : NSObject<MKAnnotation, MapAnnotationProtocol>
 {
     BOOL _initializeFlyerOnMap;
@@ -26,6 +27,11 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
     NSString* _curPostId;
     NSString* _nextPostId;
 
+    // inventory
+    NSString* _itemId;
+    unsigned int _numItems;
+    float _costBasis;
+    
     // transient variables (not saved; reconstructed after load)
     CLLocationCoordinate2D _coord;
     FlightPathOverlay* _flightPathRender;
@@ -36,6 +42,9 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 }
 @property (nonatomic,strong) NSString* curPostId;
 @property (nonatomic,strong) NSString* nextPostId;
+@property (nonatomic,strong) NSString* itemId;
+@property (nonatomic) unsigned int numItems;
+@property (nonatomic) float costBasis;
 @property (nonatomic,strong) FlightPathOverlay* flightPathRender;
 @property (nonatomic) CLLocationCoordinate2D coord;
 @property (nonatomic) CGAffineTransform transform;
@@ -49,5 +58,7 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 - (id) initWithDictionary:(NSDictionary*)dict;
 - (CLLocationCoordinate2D) flyerCoordinateNow;
 - (void) createRenderingForFlyer;
+
+- (void) addItemId:(NSString*)itemId num:(unsigned int)num price:(unsigned int)price;
 
 @end

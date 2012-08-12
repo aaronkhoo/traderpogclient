@@ -45,9 +45,14 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 
 - (id) initWithPostId:(NSString*)postId
            coordinate:(CLLocationCoordinate2D)coordinate 
-                 itemType:(TradeItemType *)itemType;
+             itemType:(TradeItemType *)itemType
+            supplyLevel:(unsigned int)supply;
 - (id) initWithCoordinates:(CLLocationCoordinate2D)coordinate 
                            itemType:(TradeItemType *)itemType;
 - (void) createNewPostOnServer;
 - (id) initWithDictionary:(NSDictionary*)dict;
+
+// trade
+- (void) deductNumItems:(unsigned int)num;
+
 @end

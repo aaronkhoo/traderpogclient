@@ -23,7 +23,7 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
     // User data
     NSInteger _id;
     BOOL _member;
-    NSInteger _bucks;
+    NSUInteger _bucks;
     NSString* _secretkey;
     NSString* _facebookid;
     NSString* _email;
@@ -54,6 +54,11 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
 - (BOOL)facebookSessionValid;
 - (void)getFacebookFriendsList;
 - (void)updateFacebookFeed:(NSString*)message;
+
+// trade
+- (void) addBucks:(NSUInteger)newBucks;
+- (void) deductBucks:(NSUInteger)bucksToSub;
+- (NSUInteger) bucks;
 
 // system
 - (void) appDidEnterBackground;

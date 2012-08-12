@@ -35,6 +35,9 @@ static NSString* const kKeyLatitude2 = @"latitude2";
 static NSString* const kKeyStorms= @"storms";
 static NSString* const kKeyStormed= @"stormed";
 static NSString* const kKeyDone = @"done";
+static NSString* const kKeyItemId = @"itemId";
+static NSString* const kKeyNumItems = @"numItems";
+static NSString* const kKeyCostBasis = @"costBasis";
 
 @interface Flyer ()
 {
@@ -61,6 +64,9 @@ static NSString* const kKeyDone = @"done";
 @implementation Flyer
 @synthesize curPostId = _curPostId;
 @synthesize nextPostId = _nextPostId;
+@synthesize itemId = _itemId;
+@synthesize numItems = _numItems;
+@synthesize costBasis = _costBasis;
 @synthesize flightPathRender = _flightPathRender;
 @synthesize coord = _coord;
 @synthesize departureDate = _departureDate;
@@ -86,6 +92,9 @@ static NSString* const kKeyDone = @"done";
         
         _curPostId = [tradePost postId];
         _nextPostId = nil;
+        _itemId = nil;
+        _numItems = 0;
+        _costBasis = 0.0f;
         _flightPathRender = nil;
         _departureDate = nil;
         _srcCoord = _coord;
@@ -164,6 +173,36 @@ static NSString* const kKeyDone = @"done";
         
         NSString* utcdate = [path_dict valueForKeyPath:kKeyDepartureDate];
         [self storeDepartureDate:utcdate];
+        
+        // inventory
+        obj = [path_dict valueForKeyPath:kKeyItemId];
+        if ((NSNull *)obj == [NSNull null])
+        {
+            // no item for this flyer
+            _itemId = nil;
+        }
+        else
+        {
+            _itemId = [NSString stringWithFormat:@"%d", [obj integerValue]];
+        }
+        obj = [path_dict valueForKeyPath:kKeyNumItems];
+        if ((NSNull *)obj == [NSNull null])
+        {
+            _numItems = 0;
+        }
+        else
+        {
+            _numItems = [obj unsignedIntegerValue];
+        }
+        obj = [path_dict valueForKeyPath:kKeyCostBasis];
+        if ((NSNull *)obj == [NSNull null])
+        {
+            _costBasis = 0.0f;
+        }
+        else
+        {
+            _costBasis = [obj floatValue];
+        }
         
         // init runtime transient vars
         _coord = _srcCoord;
@@ -380,6 +419,25 @@ static NSString* const kKeyDone = @"done";
     
     // add rendering
     [[[[GameManager getInstance] gameViewController] mapControl] showFlightPathForFlyer:self];
+}
+
+#pragma mark - inventory
+- (void) addItemId:(NSString *)newItemId num:(unsigned int)num price:(unsigned int)price
+{
+    if([self itemId] &&
+       (NSOrderedSame != [self.itemId compare:newItemId]))
+    {
+        // if different item, dump existing inventory
+        self.numItems = 0;
+        self.costBasis = 0.0f;
+    }
+    
+    unsigned int newNumItems = [self numItems] + num;
+    float newCost = (((float) [self numItems] * [self costBasis]) + ((float)price)) / ((float)newNumItems);
+
+    self.costBasis = newCost;
+    self.itemId = newItemId;
+    self.numItems = newNumItems;
 }
 
 #pragma mark - flight public
