@@ -498,6 +498,15 @@ static const unsigned int kInitBucks = 500;
         NSLog(@"Unknown FBRequest didLoad completion.");
     }
 }
+
+- (void)request:(FBRequest *)request didFailWithError:(NSError *)error
+{
+    if ([[request url] rangeOfString:@"me/friends"].location != NSNotFound)
+    {
+        NSLog(@"Failed to retrieve friends list from Facebook!");
+        [self.delegate didCompleteHttpCallback:kPlayer_SavePlayerData, FALSE];
+    }
+}
          
 - (void) getFacebookFriendsList
 {

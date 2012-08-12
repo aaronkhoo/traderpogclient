@@ -381,8 +381,21 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
             {
                 // If one of the refreshes failed, then treat the entire refresh process as failed.
                 _gameInfoRefreshed = _gameInfoRefreshSucceeded;
-                // Recall selectNextGameUI
-                [self selectNextGameUI];
+                
+                if (_gameInfoRefreshed)
+                {
+                    // Game info refresh succeeded. Go ahead and continue the process
+                    // of starting up.
+                    [self selectNextGameUI];
+                }
+                else
+                {
+                    // Something failed in the game refresh process. Stop for now.
+                    // Pop the loading screen.
+                    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+                    UINavigationController* nav = appDelegate.navController;
+                    [self popLoadingScreenIfNecessary:nav];
+                }
             }
         }
     }

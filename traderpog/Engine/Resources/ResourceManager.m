@@ -273,8 +273,26 @@ static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpo
             // Open the bundle file
             _bundle = [NSBundle bundleWithPath:[ResourceManager resourceBundlePath]];
             
+            // The ResourcePackage is done loading. Save anything we need to. 
+            [self saveResourceManagerData];
+            
             [self.delegate didCompleteHttpCallback:kResourceManager_PackageReady, TRUE];
         }
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    if (_getConnection == connection || _headConnection == connection)
+    {
+        NSLog(@"Resource package retrieval failed!");
+        
+        // Inform of failure
+        [self.delegate didCompleteHttpCallback:kResourceManager_PackageReady, FALSE];
+    }
+    else
+    {
+        NSLog(@"Unknown connection failure in resource package retrieval!");
     }
 }
 
