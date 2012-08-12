@@ -14,7 +14,7 @@
 - (void) loadFrontMenuBackgroundNamed:(NSString*)imageName;       // ok to call this repeatedly
 - (void) unloadFrontMenuBackground;
 
-- (UIImage*) getImageWithUrl:(NSString*)url fallbackNamed:(NSString*)fallback;
+- (UIImage*) getImage:(NSString*)name fallbackNamed:(NSString*)fallback;
 
 // singleton
 +(ImageManager*) getInstance;

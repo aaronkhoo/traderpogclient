@@ -40,13 +40,13 @@ NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
         UIImage* annotationImage = nil;
         if([tradePost isOwnPost])
         {
-            annotationImage = [[ImageManager getInstance] getImageWithUrl:[tradePost imgPath]
-                                                            fallbackNamed:@"HomeBase.png"];
+            annotationImage = [[ImageManager getInstance] getImage:[tradePost imgPath]
+                                                     fallbackNamed:@"HomeBase.png"];
         }
         else
         {
-            annotationImage = [[ImageManager getInstance] getImageWithUrl:[tradePost imgPath]
-                                                            fallbackNamed:@"TradePost.png"];
+            annotationImage = [[ImageManager getInstance] getImage:[tradePost imgPath]
+                                                     fallbackNamed:@"TradePost.png"];
         }
         CGRect resizeRect = CGRectMake(0.0f, 0.0f, 120.0f, 120.0f);
         UIGraphicsBeginImageContext(resizeRect.size);
