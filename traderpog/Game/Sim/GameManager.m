@@ -33,14 +33,24 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 
 @interface GameManager ()
 {
+    // Variables to track general game information
     BOOL _gameInfoRefreshed;
     BOOL _gameInfoRefreshSucceeded;
     NSInteger _gameInfoRefreshCount;
+    
+    // Variables to track player specific information
+    BOOL _playerInfoRefreshed;
+    BOOL _playerInfoRefreshSucceeded;
+    NSInteger _playerInfoRefreshCount;
+    
     GameViewController* _gameViewController;
     HiAccuracyLocator* _playerLocator;
 }
 @property (nonatomic,strong) ModalNavControl* modalNav;
 @property (nonatomic,strong) HiAccuracyLocator* playerLocator;
+
+- (void) loadGameInfo;
+- (void) loadPlayerInfo;
 
 - (void) startModalNavControlInView:(UIView*)parentView 
                      withController:(UIViewController *)viewController
@@ -65,13 +75,20 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         _gameState = kGameStateNew;
         _loadingScreen = nil;
         _gameViewController = nil;
+        
         _gameInfoRefreshed = FALSE;
         _gameInfoRefreshSucceeded = TRUE;
-        
         // This counter is used to track how many game info refresh
         // requests are still in flight. See loadGameInfo function for
         // more details.
         _gameInfoRefreshCount = 0;
+        
+        _playerInfoRefreshed = FALSE;
+        _playerInfoRefreshSucceeded = TRUE;
+        // This counter is used to track how many player info refresh
+        // requests are still in flight. See loadPlayerInfo function for
+        // more details.
+        _playerInfoRefreshCount = 0;
         
         [self registerAllNotificationHandlers];
     }
@@ -99,24 +116,10 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     [[ResourceManager getInstance] downloadResourceFileIfNecessary];
     _gameInfoRefreshCount++;
     
-    // Load player information
-    if ([[Player getInstance] needsRefresh])
-    {
-        [[Player getInstance] getPlayerDataFromServer];
-        _gameInfoRefreshCount++;
-    }
-    
     // Load item information
     if ([[TradeItemTypes getInstance] needsRefresh])
     {
         [[TradeItemTypes getInstance] retrieveItemsFromServer];   
-        _gameInfoRefreshCount++;
-    }
-    
-    // Load posts information
-    if ([[TradePostMgr getInstance] needsRefresh])
-    {
-        [[TradePostMgr getInstance] retrievePostsFromServer];   
         _gameInfoRefreshCount++;
     }
     
@@ -127,26 +130,56 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         _gameInfoRefreshCount++;
     }
     
-    // Load flyers associated with the current user
-    if ([[FlyerMgr getInstance] needsRefresh])
-    {
-        [[FlyerMgr getInstance] retrieveUserFlyersFromServer];
-        _gameInfoRefreshCount++;
-    }
-    
-    // Refresh friends data from Facebook if necessary
-    if ([[Player getInstance] facebookSessionValid] && [[Player getInstance] needsFriendsRefresh])
-    {
-        [[Player getInstance] getFacebookFriendsList];
-        _gameInfoRefreshCount++;
-    }
-    
     // We got to this point and there was nothing to refresh, 
     // so just call selectNextGameUI to move on
     if (_gameInfoRefreshCount == 0)
     {
         // First indicate that gameInfo has been refreshed
         _gameInfoRefreshed = TRUE;
+        [self selectNextGameUI];
+    }
+}
+
+
+- (void) loadPlayerInfo
+{
+    // loadPlayerInfo should be responsible for reloading any data from the server it requires
+    // that is specific to the player before the main game sequence starts.
+    
+    // Load player information
+    if ([[Player getInstance] needsRefresh])
+    {
+        [[Player getInstance] getPlayerDataFromServer];
+        _playerInfoRefreshCount++;
+    }
+    
+    // Load posts information
+    if ([[TradePostMgr getInstance] needsRefresh])
+    {
+        [[TradePostMgr getInstance] retrievePostsFromServer];
+        _playerInfoRefreshCount++;
+    }
+    
+    // Load flyers associated with the current user
+    if ([[FlyerMgr getInstance] needsRefresh])
+    {
+        [[FlyerMgr getInstance] retrieveUserFlyersFromServer];
+        _playerInfoRefreshCount++;
+    }
+    
+    // Refresh friends data from Facebook if necessary
+    if ([[Player getInstance] facebookSessionValid] && [[Player getInstance] needsFriendsRefresh])
+    {
+        [[Player getInstance] getFacebookFriendsList];
+        _playerInfoRefreshCount++;
+    }
+    
+    // We got to this point and there was nothing to refresh,
+    // so just call selectNextGameUI to move on
+    if (_playerInfoRefreshCount == 0)
+    {
+        // First indicate that gameInfo has been refreshed
+        _playerInfoRefreshed = TRUE;
         [self selectNextGameUI];
     }
 }
@@ -215,6 +248,8 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     // Reset
     _gameInfoRefreshed = false;
     _gameInfoRefreshCount = 0;
+    _playerInfoRefreshed = false;
+    _playerInfoRefreshCount = 0;
     [self selectNextGameUI];
 }
 
@@ -247,6 +282,23 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         LoadingScreen* loading = (LoadingScreen*)current;
         loading.progressLabel.text = @"Loading game info";
         [self loadGameInfo];
+    }
+    else if (!_playerInfoRefreshed)
+    {
+        // show loading screen and load player info from server
+        _playerInfoRefreshSucceeded = TRUE;
+        
+        // first check the view on the stack, if the top view is not LoadingScreen,
+        // then push that onto the stack
+        UIViewController* current = [nav visibleViewController];
+        if ([[current nibName] compare:@"LoadingScreen"] != NSOrderedSame)
+        {
+            current = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
+            [nav pushFadeInViewController:current animated:YES];
+        }
+        LoadingScreen* loading = (LoadingScreen*)current;
+        loading.progressLabel.text = @"Loading player info";
+        [self loadPlayerInfo];
     }
     else if(![self.playerLocator bestLocation])
     {
@@ -368,11 +420,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     if (_gameInfoRefreshCount > 0)
     {
         if ([callName compare:kTradeItemTypes_ReceiveItems] == NSOrderedSame ||
-            [callName compare:kPlayer_GetPlayerData] == NSOrderedSame ||
-            [callName compare:kTradePostMgr_ReceivePosts] == NSOrderedSame ||
             [callName compare:kFlyerTypes_ReceiveFlyers] == NSOrderedSame ||
-            [callName compare:kFlyerMgr_ReceiveFlyers] == NSOrderedSame ||
-            [callName compare:kPlayer_SavePlayerData] == NSOrderedSame ||
             [callName compare:kResourceManager_PackageReady] == NSOrderedSame)
         {
             _gameInfoRefreshCount--;
@@ -399,7 +447,40 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
             }
         }
     }
-    else 
+    // Game is presently in player info refresh mode. Only call selectNextGameUI
+    // if the refresh is complete.
+    else if (_playerInfoRefreshCount > 0)
+    {
+        if ([callName compare:kPlayer_GetPlayerData] == NSOrderedSame ||
+            [callName compare:kTradePostMgr_ReceivePosts] == NSOrderedSame ||
+            [callName compare:kFlyerMgr_ReceiveFlyers] == NSOrderedSame ||
+            [callName compare:kPlayer_SavePlayerData] == NSOrderedSame)
+        {
+            _playerInfoRefreshCount--;
+            _playerInfoRefreshSucceeded = _playerInfoRefreshSucceeded && success;
+            if (_playerInfoRefreshCount == 0)
+            {
+                // If one of the refreshes failed, then treat the entire refresh process as failed.
+                _playerInfoRefreshed = _playerInfoRefreshSucceeded;
+                
+                if (_playerInfoRefreshed)
+                {
+                    // Player info refresh succeeded. Go ahead and continue the process
+                    // of starting up.
+                    [self selectNextGameUI];
+                }
+                else
+                {
+                    // Something failed in the player refresh process. Stop for now.
+                    // Pop the loading screen.
+                    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+                    UINavigationController* nav = appDelegate.navController;
+                    [self popLoadingScreenIfNecessary:nav];
+                }
+            }
+        }
+    }
+    else
     {
         [self selectNextGameUI];
     }

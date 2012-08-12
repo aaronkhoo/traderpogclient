@@ -144,10 +144,7 @@ static NSUInteger kFlyerPreviewZoomLevel = 8;
 {
     for (Flyer* currentFlyer in _playerFlyers)
     {
-        [currentFlyer flyerCoordinateNow];
-        [currentFlyer createRenderingForFlyer];
-        [[[GameManager getInstance] gameViewController].mapControl addAnnotationForFlyer:currentFlyer];
-        currentFlyer.initializeFlyerOnMap = TRUE;
+        [currentFlyer annotateFlyerOnMap];
     }
 }
 

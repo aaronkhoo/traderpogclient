@@ -83,7 +83,7 @@ static NSString* const kKeyCostBasis = @"costBasis";
     {
         _updatingFlyerPathOnServer = FALSE;
         _projectedNextPost = nil;
-        _doneWithCurrentPath = FALSE;
+        _doneWithCurrentPath = TRUE;
         _initializeFlyerOnMap = FALSE;
         
         _flyerTypeIndex = flyerTypeIndex;
@@ -128,7 +128,7 @@ static NSString* const kKeyCostBasis = @"costBasis";
         id obj = [path_dict valueForKeyPath:kKeyDone];
         if ((NSNull *)obj == [NSNull null])
         {
-            _doneWithCurrentPath = FALSE;
+            _doneWithCurrentPath = TRUE;
         }
         else
         {
@@ -441,6 +441,15 @@ static NSString* const kKeyCostBasis = @"costBasis";
 }
 
 #pragma mark - flight public
+- (void) annotateFlyerOnMap
+{
+    CLLocationCoordinate2D curCoord = [self flyerCoordinateNow];
+    [self setCoordinate:curCoord];
+    [self createRenderingForFlyer];
+    [[[GameManager getInstance] gameViewController].mapControl addAnnotationForFlyer:self];
+    self.initializeFlyerOnMap = TRUE;
+}
+
 - (BOOL) departForPostId:(NSString *)postId
 {
     if((![postId isEqualToString:[self curPostId]]) &&
