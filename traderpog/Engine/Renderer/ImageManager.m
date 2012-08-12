@@ -8,6 +8,7 @@
 
 #import "ImageManager.h"
 #import "AppDelegate.h"
+#import "ResourceManager.h"
 
 @interface ImageManager ()
 {
@@ -33,25 +34,27 @@
 }
 
 #pragma mark - image accessors
-- (UIImage*) getImageWithUrl:(NSString *)url fallbackNamed:(NSString *)fallback
+- (UIImage*) getImage:(NSString *)name fallbackNamed:(NSString *)fallback
 {
     UIImage* result = nil;
 
     // check cache first
-    NSString* imageKey = url;
+    NSString* imageKey = name;
     if(!imageKey)
     {
         imageKey = fallback;
     }
     result = [self.imageCache objectForKey:imageKey];
 
-    // HACK
-    // TODO: load from URL
-    if(!result && url)
+    // Check downloaded resource package
+    if(!result && name)
     {
-        
+        NSString* path = [[ResourceManager getInstance] getImagePath:name];
+        if (path)
+        {
+            result = [[UIImage alloc] initWithContentsOfFile:path];
+        }
     }
-    // HACK
     
     // check main bundle
     if(!result)
