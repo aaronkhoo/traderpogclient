@@ -106,6 +106,11 @@ enum kKnobSlices
     self.mapControl = [[MapControl alloc] initWithMapView:[self mapView] andCenter:_initCoord];
     self.trackedFlyer = nil;
     
+    // add pre-existing objects in the world as annotations
+    [[TradePostMgr getInstance] annotatePostsOnMap];
+    [[FlyerMgr getInstance] annotateFlyersOnMap];
+    [[BeaconMgr getInstance] addBeaconAnnotationsToMap:[self mapControl]];
+    
     // create knob
     [self initKnob];
     [self initWheels];

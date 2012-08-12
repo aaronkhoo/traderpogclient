@@ -9,14 +9,9 @@
 #import "Beacon.h"
 #import "TradePostMgr.h"
 #import "TradePost.h"
+#import "BeaconAnnotationView.h"
 #import <CoreLocation/CoreLocation.h>
 
-@interface Beacon()
-{
-    // transient variables
-    CLLocationCoordinate2D _coord;
-}
-@end
 
 @implementation Beacon
 @synthesize beaconId = _beaconId;
@@ -38,4 +33,31 @@
     }
     return self;
 }
+
+#pragma mark - MKAnnotation delegate
+- (CLLocationCoordinate2D) coordinate
+{
+    return [self coord];
+}
+
+- (void) setCoordinate:(CLLocationCoordinate2D)newCoordinate
+{
+    self.coord = newCoordinate;
+}
+
+#pragma mark - MapAnnotationProtocol
+- (MKAnnotationView*) annotationViewInMap:(MKMapView *)mapView
+{
+    MKAnnotationView* annotationView = (BeaconAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:kBeaconAnnotationViewReuseId];
+    if(annotationView)
+    {
+        annotationView.annotation = self;
+    }
+    else
+    {
+        annotationView = [[BeaconAnnotationView alloc] initWithAnnotation:self];
+    }
+    return annotationView;
+}
+
 @end

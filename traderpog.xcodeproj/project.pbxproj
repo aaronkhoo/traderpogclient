@@ -22,6 +22,7 @@
 		42094DB615C9B236001FA77D /* WheelBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB015C9B235001FA77D /* WheelBubble.m */; };
 		42094DB715C9B236001FA77D /* WheelControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB215C9B236001FA77D /* WheelControl.m */; };
 		42094DB815C9B236001FA77D /* WheelSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB515C9B236001FA77D /* WheelSlice.m */; };
+		4227882815D7230100852AC4 /* BeaconAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227882715D7230100852AC4 /* BeaconAnnotationView.m */; };
 		4264B6B015CD93F300621548 /* TradePost.png in Resources */ = {isa = PBXBuildFile; fileRef = 4264B6AF15CD93F300621548 /* TradePost.png */; };
 		4277385215D3A5CE004DCC13 /* BeaconMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385115D3A5CE004DCC13 /* BeaconMgr.m */; };
 		4277385615D3A971004DCC13 /* Beacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385515D3A971004DCC13 /* Beacon.m */; };
@@ -156,6 +157,8 @@
 		42094DB315C9B236001FA77D /* WheelProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WheelProtocol.h; sourceTree = "<group>"; };
 		42094DB415C9B236001FA77D /* WheelSlice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WheelSlice.h; sourceTree = "<group>"; };
 		42094DB515C9B236001FA77D /* WheelSlice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WheelSlice.m; sourceTree = "<group>"; };
+		4227882615D7230100852AC4 /* BeaconAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BeaconAnnotationView.h; path = Game/Map/BeaconAnnotationView.h; sourceTree = "<group>"; };
+		4227882715D7230100852AC4 /* BeaconAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeaconAnnotationView.m; path = Game/Map/BeaconAnnotationView.m; sourceTree = "<group>"; };
 		4264B6AF15CD93F300621548 /* TradePost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TradePost.png; path = assets/Map/TradePost.png; sourceTree = SOURCE_ROOT; };
 		4277385015D3A5CE004DCC13 /* BeaconMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BeaconMgr.h; path = Game/Sim/BeaconMgr.h; sourceTree = "<group>"; };
 		4277385115D3A5CE004DCC13 /* BeaconMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeaconMgr.m; path = Game/Sim/BeaconMgr.m; sourceTree = "<group>"; };
@@ -531,6 +534,8 @@
 				C4D5DDE915B3CF0800D5A746 /* TradePostAnnotationView.m */,
 				C4BBE47515BC5F4F00F582DE /* FlyerAnnotationView.h */,
 				C4BBE47615BC5F5000F582DE /* FlyerAnnotationView.m */,
+				4227882615D7230100852AC4 /* BeaconAnnotationView.h */,
+				4227882715D7230100852AC4 /* BeaconAnnotationView.m */,
 				C4BBE44F15B92B7600F582DE /* ScanManager.h */,
 				C4BBE45015B92B7600F582DE /* ScanManager.m */,
 				C4BBE45815BA93B800F582DE /* TradePostCallout.h */,
@@ -883,6 +888,7 @@
 				3889129815D5D8B6009CF624 /* unzip.c in Sources */,
 				3889129915D5D8B6009CF624 /* zip.c in Sources */,
 				3889129A15D5D8B6009CF624 /* SSZipArchive.m in Sources */,
+				4227882815D7230100852AC4 /* BeaconAnnotationView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

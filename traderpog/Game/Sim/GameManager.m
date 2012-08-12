@@ -337,13 +337,6 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
             case kGameStateNew:
                 _gameState = kGameStateGameLoop;
                 NSLog(@"start gameloop");
-                
-                // Annotate any posts we currently know about already
-                [[TradePostMgr getInstance] annotatePostsOnMap];
-                
-                // Annotate any flyers we currently know about
-                [[FlyerMgr getInstance] annotateFlyersOnMap];
-                
                 [self.gameViewController showKnobAnimated:YES delay:0.5f];
                 
                 break;

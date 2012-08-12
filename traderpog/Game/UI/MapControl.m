@@ -112,6 +112,11 @@ static const float kBrowseAreaRadius = 900.0f;
     [self.view addAnnotation:flyer];
 }
 
+- (void) addAnnotation:(NSObject<MKAnnotation> *)annotation
+{
+    [self.view addAnnotation:annotation];
+}
+
 - (void) dismissAnnotationForFlyer:(Flyer *)flyer
 {
     [self.view removeAnnotation:flyer];

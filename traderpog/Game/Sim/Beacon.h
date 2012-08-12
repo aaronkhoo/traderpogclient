@@ -7,12 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MapProtocols.h"
 #import <CoreLocation/CoreLocation.h>
+#import <MapKit/MKAnnotation.h>
 
-@interface Beacon : NSObject
+@interface Beacon : NSObject<MKAnnotation, MapAnnotationProtocol>
 {
     NSString* _beaconId;
     NSString* _postId;
+
+    // transient variables
+    CLLocationCoordinate2D _coord;
 }
 @property (nonatomic,readonly) NSString* beaconId;
 @property (nonatomic,readonly) NSString* postId;

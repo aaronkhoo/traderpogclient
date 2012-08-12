@@ -25,6 +25,7 @@
            atZoomLevel:(unsigned int)zoomLevel;
 - (void) addAnnotationForTradePost:(TradePost*)tradePost;
 - (void) addAnnotationForFlyer:(Flyer*)flyer;
+- (void) addAnnotation:(NSObject<MKAnnotation>*)annotation;
 - (void) dismissAnnotationForFlyer:(Flyer*)flyer;
 - (void) dismissFlightPathForFlyer:(Flyer*)flyer;
 - (void) showFlightPathForFlyer:(Flyer*)flyer;

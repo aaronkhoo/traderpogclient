@@ -12,6 +12,8 @@
 #import "WheelBubble.h"
 #import "PogUIUtility.h"
 
+static NSUInteger kBeaconPreviewZoomLevel = 8;
+
 @interface BeaconMgr ()
 {
     // for wheel
@@ -47,6 +49,14 @@
 }
 
 // HACK
+
+- (void) addBeaconAnnotationsToMap:(MapControl*)map
+{
+    for(Beacon* cur in [_activeBeacons allValues])
+    {
+        [map addAnnotation:cur];
+    }
+}
 
 #pragma mark - WheelDataSource
 - (unsigned int) numItemsInWheel:(WheelControl *)wheel
@@ -90,7 +100,11 @@
             index = MIN(index, [_activeBeacons count]-1);
             Beacon* initBeacon = [_activeBeacons.allValues objectAtIndex:index];
             _previewMap = [[MapControl alloc] initWithMapView:result
-                                                    andCenter:[initBeacon coord]];
+                                                    andCenter:[initBeacon coord]
+                                                  atZoomLevel:kBeaconPreviewZoomLevel];
+            
+            // add all pre-existing beacons
+            [self addBeaconAnnotationsToMap:_previewMap];
         }
     }
     return result;
