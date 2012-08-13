@@ -470,14 +470,18 @@ static NSString* const kKeyOrderMoney = @"orderPrice";
         // if different item, dump existing inventory
         self.numItems = 0;
         self.costBasis = 0.0f;
+        NSLog(@"Flyer: dumped current items");
     }
     
     unsigned int newNumItems = [self numItems] + num;
-    float newCost = (((float) [self numItems] * [self costBasis]) + ((float)price)) / ((float)newNumItems);
+    float newCostBasis = (((float) [self numItems] * [self costBasis]) + ((float)price * (float)num)) / ((float)newNumItems);
 
-    self.costBasis = newCost;
+    self.costBasis = newCostBasis;
     self.itemId = newItemId;
     self.numItems = newNumItems;
+    
+    NSLog(@"Flyer: inventory updated %d items of %@ at cost %f", newNumItems, newItemId, newCostBasis);
+    NSLog(@"Flyer: current (%d, %d, %@, %f)", [[Player getInstance] bucks], [self numItems], [self itemId], [self costBasis]);
 }
 
 // place an order in ecrow (will commit when flyer arrives at post and finishes loading)

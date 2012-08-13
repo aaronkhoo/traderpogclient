@@ -10,7 +10,8 @@
 #import "GameManager.h"
 #import "FlyerMgr.h"
 #import "Flyer.h"
-#import "TradePostAnnotation.h"
+#import "TradeManager.h"
+#import "TradePost.h"
 
 NSString* const kTradePostCalloutViewReuseId = @"PostCalloutView";
 
@@ -35,8 +36,33 @@ NSString* const kTradePostCalloutViewReuseId = @"PostCalloutView";
 
 - (IBAction)didPressGo:(id)sender 
 {
-    Flyer* flyer = [[[FlyerMgr getInstance] playerFlyers] objectAtIndex:0];
-    TradePostAnnotation* destPostAnnotation = (TradePostAnnotation*)[[self parentAnnotationView] annotation];
-    [[GameManager getInstance] flyer:flyer departForTradePost:[destPostAnnotation tradePost]];
+    TradePost* destPost = (TradePost*)[[self parentAnnotationView] annotation];
+
+    if([destPost isOwnPost])
+    {
+        // TODO: handle going home
+    }
+    else
+    {
+        // other's post
+        if([[TradeManager getInstance] playerCanAffordItemsAtPost:destPost])
+        {
+            // player has money
+            Flyer* flyer = [[[FlyerMgr getInstance] playerFlyers] objectAtIndex:0];
+            [[TradeManager getInstance] flyer:flyer buyFromPost:destPost numItems:[destPost supplyLevel]];
+            [[GameManager getInstance] flyer:flyer departForTradePost:destPost];
+        }
+        else
+        {
+            // inform player they cannot afford the order
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not enough coins"
+                                                            message:@"More coins needed to place this order"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+        
+    }
 }
 @end

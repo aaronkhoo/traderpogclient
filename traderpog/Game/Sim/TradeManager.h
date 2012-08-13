@@ -14,6 +14,7 @@
 
 - (void) flyer:(Flyer*)flyer buyFromPost:(TradePost*)post numItems:(unsigned int)numItems;
 - (void) flyer:(Flyer*)flyer didArriveAtPost:(TradePost*)post;
+- (BOOL) playerCanAffordItemsAtPost:(TradePost*)post;
 
 // singleton
 +(TradeManager*) getInstance;
