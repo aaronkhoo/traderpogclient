@@ -13,6 +13,7 @@
 @interface TradeManager : NSObject
 
 - (void) flyer:(Flyer*)flyer buyFromPost:(TradePost*)post numItems:(unsigned int)numItems;
+- (void) flyer:(Flyer*)flyer didArriveAtPost:(TradePost*)post;
 
 // singleton
 +(TradeManager*) getInstance;

@@ -29,11 +29,28 @@
     // deduct num items from post
     [post deductNumItems:numToBuy];
     
-    // add items to flyer
-    [flyer addItemId:[post itemId] num:numToBuy price:[itemType price]];
-    
     // deduct player bucks
     [[Player getInstance] deductBucks:bucks];
+
+    // place order in escrow
+    [flyer orderItemId:[post itemId] num:numToBuy price:[itemType price]];
+}
+
+- (void) flyer:(Flyer *)flyer didArriveAtPost:(TradePost *)post
+{
+    if([post isOwnPost])
+    {
+        // TODO: handle home post
+    }
+    else
+    {
+        // other's post
+        
+        // TODO: proceed to timesink
+        
+        // release escrow
+        [flyer commitOutstandingOrder];
+    }
 }
 
 #pragma mark - Singleton

@@ -32,6 +32,11 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
     unsigned int _numItems;
     float _costBasis;
     
+    // escrow
+    NSString* _orderItemId;
+    unsigned int _orderNumItems;
+    unsigned int _orderPrice;
+    
     // transient variables (not saved; reconstructed after load)
     CLLocationCoordinate2D _coord;
     FlightPathOverlay* _flightPathRender;
@@ -45,6 +50,9 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 @property (nonatomic,strong) NSString* itemId;
 @property (nonatomic) unsigned int numItems;
 @property (nonatomic) float costBasis;
+@property (nonatomic,strong) NSString* orderItemId;
+@property (nonatomic) unsigned int orderNumItems;
+@property (nonatomic) unsigned int orderPrice;
 @property (nonatomic,strong) FlightPathOverlay* flightPathRender;
 @property (nonatomic) CLLocationCoordinate2D coord;
 @property (nonatomic) CGAffineTransform transform;
@@ -60,5 +68,7 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 - (void) createRenderingForFlyer;
 
 - (void) addItemId:(NSString*)itemId num:(unsigned int)num price:(unsigned int)price;
+- (void) orderItemId:(NSString*)itemId num:(unsigned int)num price:(unsigned int)price;
+- (void) commitOutstandingOrder;
 
 @end

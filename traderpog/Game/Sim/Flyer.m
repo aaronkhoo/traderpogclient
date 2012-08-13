@@ -18,6 +18,7 @@
 #import "Player.h"
 #import "PogUIUtility.h"
 #import "MKMapView+Pog.h"
+#import "TradeManager.h"
 
 static const float kFlyerDefaultSpeedMetersPerSec = 100.0f;
 static const NSInteger kStormCountOne = 10;
@@ -38,6 +39,9 @@ static NSString* const kKeyDone = @"done";
 static NSString* const kKeyItemId = @"itemId";
 static NSString* const kKeyNumItems = @"numItems";
 static NSString* const kKeyCostBasis = @"costBasis";
+static NSString* const kKeyOrderItemId = @"orderItemId";
+static NSString* const kKeyOrderNumItems = @"orderNumItems";
+static NSString* const kKeyOrderMoney = @"orderPrice";
 
 @interface Flyer ()
 {
@@ -67,6 +71,9 @@ static NSString* const kKeyCostBasis = @"costBasis";
 @synthesize itemId = _itemId;
 @synthesize numItems = _numItems;
 @synthesize costBasis = _costBasis;
+@synthesize orderItemId = _orderItemId;
+@synthesize orderNumItems = _orderNumItems;
+@synthesize orderPrice = _orderPrice;
 @synthesize flightPathRender = _flightPathRender;
 @synthesize coord = _coord;
 @synthesize departureDate = _departureDate;
@@ -95,6 +102,9 @@ static NSString* const kKeyCostBasis = @"costBasis";
         _itemId = nil;
         _numItems = 0;
         _costBasis = 0.0f;
+        _orderItemId = nil;
+        _orderNumItems = 0;
+        _orderPrice = 0;
         _flightPathRender = nil;
         _departureDate = nil;
         _srcCoord = _coord;
@@ -202,6 +212,36 @@ static NSString* const kKeyCostBasis = @"costBasis";
         else
         {
             _costBasis = [obj floatValue];
+        }
+        
+        // escrow
+        obj = [path_dict valueForKeyPath:kKeyOrderItemId];
+        if ((NSNull *)obj == [NSNull null])
+        {
+            // no item for this flyer
+            _orderItemId = nil;
+        }
+        else
+        {
+            _orderItemId = [NSString stringWithFormat:@"%d", [obj integerValue]];
+        }
+        obj = [path_dict valueForKeyPath:kKeyOrderNumItems];
+        if ((NSNull *)obj == [NSNull null])
+        {
+            _orderNumItems = 0;
+        }
+        else
+        {
+            _orderNumItems = [obj unsignedIntValue];
+        }
+        obj = [path_dict valueForKeyPath:kKeyOrderMoney];
+        if ((NSNull *)obj == [NSNull null])
+        {
+            _orderPrice = 0;
+        }
+        else
+        {
+            _orderPrice = [obj unsignedIntValue];
         }
         
         // init runtime transient vars
@@ -440,6 +480,22 @@ static NSString* const kKeyCostBasis = @"costBasis";
     self.numItems = newNumItems;
 }
 
+// place an order in ecrow (will commit when flyer arrives at post and finishes loading)
+- (void) orderItemId:(NSString *)itemId num:(unsigned int)num price:(unsigned int)price
+{
+    self.orderItemId = itemId;
+    self.orderNumItems = num;
+    self.orderPrice = price;
+}
+
+- (void) commitOutstandingOrder
+{
+    if([self orderItemId])
+    {
+        [self addItemId:[self orderItemId] num:[self orderNumItems] price:[self orderPrice]];
+    }
+}
+
 #pragma mark - flight public
 - (BOOL) departForPostId:(NSString *)postId
 {
@@ -458,6 +514,10 @@ static NSString* const kKeyCostBasis = @"costBasis";
 
 - (void) completeFlyerPath
 {
+    // ask TradeManager to handle arrival
+    TradePost* arrivalPost = [[TradePostMgr getInstance] getTradePostWithId:[self nextPostId]];
+    [[TradeManager getInstance] flyer:self didArriveAtPost:arrivalPost];
+    
     // Clearing up the various parameters properly as the Flyer has arrived at its destination
     _metersToDest = 0.0;
     self.curPostId = [self nextPostId];
