@@ -8,13 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import <MapKit/MKAnnotation.h>
 #import "HttpCallbackDelegate.h"
+#import "MapProtocols.h"
 
 static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 
 @class TradeItemType;
 @class TradePostAnnotation;
-@interface TradePost : NSObject
+@interface TradePost : NSObject<MKAnnotation, MapAnnotationProtocol>
 {
     NSString*   _postId;
     CLLocationCoordinate2D _coord;

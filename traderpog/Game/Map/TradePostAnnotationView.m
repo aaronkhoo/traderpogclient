@@ -7,7 +7,6 @@
 //
 
 #import "TradePostAnnotationView.h"
-#import "TradePostAnnotation.h"
 #import "TradePostCallout.h"
 #import "ImageManager.h"
 #import "TradePost.h"
@@ -22,7 +21,7 @@ NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
 
 @implementation TradePostAnnotationView
 
-- (id) initWithAnnotation:(TradePostAnnotation *)annotation
+- (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation
 {
     self = [super initWithAnnotation:annotation reuseIdentifier:kTradePostAnnotationViewReuseId];
     if(self)
@@ -36,7 +35,7 @@ NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
         self.frame = myFrame;
         
         // setup tradepost image
-        TradePost* tradePost = [annotation tradePost];
+        TradePost* tradePost = (TradePost*)annotation;
         UIImage* annotationImage = nil;
         if([tradePost isOwnPost])
         {
@@ -87,8 +86,8 @@ NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
 {    
     if(!_calloutAnnotation)
     {
-        TradePostAnnotation* tradePostAnnotation = (TradePostAnnotation*) [self annotation];
-        _calloutAnnotation = [[TradePostCallout alloc] initWithTradePost:[tradePostAnnotation tradePost]];
+        TradePost* tradePost = (TradePost*) [self annotation];
+        _calloutAnnotation = [[TradePostCallout alloc] initWithTradePost:tradePost];
         _calloutAnnotation.parentAnnotationView = self;
         [mapView addAnnotation:_calloutAnnotation];
     }

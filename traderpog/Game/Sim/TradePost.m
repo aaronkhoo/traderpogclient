@@ -11,6 +11,7 @@
 #import "TradePost.h"
 #import "TradeItemType.h"
 #import "TradePostAnnotation.h"
+#import "TradePostAnnotationView.h"
 
 static NSString* const kKeyPostId = @"id";
 static NSString* const kKeyUserId = @"user_id";
@@ -149,10 +150,34 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
 - (void) setCoord:(CLLocationCoordinate2D)coord
 {
     _coord = coord;
-    if([self annotation])
+}
+
+
+#pragma mark - MKAnnotation delegate
+- (CLLocationCoordinate2D) coordinate
+{
+    return [self coord];
+}
+
+- (void) setCoordinate:(CLLocationCoordinate2D)newCoordinate
+{
+    self.coord = newCoordinate;
+}
+
+#pragma mark - MapAnnotationProtocol
+- (MKAnnotationView*) annotationViewInMap:(MKMapView *)mapView
+{
+    MKAnnotationView* annotationView = (TradePostAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:kTradePostAnnotationViewReuseId];
+    if(annotationView)
     {
-        [self.annotation setCoordinate:coord];
+        annotationView.annotation = self;
     }
+    else
+    {
+        annotationView = [[TradePostAnnotationView alloc] initWithAnnotation:self];
+    }
+    
+    return annotationView;
 }
 
 @end

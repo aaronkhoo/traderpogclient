@@ -13,5 +13,5 @@ extern NSString* const kTradePostAnnotationViewReuseId;
 @class TradePostAnnotation;
 @interface TradePostAnnotationView : MKAnnotationView<MapAnnotationViewProtocol>
 
-- (id) initWithAnnotation:(TradePostAnnotation*)annotation;
+- (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation;
 @end

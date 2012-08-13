@@ -100,11 +100,7 @@ static const float kBrowseAreaRadius = 900.0f;
 
 - (void) addAnnotationForTradePost:(TradePost *)tradePost
 {
-    if(![tradePost annotation])
-    {
-        TradePostAnnotation* annotation = [[TradePostAnnotation alloc] initWithTradePost:tradePost];
-        [self.view addAnnotation:annotation];
-    }
+    [self.view addAnnotation:tradePost];
 }
 
 - (void) addAnnotationForFlyer:(Flyer *)flyer
