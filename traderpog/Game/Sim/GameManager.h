@@ -35,7 +35,6 @@ enum kGameStates
 @property (nonatomic,strong) GameViewController* gameViewController;
 
 // public methods
-- (void) loadGameInfo;
 - (void) selectNextGameUI;
 - (void) flyer:(Flyer*)flyer departForTradePost:(TradePost*)tradePost;
 
