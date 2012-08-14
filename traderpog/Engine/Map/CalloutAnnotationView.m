@@ -54,10 +54,14 @@
 	return self;
 }
 
-- (void)setAnnotation:(id <MKAnnotation>)annotation {
+- (void)setAnnotation:(id <MKAnnotation>)annotation
+{
 	[super setAnnotation:annotation];
-	[self prepareFrameSize];
-	[self prepareOffset];
+    if(annotation)
+    {
+        [self prepareFrameSize];
+        [self prepareOffset];
+    }
 	[self setNeedsDisplay];
 }
 
@@ -101,7 +105,16 @@
 	
 	
 	//Latitude
+
+    // set parent transfor to identity before computing map-origin
+    // in its frame, then restore the transform;
+    // this is necessary because offset calculation assumes
+    // parent without any transform
+    CGAffineTransform parentTransform = self.parentAnnotationView.transform;
+    [self.parentAnnotationView setTransform:CGAffineTransformIdentity];
 	CGPoint mapViewOriginRelativeToParent = [self.mapView convertPoint:self.mapView.frame.origin toView:self.parentAnnotationView];
+    [self.parentAnnotationView setTransform:parentTransform];
+
 	CGFloat yPixelShift = 0;
 	CGFloat pixelsFromTopOfMapView = -(mapViewOriginRelativeToParent.y + self.frame.size.height - CalloutMapAnnotationViewBottomShadowBufferSize);
 	CGFloat pixelsFromBottomOfMapView = self.mapView.frame.size.height + mapViewOriginRelativeToParent.y - self.parentAnnotationView.frame.size.height;

@@ -22,6 +22,9 @@
 		42094DB615C9B236001FA77D /* WheelBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB015C9B235001FA77D /* WheelBubble.m */; };
 		42094DB715C9B236001FA77D /* WheelControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB215C9B236001FA77D /* WheelControl.m */; };
 		42094DB815C9B236001FA77D /* WheelSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB515C9B236001FA77D /* WheelSlice.m */; };
+		4221E4D115D9CB7B00781664 /* FlyerCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4221E4D015D9CB7B00781664 /* FlyerCallout.m */; };
+		4221E4D515D9D47E00781664 /* FlyerCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4221E4D415D9D47E00781664 /* FlyerCalloutView.m */; };
+		4221E4D715DA2A2200781664 /* FlyerCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4221E4D615DA2A2200781664 /* FlyerCalloutView.xib */; };
 		4227882815D7230100852AC4 /* BeaconAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227882715D7230100852AC4 /* BeaconAnnotationView.m */; };
 		4227883015D74A9A00852AC4 /* TradeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227882F15D74A9900852AC4 /* TradeManager.m */; };
 		4264B6B015CD93F300621548 /* TradePost.png in Resources */ = {isa = PBXBuildFile; fileRef = 4264B6AF15CD93F300621548 /* TradePost.png */; };
@@ -158,6 +161,11 @@
 		42094DB315C9B236001FA77D /* WheelProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WheelProtocol.h; sourceTree = "<group>"; };
 		42094DB415C9B236001FA77D /* WheelSlice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WheelSlice.h; sourceTree = "<group>"; };
 		42094DB515C9B236001FA77D /* WheelSlice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WheelSlice.m; sourceTree = "<group>"; };
+		4221E4CF15D9CB7B00781664 /* FlyerCallout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCallout.h; path = Game/Map/FlyerCallout.h; sourceTree = "<group>"; };
+		4221E4D015D9CB7B00781664 /* FlyerCallout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerCallout.m; path = Game/Map/FlyerCallout.m; sourceTree = "<group>"; };
+		4221E4D315D9D47E00781664 /* FlyerCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCalloutView.h; path = Game/Map/FlyerCalloutView.h; sourceTree = "<group>"; };
+		4221E4D415D9D47E00781664 /* FlyerCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerCalloutView.m; path = Game/Map/FlyerCalloutView.m; sourceTree = "<group>"; };
+		4221E4D615DA2A2200781664 /* FlyerCalloutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerCalloutView.xib; path = Game/Map/FlyerCalloutView.xib; sourceTree = "<group>"; };
 		4227882615D7230100852AC4 /* BeaconAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BeaconAnnotationView.h; path = Game/Map/BeaconAnnotationView.h; sourceTree = "<group>"; };
 		4227882715D7230100852AC4 /* BeaconAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeaconAnnotationView.m; path = Game/Map/BeaconAnnotationView.m; sourceTree = "<group>"; };
 		4227882E15D74A9800852AC4 /* TradeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradeManager.h; path = Game/Sim/TradeManager.h; sourceTree = "<group>"; };
@@ -541,6 +549,11 @@
 				4227882715D7230100852AC4 /* BeaconAnnotationView.m */,
 				C4BBE44F15B92B7600F582DE /* ScanManager.h */,
 				C4BBE45015B92B7600F582DE /* ScanManager.m */,
+				4221E4CF15D9CB7B00781664 /* FlyerCallout.h */,
+				4221E4D015D9CB7B00781664 /* FlyerCallout.m */,
+				4221E4D315D9D47E00781664 /* FlyerCalloutView.h */,
+				4221E4D415D9D47E00781664 /* FlyerCalloutView.m */,
+				4221E4D615DA2A2200781664 /* FlyerCalloutView.xib */,
 				C4BBE45815BA93B800F582DE /* TradePostCallout.h */,
 				C4BBE45915BA93B800F582DE /* TradePostCallout.m */,
 				C4BBE45B15BA99B500F582DE /* TradePostCalloutView.h */,
@@ -814,6 +827,7 @@
 				C4BFC9B815CEBE6D009B7122 /* FlyerLanded.png in Resources */,
 				42E92B0815D0E19F0054686F /* Yun.png in Resources */,
 				42E92B0A15D0E7AD0054686F /* startButton.png in Resources */,
+				4221E4D715DA2A2200781664 /* FlyerCalloutView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -895,6 +909,8 @@
 				3889129A15D5D8B6009CF624 /* SSZipArchive.m in Sources */,
 				4227882815D7230100852AC4 /* BeaconAnnotationView.m in Sources */,
 				4227883015D74A9A00852AC4 /* TradeManager.m in Sources */,
+				4221E4D115D9CB7B00781664 /* FlyerCallout.m in Sources */,
+				4221E4D515D9D47E00781664 /* FlyerCalloutView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

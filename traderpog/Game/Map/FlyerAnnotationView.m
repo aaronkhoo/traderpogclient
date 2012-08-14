@@ -8,9 +8,16 @@
 
 #import "FlyerAnnotationView.h"
 #import "Flyer.h"
+#import "FlyerCallout.h"
 
 NSString* const kFlyerAnnotationViewReuseId = @"FlyerAnnotationView";
 static NSString* const kFlyerTransformKey = @"transform";
+
+@interface FlyerAnnotationView ()
+{
+    FlyerCallout* _calloutAnnotation;
+}
+@end
 
 @implementation FlyerAnnotationView
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation
@@ -42,7 +49,7 @@ static NSString* const kFlyerTransformKey = @"transform";
         
         [self addSubview:contentView];
         
-//        _calloutAnnotation = nil;
+        _calloutAnnotation = nil;
         
         // observe flyer transform
         [annotation addObserver:self forKeyPath:kFlyerTransformKey options:0 context:nil];
@@ -67,33 +74,33 @@ static NSString* const kFlyerTransformKey = @"transform";
 #pragma mark - MKAnnotationView
 - (void)setAnnotation:(id<MKAnnotation>)annotation
 {
-//    if(_calloutAnnotation) 
-//    {
-//        [_calloutAnnotation setCoordinate:annotation.coordinate];
-//    }
+    if(_calloutAnnotation)
+    {
+        [_calloutAnnotation setCoordinate:annotation.coordinate];
+    }
     [super setAnnotation:annotation];
     self.enabled = YES;
 }
 
 #pragma mark - PogMapAnnotationViewProtocol
 - (void)didSelectAnnotationViewInMap:(MKMapView*) mapView;
-{    
-//    if(!_calloutAnnotation)
-//    {
-//        TradePostAnnotation* tradePostAnnotation = (TradePostAnnotation*) [self annotation];
-//        _calloutAnnotation = [[TradePostCallout alloc] initWithTradePost:[tradePostAnnotation tradePost]];
-//        _calloutAnnotation.parentAnnotationView = self;
-//        [mapView addAnnotation:_calloutAnnotation];
-//    }
+{   
+    if(!_calloutAnnotation)
+    {
+        Flyer* flyer = (Flyer*) [self annotation];
+        _calloutAnnotation = [[FlyerCallout alloc] initWithFlyer:flyer];
+        _calloutAnnotation.parentAnnotationView = self;
+        [mapView addAnnotation:_calloutAnnotation];
+    }
 }
 
 - (void)didDeselectAnnotationViewInMap:(MKMapView*) mapView;
 {
-//    if(_calloutAnnotation)
-///    {
-//        [mapView removeAnnotation:_calloutAnnotation];
-//        _calloutAnnotation = nil;
-//    }
+    if(_calloutAnnotation)
+    {
+        [mapView removeAnnotation:_calloutAnnotation];
+        _calloutAnnotation = nil;
+    }
 }
 
 
