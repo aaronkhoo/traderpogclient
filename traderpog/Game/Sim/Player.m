@@ -94,12 +94,16 @@ static const unsigned int kInitBucks = 500;
 - (void) addBucks:(NSUInteger)newBucks
 {
     _bucks += newBucks;
+    
+    NSLog(@"PlayerCoins: %d", _bucks);
 }
 
 - (void) deductBucks:(NSUInteger)subBucks
 {
     NSUInteger bucksToSub = MIN(_bucks, subBucks);
     _bucks -= bucksToSub;
+
+    NSLog(@"PlayerCoins: %d", _bucks);
 }
 
 - (NSUInteger) bucks

@@ -13,6 +13,10 @@
 #import "TradeItemType.h"
 #import "Player.h"
 
+@interface TradeManager ()
+- (void) flyer:(Flyer*)flyer sellAtPost:(TradePost*)post;
+@end
+
 @implementation TradeManager
 
 - (void) flyer:(Flyer *)flyer buyFromPost:(TradePost *)post numItems:(unsigned int)numItems
@@ -31,8 +35,9 @@
     NSLog(@"Trade: deduct %d items from post %@; post now has %d items", numToBuy, [post postId], [post supplyLevel]);
     
     // deduct player bucks
-    [[Player getInstance] deductBucks:bucks];
-    NSLog(@"Trade: deduct %d coins from player", bucks);
+    unsigned int cost = MIN(numToBuy * [itemType price], bucks);
+    [[Player getInstance] deductBucks:cost];
+    NSLog(@"Trade: deduct %d coins from player", cost);
 
     // place order in escrow
     [flyer orderItemId:[post itemId] num:numToBuy price:[itemType price]];
@@ -43,7 +48,7 @@
 {
     if([post isOwnPost])
     {
-        // TODO: handle home post
+        [self flyer:flyer sellAtPost:post];
     }
     else
     {
@@ -67,6 +72,21 @@
         result = YES;
     }
     return result;
+}
+
+#pragma mark - internal
+- (void) flyer:(Flyer *)flyer sellAtPost:(TradePost *)post
+{
+    NSAssert([post isOwnPost], @"flyer can only sell at own posts");
+    
+    // HACK
+    // TODO: compute with formulae in PogPanBible (need flight time first)
+    float earnings = ceilf([flyer costBasis] * [flyer numItems] * 1.2f);
+    [[Player getInstance] addBucks:(NSUInteger)earnings];
+    // HACK
+    
+    // unload all items
+    [flyer unloadAllItems];
 }
 
 #pragma mark - Singleton

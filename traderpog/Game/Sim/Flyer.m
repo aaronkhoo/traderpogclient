@@ -470,8 +470,7 @@ static NSString* const kKeyOrderMoney = @"orderPrice";
        (NSOrderedSame != [self.itemId compare:newItemId]))
     {
         // if different item, dump existing inventory
-        self.numItems = 0;
-        self.costBasis = 0.0f;
+        [self unloadAllItems];
         NSLog(@"Flyer: dumped current items");
     }
     
@@ -499,7 +498,19 @@ static NSString* const kKeyOrderMoney = @"orderPrice";
     if([self orderItemId])
     {
         [self addItemId:[self orderItemId] num:[self orderNumItems] price:[self orderPrice]];
+        
+        // clear escrow
+        self.orderItemId = nil;
+        self.orderNumItems = 0;
+        self.orderPrice = 0;
     }
+}
+
+- (void) unloadAllItems
+{
+    self.costBasis = 0.0f;
+    self.itemId = nil;
+    self.numItems = 0;
 }
 
 #pragma mark - flight public

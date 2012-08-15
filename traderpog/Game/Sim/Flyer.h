@@ -72,5 +72,6 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 - (void) addItemId:(NSString*)itemId num:(unsigned int)num price:(unsigned int)price;
 - (void) orderItemId:(NSString*)itemId num:(unsigned int)num price:(unsigned int)price;
 - (void) commitOutstandingOrder;
+- (void) unloadAllItems;
 
 @end
