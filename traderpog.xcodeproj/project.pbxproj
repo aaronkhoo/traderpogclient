@@ -67,6 +67,7 @@
 		C42FC49115B13293006D29A3 /* ModalNavControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = C42FC48F15B13293006D29A3 /* ModalNavControl.xib */; };
 		C42FC49615B141A3006D29A3 /* ModalNavRoot.m in Sources */ = {isa = PBXBuildFile; fileRef = C42FC49415B141A3006D29A3 /* ModalNavRoot.m */; };
 		C42FC49715B141A3006D29A3 /* ModalNavRoot.xib in Resources */ = {isa = PBXBuildFile; fileRef = C42FC49515B141A3006D29A3 /* ModalNavRoot.xib */; };
+		C436AEB215DB325800B22E8A /* GameNotes.m in Sources */ = {isa = PBXBuildFile; fileRef = C436AEB115DB325800B22E8A /* GameNotes.m */; };
 		C481145F15ACB927007FA214 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C481145D15ACB927007FA214 /* GameViewController.m */; };
 		C481146015ACB927007FA214 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C481145E15ACB927007FA214 /* GameViewController.xib */; };
 		C481146915ACBFED007FA214 /* MapControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146815ACBFED007FA214 /* MapControl.m */; };
@@ -239,6 +240,8 @@
 		C42FC49315B141A3006D29A3 /* ModalNavRoot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalNavRoot.h; sourceTree = "<group>"; };
 		C42FC49415B141A3006D29A3 /* ModalNavRoot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModalNavRoot.m; sourceTree = "<group>"; };
 		C42FC49515B141A3006D29A3 /* ModalNavRoot.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModalNavRoot.xib; sourceTree = "<group>"; };
+		C436AEB015DB325800B22E8A /* GameNotes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameNotes.h; path = Game/Sim/GameNotes.h; sourceTree = "<group>"; };
+		C436AEB115DB325800B22E8A /* GameNotes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameNotes.m; path = Game/Sim/GameNotes.m; sourceTree = "<group>"; };
 		C481145C15ACB927007FA214 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameViewController.h; path = Game/UI/GameViewController.h; sourceTree = "<group>"; };
 		C481145D15ACB927007FA214 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameViewController.m; path = Game/UI/GameViewController.m; sourceTree = "<group>"; };
 		C481145E15ACB927007FA214 /* GameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GameViewController.xib; path = Game/UI/GameViewController.xib; sourceTree = "<group>"; };
@@ -707,6 +710,8 @@
 				385972FC15C0BADB003DBA04 /* HttpCallbackDelegate.h */,
 				C41E0CB415AC1552006662DF /* DebugOptions.h */,
 				C41E0CB515AC1552006662DF /* DebugOptions.m */,
+				C436AEB015DB325800B22E8A /* GameNotes.h */,
+				C436AEB115DB325800B22E8A /* GameNotes.m */,
 				C4E381BD15AABB2400924A86 /* GameManager.h */,
 				C4E381BE15AABB2400924A86 /* GameManager.m */,
 				4227882E15D74A9800852AC4 /* TradeManager.h */,
@@ -911,6 +916,7 @@
 				4227883015D74A9A00852AC4 /* TradeManager.m in Sources */,
 				4221E4D115D9CB7B00781664 /* FlyerCallout.m in Sources */,
 				4221E4D515D9D47E00781664 /* FlyerCalloutView.m in Sources */,
+				C436AEB215DB325800B22E8A /* GameNotes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

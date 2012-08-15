@@ -19,6 +19,7 @@
 #import "PogUIUtility.h"
 #import "MKMapView+Pog.h"
 #import "TradeManager.h"
+#import "GameNotes.h"
 
 static const float kFlyerDefaultSpeedMetersPerSec = 100.0f;
 static const NSInteger kStormCountOne = 10;
@@ -66,6 +67,7 @@ static NSString* const kKeyOrderMoney = @"orderPrice";
 @end
 
 @implementation Flyer
+@synthesize userFlyerId = _userFlyerId;
 @synthesize curPostId = _curPostId;
 @synthesize nextPostId = _nextPostId;
 @synthesize itemId = _itemId;
@@ -544,7 +546,10 @@ static NSString* const kKeyOrderMoney = @"orderPrice";
     [self updateFlyerPath:parameters];
     _doneWithCurrentPath = TRUE;
     
-    /*
+    // broadcast arrival
+    [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteFlyerDidArrive object:self];
+    
+     /*
     [self didArriveAtPost:[self destPostId]];
     
      NSString* timeString = [PogUIUtility stringFromTimeInterval:0.0];

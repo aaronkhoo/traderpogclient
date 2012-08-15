@@ -45,6 +45,7 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
 }
+@property (nonatomic,readonly) NSString* userFlyerId;
 @property (nonatomic,strong) NSString* curPostId;
 @property (nonatomic,strong) NSString* nextPostId;
 @property (nonatomic,strong) NSString* itemId;

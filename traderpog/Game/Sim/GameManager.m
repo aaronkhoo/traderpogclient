@@ -24,6 +24,7 @@
 #import "FlyerTypes.h"
 #import "FlightPathOverlay.h"
 #import "ResourceManager.h"
+#import "GameNotes.h"
 #import <CoreLocation/CoreLocation.h>
 
 // List of Game UI screens that GameManager can kick off
@@ -61,6 +62,9 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 - (void) locateNewPlayer;
 - (void) registerAllNotificationHandlers;
 - (void) popLoadingScreenIfNecessary:(UINavigationController*)nav;
+
+// async in-game events
+- (void) handleFlyerArrival:(NSNotification*)note;
 @end
 
 @implementation GameManager
@@ -205,7 +209,13 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleNewPlayerLocationDenied:)
                                                  name:kUserLocationDenied
-                                               object:[self playerLocator]];    
+                                               object:[self playerLocator]];
+    
+    // in-game event handlers
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleFlyerArrival:)
+                                                 name:kGameNoteFlyerDidArrive
+                                               object:nil];
 }
 
 + (NSString*) documentsDirectory
@@ -416,6 +426,13 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
             [self.gameViewController.mapControl dismissFlightPathForFlyer:flyer];
         }
     }
+}
+
+#pragma mark - async in-game events
+- (void) handleFlyerArrival:(NSNotification *)note
+{
+    Flyer* flyer = [note object];
+    NSLog(@"flyer %@ arrived", [flyer userFlyerId]);
 }
 
 #pragma mark - in-game UI flow
