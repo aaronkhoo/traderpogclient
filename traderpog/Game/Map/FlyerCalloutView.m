@@ -7,6 +7,9 @@
 //
 
 #import "FlyerCalloutView.h"
+#import "FlyerCallout.h"
+#import "Flyer.h"
+#import "GameManager.h"
 
 NSString* const kFlyerCalloutViewReuseId = @"FlyerCalloutView";
 
@@ -29,6 +32,7 @@ NSString* const kFlyerCalloutViewReuseId = @"FlyerCalloutView";
 
 - (IBAction)didPressHome:(id)sender
 {
-    NSLog(@"Home");
+    FlyerCallout* annot = (FlyerCallout*) [self annotation];
+    [[GameManager getInstance] showHomeSelectForFlyer:[annot flyer]];
 }
 @end

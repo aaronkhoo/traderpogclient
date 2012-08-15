@@ -347,6 +347,11 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
     self.beaconWheel = nil;
 }
 
+- (void) showPostWheelAnimated:(BOOL)isAnimated
+{
+    [self.postWheel showWheelAnimated:YES withDelay:0.0f];
+}
+
 #pragma mark - KnobProtocol
 - (unsigned int) numItemsInKnob:(KnobControl *)knob
 {

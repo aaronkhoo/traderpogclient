@@ -24,4 +24,5 @@
 - (id) initAtCoordinate:(CLLocationCoordinate2D)coord;
 - (void) showKnobAnimated:(BOOL)isAnimated delay:(NSTimeInterval)delay;
 - (void) dismissKnobAnimated:(BOOL)isAnimated;
+- (void) showPostWheelAnimated:(BOOL)isAnimated;
 @end

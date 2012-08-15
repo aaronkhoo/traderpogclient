@@ -14,9 +14,13 @@
 enum kGameStates
 {
     kGameStateNew = 0,
-    kGameStateGameLoop,
     
-    kGameStateNum
+    kGameStateInGameFirst,
+    kGameStateGameLoop = kGameStateInGameFirst,
+    kGameStateHomeSelect,
+    kGameStateInGameLast,
+    
+    kGameStateNum = kGameStateInGameLast
 };
 
 @class Player;
@@ -24,6 +28,7 @@ enum kGameStates
 @class CLLocation;
 @class Flyer;
 @class TradePost;
+@class WheelControl;
 @interface GameManager : NSObject<HttpCallbackDelegate,ModalNavDelegate>
 {
     int _gameState;
@@ -37,6 +42,11 @@ enum kGameStates
 // public methods
 - (void) selectNextGameUI;
 - (void) flyer:(Flyer*)flyer departForTradePost:(TradePost*)tradePost;
+
+// in-game UI flows
+- (void) showHomeSelectForFlyer:(Flyer*)flyer;
+- (void) wheel:(WheelControl*)wheel commitOnTradePost:(TradePost*)tradePost;
+- (void) popGameStateToLoop;
 
 + (NSString*) documentsDirectory;
 

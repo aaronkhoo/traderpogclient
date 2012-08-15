@@ -45,6 +45,9 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     
     GameViewController* _gameViewController;
     HiAccuracyLocator* _playerLocator;
+    
+    // in-game UI context
+    Flyer* _contextFlyer;
 }
 @property (nonatomic,strong) ModalNavControl* modalNav;
 @property (nonatomic,strong) HiAccuracyLocator* playerLocator;
@@ -89,6 +92,9 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         // requests are still in flight. See loadPlayerInfo function for
         // more details.
         _playerInfoRefreshCount = 0;
+        
+        // in-game UI context
+        _contextFlyer = nil;
         
         [self registerAllNotificationHandlers];
     }
@@ -409,6 +415,46 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
             // Flyer path was successfully created. Delete the old path from the view.
             [self.gameViewController.mapControl dismissFlightPathForFlyer:flyer];
         }
+    }
+}
+
+#pragma mark - in-game UI flow
+- (void) showHomeSelectForFlyer:(Flyer *)flyer
+{
+    if(kGameStateGameLoop == _gameState)
+    {
+        _gameState = kGameStateHomeSelect;
+        _contextFlyer = flyer;
+        [self.gameViewController showPostWheelAnimated:YES];
+    }
+}
+
+- (void) wheel:(WheelControl *)wheel commitOnTradePost:(TradePost *)tradePost
+{
+    if(kGameStateHomeSelect == _gameState)
+    {
+        // Home Select
+        // send the flyer to committed post
+        NSAssert(_contextFlyer, @"HomeSelect needs a current flyer");
+        [self flyer:_contextFlyer departForTradePost:tradePost];
+        _contextFlyer = nil;
+        _gameState = kGameStateGameLoop;
+    }
+    else
+    {
+        // otherwise, center map on committed post
+        [self.gameViewController.mapControl centerOn:[tradePost coord] animated:YES];
+    }
+}
+
+// call this when any in-game modal needs to cancel to pop the game-manager
+// state back to idle
+- (void) popGameStateToLoop
+{
+    if((kGameStateInGameFirst <= _gameState) &&
+       (kGameStateInGameLast > _gameState))
+    {
+        _gameState = kGameStateGameLoop;
     }
 }
 

@@ -375,13 +375,14 @@ static double const refreshTime = -(60 * 15);
     {
         index = MIN(index, [_activePosts count]-1);
         TradePost* cur = [_activePosts.allValues objectAtIndex:index];
-        [wheel.superMap centerOn:[cur coord] animated:YES];
+        [[GameManager getInstance] wheel:wheel commitOnTradePost:cur];
     }
 }
 
 - (void) wheel:(WheelControl *)wheel didPressCloseOnIndex:(unsigned int)index
 {
-    // do nothing
+    // inform GameManager to pop back to idle
+    [[GameManager getInstance] popGameStateToLoop];
 }
 
 - (void) wheel:(WheelControl*)wheel willShowAtIndex:(unsigned int)index
