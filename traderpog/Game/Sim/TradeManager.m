@@ -87,6 +87,10 @@
     
     // unload all items
     [flyer unloadAllItems];
+    
+    // reset distance
+    NSLog(@"Distance Traveled: %lf", [flyer metersTraveled]);
+    [flyer resetDistanceTraveled];
 }
 
 #pragma mark - Singleton

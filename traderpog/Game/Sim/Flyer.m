@@ -43,6 +43,7 @@ static NSString* const kKeyCostBasis = @"costBasis";
 static NSString* const kKeyOrderItemId = @"orderItemId";
 static NSString* const kKeyOrderNumItems = @"orderNumItems";
 static NSString* const kKeyOrderMoney = @"orderPrice";
+static NSString* const kKeyMetersTraveled = @"metersTraveled";
 
 @interface Flyer ()
 {
@@ -70,6 +71,7 @@ static NSString* const kKeyOrderMoney = @"orderPrice";
 @synthesize userFlyerId = _userFlyerId;
 @synthesize curPostId = _curPostId;
 @synthesize nextPostId = _nextPostId;
+@synthesize metersTraveled = _metersTraveled;
 @synthesize itemId = _itemId;
 @synthesize numItems = _numItems;
 @synthesize costBasis = _costBasis;
@@ -101,6 +103,7 @@ static NSString* const kKeyOrderMoney = @"orderPrice";
         
         _curPostId = [tradePost postId];
         _nextPostId = nil;
+        _metersTraveled = 0.0;
         _itemId = nil;
         _numItems = 0;
         _costBasis = 0.0f;
@@ -185,6 +188,17 @@ static NSString* const kKeyOrderMoney = @"orderPrice";
         
         NSString* utcdate = [path_dict valueForKeyPath:kKeyDepartureDate];
         [self storeDepartureDate:utcdate];
+        
+        // meters traveled
+        obj = [path_dict valueForKeyPath:kKeyMetersTraveled];
+        if ((NSNull *)obj == [NSNull null])
+        {
+            _metersTraveled = 0.0;
+        }
+        else
+        {
+            _metersTraveled = [obj doubleValue];
+        }
         
         // inventory
         obj = [path_dict valueForKeyPath:kKeyItemId];
@@ -513,6 +527,11 @@ static NSString* const kKeyOrderMoney = @"orderPrice";
     self.numItems = 0;
 }
 
+- (void) resetDistanceTraveled
+{
+    _metersTraveled = 0.0;
+}
+
 #pragma mark - flight public
 - (void) annotateFlyerOnMap
 {
@@ -540,6 +559,11 @@ static NSString* const kKeyOrderMoney = @"orderPrice";
 
 - (void) completeFlyerPath
 {
+    // track distance
+    CLLocationDistance routeDist = metersDistance([self srcCoord], [self destCoord]);
+    _metersTraveled += routeDist;
+    NSLog(@"Distance added: %lf (total %lf)", routeDist, _metersTraveled);
+    
     // ask TradeManager to handle arrival
     TradePost* arrivalPost = [[TradePostMgr getInstance] getTradePostWithId:[self nextPostId]];
     [[TradeManager getInstance] flyer:self didArriveAtPost:arrivalPost];

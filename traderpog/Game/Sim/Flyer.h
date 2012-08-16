@@ -26,7 +26,8 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
     NSString* _flyerPathId;
     NSString* _curPostId;
     NSString* _nextPostId;
-
+    CLLocationDistance _metersTraveled;
+    
     // inventory
     NSString* _itemId;
     unsigned int _numItems;
@@ -48,6 +49,7 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 @property (nonatomic,readonly) NSString* userFlyerId;
 @property (nonatomic,strong) NSString* curPostId;
 @property (nonatomic,strong) NSString* nextPostId;
+@property (nonatomic) CLLocationDistance metersTraveled;
 @property (nonatomic,strong) NSString* itemId;
 @property (nonatomic) unsigned int numItems;
 @property (nonatomic) float costBasis;
@@ -73,5 +75,6 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 - (void) orderItemId:(NSString*)itemId num:(unsigned int)num price:(unsigned int)price;
 - (void) commitOutstandingOrder;
 - (void) unloadAllItems;
+- (void) resetDistanceTraveled;
 
 @end
