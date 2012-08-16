@@ -36,7 +36,7 @@ static const unsigned int kInitBucks = 500;
 
 @implementation Player
 @synthesize delegate = _delegate;
-@synthesize id = _id;
+@synthesize playerId = _playerId;
 @synthesize dataRefreshed = _dataRefreshed;
 @synthesize facebook = _facebook;
 
@@ -53,7 +53,7 @@ static const unsigned int kInitBucks = 500;
          */
         
         // not yet logged in
-        _id = 0;
+        _playerId = 0;
         _facebookid = @"";
         _email = @"";
         _member = FALSE;
@@ -115,7 +115,7 @@ static const unsigned int kInitBucks = 500;
 - (void) encodeWithCoder:(NSCoder *)aCoder
 {
     [aCoder encodeObject:_createdVersion forKey:kKeyVersion];
-    [aCoder encodeInteger:_id forKey:kKeyUserId];
+    [aCoder encodeInteger:_playerId forKey:kKeyUserId];
     [aCoder encodeObject:_secretkey forKey:kKeySecretkey];
     [aCoder encodeObject:_fbAccessToken forKey:kKeyFbAccessToken];
     [aCoder encodeObject:_fbExpiration forKey:kKeyFbExpiration];
@@ -127,7 +127,7 @@ static const unsigned int kInitBucks = 500;
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
     _createdVersion = [aDecoder decodeObjectForKey:kKeyVersion];
-    _id = [aDecoder decodeIntegerForKey:kKeyUserId];
+    _playerId = [aDecoder decodeIntegerForKey:kKeyUserId];
     _secretkey = [aDecoder decodeObjectForKey:kKeySecretkey];
     _fbAccessToken = [aDecoder decodeObjectForKey:kKeyFbAccessToken];
     _fbExpiration = [aDecoder decodeObjectForKey:kKeyFbExpiration];
@@ -216,7 +216,7 @@ static const unsigned int kInitBucks = 500;
     [httpClient getPath:path
              parameters:nil
                 success:^(AFHTTPRequestOperation *operation, id responseObject){
-                    _id = [[responseObject valueForKeyPath:kKeyUserId] integerValue];
+                    _playerId = [[responseObject valueForKeyPath:kKeyUserId] integerValue];
                     _secretkey = [responseObject valueForKeyPath:kKeySecretkey];
                     
                     // HACK; temp disabled until client can update bucks on server
@@ -256,7 +256,7 @@ static const unsigned int kInitBucks = 500;
 {    
     // make a get request
     AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
-    NSString* path = [NSString stringWithFormat:@"users/%d.json", _id];
+    NSString* path = [NSString stringWithFormat:@"users/%d.json", _playerId];
     [httpClient getPath:path
               parameters:nil
                  success:^(AFHTTPRequestOperation *operation, id responseObject){                     
@@ -296,14 +296,14 @@ static const unsigned int kInitBucks = 500;
     [httpClient postPath:@"users.json" 
               parameters:parameters
                  success:^(AFHTTPRequestOperation *operation, id responseObject){                     
-                     _id = [[responseObject valueForKeyPath:kKeyUserId] integerValue];
+                     _playerId = [[responseObject valueForKeyPath:kKeyUserId] integerValue];
                      _secretkey = [responseObject valueForKeyPath:kKeySecretkey];
 
                      // HACK; temp disabled until client can update bucks on server
                      //_bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
                      // HACK
                      _lastUpdate = [NSDate date];
-                     NSLog(@"user id is %i", _id);
+                     NSLog(@"user id is %i", _playerId);
                      [self savePlayerData];
                      [self.delegate didCompleteHttpCallback:kPlayer_CreateNewUser, TRUE];
                  }
@@ -331,7 +331,7 @@ static const unsigned int kInitBucks = 500;
     
     // make a post request
     AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
-    NSString* path = [NSString stringWithFormat:@"users/%d.json", _id];
+    NSString* path = [NSString stringWithFormat:@"users/%d.json", _playerId];
     [httpClient putPath:path
              parameters:parameters
                 success:^(AFHTTPRequestOperation *operation, id responseObject){
@@ -470,7 +470,7 @@ static const unsigned int kInitBucks = 500;
         
         [self parseFacebookFriends:[result valueForKeyPath:@"data"]];
         
-        if ([Player getInstance].id == 0)
+        if ([Player getInstance].playerId == 0)
         {
             // Player has not yet been created or retrieved.
             [self getPlayerDataFromServerUsingFacebookId];

@@ -268,7 +268,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     UINavigationController* nav = appDelegate.navController;
     
     // No player has been created
-    if ([Player getInstance].id == 0) {
+    if ([Player getInstance].playerId == 0) {
         
         // proceed to SignupScreen
         UIViewController* controller = [[SignupScreen alloc] initWithNibName:@"SignupScreen" bundle:nil];

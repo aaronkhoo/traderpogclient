@@ -293,7 +293,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
 - (void) createNewUserFlyerOnServer
 {
     // post parameters
-    NSString *userFlyerPath = [NSString stringWithFormat:@"users/%d/user_flyers", [[Player getInstance] id]];
+    NSString *userFlyerPath = [NSString stringWithFormat:@"users/%d/user_flyers", [[Player getInstance] playerId]];
     FlyerType* current  = [[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex];
     NSString* flyerId = [current flyerId];
     NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -395,7 +395,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
 - (void) createFlyerPathOnServer
 {
     // post parameters
-    NSString *flyerPathUrl = [NSString stringWithFormat:@"users/%d/user_flyers/%@/flyer_paths", [[Player getInstance] id],
+    NSString *flyerPathUrl = [NSString stringWithFormat:@"users/%d/user_flyers/%@/flyer_paths", [[Player getInstance] playerId],
                                _userFlyerId];
     NSDictionary* parameters = [self createParametersForFlyerPath];
     
@@ -430,7 +430,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
     // make a post request
     AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
     NSString *flyerPathUrl = [NSString stringWithFormat:@"users/%d/user_flyers/%@/flyer_paths/%@",
-                              [[Player getInstance] id], _userFlyerId, _flyerPathId];
+                              [[Player getInstance] playerId], _userFlyerId, _flyerPathId];
     [httpClient putPath:flyerPathUrl
              parameters:parameters
                 success:^(AFHTTPRequestOperation *operation, id responseObject){

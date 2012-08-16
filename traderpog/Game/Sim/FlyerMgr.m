@@ -110,7 +110,7 @@ static NSUInteger kFlyerPreviewZoomLevel = 8;
 {
     // make a get request
     AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
-    NSString *userFlyerPath = [NSString stringWithFormat:@"users/%d/user_flyers", [[Player getInstance] id]];
+    NSString *userFlyerPath = [NSString stringWithFormat:@"users/%d/user_flyers", [[Player getInstance] playerId]];
     [httpClient getPath:userFlyerPath
              parameters:nil
                 success:^(AFHTTPRequestOperation *operation, id responseObject){

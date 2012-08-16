@@ -21,7 +21,7 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
     NSString* _createdVersion;
     
     // User data
-    NSInteger _id;
+    NSInteger _playerId;
     BOOL _member;
     NSUInteger _bucks;
     NSString* _secretkey;
@@ -40,7 +40,7 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
     
     Facebook* _facebook;
 }
-@property (nonatomic) NSInteger id;
+@property (nonatomic) NSInteger playerId;
 @property (nonatomic) BOOL dataRefreshed;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 @property (nonatomic, retain) Facebook *facebook;

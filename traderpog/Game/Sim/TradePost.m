@@ -101,7 +101,7 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
 - (void) createNewPostOnServer
 {
     // post parameters
-    NSString *userId = [NSString stringWithFormat:@"%d", [[Player getInstance] id]];
+    NSString *userId = [NSString stringWithFormat:@"%d", [[Player getInstance] playerId]];
     NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 userId, kKeyUserId,
                                 [NSNumber numberWithDouble:_coord.longitude], kKeyLong, 
