@@ -35,6 +35,9 @@
 		42E92B0815D0E19F0054686F /* Yun.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E92B0715D0E19F0054686F /* Yun.png */; };
 		42E92B0A15D0E7AD0054686F /* startButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E92B0915D0E7AD0054686F /* startButton.png */; };
 		42E92B0D15D0E8E00054686F /* UIImage+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E92B0C15D0E8E00054686F /* UIImage+Pog.m */; };
+		42EF841F15DE2ED100A8469B /* PlayerPostCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EF841E15DE2ED100A8469B /* PlayerPostCalloutView.m */; };
+		42EF842315DE2F0400A8469B /* PlayerPostCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EF842215DE2F0400A8469B /* PlayerPostCallout.m */; };
+		42EF842515DE32F000A8469B /* PlayerPostCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42EF842415DE32F000A8469B /* PlayerPostCalloutView.xib */; };
 		C41E0C9815AC0391006662DF /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C8415AC0391006662DF /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C41E0C9915AC0391006662DF /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C8615AC0391006662DF /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C41E0C9A15AC0391006662DF /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C8815AC0391006662DF /* AFImageRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -184,6 +187,11 @@
 		42E92B0915D0E7AD0054686F /* startButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = startButton.png; path = assets/UI/startButton.png; sourceTree = SOURCE_ROOT; };
 		42E92B0B15D0E8E00054686F /* UIImage+Pog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Pog.h"; sourceTree = "<group>"; };
 		42E92B0C15D0E8E00054686F /* UIImage+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Pog.m"; sourceTree = "<group>"; };
+		42EF841D15DE2ED100A8469B /* PlayerPostCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerPostCalloutView.h; path = Game/Map/PlayerPostCalloutView.h; sourceTree = "<group>"; };
+		42EF841E15DE2ED100A8469B /* PlayerPostCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerPostCalloutView.m; path = Game/Map/PlayerPostCalloutView.m; sourceTree = "<group>"; };
+		42EF842115DE2F0400A8469B /* PlayerPostCallout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerPostCallout.h; path = Game/Map/PlayerPostCallout.h; sourceTree = "<group>"; };
+		42EF842215DE2F0400A8469B /* PlayerPostCallout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerPostCallout.m; path = Game/Map/PlayerPostCallout.m; sourceTree = "<group>"; };
+		42EF842415DE32F000A8469B /* PlayerPostCalloutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlayerPostCalloutView.xib; path = Game/Map/PlayerPostCalloutView.xib; sourceTree = "<group>"; };
 		C41E0C8315AC0391006662DF /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		C41E0C8415AC0391006662DF /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		C41E0C8515AC0391006662DF /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -552,6 +560,11 @@
 				4221E4D315D9D47E00781664 /* FlyerCalloutView.h */,
 				4221E4D415D9D47E00781664 /* FlyerCalloutView.m */,
 				4221E4D615DA2A2200781664 /* FlyerCalloutView.xib */,
+				42EF842115DE2F0400A8469B /* PlayerPostCallout.h */,
+				42EF842215DE2F0400A8469B /* PlayerPostCallout.m */,
+				42EF841D15DE2ED100A8469B /* PlayerPostCalloutView.h */,
+				42EF841E15DE2ED100A8469B /* PlayerPostCalloutView.m */,
+				42EF842415DE32F000A8469B /* PlayerPostCalloutView.xib */,
 				C4BBE45815BA93B800F582DE /* TradePostCallout.h */,
 				C4BBE45915BA93B800F582DE /* TradePostCallout.m */,
 				C4BBE45B15BA99B500F582DE /* TradePostCalloutView.h */,
@@ -828,6 +841,7 @@
 				42E92B0815D0E19F0054686F /* Yun.png in Resources */,
 				42E92B0A15D0E7AD0054686F /* startButton.png in Resources */,
 				4221E4D715DA2A2200781664 /* FlyerCalloutView.xib in Resources */,
+				42EF842515DE32F000A8469B /* PlayerPostCalloutView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -911,6 +925,8 @@
 				4221E4D115D9CB7B00781664 /* FlyerCallout.m in Sources */,
 				4221E4D515D9D47E00781664 /* FlyerCalloutView.m in Sources */,
 				C436AEB215DB325800B22E8A /* GameNotes.m in Sources */,
+				42EF841F15DE2ED100A8469B /* PlayerPostCalloutView.m in Sources */,
+				42EF842315DE2F0400A8469B /* PlayerPostCallout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,12 +10,13 @@
 #import "TradePostCallout.h"
 #import "ImageManager.h"
 #import "TradePost.h"
+#import "PlayerPostCallout.h"
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
 
 @interface TradePostAnnotationView ()
 {
-    TradePostCallout* _calloutAnnotation;
+    NSObject<MKAnnotation,MapAnnotationProtocol>* _calloutAnnotation;
 }
 @end
 
@@ -87,8 +88,20 @@ NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
     if(!_calloutAnnotation)
     {
         TradePost* tradePost = (TradePost*) [self annotation];
-        _calloutAnnotation = [[TradePostCallout alloc] initWithTradePost:tradePost];
-        _calloutAnnotation.parentAnnotationView = self;
+        if([tradePost isOwnPost])
+        {
+            // show player-post callout if own post
+            PlayerPostCallout* callout = [[PlayerPostCallout alloc] initWithTradePost:tradePost];
+            callout.parentAnnotationView = self;
+            _calloutAnnotation = callout;
+        }
+        else
+        {
+            // otherwise, show tradepost callout
+            TradePostCallout* callout = [[TradePostCallout alloc] initWithTradePost:tradePost];
+            callout.parentAnnotationView = self;
+            _calloutAnnotation = callout;
+        }
         [mapView addAnnotation:_calloutAnnotation];
     }
 }
