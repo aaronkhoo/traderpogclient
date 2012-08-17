@@ -10,7 +10,6 @@
 #import "MKMapView+ZoomLevel.h"
 #import "TradePostMgr.h"
 #import "TradePost.h"
-#import "TradePostAnnotation.h"
 #import "FlightPathOverlay.h"
 #import "FlightPathView.h"
 #import "Flyer.h"

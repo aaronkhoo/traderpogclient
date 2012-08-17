@@ -100,7 +100,6 @@
 		C4D5DDD615B2718100D5A746 /* ConfirmNewPost.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */; };
 		C4D5DDDA15B3155B00D5A746 /* TradeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD915B3155B00D5A746 /* TradeItem.m */; };
 		C4D5DDDD15B3168100D5A746 /* TradeItemType.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDDC15B3168100D5A746 /* TradeItemType.m */; };
-		C4D5DDE715B3CA5B00D5A746 /* TradePostAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDE615B3CA5B00D5A746 /* TradePostAnnotation.m */; };
 		C4D5DDEA15B3CF0800D5A746 /* TradePostAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDE915B3CF0800D5A746 /* TradePostAnnotationView.m */; };
 		C4D5DDEE15B3D12B00D5A746 /* HomeBase.png in Resources */ = {isa = PBXBuildFile; fileRef = C4D5DDED15B3D12B00D5A746 /* HomeBase.png */; };
 		C4E3819D15AA0C5B00924A86 /* StartScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E3819B15AA0C5B00924A86 /* StartScreen.m */; };
@@ -301,8 +300,6 @@
 		C4D5DDDB15B3168000D5A746 /* TradeItemType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradeItemType.h; path = Game/Sim/TradeItemType.h; sourceTree = "<group>"; };
 		C4D5DDDC15B3168100D5A746 /* TradeItemType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradeItemType.m; path = Game/Sim/TradeItemType.m; sourceTree = "<group>"; };
 		C4D5DDE015B3B34A00D5A746 /* MapProtocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MapProtocols.h; path = Map/MapProtocols.h; sourceTree = "<group>"; };
-		C4D5DDE515B3CA5B00D5A746 /* TradePostAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradePostAnnotation.h; path = Game/Map/TradePostAnnotation.h; sourceTree = "<group>"; };
-		C4D5DDE615B3CA5B00D5A746 /* TradePostAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradePostAnnotation.m; path = Game/Map/TradePostAnnotation.m; sourceTree = "<group>"; };
 		C4D5DDE815B3CF0700D5A746 /* TradePostAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradePostAnnotationView.h; path = Game/Map/TradePostAnnotationView.h; sourceTree = "<group>"; };
 		C4D5DDE915B3CF0800D5A746 /* TradePostAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradePostAnnotationView.m; path = Game/Map/TradePostAnnotationView.m; sourceTree = "<group>"; };
 		C4D5DDED15B3D12B00D5A746 /* HomeBase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HomeBase.png; path = assets/Map/HomeBase.png; sourceTree = SOURCE_ROOT; };
@@ -542,8 +539,6 @@
 		C4D5DDDE15B3979100D5A746 /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				C4D5DDE515B3CA5B00D5A746 /* TradePostAnnotation.h */,
-				C4D5DDE615B3CA5B00D5A746 /* TradePostAnnotation.m */,
 				C4D5DDE815B3CF0700D5A746 /* TradePostAnnotationView.h */,
 				C4D5DDE915B3CF0800D5A746 /* TradePostAnnotationView.m */,
 				C4BBE47515BC5F4F00F582DE /* FlyerAnnotationView.h */,
@@ -880,7 +875,6 @@
 				C4D5DDD515B2718100D5A746 /* ConfirmNewPost.m in Sources */,
 				C4D5DDDA15B3155B00D5A746 /* TradeItem.m in Sources */,
 				C4D5DDDD15B3168100D5A746 /* TradeItemType.m in Sources */,
-				C4D5DDE715B3CA5B00D5A746 /* TradePostAnnotation.m in Sources */,
 				C4D5DDEA15B3CF0800D5A746 /* TradePostAnnotationView.m in Sources */,
 				42A2989115B5F1E700384A52 /* KnobControl.m in Sources */,
 				42A2989215B5F1E700384A52 /* KnobSlice.m in Sources */,

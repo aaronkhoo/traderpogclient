@@ -10,7 +10,6 @@
 #import "Player.h"
 #import "TradePost.h"
 #import "TradeItemType.h"
-#import "TradePostAnnotation.h"
 #import "TradePostAnnotationView.h"
 
 static NSString* const kKeyPostId = @"id";
