@@ -11,6 +11,7 @@
 #import "WheelControl.h"
 #import "WheelBubble.h"
 #import "PogUIUtility.h"
+#import "TradePost.h"
 
 static NSUInteger kBeaconPreviewZoomLevel = 8;
 

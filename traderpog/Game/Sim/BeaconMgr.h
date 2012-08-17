@@ -16,6 +16,7 @@
 }
 @property (nonatomic,readonly) NSMutableDictionary* activeBeacons;
 
+// init
 - (void) createPlaceholderBeacons;
 - (void) addBeaconAnnotationsToMap:(MapControl*)map;
 

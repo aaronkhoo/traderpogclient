@@ -8,8 +8,18 @@
 
 #import "BeaconAnnotationView.h"
 #import "Beacon.h"
+#import "TradePostCallout.h"
+#import "ImageManager.h"
+#import "TradePost.h"
+#import "TradePostMgr.h"
 
 NSString* const kBeaconAnnotationViewReuseId = @"BeaconAnnotationView";
+
+@interface BeaconAnnotationView ()
+{
+    NSObject<MKAnnotation,MapAnnotationProtocol>* _calloutAnnotation;
+}
+@end
 
 @implementation BeaconAnnotationView
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation
@@ -44,16 +54,39 @@ NSString* const kBeaconAnnotationViewReuseId = @"BeaconAnnotationView";
 #pragma mark - MKAnnotationView
 - (void)setAnnotation:(id<MKAnnotation>)annotation
 {
+    if(_calloutAnnotation)
+    {
+        [_calloutAnnotation setCoordinate:annotation.coordinate];
+    }
     [super setAnnotation:annotation];
+    self.enabled = YES;
 }
 
 #pragma mark - PogMapAnnotationViewProtocol
 - (void)didSelectAnnotationViewInMap:(MKMapView*) mapView;
 {
+    if(!_calloutAnnotation)
+    {
+        Beacon* beacon = (Beacon*)[self annotation];
+        TradePost* tradePost = [[TradePostMgr getInstance] getTradePostWithId:[beacon postId]];
+        if(tradePost)
+        {
+            // otherwise, show tradepost callout
+            TradePostCallout* callout = [[TradePostCallout alloc] initWithTradePost:tradePost];
+            callout.parentAnnotationView = self;
+            _calloutAnnotation = callout;
+        }
+        [mapView addAnnotation:_calloutAnnotation];
+    }
 }
 
 - (void)didDeselectAnnotationViewInMap:(MKMapView*) mapView;
 {
+    if(_calloutAnnotation)
+    {
+        [mapView removeAnnotation:_calloutAnnotation];
+        _calloutAnnotation = nil;
+    }
 }
 
 
