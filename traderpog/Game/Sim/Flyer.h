@@ -68,8 +68,8 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 - (void) updateAtDate:(NSDate*)currentTime;
 - (id) initWithDictionary:(NSDictionary*)dict;
 - (CLLocationCoordinate2D) flyerCoordinateNow;
-- (void) createRenderingForFlyer;
-- (void) annotateFlyerOnMap;
+- (void) createFlightPathRenderingForFlyer;
+- (void) initFlyerOnMap;
 
 - (void) addItemId:(NSString*)itemId num:(unsigned int)num price:(unsigned int)price;
 - (void) orderItemId:(NSString*)itemId num:(unsigned int)num price:(unsigned int)price;

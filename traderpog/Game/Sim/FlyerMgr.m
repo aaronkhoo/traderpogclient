@@ -29,6 +29,7 @@ static NSUInteger kFlyerPreviewZoomLevel = 8;
     // Flyer Wheel datasource
     MapControl* _previewMap;
 }
+
 @end
 
 
@@ -140,11 +141,13 @@ static NSUInteger kFlyerPreviewZoomLevel = 8;
     }
 }
 
-- (void) annotateFlyersOnMap
+// init existing flyers on the map (called when game reboots)
+- (void) initFlyersOnMap
 {
     for (Flyer* currentFlyer in _playerFlyers)
     {
-        [currentFlyer annotateFlyerOnMap];
+        // put them on the map
+        [currentFlyer initFlyerOnMap];
     }
 }
 

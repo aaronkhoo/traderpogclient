@@ -31,7 +31,7 @@ static NSString* const kFlyerMgr_ReceiveFlyers = @"FlyerMgr_ReceiveFlyers";
                         firstFlyer:(NSInteger)flyerTypeIndex;
 - (void) retrieveUserFlyersFromServer;
 - (void) updateFlyersAtDate:(NSDate*)currentTime;
-- (void) annotateFlyersOnMap;
+- (void) initFlyersOnMap;
 
 // singleton
 +(FlyerMgr*) getInstance;

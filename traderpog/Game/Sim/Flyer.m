@@ -175,22 +175,12 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
             _nextPostId = [NSString stringWithFormat:@"%d", [obj integerValue]];
             _destCoord = [[[TradePostMgr getInstance] getTradePostWithId:_nextPostId] coord];
         }
-        
-        // Flyer was done flying on this path. Move next to source. Clear up next and dest.
-        if (_doneWithCurrentPath)
-        {
-            _curPostId = _nextPostId;
-            _srcCoord = _destCoord;
-            
-            _nextPostId = nil;
-            _departureDate = nil;
-        }
-        
+                
         NSString* utcdate = [path_dict valueForKeyPath:kKeyDepartureDate];
         [self storeDepartureDate:utcdate];
         
         // meters traveled
-        obj = [path_dict valueForKeyPath:kKeyMetersTraveled];
+        obj = [dict valueForKeyPath:kKeyMetersTraveled];
         if ((NSNull *)obj == [NSNull null])
         {
             _metersTraveled = 0.0;
@@ -201,7 +191,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
         }
         
         // inventory
-        obj = [path_dict valueForKeyPath:kKeyItemId];
+        obj = [dict valueForKeyPath:kKeyItemId];
         if ((NSNull *)obj == [NSNull null])
         {
             // no item for this flyer
@@ -211,7 +201,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
         {
             _itemId = [NSString stringWithFormat:@"%d", [obj integerValue]];
         }
-        obj = [path_dict valueForKeyPath:kKeyNumItems];
+        obj = [dict valueForKeyPath:kKeyNumItems];
         if ((NSNull *)obj == [NSNull null])
         {
             _numItems = 0;
@@ -231,7 +221,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
         }
         
         // escrow
-        obj = [path_dict valueForKeyPath:kKeyOrderItemId];
+        obj = [dict valueForKeyPath:kKeyOrderItemId];
         if ((NSNull *)obj == [NSNull null])
         {
             // no item for this flyer
@@ -241,7 +231,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
         {
             _orderItemId = [NSString stringWithFormat:@"%d", [obj integerValue]];
         }
-        obj = [path_dict valueForKeyPath:kKeyOrderNumItems];
+        obj = [dict valueForKeyPath:kKeyOrderNumItems];
         if ((NSNull *)obj == [NSNull null])
         {
             _orderNumItems = 0;
@@ -250,7 +240,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
         {
             _orderNumItems = [obj unsignedIntValue];
         }
-        obj = [path_dict valueForKeyPath:kKeyOrderMoney];
+        obj = [dict valueForKeyPath:kKeyOrderMoney];
         if ((NSNull *)obj == [NSNull null])
         {
             _orderPrice = 0;
@@ -265,7 +255,6 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
         _flightPathRender = nil;
         _metersToDest = 0.0;
         _transform = CGAffineTransformIdentity;
-
     }
     return self;
 }
@@ -409,7 +398,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
                      NSString* utcdate = [responseObject valueForKeyPath:kKeyDepartureDate];
                      [self storeDepartureDate:utcdate];
                      _nextPostId = _projectedNextPost;
-                     [self createRenderingForFlyer];
+                     [self createFlightPathRenderingForFlyer];
                      _updatingFlyerPathOnServer = FALSE;
                  }
                  failure:^(AFHTTPRequestOperation* operation, NSError* error){
@@ -450,8 +439,8 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
      ];
 }
 
-// Create rendering for flyer
-- (void) createRenderingForFlyer
+// Create flight-path rendering for flyer
+- (void) createFlightPathRenderingForFlyer
 {    
     // create renderer
     if ([self curPostId])
@@ -466,6 +455,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
         // Same as above. 
         self.destCoord = [[[TradePostMgr getInstance] getTradePostWithId:[self nextPostId]] coord];   
     }
+    
     self.flightPathRender = [[FlightPathOverlay alloc] initWithSrcCoord:[self srcCoord] destCoord:[self destCoord]];
     
     // flyer zero-angle is up; so, need to offset it by 90 degrees
@@ -533,11 +523,54 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
 }
 
 #pragma mark - flight public
-- (void) annotateFlyerOnMap
+
+// called for restored flyers when game reboots
+- (void) initFlyerOnMap
 {
-    CLLocationCoordinate2D curCoord = [self flyerCoordinateNow];
-    [self setCoordinate:curCoord];
-    [self createRenderingForFlyer];
+    // init flight-state with all necessary info in place
+    // Flyer initWithDictionary may get called prior to TradePostMgr receiving its server data;
+    // so, this code here ensures dependent data (like coords that depend on postIds) are correctly setup
+    if (_doneWithCurrentPath)
+    {
+        if(_nextPostId)
+        {
+            _destCoord = [[[TradePostMgr getInstance] getTradePostWithId:_nextPostId] coord];
+        }
+        else
+        {
+            // otherwise, destCoord would have loaded from server; so, do nothing
+        }
+        _curPostId = _nextPostId;
+        _srcCoord = _destCoord;
+        [self setCoordinate:_srcCoord];
+        _nextPostId = nil;
+        _departureDate = nil;
+    }
+    else
+    {
+        // retrieve end-point coordinates in case initWithDictionary was called prior to
+        // TradePostMgr getting initialized from server
+        if(_curPostId)
+        {
+            _srcCoord = [[[TradePostMgr getInstance] getTradePostWithId:_curPostId] coord];
+        }
+        else
+        {
+            // otherwise, _srcCoord would have loaded from server (npc post); so, do nothing here
+        }
+        if(_nextPostId)
+        {
+            _destCoord = [[[TradePostMgr getInstance] getTradePostWithId:_nextPostId] coord];
+        }
+        else
+        {
+            // otherwise, _destCoord would have loaded from server (npc post); so, do nothing here
+        }
+        CLLocationCoordinate2D curCoord = [self flyerCoordinateNow];
+        [self setCoordinate:curCoord];
+        [self createFlightPathRenderingForFlyer];
+    }
+    
     [[[GameManager getInstance] gameViewController].mapControl addAnnotationForFlyer:self];
     self.initializeFlyerOnMap = TRUE;
 }
@@ -689,7 +722,6 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
     CLLocationCoordinate2D coordNow = [self flyerCoordinateAtTimeSinceDeparture:elapsed];
     return coordNow;
 }
-
 
 #pragma mark - MKAnnotation delegate
 - (CLLocationCoordinate2D) coordinate
