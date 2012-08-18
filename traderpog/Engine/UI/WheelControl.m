@@ -50,6 +50,7 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
                                             // the current selection is one notch above the bottom of the screen
     unsigned int _state;
     CGAffineTransform _pushedWheelTransform;
+    CGAffineTransform _hiddenPreviewTransform;
     
     UIView* _previewCircle;
     UIView* _previewContent;
@@ -93,7 +94,11 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
 @synthesize slices = _slices;
 @synthesize selectedSlice = _selectedSlice;
 
-- (id)initWithFrame:(CGRect)frame 
+static const float kHiddenPreviewScale = 0.37f;
+static const float kHiddenPreviewXFrac = 0.24f; // fraction of width of preview-frame
+static const float kHiddenPreviewYFrac = 0.66f; // fraction of height of preview frame
+
+- (id)initWithFrame:(CGRect)frame
            delegate:(id)delegate 
          dataSource:(id)dataSource
            superMap:(MapControl*)superMap
@@ -129,6 +134,10 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
         [self initBeaconSlots];
         [self.delegate wheelDidSettleAt:_selectedBeacon];
 
+        // init hidden preview transform
+        CGAffineTransform hiddenPreviewPos = CGAffineTransformMakeTranslation(kHiddenPreviewXFrac* previewFrame.size.width, kHiddenPreviewYFrac * previewFrame.size.height);
+        _hiddenPreviewTransform = CGAffineTransformScale(hiddenPreviewPos, kHiddenPreviewScale, kHiddenPreviewScale);
+        
         // init wheel to be hidden
         [self hideWheelAnimated:NO withDelay:0.0f];
     }
@@ -505,17 +514,18 @@ static const float kSelectedOffset = -6.5f;
     {
         [self setHidden:NO];
         _state = kWheelStateTransitionIn;
+        
+        // show the bubbles first
         CGAffineTransform inStep = CGAffineTransformRotate(_logicalTransform, -M_PI + (kWheelRenderOffsetFactor * [self sliceWidth]));
-        [UIView animateWithDuration:0.3f
+        [UIView animateWithDuration:0.2f
                               delay:delay
                             options:UIViewAnimationCurveEaseInOut
                          animations:^(void){
                              self.container.transform = [self renderTransformFromLogicalTransform:inStep];
                              self.container.alpha = 1.0f;
-                             [_previewView setTransform:CGAffineTransformIdentity];
                          }
                          completion:^(BOOL finished){
-                             [UIView animateWithDuration:0.2f
+                             [UIView animateWithDuration:0.1f
                                                    delay:0.0f
                                                  options:UIViewAnimationCurveEaseInOut
                                               animations:^(void){
@@ -526,6 +536,16 @@ static const float kSelectedOffset = -6.5f;
                                                   _state = kWheelStateActive;
                                               }];
                          }];
+        
+        // then expand the preview circle
+        [UIView animateWithDuration:0.2f
+                              delay:delay + 0.2f
+                            options:UIViewAnimationCurveEaseInOut
+                         animations:^(void){
+                             [_previewView setTransform:CGAffineTransformIdentity];
+                             [_previewView setAlpha:1.0f];
+                         }
+                         completion:nil];
     }
     else 
     {
@@ -535,41 +555,53 @@ static const float kSelectedOffset = -6.5f;
         self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform];
         self.container.alpha = 1.0f;
         [_previewView setTransform:CGAffineTransformIdentity];
+        [_previewView setAlpha:1.0f];
     }
 }
 
 - (void) hideWheelAnimated:(BOOL)isAnimated withDelay:(float)delay
 {
     CGAffineTransform outTransform = CGAffineTransformRotate(_logicalTransform, M_PI - (kWheelRenderOffsetFactor * [self sliceWidth]));
-    CGSize parentSize = self.bounds.size;
-    CGAffineTransform offPreview = CGAffineTransformMakeTranslation(-0.8f * parentSize.width, 0.0f);
     
     _pushedWheelTransform = _logicalTransform;
     [self.delegate wheel:self willHideAtIndex:_selectedBeacon];
     if(isAnimated)
     {
         _state = kWheelStateTransitionOut;
-        [UIView animateWithDuration:0.1f 
+
+        // preview circle shrinks down first
+        [UIView animateWithDuration:0.1f
                               delay:delay
+                            options:UIViewAnimationCurveLinear
+                         animations:^(void){
+                             [_previewView setTransform:_hiddenPreviewTransform];
+                             [_previewView setAlpha:0.0f];
+                         }
+                         completion:nil];
+
+        // then transition out the bubbles
+        [UIView animateWithDuration:0.1f 
+                              delay:delay + 0.1f
                             options:UIViewAnimationCurveLinear
                          animations:^(void){
                              self.container.transform = [self renderTransformFromLogicalTransform:outTransform];
                              self.container.alpha = 0.0f;
-                             [_previewView setTransform:offPreview];
                          }
                          completion:^(BOOL finished){
                              _logicalTransform = outTransform;
                              _state = kWheelStateHidden;
                              [self setHidden:YES];
                          }];
+        
     }
-    else 
+    else
     {
         _state = kWheelStateHidden;
         _logicalTransform = outTransform;
         self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform];
         self.container.alpha = 0.0f;
-        [_previewView setTransform:offPreview];
+        [_previewView setTransform:_hiddenPreviewTransform];
+        [_previewView setAlpha:0.0f];
         [self setHidden:YES];
     }
 }
