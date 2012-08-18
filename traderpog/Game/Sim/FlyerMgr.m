@@ -183,7 +183,8 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
     // collect coordinates of all dangling end points
     for(Flyer* cur in _playerFlyers)
     {
-        if([cur isEnrouteWhenLoaded])
+        // only patch if this is a loaded flyer
+        if(![cur isNewFlyer])
         {
             if(![cur curPostId])
             {

@@ -21,7 +21,7 @@
 #import "TradeManager.h"
 #import "GameNotes.h"
 
-static const float kFlyerDefaultSpeedMetersPerSec = 100.0f;
+static const float kFlyerDefaultSpeedMetersPerSec = 10000.0f;
 static const NSInteger kStormCountOne = 10;
 static const NSInteger kStormCountTwo = 5;
 static NSString* const kKeyUserFlyerId = @"id";
@@ -73,6 +73,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
 @synthesize departureDate = _departureDate;
 @synthesize srcCoord = _srcCoord;
 @synthesize destCoord = _destCoord;
+@synthesize isNewFlyer = _isNewFlyer;
 @synthesize transform = _transform;
 @synthesize delegate = _delegate;
 @synthesize initializeFlyerOnMap = _initializeFlyerOnMap;
@@ -107,6 +108,8 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
         _metersToDest = 0.0;
         _transform = CGAffineTransformIdentity;
 
+        // this flyer is newly created (see Flyer.h for more details)
+        _isNewFlyer = YES;
     }
     return self;
 }
@@ -245,6 +248,9 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
         _flightPathRender = nil;
         _metersToDest = 0.0;
         _transform = CGAffineTransformIdentity;
+        
+        // this flyer is loaded (see Flyer.h for more details)
+        _isNewFlyer = NO;
     }
     return self;
 }

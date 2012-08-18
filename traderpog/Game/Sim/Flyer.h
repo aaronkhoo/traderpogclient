@@ -42,6 +42,8 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
     CLLocationCoordinate2D _coord;
     FlightPathOverlay* _flightPathRender;
     CGAffineTransform _transform;
+    BOOL _isNewFlyer;               // this is only ever TRUE when this flyer has just been newly created
+                                    // in all other cases (including when it is initWithDictionary, it is FALSE)
     
     // flight enroute processing
     NSDate* _departureDate;
@@ -69,6 +71,7 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 @property (nonatomic,strong) NSDate* departureDate;
 @property (nonatomic) CLLocationCoordinate2D srcCoord;
 @property (nonatomic) CLLocationCoordinate2D destCoord;
+@property (nonatomic,readonly) BOOL isNewFlyer;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 - (id) initWithPostAndFlyer:(TradePost*)tradePost, NSInteger flyerTypeIndex;
@@ -79,9 +82,6 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 - (CLLocationCoordinate2D) flyerCoordinateNow;
 - (void) createFlightPathRenderingForFlyer;
 - (void) initFlyerOnMap;
-
-// queries on setup variables (only call these after initial load; don't use these in-game)
-- (BOOL) isEnrouteWhenLoaded;
 
 // trade
 - (void) addItemId:(NSString*)itemId num:(unsigned int)num price:(unsigned int)price;
