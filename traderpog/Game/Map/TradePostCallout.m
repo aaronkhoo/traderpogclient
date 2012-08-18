@@ -88,13 +88,25 @@
         }
         _calloutView.parentAnnotationView = self.parentAnnotationView;
         _calloutView.mapView = mapView;
-        NSString* supplyText = [PogUIUtility commaSeparatedStringFromUnsignedInt:[self.tradePost supplyLevel]];
-        [_calloutView.itemSupplyLevel setText:supplyText];
         
-        TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:[self.tradePost itemId]];
-        if(itemType)
+        if([self.tradePost itemId])
         {
-            [_calloutView .itemName setText:[itemType name]];
+            [_calloutView.itemSupplyLevel setHidden:NO];
+            [_calloutView.orderButton setHidden:NO];
+            TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:[self.tradePost itemId]];
+            if(itemType)
+            {
+                [_calloutView .itemName setText:[itemType name]];
+            }
+            NSString* supplyText = [PogUIUtility commaSeparatedStringFromUnsignedInt:[self.tradePost supplyLevel]];
+            [_calloutView.itemSupplyLevel setText:supplyText];
+        }
+        else
+        {
+            // if no itemId, this post is not interactive, just show it as "Pickup Only"
+            [_calloutView.itemSupplyLevel setHidden:YES];
+            [_calloutView.orderButton setHidden:YES];
+            [_calloutView.itemName setText:@"Pickup Only"];
         }
         
         /*

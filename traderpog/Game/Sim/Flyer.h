@@ -43,6 +43,12 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
     FlightPathOverlay* _flightPathRender;
     CGAffineTransform _transform;
     
+    // flight enroute processing
+    NSDate* _departureDate;
+    CLLocationCoordinate2D _srcCoord;
+    CLLocationCoordinate2D _destCoord;
+    CLLocationDistance _metersToDest;
+    
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
 }
@@ -60,6 +66,9 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 @property (nonatomic) CLLocationCoordinate2D coord;
 @property (nonatomic) CGAffineTransform transform;
 @property (nonatomic) BOOL initializeFlyerOnMap;
+@property (nonatomic,strong) NSDate* departureDate;
+@property (nonatomic) CLLocationCoordinate2D srcCoord;
+@property (nonatomic) CLLocationCoordinate2D destCoord;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 - (id) initWithPostAndFlyer:(TradePost*)tradePost, NSInteger flyerTypeIndex;
@@ -71,6 +80,10 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 - (void) createFlightPathRenderingForFlyer;
 - (void) initFlyerOnMap;
 
+// queries on setup variables (only call these after initial load; don't use these in-game)
+- (BOOL) isEnrouteWhenLoaded;
+
+// trade
 - (void) addItemId:(NSString*)itemId num:(unsigned int)num price:(unsigned int)price;
 - (void) orderItemId:(NSString*)itemId num:(unsigned int)num price:(unsigned int)price;
 - (void) commitOutstandingOrder;

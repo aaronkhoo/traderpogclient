@@ -41,9 +41,18 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
     {
         _postId = postId;
         _coord = coordinate;
-        _itemId = [itemType itemId];
+        if(itemType)
+        {
+            _itemId = [itemType itemId];
+            _supplyLevel = MIN([itemType supplymax],supply);
+        }
+        else
+        {
+            // if itemType is null, make this a dummy post with 0 supply
+            _itemId = nil;
+            _supplyLevel = 0;
+        }
         _annotation = nil;
-        _supplyLevel = MIN([itemType supplymax],supply);
         
         // NPC post
         _isOwnPost = NO;

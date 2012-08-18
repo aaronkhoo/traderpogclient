@@ -50,18 +50,8 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
     // temp variable for storing next flight path before it is confirmed by server
     BOOL _updatingFlyerPathOnServer;
     NSString* _projectedNextPost;
-    BOOL _doneWithCurrentPath;
-    
-    // flight enroute processing
-    NSDate* _departureDate;
-    CLLocationCoordinate2D _srcCoord;
-    CLLocationCoordinate2D _destCoord;
-    CLLocationDistance _metersToDest;
+    BOOL _doneWithCurrentPath;    
 }
-@property (nonatomic,strong) NSDate* departureDate;
-@property (nonatomic) CLLocationCoordinate2D srcCoord;
-@property (nonatomic) CLLocationCoordinate2D destCoord;
-
 - (CLLocationCoordinate2D) flyerCoordinateAtTimeSinceDeparture:(NSTimeInterval)elapsed;
 - (CLLocationCoordinate2D) flyerCoordinateAtTimeAhead:(NSTimeInterval)timeAhead;
 - (NSDictionary*) createParametersForFlyerPath;
@@ -467,7 +457,13 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
     [[[[GameManager getInstance] gameViewController] mapControl] showFlightPathForFlyer:self];
 }
 
-#pragma mark - inventory
+#pragma mark - queries on setup
+- (BOOL) isEnrouteWhenLoaded
+{
+    return !_doneWithCurrentPath;
+}
+
+#pragma mark - trade
 - (void) addItemId:(NSString *)newItemId num:(unsigned int)num price:(unsigned int)price
 {
     if([self itemId] &&

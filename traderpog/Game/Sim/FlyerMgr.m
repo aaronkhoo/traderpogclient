@@ -12,6 +12,7 @@
 #import "GameManager.h"
 #import "Player.h"
 #import "TradePost.h"
+#import "TradePostMgr.h"
 #import "WheelControl.h"
 #import "WheelBubble.h"
 #import "PogUIUtility.h"
@@ -20,6 +21,7 @@
 
 static double const refreshTime = -(60 * 15);
 static NSUInteger kFlyerPreviewZoomLevel = 8;
+static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
 
 @interface FlyerMgr ()
 {    
@@ -29,7 +31,8 @@ static NSUInteger kFlyerPreviewZoomLevel = 8;
     // Flyer Wheel datasource
     MapControl* _previewMap;
 }
-
+- (TradePost*) tradePosts:(NSArray*)tradePosts withinMeters:(CLLocationDistance)meters fromCoord:(CLLocationCoordinate2D)coord;
+- (void) reconstructFlightPaths;
 @end
 
 
@@ -144,10 +147,67 @@ static NSUInteger kFlyerPreviewZoomLevel = 8;
 // init existing flyers on the map (called when game reboots)
 - (void) initFlyersOnMap
 {
+    [self reconstructFlightPaths];
     for (Flyer* currentFlyer in _playerFlyers)
     {
         // put them on the map
         [currentFlyer initFlyerOnMap];
+    }
+}
+
+// determine whether a given coordinate is already in the given tradepost array
+// coord is considered similar to a location in the array if they are less
+// than a threshold meters apart (25 meters)
+// returns the postId if coord matches; otherwise, returns nil
+- (TradePost*) tradePosts:(NSArray*)tradePosts withinMeters:(CLLocationDistance)meters fromCoord:(CLLocationCoordinate2D)coord
+{
+    TradePost* result = nil;
+    for(TradePost* cur in tradePosts)
+    {
+        MKMapPoint origin = MKMapPointForCoordinate(coord);
+        MKMapPoint dest = MKMapPointForCoordinate([cur coordinate]);
+        CLLocationDistance dist = MKMetersBetweenMapPoints(origin, dest);
+        if(dist <= meters)
+        {
+            result = cur;
+        }
+    }
+    return result;
+}
+
+- (void) reconstructFlightPaths
+{
+    // array of npc tradeposts
+    NSMutableArray* patchPosts = [NSMutableArray arrayWithCapacity:10];
+    
+    // collect coordinates of all dangling end points
+    for(Flyer* cur in _playerFlyers)
+    {
+        if([cur isEnrouteWhenLoaded])
+        {
+            if(![cur curPostId])
+            {
+                TradePost* post = [self tradePosts:patchPosts withinMeters:kSimilarCoordThresholdMeters fromCoord:[cur srcCoord]];
+                if(!post)
+                {
+                    // patch a new npc post here
+                    post = [[TradePostMgr getInstance] newNPCTradePostAtCoord:[cur srcCoord] sellingItem:nil supplyLevel:0];
+                    [patchPosts addObject:post];
+                }
+                cur.curPostId = [post postId];
+            }
+            if(![cur nextPostId])
+            {
+                TradePost* post = [self tradePosts:patchPosts withinMeters:kSimilarCoordThresholdMeters fromCoord:[cur destCoord]];
+                if(!post)
+                {
+                    // patch a new npc post here
+                    post = [[TradePostMgr getInstance] newNPCTradePostAtCoord:[cur destCoord] sellingItem:nil supplyLevel:0];
+                    [patchPosts addObject:post];
+                }
+                cur.nextPostId = [post postId];
+            }
+        }
     }
 }
 

@@ -78,10 +78,14 @@ static double const refreshTime = -(60 * 15);
 
 - (void) annotatePostsOnMap
 {
-    for (id key in _activePosts)
+    for (TradePost* post in [_activePosts allValues])
     {
-        TradePost* post = [_activePosts objectForKey:key];
         [[[GameManager getInstance] gameViewController].mapControl addAnnotationForTradePost:post];
+    }
+    
+    for (TradePost* post in [self.npcPosts allValues])
+    {
+        [[[GameManager getInstance] gameViewController].mapControl addAnnotationForTradePost:post];        
     }
 }
 

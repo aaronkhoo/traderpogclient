@@ -108,8 +108,11 @@ enum kKnobSlices
     self.trackedFlyer = nil;
     
     // add pre-existing objects in the world as annotations
-    [[TradePostMgr getInstance] annotatePostsOnMap];
+    // the ORDER of init is IMPORTANT;
+    // FlyerMgr creates dummy npc posts for all flight-paths; so,
+    // must call it first prior to calling TradePostMgr's annotatePostsOnMap
     [[FlyerMgr getInstance] initFlyersOnMap];
+    [[TradePostMgr getInstance] annotatePostsOnMap];
     [[BeaconMgr getInstance] addBeaconAnnotationsToMap:[self mapControl]];
     
     // create knob
