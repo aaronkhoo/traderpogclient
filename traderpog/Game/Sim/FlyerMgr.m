@@ -17,6 +17,9 @@
 #import "WheelBubble.h"
 #import "PogUIUtility.h"
 #import "MapControl.h"
+#import "TradeItemTypes.h"
+#import "TradeItemType.h"
+#include "MathUtils.h"
 
 
 static double const refreshTime = -(60 * 15);
@@ -192,7 +195,13 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
                 if(!post)
                 {
                     // patch a new npc post here
-                    post = [[TradePostMgr getInstance] newNPCTradePostAtCoord:[cur srcCoord] sellingItem:nil supplyLevel:0];
+                    NSArray* itemTypes = [[TradeItemTypes getInstance] getItemTypesForTier:kTradeItemTierMin];
+                    unsigned int randItem = RandomWithinRange(0, [itemTypes count]-1);
+                    TradeItemType* itemType = [itemTypes objectAtIndex:randItem];
+                    float randPriceFactor = MAX(0.2f,0.7f - (RandomFrac() * 0.5f));
+                    unsigned int playerBucks = [[Player getInstance] bucks];
+                    unsigned int supplyLevel = (playerBucks / [itemType price]) * randPriceFactor;
+                    post = [[TradePostMgr getInstance] newNPCTradePostAtCoord:[cur srcCoord] sellingItem:itemType supplyLevel:supplyLevel];
                     [patchPosts addObject:post];
                 }
                 cur.curPostId = [post postId];

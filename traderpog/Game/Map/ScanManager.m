@@ -28,7 +28,8 @@ enum kScanStates
 
 static const NSUInteger kScanLocateZoomLevel = 15;
 static const float kScanRadius = 300.0f;    // meters
-static const unsigned int kScanNumPosts = 3;
+static const float kScanRadiusMinFactor = 0.5f;
+static const unsigned int kScanNumPosts = 4;
 
 @interface ScanManager ()
 {
@@ -117,7 +118,7 @@ static const unsigned int kScanNumPosts = 3;
         for(unsigned int i = 0; i < numPosts; ++i)
         {
             float randFrac = RandomFrac();
-            double minDistance = kScanRadius * 0.35;
+            double minDistance = kScanRadius * kScanRadiusMinFactor;
             double newDistance = minDistance + (randFrac * (kScanRadius - minDistance));
             
             MKMapPoint newPoint = [self createPointFromCenter:scanCoord atDistance:newDistance angle:curAngle];
