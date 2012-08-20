@@ -14,6 +14,7 @@
 #import "TradeItemTypes.h"
 #import "Player.h"
 #import "ScanManager.h"
+#import "Flyer.h"
 #import "FlyerMgr.h"
 #import "FlyerTypes.h"
 #import "BeaconMgr.h"
@@ -71,6 +72,15 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
+    // HACK
+    // Remove this after flyer escrow gets saved to server (or local)
+    // commit any escrow money to player now because that isn't saved yet
+    for(Flyer* cur in [[FlyerMgr getInstance] playerFlyers])
+    {
+        [cur commitOutstandingOrder];
+    }
+    // HACK
     
     [[Player getInstance] appDidEnterBackground];
 }

@@ -13,8 +13,14 @@
 #import "TradeItemType.h"
 #import "Player.h"
 
+#define METERS_TO_KM(dist) ((dist) * 0.001f)
+
+static const int kTradeMaxItemTypes = 3;
+static const float kTradeDistanceFactor = 1.0f;
+
 @interface TradeManager ()
 - (void) flyer:(Flyer*)flyer sellAtPost:(TradePost*)post;
+- (float) premiumForItemTier:(int)tier;
 @end
 
 @implementation TradeManager
@@ -79,11 +85,14 @@
 {
     NSAssert([post isOwnPost], @"flyer can only sell at own posts");
     
-    // HACK
-    // TODO: compute with formulae in PogPanBible (need flight time first)
-    float earnings = ceilf([flyer costBasis] * [flyer numItems] * 1.2f);
+    TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:[flyer itemId]];
+    float tierPremiumTerm = [self premiumForItemTier:[itemType tier]] + 1.0f;
+    float distanceTerm = MAX(METERS_TO_KM([flyer metersTraveled]) * kTradeDistanceFactor, 1.0f);
+    float earnings = ceilf([flyer costBasis] * [flyer numItems] * tierPremiumTerm * distanceTerm);
+    NSLog(@"Flyer earnings: tierPremium %f, distance %f km, distanceTerm %f, earnings %f",
+          tierPremiumTerm, METERS_TO_KM([flyer metersTraveled]), distanceTerm, earnings);
+    
     [[Player getInstance] addBucks:(NSUInteger)earnings];
-    // HACK
     
     // unload all items
     [flyer unloadAllItems];
@@ -91,6 +100,24 @@
     // reset distance
     NSLog(@"Distance Traveled: %lf", [flyer metersTraveled]);
     [flyer resetDistanceTraveled];
+}
+
+- (float) premiumForItemTier:(int)tier
+{
+    // tier starts at 1 instead of 0
+    float result = 0.0f;
+    float kPremiums[kTradeMaxItemTypes+1] =
+    {
+        0.0f,
+        0.2f,
+        0.5f,
+        0.8f
+    };
+    if(tier <= kTradeMaxItemTypes)
+    {
+        result = kPremiums[tier];
+    }
+    return result;
 }
 
 #pragma mark - Singleton

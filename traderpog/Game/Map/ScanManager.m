@@ -126,7 +126,7 @@ static const unsigned int kScanNumPosts = 3;
             // select a random item type
             unsigned int randItem = RandomWithinRange(0, [itemTypes count]-1);
             TradeItemType* itemType = [itemTypes objectAtIndex:randItem];
-            float randPriceFactor = 1.0f - (RandomFrac() * 0.5f);
+            float randPriceFactor = MAX(0.2f,0.7f - (RandomFrac() * 0.5f));
             unsigned int playerBucks = [[Player getInstance] bucks];
             unsigned int supplyLevel = (playerBucks / [itemType price]) * randPriceFactor;
             TradePost* newPost = [[TradePostMgr getInstance] newNPCTradePostAtCoord:newCoord
