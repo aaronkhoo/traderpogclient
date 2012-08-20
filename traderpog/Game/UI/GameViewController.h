@@ -17,8 +17,10 @@
     MapControl* _mapControl;
 }
 @property (nonatomic, strong) MapControl* mapControl;
-@property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) CLLocationCoordinate2D coord;
+
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (weak, nonatomic) IBOutlet UILabel *hudCoins;
 
 - (id) init;
 - (id) initAtCoordinate:(CLLocationCoordinate2D)coord;

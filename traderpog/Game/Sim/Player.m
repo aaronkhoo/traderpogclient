@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "LoadingScreen.h"
 #import "UINavigationController+Pog.h"
+#import "GameNotes.h"
 
 // encoding keys
 static NSString* const kKeyVersion = @"version";
@@ -96,6 +97,11 @@ static const unsigned int kInitBucks = 500;
     _bucks += newBucks;
     
     NSLog(@"PlayerCoins: %d", _bucks);
+    if(newBucks)
+    {
+        // broadcast coins changed
+        [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteCoinsChanged object:self];
+    }
 }
 
 - (void) deductBucks:(NSUInteger)subBucks
@@ -104,6 +110,11 @@ static const unsigned int kInitBucks = 500;
     _bucks -= bucksToSub;
 
     NSLog(@"PlayerCoins: %d", _bucks);
+    if(bucksToSub)
+    {
+        // broadcast coins changed
+        [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteCoinsChanged object:self];
+    }
 }
 
 - (NSUInteger) bucks

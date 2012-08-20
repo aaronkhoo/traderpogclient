@@ -18,6 +18,9 @@
 #import "WheelProtocol.h"
 #import "UIImage+Pog.h"
 #import "Flyer.h"
+#import "Player.h"
+#import "PogUIUtility.h"
+#import "GameNotes.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -70,10 +73,14 @@ enum kKnobSlices
 - (void) handleScanResultTradePosts:(NSArray*)tradePosts;
 - (void) initWheels;
 - (void) shutdownWheels;
+- (void) hudSetCoins:(unsigned int)newCoins;
+
+- (void) handleCoinsChanged:(NSNotification*)note;
 @end
 
 @implementation GameViewController
 @synthesize mapView;
+@synthesize hudCoins;
 @synthesize mapControl = _mapControl;
 @synthesize knob = _knob;
 @synthesize flyerWheel = _flyerWheel;
@@ -115,9 +122,17 @@ enum kKnobSlices
     [[TradePostMgr getInstance] annotatePostsOnMap];
     [[BeaconMgr getInstance] addBeaconAnnotationsToMap:[self mapControl]];
     
+    //---
+    // HUD
     // create knob
     [self initKnob];
     [self initWheels];
+    [self hudSetCoins:[[Player getInstance] bucks]];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleCoinsChanged:)
+                                                 name:kGameNoteCoinsChanged
+                                               object:[Player getInstance]];
+
     
     [self startDisplayLink];
     
@@ -142,6 +157,7 @@ enum kKnobSlices
     [self shutdownKnob];
     [self.mapControl stopTrackingAnnotation];
     self.mapControl = nil;
+    [self setHudCoins:nil];
     [super viewDidUnload];
 }
 
@@ -366,6 +382,21 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
 - (void) showPostWheelAnimated:(BOOL)isAnimated
 {
     [self.postWheel showWheelAnimated:YES withDelay:0.0f];
+}
+
+- (void) hudSetCoins:(unsigned int)newCoins
+{
+    NSString* coinsString = [PogUIUtility currencyStringForAmount:newCoins];
+    [self.hudCoins setText:coinsString];    
+}
+
+- (void) handleCoinsChanged:(NSNotification *)note
+{
+    Player* player = (Player*)[note object];
+    if(player)
+    {
+        [self hudSetCoins:[player bucks]];
+    }
 }
 
 #pragma mark - KnobProtocol

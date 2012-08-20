@@ -10,6 +10,7 @@
 
 // notifications
 NSString* const kGameNoteFlyerDidArrive = @"FlyerDidArrive";
+NSString* const kGameNoteCoinsChanged = @"CoinsChanged";
 
 // user-info
 NSString* const kGameNoteInfoFlyerSrcPost = @"FlyerSrcPost";
