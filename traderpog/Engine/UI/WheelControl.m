@@ -113,13 +113,8 @@ static const float kHiddenPreviewYFrac = 0.66f; // fraction of height of preview
         self.delegate = delegate;
         self.dataSource = dataSource;
         self.superMap = superMap;
-        
-        _reuseQueue = [NSMutableArray arrayWithCapacity:10];
-        _activeQueue = [NSMutableArray arrayWithCapacity:10];
-        self.selectedSlice = 0;
-        _selectedBeacon = 0;
-        [self createWheelRenderWithFrame:wheelFrame];
-        
+
+        // add Preview first
         // previewFrame is given in terms of the superview; so, need to transform
         // it into localframe
         CGRect localPreviewFrame = CGRectMake(previewFrame.origin.x - frame.origin.x,
@@ -127,6 +122,15 @@ static const float kHiddenPreviewYFrac = 0.66f; // fraction of height of preview
                                               previewFrame.size.width,
                                               previewFrame.size.height);
         [self createPreviewCircleWithFrame:localPreviewFrame];
+        
+        _reuseQueue = [NSMutableArray arrayWithCapacity:10];
+        _activeQueue = [NSMutableArray arrayWithCapacity:10];
+        self.selectedSlice = 0;
+        _selectedBeacon = 0;
+        
+        // then add Wheel
+        [self createWheelRenderWithFrame:wheelFrame];
+        
         _springEngaged = NO;
         _absAngle = 0.0f;
         _pushedWheelTransform = CGAffineTransformIdentity;
