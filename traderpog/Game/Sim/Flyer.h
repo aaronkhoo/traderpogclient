@@ -76,12 +76,15 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 
 - (id) initWithPostAndFlyer:(TradePost*)tradePost, NSInteger flyerTypeIndex;
 - (void) createNewUserFlyerOnServer;
-- (BOOL) departForPostId:(NSString*)postId;
-- (void) updateAtDate:(NSDate*)currentTime;
 - (id) initWithDictionary:(NSDictionary*)dict;
-- (CLLocationCoordinate2D) flyerCoordinateNow;
 - (void) createFlightPathRenderingForFlyer;
 - (void) initFlyerOnMap;
+
+// game
+- (BOOL) departForPostId:(NSString*)postId;
+- (void) updateAtDate:(NSDate*)currentTime;
+- (CLLocationCoordinate2D) flyerCoordinateNow;
+- (BOOL) isEnroute;
 
 // trade
 - (void) addItemId:(NSString*)itemId num:(unsigned int)num price:(unsigned int)price;
@@ -89,5 +92,6 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 - (void) commitOutstandingOrder;
 - (void) unloadAllItems;
 - (void) resetDistanceTraveled;
+
 
 @end

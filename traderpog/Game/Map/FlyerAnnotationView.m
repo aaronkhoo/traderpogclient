@@ -88,9 +88,13 @@ static NSString* const kFlyerTransformKey = @"transform";
     if(!_calloutAnnotation)
     {
         Flyer* flyer = (Flyer*) [self annotation];
-        _calloutAnnotation = [[FlyerCallout alloc] initWithFlyer:flyer];
-        _calloutAnnotation.parentAnnotationView = self;
-        [mapView addAnnotation:_calloutAnnotation];
+        if(![flyer isEnroute])
+        {
+            // show Flyer Callout if not enroute
+            _calloutAnnotation = [[FlyerCallout alloc] initWithFlyer:flyer];
+            _calloutAnnotation.parentAnnotationView = self;
+            [mapView addAnnotation:_calloutAnnotation];
+        }
     }
 }
 

@@ -32,4 +32,6 @@
 - (void) centerOn:(CLLocationCoordinate2D)coord animated:(BOOL)isAnimated;
 - (void) startTrackingAnnotation:(NSObject<MKAnnotation>*)annotation;
 - (void) stopTrackingAnnotation;
+
+- (void) deselectAllAnnotations;
 @end

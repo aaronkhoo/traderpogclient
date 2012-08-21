@@ -671,6 +671,21 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
     }
 }
 
+- (BOOL) isEnroute
+{
+    BOOL result = NO;
+    if(!_doneWithCurrentPath && [self curPostId] && [self nextPostId])
+    {
+        result = YES;
+    }
+    else if(_updatingFlyerPathOnServer && _projectedNextPost)
+    {
+        result = YES;
+    }
+
+    return result;
+}
+
 #pragma mark - flight private
 static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLLocationCoordinate2D destCoord)
 {

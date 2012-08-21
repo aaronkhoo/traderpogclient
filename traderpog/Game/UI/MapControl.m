@@ -165,6 +165,14 @@ static const float kBrowseAreaRadius = 900.0f;
     }
 }
 
+- (void) deselectAllAnnotations
+{
+    for(NSObject<MKAnnotation>* cur in [self.view selectedAnnotations])
+    {
+        [self.view deselectAnnotation:cur animated:NO];
+    }
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath
 					  ofObject:(id)object
 						change:(NSDictionary *)change

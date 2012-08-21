@@ -105,6 +105,7 @@
 		C4D5DDDD15B3168100D5A746 /* TradeItemType.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDDC15B3168100D5A746 /* TradeItemType.m */; };
 		C4D5DDEA15B3CF0800D5A746 /* TradePostAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDE915B3CF0800D5A746 /* TradePostAnnotationView.m */; };
 		C4D5DDEE15B3D12B00D5A746 /* HomeBase.png in Resources */ = {isa = PBXBuildFile; fileRef = C4D5DDED15B3D12B00D5A746 /* HomeBase.png */; };
+		C4D9B07315E3DE160096448E /* b_flyerlab.png in Resources */ = {isa = PBXBuildFile; fileRef = C4D9B07215E3DE160096448E /* b_flyerlab.png */; };
 		C4E3819D15AA0C5B00924A86 /* StartScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E3819B15AA0C5B00924A86 /* StartScreen.m */; };
 		C4E3819E15AA0C5B00924A86 /* StartScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E3819C15AA0C5B00924A86 /* StartScreen.xib */; };
 		C4E381AB15AA381F00924A86 /* ImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E381AA15AA381F00924A86 /* ImageManager.m */; };
@@ -311,6 +312,7 @@
 		C4D5DDE815B3CF0700D5A746 /* TradePostAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradePostAnnotationView.h; path = Game/Map/TradePostAnnotationView.h; sourceTree = "<group>"; };
 		C4D5DDE915B3CF0800D5A746 /* TradePostAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradePostAnnotationView.m; path = Game/Map/TradePostAnnotationView.m; sourceTree = "<group>"; };
 		C4D5DDED15B3D12B00D5A746 /* HomeBase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HomeBase.png; path = assets/Map/HomeBase.png; sourceTree = SOURCE_ROOT; };
+		C4D9B07215E3DE160096448E /* b_flyerlab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = b_flyerlab.png; path = assets/Map/b_flyerlab.png; sourceTree = SOURCE_ROOT; };
 		C4E3819A15AA0C5B00924A86 /* StartScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartScreen.h; path = Game/UI/StartScreen.h; sourceTree = "<group>"; };
 		C4E3819B15AA0C5B00924A86 /* StartScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartScreen.m; path = Game/UI/StartScreen.m; sourceTree = "<group>"; };
 		C4E3819C15AA0C5B00924A86 /* StartScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StartScreen.xib; path = Game/UI/StartScreen.xib; sourceTree = "<group>"; };
@@ -605,6 +607,7 @@
 		C4D5DDEC15B3D05600D5A746 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				C4D9B07215E3DE160096448E /* b_flyerlab.png */,
 				C4BFC9B715CEBE6D009B7122 /* FlyerLanded.png */,
 				4264B6AF15CD93F300621548 /* TradePost.png */,
 				C4BBE47815BC603F00F582DE /* Flyer.png */,
@@ -842,6 +845,7 @@
 				42E92B0A15D0E7AD0054686F /* startButton.png in Resources */,
 				4221E4D715DA2A2200781664 /* FlyerCalloutView.xib in Resources */,
 				42EF842515DE32F000A8469B /* PlayerPostCalloutView.xib in Resources */,
+				C4D9B07315E3DE160096448E /* b_flyerlab.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
