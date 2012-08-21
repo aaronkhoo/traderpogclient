@@ -47,6 +47,20 @@ static const float kSecondsPerMinute = 60.0;
     return result;
 }
 
++ (NSDate*) convertUtcToNSDate:(NSString*)utcdate
+{
+    // Set up conversion of RFC 3339 time format
+    NSDateFormatter *rfc3339DateFormatter = [[NSDateFormatter alloc] init];
+    NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    
+    [rfc3339DateFormatter setLocale:enUSPOSIXLocale];
+    [rfc3339DateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"];
+    [rfc3339DateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    
+    // Convert the RFC 3339 date time string to an NSDate.
+    return [rfc3339DateFormatter dateFromString:utcdate];
+}
+
 + (NSString*) commaSeparatedStringFromUnsignedInt:(unsigned int)number
 {
     NSNumberFormatter *priceStyle = [[NSNumberFormatter alloc] init];

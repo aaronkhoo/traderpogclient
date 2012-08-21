@@ -169,8 +169,16 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
             _destCoord = [[[TradePostMgr getInstance] getTradePostWithId:_nextPostId] coord];
         }
                 
-        NSString* utcdate = [path_dict valueForKeyPath:kKeyDepartureDate];
-        [self storeDepartureDate:utcdate];
+        // Departure date
+        obj = [path_dict valueForKeyPath:kKeyDepartureDate];
+        if ((NSNull *)obj != [NSNull null])
+        {
+            NSString* utcdate = [NSString stringWithFormat:@"%@", obj];
+            if (![utcdate isEqualToString:@"<null>"])
+            {
+                _departureDate = [PogUIUtility convertUtcToNSDate:utcdate];
+            }
+        }
         
         // meters traveled
         obj = [dict valueForKeyPath:kKeyMetersTraveled];
@@ -391,8 +399,14 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
                  success:^(AFHTTPRequestOperation *operation, id responseObject){
                      NSLog(@"FlyerPath created");
                      _flyerPathId = [NSString stringWithFormat:@"%d", [[responseObject valueForKeyPath:kKeyFlyerPathId] integerValue]];
-                     NSString* utcdate = [responseObject valueForKeyPath:kKeyDepartureDate];
-                     [self storeDepartureDate:utcdate];
+                     
+                     // Departure date
+                     NSString* utcdate = [NSString stringWithFormat:@"%@", [responseObject valueForKeyPath:kKeyDepartureDate]];
+                     if (![utcdate isEqualToString:@"<null>"])
+                     {
+                         _departureDate = [PogUIUtility convertUtcToNSDate:utcdate];
+                     }
+                     
                      _nextPostId = _projectedNextPost;
                      [self createFlightPathRenderingForFlyer];
                      _updatingFlyerPathOnServer = FALSE;

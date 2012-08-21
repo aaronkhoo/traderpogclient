@@ -8,6 +8,7 @@
 
 #import "AFClientManager.h"
 #import "Player.h"
+#import "PogUIUtility.h"
 #import "TradePost.h"
 #import "TradeItemType.h"
 #import "TradePostAnnotationView.h"
@@ -20,6 +21,7 @@ static NSString* const kKeyItemId = @"item_info_id";
 static NSString* const kKeyImgPath= @"img";
 static NSString* const kKeySupplyRateLevel = @"supplymaxlevel";
 static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
+static NSString* const kKeyBeacontime = @"beacontime";
 
 @implementation TradePost
 @synthesize postId = _postId;
@@ -28,6 +30,7 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
 @synthesize supplyLevel = _supplyLevel;
 @synthesize isOwnPost = _isOwnPost;
 @synthesize isNPCPost = _isNPCPost;
+@synthesize beacontime = _beacontime;
 @synthesize delegate = _delegate;
 
 // call this to create NPC posts
@@ -53,6 +56,7 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
             _supplyLevel = 0;
         }
         _annotation = nil;
+        _beacontime = nil;
         
         // NPC post
         _isOwnPost = NO;
@@ -71,6 +75,7 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
         _coord = coordinate;
         _itemId = [itemType itemId];
         _annotation = nil;
+        _beacontime = nil;
         
         // client can only create tradePosts for current player;
         _isOwnPost = YES;
@@ -84,13 +89,24 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
     self = [super init];
     if(self)
     {
-        _postId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:@"id"] integerValue]];
-        _coord.latitude = [[dict valueForKeyPath:@"latitude"] doubleValue];
-        _coord.longitude = [[dict valueForKeyPath:@"longitude"] doubleValue];
-        _itemId = [dict valueForKeyPath:@"item_info_id"];
-        _imgPath = [dict valueForKeyPath:@"img"];
-        _supplyMaxLevel =[[dict valueForKeyPath:@"supplymaxlevel"] integerValue];
-        _supplyRateLevel =[[dict valueForKeyPath:@"supplyratelevel"] integerValue];
+        _postId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:kKeyPostId] integerValue]];
+        _coord.latitude = [[dict valueForKeyPath:kKeyLat] doubleValue];
+        _coord.longitude = [[dict valueForKeyPath:kKeyLong] doubleValue];
+        _itemId = [dict valueForKeyPath:kKeyItemId];
+        _imgPath = [dict valueForKeyPath:kKeyImgPath];
+        _supplyMaxLevel =[[dict valueForKeyPath:kKeySupplyMaxLevel] integerValue];
+        _supplyRateLevel =[[dict valueForKeyPath:kKeySupplyRateLevel] integerValue];
+        _beacontime = nil;
+        
+        id obj = [dict valueForKeyPath:kKeyBeacontime];
+        if ((NSNull *)obj != [NSNull null])
+        {
+            NSString* utcdate = [NSString stringWithFormat:@"%@", obj];
+            if (![utcdate isEqualToString:@"<null>"])
+            {
+                _beacontime = [PogUIUtility convertUtcToNSDate:utcdate];
+            }
+        }
         
         _isNPCPost = NO;
         
@@ -141,6 +157,54 @@ static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
      ];
 }
 
+- (void) updatePost:(NSDictionary*)parameters
+{
+    // make a post request
+    AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
+    NSString *postUrl = [NSString stringWithFormat:@"posts/%@", _postId];
+    [httpClient putPath:postUrl
+             parameters:parameters
+                success:^(AFHTTPRequestOperation *operation, id responseObject){
+                    NSLog(@"Post data updated");
+                    // Update beacontime
+                    id obj = [responseObject valueForKeyPath:kKeyBeacontime];
+                    if ((NSNull *)obj != [NSNull null])
+                    {
+                        NSString* utcdate = [NSString stringWithFormat:@"%@", obj];
+                        if (![utcdate isEqualToString:@"<null>"])
+                        {
+                            _beacontime = [PogUIUtility convertUtcToNSDate:utcdate];
+                        }
+                    }
+                }
+                failure:^(AFHTTPRequestOperation* operation, NSError* error){
+                    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
+                                                                      message:@"Unable to update post. Please try again later."
+                                                                     delegate:nil
+                                                            cancelButtonTitle:@"OK"
+                                                            otherButtonTitles:nil];
+                    
+                    [message show];
+                }
+     ];
+}
+
+- (void) setBeacon
+{
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"MMM dd, yyyy HH:mm"];
+    NSDate *now = [[NSDate alloc] init];
+    NSString *dateString = [format stringFromDate:now];
+    NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                dateString, kKeyBeacontime,
+                                nil];
+    [self updatePost:parameters];
+}
+
+- (bool) beaconActive
+{
+    return (_beacontime && ([_beacontime timeIntervalSinceNow] > 0));
+}
 
 #pragma mark - trade
 - (void) deductNumItems:(unsigned int)num

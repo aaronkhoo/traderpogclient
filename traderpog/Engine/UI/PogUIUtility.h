@@ -18,6 +18,7 @@ typedef void (^CompletionBlock)(BOOL finished);
 @interface PogUIUtility : NSObject
 
 + (NSString*) stringFromTimeInterval:(NSTimeInterval)timeInterval;
++ (NSDate*) convertUtcToNSDate:(NSString*)utcdate;
 + (NSString*) commaSeparatedStringFromUnsignedInt:(unsigned int)number;
 + (NSString*) currencyStringForAmount:(unsigned int)amount;
 + (NSString*) stringTrimAllWhitespaces:(NSString*)src;

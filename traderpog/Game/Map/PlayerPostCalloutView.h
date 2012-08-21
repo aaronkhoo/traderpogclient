@@ -11,6 +11,7 @@
 
 extern NSString* const kPlayerPostCalloutViewReuseId;
 @interface PlayerPostCalloutView : CalloutAnnotationView
+@property (weak, nonatomic) IBOutlet UIButton *beaconButton;
 - (IBAction)didPressSetBeacon:(id)sender;
 - (IBAction)didPressRestock:(id)sender;
 - (IBAction)didPressDestroy:(id)sender;

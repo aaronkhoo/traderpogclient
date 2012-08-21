@@ -14,6 +14,8 @@
 NSString* const kPlayerPostCalloutViewReuseId = @"PlayerPostCalloutView";
 
 @implementation PlayerPostCalloutView
+@synthesize beaconButton;
+
 - (id) initWithAnnotation:(id<MKAnnotation>)annotation
 {
     self = [super initWithAnnotation:annotation reuseIdentifier:kPlayerPostCalloutViewReuseId];
@@ -27,12 +29,12 @@ NSString* const kPlayerPostCalloutViewReuseId = @"PlayerPostCalloutView";
 - (IBAction)didPressSetBeacon:(id)sender
 {
     TradePost* thisPost = (TradePost*)[self.parentAnnotationView annotation];
-    // HACK
     if(thisPost)
     {
         NSLog(@"Set Beacon for PostId %@", [thisPost postId]);
+        [thisPost setBeacon];
+        beaconButton.enabled = NO;
     }
-    // HACK
 }
 
 - (IBAction)didPressRestock:(id)sender

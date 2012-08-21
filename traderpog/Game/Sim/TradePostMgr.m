@@ -76,6 +76,18 @@ static double const refreshTime = -(60 * 15);
     return _activePosts.count;
 }
 
+- (BOOL) isBeaconActive
+{
+    for (TradePost* post in [_activePosts allValues])
+    {
+        if ([post beaconActive])
+        {
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
 - (void) annotatePostsOnMap
 {
     for (TradePost* post in [_activePosts allValues])

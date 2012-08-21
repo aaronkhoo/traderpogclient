@@ -29,6 +29,7 @@ static NSString* const kTradePostMgr_ReceivePosts = @"TradePostMgr_ReceivePosts"
 - (BOOL) needsRefresh;
 - (void) retrievePostsFromServer;
 - (NSInteger) postsCount;
+- (BOOL) isBeaconActive;
 - (void) annotatePostsOnMap;
 - (TradePost*) newNPCTradePostAtCoord:(CLLocationCoordinate2D)coord
                           sellingItem:(TradeItemType*)itemType

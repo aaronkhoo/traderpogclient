@@ -24,6 +24,7 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
     NSString*   _imgPath;
     NSInteger   _supplyMaxLevel;
     NSInteger   _supplyRateLevel;
+    NSDate*     _beacontime;
     
     BOOL        _isOwnPost;
     BOOL        _isNPCPost;
@@ -43,6 +44,7 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 @property (nonatomic) BOOL isOwnPost;
 @property (nonatomic) BOOL isNPCPost;
 @property (nonatomic,readonly) NSString* imgPath;
+@property (nonatomic,strong) NSDate* beacontime;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 - (id) initWithPostId:(NSString*)postId
@@ -53,6 +55,8 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
                            itemType:(TradeItemType *)itemType;
 - (void) createNewPostOnServer;
 - (id) initWithDictionary:(NSDictionary*)dict;
+- (void) setBeacon;
+- (bool) beaconActive;
 
 // trade
 - (void) deductNumItems:(unsigned int)num;
