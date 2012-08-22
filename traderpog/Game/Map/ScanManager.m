@@ -9,6 +9,7 @@
 #import "ScanManager.h"
 #import "HiAccuracyLocator.h"
 #import "MKMapView+ZoomLevel.h"
+#import "TradePost.h"
 #import "TradePostMgr.h"
 #import "TradeItemTypes.h"
 #import "TradeItemType.h"
@@ -111,10 +112,48 @@ static const unsigned int kScanNumPosts = 4;
     // generate new locations we there isn't enough existing posts
     if([posts count] < kScanNumPosts)
     {
+        float angleIncr = 2.0 * M_PI / ((float) kScanNumPosts);
+        float startAngle = RandomFrac() * 2.0f * M_PI;
+        if([posts count])
+        {
+            // start with the angle made with the first post (at least avoid placing over existing npc posts)
+            TradePost* startPost = [posts objectAtIndex:0];
+            MKMapPoint pointA = MKMapPointForCoordinate(scanCoord);
+            MKMapPoint pointB = MKMapPointForCoordinate([startPost coord]);
+            double dx = pointB.x - pointA.x;
+            double dy = pointB.y - pointA.y;
+            
+            float postAngle = 0.0;
+            if((dx >= 0.0) && (dy >= 0.0))
+            {
+                postAngle = atan2(dy,dx);
+                NSLog(@"postAngle 1 is %f", postAngle);
+            }
+            else if((dx < 0.0) && (dy >= 0.0))
+            {
+                postAngle = M_PI + atan2(dy,dx);
+                NSLog(@"postAngle 2 is %f", postAngle);
+            }
+            else if((dx < 0.0) && (dy < 0.0))
+            {
+                postAngle = M_PI + atan2(dy,dx);
+                NSLog(@"postAngle 3 is %f", postAngle);
+            }
+            else
+            {
+                postAngle = (2.0f * M_PI) + atan2(dy,dx);
+                NSLog(@"postAngle 4 is %f", postAngle);
+            }
+            startAngle = postAngle + (0.5f * angleIncr);
+            if(startAngle >= (2.0 * M_PI))
+            {
+                startAngle = startAngle - (2.0 * M_PI);
+            }
+        }
+        
         NSArray* itemTypes = [[TradeItemTypes getInstance] getItemTypesForTier:kTradeItemTierMin];
         unsigned int numPosts = kScanNumPosts - [posts count];
-        float curAngle = RandomFrac() * 2.0 * M_PI;
-        float angleIncr = 2.0 * M_PI / ((float) numPosts);
+        float curAngle = startAngle;
         for(unsigned int i = 0; i < numPosts; ++i)
         {
             float randFrac = RandomFrac();
