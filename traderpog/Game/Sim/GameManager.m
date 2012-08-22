@@ -50,6 +50,8 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     
     // in-game UI context
     Flyer* _contextFlyer;
+    NSTimeInterval  _calloutHaltDuration;
+    NSDate*         _calloutHaltBegin;
 }
 @property (nonatomic,strong) ModalNavControl* modalNav;
 @property (nonatomic,strong) HiAccuracyLocator* playerLocator;
@@ -97,6 +99,8 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         
         // in-game UI context
         _contextFlyer = nil;
+        _calloutHaltBegin = nil;
+        _calloutHaltDuration = 0.0;
         
         [self registerAllNotificationHandlers];
     }
@@ -459,6 +463,35 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     {
         _gameState = kGameStateGameLoop;
     }
+}
+
+#pragma mark - global UI controls
+- (void) haltMapAnnotationCalloutsForDuration:(NSTimeInterval)seconds
+{
+    if(0.0 < seconds)
+    {
+        _calloutHaltBegin = [NSDate date];
+        _calloutHaltDuration = seconds;
+    }
+}
+
+- (BOOL) canShowMapAnnotationCallout
+{
+    BOOL result = YES;
+    if(_calloutHaltBegin)
+    {
+        NSTimeInterval elapsed = -[_calloutHaltBegin timeIntervalSinceNow];
+        if(elapsed < _calloutHaltDuration)
+        {
+            result = NO;
+        }
+        else
+        {
+            _calloutHaltBegin = nil;
+            _calloutHaltDuration = 0.0;
+        }
+    }
+    return result;
 }
 
 #pragma mark - HttpCallbackDelegate

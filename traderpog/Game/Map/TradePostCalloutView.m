@@ -82,6 +82,10 @@ NSString* const kTradePostCalloutViewReuseId = @"PostCalloutView";
             }
             
         }
+        
+        // halt all other callouts for a second so that we don't get touch-through callouts popping up when
+        // player presses Go
+        [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
     }
 }
 @end

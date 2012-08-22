@@ -11,6 +11,7 @@
 #import "ImageManager.h"
 #import "TradePost.h"
 #import "PlayerPostCallout.h"
+#import "GameManager.h"
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
 
@@ -96,22 +97,30 @@ NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
 {    
     if(!_calloutAnnotation)
     {
-        TradePost* tradePost = (TradePost*) [self annotation];
-        if([tradePost isOwnPost])
+        if([[GameManager getInstance] canShowMapAnnotationCallout])
         {
-            // show player-post callout if own post
-            PlayerPostCallout* callout = [[PlayerPostCallout alloc] initWithTradePost:tradePost];
-            callout.parentAnnotationView = self;
-            _calloutAnnotation = callout;
+            TradePost* tradePost = (TradePost*) [self annotation];
+            if([tradePost isOwnPost])
+            {
+                // show player-post callout if own post
+                PlayerPostCallout* callout = [[PlayerPostCallout alloc] initWithTradePost:tradePost];
+                callout.parentAnnotationView = self;
+                _calloutAnnotation = callout;
+            }
+            else
+            {
+                // otherwise, show tradepost callout
+                TradePostCallout* callout = [[TradePostCallout alloc] initWithTradePost:tradePost];
+                callout.parentAnnotationView = self;
+                _calloutAnnotation = callout;
+            }
+            [mapView addAnnotation:_calloutAnnotation];
         }
         else
         {
-            // otherwise, show tradepost callout
-            TradePostCallout* callout = [[TradePostCallout alloc] initWithTradePost:tradePost];
-            callout.parentAnnotationView = self;
-            _calloutAnnotation = callout;
+            // selection not allowed; deselect it
+            [mapView deselectAnnotation:[self annotation] animated:NO];
         }
-        [mapView addAnnotation:_calloutAnnotation];
     }
 }
 

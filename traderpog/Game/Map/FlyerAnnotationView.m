@@ -9,6 +9,7 @@
 #import "FlyerAnnotationView.h"
 #import "Flyer.h"
 #import "FlyerCallout.h"
+#import "GameManager.h"
 
 NSString* const kFlyerAnnotationViewReuseId = @"FlyerAnnotationView";
 static NSString* const kFlyerTransformKey = @"transform";
@@ -85,7 +86,7 @@ static NSString* const kFlyerTransformKey = @"transform";
 #pragma mark - PogMapAnnotationViewProtocol
 - (void)didSelectAnnotationViewInMap:(MKMapView*) mapView;
 {   
-    if(!_calloutAnnotation)
+    if(!_calloutAnnotation && [[GameManager getInstance] canShowMapAnnotationCallout])
     {
         Flyer* flyer = (Flyer*) [self annotation];
         if(![flyer isEnroute])

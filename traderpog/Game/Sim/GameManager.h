@@ -48,6 +48,10 @@ enum kGameStates
 - (void) wheel:(WheelControl*)wheel commitOnTradePost:(TradePost*)tradePost;
 - (void) popGameStateToLoop;
 
+// global UI controls
+- (void) haltMapAnnotationCalloutsForDuration:(NSTimeInterval)seconds;
+- (BOOL) canShowMapAnnotationCallout;
+
 + (NSString*) documentsDirectory;
 
 // system
