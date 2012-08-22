@@ -28,6 +28,7 @@ static NSString* const kKeyBeacontime = @"beacontime";
 @synthesize itemId = _itemId;
 @synthesize annotation = _annotation;
 @synthesize supplyLevel = _supplyLevel;
+@synthesize supplyMaxLevel = _supplyMaxLevel;
 @synthesize isOwnPost = _isOwnPost;
 @synthesize isNPCPost = _isNPCPost;
 @synthesize beacontime = _beacontime;
@@ -48,12 +49,16 @@ static NSString* const kKeyBeacontime = @"beacontime";
         {
             _itemId = [itemType itemId];
             _supplyLevel = MIN([itemType supplymax],supply);
+            _supplyMaxLevel = [itemType supplymax];
+            _supplyRateLevel = [itemType supplyrate];
         }
         else
         {
             // if itemType is null, make this a dummy post with 0 supply
             _itemId = nil;
             _supplyLevel = 0;
+            _supplyMaxLevel = 0;
+            _supplyRateLevel = 0;
         }
         _annotation = nil;
         _beacontime = nil;

@@ -14,6 +14,7 @@
 
 - (void) flyer:(Flyer*)flyer buyFromPost:(TradePost*)post numItems:(unsigned int)numItems;
 - (void) flyer:(Flyer*)flyer didArriveAtPost:(TradePost*)post;
+- (void) flyer:(Flyer*)flyer revertOrderFromPostId:(NSString*)postId;
 - (BOOL) playerCanAffordItemsAtPost:(TradePost*)post;
 
 // singleton

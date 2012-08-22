@@ -419,6 +419,8 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
                                                              otherButtonTitles:nil];
                      
                      [message show];
+
+                     [[TradeManager getInstance] flyer:self revertOrderFromPostId:_projectedNextPost];
                      _updatingFlyerPathOnServer = FALSE;
                  }
      ];
@@ -524,6 +526,24 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
         self.orderNumItems = 0;
         self.orderPrice = 0;
     }
+}
+
+- (void) revertOutstandingOrder
+{
+    if([self orderItemId])
+    {
+        [self addItemId:[self orderItemId] num:[self orderNumItems] price:[self orderPrice]];
+        
+        // credit the player
+        [[Player getInstance] addBucks:[self orderPrice] * [self orderNumItems]];
+        
+        
+        
+        // clear escrow
+        self.orderItemId = nil;
+        self.orderNumItems = 0;
+        self.orderPrice = 0;
+    }    
 }
 
 - (void) unloadAllItems

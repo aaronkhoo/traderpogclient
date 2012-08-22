@@ -40,6 +40,7 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 @property (nonatomic) CLLocationCoordinate2D coord;
 @property (nonatomic) NSString* itemId;
 @property (nonatomic,weak) TradePostAnnotation* annotation;
+@property (nonatomic,readonly) NSInteger supplyMaxLevel;
 @property (nonatomic) unsigned int supplyLevel;
 @property (nonatomic) BOOL isOwnPost;
 @property (nonatomic) BOOL isNPCPost;

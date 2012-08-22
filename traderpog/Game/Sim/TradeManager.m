@@ -8,6 +8,7 @@
 
 #import "TradeManager.h"
 #import "TradePost.h"
+#import "TradePostMgr.h"
 #import "Flyer.h"
 #import "TradeItemTypes.h"
 #import "TradeItemType.h"
@@ -65,6 +66,18 @@ static const float kTradeDistanceFactor = 1.0f;
         // release escrow
         [flyer commitOutstandingOrder];
     }
+}
+
+- (void) flyer:(Flyer*)flyer revertOrderFromPostId:(NSString*)postId
+{
+    TradePost* post = [[TradePostMgr getInstance] getTradePostWithId:postId];
+    if(post)
+    {
+        unsigned int newLevel = [post supplyLevel] + [flyer orderNumItems];
+        post.supplyLevel = MIN(newLevel, [post supplyMaxLevel]);
+    }
+    
+    [flyer revertOutstandingOrder];
 }
 
 - (BOOL) playerCanAffordItemsAtPost:(TradePost *)post
