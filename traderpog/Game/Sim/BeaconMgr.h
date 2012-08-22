@@ -7,18 +7,28 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HttpCallbackDelegate.h"
 #import "MapControl.h"
 #import "WheelProtocol.h"
+
+static NSString* const kBeaconMgr_ReceiveBeacons = @"kBeaconMgr_ReceiveBeacons";
 
 @interface BeaconMgr : NSObject<WheelDataSource,WheelProtocol>
 {
     NSMutableDictionary* _activeBeacons;
+    
+    NSDate* _lastUpdate;
+    
+    // Delegate for callbacks to inform interested parties of completion
+    __weak NSObject<HttpCallbackDelegate>* _delegate;
 }
 @property (nonatomic,readonly) NSMutableDictionary* activeBeacons;
+@property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 // init
-- (void) createPlaceholderBeacons;
+- (void) retrieveBeaconsFromServer;
 - (void) addBeaconAnnotationsToMap:(MapControl*)map;
+- (BOOL) needsRefresh;
 
 // singleton
 +(BeaconMgr*) getInstance;

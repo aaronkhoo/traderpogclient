@@ -22,6 +22,7 @@ static NSString* const kKeyImgPath= @"img";
 static NSString* const kKeySupplyRateLevel = @"supplymaxlevel";
 static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
 static NSString* const kKeyBeacontime = @"beacontime";
+static NSString* const kKeyFBId = @"fbid";
 
 @implementation TradePost
 @synthesize postId = _postId;
@@ -37,7 +38,7 @@ static NSString* const kKeyBeacontime = @"beacontime";
 // call this to create NPC posts
 - (id) initWithPostId:(NSString*)postId
            coordinate:(CLLocationCoordinate2D)coordinate 
-                 itemType:(TradeItemType *)itemType
+             itemType:(TradeItemType *)itemType
           supplyLevel:(unsigned int)supply
 {
     self = [super init];
@@ -72,7 +73,7 @@ static NSString* const kKeyBeacontime = @"beacontime";
 
 // call this to create player posts
 - (id) initWithCoordinates:(CLLocationCoordinate2D)coordinate 
-                           itemType:(TradeItemType *)itemType
+                  itemType:(TradeItemType *)itemType
 {
     self = [super init];
     if(self)
@@ -90,6 +91,7 @@ static NSString* const kKeyBeacontime = @"beacontime";
 }
 
 - (id) initWithDictionary:(NSDictionary*)dict
+                isForeign:(BOOL)isForeign
 {
     self = [super init];
     if(self)
@@ -115,10 +117,18 @@ static NSString* const kKeyBeacontime = @"beacontime";
         
         _isNPCPost = NO;
         
-        // HACK
-        // TODO: get this from server
-        _isOwnPost = YES;
-        // HACK
+        if (isForeign)
+        {
+            _isOwnPost = NO;
+            
+            // These two only matter in the context of a foreign beacon trade post
+            _userId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:kKeyUserId] integerValue]];
+            _fbId = [NSString stringWithFormat:@"%@", [dict valueForKeyPath:kKeyFBId]];
+        }
+        else
+        {
+            _isOwnPost = YES;
+        }
         
         // transient variables
         _supplyLevel = _supplyMaxLevel;

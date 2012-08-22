@@ -67,8 +67,7 @@ NSString* const kBeaconAnnotationViewReuseId = @"BeaconAnnotationView";
 {
     if(!_calloutAnnotation)
     {
-        Beacon* beacon = (Beacon*)[self annotation];
-        TradePost* tradePost = [[TradePostMgr getInstance] getTradePostWithId:[beacon postId]];
+        TradePost* tradePost = (TradePost*)[self annotation];
         if(tradePost)
         {
             // otherwise, show tradepost callout

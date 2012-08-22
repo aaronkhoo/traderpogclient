@@ -43,12 +43,6 @@ static NSString* const kTradePostMgr_ReceivePosts = @"TradePostMgr_ReceivePosts"
                                   radius:(float)radius 
                                   maxNum:(unsigned int)maxNum;
 
-
-// HACK
-// remove when beacons are retrieved from server
-- (void) createPlaceholderBeaconPosts;
-// HACK
-
 // singleton
 +(TradePostMgr*) getInstance;
 +(void) destroyInstance;

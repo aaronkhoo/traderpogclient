@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "BeaconMgr.h"
 #import "GameManager.h"
 #import "Player.h"
 #import "TradePostMgr.h"
@@ -176,6 +177,13 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     if ([[FlyerMgr getInstance] needsRefresh])
     {
         [[FlyerMgr getInstance] retrieveUserFlyersFromServer];
+        _playerInfoRefreshCount++;
+    }
+    
+    // Load beacons
+    if ([[BeaconMgr getInstance] needsRefresh])
+    {
+        [[BeaconMgr getInstance] retrieveBeaconsFromServer];
         _playerInfoRefreshCount++;
     }
     
@@ -384,11 +392,6 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         
         if (![self gameViewController])
         {
-            // HACK
-            // remove after retrieve from server of friends posts is implemented
-            [[TradePostMgr getInstance] createPlaceholderBeaconPosts];
-            // HACK
-
             _gameViewController = [[GameViewController alloc] initAtCoordinate:[self.playerLocator bestLocation].coordinate];
             
             // push the gameViewController onto the stack
@@ -536,7 +539,8 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         if ([callName compare:kPlayer_GetPlayerData] == NSOrderedSame ||
             [callName compare:kTradePostMgr_ReceivePosts] == NSOrderedSame ||
             [callName compare:kFlyerMgr_ReceiveFlyers] == NSOrderedSame ||
-            [callName compare:kPlayer_SavePlayerData] == NSOrderedSame)
+            [callName compare:kPlayer_SavePlayerData] == NSOrderedSame ||
+            [callName compare:kBeaconMgr_ReceiveBeacons] == NSOrderedSame)
         {
             _playerInfoRefreshCount--;
             _playerInfoRefreshSucceeded = _playerInfoRefreshSucceeded && success;

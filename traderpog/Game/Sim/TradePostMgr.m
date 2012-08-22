@@ -62,6 +62,7 @@ static double const refreshTime = -(60 * 15);
         _npcPostIndex = 0;
         _tempTradePost = nil;
         _previewMap = nil;
+        _lastUpdate = nil;
     }
     return self;
 }
@@ -227,11 +228,11 @@ static double const refreshTime = -(60 * 15);
     return result;
 }
 
-- (void) createItemsArray:(id)responseObject
+- (void) createPostsArray:(id)responseObject
 {
-    for (NSDictionary* item in responseObject)
+    for (NSDictionary* post in responseObject)
     {
-        TradePost* current = [[TradePost alloc] initWithDictionary:item];
+        TradePost* current = [[TradePost alloc] initWithDictionary:post isForeign:FALSE];
         [self.activePosts setObject:current forKey:current.postId];
     }
 }
@@ -246,13 +247,13 @@ static double const refreshTime = -(60 * 15);
              parameters:nil
                 success:^(AFHTTPRequestOperation *operation, id responseObject){                     
                     NSLog(@"Retrieved: %@", responseObject);
-                    [self createItemsArray:responseObject];
+                    [self createPostsArray:responseObject];
                     _lastUpdate = [NSDate date];
                     [self.delegate didCompleteHttpCallback:kTradePostMgr_ReceivePosts, TRUE];
                 }
                 failure:^(AFHTTPRequestOperation* operation, NSError* error){
                     UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
-                                                                      message:@"Unable to create retrieve items. Please try again later."
+                                                                      message:@"Unable to create retrieve posts. Please try again later."
                                                                      delegate:nil
                                                             cancelButtonTitle:@"OK"
                                                             otherButtonTitles:nil];
@@ -279,37 +280,6 @@ static double const refreshTime = -(60 * 15);
     
     return result;
 }
-
-// HACK
-// remove when retrieve from server is implemented
-- (void) createPlaceholderBeaconPosts
-{
-    NSArray* itemTypes = [[TradeItemTypes getInstance] getItemTypesForTier:1];
-    if(itemTypes && [itemTypes count])
-    {
-        TradeItemType* itemType = [itemTypes objectAtIndex:0];
-        NSString* postId0 = [NSString stringWithFormat:@"PlaceholderFriendPost%d", 0];
-        TradePost* newPost0 = [[TradePost alloc] initWithPostId:postId0
-                                                     coordinate:[CLLocation london].coordinate
-                                                       itemType:itemType
-                                                    supplyLevel:[itemType supplymax]];
-        newPost0.isOwnPost = NO;
-        newPost0.isNPCPost = NO;
-        [self.friendsPosts setObject:newPost0 forKey:postId0];
-
-        NSString* postId1 = [NSString stringWithFormat:@"PlaceholderFriendPost%d", 1];
-        TradePost* newPost1 = [[TradePost alloc] initWithPostId:postId1
-                                                     coordinate:[CLLocation penang].coordinate
-                                                       itemType:itemType
-                                                    supplyLevel:[itemType supplymax]];
-        newPost1.isOwnPost = NO;
-        newPost1.isNPCPost = NO;
-        [self.friendsPosts setObject:newPost1 forKey:postId1];
-    }
-    
-    [[BeaconMgr getInstance] createPlaceholderBeacons];
-}
-// HACK
 
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success

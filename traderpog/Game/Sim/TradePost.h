@@ -18,6 +18,7 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 @class TradePostAnnotation;
 @interface TradePost : NSObject<MKAnnotation, MapAnnotationProtocol>
 {
+    NSString*   _userId;
     NSString*   _postId;
     CLLocationCoordinate2D _coord;
     NSString*   _itemId;
@@ -25,6 +26,7 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
     NSInteger   _supplyMaxLevel;
     NSInteger   _supplyRateLevel;
     NSDate*     _beacontime;
+    NSString*   _fbId;
     
     BOOL        _isOwnPost;
     BOOL        _isNPCPost;
@@ -55,7 +57,8 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 - (id) initWithCoordinates:(CLLocationCoordinate2D)coordinate 
                            itemType:(TradeItemType *)itemType;
 - (void) createNewPostOnServer;
-- (id) initWithDictionary:(NSDictionary*)dict;
+- (id) initWithDictionary:(NSDictionary*)dict
+                isForeign:(BOOL)isForeign;
 - (void) setBeacon;
 - (bool) beaconActive;
 
