@@ -10,6 +10,7 @@
 #import "TradePost.h"
 #import "TradePostMgr.h"
 #import "Flyer.h"
+#import "FlyerMgr.h"
 #import "TradeItemTypes.h"
 #import "TradeItemType.h"
 #import "Player.h"
@@ -89,6 +90,19 @@ static const float kTradeDistanceFactor = 1.0f;
     if(numAfford)
     {
         result = YES;
+    }
+    return result;
+}
+
+- (BOOL) playerHasIdleFlyers
+{
+    BOOL result = NO;
+    for(Flyer* cur in [[FlyerMgr getInstance] playerFlyers])
+    {
+        if(![cur isEnroute])
+        {
+            result = YES;
+        }
     }
     return result;
 }

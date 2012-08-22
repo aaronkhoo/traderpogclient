@@ -86,15 +86,23 @@ static NSString* const kFlyerTransformKey = @"transform";
 #pragma mark - PogMapAnnotationViewProtocol
 - (void)didSelectAnnotationViewInMap:(MKMapView*) mapView;
 {   
-    if(!_calloutAnnotation && [[GameManager getInstance] canShowMapAnnotationCallout])
+    if(!_calloutAnnotation)
     {
-        Flyer* flyer = (Flyer*) [self annotation];
-        if(![flyer isEnroute])
+        if([[GameManager getInstance] canShowMapAnnotationCallout])
         {
-            // show Flyer Callout if not enroute
-            _calloutAnnotation = [[FlyerCallout alloc] initWithFlyer:flyer];
-            _calloutAnnotation.parentAnnotationView = self;
-            [mapView addAnnotation:_calloutAnnotation];
+            Flyer* flyer = (Flyer*) [self annotation];
+            if(![flyer isEnroute])
+            {
+                // show Flyer Callout if not enroute
+                _calloutAnnotation = [[FlyerCallout alloc] initWithFlyer:flyer];
+                _calloutAnnotation.parentAnnotationView = self;
+                [mapView addAnnotation:_calloutAnnotation];
+            }
+        }
+        else
+        {
+            // disallow callout
+            [mapView deselectAnnotation:[self annotation] animated:NO];
         }
     }
 }

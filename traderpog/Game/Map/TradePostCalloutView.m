@@ -63,14 +63,17 @@ NSString* const kTradePostCalloutViewReuseId = @"PostCalloutView";
         else
         {
             // other's post
-            if([[TradeManager getInstance] playerCanAffordItemsAtPost:destPost])
+            if(![[TradeManager getInstance] playerHasIdleFlyers])
             {
-                // player has money
-                Flyer* flyer = [[[FlyerMgr getInstance] playerFlyers] objectAtIndex:0];
-                [[TradeManager getInstance] flyer:flyer buyFromPost:destPost numItems:[destPost supplyLevel]];
-                [[GameManager getInstance] flyer:flyer departForTradePost:destPost];
+                // inform player they cannot afford the order
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Flyers busy"
+                                                                message:@"Need idle Flyer to place this order"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"Ok"
+                                                      otherButtonTitles:nil];
+                [alert show];                
             }
-            else
+            else if(![[TradeManager getInstance] playerCanAffordItemsAtPost:destPost])
             {
                 // inform player they cannot afford the order
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not enough coins"
@@ -79,6 +82,13 @@ NSString* const kTradePostCalloutViewReuseId = @"PostCalloutView";
                                                       cancelButtonTitle:@"Ok"
                                                       otherButtonTitles:nil];
                 [alert show];
+            }
+            else
+            {
+                // player can order
+                Flyer* flyer = [[[FlyerMgr getInstance] playerFlyers] objectAtIndex:0];
+                [[TradeManager getInstance] flyer:flyer buyFromPost:destPost numItems:[destPost supplyLevel]];
+                [[GameManager getInstance] flyer:flyer departForTradePost:destPost];
             }
             
         }
