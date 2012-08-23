@@ -7,8 +7,9 @@
 //
 
 #import "FBConnect.h"
-#import <UIKit/UIKit.h>
 #import "HttpCallbackDelegate.h"
+#import <CoreLocation/CoreLocation.h>
+#import <UIKit/UIKit.h>
 
 static NSString* const kPlayer_CreateNewUser = @"CreateNewUser";
 static NSString* const kPlayer_SavePlayerData = @"SavePlayerData";
@@ -35,6 +36,9 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
     NSDate* _fbFriendsUpdate;
     NSDate* _fbPostUpdate;
     
+    BOOL _lastKnownLocationValid;
+    CLLocationCoordinate2D _lastKnownLocation;
+    
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
     
@@ -44,9 +48,12 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
 @property (nonatomic) BOOL dataRefreshed;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 @property (nonatomic, retain) Facebook *facebook;
+@property (nonatomic) BOOL lastKnownLocationValid;
+@property (nonatomic) CLLocationCoordinate2D lastKnownLocation;
 
 - (void)initializeFacebook;
 - (void)authorizeFacebook;
+- (void)savePlayerData;
 - (BOOL)needsRefresh;
 - (BOOL)needsFriendsRefresh;
 - (void)createNewPlayerOnServer;

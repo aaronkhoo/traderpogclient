@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "BeaconMgr.h"
 #import "GameManager.h"
 #import "Player.h"
 #import "TradePostMgr.h"
@@ -179,6 +180,13 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         _playerInfoRefreshCount++;
     }
     
+    // Load beacons
+    if ([[BeaconMgr getInstance] needsRefresh])
+    {
+        [[BeaconMgr getInstance] retrieveBeaconsFromServer];
+        _playerInfoRefreshCount++;
+    }
+    
     // Refresh friends data from Facebook if necessary
     if ([[Player getInstance] facebookSessionValid] && [[Player getInstance] needsFriendsRefresh])
     {
@@ -234,6 +242,11 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 #pragma mark - location notifications
 - (void) handleNewPlayerLocated:(NSNotification *)note
 {
+    // Store up the last known player location
+    Player* current = [Player getInstance];
+    current.lastKnownLocation = [self playerLocator].bestLocation.coordinate;
+    current.lastKnownLocationValid = TRUE;
+    
     [self selectNextGameUI];
 }
 
@@ -312,7 +325,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         loading.progressLabel.text = @"Loading player info";
         [self loadPlayerInfo];
     }
-    else if(![self.playerLocator bestLocation])
+    else if(![[Player getInstance] lastKnownLocationValid])
     {
         // first check the view on the stack, if the top view is not LoadingScreen,
         // then push that onto the stack
@@ -342,7 +355,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         
         NSArray* itemsArray = [[TradeItemTypes getInstance] getItemTypesForTier:1];
         NSInteger index = arc4random() % (itemsArray.count);
-        if (![[TradePostMgr getInstance] newTradePostAtCoord:[self.playerLocator bestLocation].coordinate
+        if (![[TradePostMgr getInstance] newTradePostAtCoord:[[Player getInstance] lastKnownLocation]
                                                  sellingItem:[itemsArray objectAtIndex:index]])
         {
             // Something failed in the trade post creation, probably because another post
@@ -384,12 +397,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         
         if (![self gameViewController])
         {
-            // HACK
-            // remove after retrieve from server of friends posts is implemented
-            [[TradePostMgr getInstance] createPlaceholderBeaconPosts];
-            // HACK
-
-            _gameViewController = [[GameViewController alloc] initAtCoordinate:[self.playerLocator bestLocation].coordinate];
+            _gameViewController = [[GameViewController alloc] initAtCoordinate:[[Player getInstance] lastKnownLocation]];
             
             // push the gameViewController onto the stack
             [nav pushFadeInViewController:self.gameViewController animated:YES];
@@ -400,6 +408,10 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         {
             case kGameStateNew:
                 _gameState = kGameStateGameLoop;
+                
+                // Save the player state
+                [[Player getInstance] savePlayerData];
+                
                 NSLog(@"start gameloop");
                 [self.gameViewController showKnobAnimated:YES delay:0.5f];
                 
@@ -536,7 +548,8 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         if ([callName compare:kPlayer_GetPlayerData] == NSOrderedSame ||
             [callName compare:kTradePostMgr_ReceivePosts] == NSOrderedSame ||
             [callName compare:kFlyerMgr_ReceiveFlyers] == NSOrderedSame ||
-            [callName compare:kPlayer_SavePlayerData] == NSOrderedSame)
+            [callName compare:kPlayer_SavePlayerData] == NSOrderedSame ||
+            [callName compare:kBeaconMgr_ReceiveBeacons] == NSOrderedSame)
         {
             _playerInfoRefreshCount--;
             _playerInfoRefreshSucceeded = _playerInfoRefreshSucceeded && success;

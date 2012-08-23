@@ -135,18 +135,6 @@ enum kKnobSlices
 
     
     [self startDisplayLink];
-    
-    // start out by centering map on a flyer
-    CLLocationCoordinate2D initCoord = _initCoord;
-    if([[[FlyerMgr getInstance] playerFlyers] count])
-    {
-        Flyer* flyer = [[[FlyerMgr getInstance] playerFlyers] objectAtIndex:0];
-        initCoord = [flyer coordinate];
-        [self.mapControl centerOn:initCoord animated:NO];
-        
-        // track it
-        [self.mapControl startTrackingAnnotation:flyer];
-    }
 }
 
 - (void)viewDidUnload

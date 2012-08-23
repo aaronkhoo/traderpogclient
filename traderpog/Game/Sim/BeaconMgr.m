@@ -6,14 +6,17 @@
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
+#import "AFClientManager.h"
 #import "BeaconMgr.h"
 #import "Beacon.h"
 #import "WheelControl.h"
 #import "WheelBubble.h"
 #import "PogUIUtility.h"
+#import "Player.h"
 #import "TradePost.h"
 
 static NSUInteger kBeaconPreviewZoomLevel = 8;
+static double const refreshTime = -(60 * 15);
 
 @interface BeaconMgr ()
 {
@@ -26,6 +29,7 @@ static NSUInteger kBeaconPreviewZoomLevel = 8;
 @implementation BeaconMgr
 @synthesize activeBeacons = _activeBeacons;
 @synthesize previewMap = _previewMap;
+@synthesize delegate = _delegate;
 
 - (id) init
 {
@@ -33,27 +37,56 @@ static NSUInteger kBeaconPreviewZoomLevel = 8;
     if(self)
     {
         _activeBeacons = [NSMutableDictionary dictionaryWithCapacity:10];
+        _lastUpdate = nil;
     }
     return self;
 }
 
-// HACK
-// remove when retrieveFromServer is implemented
-- (void) createPlaceholderBeacons
+- (BOOL) needsRefresh
 {
-    Beacon* beacon1 = [[Beacon alloc] initWithBeaconId:@"PlaceholderBeacon0"
-                                                postId:@"PlaceholderFriendPost0"];
-    Beacon* beacon2 = [[Beacon alloc] initWithBeaconId:@"PlaceholderBeacon1"
-                                                postId:@"PlaceholderFriendPost1"];
-    [_activeBeacons setObject:beacon1 forKey:@"PlaceholderBeacon0"];
-    [_activeBeacons setObject:beacon2 forKey:@"PlaceholderBeacon1"];
+    return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime);
 }
 
-// HACK
+- (void) createPostsArray:(id)responseObject
+{
+    for (NSDictionary* post in responseObject)
+    {
+        TradePost* current = [[TradePost alloc] initWithDictionary:post isForeign:TRUE];
+        [self.activeBeacons setObject:current forKey:current.postId];
+    }
+}
+
+- (void) retrieveBeaconsFromServer
+{
+    // make a get request
+    AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
+    NSString *userId = [NSString stringWithFormat:@"%d", [[Player getInstance] playerId]];
+    [httpClient setDefaultHeader:@"user-id" value:userId];
+    [httpClient getPath:@"posts/beacons"
+             parameters:nil
+                success:^(AFHTTPRequestOperation *operation, id responseObject){
+                    NSLog(@"Retrieved: %@", responseObject);
+                    [self createPostsArray:responseObject];
+                    _lastUpdate = [NSDate date];
+                    [self.delegate didCompleteHttpCallback:kBeaconMgr_ReceiveBeacons, TRUE];
+                }
+                failure:^(AFHTTPRequestOperation* operation, NSError* error){
+                    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
+                                                                      message:@"Unable to create retrieve beacons. Please try again later."
+                                                                     delegate:nil
+                                                            cancelButtonTitle:@"OK"
+                                                            otherButtonTitles:nil];
+                    
+                    [message show];
+                    [self.delegate didCompleteHttpCallback:kBeaconMgr_ReceiveBeacons, FALSE];
+                }
+     ];
+    [httpClient setDefaultHeader:@"user_id" value:nil];
+}
 
 - (void) addBeaconAnnotationsToMap:(MapControl*)map
 {
-    for(Beacon* cur in [_activeBeacons allValues])
+    for(TradePost* cur in [_activeBeacons allValues])
     {
         [map addAnnotation:cur];
     }
@@ -99,7 +132,7 @@ static NSUInteger kBeaconPreviewZoomLevel = 8;
             CGRect superFrame = wheel.previewView.bounds;
             result = [[MKMapView alloc] initWithFrame:superFrame];
             index = MIN(index, [_activeBeacons count]-1);
-            Beacon* initBeacon = [_activeBeacons.allValues objectAtIndex:index];
+            TradePost* initBeacon = [_activeBeacons.allValues objectAtIndex:index];
             _previewMap = [[MapControl alloc] initWithMapView:result
                                                     andCenter:[initBeacon coord]
                                                   atZoomLevel:kBeaconPreviewZoomLevel];
@@ -122,7 +155,7 @@ static NSUInteger kBeaconPreviewZoomLevel = 8;
     if([_activeBeacons count])
     {
         index = MIN(index, [_activeBeacons count]-1);
-        Beacon* cur = [_activeBeacons.allValues objectAtIndex:index];
+        TradePost* cur = [_activeBeacons.allValues objectAtIndex:index];
         [_previewMap centerOn:[cur coord] animated:YES];
     }
 }
@@ -132,7 +165,7 @@ static NSUInteger kBeaconPreviewZoomLevel = 8;
     if([_activeBeacons count])
     {
         index = MIN(index, [_activeBeacons count]-1);
-        Beacon* cur = [_activeBeacons.allValues objectAtIndex:index];
+        TradePost* cur = [_activeBeacons.allValues objectAtIndex:index];
         [wheel.superMap centerOn:[cur coord] animated:YES];
     }
 }

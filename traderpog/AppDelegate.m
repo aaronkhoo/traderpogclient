@@ -136,6 +136,7 @@
     [[FlyerTypes getInstance] setDelegate:[GameManager getInstance]];
     [[FlyerMgr getInstance] setDelegate:[GameManager getInstance]];
     [[ResourceManager getInstance] setDelegate:[GameManager getInstance]];
+    [[BeaconMgr getInstance] setDelegate:[GameManager getInstance]];
 
     // load up frontmenu background
     [[ImageManager getInstance] loadFrontMenuBackgroundNamed:@"Default.png"];

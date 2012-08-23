@@ -50,8 +50,7 @@ NSString* const kTradePostCalloutViewReuseId = @"PostCalloutView";
     else if([self.parentAnnotationView isMemberOfClass:[BeaconAnnotationView class]])
     {
         // parent is a beacon
-        Beacon* beacon = (Beacon*) [self.parentAnnotationView annotation];
-        destPost = [[TradePostMgr getInstance] getTradePostWithId:[beacon postId]];
+        destPost = (TradePost*) [self.parentAnnotationView annotation];
     }
 
     if(destPost)
