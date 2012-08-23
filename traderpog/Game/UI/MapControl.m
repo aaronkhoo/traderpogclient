@@ -16,6 +16,7 @@
 #import "BrowseArea.h"
 #import "CalloutAnnotationView.h"
 #import "FlyerAnnotationView.h"
+#import "MKMapView+Pog.h"
 
 static const NSUInteger kDefaultZoomLevel = 15;
 static NSString* const kKeyCoordinate = @"coordinate";
@@ -141,6 +142,24 @@ static const float kBrowseAreaRadius = 900.0f;
     // center the map and browse area
     [self.view setCenterCoordinate:coord animated:isAnimated];
     [self.browseArea setCenterCoord:coord];
+}
+
+- (void) centerOnFlyer:(Flyer *)flyer animated:(BOOL)isAnimated
+{
+    if([flyer isEnroute])
+    {
+        // focus map on the route
+        CLLocationCoordinate2D srcCoord = [flyer srcCoord];
+        CLLocationCoordinate2D destCoord = [flyer destCoord];
+        
+        MKMapRect routeRect = [MKMapView boundingRectForCoordinateA:srcCoord coordinateB:destCoord];
+        UIEdgeInsets padding = UIEdgeInsetsMake(20.0f, 5.0f, 20.0f, 5.0f);
+        [self.view setVisibleMapRect:routeRect edgePadding:padding animated:YES];
+    }
+    else
+    {
+        [self centerOn:[flyer coordinate] animated:isAnimated];
+    }
 }
 
 - (void) startTrackingAnnotation:(NSObject<MKAnnotation> *)annotation

@@ -32,6 +32,7 @@
 - (void) centerOn:(CLLocationCoordinate2D)coord animated:(BOOL)isAnimated;
 - (void) startTrackingAnnotation:(NSObject<MKAnnotation>*)annotation;
 - (void) stopTrackingAnnotation;
+- (void) centerOnFlyer:(Flyer*)flyer animated:(BOOL)isAnimated;
 
 - (void) deselectAllAnnotations;
 @end

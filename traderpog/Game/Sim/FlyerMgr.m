@@ -313,8 +313,9 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
     {
         index = MIN(index, [_playerFlyers count]-1);
         Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
-        [wheel.superMap centerOn:[curFlyer coord] animated:YES];
-        [wheel.superMap startTrackingAnnotation:curFlyer];
+//        [wheel.superMap centerOn:[curFlyer coord] animated:YES];
+//        [wheel.superMap startTrackingAnnotation:curFlyer];
+        [wheel.superMap centerOnFlyer:curFlyer animated:YES];
     }
 }
 
