@@ -144,6 +144,16 @@ static const float kBrowseAreaRadius = 900.0f;
     [self.browseArea setCenterCoord:coord];
 }
 
+- (void) defaultZoomCenterOn:(CLLocationCoordinate2D)coord animated:(BOOL)isAnimated
+{
+    // stop any ongoing tracking
+    [self stopTrackingAnnotation];
+    
+    // center the map and browse area
+    [self.view setCenterCoordinate:coord zoomLevel:kDefaultZoomLevel animated:isAnimated];
+    [self.browseArea setCenterCoord:coord];
+}
+
 - (void) centerOnFlyer:(Flyer *)flyer animated:(BOOL)isAnimated
 {
     if([flyer isEnroute])
@@ -158,7 +168,7 @@ static const float kBrowseAreaRadius = 900.0f;
     }
     else
     {
-        [self centerOn:[flyer coordinate] animated:isAnimated];
+        [self defaultZoomCenterOn:[flyer coordinate] animated:isAnimated];
     }
 }
 

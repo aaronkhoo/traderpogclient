@@ -210,7 +210,7 @@ static const unsigned int kScanNumPosts = 4;
         // center map on my location
         if([self map])
         {
-            [self.map centerOn:locator.bestLocation.coordinate animated:YES];
+            [self.map defaultZoomCenterOn:locator.bestLocation.coordinate animated:YES];
             
             // Store up the last known player location
             [Player getInstance].lastKnownLocation = locator.bestLocation.coordinate;

@@ -462,7 +462,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     else
     {
         // otherwise, center map on committed post
-        [self.gameViewController.mapControl centerOn:[tradePost coord] animated:YES];
+        [self.gameViewController.mapControl defaultZoomCenterOn:[tradePost coord] animated:YES];
     }
 }
 

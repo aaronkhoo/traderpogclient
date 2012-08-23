@@ -166,7 +166,7 @@ static double const refreshTime = -(60 * 15);
     {
         index = MIN(index, [_activeBeacons count]-1);
         TradePost* cur = [_activeBeacons.allValues objectAtIndex:index];
-        [wheel.superMap centerOn:[cur coord] animated:YES];
+        [wheel.superMap defaultZoomCenterOn:[cur coord] animated:YES];
     }
 }
 
