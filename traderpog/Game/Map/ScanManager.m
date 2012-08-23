@@ -172,6 +172,10 @@ static const unsigned int kScanNumPosts = 4;
         if([self map])
         {
             [self.map centerOn:locator.bestLocation.coordinate animated:YES];
+            
+            // Store up the last known player location
+            [Player getInstance].lastKnownLocation = locator.bestLocation.coordinate;
+            [Player getInstance].lastKnownLocationValid = TRUE;
         }
         
         // start the scan

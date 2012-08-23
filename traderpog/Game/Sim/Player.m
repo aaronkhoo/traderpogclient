@@ -28,6 +28,9 @@ static NSString* const kKeyFbAccessToken = @"fbaccesstoken";
 static NSString* const kKeyFbExpiration = @"fbexpiration";
 static NSString* const kKeyFbFriendsRefresh = @"fbfriendsrefresh";
 static NSString* const kKeyFbPostUpdate = @"fbpostupdate";
+static NSString* const kKeyLastKnownLatitude = @"lastlat";
+static NSString* const kKeyLastKnownLongitude = @"lastlong";
+static NSString* const kKeyLastKnownLocationValid = @"lastknownvalid";
 static NSString* const kPlayerFilename = @"player.sav";
 
 static double const refreshTime = -(60 * 15);  // 15 min
@@ -40,6 +43,8 @@ static const unsigned int kInitBucks = 500;
 @synthesize playerId = _playerId;
 @synthesize dataRefreshed = _dataRefreshed;
 @synthesize facebook = _facebook;
+@synthesize lastKnownLocationValid = _lastKnownLocationValid;
+@synthesize lastKnownLocation = _lastKnownLocation;
 
 - (id) init
 {
@@ -66,6 +71,8 @@ static const unsigned int kInitBucks = 500;
         _lastUpdate = nil;
         _fbFriendsUpdate = nil;
         _fbPostUpdate = nil;
+        
+        _lastKnownLocationValid = FALSE;
         
         // Initialize delegate
         _delegate = nil;
@@ -133,6 +140,9 @@ static const unsigned int kInitBucks = 500;
     [aCoder encodeObject:_fbFriendsUpdate forKey:kKeyFbFriendsRefresh];
     [aCoder encodeObject:_fbPostUpdate forKey:kKeyFbPostUpdate];
     [aCoder encodeObject:[NSNumber numberWithUnsignedInteger:_bucks] forKey:kKeyBucks];
+    [aCoder encodeDouble:_lastKnownLocation.latitude forKey:kKeyLastKnownLatitude];
+    [aCoder encodeDouble:_lastKnownLocation.longitude forKey:kKeyLastKnownLongitude];
+    [aCoder encodeBool:_lastKnownLocationValid forKey:kKeyLastKnownLocationValid];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
@@ -153,6 +163,9 @@ static const unsigned int kInitBucks = 500;
     {
         _bucks = kInitBucks;
     }
+    _lastKnownLocation.latitude = [aDecoder decodeDoubleForKey:kKeyLastKnownLatitude];
+    _lastKnownLocation.longitude = [aDecoder decodeDoubleForKey:kKeyLastKnownLongitude];
+    _lastKnownLocationValid = [aDecoder decodeBoolForKey:kKeyLastKnownLocationValid];
     return self;
 }
 
