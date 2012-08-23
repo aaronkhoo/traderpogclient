@@ -228,7 +228,10 @@ static const float kBrowseAreaRadius = 900.0f;
             Flyer* flyer = (Flyer*)[cur annotation];
             [[cur superview] bringSubviewToFront:cur];
             [cur setTransform:[flyer transform]];
-            break;
+        }
+        else if([cur isKindOfClass:[CalloutAnnotationView class]])
+        {
+            [[cur superview] bringSubviewToFront:cur];
         }
     }
 }
