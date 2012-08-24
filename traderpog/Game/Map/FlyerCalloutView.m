@@ -28,5 +28,9 @@ NSString* const kFlyerCalloutViewReuseId = @"FlyerCalloutView";
 {
     FlyerCallout* annot = (FlyerCallout*) [self annotation];
     [[GameManager getInstance] showHomeSelectForFlyer:[annot flyer]];
+
+    // halt all other callouts for a second so that we don't get touch-through callouts popping up when
+    // player presses Go
+    [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
 }
 @end
