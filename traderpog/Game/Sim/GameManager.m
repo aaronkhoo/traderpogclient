@@ -27,12 +27,11 @@
 #import "FlightPathOverlay.h"
 #import "ResourceManager.h"
 #import "GameNotes.h"
+#import "WorldState.h"
 #import <CoreLocation/CoreLocation.h>
 
 // List of Game UI screens that GameManager can kick off
 #import "SignupScreen.h"
-
-static NSString* const kGameManagerWorldFilename = @"world.sav";
 
 @interface GameManager ()
 {
@@ -49,6 +48,9 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     GameViewController* _gameViewController;
     HiAccuracyLocator* _playerLocator;
     
+    // local world state
+    WorldState* _localWorldState;
+    
     // in-game UI context
     Flyer* _contextFlyer;
     NSTimeInterval  _calloutHaltDuration;
@@ -56,9 +58,12 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 }
 @property (nonatomic,strong) ModalNavControl* modalNav;
 @property (nonatomic,strong) HiAccuracyLocator* playerLocator;
+@property (nonatomic,strong) WorldState* localWorldState;
 
 - (void) loadGameInfo;
 - (void) loadPlayerInfo;
+- (void) loadLocalWorldState;
+- (void) saveLocalWorldState;
 
 - (void) startModalNavControlInView:(UIView*)parentView 
                      withController:(UIViewController *)viewController
@@ -74,6 +79,7 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
 @synthesize modalNav;
 @synthesize gameViewController = _gameViewController;
 @synthesize playerLocator = _playerLocator;
+@synthesize localWorldState = _localWorldState;
 
 - (id) init
 {
@@ -104,6 +110,9 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
         _calloutHaltDuration = 0.0;
         
         [self registerAllNotificationHandlers];
+        
+        // load up local world state
+        [self loadLocalWorldState];
     }
     return self;
 }
@@ -204,6 +213,54 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     }
 }
 
+- (void) loadLocalWorldState
+{
+    self.localWorldState = nil;
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString* filepath = [WorldState filepath];
+    if ([fileManager fileExistsAtPath:filepath])
+    {
+        NSData* readData = [NSData dataWithContentsOfFile:filepath];
+        if(readData)
+        {
+            self.localWorldState = [NSKeyedUnarchiver unarchiveObjectWithData:readData];
+        }
+    }
+}
+
+- (void) saveLocalWorldState
+{
+    if(![self localWorldState])
+    {
+        // create new local cache if non exists
+        self.localWorldState = [[WorldState alloc] init];
+    }
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:[self localWorldState]];
+    NSError* error = nil;
+    BOOL writeSuccess = [data writeToFile:[WorldState filepath]
+                                  options:NSDataWritingAtomic
+                                    error:&error];
+    if(writeSuccess)
+    {
+        NSLog(@"localWorldState file saved successfully");
+    }
+    else
+    {
+        NSLog(@"localWorldState file save failed: %@", error);
+    }
+}
+
+- (void) removeLocalWorldStateData
+{
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString* filepath = [WorldState filepath];
+    NSError *error = nil;
+    if ([fileManager fileExistsAtPath:filepath])
+    {
+        [fileManager removeItemAtPath:filepath error:&error];
+    }
+}
+
 - (void) locateNewPlayer
 {
     _playerLocator = [[HiAccuracyLocator alloc] init];
@@ -276,6 +333,17 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
     _playerInfoRefreshed = false;
     _playerInfoRefreshCount = 0;
     [self selectNextGameUI];
+}
+
+- (void) applicationDidEnterBackground
+{
+    [self saveLocalWorldState];
+}
+
+- (void) clearCache
+{
+    [self removeLocalWorldStateData];
+    [[Player getInstance] removePlayerData];
 }
 
 - (void) selectNextGameUI
@@ -411,6 +479,12 @@ static NSString* const kGameManagerWorldFilename = @"world.sav";
                 
                 // Save the player state
                 [[Player getInstance] savePlayerData];
+                
+                // refresh game data from local cache
+                if([self localWorldState])
+                {
+                    [[FlyerMgr getInstance] refreshFromWorldState:[self localWorldState]];
+                }
                 
                 NSLog(@"start gameloop");
                 [self.gameViewController showKnobAnimated:YES delay:0.5f];

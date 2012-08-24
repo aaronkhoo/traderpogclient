@@ -19,6 +19,7 @@
 #import "MapControl.h"
 #import "TradeItemTypes.h"
 #import "TradeItemType.h"
+#import "WorldState.h"
 #include "MathUtils.h"
 
 
@@ -218,6 +219,14 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
                 cur.nextPostId = [post postId];
             }
         }
+    }
+}
+
+- (void) refreshFromWorldState:(WorldState *)worldState
+{
+    for(Flyer* cur in [self playerFlyers])
+    {
+        [worldState setDataIntoFlyer:cur];
     }
 }
 

@@ -11,6 +11,5 @@
 
 extern NSString* const kFlyerCalloutViewReuseId;
 @interface FlyerCalloutView : CalloutAnnotationView
-- (IBAction)didPressLab:(id)sender;
 - (IBAction)didPressHome:(id)sender;
 @end

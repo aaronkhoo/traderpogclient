@@ -56,6 +56,8 @@ enum kGameStates
 
 // system
 - (void) applicationWillEnterForeground;
+- (void) applicationDidEnterBackground;
+- (void) clearCache;
 
 // singleton
 +(GameManager*) getInstance;

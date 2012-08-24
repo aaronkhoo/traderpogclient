@@ -14,6 +14,7 @@
 #import "LoadingScreen.h"
 #import "UINavigationController+Pog.h"
 #import "GameNotes.h"
+#import "WorldState.h"
 
 // encoding keys
 static NSString* const kKeyVersion = @"version";
@@ -124,6 +125,14 @@ static const unsigned int kInitBucks = 500;
     }
 }
 
+- (void) setBucks:(NSUInteger)newBucks
+{
+    _bucks = newBucks;
+    
+    // broadcast coins changed
+    [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteCoinsChanged object:self];
+}
+
 - (NSUInteger) bucks
 {
     return _bucks;
@@ -161,7 +170,7 @@ static const unsigned int kInitBucks = 500;
     }
     else
     {
-        _bucks = kInitBucks;
+        _bucks = 0;
     }
     _lastKnownLocation.latitude = [aDecoder decodeDoubleForKey:kKeyLastKnownLatitude];
     _lastKnownLocation.longitude = [aDecoder decodeDoubleForKey:kKeyLastKnownLongitude];

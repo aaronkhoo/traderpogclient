@@ -8,9 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+@class Flyer;
 @interface WorldState : NSObject<NSCoding>
 {
-    NSMutableDictionary* _activeTradePosts; // value TradePost; key tradePost identifier
+    NSMutableDictionary* _flyersInventory;  // key: flyerId; value: NSDictionary;
 }
-@property (nonatomic,strong) NSMutableDictionary* activeTradePosts;
+@property (nonatomic,strong) NSMutableDictionary* flyersInventory;
+
+- (void) refreshDataFromGame;
+
+- (void) setDataIntoFlyer:(Flyer*)flyer;
+
++ (NSString*) filepath;
+
 @end

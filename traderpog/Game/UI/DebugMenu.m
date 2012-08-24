@@ -10,6 +10,7 @@
 #import "DebugOptions.h"
 #import "UINavigationController+Pog.h"
 #import "Player.h"
+#import "GameManager.h"
 
 @interface DebugMenu ()
 - (void) setupOnOff;
@@ -60,13 +61,14 @@
 }
 
 
+- (IBAction)didPressClearCache:(id)sender
+{
+    [[GameManager getInstance] clearCache];
+}
+
 - (IBAction)didPressClose:(id)sender 
 {
     [self.navigationController popToRightViewControllerAnimated:YES];
-}
-
-- (IBAction)didPressResetGame:(id)sender 
-{
 }
 
 - (IBAction)didPressAdd200Coins:(id)sender

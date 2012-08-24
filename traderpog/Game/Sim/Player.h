@@ -8,6 +8,7 @@
 
 #import "FBConnect.h"
 #import "HttpCallbackDelegate.h"
+#import "WorldState.h"
 #import <CoreLocation/CoreLocation.h>
 #import <UIKit/UIKit.h>
 
@@ -65,10 +66,12 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
 // trade
 - (void) addBucks:(NSUInteger)newBucks;
 - (void) deductBucks:(NSUInteger)bucksToSub;
+- (void) setBucks:(NSUInteger)newBucks;
 - (NSUInteger) bucks;
 
 // system
 - (void) appDidEnterBackground;
+- (void) removePlayerData;
 
 // singleton
 +(Player*) getInstance;

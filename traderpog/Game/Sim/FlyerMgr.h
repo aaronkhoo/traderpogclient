@@ -15,6 +15,7 @@ static NSString* const kFlyerMgr_ReceiveFlyers = @"FlyerMgr_ReceiveFlyers";
 
 @class Flyer;
 @class TradePost;
+@class WorldState;
 @interface FlyerMgr : NSObject<HttpCallbackDelegate,WheelDataSource,WheelProtocol>
 {
     NSMutableArray* _playerFlyers;
@@ -32,6 +33,8 @@ static NSString* const kFlyerMgr_ReceiveFlyers = @"FlyerMgr_ReceiveFlyers";
 - (void) retrieveUserFlyersFromServer;
 - (void) updateFlyersAtDate:(NSDate*)currentTime;
 - (void) initFlyersOnMap;
+
+- (void) refreshFromWorldState:(WorldState*)worldState;
 
 // singleton
 +(FlyerMgr*) getInstance;

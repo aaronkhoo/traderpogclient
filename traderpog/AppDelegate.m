@@ -83,6 +83,7 @@
     // HACK
     
     [[Player getInstance] appDidEnterBackground];
+    [[GameManager getInstance] applicationDidEnterBackground];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

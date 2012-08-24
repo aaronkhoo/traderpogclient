@@ -24,12 +24,6 @@ NSString* const kFlyerCalloutViewReuseId = @"FlyerCalloutView";
     return self;
 }
 
-
-- (IBAction)didPressLab:(id)sender
-{
-    NSLog(@"Lab");
-}
-
 - (IBAction)didPressHome:(id)sender
 {
     FlyerCallout* annot = (FlyerCallout*) [self annotation];

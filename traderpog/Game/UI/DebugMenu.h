@@ -11,7 +11,7 @@
 @interface DebugMenu : UIViewController
 @property (weak, nonatomic) IBOutlet UISwitch *localDevSwitch;
 
+- (IBAction)didPressClearCache:(id)sender;
 - (IBAction)didPressClose:(id)sender;
-- (IBAction)didPressResetGame:(id)sender;
 - (IBAction)didPressAdd200Coins:(id)sender;
 @end
