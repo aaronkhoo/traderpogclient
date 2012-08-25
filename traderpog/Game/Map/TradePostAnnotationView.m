@@ -14,6 +14,7 @@
 #import "GameManager.h"
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
+static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
 
 @interface TradePostAnnotationView ()
 {
@@ -30,6 +31,7 @@ NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
     {
         // handle our own callout
         self.canShowCallout = NO;
+        self.enabled = YES;
         
         // set size of view
         CGRect myFrame = self.frame;
@@ -77,8 +79,36 @@ NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
         [self addSubview:contentView];
         
         _calloutAnnotation = nil;
+        
+        [tradePost addObserver:self forKeyPath:kKeyTradePostHasFlyer options:0 context:nil];
     }
     return self;
+}
+
+- (void) dealloc
+{
+    TradePost* post = (TradePost*) [self annotation];
+    [post removeObserver:self forKeyPath:kKeyTradePostHasFlyer];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+					  ofObject:(id)object
+						change:(NSDictionary *)change
+					   context:(void *)context
+{
+    if([keyPath isEqualToString:kKeyTradePostHasFlyer])
+    {
+        TradePost* post = (TradePost*)object;
+        if([post hasFlyer])
+        {
+            // if a flyer landed on this Post, disable it from receiving touch events
+            [self setEnabled:NO];
+        }
+        else
+        {
+            [self setEnabled:YES];
+        }
+    }
 }
 
 #pragma mark - MKAnnotationView

@@ -33,6 +33,7 @@ static NSString* const kKeyFBId = @"fbid";
 @synthesize isOwnPost = _isOwnPost;
 @synthesize isNPCPost = _isNPCPost;
 @synthesize beacontime = _beacontime;
+@synthesize hasFlyer = _hasFlyer;
 @synthesize delegate = _delegate;
 
 // call this to create NPC posts
@@ -67,6 +68,8 @@ static NSString* const kKeyFBId = @"fbid";
         // NPC post
         _isOwnPost = NO;
         _isNPCPost = YES;
+        
+        _hasFlyer = NO;
     }
     return self;
 }
@@ -86,6 +89,8 @@ static NSString* const kKeyFBId = @"fbid";
         // client can only create tradePosts for current player;
         _isOwnPost = YES;
         _isNPCPost = NO;
+        
+        _hasFlyer = NO;
     }
     return self;
 }
@@ -133,6 +138,7 @@ static NSString* const kKeyFBId = @"fbid";
         // transient variables
         _supplyLevel = _supplyMaxLevel;
         _annotation = nil;
+        _hasFlyer = NO;
     }
     return self;
 }

@@ -504,6 +504,8 @@
     {        
         if ([flyer departForPostId:[tradePost postId]])
         {
+            [tradePost setHasFlyer:NO];
+            
             // Flyer path was successfully created. Delete the old path from the view.
             [self.gameViewController.mapControl dismissFlightPathForFlyer:flyer];
         }
