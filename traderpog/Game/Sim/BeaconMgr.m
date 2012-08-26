@@ -101,10 +101,6 @@ static double const refreshTime = -(60 * 15);
         {
             cur.hasFlyer = YES;
         }
-        else
-        {
-            cur.hasFlyer = NO;
-        }
     }
 }
 

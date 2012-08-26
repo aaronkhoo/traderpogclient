@@ -102,10 +102,6 @@ static double const refreshTime = -(60 * 15);
         {
             post.hasFlyer = YES;
         }
-        else
-        {
-            post.hasFlyer = NO;
-        }
     }
     
     for (TradePost* post in [self.npcPosts allValues])
@@ -114,10 +110,6 @@ static double const refreshTime = -(60 * 15);
         if([postIdsWithFlyers stringArrayContainsString:[post postId]])
         {
             post.hasFlyer = YES;
-        }
-        else
-        {
-            post.hasFlyer = NO;
         }
     }
 }

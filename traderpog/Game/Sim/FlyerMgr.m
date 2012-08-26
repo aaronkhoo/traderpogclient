@@ -247,7 +247,7 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
     NSMutableArray* result = [NSMutableArray arrayWithCapacity:[self.playerFlyers count]];
     for(Flyer* cur in [self playerFlyers])
     {
-        if(![cur isEnroute])
+        if((![cur isEnroute]) && ([cur curPostId]))
         {
             [result addObject:[cur curPostId]];
         }
