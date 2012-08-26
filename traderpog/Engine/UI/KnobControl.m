@@ -31,7 +31,7 @@ static const float kKnobCenterRadiusFrac = 0.7f;
 - (void) createWheelRender;
 - (void) createCenterButton;
 - (float) distFromCenter:(CGPoint)point;
-- (void) refreshSliceViewDidSelect;
+- (void) refreshSliceViewDidSelectWithDelay:(NSTimeInterval)delay;
 - (void) refreshSliceViewDidBeginTouch;
 - (void) refreshSliceTitles;
 - (void) didPressCenterButton:(id)sender;
@@ -61,7 +61,7 @@ static const float kKnobCenterRadiusFrac = 0.7f;
         [self refreshSliceTitles];
         
         // initial refresh of sliceview
-        [self refreshSliceViewDidSelect];
+        [self refreshSliceViewDidSelectWithDelay:0.0f];
     }
     return self;
 }
@@ -199,7 +199,7 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     return sqrt(dx*dx + dy*dy);
 }
 
-- (void) refreshSliceViewDidSelect
+- (void) refreshSliceViewDidSelectWithDelay:(NSTimeInterval)delay
 {
     // make selected slice bigger
     unsigned int sliceIndex = 0;
@@ -207,7 +207,9 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     {
         if([self selectedSlice] == sliceIndex)
         {
-            [UIView animateWithDuration:0.2f 
+            [UIView animateWithDuration:0.2f
+                                  delay:delay
+                                options:UIViewAnimationCurveEaseInOut
                              animations:^(void){
                                  [cur useBigText];
                              }
@@ -223,6 +225,8 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     UIColor* knobColor = [self.delegate knob:self colorAtIndex:[self selectedSlice]];
     UIColor* borderColor = [self.delegate knob:self borderColorAtIndex:[self selectedSlice]];
     [UIView animateWithDuration:0.2f
+                          delay:delay
+                        options:UIViewAnimationCurveEaseInOut
                      animations:^(void){
                          self.circle.coloredView.layer.shadowColor = knobColor.CGColor;
                          self.circle.layer.borderColor = borderColor.CGColor;
@@ -386,7 +390,27 @@ static const float kKnobCenterRadiusFrac = 0.7f;
         [UIView commitAnimations];
     }
     
-    [self refreshSliceViewDidSelect];
+    [self refreshSliceViewDidSelectWithDelay:0.0f];
+}
+
+- (void) gotoSliceIndex:(unsigned int)index
+{
+    if(index < [self.slices count])
+    {
+        [self refreshSliceViewDidBeginTouch];
+
+        KnobSlice* cur = [self.slices objectAtIndex:index];
+        self.selectedSlice = index;
+        CGFloat radians = atan2f(_logicalTransform.b, _logicalTransform.a);
+        CGFloat rot = radians - cur.midAngle;
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.2];
+        CGAffineTransform t = CGAffineTransformRotate(_logicalTransform, -rot);
+        _logicalTransform = t;
+        self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform reverse:NO];
+        [UIView commitAnimations];
+        [self refreshSliceViewDidSelectWithDelay:0.2f];
+    }
 }
 
 #pragma mark - button actions

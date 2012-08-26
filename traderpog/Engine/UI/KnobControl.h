@@ -25,4 +25,5 @@
 @property (nonatomic,weak) NSObject<KnobProtocol>* delegate;
 
 - (id)initWithFrame:(CGRect)frame delegate:(NSObject<KnobProtocol>*)delegate;
+- (void) gotoSliceIndex:(unsigned int)index;
 @end
