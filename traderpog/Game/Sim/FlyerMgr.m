@@ -190,15 +190,23 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
         // only patch if this is a loaded flyer
         if(![cur isNewFlyer])
         {
+            TradeItemType* itemType = nil;
+            if([cur orderItemId])
+            {
+                itemType = [[TradeItemTypes getInstance] getItemTypeForId:[cur orderItemId]];
+            }
+            else
+            {
+                NSArray* itemTypes = [[TradeItemTypes getInstance] getItemTypesForTier:kTradeItemTierMin];
+                unsigned int randItem = RandomWithinRange(0, [itemTypes count]-1);
+                itemType = [itemTypes objectAtIndex:randItem];                
+            }
             if(![cur curPostId])
             {
                 TradePost* post = [self tradePosts:patchPosts withinMeters:kSimilarCoordThresholdMeters fromCoord:[cur srcCoord]];
                 if(!post)
                 {
                     // patch a new npc post here
-                    NSArray* itemTypes = [[TradeItemTypes getInstance] getItemTypesForTier:kTradeItemTierMin];
-                    unsigned int randItem = RandomWithinRange(0, [itemTypes count]-1);
-                    TradeItemType* itemType = [itemTypes objectAtIndex:randItem];
                     float randPriceFactor = MAX(0.2f,0.7f - (RandomFrac() * 0.5f));
                     unsigned int playerBucks = [[Player getInstance] bucks];
                     unsigned int supplyLevel = (playerBucks / [itemType price]) * randPriceFactor;
@@ -213,7 +221,7 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
                 if(!post)
                 {
                     // patch a new npc post here
-                    post = [[TradePostMgr getInstance] newNPCTradePostAtCoord:[cur destCoord] sellingItem:nil supplyLevel:0];
+                    post = [[TradePostMgr getInstance] newNPCTradePostAtCoord:[cur destCoord] sellingItem:itemType supplyLevel:0];
                     [patchPosts addObject:post];
                 }
                 cur.nextPostId = [post postId];

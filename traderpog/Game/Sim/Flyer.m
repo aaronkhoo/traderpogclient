@@ -195,62 +195,62 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
         
         // inventory
         obj = [dict valueForKeyPath:kKeyItemId];
-        if ((NSNull *)obj == [NSNull null])
+        if (obj)
+        {
+            _itemId = [NSString stringWithFormat:@"%d", [obj integerValue]];
+        }
+        else
         {
             // no item for this flyer
             _itemId = nil;
         }
-        else
-        {
-            _itemId = [NSString stringWithFormat:@"%d", [obj integerValue]];
-        }
         obj = [dict valueForKeyPath:kKeyNumItems];
-        if ((NSNull *)obj == [NSNull null])
-        {
-            _numItems = 0;
-        }
-        else
+        if (obj)
         {
             _numItems = [obj unsignedIntegerValue];
         }
-        obj = [path_dict valueForKeyPath:kKeyCostBasis];
-        if ((NSNull *)obj == [NSNull null])
+        else
         {
-            _costBasis = 0.0f;
+            _numItems = 0;
+        }
+        obj = [path_dict valueForKeyPath:kKeyCostBasis];
+        if (obj)
+        {
+            _costBasis = [obj floatValue];
         }
         else
         {
-            _costBasis = [obj floatValue];
+            _costBasis = 0.0f;
         }
         
         // escrow
         obj = [dict valueForKeyPath:kKeyOrderItemId];
-        if ((NSNull *)obj == [NSNull null])
+        if (obj)
+        {
+            _orderItemId = [NSString stringWithFormat:@"%d", [obj integerValue]];
+        }
+        else
         {
             // no item for this flyer
             _orderItemId = nil;
         }
-        else
-        {
-            _orderItemId = [NSString stringWithFormat:@"%d", [obj integerValue]];
-        }
         obj = [dict valueForKeyPath:kKeyOrderNumItems];
-        if ((NSNull *)obj == [NSNull null])
-        {
-            _orderNumItems = 0;
-        }
-        else
+        if (obj)
         {
             _orderNumItems = [obj unsignedIntValue];
         }
-        obj = [dict valueForKeyPath:kKeyOrderMoney];
-        if ((NSNull *)obj == [NSNull null])
+        else
         {
-            _orderPrice = 0;
+            _orderNumItems = 0;
+        }
+        obj = [dict valueForKeyPath:kKeyOrderMoney];
+        if (obj)
+        {
+            _orderPrice = [obj unsignedIntValue];
         }
         else
         {
-            _orderPrice = [obj unsignedIntValue];
+            _orderPrice = 0;
         }
         
         // init runtime transient vars

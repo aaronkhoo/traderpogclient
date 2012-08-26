@@ -95,12 +95,6 @@ NSString* const kTradeItemTypes_ReceiveItems = @"TradeItemType_ReceiveItems";
 - (TradeItemType*) getItemTypeForId:(NSString *)itemId
 {
     TradeItemType* itemType = [self.itemTypeReg objectForKey:itemId];
-    if(!itemType)
-    {
-        // HACK
-        // TODO: retrieve from server
-        // HACK
-    }
     return itemType;
 }
 
