@@ -12,6 +12,7 @@
 #import "TradePost.h"
 #import "TradeItemType.h"
 #import "TradePostAnnotationView.h"
+#import "ImageManager.h"
 
 static NSString* const kKeyPostId = @"id";
 static NSString* const kKeyUserId = @"user_id";
@@ -260,7 +261,7 @@ static NSString* const kKeyFBId = @"fbid";
 #pragma mark - MapAnnotationProtocol
 - (MKAnnotationView*) annotationViewInMap:(MKMapView *)mapView
 {
-    MKAnnotationView* annotationView = (TradePostAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:kTradePostAnnotationViewReuseId];
+    TradePostAnnotationView* annotationView = (TradePostAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:kTradePostAnnotationViewReuseId];
     if(annotationView)
     {
         annotationView.annotation = self;
@@ -274,6 +275,9 @@ static NSString* const kKeyFBId = @"fbid";
     {
         // own post is always enabled
         annotationView.enabled = YES;
+        UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
+                                            fallbackNamed:@"b_flyerlab.png"];
+        [annotationView.imageView setImage:image];
     }
     else
     {
@@ -284,6 +288,19 @@ static NSString* const kKeyFBId = @"fbid";
         else
         {
             annotationView.enabled = YES;
+        }
+        
+        if([self isNPCPost])
+        {
+            UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
+                                           fallbackNamed:@"b_tradepost.png"];
+            [annotationView.imageView setImage:image];
+        }
+        else
+        {
+            UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
+                                           fallbackNamed:@"b_homebase.png"];
+            [annotationView.imageView setImage:image];
         }
     }
 

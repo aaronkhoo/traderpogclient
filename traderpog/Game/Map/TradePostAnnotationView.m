@@ -23,7 +23,7 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
 @end
 
 @implementation TradePostAnnotationView
-
+@synthesize imageView = _imageView;
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation
 {
     self = [super initWithAnnotation:annotation reuseIdentifier:kTradePostAnnotationViewReuseId];
@@ -73,9 +73,9 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
         // annotation-view anchor is at the center of the view;
         // so, shift the image so that its bottom is at the coordinate
         UIView* contentView = [[UIView alloc] initWithFrame:myFrame];
-        UIImageView* imageView = [[UIImageView alloc] initWithImage:resizedImage];
-        [imageView setFrame:imageRect];
-        [contentView addSubview:imageView];
+        _imageView = [[UIImageView alloc] initWithImage:resizedImage];
+        [_imageView setFrame:imageRect];
+        [contentView addSubview:_imageView];
         
         [self addSubview:contentView];
         
