@@ -85,9 +85,10 @@ NSString* const kTradePostCalloutViewReuseId = @"PostCalloutView";
             else
             {
                 // player can order
-                Flyer* flyer = [[[FlyerMgr getInstance] playerFlyers] objectAtIndex:0];
-                [[TradeManager getInstance] flyer:flyer buyFromPost:destPost numItems:[destPost supplyLevel]];
-                [[GameManager getInstance] flyer:flyer departForTradePost:destPost];
+                [[GameManager getInstance] showFlyerSelectForBuyAtPost:destPost];
+//                Flyer* flyer = [[[FlyerMgr getInstance] playerFlyers] objectAtIndex:0];
+//                [[TradeManager getInstance] flyer:flyer buyFromPost:destPost numItems:[destPost supplyLevel]];
+//                [[GameManager getInstance] flyer:flyer departForTradePost:destPost];
             }
             
         }

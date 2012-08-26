@@ -18,6 +18,7 @@ enum kGameStates
     kGameStateInGameFirst,
     kGameStateGameLoop = kGameStateInGameFirst,
     kGameStateHomeSelect,
+    kGameStateFlyerSelect,
     kGameStateInGameLast,
     
     kGameStateNum = kGameStateInGameLast
@@ -45,7 +46,9 @@ enum kGameStates
 
 // in-game UI flows
 - (void) showHomeSelectForFlyer:(Flyer*)flyer;
+- (void) showFlyerSelectForBuyAtPost:(TradePost*)post;
 - (void) wheel:(WheelControl*)wheel commitOnTradePost:(TradePost*)tradePost;
+- (void) wheel:(WheelControl *)wheel commitOnFlyer:(Flyer *)flyer;
 - (void) popGameStateToLoop;
 
 // global UI controls

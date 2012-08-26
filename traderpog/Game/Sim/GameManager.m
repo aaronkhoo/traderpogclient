@@ -53,6 +53,7 @@
     
     // in-game UI context
     Flyer* _contextFlyer;
+    TradePost* _contextPost;
     NSTimeInterval  _calloutHaltDuration;
     NSDate*         _calloutHaltBegin;
 }
@@ -106,6 +107,7 @@
         
         // in-game UI context
         _contextFlyer = nil;
+        _contextPost = nil;
         _calloutHaltBegin = nil;
         _calloutHaltDuration = 0.0;
         
@@ -525,6 +527,16 @@
     }
 }
 
+- (void) showFlyerSelectForBuyAtPost:(TradePost *)post
+{
+    if(kGameStateGameLoop == _gameState)
+    {
+        _gameState = kGameStateFlyerSelect;
+        _contextPost = post;
+        [self.gameViewController showFlyerWheelAnimated:YES];
+    }
+}
+
 - (void) wheel:(WheelControl *)wheel commitOnTradePost:(TradePost *)tradePost
 {
     if(kGameStateHomeSelect == _gameState)
@@ -541,6 +553,25 @@
         // otherwise, center map on committed post
         [self.gameViewController.mapControl defaultZoomCenterOn:[tradePost coord] animated:YES];
     }
+}
+
+- (void) wheel:(WheelControl *)wheel commitOnFlyer:(Flyer *)flyer
+{
+    if(kGameStateFlyerSelect == _gameState)
+    {
+        // Flyer Select
+        // send committed flyer to the given post that triggered the FlyerSelect state
+        NSAssert(_contextPost, @"FlyerSelect needs a current post");
+        [[TradeManager getInstance] flyer:flyer buyFromPost:_contextPost numItems:[_contextPost supplyLevel]];
+        [self flyer:flyer departForTradePost:_contextPost];
+        _contextPost = nil;
+        _gameState = kGameStateGameLoop;
+    }
+    else
+    {
+        // otherwise, center map on committed flyer
+        [self.gameViewController.mapControl centerOnFlyer:flyer animated:YES];
+    }    
 }
 
 // call this when any in-game modal needs to cancel to pop the game-manager

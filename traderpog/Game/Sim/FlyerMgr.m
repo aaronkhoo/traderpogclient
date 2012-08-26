@@ -346,13 +346,15 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
         Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
 //        [wheel.superMap centerOn:[curFlyer coord] animated:YES];
 //        [wheel.superMap startTrackingAnnotation:curFlyer];
-        [wheel.superMap centerOnFlyer:curFlyer animated:YES];
+//        [wheel.superMap centerOnFlyer:curFlyer animated:YES];
+        [[GameManager getInstance] wheel:wheel commitOnFlyer:curFlyer];
     }
 }
 
 - (void) wheel:(WheelControl *)wheel didPressCloseOnIndex:(unsigned int)index
 {
-    // do nothing
+    // inform GameManager to pop back to idle
+    [[GameManager getInstance] popGameStateToLoop];
 }
 
 - (void) wheel:(WheelControl*)wheel willShowAtIndex:(unsigned int)index

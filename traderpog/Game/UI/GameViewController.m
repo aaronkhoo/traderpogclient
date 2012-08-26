@@ -373,6 +373,12 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
     [self.knob gotoSliceIndex:kKnobSlicePost];
 }
 
+- (void) showFlyerWheelAnimated:(BOOL)isAnimated
+{
+    [self.flyerWheel showWheelAnimated:YES withDelay:0.0f];
+    [self.knob gotoSliceIndex:kKnobSliceFlyer];
+}
+
 - (void) hudSetCoins:(unsigned int)newCoins
 {
     NSString* coinsString = [PogUIUtility currencyStringForAmount:newCoins];
