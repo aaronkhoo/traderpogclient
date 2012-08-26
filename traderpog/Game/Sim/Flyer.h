@@ -44,6 +44,7 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
     CGAffineTransform _transform;
     BOOL _isNewFlyer;               // this is only ever TRUE when this flyer has just been newly created
                                     // in all other cases (including when it is initWithDictionary, it is FALSE)
+    BOOL _isAtOwnPost;
     
     // flight enroute processing
     NSDate* _departureDate;
@@ -72,6 +73,7 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 @property (nonatomic) CLLocationCoordinate2D srcCoord;
 @property (nonatomic) CLLocationCoordinate2D destCoord;
 @property (nonatomic,readonly) BOOL isNewFlyer;
+@property (nonatomic) BOOL isAtOwnPost;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 - (id) initWithPostAndFlyer:(TradePost*)tradePost, NSInteger flyerTypeIndex;

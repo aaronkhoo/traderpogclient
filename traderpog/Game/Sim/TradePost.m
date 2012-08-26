@@ -270,6 +270,23 @@ static NSString* const kKeyFBId = @"fbid";
         annotationView = [[TradePostAnnotationView alloc] initWithAnnotation:self];
     }
     
+    if([self isOwnPost])
+    {
+        // own post is always enabled
+        annotationView.enabled = YES;
+    }
+    else
+    {
+        if([self hasFlyer])
+        {
+            annotationView.enabled = NO;
+        }
+        else
+        {
+            annotationView.enabled = YES;
+        }
+    }
+
     return annotationView;
 }
 

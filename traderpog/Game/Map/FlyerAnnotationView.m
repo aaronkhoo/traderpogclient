@@ -13,6 +13,7 @@
 
 NSString* const kFlyerAnnotationViewReuseId = @"FlyerAnnotationView";
 static NSString* const kFlyerTransformKey = @"transform";
+static NSString* const kKeyFlyerIsAtOwnPost = @"isAtOwnPost";
 
 @interface FlyerAnnotationView ()
 {
@@ -28,7 +29,8 @@ static NSString* const kFlyerTransformKey = @"transform";
     {
         // handle our own callout
         self.canShowCallout = NO;
-        
+        self.enabled = YES;
+
         // set size of view
         CGRect myFrame = self.frame;
         myFrame.size = CGSizeMake(80.0f, 80.0f);
@@ -52,10 +54,18 @@ static NSString* const kFlyerTransformKey = @"transform";
         
         _calloutAnnotation = nil;
         
-        // observe flyer transform
+        // observe flyer transform and isAtOwnPost
         [annotation addObserver:self forKeyPath:kFlyerTransformKey options:0 context:nil];
+        [annotation addObserver:self forKeyPath:kKeyFlyerIsAtOwnPost options:0 context:nil];
     }
     return self;
+}
+
+- (void) dealloc
+{
+    Flyer* flyer = (Flyer*)[self annotation];
+    [flyer removeObserver:self forKeyPath:kFlyerTransformKey];
+    [flyer removeObserver:self forKeyPath:kKeyFlyerIsAtOwnPost];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -63,12 +73,26 @@ static NSString* const kFlyerTransformKey = @"transform";
 						change:(NSDictionary *)change
 					   context:(void *)context
 {
-    //    NSLog(@"%@ value changed", keyPath);
-    if(([object isMemberOfClass:[Flyer class]]) &&
-       ([keyPath isEqualToString:kFlyerTransformKey]))
+    if([object isMemberOfClass:[Flyer class]])
     {
         Flyer* flyer = (Flyer*)object;
-        [self setTransform:[flyer transform]];
+        if([keyPath isEqualToString:kFlyerTransformKey])
+        {
+            [self setTransform:[flyer transform]];
+        }
+        else if([keyPath isEqualToString:kKeyFlyerIsAtOwnPost])
+        {
+            if([flyer isAtOwnPost])
+            {
+                // disable touch for Flyer when it is at own post
+                // own-post's callout will handle interaction with the user
+                [self setEnabled:NO];
+            }
+            else
+            {
+                [self setEnabled:YES];
+            }
+        }
     }
 }
 
@@ -80,7 +104,7 @@ static NSString* const kFlyerTransformKey = @"transform";
         [_calloutAnnotation setCoordinate:annotation.coordinate];
     }
     [super setAnnotation:annotation];
-    self.enabled = YES;
+    //self.enabled = YES;
 }
 
 #pragma mark - PogMapAnnotationViewProtocol

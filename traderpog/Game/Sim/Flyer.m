@@ -74,6 +74,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
 @synthesize srcCoord = _srcCoord;
 @synthesize destCoord = _destCoord;
 @synthesize isNewFlyer = _isNewFlyer;
+@synthesize isAtOwnPost = _isAtOwnPost;
 @synthesize transform = _transform;
 @synthesize delegate = _delegate;
 @synthesize initializeFlyerOnMap = _initializeFlyerOnMap;
@@ -110,6 +111,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
 
         // this flyer is newly created (see Flyer.h for more details)
         _isNewFlyer = YES;
+        _isAtOwnPost = YES;
     }
     return self;
 }
@@ -259,6 +261,10 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
         
         // this flyer is loaded (see Flyer.h for more details)
         _isNewFlyer = NO;
+        
+        // this will get set in initFlyerOnMap when the game has info
+        // to determine whether this flyer is at own post
+        _isAtOwnPost = NO;
     }
     return self;
 }
@@ -581,6 +587,13 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
         [self setCoordinate:_srcCoord];
         _nextPostId = nil;
         _departureDate = nil;
+        
+        // determine if I am at own post
+        TradePost* curPost = [[TradePostMgr getInstance] getTradePostWithId:_curPostId];
+        if([curPost isOwnPost])
+        {
+            self.isAtOwnPost = YES;
+        }
     }
     else
     {
@@ -621,6 +634,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
         _doneWithCurrentPath = FALSE;
         _projectedNextPost = postId;
         [self createFlyerPathOnServer];
+        self.isAtOwnPost = NO;
         return TRUE;
     }
     return FALSE;
@@ -636,6 +650,10 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
     // ask TradeManager to handle arrival
     TradePost* arrivalPost = [[TradePostMgr getInstance] getTradePostWithId:[self nextPostId]];
     [[TradeManager getInstance] flyer:self didArriveAtPost:arrivalPost];
+    if([arrivalPost isOwnPost])
+    {
+        self.isAtOwnPost = YES;
+    }
     
     // Clearing up the various parameters properly as the Flyer has arrived at its destination
     _metersToDest = 0.0;
@@ -815,6 +833,17 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
     {
         annotationView = [[FlyerAnnotationView alloc] initWithAnnotation:self];
     }
+    
+    if([self isAtOwnPost])
+    {
+        annotationView.enabled = NO;
+    }
+    else
+    {
+        annotationView.enabled = YES;
+    }
+    
+
     return annotationView;
 }
 

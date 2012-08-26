@@ -19,7 +19,9 @@
 #import "PogUIUtility.h"
 #import "MapControl.h"
 #import "CLLocation+Pog.h"
+#import "NSArray+Pog.h"
 #import "BeaconMgr.h"
+#import "FlyerMgr.h"
 
 static double const refreshTime = -(60 * 15);
 
@@ -85,16 +87,38 @@ static double const refreshTime = -(60 * 15);
     return FALSE;
 }
 
+// this method performs linkage on variables that need to be resolved when
+// all data in all managers (FlyerMgr, TradePostMgr, etc.) has been loaded
+// specifically, it adds all the loaded posts as annotations in the game map, and it
+// initializes the hasFlyer variable in each post;
 - (void) annotatePostsOnMap
 {
+    NSArray* postIdsWithFlyers = [[FlyerMgr getInstance] tradePostIdsWithFlyers];
+    
     for (TradePost* post in [_activePosts allValues])
     {
         [[[GameManager getInstance] gameViewController].mapControl addAnnotationForTradePost:post];
+        if([postIdsWithFlyers stringArrayContainsString:[post postId]])
+        {
+            post.hasFlyer = YES;
+        }
+        else
+        {
+            post.hasFlyer = NO;
+        }
     }
     
     for (TradePost* post in [self.npcPosts allValues])
     {
         [[[GameManager getInstance] gameViewController].mapControl addAnnotationForTradePost:post];        
+        if([postIdsWithFlyers stringArrayContainsString:[post postId]])
+        {
+            post.hasFlyer = YES;
+        }
+        else
+        {
+            post.hasFlyer = NO;
+        }
     }
 }
 

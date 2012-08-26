@@ -61,7 +61,7 @@ static const float kTradeDistanceFactor = 1.0f;
     else
     {
         // other's post
-        [post setHasFlyer:YES];
+        post.hasFlyer = YES;
         
         // TODO: proceed to timesink
         

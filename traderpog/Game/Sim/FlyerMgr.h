@@ -36,6 +36,9 @@ static NSString* const kFlyerMgr_ReceiveFlyers = @"FlyerMgr_ReceiveFlyers";
 
 - (void) refreshFromWorldState:(WorldState*)worldState;
 
+// queries
+- (NSArray*) tradePostIdsWithFlyers;
+
 // singleton
 +(FlyerMgr*) getInstance;
 +(void) destroyInstance;

@@ -32,6 +32,7 @@
 		4277385615D3A971004DCC13 /* Beacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385515D3A971004DCC13 /* Beacon.m */; };
 		42A2989115B5F1E700384A52 /* KnobControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2988D15B5F1E700384A52 /* KnobControl.m */; };
 		42A2989215B5F1E700384A52 /* KnobSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2989015B5F1E700384A52 /* KnobSlice.m */; };
+		42B28E2F15E99E5A0008901C /* NSArray+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B28E2E15E99E5A0008901C /* NSArray+Pog.m */; };
 		42E92B0815D0E19F0054686F /* Yun.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E92B0715D0E19F0054686F /* Yun.png */; };
 		42E92B0A15D0E7AD0054686F /* startButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E92B0915D0E7AD0054686F /* startButton.png */; };
 		42E92B0D15D0E8E00054686F /* UIImage+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E92B0C15D0E8E00054686F /* UIImage+Pog.m */; };
@@ -184,6 +185,8 @@
 		42A2988E15B5F1E700384A52 /* KnobProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobProtocol.h; sourceTree = "<group>"; };
 		42A2988F15B5F1E700384A52 /* KnobSlice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobSlice.h; sourceTree = "<group>"; };
 		42A2989015B5F1E700384A52 /* KnobSlice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KnobSlice.m; sourceTree = "<group>"; };
+		42B28E2D15E99E5A0008901C /* NSArray+Pog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+Pog.h"; path = "traderpog/Engine/Sim/NSArray+Pog.h"; sourceTree = SOURCE_ROOT; };
+		42B28E2E15E99E5A0008901C /* NSArray+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Pog.m"; path = "traderpog/Engine/Sim/NSArray+Pog.m"; sourceTree = SOURCE_ROOT; };
 		42E92B0715D0E19F0054686F /* Yun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Yun.png; path = assets/UI/Yun.png; sourceTree = SOURCE_ROOT; };
 		42E92B0915D0E7AD0054686F /* startButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = startButton.png; path = assets/UI/startButton.png; sourceTree = SOURCE_ROOT; };
 		42E92B0B15D0E8E00054686F /* UIImage+Pog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Pog.h"; sourceTree = "<group>"; };
@@ -535,6 +538,8 @@
 		C4945B8515AC91B500EEC0C0 /* Sim */ = {
 			isa = PBXGroup;
 			children = (
+				42B28E2D15E99E5A0008901C /* NSArray+Pog.h */,
+				42B28E2E15E99E5A0008901C /* NSArray+Pog.m */,
 				C4BBE45515BA741C00F582DE /* MathUtils.c */,
 				C4BBE45615BA741C00F582DE /* MathUtils.h */,
 				C4945B8915AC936600EEC0C0 /* HiAccuracyLocator.h */,
@@ -931,6 +936,7 @@
 				C436AEB215DB325800B22E8A /* GameNotes.m in Sources */,
 				42EF841F15DE2ED100A8469B /* PlayerPostCalloutView.m in Sources */,
 				42EF842315DE2F0400A8469B /* PlayerPostCallout.m in Sources */,
+				42B28E2F15E99E5A0008901C /* NSArray+Pog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

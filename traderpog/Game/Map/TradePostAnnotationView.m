@@ -33,6 +33,8 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
         self.canShowCallout = NO;
         self.enabled = YES;
         
+        TradePost* tradePost = (TradePost*)annotation;
+        
         // set size of view
         CGRect myFrame = self.frame;
         myFrame.size = CGSizeMake(50.0f, 50.0f);
@@ -42,7 +44,6 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
         self.centerOffset = CGPointMake(0.0f, -(myFrame.size.height * 0.5f));
         
         // setup tradepost image
-        TradePost* tradePost = (TradePost*)annotation;
         UIImage* annotationImage = nil;
         if([tradePost isOwnPost])
         {
@@ -99,14 +100,19 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
     if([keyPath isEqualToString:kKeyTradePostHasFlyer])
     {
         TradePost* post = (TradePost*)object;
-        if([post hasFlyer])
+        if(![post isOwnPost])
         {
-            // if a flyer landed on this Post, disable it from receiving touch events
-            [self setEnabled:NO];
-        }
-        else
-        {
-            [self setEnabled:YES];
+            // foreign Posts' touchability depends on whether they
+            // have flyers on them
+            if([post hasFlyer])
+            {
+                // if a flyer landed on this Post, disable it from receiving touch events
+                [self setEnabled:NO];
+            }
+            else
+            {
+                [self setEnabled:YES];
+            }
         }
     }
 }
@@ -119,7 +125,7 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
         [_calloutAnnotation setCoordinate:annotation.coordinate];
     }
     [super setAnnotation:annotation];
-    self.enabled = YES;
+//    self.enabled = YES;
 }
 
 #pragma mark - PogMapAnnotationViewProtocol

@@ -230,6 +230,28 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
     }
 }
 
+#pragma mark - queries
+
+// returns an array of ids for tradeposts that has a Flyer
+// returns nil if all Flyers are enroute
+- (NSArray*) tradePostIdsWithFlyers
+{
+    NSMutableArray* result = [NSMutableArray arrayWithCapacity:[self.playerFlyers count]];
+    for(Flyer* cur in [self playerFlyers])
+    {
+        if(![cur isEnroute])
+        {
+            [result addObject:[cur curPostId]];
+        }
+    }
+    if(![result count])
+    {
+        // if no flyers, return nil
+        result = nil;
+    }
+    return result;
+}
+
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {
