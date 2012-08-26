@@ -14,6 +14,9 @@
 #import "PogUIUtility.h"
 #import "Player.h"
 #import "TradePost.h"
+#import "FlyerMgr.h"
+#import "Flyer.h"
+#import "NSArray+Pog.h"
 
 static NSUInteger kBeaconPreviewZoomLevel = 8;
 static double const refreshTime = -(60 * 15);
@@ -84,11 +87,24 @@ static double const refreshTime = -(60 * 15);
     [httpClient setDefaultHeader:@"user_id" value:nil];
 }
 
+// this method performs linkage on variables that need to be resolved when
+// all data in all managers (FlyerMgr, TradePostMgr, etc.) has been loaded
+// specifically, it adds all the beacon posts as annotations in the game map, and it
+// initializes the hasFlyer variable in each post;
 - (void) addBeaconAnnotationsToMap:(MapControl*)map
 {
+    NSArray* postIdsWithFlyers = [[FlyerMgr getInstance] tradePostIdsWithFlyers];
     for(TradePost* cur in [_activeBeacons allValues])
     {
         [map addAnnotation:cur];
+        if([postIdsWithFlyers stringArrayContainsString:[cur postId]])
+        {
+            cur.hasFlyer = YES;
+        }
+        else
+        {
+            cur.hasFlyer = NO;
+        }
     }
 }
 
