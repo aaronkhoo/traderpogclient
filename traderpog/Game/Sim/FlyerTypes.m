@@ -6,10 +6,25 @@
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
-#import "FlyerTypes.h"
 #import "AFClientManager.h"
+#import "FlyerTypes.h"
+#import "GameManager.h"
 
 static double const refreshTime = -(60 * 15);
+static NSString* const kKeyVersion = @"version";
+static NSString* const kKeyLastUpdate = @"lastUpdate";
+static NSString* const kKeyFlyerTypes = @"flyerTypes";
+static NSString* const kTradeItemTypesFilename = @"flyertypes.sav";
+
+@interface FlyerTypes ()
+{
+    // internal
+    NSString* _createdVersion;
+    
+    NSMutableArray* _flyerTypes;
+    NSDate* _lastUpdate;
+}
+@end
 
 @implementation FlyerTypes
 @synthesize delegate = _delegate;
@@ -26,6 +41,78 @@ static double const refreshTime = -(60 * 15);
     return self;
 }
 
+
+#pragma mark - NSCoding
+- (void) encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:_createdVersion forKey:kKeyVersion];
+    [aCoder encodeObject:_lastUpdate forKey:kKeyLastUpdate];
+    [aCoder encodeObject:_flyerTypes forKey:kKeyFlyerTypes];
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+    _createdVersion = [aDecoder decodeObjectForKey:kKeyVersion];
+    _lastUpdate = [aDecoder decodeObjectForKey:kKeyLastUpdate];
+    _flyerTypes = [aDecoder decodeObjectForKey:kKeyFlyerTypes];
+    return self;
+}
+
+#pragma mark - private functions
+
++ (NSString*) flyertypesFilePath
+{
+    NSString* docsDir = [GameManager documentsDirectory];
+    NSString* filepath = [docsDir stringByAppendingPathComponent:kTradeItemTypesFilename];
+    return filepath;
+}
+
+#pragma mark - saved game data loading and unloading
++ (FlyerTypes*) loadFlyerTypesData
+{
+    FlyerTypes* current = nil;
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString* filepath = [FlyerTypes flyertypesFilePath];
+    if ([fileManager fileExistsAtPath:filepath])
+    {
+        NSData* readData = [NSData dataWithContentsOfFile:filepath];
+        if(readData)
+        {
+            current = [NSKeyedUnarchiver unarchiveObjectWithData:readData];
+        }
+    }
+    return current;
+}
+
+- (void) saveFlyerTypesData
+{
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self];
+    NSError* error = nil;
+    BOOL writeSuccess = [data writeToFile:[FlyerTypes flyertypesFilePath]
+                                  options:NSDataWritingAtomic
+                                    error:&error];
+    if(writeSuccess)
+    {
+        NSLog(@"flyer types file saved successfully");
+    }
+    else
+    {
+        NSLog(@"flyer types file save failed: %@", error);
+    }
+}
+
+- (void) removeTradeItemTypesData
+{
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString* filepath = [FlyerTypes flyertypesFilePath];
+    NSError *error = nil;
+    if ([fileManager fileExistsAtPath:filepath])
+    {
+        [fileManager removeItemAtPath:filepath error:&error];
+    }
+}
+
+#pragma mark - public functions
 - (BOOL) needsRefresh
 {
     return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime);
@@ -50,6 +137,7 @@ static double const refreshTime = -(60 * 15);
                     NSLog(@"Retrieved: %@", responseObject);
                     [self createFlyerArray:responseObject];
                     _lastUpdate = [NSDate date];
+                    [self saveFlyerTypesData];
                     [self.delegate didCompleteHttpCallback:kFlyerTypes_ReceiveFlyers, TRUE];
                 }
                 failure:^(AFHTTPRequestOperation* operation, NSError* error){
@@ -120,7 +208,13 @@ static FlyerTypes* singleton = nil;
 	{
 		if (!singleton)
 		{
-            singleton = [[FlyerTypes alloc] init];
+            // First, try to load the flyer type data from disk
+            singleton = [FlyerTypes loadFlyerTypesData];
+            if (!singleton)
+            {
+                // OK, no saved data available. Go ahead and create a new FlyerTypes instance.
+                singleton = [[FlyerTypes alloc] init];
+            }
 		}
 	}
 	return singleton;

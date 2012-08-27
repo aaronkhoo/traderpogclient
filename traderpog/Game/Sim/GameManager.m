@@ -16,7 +16,6 @@
 #import "TradeManager.h"
 #import "LoadingScreen.h"
 #import "UINavigationController+Pog.h"
-#import "NewHomeSelectItem.h"
 #import "ModalNavControl.h"
 #import "HiAccuracyLocator.h"
 #import "CLLocation+Pog.h"

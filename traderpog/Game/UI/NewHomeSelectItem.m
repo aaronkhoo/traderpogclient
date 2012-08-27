@@ -62,7 +62,9 @@ enum kItemSlots
     unsigned int count = 0;
     for(UILabel* cur in [self itemUILabels])
     {
-        [cur setText:[[[[TradeItemTypes getInstance] itemTypes] objectAtIndex:count] name]];
+        // TODO: itemTypes is no longer an array but a dictionary. Is NewHomeSelectItem still a valid class?
+        //       Not being used anywhere
+        //[cur setText:[[[[TradeItemTypes getInstance] itemTypes] objectAtIndex:count] name]];
         ++count;
     }
 }
@@ -102,9 +104,11 @@ enum kItemSlots
 #pragma mark - internal methods
 - (void) selectItemChoiceAtIndex:(unsigned int)index
 {
-    TradeItemType* itemType = [[[TradeItemTypes getInstance] itemTypes] objectAtIndex:index];
-    ConfirmNewPost* nextScreen = [[ConfirmNewPost alloc] initForTradePostWithCoordinate:_coordinate
-                                 itemType:itemType];
-    [self.navigationController pushFadeInViewController:nextScreen animated:YES];
+    // TODO: itemTypes is no longer an array but a dictionary. Is NewHomeSelectItem still a valid class?
+    //       Not being used anywhere
+    //TradeItemType* itemType = [[[TradeItemTypes getInstance] itemTypes] objectAtIndex:index];
+    //ConfirmNewPost* nextScreen = [[ConfirmNewPost alloc] initForTradePostWithCoordinate:_coordinate
+    //                             itemType:itemType];
+    //[self.navigationController pushFadeInViewController:nextScreen animated:YES];
 }
 @end

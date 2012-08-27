@@ -8,8 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TradeItemType : NSObject
+@interface TradeItemType : NSObject<NSCoding>
 {
+    // internal
+    NSString* _createdVersion;
+    
+    // Trade item type values
     NSString* _itemId;
     NSString* _name;
     NSString* _desc;

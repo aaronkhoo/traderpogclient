@@ -12,11 +12,8 @@
 
 static NSString* const kFlyerTypes_ReceiveFlyers = @"FlyerTypes_ReceiveFlyers";
 
-@interface FlyerTypes : NSObject
-{
-    NSMutableArray* _flyerTypes;
-    NSDate* _lastUpdate;
-    
+@interface FlyerTypes : NSObject<NSCoding>
+{    
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
 }

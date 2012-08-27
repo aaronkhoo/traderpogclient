@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
+#import "GameManager.h"
 #import "TradeItemTypes.h"
 #import "TradeItemType.h"
 #import "AFClientManager.h"
@@ -13,9 +14,17 @@
 static double const refreshTime = -(60 * 15);
 const unsigned int kTradeItemTierMin = 1;
 NSString* const kTradeItemTypes_ReceiveItems = @"TradeItemType_ReceiveItems";
+static NSString* const kKeyVersion = @"version";
+static NSString* const kKeyLastUpdate = @"lastUpdate";
+static NSString* const kKeyItemTypes = @"itemTypes";
+static NSString* const kTradeItemTypesFilename = @"tradeitemtypes.sav";
 
 @interface TradeItemTypes ()
 {
+    // internal
+    NSString* _createdVersion;
+    
+    NSDate* _lastUpdate;
     NSMutableDictionary* _itemTypeReg;
 }
 @property (nonatomic,strong) NSMutableDictionary* itemTypeReg;
@@ -23,7 +32,6 @@ NSString* const kTradeItemTypes_ReceiveItems = @"TradeItemType_ReceiveItems";
 
 @implementation TradeItemTypes
 @synthesize delegate = _delegate;
-@synthesize itemTypes = _itemTypes;
 @synthesize itemTypeReg = _itemTypeReg;
 
 - (id) init
@@ -32,12 +40,82 @@ NSString* const kTradeItemTypes_ReceiveItems = @"TradeItemType_ReceiveItems";
     if(self)
     {
         _lastUpdate = nil;
-        _itemTypes = [[NSMutableArray alloc] init];
         _itemTypeReg = [NSMutableDictionary dictionaryWithCapacity:10];
     }
     return self;
 }
 
+#pragma mark - NSCoding
+- (void) encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:_createdVersion forKey:kKeyVersion];
+    [aCoder encodeObject:_lastUpdate forKey:kKeyLastUpdate];
+    [aCoder encodeObject:_itemTypeReg forKey:kKeyItemTypes];
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+    _createdVersion = [aDecoder decodeObjectForKey:kKeyVersion];
+    _lastUpdate = [aDecoder decodeObjectForKey:kKeyLastUpdate];
+    _itemTypeReg = [aDecoder decodeObjectForKey:kKeyItemTypes];
+    return self;
+}
+
+#pragma mark - private functions
+
++ (NSString*) tradeitemtypesFilePath
+{
+    NSString* docsDir = [GameManager documentsDirectory];
+    NSString* filepath = [docsDir stringByAppendingPathComponent:kTradeItemTypesFilename];
+    return filepath;
+}
+
+#pragma mark - saved game data loading and unloading
++ (TradeItemTypes*) loadTradeItemTypesData
+{
+    TradeItemTypes* current = nil;
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString* filepath = [TradeItemTypes tradeitemtypesFilePath];
+    if ([fileManager fileExistsAtPath:filepath])
+    {
+        NSData* readData = [NSData dataWithContentsOfFile:filepath];
+        if(readData)
+        {
+            current = [NSKeyedUnarchiver unarchiveObjectWithData:readData];
+        }
+    }
+    return current;
+}
+
+- (void) saveTradeItemTypesData
+{
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self];
+    NSError* error = nil;
+    BOOL writeSuccess = [data writeToFile:[TradeItemTypes tradeitemtypesFilePath]
+                                  options:NSDataWritingAtomic
+                                    error:&error];
+    if(writeSuccess)
+    {
+        NSLog(@"trade item types file saved successfully");
+    }
+    else
+    {
+        NSLog(@"trade item types file save failed: %@", error);
+    }
+}
+
+- (void) removeTradeItemTypesData
+{
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString* filepath = [TradeItemTypes tradeitemtypesFilePath];
+    NSError *error = nil;
+    if ([fileManager fileExistsAtPath:filepath])
+    {
+        [fileManager removeItemAtPath:filepath error:&error];
+    }
+}
+
+#pragma mark - public functions
 - (BOOL) needsRefresh
 {
     return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime);
@@ -49,7 +127,6 @@ NSString* const kTradeItemTypes_ReceiveItems = @"TradeItemType_ReceiveItems";
     {
         TradeItemType* current = [[TradeItemType alloc] initWithDictionary:item];
         [_itemTypeReg setObject:current forKey:[current itemId]];
-        [_itemTypes addObject:current];
     }
 }
 
@@ -63,6 +140,7 @@ NSString* const kTradeItemTypes_ReceiveItems = @"TradeItemType_ReceiveItems";
                      NSLog(@"Retrieved: %@", responseObject);
                      [self createItemsReg:responseObject];
                      _lastUpdate = [NSDate date];
+                     [self saveTradeItemTypesData];
                      [self.delegate didCompleteHttpCallback:kTradeItemTypes_ReceiveItems, TRUE];
                  }
                  failure:^(AFHTTPRequestOperation* operation, NSError* error){
@@ -82,8 +160,8 @@ NSString* const kTradeItemTypes_ReceiveItems = @"TradeItemType_ReceiveItems";
 {
     tier = MAX(kTradeItemTierMin, tier);
     NSMutableArray* itemArray = [[NSMutableArray alloc] init];
-    for (TradeItemType* item in _itemTypes)
-    {
+    for (id key in _itemTypeReg) {
+        TradeItemType* item = [_itemTypeReg objectForKey:key];
         if ([item tier] == tier)
         {
             [itemArray addObject:item];
@@ -106,7 +184,13 @@ static TradeItemTypes* singleton = nil;
 	{
 		if (!singleton)
 		{
-            singleton = [[TradeItemTypes alloc] init];
+            // First, try to load the trade item types data from disk
+            singleton = [TradeItemTypes loadTradeItemTypesData];
+            if (!singleton)
+            {
+                // OK, no saved data available. Go ahead and create a new TradeItemTypes instance.
+                singleton = [[TradeItemTypes alloc] init];
+            }
 		}
 	}
 	return singleton;

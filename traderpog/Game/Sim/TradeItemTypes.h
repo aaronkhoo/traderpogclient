@@ -13,15 +13,11 @@ extern NSString* const kTradeItemTypes_ReceiveItems;
 extern const unsigned int kTradeItemTierMin;
 
 @class TradeItemType;
-@interface TradeItemTypes : NSObject
+@interface TradeItemTypes : NSObject<NSCoding>
 {
-    NSMutableArray* _itemTypes;
-    NSDate* _lastUpdate;
-    
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
 }
-@property (nonatomic,strong) NSMutableArray* itemTypes;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 // Public methods

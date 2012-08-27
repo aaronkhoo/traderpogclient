@@ -8,8 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface FlyerType : NSObject
+@interface FlyerType : NSObject<NSCoding>
 {
+    // internal
+    NSString* _createdVersion;
+    
+    // Flyer type values
     NSString* _flyerId;
     NSString* _name;
     NSString* _desc;
