@@ -48,6 +48,7 @@ static NSString* const kTraderPogPort = @"80";
     
     //  Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
     [_traderPog setDefaultHeader:@"Accept" value:@"application/json"];
+    [_traderPog setDefaultHeader:@"expected-traderpog-version" value:@"1.0"];
     
     // Encode parameters in JSON format
     _traderPog.parameterEncoding = AFJSONParameterEncoding;
