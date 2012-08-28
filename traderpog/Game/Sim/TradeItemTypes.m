@@ -11,7 +11,6 @@
 #import "TradeItemType.h"
 #import "AFClientManager.h"
 
-static double const refreshTime = -(60 * 15);
 const unsigned int kTradeItemTierMin = 1;
 NSString* const kTradeItemTypes_ReceiveItems = @"TradeItemType_ReceiveItems";
 static NSString* const kKeyVersion = @"version";
@@ -116,9 +115,9 @@ static NSString* const kTradeItemTypesFilename = @"tradeitemtypes.sav";
 }
 
 #pragma mark - public functions
-- (BOOL) needsRefresh
+- (BOOL) needsRefresh:(NSDate*) lastModifiedDate
 {
-    return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime);
+    return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceDate:lastModifiedDate] < 0);
 }
 
 - (void) createItemsReg:(id)responseObject
@@ -144,14 +143,24 @@ static NSString* const kTradeItemTypesFilename = @"tradeitemtypes.sav";
                      [self.delegate didCompleteHttpCallback:kTradeItemTypes_ReceiveItems, TRUE];
                  }
                  failure:^(AFHTTPRequestOperation* operation, NSError* error){
-                     UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
-                                                                       message:@"Unable to create retrieve items. Please try again later."
-                                                                      delegate:nil
-                                                             cancelButtonTitle:@"OK"
-                                                             otherButtonTitles:nil];
-                     
-                     [message show];
-                     [self.delegate didCompleteHttpCallback:kTradeItemTypes_ReceiveItems, FALSE];
+                     if (_lastUpdate)
+                     {
+                         // GameInfo has previously been retrieved. Use the previous version for now.
+                         NSLog(@"Downloading new Trade Item Types info from server has failed. Using old version of data");
+                         [self.delegate didCompleteHttpCallback:kTradeItemTypes_ReceiveItems, TRUE];
+                     }
+                     else
+                     {
+                         // GameInfo has never been updated. Have to pop an error.
+                         UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
+                                                                           message:@"Unable to create retrieve items. Please try again later."
+                                                                          delegate:nil
+                                                                 cancelButtonTitle:@"OK"
+                                                                 otherButtonTitles:nil];
+                         
+                         [message show];
+                         [self.delegate didCompleteHttpCallback:kTradeItemTypes_ReceiveItems, FALSE];
+                     }
                  }
      ];
 }

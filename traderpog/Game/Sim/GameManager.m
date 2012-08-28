@@ -6,10 +6,12 @@
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
+#import "AFClientManager.h"
 #import "AppDelegate.h"
 #import "BeaconMgr.h"
 #import "GameManager.h"
 #import "Player.h"
+#import "PogUIUtility.h"
 #import "TradePostMgr.h"
 #import "TradePost.h"
 #import "TradeItemTypes.h"
@@ -32,9 +34,15 @@
 // List of Game UI screens that GameManager can kick off
 #import "SignupScreen.h"
 
+// How often to check if the gameinfo has been updated (2 hours)
+static double const gameinfoRefreshTime = -(60 * 60 * 2);
+static NSString* const kKeyLastUpdated = @"lastupdated";
+
 @interface GameManager ()
 {
     // Variables to track general game information
+    NSDate* _gameInfoModifiedDateLastChecked;
+    NSDate* _gameInfoModifiedDate;
     BOOL _gameInfoRefreshed;
     BOOL _gameInfoRefreshSucceeded;
     NSInteger _gameInfoRefreshCount;
@@ -60,6 +68,7 @@
 @property (nonatomic,strong) HiAccuracyLocator* playerLocator;
 @property (nonatomic,strong) WorldState* localWorldState;
 
+- (void) getGameInfoModifiedDate;
 - (void) loadGameInfo;
 - (void) loadPlayerInfo;
 - (void) loadLocalWorldState;
@@ -90,6 +99,8 @@
         _loadingScreen = nil;
         _gameViewController = nil;
         
+        _gameInfoModifiedDateLastChecked = nil;
+        _gameInfoModifiedDate = nil;
         _gameInfoRefreshed = FALSE;
         _gameInfoRefreshSucceeded = TRUE;
         // This counter is used to track how many game info refresh
@@ -131,6 +142,52 @@
     self.modalNav = modal;
 }
 
+- (void) getGameInfoModifiedDate
+{
+    // make a get request
+    AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
+    NSString* path = @"gameinfo.json";
+    [httpClient getPath:path
+             parameters:nil
+                success:^(AFHTTPRequestOperation *operation, id responseObject){
+                    BOOL successfullyRetrievedModifiedDate = FALSE;
+                    
+                    // Convert the utc date from string to NSDate instance
+                    id obj = [responseObject valueForKeyPath:kKeyLastUpdated];
+                    if ((NSNull *)obj != [NSNull null])
+                    {
+                        NSString* utcdate = [NSString stringWithFormat:@"%@", obj];
+                        if (![utcdate isEqualToString:@"<null>"])
+                        {
+                            _gameInfoModifiedDate = [PogUIUtility convertUtcToNSDate:utcdate];
+                            successfullyRetrievedModifiedDate = TRUE;
+                        }
+                    }
+                    if (!successfullyRetrievedModifiedDate)
+                    {
+                        // Something failed during the retrieval of the last modified date.
+                        // Set the date to be in the distant future to force retrieval
+                        // of the gameinfo.
+                        NSLog(@"Error parsing gameinfo last modified date");
+                        _gameInfoModifiedDate = [NSDate distantFuture];
+                    }
+                    _gameInfoRefreshSucceeded = TRUE;
+                    
+                    // Set the time we checked whether the gameinfo has been modified to the
+                    // current datetime
+                    _gameInfoModifiedDateLastChecked = [[NSDate alloc] init];
+                    
+                    [self selectNextGameUI];
+                }
+                failure:^(AFHTTPRequestOperation* operation, NSError* error){
+                    NSLog(@"Error requesting gameinfo last modified date");
+                    _gameInfoModifiedDate = [NSDate distantFuture];
+                    _gameInfoModifiedDateLastChecked = [[NSDate alloc] init];
+                    [self selectNextGameUI];
+                }
+     ];
+}
+
 - (void) loadGameInfo
 {
     // loadGame should be responsible for reloading any data from the server it requires 
@@ -140,14 +197,14 @@
     _gameInfoRefreshCount++;
     
     // Load item information
-    if ([[TradeItemTypes getInstance] needsRefresh])
+    if ([[TradeItemTypes getInstance] needsRefresh:_gameInfoModifiedDate])
     {
         [[TradeItemTypes getInstance] retrieveItemsFromServer];   
         _gameInfoRefreshCount++;
     }
     
     // Load flyers information
-    if ([[FlyerTypes getInstance] needsRefresh])
+    if ([[FlyerTypes getInstance] needsRefresh:_gameInfoModifiedDate])
     {
         [[FlyerTypes getInstance] retrieveFlyersFromServer];   
         _gameInfoRefreshCount++;
@@ -329,9 +386,9 @@
 - (void) applicationWillEnterForeground
 {
     // Reset
-    _gameInfoRefreshed = false;
+    _gameInfoRefreshed = FALSE;
     _gameInfoRefreshCount = 0;
-    _playerInfoRefreshed = false;
+    _playerInfoRefreshed = FALSE;
     _playerInfoRefreshCount = 0;
     [self selectNextGameUI];
 }
@@ -359,6 +416,22 @@
         // proceed to SignupScreen
         UIViewController* controller = [[SignupScreen alloc] initWithNibName:@"SignupScreen" bundle:nil];
         [nav pushFadeInViewController:controller animated:YES];
+    }
+    else if (!_gameInfoModifiedDate || ([_gameInfoModifiedDateLastChecked timeIntervalSinceNow] < gameinfoRefreshTime))
+    {
+        // first check the view on the stack, if the top view is not LoadingScreen,
+        // then push that onto the stack
+        UIViewController* current = [nav visibleViewController];
+        if ([[current nibName] compare:@"LoadingScreen"] != NSOrderedSame)
+        {
+            current = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
+            [nav pushFadeInViewController:current animated:YES];
+        }
+        LoadingScreen* loading = (LoadingScreen*)current;
+        loading.progressLabel.text = @"Checking for server updates";
+        
+        // If the gameinfo modified date has not been checked recently, go ahead and check it
+        [self getGameInfoModifiedDate];
     }
     else if (!_gameInfoRefreshed)
     {

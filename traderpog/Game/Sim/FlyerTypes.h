@@ -21,7 +21,7 @@ static NSString* const kFlyerTypes_ReceiveFlyers = @"FlyerTypes_ReceiveFlyers";
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 // Public methods
-- (BOOL) needsRefresh;
+- (BOOL) needsRefresh:(NSDate*) lastModifiedDate;
 - (void) retrieveFlyersFromServer;
 
 - (FlyerType*) getFlyerTypeById:(NSString*)flyerId;

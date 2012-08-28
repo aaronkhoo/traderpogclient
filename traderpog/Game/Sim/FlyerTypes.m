@@ -10,7 +10,6 @@
 #import "FlyerTypes.h"
 #import "GameManager.h"
 
-static double const refreshTime = -(60 * 15);
 static NSString* const kKeyVersion = @"version";
 static NSString* const kKeyLastUpdate = @"lastUpdate";
 static NSString* const kKeyFlyerTypes = @"flyerTypes";
@@ -113,9 +112,9 @@ static NSString* const kTradeItemTypesFilename = @"flyertypes.sav";
 }
 
 #pragma mark - public functions
-- (BOOL) needsRefresh
+- (BOOL) needsRefresh:(NSDate*) lastModifiedDate
 {
-    return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime);
+    return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceDate:lastModifiedDate] < 0);
 }
 
 - (void) createFlyerArray:(id)responseObject
@@ -141,14 +140,23 @@ static NSString* const kTradeItemTypesFilename = @"flyertypes.sav";
                     [self.delegate didCompleteHttpCallback:kFlyerTypes_ReceiveFlyers, TRUE];
                 }
                 failure:^(AFHTTPRequestOperation* operation, NSError* error){
-                    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
-                                                                      message:@"Unable to create retrieve flyers. Please try again later."
-                                                                     delegate:nil
-                                                            cancelButtonTitle:@"OK"
-                                                            otherButtonTitles:nil];
-                    
-                    [message show];
-                    [self.delegate didCompleteHttpCallback:kFlyerTypes_ReceiveFlyers, FALSE];
+                    if (_lastUpdate)
+                    {
+                        // GameInfo has previously been retrieved. Use the previous version for now.
+                        NSLog(@"Downloading new Flyer Info from server has failed. Using old version of data");
+                        [self.delegate didCompleteHttpCallback:kFlyerTypes_ReceiveFlyers, TRUE];
+                    }
+                    else
+                    {
+                        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
+                                                                          message:@"Unable to create retrieve flyers. Please try again later."
+                                                                         delegate:nil
+                                                                cancelButtonTitle:@"OK"
+                                                                otherButtonTitles:nil];
+                        
+                        [message show];
+                        [self.delegate didCompleteHttpCallback:kFlyerTypes_ReceiveFlyers, FALSE];
+                    }
                 }
      ];
 }

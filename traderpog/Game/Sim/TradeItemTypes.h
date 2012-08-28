@@ -21,7 +21,7 @@ extern const unsigned int kTradeItemTierMin;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 // Public methods
-- (BOOL) needsRefresh;
+- (BOOL) needsRefresh:(NSDate*) lastModifiedDate;
 - (void) retrieveItemsFromServer;
 
 // Returns an array of TradeItemType
