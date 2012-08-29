@@ -511,6 +511,10 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
                                                }];
             break;
     }
+    
+    // reset map scroll in case one of the pan/pinch gesture recognizers left it in
+    // a disabled state
+    [self.mapControl.view setScrollEnabled:YES];
 }
 
 - (void) knob:(KnobControl *)knob didSettleAt:(unsigned int)index

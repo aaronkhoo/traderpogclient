@@ -39,6 +39,12 @@ static const unsigned int kDefaultMaxZoom = 18;
 #pragma mark - out of bounds queries
 - (CLLocationCoordinate2D) snapCoord:(CLLocationCoordinate2D)coord
 {
+    CLLocationCoordinate2D snapCoord = [self snapCoord:coord withBufferMeters:0.0f];
+    return snapCoord;
+}
+
+- (CLLocationCoordinate2D) snapCoord:(CLLocationCoordinate2D)coord withBufferMeters:(float)bufferMeters
+{
     CLLocation* queryLoc = [[CLLocation alloc] initWithLatitude:coord.latitude longitude:coord.longitude];
     CLLocationDistance distMeters = [self.center distanceFromLocation:queryLoc];
     
@@ -50,22 +56,29 @@ static const unsigned int kDefaultMaxZoom = 18;
         MKMapPoint routeVec = MKMapPointMake(destPoint.x - srcPoint.x, destPoint.y - srcPoint.y);
         double distPoints = sqrt((routeVec.x * routeVec.x) + (routeVec.y * routeVec.y));
         MKMapPoint routeVecNormalized = MKMapPointMake(routeVec.x / distPoints, routeVec.y / distPoints);
-        double snapDistPoints = ([self radius] / distMeters) * distPoints;
+        double snapDistPoints = (([self radius] - bufferMeters) / distMeters) * distPoints;
         MKMapPoint snapPoint = MKMapPointMake(srcPoint.x + (snapDistPoints * routeVecNormalized.x),
                                               srcPoint.y + (snapDistPoints * routeVecNormalized.y));
         snapCoord = MKCoordinateForMapPoint(snapPoint);
     }
-
+    
     return snapCoord;
 }
 
 - (BOOL) isInBounds:(CLLocationCoordinate2D)coord
 {
     BOOL result = YES;
+    result = [self isInBounds:coord withBufferMeters:0.0f];
+    return result;
+}
+
+- (BOOL) isInBounds:(CLLocationCoordinate2D)coord withBufferMeters:(float)bufferMeters
+{
+    BOOL result = YES;
     CLLocation* queryLoc = [[CLLocation alloc] initWithLatitude:coord.latitude longitude:coord.longitude];
     CLLocationDistance distMeters = [self.center distanceFromLocation:queryLoc];
     
-    if([self radius] < distMeters)
+    if(([self radius] + bufferMeters) < distMeters)
     {
         result = NO;
     }

@@ -73,6 +73,7 @@
 		C42FC49615B141A3006D29A3 /* ModalNavRoot.m in Sources */ = {isa = PBXBuildFile; fileRef = C42FC49415B141A3006D29A3 /* ModalNavRoot.m */; };
 		C42FC49715B141A3006D29A3 /* ModalNavRoot.xib in Resources */ = {isa = PBXBuildFile; fileRef = C42FC49515B141A3006D29A3 /* ModalNavRoot.xib */; };
 		C436AEB215DB325800B22E8A /* GameNotes.m in Sources */ = {isa = PBXBuildFile; fileRef = C436AEB115DB325800B22E8A /* GameNotes.m */; };
+		C46FDED415EDFE2E00926044 /* BrowsePanRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = C46FDED315EDFE2E00926044 /* BrowsePanRecognizer.m */; };
 		C481145F15ACB927007FA214 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C481145D15ACB927007FA214 /* GameViewController.m */; };
 		C481146015ACB927007FA214 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C481145E15ACB927007FA214 /* GameViewController.xib */; };
 		C481146915ACBFED007FA214 /* MapControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146815ACBFED007FA214 /* MapControl.m */; };
@@ -254,6 +255,8 @@
 		C42FC49515B141A3006D29A3 /* ModalNavRoot.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModalNavRoot.xib; sourceTree = "<group>"; };
 		C436AEB015DB325800B22E8A /* GameNotes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameNotes.h; path = Game/Sim/GameNotes.h; sourceTree = "<group>"; };
 		C436AEB115DB325800B22E8A /* GameNotes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameNotes.m; path = Game/Sim/GameNotes.m; sourceTree = "<group>"; };
+		C46FDED215EDFE2E00926044 /* BrowsePanRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrowsePanRecognizer.h; path = Game/Map/BrowsePanRecognizer.h; sourceTree = "<group>"; };
+		C46FDED315EDFE2E00926044 /* BrowsePanRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrowsePanRecognizer.m; path = Game/Map/BrowsePanRecognizer.m; sourceTree = "<group>"; };
 		C481145C15ACB927007FA214 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameViewController.h; path = Game/UI/GameViewController.h; sourceTree = "<group>"; };
 		C481145D15ACB927007FA214 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameViewController.m; path = Game/UI/GameViewController.m; sourceTree = "<group>"; };
 		C481145E15ACB927007FA214 /* GameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GameViewController.xib; path = Game/UI/GameViewController.xib; sourceTree = "<group>"; };
@@ -652,6 +655,8 @@
 				C481145E15ACB927007FA214 /* GameViewController.xib */,
 				C481146715ACBFED007FA214 /* MapControl.h */,
 				C481146815ACBFED007FA214 /* MapControl.m */,
+				C46FDED215EDFE2E00926044 /* BrowsePanRecognizer.h */,
+				C46FDED315EDFE2E00926044 /* BrowsePanRecognizer.m */,
 				C42FC48A15B10116006D29A3 /* NewHomeSelectItem.xib */,
 				C4D5DDD215B2718100D5A746 /* ConfirmNewPost.h */,
 				C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */,
@@ -939,6 +944,7 @@
 				42EF841F15DE2ED100A8469B /* PlayerPostCalloutView.m in Sources */,
 				42EF842315DE2F0400A8469B /* PlayerPostCallout.m in Sources */,
 				42B28E2F15E99E5A0008901C /* NSArray+Pog.m in Sources */,
+				C46FDED415EDFE2E00926044 /* BrowsePanRecognizer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

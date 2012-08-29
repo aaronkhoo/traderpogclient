@@ -17,6 +17,7 @@
 #import "CalloutAnnotationView.h"
 #import "FlyerAnnotationView.h"
 #import "MKMapView+Pog.h"
+#import "BrowsePanRecognizer.h"
 
 static const NSUInteger kDefaultZoomLevel = 15;
 static NSString* const kKeyCoordinate = @"coordinate";
@@ -31,10 +32,12 @@ static const float kBrowseAreaRadius = 900.0f;
     BrowseArea* _browseArea;
     BOOL _regionSetFromCode;
     UIPinchGestureRecognizer* _pinchRecognizer;
+    BrowsePanRecognizer* _panRecognizer;
 }
 @property (nonatomic,strong) BrowseArea* browseArea;
 @property (nonatomic) BOOL regionSetFromCode;
 @property (nonatomic,strong) UIPinchGestureRecognizer* pinchRecognizer;
+@property (nonatomic,strong) BrowsePanRecognizer* panRecognizer;
 
 - (void) internalInitWithMapView:(MKMapView*)mapView
                           center:(CLLocationCoordinate2D)initCoord
@@ -46,6 +49,7 @@ static const float kBrowseAreaRadius = 900.0f;
 @synthesize browseArea = _browseArea;
 @synthesize regionSetFromCode = _regionSetFromCode;
 @synthesize pinchRecognizer = _pinchRecognizer;
+@synthesize panRecognizer = _panRecognizer;
 @synthesize trackedAnnotation;
 
 - (void) internalInitWithMapView:(MKMapView *)mapView
@@ -61,6 +65,10 @@ static const float kBrowseAreaRadius = 900.0f;
     self.pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     self.pinchRecognizer.delegate = self;
     [self.view addGestureRecognizer:[self pinchRecognizer]];
+    
+    self.panRecognizer = [[BrowsePanRecognizer alloc] initWithMap:self browseArea:_browseArea];
+    [self.view addGestureRecognizer:[self panRecognizer]];
+    
     self.trackedAnnotation = nil;
 }
 
@@ -94,6 +102,7 @@ static const float kBrowseAreaRadius = 900.0f;
 - (void) dealloc
 {
     [self stopTrackingAnnotation];
+    [self.view removeGestureRecognizer:[self panRecognizer]];
     [self.pinchRecognizer removeTarget:self action:@selector(handleGesture:)];
     [self.view removeGestureRecognizer:[self pinchRecognizer]];
 }

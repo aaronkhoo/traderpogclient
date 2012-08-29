@@ -28,5 +28,7 @@
 - (id) initWithCenterLoc:(CLLocationCoordinate2D)center radius:(CLLocationDistance)radius;
 - (void) setCenterCoord:(CLLocationCoordinate2D)coord;
 - (CLLocationCoordinate2D) snapCoord:(CLLocationCoordinate2D)coord;
+- (CLLocationCoordinate2D) snapCoord:(CLLocationCoordinate2D)coord withBufferMeters:(float)bufferMeters;
 - (BOOL) isInBounds:(CLLocationCoordinate2D)coord;
+- (BOOL) isInBounds:(CLLocationCoordinate2D)coord withBufferMeters:(float)bufferMeters;
 @end
