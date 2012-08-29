@@ -51,14 +51,7 @@ static const unsigned int kInitBucks = 500;
 {
     self = [super init];
     if(self)
-    {
-        // TODO: this needs fixing; it doesn't get re-registered when server ip gets reset
-        /*
-        [[[AFClientManager sharedInstance] pogProfile] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status){
-            [self handleNetworkReachabilityChanged:status];
-        }]; 
-         */
-        
+    {        
         // not yet logged in
         _playerId = 0;
         _facebookid = @"";
@@ -353,15 +346,8 @@ static const unsigned int kInitBucks = 500;
      ];
 }
 
-- (void) updatePlayerOnServer
-{
-    // post parameters
-    NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
-                                _facebookid, kKeyFacebookId,
-                                _fbFriends, kKeyFacebookFriends,
-                                _email, kKeyEmail,
-                                nil];
-    
+- (void) updatePlayerOnServer:(NSDictionary*)parameters
+{    
     // make a post request
     AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
     NSString* path = [NSString stringWithFormat:@"users/%d.json", _playerId];
@@ -383,6 +369,17 @@ static const unsigned int kInitBucks = 500;
                     [self.delegate didCompleteHttpCallback:kPlayer_SavePlayerData, FALSE];
                 }
      ];
+}
+
+- (void) updateUserPersonalData
+{
+    // post parameters
+    NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                _facebookid, kKeyFacebookId,
+                                _fbFriends, kKeyFacebookFriends,
+                                _email, kKeyEmail,
+                                nil];
+    [self updatePlayerOnServer:parameters];
 }
 
 #pragma mark - Facebook functions
@@ -512,7 +509,7 @@ static const unsigned int kInitBucks = 500;
         {
             // Player has already been created. Associate facebookid
             // with this user
-            [self updatePlayerOnServer];
+            [self updateUserPersonalData];
             // TODO: Force a refresh of beacons
         }
     }

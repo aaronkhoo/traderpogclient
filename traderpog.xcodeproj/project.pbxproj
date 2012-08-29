@@ -19,6 +19,8 @@
 		3889129A15D5D8B6009CF624 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 3889129515D5D8B6009CF624 /* SSZipArchive.m */; };
 		38B6DAEF15C85A9D00F37BD9 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 38B6DAE215C85A9D00F37BD9 /* FBDialog.bundle */; };
 		38B6DAF015C85A9D00F37BD9 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38B6DAE815C85A9D00F37BD9 /* libfacebook_ios_sdk.a */; };
+		38D7371E15ED7290001CD3AE /* AsyncHttpCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D7371D15ED7290001CD3AE /* AsyncHttpCall.m */; };
+		38D7372215ED7DC6001CD3AE /* AsyncHttpCallMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D7372115ED7DC6001CD3AE /* AsyncHttpCallMgr.m */; };
 		42094DB615C9B236001FA77D /* WheelBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB015C9B235001FA77D /* WheelBubble.m */; };
 		42094DB715C9B236001FA77D /* WheelControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB215C9B236001FA77D /* WheelControl.m */; };
 		42094DB815C9B236001FA77D /* WheelSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB515C9B236001FA77D /* WheelSlice.m */; };
@@ -161,6 +163,11 @@
 		38B6DAEC15C85A9D00F37BD9 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
 		38B6DAED15C85A9D00F37BD9 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
 		38B6DAEE15C85A9D00F37BD9 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		38D7371C15ED7290001CD3AE /* AsyncHttpCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncHttpCall.h; path = Game/ServerAPI/AsyncHttpCall.h; sourceTree = "<group>"; };
+		38D7371D15ED7290001CD3AE /* AsyncHttpCall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncHttpCall.m; path = Game/ServerAPI/AsyncHttpCall.m; sourceTree = "<group>"; };
+		38D7372015ED7DC6001CD3AE /* AsyncHttpCallMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncHttpCallMgr.h; path = Game/ServerAPI/AsyncHttpCallMgr.h; sourceTree = "<group>"; };
+		38D7372115ED7DC6001CD3AE /* AsyncHttpCallMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncHttpCallMgr.m; path = Game/ServerAPI/AsyncHttpCallMgr.m; sourceTree = "<group>"; };
+		38D7372415EDEBF4001CD3AE /* AsyncHttpDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncHttpDelegate.h; path = Game/ServerAPI/AsyncHttpDelegate.h; sourceTree = "<group>"; };
 		42094DAF15C9B235001FA77D /* WheelBubble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WheelBubble.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		42094DB015C9B235001FA77D /* WheelBubble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WheelBubble.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		42094DB115C9B235001FA77D /* WheelControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WheelControl.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -470,8 +477,13 @@
 		C41E0CA615AC048A006662DF /* ServerAPI */ = {
 			isa = PBXGroup;
 			children = (
+				38D7372415EDEBF4001CD3AE /* AsyncHttpDelegate.h */,
 				C41E0CAE15AC0D5A006662DF /* AFClientManager.h */,
 				C41E0CAF15AC0D5A006662DF /* AFClientManager.m */,
+				38D7371C15ED7290001CD3AE /* AsyncHttpCall.h */,
+				38D7371D15ED7290001CD3AE /* AsyncHttpCall.m */,
+				38D7372015ED7DC6001CD3AE /* AsyncHttpCallMgr.h */,
+				38D7372115ED7DC6001CD3AE /* AsyncHttpCallMgr.m */,
 			);
 			name = ServerAPI;
 			sourceTree = "<group>";
@@ -945,6 +957,8 @@
 				42EF842315DE2F0400A8469B /* PlayerPostCallout.m in Sources */,
 				42B28E2F15E99E5A0008901C /* NSArray+Pog.m in Sources */,
 				C46FDED415EDFE2E00926044 /* BrowsePanRecognizer.m in Sources */,
+				38D7371E15ED7290001CD3AE /* AsyncHttpCall.m in Sources */,
+				38D7372215ED7DC6001CD3AE /* AsyncHttpCallMgr.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
