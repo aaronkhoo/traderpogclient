@@ -83,6 +83,7 @@
     }
     // HACK
     
+    [[AsyncHttpCallMgr getInstance] applicationDidEnterBackground];
     [[Player getInstance] appDidEnterBackground];
     [[GameManager getInstance] applicationDidEnterBackground];
 }

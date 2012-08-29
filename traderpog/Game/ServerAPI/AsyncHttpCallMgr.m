@@ -139,9 +139,12 @@ static NSString* const kKeyCallArray = @"callarray";
         
         // Set the headers
         NSDictionary* headers = [nextCall headers];
-        for (id key in headers)
+        if (headers)
         {
-            [httpClient setDefaultHeader:(NSString*)key value:(NSString*)[headers objectForKey:key]];
+            for (id key in headers)
+            {
+                [httpClient setDefaultHeader:(NSString*)key value:(NSString*)[headers objectForKey:key]];
+            }
         }
         
         // Make the call
@@ -191,9 +194,12 @@ static NSString* const kKeyCallArray = @"callarray";
         }
         
         // Reset the headers
-        for (id key in headers)
+        if (headers)
         {
-            [httpClient setDefaultHeader:(NSString*)key value:nil];
+            for (id key in headers)
+            {
+                [httpClient setDefaultHeader:(NSString*)key value:nil];
+            }
         }
     }
     else
@@ -236,6 +242,12 @@ static NSString* const kKeyCallArray = @"callarray";
     {
         [self makeAsyncHttpCall];
     }
+}
+
+- (void)applicationDidEnterBackground
+{
+    // Save any calls that haven't been made
+    [self saveAsyncHttpCallMgrData];
 }
 
 - (void)applicationWillTerminate

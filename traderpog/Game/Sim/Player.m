@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
+#import "AsyncHttpCallMgr.h"
 #import "GameManager.h"
 #import "Player.h"
 #import "AFClientManager.h"
@@ -38,6 +39,11 @@ static double const refreshTime = -(60 * 15);  // 15 min
 static double const refreshTimeFriends = -(60 * 60 * 24 * 2);  // 2 days
 static double const refreshTimePost = -(60 * 60 * 24);  // 1 day
 static const unsigned int kInitBucks = 500;
+
+@interface Player ()
+
+- (void)updatePlayerBucks;
+@end
 
 @implementation Player
 @synthesize delegate = _delegate;
@@ -100,6 +106,8 @@ static const unsigned int kInitBucks = 500;
     NSLog(@"PlayerCoins: %d", _bucks);
     if(newBucks)
     {
+        [self updatePlayerBucks];
+        
         // broadcast coins changed
         [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteCoinsChanged object:self];
     }
@@ -113,6 +121,8 @@ static const unsigned int kInitBucks = 500;
     NSLog(@"PlayerCoins: %d", _bucks);
     if(bucksToSub)
     {
+        [self updatePlayerBucks];
+        
         // broadcast coins changed
         [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteCoinsChanged object:self];
     }
@@ -121,6 +131,8 @@ static const unsigned int kInitBucks = 500;
 - (void) setBucks:(NSUInteger)newBucks
 {
     _bucks = newBucks;
+    
+    [self updatePlayerBucks];
     
     // broadcast coins changed
     [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteCoinsChanged object:self];
@@ -380,6 +392,21 @@ static const unsigned int kInitBucks = 500;
                                 _email, kKeyEmail,
                                 nil];
     [self updatePlayerOnServer:parameters];
+}
+
+- (void)updatePlayerBucks
+{
+    NSString* path = [NSString stringWithFormat:@"users/%d.json", _playerId];
+    NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [NSNumber numberWithInteger:_bucks], kKeyBucks,
+                                nil];
+    NSString* msg = [[NSString alloc] initWithFormat:@"Updating player with %d bucks failed", _bucks];
+
+    [[AsyncHttpCallMgr getInstance] newAsyncHttpCall:path
+                                      current_params:parameters
+                                     current_headers:nil
+                                         current_msg:msg
+                                        current_type:putType];
 }
 
 #pragma mark - Facebook functions

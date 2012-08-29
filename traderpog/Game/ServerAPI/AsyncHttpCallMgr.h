@@ -23,6 +23,7 @@
               current_msg:(NSString*)msg
              current_type:(httpCallType)type;
 - (void) startCalls;
+- (void)applicationDidEnterBackground;
 - (void) applicationWillTerminate;
 
 // singleton
