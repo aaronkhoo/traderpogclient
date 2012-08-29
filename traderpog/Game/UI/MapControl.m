@@ -67,7 +67,7 @@ static const float kBrowseAreaRadius = 900.0f;
     [self.view addGestureRecognizer:[self pinchRecognizer]];
     
     self.panRecognizer = [[BrowsePanRecognizer alloc] initWithMap:self browseArea:_browseArea];
-    [self.view addGestureRecognizer:[self panRecognizer]];
+    //[self.view addGestureRecognizer:[self panRecognizer]];
     
     self.trackedAnnotation = nil;
 }
@@ -104,7 +104,7 @@ static const float kBrowseAreaRadius = 900.0f;
     [self stopTrackingAnnotation];
     [self.view removeGestureRecognizer:[self panRecognizer]];
     [self.pinchRecognizer removeTarget:self action:@selector(handleGesture:)];
-    [self.view removeGestureRecognizer:[self pinchRecognizer]];
+    //[self.view removeGestureRecognizer:[self pinchRecognizer]];
 }
 
 - (void) addAnnotationForTradePost:(TradePost *)tradePost
