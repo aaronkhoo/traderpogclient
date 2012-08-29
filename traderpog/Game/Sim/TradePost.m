@@ -12,6 +12,7 @@
 #import "TradePost.h"
 #import "TradeItemType.h"
 #import "TradePostAnnotationView.h"
+#import "TradePostMgr.h"
 #import "ImageManager.h"
 
 static NSString* const kKeyPostId = @"id";
@@ -213,14 +214,27 @@ static NSString* const kKeyFBId = @"fbid";
 
 - (void) setBeacon
 {
-    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"MMM dd, yyyy HH:mm"];
-    NSDate *now = [[NSDate alloc] init];
-    NSString *dateString = [format stringFromDate:now];
-    NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
-                                dateString, kKeyBeacontime,
-                                nil];
-    [self updatePost:parameters];
+    if ([[TradePostMgr getInstance] isBeaconActive])
+    {
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Beacon exists"
+                                                          message:@"Only a single beacon can be active at a time"
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+        
+        [message show];
+    }
+    else
+    {
+        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+        [format setDateFormat:@"MMM dd, yyyy HH:mm"];
+        NSDate *now = [[NSDate alloc] init];
+        NSString *dateString = [format stringFromDate:now];
+        NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    dateString, kKeyBeacontime,
+                                    nil];
+        [self updatePost:parameters];
+    }
 }
 
 - (bool) beaconActive
