@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "AsyncHttpCallMgr.h"
 #import "StartScreen.h"
 #import "ImageManager.h"
 #import "GameManager.h"
@@ -100,6 +101,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+    [[AsyncHttpCallMgr getInstance] applicationWillTerminate];
     [self appShutdown];
     [self teardownNavigationController];
 }
@@ -129,6 +131,7 @@
     [GameManager getInstance];
     [ScanManager getInstance];
     [ResourceManager getInstance];
+    [AsyncHttpCallMgr getInstance];
     
     // Setting up the HTTP callback delegates
     [[Player getInstance] setDelegate:[GameManager getInstance]];

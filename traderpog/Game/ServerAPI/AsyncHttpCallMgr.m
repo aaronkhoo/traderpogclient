@@ -8,11 +8,20 @@
 
 #import "AFClientManager.h"
 #import "AsyncHttpCallMgr.h"
+#import "GameManager.h"
 
 static int const maxRetry = 10;
+static NSString* const kAsyncHttpCallMgrFilename = @"asynchttpcallmgr.sav";
+
+// encoding keys
+static NSString* const kKeyVersion = @"version";
+static NSString* const kKeyCallArray = @"callarray";
 
 @interface AsyncHttpCallMgr ()
 {
+    // internal
+    NSString* _createdVersion;
+    
     NSMutableArray* _callArray;
     NSCondition* _lock;
     BOOL _callsInProgress;
@@ -30,8 +39,78 @@ static int const maxRetry = 10;
         _callArray = [[NSMutableArray alloc] init];
         _lock = [[NSCondition alloc] init];
         _callsInProgress = FALSE;
+        _delegate = nil;
     }
     return self;
+}
+
+#pragma mark - NSCoding
+- (void) encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:_createdVersion forKey:kKeyVersion];
+    [aCoder encodeObject:_callArray forKey:kKeyCallArray];
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+    _createdVersion = [aDecoder decodeObjectForKey:kKeyVersion];
+    _callArray = [aDecoder decodeObjectForKey:kKeyCallArray];
+    _lock = [[NSCondition alloc] init];
+    _callsInProgress = FALSE;
+    return self;
+}
+
+#pragma mark - saved game data loading and unloading
++ (AsyncHttpCallMgr*) loadAsyncHttpCallMgrData
+{
+    AsyncHttpCallMgr* current = nil;
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString* filepath = [AsyncHttpCallMgr asyncHttpCallMgrFilePath];
+    if ([fileManager fileExistsAtPath:filepath])
+    {
+        NSData* readData = [NSData dataWithContentsOfFile:filepath];
+        if(readData)
+        {
+            current = [NSKeyedUnarchiver unarchiveObjectWithData:readData];
+        }
+    }
+    return current;
+}
+
+- (void) saveAsyncHttpCallMgrData
+{
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self];
+    NSError* error = nil;
+    BOOL writeSuccess = [data writeToFile:[AsyncHttpCallMgr asyncHttpCallMgrFilePath]
+                                  options:NSDataWritingAtomic
+                                    error:&error];
+    if(writeSuccess)
+    {
+        NSLog(@"AsyncHttpCallMgr file saved successfully");
+    }
+    else
+    {
+        NSLog(@"AsyncHttpCallMgr file save failed: %@", error);
+    }
+}
+
+- (void) removeAsyncHttpCallMgrData
+{
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString* filepath = [AsyncHttpCallMgr asyncHttpCallMgrFilePath];
+    NSError *error = nil;
+    if ([fileManager fileExistsAtPath:filepath])
+    {
+        [fileManager removeItemAtPath:filepath error:&error];
+    }
+}
+
+#pragma mark - private functions
++ (NSString*) asyncHttpCallMgrFilePath
+{
+    NSString* docsDir = [GameManager documentsDirectory];
+    NSString* filepath = [docsDir stringByAppendingPathComponent:kAsyncHttpCallMgrFilename];
+    return filepath;
 }
 
 - (void) push:(AsyncHttpCall*) newCall
@@ -78,6 +157,7 @@ static int const maxRetry = 10;
                         }
                         failure:^(AFHTTPRequestOperation* operation, NSError* error){
                             NSLog(@"postPath call failed in AsyncHttpCallMgr");
+                            NSLog(@"Custom error: %@", [nextCall failureMsg]);
                             nextCall.numTries++;
                             if ([nextCall numTries] >= maxRetry)
                             {
@@ -99,6 +179,7 @@ static int const maxRetry = 10;
                         }
                         failure:^(AFHTTPRequestOperation* operation, NSError* error){
                             NSLog(@"postPath call failed in AsyncHttpCallMgr");
+                            NSLog(@"Custom error: %@", [nextCall failureMsg]);
                             nextCall.numTries++;
                             if ([nextCall numTries] >= maxRetry)
                             {
@@ -122,6 +203,7 @@ static int const maxRetry = 10;
     }
 }
 
+#pragma mark - public functions
 - (void) newAsyncHttpCall:(NSString*)path
            current_params:(NSDictionary*)params
           current_headers:(NSDictionary*)headers
@@ -156,6 +238,12 @@ static int const maxRetry = 10;
     }
 }
 
+- (void)applicationWillTerminate
+{
+    // Save any calls that haven't been made
+    [self saveAsyncHttpCallMgrData];
+}
+
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteAsyncHttpCallback:(BOOL)success
 {
@@ -180,7 +268,7 @@ static AsyncHttpCallMgr* singleton = nil;
 		if (!singleton)
 		{
             // First, try to load the AsyncHttpCallMgr data from disk
-            //singleton = [AsyncHttpCallMgr loadCachedAsyncHttpCallData];
+            singleton = [AsyncHttpCallMgr loadAsyncHttpCallMgrData];
             if (!singleton)
             {
                 // OK, no saved data available. Go ahead and create a new AsyncHttpCallMgr instance.

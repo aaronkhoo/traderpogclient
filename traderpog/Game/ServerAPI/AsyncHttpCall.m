@@ -8,6 +8,15 @@
 
 #import "AsyncHttpCall.h"
 
+// encoding keys
+static NSString* const kKeyVersion = @"version";
+static NSString* const kKeyNumTries = @"numtries";
+static NSString* const kKeyType = @"type";
+static NSString* const kKeyPath= @"path";
+static NSString* const kKeyParams = @"params";
+static NSString* const kKeyHeaders = @"headers";
+static NSString* const kKeyMsg = @"msg";
+
 @implementation AsyncHttpCall
 @synthesize path = _path;
 @synthesize parameters = _parameters;
@@ -32,6 +41,30 @@
         _failureMsg = current_msg;
         _type = current_type;
     }
+    return self;
+}
+
+#pragma mark - NSCoding
+- (void) encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:_createdVersion forKey:kKeyVersion];
+    [aCoder encodeInteger:_numTries forKey:kKeyNumTries];
+    [aCoder encodeObject:_path forKey:kKeyPath];
+    [aCoder encodeObject:_parameters forKey:kKeyParams];
+    [aCoder encodeObject:_headers forKey:kKeyHeaders];
+    [aCoder encodeObject:_failureMsg forKey:kKeyMsg];
+    [aCoder encodeInteger:_type forKey:kKeyType];
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+    _createdVersion = [aDecoder decodeObjectForKey:kKeyVersion];
+    _numTries = [[aDecoder decodeObjectForKey:kKeyNumTries] integerValue];
+    _path = [aDecoder decodeObjectForKey:kKeyPath];
+    _parameters = [aDecoder decodeObjectForKey:kKeyParams];
+    _headers = [aDecoder decodeObjectForKey:kKeyHeaders];
+    _failureMsg = [aDecoder decodeObjectForKey:kKeyMsg];
+    _type = [[aDecoder decodeObjectForKey:kKeyType] integerValue];
     return self;
 }
 

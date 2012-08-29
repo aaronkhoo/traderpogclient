@@ -13,8 +13,11 @@ typedef enum {
     postType = 2
 } httpCallType;
 
-@interface AsyncHttpCall : NSObject
+@interface AsyncHttpCall : NSObject<NSCoding>
 {
+    // internal
+    NSString* _createdVersion;
+    
     NSInteger _numTries;
     httpCallType _type;
     NSString* _path;
