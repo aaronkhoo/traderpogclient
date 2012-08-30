@@ -22,7 +22,8 @@
           current_headers:(NSDictionary*)headers
               current_msg:(NSString*)msg
              current_type:(httpCallType)type;
-- (void) startCalls;
+- (BOOL) startCalls;
+- (BOOL) callsRemain;
 - (void)applicationDidEnterBackground;
 - (void) applicationWillTerminate;
 

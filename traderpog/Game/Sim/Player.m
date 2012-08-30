@@ -256,11 +256,7 @@ static const unsigned int kInitBucks = 500;
                 success:^(AFHTTPRequestOperation *operation, id responseObject){
                     _playerId = [[responseObject valueForKeyPath:kKeyUserId] integerValue];
                     _secretkey = [responseObject valueForKeyPath:kKeySecretkey];
-                    
-                    // HACK; temp disabled until client can update bucks on server
-                    //_bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
-                    // HACK
-                    
+                    _bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
                     _email = [responseObject valueForKeyPath:kKeyEmail];
                     _member = [[responseObject valueForKeyPath:kKeyMember] boolValue];
                     _lastUpdate = [NSDate date];
@@ -298,9 +294,7 @@ static const unsigned int kInitBucks = 500;
     [httpClient getPath:path
               parameters:nil
                  success:^(AFHTTPRequestOperation *operation, id responseObject){                     
-                     // HACK; temp disabled until client can update bucks on server
-                     //_bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
-                     // HACK
+                     _bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
                      _email = [responseObject valueForKeyPath:kKeyEmail];
                      _facebookid = [responseObject valueForKeyPath:kKeyFacebookId];
                      _member = [[responseObject valueForKeyPath:kKeyMember] boolValue];
@@ -336,10 +330,7 @@ static const unsigned int kInitBucks = 500;
                  success:^(AFHTTPRequestOperation *operation, id responseObject){                     
                      _playerId = [[responseObject valueForKeyPath:kKeyUserId] integerValue];
                      _secretkey = [responseObject valueForKeyPath:kKeySecretkey];
-
-                     // HACK; temp disabled until client can update bucks on server
-                     //_bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
-                     // HACK
+                     _bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
                      _lastUpdate = [NSDate date];
                      NSLog(@"user id is %i", _playerId);
                      [self savePlayerData];
