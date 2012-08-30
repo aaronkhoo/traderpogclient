@@ -44,17 +44,14 @@ static const NSTimeInterval kBrowsePanEndingDuration = 1.1;
 {
     if(UIGestureRecognizerStateBegan == [gestureRecognizer state])
     {
-        NSLog(@"BEGAN");
         _panEndTime = nil;
     }
     else if(UIGestureRecognizerStateChanged == [gestureRecognizer state])
     {
-        NSLog(@"CHANGED");
         [self enforceBrowseAreaWithBufferMeters:kBrowsePanBufferMeters snapDuration:kBrowsePanSnapDuration];
     }
     else if(UIGestureRecognizerStateEnded == [gestureRecognizer state])
     {
-        NSLog(@"ENDED");
         _panEndTime = [NSDate date];
         [self enforceBrowseAreaWithBufferMeters:kBrowsePanBufferMeters snapDuration:kBrowsePanSnapDuration];
     }
@@ -66,7 +63,6 @@ static const NSTimeInterval kBrowsePanEndingDuration = 1.1;
     if(_panEndTime)
     {
         NSTimeInterval elapsed = -[_panEndTime timeIntervalSinceNow];
-        NSLog(@"elapsed is %f", elapsed);
         if(elapsed < kBrowsePanEndingDuration)
         {
             result = YES;
