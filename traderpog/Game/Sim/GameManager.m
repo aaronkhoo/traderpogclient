@@ -67,6 +67,9 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     TradePost* _contextPost;
     NSTimeInterval  _calloutHaltDuration;
     NSDate*         _calloutHaltBegin;
+    BrowseEnforcedType _browseEnforced;
+    pthread_rwlock_t _browseEnforcedLock;
+
 }
 @property (nonatomic,strong) ModalNavControl* modalNav;
 @property (nonatomic,strong) HiAccuracyLocator* playerLocator;
@@ -126,6 +129,8 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
         _contextPost = nil;
         _calloutHaltBegin = nil;
         _calloutHaltDuration = 0.0;
+        _browseEnforced = kBrowseEnforcedNone;
+        pthread_rwlock_init(&_browseEnforcedLock, NULL);
         
         [self registerAllNotificationHandlers];
         
@@ -133,6 +138,11 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
         [self loadLocalWorldState];
     }
     return self;
+}
+
+- (void) dealloc
+{
+    pthread_rwlock_destroy(&_browseEnforcedLock);
 }
 
 #pragma mark - internal methods
@@ -645,27 +655,69 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
 {
     if(0.0 < seconds)
     {
-        _calloutHaltBegin = [NSDate date];
-        _calloutHaltDuration = seconds;
+        @synchronized(self)
+        {
+            _calloutHaltBegin = [NSDate date];
+            _calloutHaltDuration = seconds;
+        }
     }
 }
 
 - (BOOL) canShowMapAnnotationCallout
 {
     BOOL result = YES;
-    if(_calloutHaltBegin)
+    @synchronized(self)
     {
-        NSTimeInterval elapsed = -[_calloutHaltBegin timeIntervalSinceNow];
-        if(elapsed < _calloutHaltDuration)
+        if(_calloutHaltBegin)
         {
-            result = NO;
-        }
-        else
-        {
-            _calloutHaltBegin = nil;
-            _calloutHaltDuration = 0.0;
+            NSTimeInterval elapsed = -[_calloutHaltBegin timeIntervalSinceNow];
+            if(elapsed < _calloutHaltDuration)
+            {
+                result = NO;
+            }
+            else
+            {
+                _calloutHaltBegin = nil;
+                _calloutHaltDuration = 0.0;
+            }
         }
     }
+    return result;
+}
+
+- (BrowseEnforcedType) enforceBrowse:(BrowseEnforcedType)enforcedType
+{
+    BrowseEnforcedType result;
+    
+    if((kBrowseEnforcedNone == _browseEnforced) && (kBrowseEnforcedNone != enforcedType))
+    {
+        pthread_rwlock_wrlock(&_browseEnforcedLock);
+        {
+            // only set if nothing is being enforced
+            _browseEnforced = enforcedType;
+            result = _browseEnforced;
+        }
+        pthread_rwlock_unlock(&_browseEnforcedLock);
+    }
+    else if(kBrowseEnforcedNone == enforcedType)
+    {
+        // clear
+        pthread_rwlock_wrlock(&_browseEnforcedLock);
+        _browseEnforced = enforcedType;
+        pthread_rwlock_unlock(&_browseEnforcedLock);
+    }
+    
+    return result;
+}
+
+- (BrowseEnforcedType) currentBrowseEnforced
+{
+    BrowseEnforcedType result;
+    
+    pthread_rwlock_rdlock(&_browseEnforcedLock);
+    result = _browseEnforced;
+    pthread_rwlock_unlock(&_browseEnforcedLock);
+    
     return result;
 }
 

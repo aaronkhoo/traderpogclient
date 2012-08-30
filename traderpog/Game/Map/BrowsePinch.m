@@ -10,6 +10,7 @@
 #import "MapControl.h"
 #import "BrowseArea.h"
 #import "MKMapView+ZoomLevel.h"
+#import "GameManager.h"
 
 static const float kBrowsePanBufferMeters = 75.0f;
 static const float kBrowsePanSnapBufferMeters = 15.0f;
@@ -61,27 +62,37 @@ static const float kBrowsePanSnapDuration = 0.2f;
     {
         double fMinZoom = (double)[self.browseArea minZoom];
         double fZoomLevel = [self.map.view fZoomLevel];
-        if((fZoomLevel+1) < fMinZoom)
+        if((fZoomLevel + 0.5) < fMinZoom)
         {
             // enforce bounds
-            CLLocationCoordinate2D curCenter = [self.map.view centerCoordinate];
-            CLLocationCoordinate2D snapCoord = curCenter;
-            if(![self.browseArea isInBounds:curCenter withBufferMeters:bufferMeters])
+            BrowseEnforcedType enforced = [[GameManager getInstance] enforceBrowse:kBrowseEnforcedPinch];
+            if(kBrowseEnforcedPinch == enforced)
             {
-                snapCoord = [self.browseArea snapCoord:curCenter];
+                CLLocationCoordinate2D curCenter = [self.map.view centerCoordinate];
+                CLLocationCoordinate2D snapCoord = curCenter;
+                //if(![self.browseArea isInBounds:curCenter withBufferMeters:bufferMeters])
+                //{
+                //    snapCoord = [self.browseArea snapCoord:curCenter];
+                //}
+                [self.map.view setCenterCoordinate:snapCoord zoomLevel:[self.browseArea minZoom] animated:YES];
+                NSLog(@"pinch rubberband started");
+                _regionSetInCode = YES;
+                self.map.view.scrollEnabled = YES;
+                self.map.view.zoomEnabled = NO;
+                enforced = YES;
+                dispatch_time_t scrollLockTimeout = dispatch_time(DISPATCH_TIME_NOW, kBrowsePanSnapDuration * NSEC_PER_SEC);
+                dispatch_after(scrollLockTimeout, dispatch_get_main_queue(), ^(void){
+                    _regionSetInCode = NO;
+                    self.map.view.zoomEnabled = YES;
+                    //[self.map.view setCenterCoordinate:snapCoord animated:YES];
+                    [[GameManager getInstance] enforceBrowse:kBrowseEnforcedNone];
+                    NSLog(@"pinch rubberband done");
+                });
             }
-            [self.map.view setCenterCoordinate:snapCoord zoomLevel:[self.browseArea minZoom] animated:YES];
-            NSLog(@"pinch rubberband started");
-            _regionSetInCode = YES;
-            self.map.view.zoomEnabled = NO;
-            enforced = YES;
-            dispatch_time_t scrollLockTimeout = dispatch_time(DISPATCH_TIME_NOW, kBrowsePanSnapDuration * NSEC_PER_SEC);
-            dispatch_after(scrollLockTimeout, dispatch_get_main_queue(), ^(void){
-                _regionSetInCode = NO;
-                self.map.view.zoomEnabled = YES;
-                [self.map.view setCenterCoordinate:snapCoord animated:YES];
-                NSLog(@"rubberband done");
-            });
+            else
+            {
+                NSLog(@"pinch abort");
+            }
         }
     }
     return enforced;

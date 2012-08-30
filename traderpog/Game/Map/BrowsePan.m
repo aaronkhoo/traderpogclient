@@ -9,6 +9,7 @@
 #import "BrowsePan.h"
 #import "MapControl.h"
 #import "BrowseArea.h"
+#import "GameManager.h"
 
 static const float kBrowsePanBufferMeters = 75.0f;
 static const float kBrowsePanSnapBufferMeters = 15.0f;
@@ -90,20 +91,30 @@ static const NSTimeInterval kBrowsePanEndingDuration = 1.1;
         //      self.browseArea.center.coordinate.latitude, self.browseArea.center.coordinate.longitude);
         if(![self.browseArea isInBounds:curCenter withBufferMeters:bufferMeters])
         {
-            snapCoord = [self.browseArea snapCoord:curCenter withBufferMeters:kBrowsePanSnapBufferMeters];
-            [self.map.view setCenterCoordinate:snapCoord animated:YES];
-            NSLog(@"rubberband started");
-            self.map.view.scrollEnabled = NO;
-            _regionSetInCode = YES;
-            enforced = YES;
-            dispatch_time_t scrollLockTimeout = dispatch_time(DISPATCH_TIME_NOW, snapDuration * NSEC_PER_SEC);
-            dispatch_after(scrollLockTimeout, dispatch_get_main_queue(), ^(void){
-                // unset set-from-code after a delay to prevent rapid re-entrants
-                self.map.view.scrollEnabled = YES;
-                _regionSetInCode = NO;
+            BrowseEnforcedType enforced = [[GameManager getInstance] enforceBrowse:kBrowseEnforcedScroll];
+            if(kBrowseEnforcedScroll == enforced)
+            {
+                snapCoord = [self.browseArea snapCoord:curCenter withBufferMeters:kBrowsePanSnapBufferMeters];
                 [self.map.view setCenterCoordinate:snapCoord animated:YES];
-                NSLog(@"rubberband done");
-            });
+                
+                NSLog(@"scroll rubberband started");
+                self.map.view.scrollEnabled = NO;
+                _regionSetInCode = YES;
+                enforced = YES;
+                dispatch_time_t scrollLockTimeout = dispatch_time(DISPATCH_TIME_NOW, snapDuration * NSEC_PER_SEC);
+                dispatch_after(scrollLockTimeout, dispatch_get_main_queue(), ^(void){
+                    // unset set-from-code after a delay to prevent rapid re-entrants
+                    self.map.view.scrollEnabled = YES;
+                    _regionSetInCode = NO;
+                    [self.map.view setCenterCoordinate:snapCoord animated:YES];
+                    [[GameManager getInstance] enforceBrowse:kBrowseEnforcedNone];
+                    NSLog(@"scroll rubberband done");
+                });
+            }
+            else
+            {
+                NSLog(@"scroll abort");
+            }
         }
     }
     return enforced;

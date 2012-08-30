@@ -25,6 +25,16 @@ enum kGameStates
     kGameStateNum = kGameStateInGameLast
 };
 
+typedef enum _BrowseEnforcedType
+{
+    kBrowseEnforcedNone = 0,
+    kBrowseEnforcedPinch,
+    kBrowseEnforcedScroll,
+    
+    kBrowseEnforcedNum
+} BrowseEnforcedType;
+
+
 @class Player;
 @class LoadingScreen;
 @class CLLocation;
@@ -55,6 +65,8 @@ enum kGameStates
 // global UI controls
 - (void) haltMapAnnotationCalloutsForDuration:(NSTimeInterval)seconds;
 - (BOOL) canShowMapAnnotationCallout;
+- (BrowseEnforcedType) enforceBrowse:(BrowseEnforcedType)enforcedType;
+- (BrowseEnforcedType) currentBrowseEnforced;
 
 + (NSString*) documentsDirectory;
 
