@@ -15,7 +15,7 @@
 
 @class TradePost;
 @class Flyer;
-@interface MapControl : NSObject<MKMapViewDelegate,UIGestureRecognizerDelegate>
+@interface MapControl : NSObject<MKMapViewDelegate>
 @property (nonatomic,strong) MKMapView* view;
 @property (nonatomic,strong) NSObject<MKAnnotation>* trackedAnnotation;
 

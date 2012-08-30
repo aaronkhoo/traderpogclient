@@ -18,6 +18,7 @@
 #import "FlyerAnnotationView.h"
 #import "MKMapView+Pog.h"
 #import "BrowsePan.h"
+#import "BrowsePinch.h"
 
 static const NSUInteger kDefaultZoomLevel = 15;
 static NSString* const kKeyCoordinate = @"coordinate";
@@ -32,12 +33,14 @@ static const float kBrowseAreaRadius = 900.0f;
     BrowseArea* _browseArea;
     BOOL _regionSetFromCode;
     UIPinchGestureRecognizer* _pinchRecognizer;
+    BrowsePinch* _pinchHandler;
     UIPanGestureRecognizer* _panRecognizer;
     BrowsePan* _panHandler;
 }
 @property (nonatomic,strong) BrowseArea* browseArea;
 @property (nonatomic) BOOL regionSetFromCode;
 @property (nonatomic,strong) UIPinchGestureRecognizer* pinchRecognizer;
+@property (nonatomic,strong) BrowsePinch* pinchHandler;
 @property (nonatomic,strong) UIPanGestureRecognizer* panRecognizer;
 @property (nonatomic,strong) BrowsePan* panHandler;
 
@@ -51,6 +54,7 @@ static const float kBrowseAreaRadius = 900.0f;
 @synthesize browseArea = _browseArea;
 @synthesize regionSetFromCode = _regionSetFromCode;
 @synthesize pinchRecognizer = _pinchRecognizer;
+@synthesize pinchHandler = _pinchHandler;
 @synthesize panRecognizer = _panRecognizer;
 @synthesize panHandler = _panHandler;
 @synthesize trackedAnnotation;
@@ -65,8 +69,9 @@ static const float kBrowseAreaRadius = 900.0f;
     
     _browseArea = [[BrowseArea alloc] initWithCenterLoc:initCoord radius:kBrowseAreaRadius];
     _regionSetFromCode = NO;
-    self.pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
-    self.pinchRecognizer.delegate = self;
+    self.pinchHandler = [[BrowsePinch alloc] initWithMap:self browseArea:_browseArea];
+    self.pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:[self pinchHandler] action:@selector(handleGesture:)];
+    self.pinchRecognizer.delegate = [self pinchHandler];
     [self.view addGestureRecognizer:[self pinchRecognizer]];
     
     self.panHandler = [[BrowsePan alloc] initWithMap:self browseArea:_browseArea];
@@ -108,7 +113,6 @@ static const float kBrowseAreaRadius = 900.0f;
 {
     [self stopTrackingAnnotation];
     [self.view removeGestureRecognizer:[self panRecognizer]];
-    [self.pinchRecognizer removeTarget:self action:@selector(handleGesture:)];
     [self.view removeGestureRecognizer:[self pinchRecognizer]];
 }
 
@@ -303,55 +307,6 @@ static const float kBrowseAreaRadius = 900.0f;
     result = pathView;
     
 	return result;
-}
-
-#pragma mark - UIPinchGestureRecognizer
-
-- (void) handleGesture:(UIGestureRecognizer*)gestureRecognizer
-{
-    if(UIGestureRecognizerStateBegan == [gestureRecognizer state])
-    {
-    }
-    else if(UIGestureRecognizerStateChanged == [gestureRecognizer state])
-    {
-    }
-    else if(UIGestureRecognizerStateEnded == [gestureRecognizer state])
-    {
-        NSLog(@"pinch ended");
-        if(![self regionSetFromCode])
-        {
-            if([self browseArea])
-            {
-                double fMinZoom = (double)[self.browseArea minZoom];
-                double fZoomLevel = [self.view fZoomLevel];
-                if(fZoomLevel < fMinZoom)
-                {
-                    // enforce bounds
-                    CLLocationCoordinate2D curCenter = [self.view centerCoordinate];
-                    CLLocationCoordinate2D snapCoord = curCenter;
-                    if(![self.browseArea isInBounds:curCenter])
-                    {
-                        snapCoord = [self.browseArea snapCoord:curCenter];
-                    }
-                    [self.view setCenterCoordinate:snapCoord zoomLevel:[self.browseArea minZoom] animated:YES];
-                    NSLog(@"rubberband started");
-                    self.regionSetFromCode = YES;
-                    dispatch_time_t scrollLockTimeout = dispatch_time(DISPATCH_TIME_NOW, 0.5f * NSEC_PER_SEC);
-                    dispatch_after(scrollLockTimeout, dispatch_get_main_queue(), ^(void){
-                        // unset set-from-code after a delay to prevent
-                        // infinite loop in setCenterCoordiate and regionDidChange
-                        self.regionSetFromCode = NO;
-                        NSLog(@"rubberband done");
-                    });
-                }
-            }
-        }
-    }
-}
-
-- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-{
-    return YES;
 }
 
 
