@@ -160,6 +160,11 @@ static const float kBrowseAreaRadius = 900.0f;
     // center the map and browse area
     [self.view setCenterCoordinate:coord animated:isAnimated];
     [self.browseArea setCenterCoord:coord];
+    [self.browseArea setRadius:kBrowseAreaRadius];
+
+    // enable zoom in case we previously viewed a non-zoomable mode
+    self.view.zoomEnabled = YES;
+    self.pinchRecognizer.enabled = YES;
 }
 
 - (void) defaultZoomCenterOn:(CLLocationCoordinate2D)coord animated:(BOOL)isAnimated
@@ -170,6 +175,11 @@ static const float kBrowseAreaRadius = 900.0f;
     // center the map and browse area
     [self.view setCenterCoordinate:coord zoomLevel:kDefaultZoomLevel animated:isAnimated];
     [self.browseArea setCenterCoord:coord];
+    [self.browseArea setRadius:kBrowseAreaRadius];
+
+    // enable zoom in case we previously viewed a non-zoomable mode
+    self.view.zoomEnabled = YES;
+    self.pinchRecognizer.enabled = YES;
 }
 
 - (void) centerOnFlyer:(Flyer *)flyer animated:(BOOL)isAnimated
@@ -183,6 +193,21 @@ static const float kBrowseAreaRadius = 900.0f;
         MKMapRect routeRect = [MKMapView boundingRectForCoordinateA:srcCoord coordinateB:destCoord];
         UIEdgeInsets padding = UIEdgeInsetsMake(20.0f, 5.0f, 20.0f, 5.0f);
         [self.view setVisibleMapRect:routeRect edgePadding:padding animated:YES];
+        
+        // center browse area on center of the rectangle with radius equal to
+        // half of the height of the rectangle
+        MKMapPoint rectCenter = MKMapPointMake(routeRect.origin.x + (0.5f * routeRect.size.width),
+                                               routeRect.origin.y + (0.5f * routeRect.size.height));
+        CLLocationCoordinate2D centerCoord = MKCoordinateForMapPoint(rectCenter);
+        [self.browseArea setCenterCoord:centerCoord];
+        MKMapPoint rectBL = MKMapPointMake(routeRect.origin.x,
+                                           routeRect.origin.y + routeRect.size.height);
+        CLLocationDistance heightMeters = MKMetersBetweenMapPoints(routeRect.origin, rectBL);
+        [self.browseArea setRadius:heightMeters * 0.5f];
+
+        // disable zoom for enroute Flyer
+        self.view.zoomEnabled = NO;
+        self.pinchRecognizer.enabled = NO;
     }
     else
     {
