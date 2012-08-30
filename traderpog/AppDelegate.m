@@ -142,6 +142,10 @@
     [[FlyerMgr getInstance] setDelegate:[GameManager getInstance]];
     [[ResourceManager getInstance] setDelegate:[GameManager getInstance]];
     [[BeaconMgr getInstance] setDelegate:[GameManager getInstance]];
+    
+    // Setting up async http callback delegates
+    [[AsyncHttpCallMgr getInstance] setDelegate:[AsyncHttpCallMgr getInstance]];
+    [[AsyncHttpCallMgr getInstance] setDelegate:[GameManager getInstance]];
 
     // load up frontmenu background
     [[ImageManager getInstance] loadFrontMenuBackgroundNamed:@"Default.png"];

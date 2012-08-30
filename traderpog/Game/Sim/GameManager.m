@@ -8,6 +8,7 @@
 
 #import "AFClientManager.h"
 #import "AppDelegate.h"
+#import "AsyncHttpCallMgr.h"
 #import "BeaconMgr.h"
 #import "GameManager.h"
 #import "Player.h"
@@ -40,6 +41,9 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
 
 @interface GameManager ()
 {
+    // Variables to track any outstanding async http calls that need to be completed
+    BOOL _asyncHttpCallsCompleted;
+    
     // Variables to track general game information
     NSDate* _gameInfoModifiedDateLastChecked;
     NSDate* _gameInfoModifiedDate;
@@ -98,6 +102,8 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
         _gameState = kGameStateNew;
         _loadingScreen = nil;
         _gameViewController = nil;
+        
+        _asyncHttpCallsCompleted = FALSE;
         
         _gameInfoModifiedDateLastChecked = nil;
         _gameInfoModifiedDate = nil;
@@ -365,13 +371,27 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     [self selectNextGameUI];
 }
 
-- (void) handleNewPlayerLocationDenied:(NSNotification *)note
+- (void) handleNewPlayerLocationDenied:(NSNotification *)note 
 {
     // abort all the way back to the start screen
     _gameState = kGameStateNew;
     AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     UINavigationController* nav = appDelegate.navController;
     [nav popFadeOutToRootViewControllerAnimated:YES];    
+}
+
+- (void) pushLoadingScreenIfNecessary:(UINavigationController*)nav message:(NSString*)message
+{
+    // first check the view on the stack, if the top view is not LoadingScreen,
+    // then push that onto the stack
+    UIViewController* current = [nav visibleViewController];
+    if ([[current nibName] compare:@"LoadingScreen"] != NSOrderedSame)
+    {
+        current = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
+        [nav pushFadeInViewController:current animated:YES];
+    }
+    LoadingScreen* loading = (LoadingScreen*)current;
+    loading.progressLabel.text = message;
 }
 
 - (void) popLoadingScreenIfNecessary:(UINavigationController*)nav
@@ -386,6 +406,7 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
 - (void) applicationWillEnterForeground
 {
     // Reset
+    _asyncHttpCallsCompleted = TRUE;
     _gameInfoRefreshed = FALSE;
     _gameInfoRefreshCount = 0;
     _playerInfoRefreshed = FALSE;
@@ -419,35 +440,31 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     }
     else if (!_gameInfoModifiedDate || ([_gameInfoModifiedDateLastChecked timeIntervalSinceNow] < gameinfoRefreshTime))
     {
-        // first check the view on the stack, if the top view is not LoadingScreen,
-        // then push that onto the stack
-        UIViewController* current = [nav visibleViewController];
-        if ([[current nibName] compare:@"LoadingScreen"] != NSOrderedSame)
-        {
-            current = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
-            [nav pushFadeInViewController:current animated:YES];
-        }
-        LoadingScreen* loading = (LoadingScreen*)current;
-        loading.progressLabel.text = @"Checking for server updates";
+        [self pushLoadingScreenIfNecessary:nav message:@"Checking for server updates"];
         
         // If the gameinfo modified date has not been checked recently, go ahead and check it
         [self getGameInfoModifiedDate];
+    }
+    else if (!_asyncHttpCallsCompleted)
+    {
+        [self pushLoadingScreenIfNecessary:nav message:@"Completing outstanding http calls"];
+
+        if (![[AsyncHttpCallMgr getInstance] startCalls])
+        {
+            // A return of FALSE from startCalls indicates no calls to make
+            _asyncHttpCallsCompleted = TRUE;
+            
+            // Nothing to do; recursively call self to move on
+            [self selectNextGameUI];
+        }
     }
     else if (!_gameInfoRefreshed)
     {
         // show loading screen and load game info from server
         _gameInfoRefreshSucceeded = TRUE;
         
-        // first check the view on the stack, if the top view is not LoadingScreen,
-        // then push that onto the stack
-        UIViewController* current = [nav visibleViewController];
-        if ([[current nibName] compare:@"LoadingScreen"] != NSOrderedSame)
-        {
-            current = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
-            [nav pushFadeInViewController:current animated:YES];
-        }
-        LoadingScreen* loading = (LoadingScreen*)current;
-        loading.progressLabel.text = @"Loading game info";
+        [self pushLoadingScreenIfNecessary:nav message:@"Loading game info"];
+
         [self loadGameInfo];
     }
     else if (!_playerInfoRefreshed)
@@ -455,45 +472,20 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
         // show loading screen and load player info from server
         _playerInfoRefreshSucceeded = TRUE;
         
-        // first check the view on the stack, if the top view is not LoadingScreen,
-        // then push that onto the stack
-        UIViewController* current = [nav visibleViewController];
-        if ([[current nibName] compare:@"LoadingScreen"] != NSOrderedSame)
-        {
-            current = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
-            [nav pushFadeInViewController:current animated:YES];
-        }
-        LoadingScreen* loading = (LoadingScreen*)current;
-        loading.progressLabel.text = @"Loading player info";
+        [self pushLoadingScreenIfNecessary:nav message:@"Loading player info"];
+        
         [self loadPlayerInfo];
     }
     else if(![[Player getInstance] lastKnownLocationValid])
     {
-        // first check the view on the stack, if the top view is not LoadingScreen,
-        // then push that onto the stack
-        UIViewController* current = [nav visibleViewController];
-        if ([[current nibName] compare:@"LoadingScreen"] != NSOrderedSame)
-        {
-            current = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
-            [nav pushFadeInViewController:current animated:YES];
-        }
-        LoadingScreen* loading = (LoadingScreen*)current;
-        loading.progressLabel.text = @"Determining player location";     
+        [self pushLoadingScreenIfNecessary:nav message:@"Determining player location"];
+   
         [self locateNewPlayer];
     }
     // Player has no posts 
     else if([[TradePostMgr getInstance] postsCount] == 0)
-    {        
-        // first check the view on the stack, if the top view is not LoadingScreen,
-        // then push that onto the stack
-        UIViewController* current = [nav visibleViewController];
-        if ([[current nibName] compare:@"LoadingScreen"] != NSOrderedSame)
-        {
-            current = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
-            [nav pushFadeInViewController:current animated:YES];
-        }
-        LoadingScreen* loading = (LoadingScreen*)current;
-        loading.progressLabel.text = @"Generating initial trade post"; 
+    {
+        [self pushLoadingScreenIfNecessary:nav message:@"Generating initial trade post"];
         
         NSArray* itemsArray = [[TradeItemTypes getInstance] getItemTypesForTier:1];
         NSInteger index = arc4random() % (itemsArray.count);
@@ -509,16 +501,7 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     // Player account exists + player has a post + player location has been located, but no flyer
     else if(![[[FlyerMgr getInstance] playerFlyers] count])
     {
-        // first check the view on the stack, if the top view is not LoadingScreen,
-        // then push that onto the stack
-        UIViewController* current = [nav visibleViewController];
-        if ([[current nibName] compare:@"LoadingScreen"] != NSOrderedSame)
-        {
-            current = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
-            [nav pushFadeInViewController:current animated:YES];
-        }
-        LoadingScreen* loading = (LoadingScreen*)current;
-        loading.progressLabel.text = @"Generating first flyer";
+        [self pushLoadingScreenIfNecessary:nav message:@"Generating first flyer"];
         
         // create player's first flyer
         NSArray* flyersArray = [[FlyerTypes getInstance] getFlyersForTier:1];
@@ -757,6 +740,17 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     }
     else
     {
+        [self selectNextGameUI];
+    }
+}
+
+#pragma mark - AsyncHttpDelegate
+- (void) didCompleteAsyncHttpCallback:(BOOL)success
+{
+    // Either failure or no remaining calls means we should pop back to selectNextGameUI
+    if (!success || ![[AsyncHttpCallMgr getInstance] callsRemain])
+    {
+        _asyncHttpCallsCompleted = TRUE;
         [self selectNextGameUI];
     }
 }

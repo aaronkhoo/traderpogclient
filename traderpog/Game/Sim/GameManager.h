@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AsyncHttpDelegate.h"
 #import "GameViewController.h"
 #import "ModalNavDelegate.h"
 #import "HttpCallbackDelegate.h"
@@ -30,7 +31,7 @@ enum kGameStates
 @class Flyer;
 @class TradePost;
 @class WheelControl;
-@interface GameManager : NSObject<HttpCallbackDelegate,ModalNavDelegate>
+@interface GameManager : NSObject<AsyncHttpDelegate,HttpCallbackDelegate,ModalNavDelegate>
 {
     int _gameState;
 

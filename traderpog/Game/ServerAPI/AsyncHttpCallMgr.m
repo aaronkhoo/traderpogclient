@@ -226,7 +226,7 @@ static NSString* const kKeyCallArray = @"callarray";
     [self startCalls];
 }
 
-- (void) startCalls
+- (BOOL) startCalls
 {
     BOOL startCall = FALSE;
     
@@ -242,6 +242,13 @@ static NSString* const kKeyCallArray = @"callarray";
     {
         [self makeAsyncHttpCall];
     }
+    
+    return startCall;
+}
+
+- (BOOL) callsRemain
+{
+    return ([_callArray count] > 0);
 }
 
 - (void)applicationDidEnterBackground
@@ -256,7 +263,7 @@ static NSString* const kKeyCallArray = @"callarray";
     [self saveAsyncHttpCallMgrData];
 }
 
-#pragma mark - HttpCallbackDelegate
+#pragma mark - AsyncHttpDelegate
 - (void) didCompleteAsyncHttpCallback:(BOOL)success
 {
     if (success && [_callArray count] > 0)
