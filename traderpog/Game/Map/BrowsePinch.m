@@ -61,7 +61,7 @@ static const float kBrowsePanSnapDuration = 0.2f;
     {
         double fMinZoom = (double)[self.browseArea minZoom];
         double fZoomLevel = [self.map.view fZoomLevel];
-        if(fZoomLevel < fMinZoom)
+        if((fZoomLevel+1) < fMinZoom)
         {
             // enforce bounds
             CLLocationCoordinate2D curCenter = [self.map.view centerCoordinate];
@@ -73,12 +73,12 @@ static const float kBrowsePanSnapDuration = 0.2f;
             [self.map.view setCenterCoordinate:snapCoord zoomLevel:[self.browseArea minZoom] animated:YES];
             NSLog(@"pinch rubberband started");
             _regionSetInCode = YES;
-            self.map.view.scrollEnabled = NO;
+            self.map.view.zoomEnabled = NO;
             enforced = YES;
             dispatch_time_t scrollLockTimeout = dispatch_time(DISPATCH_TIME_NOW, kBrowsePanSnapDuration * NSEC_PER_SEC);
             dispatch_after(scrollLockTimeout, dispatch_get_main_queue(), ^(void){
                 _regionSetInCode = NO;
-                self.map.view.scrollEnabled = YES;
+                self.map.view.zoomEnabled = YES;
                 [self.map.view setCenterCoordinate:snapCoord animated:YES];
                 NSLog(@"rubberband done");
             });
