@@ -1,79 +1,84 @@
 //
-//  BrowsePanRecognizer.m
+//  BrowsePan.m
 //  traderpog
 //
 //  Created by Shu Chiun Cheah on 8/29/12.
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
-#import "BrowsePanRecognizer.h"
-
-#import "BrowseArea.h"
+#import "BrowsePan.h"
 #import "MapControl.h"
-#import <MapKit/MapKit.h>
+#import "BrowseArea.h"
 
-static const float kBrowsePanBufferMeters = 150.0f;
-static const float kBrowsePanSnapBufferMeters = 25.0f;
+static const float kBrowsePanBufferMeters = 75.0f;
+static const float kBrowsePanSnapBufferMeters = 15.0f;
 static const float kBrowsePanSnapDuration = 0.2f;
+static const NSTimeInterval kBrowsePanEndingDuration = 1.1;
 
-@interface BrowsePanRecognizer ()
+@interface BrowsePan ()
 {
     BOOL _regionSetInCode;
+    NSDate* _panEndTime;
 }
-- (void) handleGesture:(UIGestureRecognizer*)gestureRecognizer;
 - (BOOL) enforceBrowseAreaWithBufferMeters:(float)bufferMeters snapDuration:(float)snapDuration;
 @end
 
-@implementation BrowsePanRecognizer
+@implementation BrowsePan
 @synthesize map = _map;
 @synthesize browseArea = _browseArea;
 
 - (id) initWithMap:(MapControl *)targetMap browseArea:(BrowseArea *)targetBrowseArea
 {
-    self = [super initWithTarget:self action:@selector(handleGesture:)];
+    self = [super init];
     if(self)
     {
         _map = targetMap;
         _browseArea = targetBrowseArea;
         _regionSetInCode = NO;
-        self.delegate = self;
+        _panEndTime = nil;
     }
     return self;
 }
 
-- (void) reset
+- (void) handleGesture:(UIGestureRecognizer *)gestureRecognizer
 {
-    [super reset];
-}
-
-- (void) touchesBegan:(NSSet*)touches withEvent:(UIEvent *)event
-{
-    [super touchesBegan:touches withEvent:event];
-}
-
-- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [super touchesMoved:touches withEvent:event];
-    if([self enforceBrowseAreaWithBufferMeters:kBrowsePanBufferMeters snapDuration:kBrowsePanSnapDuration])
+    if(UIGestureRecognizerStateBegan == [gestureRecognizer state])
     {
-        // if enforced, end this gesture
-        self.state = UIGestureRecognizerStateRecognized;
-        NSLog(@"set to Recognized");
+        NSLog(@"BEGAN");
+        _panEndTime = nil;
+    }
+    else if(UIGestureRecognizerStateChanged == [gestureRecognizer state])
+    {
+        NSLog(@"CHANGED");
+        [self enforceBrowseAreaWithBufferMeters:kBrowsePanBufferMeters snapDuration:kBrowsePanSnapDuration];
+    }
+    else if(UIGestureRecognizerStateEnded == [gestureRecognizer state])
+    {
+        NSLog(@"ENDED");
+        _panEndTime = [NSDate date];
+        [self enforceBrowseAreaWithBufferMeters:kBrowsePanBufferMeters snapDuration:kBrowsePanSnapDuration];
     }
 }
 
-- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+- (BOOL) isPanEnding
 {
-    [super touchesEnded:touches withEvent:event];
-    NSLog(@"touch ended");
-    [self enforceBrowseAreaWithBufferMeters:0.0f snapDuration:kBrowsePanSnapDuration];
+    BOOL result = NO;
+    if(_panEndTime)
+    {
+        NSTimeInterval elapsed = -[_panEndTime timeIntervalSinceNow];
+        NSLog(@"elapsed is %f", elapsed);
+        if(elapsed < kBrowsePanEndingDuration)
+        {
+            result = YES;
+        }
+    }
+    return result;
 }
 
-- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+- (BOOL) enforceBrowseArea
 {
-    [super touchesCancelled:touches withEvent:event];
-    NSLog(@"touch canceled");
-    [self enforceBrowseAreaWithBufferMeters:0.0f snapDuration:kBrowsePanSnapDuration];
+    BOOL enforced = [self enforceBrowseAreaWithBufferMeters:kBrowsePanBufferMeters snapDuration:kBrowsePanSnapDuration];
+    return enforced;
 }
 
 #pragma mark - internal
@@ -85,6 +90,8 @@ static const float kBrowsePanSnapDuration = 0.2f;
         // enforce bounds
         CLLocationCoordinate2D curCenter = [self.map.view centerCoordinate];
         CLLocationCoordinate2D snapCoord = curCenter;
+        //NSLog(@"curCenter (%f, %f); browse center (%f, %f)", curCenter.latitude, curCenter.longitude,
+        //      self.browseArea.center.coordinate.latitude, self.browseArea.center.coordinate.longitude);
         if(![self.browseArea isInBounds:curCenter withBufferMeters:bufferMeters])
         {
             snapCoord = [self.browseArea snapCoord:curCenter withBufferMeters:kBrowsePanSnapBufferMeters];
@@ -106,16 +113,10 @@ static const float kBrowsePanSnapDuration = 0.2f;
     return enforced;
 }
 
-- (void) handleGesture:(UIGestureRecognizer *)gestureRecognizer
-{
-    // do nothing
-}
-
 #pragma mark - UIGestureRecognizerDelegate
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;
 }
-
 
 @end

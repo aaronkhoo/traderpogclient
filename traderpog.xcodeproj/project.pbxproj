@@ -32,6 +32,7 @@
 		4264B6B015CD93F300621548 /* TradePost.png in Resources */ = {isa = PBXBuildFile; fileRef = 4264B6AF15CD93F300621548 /* TradePost.png */; };
 		4277385215D3A5CE004DCC13 /* BeaconMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385115D3A5CE004DCC13 /* BeaconMgr.m */; };
 		4277385615D3A971004DCC13 /* Beacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385515D3A971004DCC13 /* Beacon.m */; };
+		4290AB0B15EF2099001FAF0B /* BrowsePan.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0A15EF2099001FAF0B /* BrowsePan.m */; };
 		42A2989115B5F1E700384A52 /* KnobControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2988D15B5F1E700384A52 /* KnobControl.m */; };
 		42A2989215B5F1E700384A52 /* KnobSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2989015B5F1E700384A52 /* KnobSlice.m */; };
 		42B28E2F15E99E5A0008901C /* NSArray+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B28E2E15E99E5A0008901C /* NSArray+Pog.m */; };
@@ -75,7 +76,6 @@
 		C42FC49615B141A3006D29A3 /* ModalNavRoot.m in Sources */ = {isa = PBXBuildFile; fileRef = C42FC49415B141A3006D29A3 /* ModalNavRoot.m */; };
 		C42FC49715B141A3006D29A3 /* ModalNavRoot.xib in Resources */ = {isa = PBXBuildFile; fileRef = C42FC49515B141A3006D29A3 /* ModalNavRoot.xib */; };
 		C436AEB215DB325800B22E8A /* GameNotes.m in Sources */ = {isa = PBXBuildFile; fileRef = C436AEB115DB325800B22E8A /* GameNotes.m */; };
-		C46FDED415EDFE2E00926044 /* BrowsePanRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = C46FDED315EDFE2E00926044 /* BrowsePanRecognizer.m */; };
 		C481145F15ACB927007FA214 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C481145D15ACB927007FA214 /* GameViewController.m */; };
 		C481146015ACB927007FA214 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C481145E15ACB927007FA214 /* GameViewController.xib */; };
 		C481146915ACBFED007FA214 /* MapControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146815ACBFED007FA214 /* MapControl.m */; };
@@ -189,6 +189,8 @@
 		4277385115D3A5CE004DCC13 /* BeaconMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeaconMgr.m; path = Game/Sim/BeaconMgr.m; sourceTree = "<group>"; };
 		4277385415D3A971004DCC13 /* Beacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Beacon.h; path = Game/Sim/Beacon.h; sourceTree = "<group>"; };
 		4277385515D3A971004DCC13 /* Beacon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Beacon.m; path = Game/Sim/Beacon.m; sourceTree = "<group>"; };
+		4290AB0915EF2099001FAF0B /* BrowsePan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrowsePan.h; path = Game/Map/BrowsePan.h; sourceTree = "<group>"; };
+		4290AB0A15EF2099001FAF0B /* BrowsePan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrowsePan.m; path = Game/Map/BrowsePan.m; sourceTree = "<group>"; };
 		42A2988C15B5F1E700384A52 /* KnobControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobControl.h; sourceTree = "<group>"; };
 		42A2988D15B5F1E700384A52 /* KnobControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KnobControl.m; sourceTree = "<group>"; };
 		42A2988E15B5F1E700384A52 /* KnobProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobProtocol.h; sourceTree = "<group>"; };
@@ -262,8 +264,6 @@
 		C42FC49515B141A3006D29A3 /* ModalNavRoot.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModalNavRoot.xib; sourceTree = "<group>"; };
 		C436AEB015DB325800B22E8A /* GameNotes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameNotes.h; path = Game/Sim/GameNotes.h; sourceTree = "<group>"; };
 		C436AEB115DB325800B22E8A /* GameNotes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameNotes.m; path = Game/Sim/GameNotes.m; sourceTree = "<group>"; };
-		C46FDED215EDFE2E00926044 /* BrowsePanRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrowsePanRecognizer.h; path = Game/Map/BrowsePanRecognizer.h; sourceTree = "<group>"; };
-		C46FDED315EDFE2E00926044 /* BrowsePanRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrowsePanRecognizer.m; path = Game/Map/BrowsePanRecognizer.m; sourceTree = "<group>"; };
 		C481145C15ACB927007FA214 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameViewController.h; path = Game/UI/GameViewController.h; sourceTree = "<group>"; };
 		C481145D15ACB927007FA214 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameViewController.m; path = Game/UI/GameViewController.m; sourceTree = "<group>"; };
 		C481145E15ACB927007FA214 /* GameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GameViewController.xib; path = Game/UI/GameViewController.xib; sourceTree = "<group>"; };
@@ -570,6 +570,8 @@
 		C4D5DDDE15B3979100D5A746 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				4290AB0915EF2099001FAF0B /* BrowsePan.h */,
+				4290AB0A15EF2099001FAF0B /* BrowsePan.m */,
 				C4D5DDE815B3CF0700D5A746 /* TradePostAnnotationView.h */,
 				C4D5DDE915B3CF0800D5A746 /* TradePostAnnotationView.m */,
 				C4BBE47515BC5F4F00F582DE /* FlyerAnnotationView.h */,
@@ -667,8 +669,6 @@
 				C481145E15ACB927007FA214 /* GameViewController.xib */,
 				C481146715ACBFED007FA214 /* MapControl.h */,
 				C481146815ACBFED007FA214 /* MapControl.m */,
-				C46FDED215EDFE2E00926044 /* BrowsePanRecognizer.h */,
-				C46FDED315EDFE2E00926044 /* BrowsePanRecognizer.m */,
 				C42FC48A15B10116006D29A3 /* NewHomeSelectItem.xib */,
 				C4D5DDD215B2718100D5A746 /* ConfirmNewPost.h */,
 				C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */,
@@ -956,9 +956,9 @@
 				42EF841F15DE2ED100A8469B /* PlayerPostCalloutView.m in Sources */,
 				42EF842315DE2F0400A8469B /* PlayerPostCallout.m in Sources */,
 				42B28E2F15E99E5A0008901C /* NSArray+Pog.m in Sources */,
-				C46FDED415EDFE2E00926044 /* BrowsePanRecognizer.m in Sources */,
 				38D7371E15ED7290001CD3AE /* AsyncHttpCall.m in Sources */,
 				38D7372215ED7DC6001CD3AE /* AsyncHttpCallMgr.m in Sources */,
+				4290AB0B15EF2099001FAF0B /* BrowsePan.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

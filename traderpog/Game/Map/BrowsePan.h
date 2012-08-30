@@ -1,18 +1,16 @@
 //
-//  BrowsePanRecognizer.h
+//  BrowsePan.h
 //  traderpog
 //
 //  Created by Shu Chiun Cheah on 8/29/12.
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <UIKit/UIGestureRecognizerSubclass.h>
+#import <Foundation/Foundation.h>
 
 @class MapControl;
 @class BrowseArea;
-
-@interface BrowsePanRecognizer : UIGestureRecognizer<UIGestureRecognizerDelegate>
+@interface BrowsePan : NSObject<UIGestureRecognizerDelegate>
 {
     __weak MapControl* _map;
     __weak BrowseArea* _browseArea;
@@ -21,5 +19,7 @@
 @property (nonatomic,weak) BrowseArea* browseArea;
 
 - (id) initWithMap:(MapControl*)map browseArea:(BrowseArea*)browseArea;
-
+- (void) handleGesture:(UIGestureRecognizer*)gestureRecognizer;
+- (BOOL) isPanEnding;
+- (BOOL) enforceBrowseArea;
 @end

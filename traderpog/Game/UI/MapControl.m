@@ -17,7 +17,7 @@
 #import "CalloutAnnotationView.h"
 #import "FlyerAnnotationView.h"
 #import "MKMapView+Pog.h"
-#import "BrowsePanRecognizer.h"
+#import "BrowsePan.h"
 
 static const NSUInteger kDefaultZoomLevel = 15;
 static NSString* const kKeyCoordinate = @"coordinate";
@@ -32,12 +32,14 @@ static const float kBrowseAreaRadius = 900.0f;
     BrowseArea* _browseArea;
     BOOL _regionSetFromCode;
     UIPinchGestureRecognizer* _pinchRecognizer;
-    BrowsePanRecognizer* _panRecognizer;
+    UIPanGestureRecognizer* _panRecognizer;
+    BrowsePan* _panHandler;
 }
 @property (nonatomic,strong) BrowseArea* browseArea;
 @property (nonatomic) BOOL regionSetFromCode;
 @property (nonatomic,strong) UIPinchGestureRecognizer* pinchRecognizer;
-@property (nonatomic,strong) BrowsePanRecognizer* panRecognizer;
+@property (nonatomic,strong) UIPanGestureRecognizer* panRecognizer;
+@property (nonatomic,strong) BrowsePan* panHandler;
 
 - (void) internalInitWithMapView:(MKMapView*)mapView
                           center:(CLLocationCoordinate2D)initCoord
@@ -50,6 +52,7 @@ static const float kBrowseAreaRadius = 900.0f;
 @synthesize regionSetFromCode = _regionSetFromCode;
 @synthesize pinchRecognizer = _pinchRecognizer;
 @synthesize panRecognizer = _panRecognizer;
+@synthesize panHandler = _panHandler;
 @synthesize trackedAnnotation;
 
 - (void) internalInitWithMapView:(MKMapView *)mapView
@@ -66,8 +69,10 @@ static const float kBrowseAreaRadius = 900.0f;
     self.pinchRecognizer.delegate = self;
     [self.view addGestureRecognizer:[self pinchRecognizer]];
     
-    self.panRecognizer = [[BrowsePanRecognizer alloc] initWithMap:self browseArea:_browseArea];
-    //[self.view addGestureRecognizer:[self panRecognizer]];
+    self.panHandler = [[BrowsePan alloc] initWithMap:self browseArea:_browseArea];
+    self.panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:[self panHandler] action:@selector(handleGesture:)];
+    self.panRecognizer.delegate = [self panHandler];
+    [self.view addGestureRecognizer:[self panRecognizer]];
     
     self.trackedAnnotation = nil;
 }
@@ -104,7 +109,7 @@ static const float kBrowseAreaRadius = 900.0f;
     [self stopTrackingAnnotation];
     [self.view removeGestureRecognizer:[self panRecognizer]];
     [self.pinchRecognizer removeTarget:self action:@selector(handleGesture:)];
-    //[self.view removeGestureRecognizer:[self pinchRecognizer]];
+    [self.view removeGestureRecognizer:[self pinchRecognizer]];
 }
 
 - (void) addAnnotationForTradePost:(TradePost *)tradePost
@@ -239,6 +244,10 @@ static const float kBrowseAreaRadius = 900.0f;
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
+    if([self.panHandler isPanEnding])
+    {
+        [self.panHandler enforceBrowseArea];
+    }
 }
 
 - (void)mapView:(MKMapView*)mapView didSelectAnnotationView:(MKAnnotationView *)annotationView

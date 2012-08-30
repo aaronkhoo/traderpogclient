@@ -77,7 +77,7 @@ static const unsigned int kDefaultMaxZoom = 18;
     BOOL result = YES;
     CLLocation* queryLoc = [[CLLocation alloc] initWithLatitude:coord.latitude longitude:coord.longitude];
     CLLocationDistance distMeters = [self.center distanceFromLocation:queryLoc];
-    
+    NSLog(@"dist %f", distMeters);
     if(([self radius] + bufferMeters) < distMeters)
     {
         result = NO;
