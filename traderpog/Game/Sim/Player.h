@@ -62,6 +62,7 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
 - (BOOL)facebookSessionValid;
 - (void)getFacebookFriendsList;
 - (void)updateFacebookFeed:(NSString*)message;
+- (BOOL)isFacebookConnected;
 
 // trade
 - (void) addBucks:(NSUInteger)newBucks;

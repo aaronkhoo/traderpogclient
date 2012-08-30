@@ -400,6 +400,12 @@ static const unsigned int kInitBucks = 500;
                                         current_type:putType];
 }
 
+- (BOOL)isFacebookConnected
+{
+    // Check to see facebookid is non-zero, which means this account is connected
+    return ([_facebookid length] > 0);
+}
+
 #pragma mark - Facebook functions
 
 - (void)initializeFacebook

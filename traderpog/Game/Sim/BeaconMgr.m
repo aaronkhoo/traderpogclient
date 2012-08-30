@@ -47,7 +47,9 @@ static double const refreshTime = -(60 * 15);
 
 - (BOOL) needsRefresh
 {
-    return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime);
+    return ([[Player getInstance] isFacebookConnected]) &&
+            ((!_lastUpdate) ||
+            ([_lastUpdate timeIntervalSinceNow] < refreshTime));
 }
 
 - (void) createPostsArray:(id)responseObject
