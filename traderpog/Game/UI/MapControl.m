@@ -26,7 +26,7 @@ static NSString* const kKeyCoordinate = @"coordinate";
 // TODO: Rationalize placement of these constants
 static const float kScanRadius = 300.0f;    // meters
 static const unsigned int kScanNumPosts = 3;
-static const float kBrowseAreaRadius = 900.0f;
+static const float kBrowseAreaRadius = 500.0f;
 
 @interface MapControl ()
 {
