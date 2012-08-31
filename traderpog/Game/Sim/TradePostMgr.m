@@ -115,16 +115,14 @@ static double const refreshTime = -(60 * 15);
 }
 
 - (TradePost*) newNPCTradePostAtCoord:(CLLocationCoordinate2D)coord
-                          sellingItem:(TradeItemType*)itemType
-                          supplyLevel:(unsigned int)supplyLevel
+                          bucks:(unsigned int)bucks
 {
     NSString* postId = [NSString stringWithFormat:@"NPCPost%d", _npcPostIndex];
     
     ++_npcPostIndex;
     TradePost* newPost = [[TradePost alloc] initWithPostId:postId
                                                 coordinate:coord
-                                                  itemType:itemType
-                                               supplyLevel:supplyLevel];
+                                                     bucks:bucks];
     [self.npcPosts setObject:newPost forKey:postId];
     return newPost;
 }

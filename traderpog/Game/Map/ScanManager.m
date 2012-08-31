@@ -151,7 +151,6 @@ static const unsigned int kScanNumPosts = 4;
             }
         }
         
-        NSArray* itemTypes = [[TradeItemTypes getInstance] getItemTypesForTier:kTradeItemTierMin];
         unsigned int numPosts = kScanNumPosts - [posts count];
         float curAngle = startAngle;
         for(unsigned int i = 0; i < numPosts; ++i)
@@ -163,15 +162,9 @@ static const unsigned int kScanNumPosts = 4;
             MKMapPoint newPoint = [self createPointFromCenter:scanCoord atDistance:newDistance angle:curAngle];
             CLLocationCoordinate2D newCoord = MKCoordinateForMapPoint(newPoint);
             
-            // select a random item type
-            unsigned int randItem = RandomWithinRange(0, [itemTypes count]-1);
-            TradeItemType* itemType = [itemTypes objectAtIndex:randItem];
-            float randPriceFactor = MAX(0.2f,0.7f - (RandomFrac() * 0.5f));
             unsigned int playerBucks = [[Player getInstance] bucks];
-            unsigned int supplyLevel = (playerBucks / [itemType price]) * randPriceFactor;
             TradePost* newPost = [[TradePostMgr getInstance] newNPCTradePostAtCoord:newCoord
-                                                                        sellingItem:itemType
-                                                                        supplyLevel:supplyLevel];
+                                                                        bucks:playerBucks];
             [posts addObject:newPost];
             
             curAngle = curAngle + angleIncr;

@@ -47,7 +47,8 @@ static double const refreshTime = -(60 * 15);
 
 - (BOOL) needsRefresh
 {
-    return ([[Player getInstance] isFacebookConnected]) &&
+    BOOL test = ([[Player getInstance] isFacebookConnected]);
+    return test &&
             ((!_lastUpdate) ||
             ([_lastUpdate timeIntervalSinceNow] < refreshTime));
 }

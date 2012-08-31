@@ -207,10 +207,8 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
                 if(!post)
                 {
                     // patch a new npc post here
-                    float randPriceFactor = MAX(0.2f,0.7f - (RandomFrac() * 0.5f));
                     unsigned int playerBucks = [[Player getInstance] bucks];
-                    unsigned int supplyLevel = (playerBucks / [itemType price]) * randPriceFactor;
-                    post = [[TradePostMgr getInstance] newNPCTradePostAtCoord:[cur srcCoord] sellingItem:itemType supplyLevel:supplyLevel];
+                    post = [[TradePostMgr getInstance] newNPCTradePostAtCoord:[cur srcCoord] bucks:playerBucks];
                     [patchPosts addObject:post];
                 }
                 cur.curPostId = [post postId];
@@ -221,7 +219,7 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
                 if(!post)
                 {
                     // patch a new npc post here
-                    post = [[TradePostMgr getInstance] newNPCTradePostAtCoord:[cur destCoord] sellingItem:itemType supplyLevel:0];
+                    post = [[TradePostMgr getInstance] newNPCTradePostAtCoord:[cur destCoord] bucks:0];
                     [patchPosts addObject:post];
                 }
                 cur.nextPostId = [post postId];

@@ -7,13 +7,16 @@
 //
 
 #import "AFClientManager.h"
+#import "AsyncHttpCallMgr.h"
+#import "ImageManager.h"
+#include "MathUtils.h"
 #import "Player.h"
 #import "PogUIUtility.h"
 #import "TradePost.h"
 #import "TradeItemType.h"
+#import "TradeItemTypes.h"
 #import "TradePostAnnotationView.h"
 #import "TradePostMgr.h"
-#import "ImageManager.h"
 
 static NSString* const kKeyPostId = @"id";
 static NSString* const kKeyUserId = @"user_id";
@@ -21,6 +24,7 @@ static NSString* const kKeyLong = @"longitude";
 static NSString* const kKeyLat = @"latitude";
 static NSString* const kKeyItemId = @"item_info_id";
 static NSString* const kKeyImgPath= @"img";
+static NSString* const kKeySupply = @"supply";
 static NSString* const kKeySupplyRateLevel = @"supplymaxlevel";
 static NSString* const kKeySupplyMaxLevel = @"supplyratelevel";
 static NSString* const kKeyBeacontime = @"beacontime";
@@ -40,19 +44,23 @@ static NSString* const kKeyFBId = @"fbid";
 
 // call this to create NPC posts
 - (id) initWithPostId:(NSString*)postId
-           coordinate:(CLLocationCoordinate2D)coordinate 
-             itemType:(TradeItemType *)itemType
-          supplyLevel:(unsigned int)supply
+           coordinate:(CLLocationCoordinate2D)coordinate
+                bucks:(unsigned int)bucks
 {
     self = [super init];
     if(self)
     {
+        NSArray* itemTypes = [[TradeItemTypes getInstance] getItemTypesForTier:kTradeItemTierMin];
+        int randItemIndex = RandomWithinRange(0, [itemTypes count]-1);
+        TradeItemType* itemType = [itemTypes objectAtIndex:randItemIndex];
+        unsigned int supply = [self generateSupplyLevel:itemType playerBucks:bucks];
+        
         _postId = postId;
         _coord = coordinate;
         if(itemType)
         {
             _itemId = [itemType itemId];
-            _supplyLevel = MIN([itemType supplymax],supply);
+            _supplyLevel = MIN([itemType supplymax], supply);
             _supplyMaxLevel = [itemType supplymax];
             _supplyRateLevel = [itemType supplyrate];
         }
@@ -131,19 +139,55 @@ static NSString* const kKeyFBId = @"fbid";
             // These two only matter in the context of a foreign beacon trade post
             _userId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:kKeyUserId] integerValue]];
             _fbId = [NSString stringWithFormat:@"%@", [dict valueForKeyPath:kKeyFBId]];
+            
+            _supplyLevel = [self getForeignSupplyLevel];
         }
         else
         {
             _isOwnPost = YES;
+            
+            _supplyLevel = [[dict valueForKeyPath:kKeySupply] integerValue];
         }
         
         // transient variables
-        _supplyLevel = _supplyMaxLevel;
         _annotation = nil;
         _hasFlyer = NO;
     }
     return self;
 }
+
+-(unsigned int) generateSupplyLevel:(TradeItemType*)itemType playerBucks:(unsigned int)playerBucks
+{
+    // This function is used to generate a supply level for NPC and foreign posts
+    float randPriceFactor = MAX(0.2f,0.7f - (RandomFrac() * 0.5f));
+    return (playerBucks / [itemType price]) * randPriceFactor;
+}
+
+- (unsigned int) getForeignSupplyLevel
+{
+    // Foreign trade posts always have items to trade with
+    TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:_itemId];
+    unsigned int maxSupply = MAX(1, (_supplyMaxLevel - 1) * [itemType multiplier]) * [itemType supplymax];
+    // Generate a random supply level roughly between 10 - 100% of allowable max supply
+    return MIN(MAX(0.2f, RandomFrac()) * maxSupply, maxSupply);
+}
+
+- (void)updatePostSupply:(NSInteger)deductSupplies
+{
+    NSString *path = [NSString stringWithFormat:@"posts/%@", _postId];
+    NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [NSNumber numberWithInteger:deductSupplies], kKeySupply,
+                                nil];
+    NSString* msg = [[NSString alloc] initWithFormat:@"Updating Foreign Post with %d supply change failed", deductSupplies];
+    
+    [[AsyncHttpCallMgr getInstance] newAsyncHttpCall:path
+                                      current_params:parameters
+                                     current_headers:nil
+                                         current_msg:msg
+                                        current_type:putType];
+}
+
+#pragma mark - server calls
 
 - (void) createNewPostOnServer
 {
@@ -245,8 +289,19 @@ static NSString* const kKeyFBId = @"fbid";
 #pragma mark - trade
 - (void) deductNumItems:(unsigned int)num
 {
-    unsigned int numToSub = MIN([self supplyLevel], num);
-    self.supplyLevel -= numToSub;
+    if (!_isOwnPost && !_isNPCPost)
+    {
+        // For foreign posts, rather than deduct, just randomly reassign a new value
+        self.supplyLevel = [self getForeignSupplyLevel];
+        
+        // Update the foreign post with the amount of supplies reduced
+        [self updatePostSupply:-num];
+    }
+    else
+    {
+        unsigned int numToSub = MIN([self supplyLevel], num);
+        self.supplyLevel -= numToSub;
+    }
 }
 
 #pragma mark - getters/setters

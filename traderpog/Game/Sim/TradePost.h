@@ -53,9 +53,8 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 - (id) initWithPostId:(NSString*)postId
-           coordinate:(CLLocationCoordinate2D)coordinate 
-             itemType:(TradeItemType *)itemType
-            supplyLevel:(unsigned int)supply;
+           coordinate:(CLLocationCoordinate2D)coordinate
+                bucks:(unsigned int)bucks;
 - (id) initWithCoordinates:(CLLocationCoordinate2D)coordinate 
                            itemType:(TradeItemType *)itemType;
 - (void) createNewPostOnServer;
