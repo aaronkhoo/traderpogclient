@@ -60,7 +60,6 @@
     if(annotation)
     {
         [self prepareFrameSize];
-        [self prepareOffset];
     }
 	[self setNeedsDisplay];
 }
@@ -68,18 +67,13 @@
 - (void)setAnnotationAndAdjustMap:(id <MKAnnotation>)annotation {
 	[super setAnnotation:annotation];
 	[self prepareFrameSize];
-	[self prepareOffset];
 	[self adjustMapRegionIfNeeded];
 	[self setNeedsDisplay];
 }
 
 - (void)prepareFrameSize {
 	CGRect frame = self.frame;
-	CGFloat height = self.contentView.frame.size.height +
-	CalloutMapAnnotationViewContentHeightBuffer +
-	CalloutMapAnnotationViewBottomShadowBufferSize + 14 + (2*CalloutMapAnnotationViewInset);
-	
-	frame.size = CGSizeMake(self.contentView.frame.size.width + 14 + (2*CalloutMapAnnotationViewInset), height);
+	frame.size = self.contentView.frame.size;
 	self.frame = frame;
     _originalFrame = frame;
 }
@@ -200,6 +194,7 @@
 	[self animateIn];
 }
 
+/*
 - (void)drawRect:(CGRect)rect {
 	CGFloat stroke = 1.0;
 	CGFloat radius = 7.0;
@@ -248,61 +243,6 @@
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
 	
-    /*
-	//Determine Size for Gloss
-	CGRect glossRect = self.bounds;
-	glossRect.size.width = rect.size.width - stroke;
-	glossRect.size.height = (rect.size.height - stroke) / 2;
-	glossRect.origin.x = rect.origin.x + stroke / 2;
-	glossRect.origin.y += rect.origin.y + stroke / 2;
-	
-	CGFloat glossTopRadius = radius - stroke / 2;
-	CGFloat glossBottomRadius = radius / 1.5;
-	
-	//Create Path For Gloss
-	CGMutablePathRef glossPath = CGPathCreateMutable();
-	CGPathMoveToPoint(glossPath, NULL, glossRect.origin.x, glossRect.origin.y + glossTopRadius);
-	CGPathAddLineToPoint(glossPath, NULL, glossRect.origin.x, glossRect.origin.y + glossRect.size.height - glossBottomRadius);
-	CGPathAddArc(glossPath, NULL, glossRect.origin.x + glossBottomRadius, glossRect.origin.y + glossRect.size.height - glossBottomRadius, glossBottomRadius, M_PI, M_PI / 2, 1);
-	CGPathAddLineToPoint(glossPath, NULL, glossRect.origin.x + glossRect.size.width - glossBottomRadius, glossRect.origin.y + glossRect.size.height);
-	CGPathAddArc(glossPath, NULL, glossRect.origin.x + glossRect.size.width - glossBottomRadius, glossRect.origin.y + glossRect.size.height - glossBottomRadius, glossBottomRadius, M_PI / 2, 0.0f, 1);
-	CGPathAddLineToPoint(glossPath, NULL, glossRect.origin.x + glossRect.size.width, glossRect.origin.y + glossTopRadius);
-	CGPathAddArc(glossPath, NULL, glossRect.origin.x + glossRect.size.width - glossTopRadius, glossRect.origin.y + glossTopRadius, glossTopRadius, 0.0f, -M_PI / 2, 1);
-	CGPathAddLineToPoint(glossPath, NULL, glossRect.origin.x + glossTopRadius, glossRect.origin.y);
-	CGPathAddArc(glossPath, NULL, glossRect.origin.x + glossTopRadius, glossRect.origin.y + glossTopRadius, glossTopRadius, -M_PI / 2, M_PI, 1);
-	CGPathCloseSubpath(glossPath);
-	
-	//Fill Gloss Path	
-	CGContextAddPath(context, glossPath);
-	CGContextClip(context);
-	CGFloat colors[] =
-	{
-		1, 1, 1, .3,
-		1, 1, 1, .1,
-	};
-	CGFloat locations[] = { 0, 1.0 };
-	CGGradientRef gradient = CGGradientCreateWithColorComponents(space, colors, locations, 2);
-	CGPoint startPoint = glossRect.origin;
-	CGPoint endPoint = CGPointMake(glossRect.origin.x, glossRect.origin.y + glossRect.size.height);
-	CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0);
-	
-	//Gradient Stroke Gloss Path	
-	CGContextAddPath(context, glossPath);
-	CGContextSetLineWidth(context, 2);
-	CGContextReplacePathWithStrokedPath(context);
-	CGContextClip(context);
-	CGFloat colors2[] =
-	{
-		1, 1, 1, .3,
-		1, 1, 1, .1,
-		1, 1, 1, .0,
-	};
-	CGFloat locations2[] = { 0, .1, 1.0 };
-	CGGradientRef gradient2 = CGGradientCreateWithColorComponents(space, colors2, locations2, 3);
-	CGPoint startPoint2 = glossRect.origin;
-	CGPoint endPoint2 = CGPointMake(glossRect.origin.x, glossRect.origin.y + glossRect.size.height);
-	CGContextDrawLinearGradient(context, gradient2, startPoint2, endPoint2, 0);
-	*/
     
 	//Cleanup
 	CGPathRelease(path);
@@ -311,7 +251,7 @@
 	//CGGradientRelease(gradient);
 	//CGGradientRelease(gradient2);
 }
-
+*/
 - (CGFloat)yShadowOffset {
 	if (!_yShadowOffset) {
 		float osVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
@@ -347,7 +287,6 @@
     _contentView = newContentView;
     
     [self addSubview:newContentView];
-    newContentView.transform = CGAffineTransformMakeTranslation(7 + CalloutMapAnnotationViewInset, 7 +CalloutMapAnnotationViewInset);
 }
 
 @end

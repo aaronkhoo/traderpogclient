@@ -10,11 +10,19 @@
 #import "PlayerPostCallout.h"
 #import "BeaconMgr.h"
 #import "TradePost.h"
+#import "PogUIUtility.h"
 
 NSString* const kPlayerPostCalloutViewReuseId = @"PlayerPostCalloutView";
 
+@interface PlayerPostCalloutView ()
+- (void) initRender;
+@end
+
 @implementation PlayerPostCalloutView
 @synthesize beaconButton;
+@synthesize restockBubble;
+@synthesize beaconBubble;
+@synthesize destroyBubble;
 
 - (id) initWithAnnotation:(id<MKAnnotation>)annotation
 {
@@ -22,9 +30,20 @@ NSString* const kPlayerPostCalloutViewReuseId = @"PlayerPostCalloutView";
     if(self)
     {
         [[NSBundle mainBundle] loadNibNamed:@"PlayerPostCalloutView" owner:self options:nil];
+        [self initRender];
     }
     return self;
 }
+
+#pragma mark - internal methods
+- (void) initRender
+{
+    [PogUIUtility setCircleForView:[self restockBubble]];
+    [PogUIUtility setCircleForView:[self beaconBubble]];
+    [PogUIUtility setCircleForView:[self destroyBubble]];
+}
+
+#pragma mark - button actions
 
 - (IBAction)didPressSetBeacon:(id)sender
 {
