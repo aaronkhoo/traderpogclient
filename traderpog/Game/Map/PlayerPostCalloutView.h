@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CalloutAnnotationView.h"
+#import "CalloutView.h"
 
 extern NSString* const kPlayerPostCalloutViewReuseId;
-@interface PlayerPostCalloutView : CalloutAnnotationView
+@interface PlayerPostCalloutView : CalloutView
 @property (weak, nonatomic) IBOutlet UIButton *beaconButton;
 - (IBAction)didPressSetBeacon:(id)sender;
 - (IBAction)didPressRestock:(id)sender;

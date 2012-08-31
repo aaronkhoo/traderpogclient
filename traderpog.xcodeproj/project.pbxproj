@@ -34,6 +34,7 @@
 		4277385615D3A971004DCC13 /* Beacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385515D3A971004DCC13 /* Beacon.m */; };
 		4290AB0B15EF2099001FAF0B /* BrowsePan.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0A15EF2099001FAF0B /* BrowsePan.m */; };
 		4290AB0F15EF3D06001FAF0B /* BrowsePinch.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0E15EF3D06001FAF0B /* BrowsePinch.m */; };
+		429A31D415F041DF00069CC7 /* CalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 429A31D315F041DF00069CC7 /* CalloutView.m */; };
 		42A2989115B5F1E700384A52 /* KnobControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2988D15B5F1E700384A52 /* KnobControl.m */; };
 		42A2989215B5F1E700384A52 /* KnobSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2989015B5F1E700384A52 /* KnobSlice.m */; };
 		42B28E2F15E99E5A0008901C /* NSArray+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B28E2E15E99E5A0008901C /* NSArray+Pog.m */; };
@@ -194,6 +195,8 @@
 		4290AB0A15EF2099001FAF0B /* BrowsePan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrowsePan.m; path = Game/Map/BrowsePan.m; sourceTree = "<group>"; };
 		4290AB0D15EF3D06001FAF0B /* BrowsePinch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrowsePinch.h; path = Game/Map/BrowsePinch.h; sourceTree = "<group>"; };
 		4290AB0E15EF3D06001FAF0B /* BrowsePinch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrowsePinch.m; path = Game/Map/BrowsePinch.m; sourceTree = "<group>"; };
+		429A31D215F041DF00069CC7 /* CalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalloutView.h; path = Map/CalloutView.h; sourceTree = "<group>"; };
+		429A31D315F041DF00069CC7 /* CalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalloutView.m; path = Map/CalloutView.m; sourceTree = "<group>"; };
 		42A2988C15B5F1E700384A52 /* KnobControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobControl.h; sourceTree = "<group>"; };
 		42A2988D15B5F1E700384A52 /* KnobControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KnobControl.m; sourceTree = "<group>"; };
 		42A2988E15B5F1E700384A52 /* KnobProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobProtocol.h; sourceTree = "<group>"; };
@@ -615,6 +618,8 @@
 				C4A311D215C19C400050273B /* BrowseArea.m */,
 				C4BBE46915BBD68000F582DE /* MKMapView+Pog.h */,
 				C4BBE46A15BBD68000F582DE /* MKMapView+Pog.m */,
+				429A31D215F041DF00069CC7 /* CalloutView.h */,
+				429A31D315F041DF00069CC7 /* CalloutView.m */,
 				C4BBE46015BA9A8600F582DE /* CalloutAnnotationView.h */,
 				C4BBE46115BA9A8600F582DE /* CalloutAnnotationView.m */,
 				C4D5DDE015B3B34A00D5A746 /* MapProtocols.h */,
@@ -965,6 +970,7 @@
 				38D7372215ED7DC6001CD3AE /* AsyncHttpCallMgr.m in Sources */,
 				4290AB0B15EF2099001FAF0B /* BrowsePan.m in Sources */,
 				4290AB0F15EF3D06001FAF0B /* BrowsePinch.m in Sources */,
+				429A31D415F041DF00069CC7 /* CalloutView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
