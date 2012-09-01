@@ -21,6 +21,7 @@
 #import "Player.h"
 #import "PogUIUtility.h"
 #import "GameNotes.h"
+#import "GameColors.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -422,20 +423,20 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
     switch(index)
     {
         case kKnobSliceFlyer:
-            result = [UIColor colorWithRed:0.0f/255.0f green:112.0f/255.0f blue:185.0f/255.0f alpha:alpha];
+            result = [GameColors bubbleColorFlyersWithAlpha:alpha];
             break;
             
         case kKnobSliceBeacon:
-            result = [UIColor colorWithRed:2.0f/255.0f green:64.0f/255.0f blue:116.0f/255.0f alpha:alpha];
+            result = [GameColors bubbleColorBeaconsWithAlpha:alpha];
             break;
             
         case kKnobSlicePost:
-            result = [UIColor colorWithRed:229.0f/255.0f green:54.0f/255.0f blue:9.0f/255.0f alpha:alpha];
+            result = [GameColors bubbleColorPostsWithAlpha:alpha];
             break;
             
         default:
         case kKnobSliceScan:
-            result = [UIColor colorWithRed:8.0f/255.0f green:67.0f/255.0f blue:67.0f/255.0f alpha:alpha];
+            result = [GameColors bubbleColorScanWithAlpha:alpha];
             break;
     }
     return result;
@@ -453,20 +454,20 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.0f; // in terms of wheel ra
     switch(index)
     {
         case kKnobSliceFlyer:
-            result = [UIColor colorWithRed:93.0f/255.0f green:155.0f/255.0f blue:207.0f/255.0f alpha:1.0f];
+            result = [GameColors borderColorFlyersWithAlpha:1.0f];
             break;
             
         case kKnobSliceBeacon:
-            result = [UIColor colorWithRed:27.0f/255.0f green:89.0f/255.0f blue:141.0f/255.0f alpha:1.0f];
+            result = [GameColors borderColorBeaconsWithAlpha:1.0f];
             break;
             
         case kKnobSlicePost:
-            result = [UIColor colorWithRed:177.0f/255.0f green:0.0f/255.0f blue:0.0f/255.0f alpha:1.0f];
+            result = [GameColors borderColorPostsWithAlpha:1.0f];
             break;
             
         default:
         case kKnobSliceScan:
-            result = [UIColor colorWithRed:48.0f/255.0f green:80.0f/255.0f blue:107.0f/255.0f alpha:1.0f];
+            result = [GameColors borderColorScanWithAlpha:1.0f];
             break;
     }
     return result;

@@ -110,8 +110,11 @@
     [self.parentAnnotationView setTransform:parentTransform];
 
 	CGFloat yPixelShift = 0;
-	CGFloat pixelsFromTopOfMapView = -(mapViewOriginRelativeToParent.y + self.frame.size.height - CalloutMapAnnotationViewBottomShadowBufferSize);
+    NSLog(@"mapViewOrigin (%f, %f), self frame (%f, %f)", mapViewOriginRelativeToParent.x,
+          mapViewOriginRelativeToParent.y, self.frame.size.width, self.frame.size.height);
+	CGFloat pixelsFromTopOfMapView = -(mapViewOriginRelativeToParent.y + (0.5f * self.frame.size.height));
 	CGFloat pixelsFromBottomOfMapView = self.mapView.frame.size.height + mapViewOriginRelativeToParent.y - self.parentAnnotationView.frame.size.height;
+    NSLog(@"pixeslFromTop %f", pixelsFromTopOfMapView);
 	if (pixelsFromTopOfMapView < 7) {
 		yPixelShift = 7 - pixelsFromTopOfMapView;
 	} else if (pixelsFromBottomOfMapView < 10) {
@@ -120,6 +123,7 @@
 	
 	//Calculate new center point, if needed
 	if (xPixelShift || yPixelShift) {
+        NSLog(@"yPixelShift %f", yPixelShift);
 		CGFloat pixelsPerDegreeLongitude = self.mapView.frame.size.width / self.mapView.region.span.longitudeDelta;
 		CGFloat pixelsPerDegreeLatitude = self.mapView.frame.size.height / self.mapView.region.span.latitudeDelta;
 		
@@ -141,27 +145,18 @@
 	}
 }
 
-- (CGFloat)xTransformForScale:(CGFloat)scale {
-	CGFloat xDistanceFromCenterToParent = self.endFrame.size.width / 2 - [self relativeParentXPosition];
-	return (xDistanceFromCenterToParent * scale) - xDistanceFromCenterToParent;
-}
-
-- (CGFloat)yTransformForScale:(CGFloat)scale {
-	CGFloat yDistanceFromCenterToParent = (((self.endFrame.size.height) / 2) + CalloutMapAnnotationViewBottomShadowBufferSize + CalloutMapAnnotationViewHeightAboveParent);
-	return yDistanceFromCenterToParent - yDistanceFromCenterToParent * scale;
-}
 
 - (void)animateIn {
 	self.endFrame = self.frame;
 	CGFloat scale = 0.001f;
-	self.transform = CGAffineTransformMake(scale, 0.0f, 0.0f, scale, [self xTransformForScale:scale], [self yTransformForScale:scale]);
+	self.transform = CGAffineTransformMake(scale, 0.0f, 0.0f, scale, 0.0f, 0.0f);
 	[UIView beginAnimations:@"animateIn" context:nil];
 	[UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
 	[UIView setAnimationDuration:0.1];
 	[UIView setAnimationDidStopSelector:@selector(animateInStepTwo)];
 	[UIView setAnimationDelegate:self];
 	scale = 1.1;
-	self.transform = CGAffineTransformMake(scale, 0.0f, 0.0f, scale, [self xTransformForScale:scale], [self yTransformForScale:scale]);
+	self.transform = CGAffineTransformMake(scale, 0.0f, 0.0f, scale, 0.0f, 0.0f);
 	[UIView commitAnimations];
 }
 
@@ -173,7 +168,7 @@
 	[UIView setAnimationDelegate:self];
 	
 	CGFloat scale = 0.95;
-	self.transform = CGAffineTransformMake(scale, 0.0f, 0.0f, scale, [self xTransformForScale:scale], [self yTransformForScale:scale]);
+	self.transform = CGAffineTransformMake(scale, 0.0f, 0.0f, scale, 0.0f, 0.0f);
 	
 	[UIView commitAnimations];
 }
@@ -184,7 +179,7 @@
 	[UIView setAnimationDuration:0.05];
 	
 	CGFloat scale = 1.0;
-	self.transform = CGAffineTransformMake(scale, 0.0f, 0.0f, scale, [self xTransformForScale:scale], [self yTransformForScale:scale]);
+	self.transform = CGAffineTransformMake(scale, 0.0f, 0.0f, scale, 0.0f, 0.0f);
 	
 	[UIView commitAnimations];
 }

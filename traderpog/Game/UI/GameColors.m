@@ -10,20 +10,6 @@
 
 @implementation GameColors
 
-case kKnobSliceFlyer:
-break;
-
-case kKnobSliceBeacon:
-break;
-
-case kKnobSlicePost:
-break;
-
-default:
-case kKnobSliceScan:
-result = [UIColor colorWithRed:8.0f/255.0f green:67.0f/255.0f blue:67.0f/255.0f alpha:alpha];
-break;
-
 + (UIColor*) bubbleColorFlyersWithAlpha:(CGFloat)alpha
 {
     UIColor* result = [UIColor colorWithRed:0.0f/255.0f green:112.0f/255.0f blue:185.0f/255.0f alpha:alpha];
@@ -38,32 +24,38 @@ break;
 
 + (UIColor*) bubbleColorPostsWithAlpha:(CGFloat)alpha
 {
-    result = [UIColor colorWithRed:229.0f/255.0f green:54.0f/255.0f blue:9.0f/255.0f alpha:alpha];
+    UIColor* result = [UIColor colorWithRed:229.0f/255.0f green:54.0f/255.0f blue:9.0f/255.0f alpha:alpha];
+    return result;
 }
 
-+ (UIColor*) bubbleColorScan
++ (UIColor*) bubbleColorScanWithAlpha:(CGFloat)alpha
 {
-    
+    UIColor* result = [UIColor colorWithRed:8.0f/255.0f green:67.0f/255.0f blue:67.0f/255.0f alpha:alpha];
+    return result;
 }
 
-+ (UIColor*) borderColorFlyers
++ (UIColor*) borderColorFlyersWithAlpha:(CGFloat)alpha
 {
-    
+    UIColor* result = [UIColor colorWithRed:93.0f/255.0f green:155.0f/255.0f blue:207.0f/255.0f alpha:1.0f];
+    return result;
 }
 
-+ (UIColor*) borderColorBeacons
++ (UIColor*) borderColorBeaconsWithAlpha:(CGFloat)alpha
 {
-    
+    UIColor* result = [UIColor colorWithRed:27.0f/255.0f green:89.0f/255.0f blue:141.0f/255.0f alpha:1.0f];
+    return result;
 }
 
-+ (UIColor*) borderColorPosts
++ (UIColor*) borderColorPostsWithAlpha:(CGFloat)alpha
 {
-    
+    UIColor* result = [UIColor colorWithRed:177.0f/255.0f green:0.0f/255.0f blue:0.0f/255.0f alpha:1.0f];
+    return result;
 }
 
-+ (UIColor*) borderColorScan
++ (UIColor*) borderColorScanWithAlpha:(CGFloat)alpha
 {
-    
+    UIColor* result = [UIColor colorWithRed:48.0f/255.0f green:80.0f/255.0f blue:107.0f/255.0f alpha:1.0f];
+    return result;
 }
 
 

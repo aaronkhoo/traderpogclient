@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 
 @interface GameColors : NSObject
-+ (UIColor*) bubbleColorFlyers;
-+ (UIColor*) bubbleColorBeacons;
-+ (UIColor*) bubbleColorPosts;
-+ (UIColor*) bubbleColorScan;
++ (UIColor*) bubbleColorFlyersWithAlpha:(CGFloat)alpha;
++ (UIColor*) bubbleColorBeaconsWithAlpha:(CGFloat)alpha;
++ (UIColor*) bubbleColorPostsWithAlpha:(CGFloat)alpha;
++ (UIColor*) bubbleColorScanWithAlpha:(CGFloat)alpha;
 
-+ (UIColor*) borderColorFlyers;
-+ (UIColor*) borderColorBeacons;
-+ (UIColor*) borderColorPosts;
-+ (UIColor*) borderColorScan;
++ (UIColor*) borderColorFlyersWithAlpha:(CGFloat)alpha;
++ (UIColor*) borderColorBeaconsWithAlpha:(CGFloat)alpha;
++ (UIColor*) borderColorPostsWithAlpha:(CGFloat)alpha;
++ (UIColor*) borderColorScanWithAlpha:(CGFloat)alpha;
 @end

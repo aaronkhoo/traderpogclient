@@ -11,9 +11,10 @@
 #import "BeaconMgr.h"
 #import "MyTradePost.h"
 #import "PogUIUtility.h"
+#import "GameColors.h"
 
 NSString* const kPlayerPostCalloutViewReuseId = @"PlayerPostCalloutView";
-
+static const float kCircleBorderWidth = 4.0f;
 @interface PlayerPostCalloutView ()
 - (void) initRender;
 @end
@@ -23,6 +24,9 @@ NSString* const kPlayerPostCalloutViewReuseId = @"PlayerPostCalloutView";
 @synthesize restockBubble;
 @synthesize beaconBubble;
 @synthesize destroyBubble;
+@synthesize beaconLabelContainer;
+@synthesize restockLabelContainer;
+@synthesize destroyLabelContainer;
 
 - (id) initWithAnnotation:(id<MKAnnotation>)annotation
 {
@@ -38,9 +42,36 @@ NSString* const kPlayerPostCalloutViewReuseId = @"PlayerPostCalloutView";
 #pragma mark - internal methods
 - (void) initRender
 {
-    [PogUIUtility setCircleForView:[self restockBubble]];
-    [PogUIUtility setCircleForView:[self beaconBubble]];
-    [PogUIUtility setCircleForView:[self destroyBubble]];
+    // images
+    CGRect imageFrame = [self.beaconBubble frame];
+    imageFrame.origin = CGPointMake(0.0f, 0.0f);
+    imageFrame = CGRectInset(imageFrame, 4.0f, 4.0f);
+    UIImage* beaconImage = [UIImage imageNamed:@"bubble_set_beacon.png"];
+    UIImageView* beaconView = [[UIImageView alloc] initWithFrame:imageFrame];
+    [beaconView setImage:beaconImage];
+    UIImage* restockImage = [UIImage imageNamed:@"bubble_restock.png"];
+    UIImageView* restockView = [[UIImageView alloc] initWithFrame:imageFrame];
+    [restockView setImage:restockImage];
+    UIImage* destroyImage = [UIImage imageNamed:@"icon_removepost.png"];
+    UIImageView* destroyView = [[UIImageView alloc] initWithFrame:imageFrame];
+    [destroyView setImage:destroyImage];
+    [self.restockBubble insertSubview:restockView belowSubview:[self restockLabelContainer]];
+    [self.beaconBubble insertSubview:beaconView belowSubview:[self beaconLabelContainer]];
+    [self.destroyBubble insertSubview:destroyView belowSubview:[self destroyLabelContainer]];
+    
+    // shape
+    [self.restockLabelContainer setBackgroundColor:[GameColors borderColorScanWithAlpha:1.0f]];
+    [PogUIUtility setCircleForView:[self restockBubble]
+                   withBorderWidth:kCircleBorderWidth
+                       borderColor:[GameColors borderColorScanWithAlpha:1.0f]];
+    [self.beaconLabelContainer setBackgroundColor:[GameColors borderColorBeaconsWithAlpha:1.0f]];
+    [PogUIUtility setCircleForView:[self beaconBubble]
+                   withBorderWidth:kCircleBorderWidth
+                       borderColor:[GameColors borderColorBeaconsWithAlpha:1.0f]];
+    [self.destroyLabelContainer setBackgroundColor:[GameColors borderColorPostsWithAlpha:1.0f]];
+    [PogUIUtility setCircleForView:[self destroyBubble]
+                   withBorderWidth:kCircleBorderWidth
+                       borderColor:[GameColors borderColorPostsWithAlpha:1.0f]];
 }
 
 #pragma mark - button actions

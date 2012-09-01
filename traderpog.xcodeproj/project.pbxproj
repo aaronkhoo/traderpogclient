@@ -50,6 +50,10 @@
 		42EF841F15DE2ED100A8469B /* PlayerPostCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EF841E15DE2ED100A8469B /* PlayerPostCalloutView.m */; };
 		42EF842315DE2F0400A8469B /* PlayerPostCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EF842215DE2F0400A8469B /* PlayerPostCallout.m */; };
 		42EF842515DE32F000A8469B /* PlayerPostCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42EF842415DE32F000A8469B /* PlayerPostCalloutView.xib */; };
+		42F692C815F1D4D20002B1B2 /* GameColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 42F692C715F1D4D20002B1B2 /* GameColors.m */; };
+		42F692D115F1E1B60002B1B2 /* bubble_restock.png in Resources */ = {isa = PBXBuildFile; fileRef = 42F692CE15F1E1B60002B1B2 /* bubble_restock.png */; };
+		42F692D215F1E1B60002B1B2 /* bubble_set_beacon.png in Resources */ = {isa = PBXBuildFile; fileRef = 42F692CF15F1E1B60002B1B2 /* bubble_set_beacon.png */; };
+		42F692D315F1E1B60002B1B2 /* icon_removepost.png in Resources */ = {isa = PBXBuildFile; fileRef = 42F692D015F1E1B60002B1B2 /* icon_removepost.png */; };
 		C41E0C9815AC0391006662DF /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C8415AC0391006662DF /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C41E0C9915AC0391006662DF /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C8615AC0391006662DF /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C41E0C9A15AC0391006662DF /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C8815AC0391006662DF /* AFImageRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -227,6 +231,11 @@
 		42EF842115DE2F0400A8469B /* PlayerPostCallout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerPostCallout.h; path = Game/Map/PlayerPostCallout.h; sourceTree = "<group>"; };
 		42EF842215DE2F0400A8469B /* PlayerPostCallout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerPostCallout.m; path = Game/Map/PlayerPostCallout.m; sourceTree = "<group>"; };
 		42EF842415DE32F000A8469B /* PlayerPostCalloutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlayerPostCalloutView.xib; path = Game/Map/PlayerPostCalloutView.xib; sourceTree = "<group>"; };
+		42F692C615F1D4D20002B1B2 /* GameColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameColors.h; path = Game/UI/GameColors.h; sourceTree = "<group>"; };
+		42F692C715F1D4D20002B1B2 /* GameColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameColors.m; path = Game/UI/GameColors.m; sourceTree = "<group>"; };
+		42F692CE15F1E1B60002B1B2 /* bubble_restock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_restock.png; path = assets/UI/bubble_restock.png; sourceTree = SOURCE_ROOT; };
+		42F692CF15F1E1B60002B1B2 /* bubble_set_beacon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_set_beacon.png; path = assets/UI/bubble_set_beacon.png; sourceTree = SOURCE_ROOT; };
+		42F692D015F1E1B60002B1B2 /* icon_removepost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_removepost.png; path = assets/UI/icon_removepost.png; sourceTree = SOURCE_ROOT; };
 		C41E0C8315AC0391006662DF /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		C41E0C8415AC0391006662DF /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		C41E0C8515AC0391006662DF /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -695,6 +704,8 @@
 				C4D5DDD215B2718100D5A746 /* ConfirmNewPost.h */,
 				C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */,
 				C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */,
+				42F692C615F1D4D20002B1B2 /* GameColors.h */,
+				42F692C715F1D4D20002B1B2 /* GameColors.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -812,6 +823,9 @@
 			isa = PBXGroup;
 			children = (
 				42E92B0915D0E7AD0054686F /* startButton.png */,
+				42F692CE15F1E1B60002B1B2 /* bubble_restock.png */,
+				42F692CF15F1E1B60002B1B2 /* bubble_set_beacon.png */,
+				42F692D015F1E1B60002B1B2 /* icon_removepost.png */,
 				42E92B0715D0E19F0054686F /* Yun.png */,
 				C4BBE44815B7E7C600F582DE /* SignupBackground.png */,
 				C4FA8F5915B54A7200E82A93 /* CreateAccount.png */,
@@ -901,6 +915,9 @@
 				C4D9B07315E3DE160096448E /* b_flyerlab.png in Resources */,
 				42B28E3215EA39620008901C /* b_homebase.png in Resources */,
 				42B28E3315EA39620008901C /* b_tradepost.png in Resources */,
+				42F692D115F1E1B60002B1B2 /* bubble_restock.png in Resources */,
+				42F692D215F1E1B60002B1B2 /* bubble_set_beacon.png in Resources */,
+				42F692D315F1E1B60002B1B2 /* icon_removepost.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -995,6 +1012,7 @@
 				38821ED215F18DE0004733E2 /* ForeignTradePost.m in Sources */,
 				38821ED515F19023004733E2 /* MyTradePost.m in Sources */,
 				38821ED815F1910F004733E2 /* PlayerTradePost.m in Sources */,
+				42F692C815F1D4D20002B1B2 /* GameColors.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
