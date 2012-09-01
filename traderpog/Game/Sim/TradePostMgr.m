@@ -7,10 +7,12 @@
 //
 
 #import "AFClientManager.h"
+#import "ForeignTradePost.h"
 #import "GameManager.h"
+#import "MyTradePost.h"
+#import "NPCTradePost.h"
 #import "Player.h"
 #import "TradePostMgr.h"
-#import "TradePost.h"
 #import "TradeItem.h"
 #import "TradeItemType.h"
 #import "TradeItemTypes.h"
@@ -34,7 +36,7 @@ static double const refreshTime = -(60 * 15);
     unsigned int _npcPostIndex;
     
     // User trade post in the midst of being generated
-    TradePost* _tempTradePost;
+    MyTradePost* _tempTradePost;
     
     // for wheel
     MapControl* _previewMap;
@@ -77,7 +79,7 @@ static double const refreshTime = -(60 * 15);
 
 - (BOOL) isBeaconActive
 {
-    for (TradePost* post in [_activePosts allValues])
+    for (MyTradePost* post in [_activePosts allValues])
     {
         if ([post beaconActive])
         {
@@ -95,7 +97,7 @@ static double const refreshTime = -(60 * 15);
 {
     NSArray* postIdsWithFlyers = [[FlyerMgr getInstance] tradePostIdsWithFlyers];
     
-    for (TradePost* post in [_activePosts allValues])
+    for (MyTradePost* post in [_activePosts allValues])
     {
         [[[GameManager getInstance] gameViewController].mapControl addAnnotationForTradePost:post];
         if([postIdsWithFlyers stringArrayContainsString:[post postId]])
@@ -104,7 +106,7 @@ static double const refreshTime = -(60 * 15);
         }
     }
     
-    for (TradePost* post in [self.npcPosts allValues])
+    for (NPCTradePost* post in [self.npcPosts allValues])
     {
         [[[GameManager getInstance] gameViewController].mapControl addAnnotationForTradePost:post];        
         if([postIdsWithFlyers stringArrayContainsString:[post postId]])
@@ -114,25 +116,25 @@ static double const refreshTime = -(60 * 15);
     }
 }
 
-- (TradePost*) newNPCTradePostAtCoord:(CLLocationCoordinate2D)coord
+- (NPCTradePost*) newNPCTradePostAtCoord:(CLLocationCoordinate2D)coord
                           bucks:(unsigned int)bucks
 {
     NSString* postId = [NSString stringWithFormat:@"NPCPost%d", _npcPostIndex];
     
     ++_npcPostIndex;
-    TradePost* newPost = [[TradePost alloc] initWithPostId:postId
-                                                coordinate:coord
-                                                     bucks:bucks];
+    NPCTradePost* newPost = [[NPCTradePost alloc] initWithPostId:postId
+                                                      coordinate:coord
+                                                           bucks:bucks];
     [self.npcPosts setObject:newPost forKey:postId];
     return newPost;
 }
 
 - (BOOL) newTradePostAtCoord:(CLLocationCoordinate2D)coord 
-                              sellingItem:(TradeItemType *)itemType
+                 sellingItem:(TradeItemType *)itemType
 {
     if (_tempTradePost == nil)
     {
-        TradePost* newPost = [[TradePost alloc] initWithCoordinates:coord itemType:itemType];
+        MyTradePost* newPost = [[MyTradePost alloc] initWithCoordinates:coord itemType:itemType];
         [newPost setDelegate:[TradePostMgr getInstance]];
         _tempTradePost = newPost;
         [_tempTradePost createNewPostOnServer];
@@ -181,7 +183,7 @@ static double const refreshTime = -(60 * 15);
     return result;
 }
 
-- (TradePost*) getFirstTradePost
+- (MyTradePost*) getFirstMyTradePost
 {
     id key = [[_activePosts allKeys] objectAtIndex:0];
     return [_activePosts objectForKey:key];
@@ -195,7 +197,7 @@ static double const refreshTime = -(60 * 15);
         
     // query active posts
     unsigned int num = 0;
-    for(TradePost* cur in self.activePosts.allValues)
+    for(MyTradePost* cur in self.activePosts.allValues)
     {
         if([self post:cur isWithinDistance:radius fromCoord:coord])
         {
@@ -209,7 +211,7 @@ static double const refreshTime = -(60 * 15);
     }
     
     // query npc posts
-    for(TradePost* cur in self.npcPosts.allValues)
+    for(NPCTradePost* cur in self.npcPosts.allValues)
     {
         if([self post:cur isWithinDistance:radius fromCoord:coord])
         {
@@ -223,7 +225,7 @@ static double const refreshTime = -(60 * 15);
     }
     
     // query friends posts
-    for(TradePost* cur in [BeaconMgr getInstance].activeBeacons.allValues)
+    for(ForeignTradePost* cur in [BeaconMgr getInstance].activeBeacons.allValues)
     {
         if([self post:cur isWithinDistance:radius fromCoord:coord])
         {
@@ -243,7 +245,7 @@ static double const refreshTime = -(60 * 15);
 {
     for (NSDictionary* post in responseObject)
     {
-        TradePost* current = [[TradePost alloc] initWithDictionary:post isForeign:FALSE];
+        MyTradePost* current = [[MyTradePost alloc] initWithDictionary:post];
         [self.activePosts setObject:current forKey:current.postId];
     }
 }

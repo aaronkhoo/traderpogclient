@@ -9,7 +9,7 @@
 #import "PlayerPostCalloutView.h"
 #import "PlayerPostCallout.h"
 #import "BeaconMgr.h"
-#import "TradePost.h"
+#import "MyTradePost.h"
 #import "PogUIUtility.h"
 
 NSString* const kPlayerPostCalloutViewReuseId = @"PlayerPostCalloutView";
@@ -47,7 +47,7 @@ NSString* const kPlayerPostCalloutViewReuseId = @"PlayerPostCalloutView";
 
 - (IBAction)didPressSetBeacon:(id)sender
 {
-    TradePost* thisPost = (TradePost*)[self.parentAnnotationView annotation];
+    MyTradePost* thisPost = (MyTradePost*)[self.parentAnnotationView annotation];
     if(thisPost)
     {
         NSLog(@"Set Beacon for PostId %@", [thisPost postId]);

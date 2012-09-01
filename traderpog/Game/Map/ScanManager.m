@@ -9,7 +9,7 @@
 #import "ScanManager.h"
 #import "HiAccuracyLocator.h"
 #import "MKMapView+ZoomLevel.h"
-#import "TradePost.h"
+#import "NPCTradePost.h"
 #import "TradePostMgr.h"
 #import "TradeItemTypes.h"
 #import "TradeItemType.h"
@@ -163,8 +163,8 @@ static const unsigned int kScanNumPosts = 4;
             CLLocationCoordinate2D newCoord = MKCoordinateForMapPoint(newPoint);
             
             unsigned int playerBucks = [[Player getInstance] bucks];
-            TradePost* newPost = [[TradePostMgr getInstance] newNPCTradePostAtCoord:newCoord
-                                                                        bucks:playerBucks];
+            NPCTradePost* newPost = [[TradePostMgr getInstance] newNPCTradePostAtCoord:newCoord
+                                                                                 bucks:playerBucks];
             [posts addObject:newPost];
             
             curAngle = curAngle + angleIncr;

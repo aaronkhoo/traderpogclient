@@ -55,7 +55,7 @@ NSString* const kTradePostCalloutViewReuseId = @"PostCalloutView";
 
     if(destPost)
     {
-        if([destPost isOwnPost])
+        if([destPost isMemberOfClass:[MyTradePost class]])
         {
             // TODO: handle going home
         }

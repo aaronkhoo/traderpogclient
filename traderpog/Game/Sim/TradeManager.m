@@ -54,7 +54,7 @@ static const float kTradeDistanceFactor = 1.0f;
 
 - (void) flyer:(Flyer *)flyer didArriveAtPost:(TradePost *)post
 {
-    if([post isOwnPost])
+    if([post isMemberOfClass:[MyTradePost class]])
     {
         [self flyer:flyer sellAtPost:post];
     }
@@ -111,7 +111,7 @@ static const float kTradeDistanceFactor = 1.0f;
 #pragma mark - internal
 - (void) flyer:(Flyer *)flyer sellAtPost:(TradePost *)post
 {
-    NSAssert([post isOwnPost], @"flyer can only sell at own posts");
+    NSAssert([post isMemberOfClass:[MyTradePost class]], @"flyer can only sell at own posts");
     
     TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:[flyer itemId]];
     float tierPremiumTerm = [self premiumForItemTier:[itemType tier]] + 1.0f;

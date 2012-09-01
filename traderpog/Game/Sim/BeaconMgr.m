@@ -9,11 +9,11 @@
 #import "AFClientManager.h"
 #import "BeaconMgr.h"
 #import "Beacon.h"
+#import "ForeignTradePost.h"
 #import "WheelControl.h"
 #import "WheelBubble.h"
 #import "PogUIUtility.h"
 #import "Player.h"
-#import "TradePost.h"
 #import "FlyerMgr.h"
 #import "Flyer.h"
 #import "NSArray+Pog.h"
@@ -57,7 +57,7 @@ static double const refreshTime = -(60 * 15);
 {
     for (NSDictionary* post in responseObject)
     {
-        TradePost* current = [[TradePost alloc] initWithDictionary:post isForeign:TRUE];
+        ForeignTradePost* current = [[ForeignTradePost alloc] initWithDictionary:post];
         [self.activeBeacons setObject:current forKey:current.postId];
     }
 }
@@ -97,7 +97,7 @@ static double const refreshTime = -(60 * 15);
 - (void) addBeaconAnnotationsToMap:(MapControl*)map
 {
     NSArray* postIdsWithFlyers = [[FlyerMgr getInstance] tradePostIdsWithFlyers];
-    for(TradePost* cur in [_activeBeacons allValues])
+    for(ForeignTradePost* cur in [_activeBeacons allValues])
     {
         [map addAnnotation:cur];
         if([postIdsWithFlyers stringArrayContainsString:[cur postId]])
@@ -147,7 +147,7 @@ static double const refreshTime = -(60 * 15);
             CGRect superFrame = wheel.previewView.bounds;
             result = [[MKMapView alloc] initWithFrame:superFrame];
             index = MIN(index, [_activeBeacons count]-1);
-            TradePost* initBeacon = [_activeBeacons.allValues objectAtIndex:index];
+            ForeignTradePost* initBeacon = [_activeBeacons.allValues objectAtIndex:index];
             _previewMap = [[MapControl alloc] initWithMapView:result
                                                     andCenter:[initBeacon coord]
                                                   atZoomLevel:kBeaconPreviewZoomLevel];
@@ -170,7 +170,7 @@ static double const refreshTime = -(60 * 15);
     if([_activeBeacons count])
     {
         index = MIN(index, [_activeBeacons count]-1);
-        TradePost* cur = [_activeBeacons.allValues objectAtIndex:index];
+        ForeignTradePost* cur = [_activeBeacons.allValues objectAtIndex:index];
         [_previewMap centerOn:[cur coord] animated:YES];
     }
 }
@@ -180,7 +180,7 @@ static double const refreshTime = -(60 * 15);
     if([_activeBeacons count])
     {
         index = MIN(index, [_activeBeacons count]-1);
-        TradePost* cur = [_activeBeacons.allValues objectAtIndex:index];
+        ForeignTradePost* cur = [_activeBeacons.allValues objectAtIndex:index];
         [wheel.superMap defaultZoomCenterOn:[cur coord] animated:YES];
     }
 }
