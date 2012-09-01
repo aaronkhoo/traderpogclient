@@ -349,7 +349,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
     if (_curPostId)
     {
         TradePost* post1 = [[TradePostMgr getInstance] getTradePostWithId:_curPostId];
-        if (post1.isNPCPost)
+        if ([post1 isMemberOfClass:[NPCTradePost class]])
         {
             CLLocationCoordinate2D location = post1.coord;
             [parameters setValue:[NSNumber numberWithDouble:location.longitude] forKey:kKeyLongitude1];
@@ -370,7 +370,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
     
     // Destination post
     TradePost* post2 = [[TradePostMgr getInstance] getTradePostWithId:_projectedNextPost];
-    if (post2.isNPCPost)
+    if ([post2 isMemberOfClass:[NPCTradePost class]])
     {
         CLLocationCoordinate2D location = post2.coord;
         [parameters setValue:[NSNumber numberWithDouble:location.longitude] forKey:kKeyLongitude2];
@@ -394,8 +394,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
 - (void) createFlyerPathOnServer
 {
     // post parameters
-    NSString *flyerPathUrl = [NSString stringWithFormat:@"users/%d/user_flyers/%@/flyer_paths", [[Player getInstance] playerId],
-                               _userFlyerId];
+    NSString *flyerPathUrl = [NSString stringWithFormat:@"users/%d/user_flyers/%@/flyer_paths", [[Player getInstance] playerId], _userFlyerId];
     NSDictionary* parameters = [self createParametersForFlyerPath];
     
     // make a post request
@@ -590,7 +589,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
         
         // determine if I am at own post
         TradePost* curPost = [[TradePostMgr getInstance] getTradePostWithId:_curPostId];
-        if([curPost isOwnPost])
+        if([curPost isMemberOfClass:[MyTradePost class]])
         {
             self.isAtOwnPost = YES;
         }
@@ -650,7 +649,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
     // ask TradeManager to handle arrival
     TradePost* arrivalPost = [[TradePostMgr getInstance] getTradePostWithId:[self nextPostId]];
     [[TradeManager getInstance] flyer:self didArriveAtPost:arrivalPost];
-    if([arrivalPost isOwnPost])
+    if([arrivalPost isMemberOfClass:[MyTradePost class]])
     {
         self.isAtOwnPost = YES;
     }

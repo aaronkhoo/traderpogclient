@@ -236,7 +236,6 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     }
 }
 
-
 - (void) loadPlayerInfo
 {
     // loadPlayerInfo should be responsible for reloading any data from the server it requires
@@ -516,7 +515,7 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
         // create player's first flyer
         NSArray* flyersArray = [[FlyerTypes getInstance] getFlyersForTier:1];
         NSInteger index = arc4random() % (flyersArray.count);
-        if (![[FlyerMgr getInstance] newPlayerFlyerAtTradePost:[[TradePostMgr getInstance] getFirstTradePost]                                    firstFlyer:index])
+        if (![[FlyerMgr getInstance] newPlayerFlyerAtTradePost:[[TradePostMgr getInstance] getFirstMyTradePost]                                    firstFlyer:index])
         {
             // Something failed in the flyer creation, probably because another flyer
             // creation was already in flight. We should never get into this state. Log and

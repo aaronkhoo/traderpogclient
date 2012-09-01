@@ -11,6 +11,7 @@
 #import <MapKit/MKAnnotation.h>
 #import "HttpCallbackDelegate.h"
 #import "MapProtocols.h"
+#import "TradePostAnnotationView.h"
 
 static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 
@@ -18,18 +19,12 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 @class TradePostAnnotation;
 @interface TradePost : NSObject<MKAnnotation, MapAnnotationProtocol>
 {
-    NSString*   _userId;
     NSString*   _postId;
     CLLocationCoordinate2D _coord;
     NSString*   _itemId;
     NSString*   _imgPath;
     NSInteger   _supplyMaxLevel;
     NSInteger   _supplyRateLevel;
-    NSDate*     _beacontime;
-    NSString*   _fbId;
-    
-    BOOL        _isOwnPost;
-    BOOL        _isNPCPost;
     
     // transient variables (not saved; reconstructed after load)
     __weak TradePostAnnotation* _annotation;
@@ -45,25 +40,12 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 @property (nonatomic,weak) TradePostAnnotation* annotation;
 @property (nonatomic,readonly) NSInteger supplyMaxLevel;
 @property (nonatomic) unsigned int supplyLevel;
-@property (nonatomic) BOOL isOwnPost;
-@property (nonatomic) BOOL isNPCPost;
 @property (nonatomic,readonly) NSString* imgPath;
 @property (nonatomic,strong) NSDate* beacontime;
 @property (nonatomic) BOOL hasFlyer;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
-- (id) initWithPostId:(NSString*)postId
-           coordinate:(CLLocationCoordinate2D)coordinate
-                bucks:(unsigned int)bucks;
-- (id) initWithCoordinates:(CLLocationCoordinate2D)coordinate 
-                           itemType:(TradeItemType *)itemType;
-- (void) createNewPostOnServer;
-- (id) initWithDictionary:(NSDictionary*)dict
-                isForeign:(BOOL)isForeign;
-- (void) setBeacon;
-- (bool) beaconActive;
-
-// trade
 - (void) deductNumItems:(unsigned int)num;
+- (TradePostAnnotationView*) getAnnotationViewInstance:(MKMapView *)mapView;
 
 @end

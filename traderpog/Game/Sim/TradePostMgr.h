@@ -10,6 +10,8 @@
 #import <CoreLocation/CoreLocation.h>
 #import "HttpCallbackDelegate.h"
 #import "MapControl.h"
+#import "MyTradePost.h"
+#import "NPCTradePost.h"
 #import "WheelProtocol.h"
 
 static NSString* const kTradePostMgr_ReceivePosts = @"TradePostMgr_ReceivePosts";
@@ -31,12 +33,12 @@ static NSString* const kTradePostMgr_ReceivePosts = @"TradePostMgr_ReceivePosts"
 - (NSInteger) postsCount;
 - (BOOL) isBeaconActive;
 - (void) annotatePostsOnMap;
-- (TradePost*) newNPCTradePostAtCoord:(CLLocationCoordinate2D)coord
-                          bucks:(unsigned int)bucks;
+- (NPCTradePost*) newNPCTradePostAtCoord:(CLLocationCoordinate2D)coord
+                                   bucks:(unsigned int)bucks;
 - (BOOL) newTradePostAtCoord:(CLLocationCoordinate2D)coord 
                               sellingItem:(TradeItemType*)itemType;
 - (TradePost*) getTradePostWithId:(NSString*)postId;
-- (TradePost*) getFirstTradePost;
+- (MyTradePost*) getFirstMyTradePost;
 - (void) setTempPostToActive;
 - (NSMutableArray*) getTradePostsAtCoord:(CLLocationCoordinate2D)coord 
                                   radius:(float)radius 

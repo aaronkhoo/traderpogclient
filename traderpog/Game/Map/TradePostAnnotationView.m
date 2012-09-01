@@ -9,6 +9,7 @@
 #import "TradePostAnnotationView.h"
 #import "TradePostCallout.h"
 #import "ImageManager.h"
+#import "MyTradePost.h"
 #import "TradePost.h"
 #import "PlayerPostCallout.h"
 #import "GameManager.h"
@@ -45,7 +46,7 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
         
         // setup tradepost image
         UIImage* annotationImage = nil;
-        if([tradePost isOwnPost])
+        if([tradePost isMemberOfClass:[MyTradePost class]])
         {
             annotationImage = [[ImageManager getInstance] getImage:[tradePost imgPath]
                                                      fallbackNamed:@"b_flyerlab.png"];
@@ -100,7 +101,7 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
     if([keyPath isEqualToString:kKeyTradePostHasFlyer])
     {
         TradePost* post = (TradePost*)object;
-        if(![post isOwnPost])
+        if(![post isMemberOfClass:[MyTradePost class]])
         {
             // foreign Posts' touchability depends on whether they
             // have flyers on them
@@ -136,7 +137,7 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
         if([[GameManager getInstance] canShowMapAnnotationCallout])
         {
             TradePost* tradePost = (TradePost*) [self annotation];
-            if([tradePost isOwnPost])
+            if([tradePost isMemberOfClass:[MyTradePost class]])
             {
                 // show player-post callout if own post
                 PlayerPostCallout* callout = [[PlayerPostCallout alloc] initWithTradePost:tradePost];

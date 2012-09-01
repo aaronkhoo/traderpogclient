@@ -10,6 +10,10 @@
 		385972FA15C0B900003DBA04 /* FlyerType.m in Sources */ = {isa = PBXBuildFile; fileRef = 385972F915C0B8FF003DBA04 /* FlyerType.m */; };
 		385972FF15C0BBDA003DBA04 /* TradeItemTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 385972FE15C0BBD9003DBA04 /* TradeItemTypes.m */; };
 		3859730215C0BFD5003DBA04 /* FlyerTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 3859730115C0BFD4003DBA04 /* FlyerTypes.m */; };
+		38821ECF15F18DBD004733E2 /* NPCTradePost.m in Sources */ = {isa = PBXBuildFile; fileRef = 38821ECE15F18DBC004733E2 /* NPCTradePost.m */; };
+		38821ED215F18DE0004733E2 /* ForeignTradePost.m in Sources */ = {isa = PBXBuildFile; fileRef = 38821ED115F18DDF004733E2 /* ForeignTradePost.m */; };
+		38821ED515F19023004733E2 /* MyTradePost.m in Sources */ = {isa = PBXBuildFile; fileRef = 38821ED415F19022004733E2 /* MyTradePost.m */; };
+		38821ED815F1910F004733E2 /* PlayerTradePost.m in Sources */ = {isa = PBXBuildFile; fileRef = 38821ED715F1910E004733E2 /* PlayerTradePost.m */; };
 		3887ACC415D4CB9700B4E0FA /* ResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3887ACC315D4CB9700B4E0FA /* ResourceManager.m */; };
 		3889127415D5BA8E009CF624 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3889127315D5BA8E009CF624 /* libz.1.2.5.dylib */; };
 		3889129615D5D8B6009CF624 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 3889128C15D5D8B6009CF624 /* ioapi.c */; };
@@ -136,6 +140,14 @@
 		385972FE15C0BBD9003DBA04 /* TradeItemTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradeItemTypes.m; path = Game/Sim/TradeItemTypes.m; sourceTree = "<group>"; };
 		3859730015C0BFD2003DBA04 /* FlyerTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerTypes.h; path = Game/Sim/FlyerTypes.h; sourceTree = "<group>"; };
 		3859730115C0BFD4003DBA04 /* FlyerTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerTypes.m; path = Game/Sim/FlyerTypes.m; sourceTree = "<group>"; };
+		38821ECD15F18DBB004733E2 /* NPCTradePost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NPCTradePost.h; path = Game/Sim/NPCTradePost.h; sourceTree = "<group>"; };
+		38821ECE15F18DBC004733E2 /* NPCTradePost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NPCTradePost.m; path = Game/Sim/NPCTradePost.m; sourceTree = "<group>"; };
+		38821ED015F18DDE004733E2 /* ForeignTradePost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForeignTradePost.h; path = Game/Sim/ForeignTradePost.h; sourceTree = "<group>"; };
+		38821ED115F18DDF004733E2 /* ForeignTradePost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ForeignTradePost.m; path = Game/Sim/ForeignTradePost.m; sourceTree = "<group>"; };
+		38821ED315F19021004733E2 /* MyTradePost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyTradePost.h; path = Game/Sim/MyTradePost.h; sourceTree = "<group>"; };
+		38821ED415F19022004733E2 /* MyTradePost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyTradePost.m; path = Game/Sim/MyTradePost.m; sourceTree = "<group>"; };
+		38821ED615F1910D004733E2 /* PlayerTradePost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerTradePost.h; path = Game/Sim/PlayerTradePost.h; sourceTree = "<group>"; };
+		38821ED715F1910E004733E2 /* PlayerTradePost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerTradePost.m; path = Game/Sim/PlayerTradePost.m; sourceTree = "<group>"; };
 		3887ACC215D4CB9700B4E0FA /* ResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResourceManager.h; path = Resources/ResourceManager.h; sourceTree = "<group>"; };
 		3887ACC315D4CB9700B4E0FA /* ResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResourceManager.m; path = Resources/ResourceManager.m; sourceTree = "<group>"; };
 		3889127315D5BA8E009CF624 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
@@ -764,6 +776,14 @@
 				C41E0CB215AC0FB6006662DF /* Player.m */,
 				C481146A15AD024B007FA214 /* TradePost.h */,
 				C481146B15AD024C007FA214 /* TradePost.m */,
+				38821ED615F1910D004733E2 /* PlayerTradePost.h */,
+				38821ED715F1910E004733E2 /* PlayerTradePost.m */,
+				38821ED015F18DDE004733E2 /* ForeignTradePost.h */,
+				38821ED115F18DDF004733E2 /* ForeignTradePost.m */,
+				38821ED315F19021004733E2 /* MyTradePost.h */,
+				38821ED415F19022004733E2 /* MyTradePost.m */,
+				38821ECD15F18DBB004733E2 /* NPCTradePost.h */,
+				38821ECE15F18DBC004733E2 /* NPCTradePost.m */,
 				C4D5DDD815B3155B00D5A746 /* TradeItem.h */,
 				C4D5DDD915B3155B00D5A746 /* TradeItem.m */,
 				C4D5DDDB15B3168000D5A746 /* TradeItemType.h */,
@@ -971,6 +991,10 @@
 				4290AB0B15EF2099001FAF0B /* BrowsePan.m in Sources */,
 				4290AB0F15EF3D06001FAF0B /* BrowsePinch.m in Sources */,
 				429A31D415F041DF00069CC7 /* CalloutView.m in Sources */,
+				38821ECF15F18DBD004733E2 /* NPCTradePost.m in Sources */,
+				38821ED215F18DE0004733E2 /* ForeignTradePost.m in Sources */,
+				38821ED515F19023004733E2 /* MyTradePost.m in Sources */,
+				38821ED815F1910F004733E2 /* PlayerTradePost.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
