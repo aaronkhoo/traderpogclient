@@ -202,7 +202,7 @@ static const float kSecondsPerMinute = 60.0;
     
     // Create the larger rectangle path.
     CGMutablePathRef path = CGPathCreateMutable();
-    CGPathAddRect(path, NULL, CGRectInset(circleFrame, -42, -42));
+    CGPathAddRect(path, NULL, CGRectInset(circleFrame, -4, -4));
     
     // Add the inner path so it's subtracted from the outer path.
     // someInnerPath could be a simple bounds rect, or maybe

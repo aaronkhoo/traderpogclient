@@ -72,7 +72,7 @@ static const float kCircleBorderWidth = 3.0f;
     [self.destroyBubble insertSubview:destroyView belowSubview:[self destroyLabelContainer]];
     [self.destroyBubble setBackgroundColor:bubbleBgColor];
     //[self.flyerLabBubble insertSubview:flyerView belowSubview:[self flyerLabLabelContainer]];
-    [self.destroyBubble setBackgroundColor:bubbleBgColor];
+    [self.flyerLabBubble setBackgroundColor:bubbleBgColor];
     
     // shape
     [self.restockLabelContainer setBackgroundColor:[GameColors borderColorScanWithAlpha:1.0f]];
