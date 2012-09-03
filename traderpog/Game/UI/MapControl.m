@@ -19,6 +19,7 @@
 #import "MKMapView+Pog.h"
 #import "BrowsePan.h"
 #import "BrowsePinch.h"
+#import "PlayerPostCalloutView.h"
 
 static const NSUInteger kDefaultZoomLevel = 15;
 static NSString* const kKeyCoordinate = @"coordinate";
@@ -305,7 +306,8 @@ static const float kBrowseAreaRadius = 500.0f;
             [[cur superview] bringSubviewToFront:cur];
             [cur setTransform:[flyer transform]];
         }
-        else if([cur isKindOfClass:[CalloutAnnotationView class]])
+        else if(([cur isKindOfClass:[CalloutAnnotationView class]]) ||
+                ([cur isKindOfClass:[PlayerPostCalloutView class]]))
         {
             [[cur superview] bringSubviewToFront:cur];
         }

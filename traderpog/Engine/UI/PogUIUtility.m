@@ -185,6 +185,43 @@ static const float kSecondsPerMinute = 60.0;
     [[targetView layer] setBorderColor:[borderColor CGColor]];    
 }
 
++ (void) setCircleShadowOnView:(UIView *)view shadowColor:(UIColor *)shadowColor
+{
+    CGRect circleFrame = [view bounds];
+    CAShapeLayer* shadowLayer = [CAShapeLayer layer];
+    [shadowLayer setFrame:circleFrame];
+    
+    // Standard shadow stuff
+    [shadowLayer setShadowColor:shadowColor.CGColor];
+    [shadowLayer setShadowOffset:CGSizeMake(0.0f, 0.0f)];
+    [shadowLayer setShadowOpacity:1.0f];
+    [shadowLayer setShadowRadius:4];
+    
+    // Causes the inner region in this example to NOT be filled.
+    [shadowLayer setFillRule:kCAFillRuleEvenOdd];
+    
+    // Create the larger rectangle path.
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathAddRect(path, NULL, CGRectInset(circleFrame, -42, -42));
+    
+    // Add the inner path so it's subtracted from the outer path.
+    // someInnerPath could be a simple bounds rect, or maybe
+    // a rounded one for some extra fanciness.
+    CGPoint circleCenter = CGPointMake(circleFrame.origin.x + (circleFrame.size.width * 0.5f),
+                                       circleFrame.origin.y + (circleFrame.size.height * 0.5f));
+    UIBezierPath* circlePath = [UIBezierPath bezierPathWithArcCenter:circleCenter
+                                                              radius:circleFrame.size.width * 0.48f
+                                                          startAngle:0.0f
+                                                            endAngle:2.0f * M_PI
+                                                           clockwise:YES];
+    CGPathAddPath(path, NULL, circlePath.CGPath);
+    CGPathCloseSubpath(path);
+    
+    [shadowLayer setPath:path];
+    CGPathRelease(path);
+    
+    [[view layer] addSublayer:shadowLayer];
+}
 
 static const float kFadeAlertWidth = 240.0;
 static const float kFadeAlertHeight = 40.0f;
