@@ -137,7 +137,7 @@ static BOOL lineIntersectsRect(MKMapPoint p0, MKMapPoint p1, MKMapRect r) {
 {
     // create path
     FlightPathOverlay* flightPath = (FlightPathOverlay*)(self.overlay);
-    CGFloat lineWidth = [[UIScreen mainScreen] scale] * 11.0f / zoomScale;
+    CGFloat lineWidth = [[UIScreen mainScreen] scale] * 8.0f / zoomScale;
 //    CGFloat lineWidth = MKRoadWidthAtZoomScale(zoomScale);
     MKMapRect clipRect = MKMapRectInset(mapRect, -lineWidth, -lineWidth);
     
