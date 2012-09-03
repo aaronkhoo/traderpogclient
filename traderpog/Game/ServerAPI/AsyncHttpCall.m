@@ -64,7 +64,7 @@ static NSString* const kKeyMsg = @"msg";
     _parameters = [aDecoder decodeObjectForKey:kKeyParams];
     _headers = [aDecoder decodeObjectForKey:kKeyHeaders];
     _failureMsg = [aDecoder decodeObjectForKey:kKeyMsg];
-    _type = [[aDecoder decodeObjectForKey:kKeyType] integerValue];
+    _type = [aDecoder decodeIntegerForKey:kKeyType];
     return self;
 }
 

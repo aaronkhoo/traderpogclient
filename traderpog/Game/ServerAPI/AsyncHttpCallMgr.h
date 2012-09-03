@@ -11,11 +11,6 @@
 #import "AsyncHttpDelegate.h"
 
 @interface AsyncHttpCallMgr : NSObject<AsyncHttpDelegate, NSCoding>
-{
-    // Delegate for callbacks to inform interested parties of completion
-    __weak NSObject<AsyncHttpDelegate>* _delegate;
-}
-@property (nonatomic,weak) NSObject<AsyncHttpDelegate>* delegate;
 
 - (void) newAsyncHttpCall:(NSString*)path
            current_params:(NSDictionary*)params
@@ -24,8 +19,9 @@
              current_type:(httpCallType)type;
 - (BOOL) startCalls;
 - (BOOL) callsRemain;
-- (void)applicationDidEnterBackground;
+- (void) applicationDidEnterBackground;
 - (void) applicationWillTerminate;
+- (void) addDelegateInstance:(__weak NSObject<AsyncHttpDelegate>*) delegate;
 
 // singleton
 +(AsyncHttpCallMgr*) getInstance;

@@ -144,8 +144,8 @@
     [[BeaconMgr getInstance] setDelegate:[GameManager getInstance]];
     
     // Setting up async http callback delegates
-    [[AsyncHttpCallMgr getInstance] setDelegate:[AsyncHttpCallMgr getInstance]];
-    [[AsyncHttpCallMgr getInstance] setDelegate:[GameManager getInstance]];
+    [[AsyncHttpCallMgr getInstance] addDelegateInstance:[AsyncHttpCallMgr getInstance]];
+    [[AsyncHttpCallMgr getInstance] addDelegateInstance:[GameManager getInstance]];
 
     // load up frontmenu background
     [[ImageManager getInstance] loadFrontMenuBackgroundNamed:@"Default.png"];
