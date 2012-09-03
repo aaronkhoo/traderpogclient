@@ -37,9 +37,6 @@ static double const refreshTime = -(60 * 15);
     
     // User trade post in the midst of being generated
     MyTradePost* _tempTradePost;
-    
-    // for wheel
-    MapControl* _previewMap;
 }
 @property (nonatomic,strong) NSMutableDictionary* activePosts;
 @property (nonatomic,strong) NSMutableDictionary* npcPosts;

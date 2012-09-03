@@ -16,13 +16,15 @@ static NSString* const kBeaconMgr_ReceiveBeacons = @"kBeaconMgr_ReceiveBeacons";
 @interface BeaconMgr : NSObject<WheelDataSource,WheelProtocol>
 {
     NSMutableDictionary* _activeBeacons;
-    
+    MapControl* _previewMap;
+
     NSDate* _lastUpdate;
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
 }
 @property (nonatomic,readonly) NSMutableDictionary* activeBeacons;
+@property (nonatomic,strong) MapControl* previewMap;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 // init

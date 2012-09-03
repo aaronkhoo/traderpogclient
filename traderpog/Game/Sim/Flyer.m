@@ -18,6 +18,7 @@
 #import "Player.h"
 #import "PogUIUtility.h"
 #import "MKMapView+Pog.h"
+#import "MKMapView+Game.h"
 #import "TradeManager.h"
 #import "GameNotes.h"
 
@@ -845,24 +846,34 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
         annotationView = [[FlyerAnnotationView alloc] initWithAnnotation:self];
     }
     
-    if([self isAtOwnPost])
+    if([mapView isPreviewMap])
     {
+        // for preview map, annotation views are disabled
+        // countdown not shown
         annotationView.enabled = NO;
-    }
-    else
-    {
-        annotationView.enabled = YES;
-    }
-    
-    if([self isEnroute])
-    {
-        [annotationView showCountdown:YES];
-    }
-    else
-    {
         [annotationView showCountdown:NO];
     }
-    
+    else
+    {
+        // otherwise, follow these rules
+        if([self isAtOwnPost])
+        {
+            annotationView.enabled = NO;
+        }
+        else
+        {
+            annotationView.enabled = YES;
+        }
+        
+        if([self isEnroute])
+        {
+            [annotationView showCountdown:YES];
+        }
+        else
+        {
+            [annotationView showCountdown:NO];
+        }
+    }
 
     return annotationView;
 }

@@ -55,6 +55,7 @@
 		42F692D215F1E1B60002B1B2 /* bubble_set_beacon.png in Resources */ = {isa = PBXBuildFile; fileRef = 42F692CF15F1E1B60002B1B2 /* bubble_set_beacon.png */; };
 		42F692D315F1E1B60002B1B2 /* icon_removepost.png in Resources */ = {isa = PBXBuildFile; fileRef = 42F692D015F1E1B60002B1B2 /* icon_removepost.png */; };
 		42FA1A5415F522FF00EB2433 /* CircleBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FA1A5315F522FE00EB2433 /* CircleBarView.m */; };
+		42FA1A5815F5511B00EB2433 /* MKMapView+Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FA1A5715F5511A00EB2433 /* MKMapView+Game.m */; };
 		C41E0C9815AC0391006662DF /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C8415AC0391006662DF /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C41E0C9915AC0391006662DF /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C8615AC0391006662DF /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C41E0C9A15AC0391006662DF /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C8815AC0391006662DF /* AFImageRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -239,6 +240,8 @@
 		42F692D015F1E1B60002B1B2 /* icon_removepost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_removepost.png; path = assets/UI/icon_removepost.png; sourceTree = SOURCE_ROOT; };
 		42FA1A5215F522FE00EB2433 /* CircleBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleBarView.h; sourceTree = "<group>"; };
 		42FA1A5315F522FE00EB2433 /* CircleBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleBarView.m; sourceTree = "<group>"; };
+		42FA1A5615F5511A00EB2433 /* MKMapView+Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MKMapView+Game.h"; path = "Game/Map/MKMapView+Game.h"; sourceTree = "<group>"; };
+		42FA1A5715F5511A00EB2433 /* MKMapView+Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MKMapView+Game.m"; path = "Game/Map/MKMapView+Game.m"; sourceTree = "<group>"; };
 		C41E0C8315AC0391006662DF /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		C41E0C8415AC0391006662DF /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		C41E0C8515AC0391006662DF /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -631,6 +634,8 @@
 				C4BBE46415BBBFF100F582DE /* FlightPathOverlay.m */,
 				C4BBE46515BBBFF100F582DE /* FlightPathView.h */,
 				C4BBE46615BBBFF100F582DE /* FlightPathView.m */,
+				42FA1A5615F5511A00EB2433 /* MKMapView+Game.h */,
+				42FA1A5715F5511A00EB2433 /* MKMapView+Game.m */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -1019,6 +1024,7 @@
 				38821ED815F1910F004733E2 /* PlayerTradePost.m in Sources */,
 				42F692C815F1D4D20002B1B2 /* GameColors.m in Sources */,
 				42FA1A5415F522FF00EB2433 /* CircleBarView.m in Sources */,
+				42FA1A5815F5511B00EB2433 /* MKMapView+Game.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
