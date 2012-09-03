@@ -12,6 +12,7 @@
 #import "MyTradePost.h"
 #import "TradePost.h"
 #import "PlayerPostCallout.h"
+#import "PlayerPostCalloutView.h"
 #import "GameManager.h"
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
@@ -165,7 +166,15 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
 {
     if(_calloutAnnotation)
     {
-        [mapView removeAnnotation:_calloutAnnotation];
+        if([_calloutAnnotation isMemberOfClass:[PlayerPostCallout class]])
+        {
+            PlayerPostCalloutView* calloutView = (PlayerPostCalloutView*) [mapView viewForAnnotation:_calloutAnnotation];
+            [calloutView animateOut];
+        }
+        else
+        {
+            [mapView removeAnnotation:_calloutAnnotation];
+        }
         _calloutAnnotation = nil;
     }
 }

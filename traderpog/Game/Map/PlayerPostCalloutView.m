@@ -120,6 +120,11 @@ static const float kCircleBorderWidth = 3.0f;
 
 - (IBAction)didPressDestroy:(id)sender
 {
-    NSLog(@"Destroy");
+    NSLog(@"Relocate");
+}
+
+- (IBAction)didPressFlyerLab:(id)sender
+{
+    NSLog(@"FlyerLab");
 }
 @end

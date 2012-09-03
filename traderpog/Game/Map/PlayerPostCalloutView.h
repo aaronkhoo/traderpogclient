@@ -23,5 +23,6 @@ extern NSString* const kPlayerPostCalloutViewReuseId;
 - (IBAction)didPressSetBeacon:(id)sender;
 - (IBAction)didPressRestock:(id)sender;
 - (IBAction)didPressDestroy:(id)sender;
+- (IBAction)didPressFlyerLab:(id)sender;
 
 @end
