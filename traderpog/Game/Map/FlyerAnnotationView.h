@@ -13,4 +13,5 @@ extern NSString* const kFlyerAnnotationViewReuseId;
 @interface FlyerAnnotationView : MKAnnotationView<MapAnnotationViewProtocol>
 
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation;
+- (void) setRenderTransform:(CGAffineTransform)transform;
 @end

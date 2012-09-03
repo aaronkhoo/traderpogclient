@@ -72,6 +72,7 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 @property (nonatomic,strong) NSDate* departureDate;
 @property (nonatomic) CLLocationCoordinate2D srcCoord;
 @property (nonatomic) CLLocationCoordinate2D destCoord;
+@property (nonatomic) CLLocationDistance metersToDest;
 @property (nonatomic,readonly) BOOL isNewFlyer;
 @property (nonatomic) BOOL isAtOwnPost;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
@@ -87,6 +88,7 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 - (void) updateAtDate:(NSDate*)currentTime;
 - (CLLocationCoordinate2D) flyerCoordinateNow;
 - (BOOL) isEnroute;
+- (NSTimeInterval) timeTillDest;
 
 // trade
 - (void) addItemId:(NSString*)itemId num:(unsigned int)num price:(unsigned int)price;

@@ -73,6 +73,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
 @synthesize departureDate = _departureDate;
 @synthesize srcCoord = _srcCoord;
 @synthesize destCoord = _destCoord;
+@synthesize metersToDest = _metersToDest;
 @synthesize isNewFlyer = _isNewFlyer;
 @synthesize isAtOwnPost = _isAtOwnPost;
 @synthesize transform = _transform;
@@ -655,7 +656,7 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
     }
     
     // Clearing up the various parameters properly as the Flyer has arrived at its destination
-    _metersToDest = 0.0;
+    self.metersToDest = 0.0;
     self.curPostId = [self nextPostId];
     _srcCoord = _destCoord;
     self.nextPostId = nil;
@@ -699,8 +700,8 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
         
         NSTimeInterval elapsed = -[self.departureDate timeIntervalSinceNow];
         CLLocationDistance routeDist = metersDistance([self srcCoord], [self destCoord]);
-        _metersToDest = routeDist - (elapsed * [self getFlyerSpeed]);
-        if(_metersToDest <= 0.0)
+        self.metersToDest = routeDist - (elapsed * [self getFlyerSpeed]);
+        if([self metersToDest] <= 0.0)
         {
             [self completeFlyerPath];
         }
@@ -736,6 +737,17 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
 
     return result;
 }
+
+- (NSTimeInterval) timeTillDest
+{
+    NSTimeInterval time = [self metersToDest] / [self getFlyerSpeed];
+    if(time <= 0.0)
+    {
+        time = 0.0;
+    }
+    return time;
+}
+
 
 #pragma mark - flight private
 static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLLocationCoordinate2D destCoord)
