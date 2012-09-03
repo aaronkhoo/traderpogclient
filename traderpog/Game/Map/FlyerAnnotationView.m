@@ -20,8 +20,6 @@ static NSString* const kKeyFlyerMetersToDest = @"metersToDest";
 
 static const float kFlyerTimerOriginOffsetX = 0.0f;
 static const float kFlyerTimerOriginOffsetY = 42.0f;
-static const float kFlyerTimerSizeWidth = 80.0f;
-static const float kFlyerTimerSizeHeight = 20.0f;
 static const float kFlyerAnnotViewSize = 50.0f;
 static const float kFlyerAnnotContentSize = 100.0f;
 
@@ -30,23 +28,18 @@ static const float kFlyerAnnotContentSize = 100.0f;
     FlyerCallout* _calloutAnnotation;
     UIImageView* _imageView;
     UIView* _contentView;
-    UILabel* _timerLabel;
     CircleBarView* _countdown;
 }
 @property (nonatomic,strong) UIImageView* imageView;
 @property (nonatomic,strong) UIView* contentView;
-@property (nonatomic,strong) UILabel* timerLabel;
 @property (nonatomic,strong) CircleBarView* countdown;
-- (CGRect) timerFrameForFlyerTransform:(CGAffineTransform)transform;
 - (CGAffineTransform) countdownTransformFromFlyerTransform:(CGAffineTransform)transform;
-- (void) createTimerLabel;
 - (void) createCountdown;
 @end
 
 @implementation FlyerAnnotationView
 @synthesize imageView = _imageView;
 @synthesize contentView = _contentView;
-@synthesize timerLabel = _timerLabel;
 @synthesize countdown = _countdown;
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation
 {
@@ -84,7 +77,6 @@ static const float kFlyerAnnotContentSize = 100.0f;
         [self addSubview:[self contentView]];
         
         // timer label
-        [self createTimerLabel];
         [self createCountdown];
         
         _calloutAnnotation = nil;
@@ -132,9 +124,10 @@ static const float kFlyerAnnotContentSize = 100.0f;
         }
         else if([keyPath isEqualToString:kKeyFlyerMetersToDest])
         {
+            // add 1 second as a fake roundup (so that when time is less than 1 second but larger than
+            // 0), user would see 1 sec
             NSTimeInterval timeTillDest = [flyer timeTillDest] + 1.0f;
             NSString* timerString = [PogUIUtility stringFromTimeInterval:timeTillDest];
-            [self.timerLabel setText:timerString];
             [self.countdown.label setText:timerString];
         }
     }
@@ -143,38 +136,16 @@ static const float kFlyerAnnotContentSize = 100.0f;
 - (void) setRenderTransform:(CGAffineTransform)transform
 {
     [self.imageView setTransform:transform];
-    self.timerLabel.frame = [self timerFrameForFlyerTransform:transform];
-    //self.countdown.frame = [self timerFrameForFlyerTransform:transform];
     [self.countdown setTransform:[self countdownTransformFromFlyerTransform:transform]];
 }
 
 #pragma mark - internal methods
-- (CGRect) timerFrameForFlyerTransform:(CGAffineTransform)transform
-{
-    CGPoint center = CGPointMake(self.contentView.frame.size.width * 0.5f,
-                                 self.contentView.frame.size.height * 0.5f);
-    CGPoint up = CGPointMake(0.0f, 1.0f);
-    CGPoint vec = CGPointApplyAffineTransform(up, transform);
-    CGPoint origin = CGPointMake(center.x + (kFlyerTimerOriginOffsetY * vec.x),
-                                 center.y + (kFlyerTimerOriginOffsetY * vec.y));
-    CGRect result = CGRectMake(origin.x, origin.y, kFlyerTimerSizeWidth, kFlyerTimerSizeHeight);
-    return result;
-}
-
 - (CGAffineTransform) countdownTransformFromFlyerTransform:(CGAffineTransform)transform
 {
     CGPoint up = CGPointMake(kFlyerTimerOriginOffsetX, kFlyerTimerOriginOffsetY);
     CGPoint vec = CGPointApplyAffineTransform(up, transform);
     CGAffineTransform result = CGAffineTransformMakeTranslation(vec.x, vec.y);
     return result;
-}
-
-- (void) createTimerLabel
-{
-    self.timerLabel = [[UILabel alloc] initWithFrame:[self timerFrameForFlyerTransform:CGAffineTransformIdentity]];
-    [self.timerLabel setFont:[UIFont fontWithName:@"Marker Felt" size:10.0f]];
-    [self.timerLabel setText:@"Loading"];
-    //[self.contentView addSubview:[self timerLabel]];
 }
 
 - (void) createCountdown
