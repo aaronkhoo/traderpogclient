@@ -149,7 +149,7 @@
 	self.transform = CGAffineTransformMake(scale, 0.0f, 0.0f, scale, 0.0f, 0.0f);
 	[UIView beginAnimations:@"animateIn" context:nil];
 	[UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-	[UIView setAnimationDuration:0.15];
+	[UIView setAnimationDuration:0.12];
 	[UIView setAnimationDidStopSelector:@selector(animateInStepTwo)];
 	[UIView setAnimationDelegate:self];
 	scale = 1.1;
@@ -200,7 +200,7 @@
 {
     [UIView beginAnimations:@"animateOutStepTwo" context:nil];
 	[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-	[UIView setAnimationDuration:0.15];
+	[UIView setAnimationDuration:0.12];
 	[UIView setAnimationDidStopSelector:@selector(animateOutStepThree)];
 	[UIView setAnimationDelegate:self];
 	CGFloat scale = 0.001f;
