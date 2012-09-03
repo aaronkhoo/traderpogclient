@@ -22,6 +22,9 @@ static NSString* const kKeyCallArray = @"callarray";
     // internal
     NSString* _createdVersion;
     
+    // Delegates for callbacks to inform interested parties of completion
+    NSMutableArray* _arrayDelegates;
+    
     NSMutableArray* _callArray;
     NSCondition* _lock;
     BOOL _callsInProgress;
@@ -29,7 +32,6 @@ static NSString* const kKeyCallArray = @"callarray";
 @end
 
 @implementation AsyncHttpCallMgr
-@synthesize delegate = _delegate;
 
 - (id) init
 {
@@ -39,9 +41,14 @@ static NSString* const kKeyCallArray = @"callarray";
         _callArray = [[NSMutableArray alloc] init];
         _lock = [[NSCondition alloc] init];
         _callsInProgress = FALSE;
-        _delegate = nil;
+        _arrayDelegates = [[NSMutableArray alloc] init];
     }
     return self;
+}
+
+- (void) addDelegateInstance:(__weak NSObject<AsyncHttpDelegate>*) delegate
+{
+    [_arrayDelegates addObject:delegate];
 }
 
 #pragma mark - NSCoding
@@ -57,6 +64,7 @@ static NSString* const kKeyCallArray = @"callarray";
     _callArray = [aDecoder decodeObjectForKey:kKeyCallArray];
     _lock = [[NSCondition alloc] init];
     _callsInProgress = FALSE;
+    _arrayDelegates = [[NSMutableArray alloc] init];
     return self;
 }
 
@@ -106,6 +114,15 @@ static NSString* const kKeyCallArray = @"callarray";
 }
 
 #pragma mark - private functions
+- (void) callDelegates:(BOOL)success
+{
+    for (id obj in _arrayDelegates)
+    {
+        NSObject<AsyncHttpDelegate>* delegate = (NSObject<AsyncHttpDelegate>*)obj;
+        [delegate didCompleteAsyncHttpCallback:success];
+    }
+}
+
 + (NSString*) asyncHttpCallMgrFilePath
 {
     NSString* docsDir = [GameManager documentsDirectory];
@@ -156,7 +173,7 @@ static NSString* const kKeyCallArray = @"callarray";
                         success:^(AFHTTPRequestOperation *operation, id responseObject){
                             NSLog(@"postPath call succeeded in AsyncHttpCallMgr");
                             [self pop];
-                            [self.delegate didCompleteAsyncHttpCallback:TRUE];
+                            [self callDelegates:TRUE];
                         }
                         failure:^(AFHTTPRequestOperation* operation, NSError* error){
                             NSLog(@"postPath call failed in AsyncHttpCallMgr");
@@ -166,7 +183,7 @@ static NSString* const kKeyCallArray = @"callarray";
                             {
                                 [self pop];
                             }
-                            [self.delegate didCompleteAsyncHttpCallback:FALSE];
+                            [self callDelegates:FALSE];
                         }
              ];
         }
@@ -178,7 +195,7 @@ static NSString* const kKeyCallArray = @"callarray";
                         success:^(AFHTTPRequestOperation *operation, id responseObject){
                             NSLog(@"postPath call succeeded in AsyncHttpCallMgr");
                             [self pop];
-                            [self.delegate didCompleteAsyncHttpCallback:TRUE];
+                            [self callDelegates:TRUE];
                         }
                         failure:^(AFHTTPRequestOperation* operation, NSError* error){
                             NSLog(@"postPath call failed in AsyncHttpCallMgr");
@@ -188,7 +205,7 @@ static NSString* const kKeyCallArray = @"callarray";
                             {
                                 [self pop];
                             }
-                            [self.delegate didCompleteAsyncHttpCallback:FALSE];
+                            [self callDelegates:FALSE];
                         }
              ];
         }
@@ -206,6 +223,7 @@ static NSString* const kKeyCallArray = @"callarray";
     {
         NSLog(@"Unknown http call type in makeAsyncHttpCall for AsyncHttpCallMgr class");
         [self pop];
+        [self callDelegates:FALSE];
     }
 }
 
