@@ -21,7 +21,6 @@
     CGRect _originalFrame;
 	MKAnnotationView *_parentAnnotationView;
 	MKMapView *_mapView;
-	CGRect _endFrame;
 	UIView *_contentView;
 	CGFloat _yShadowOffset;
 	CGPoint _offsetFromParent;
@@ -37,6 +36,9 @@
 - (void)animateIn;
 - (void)animateInStepTwo;
 - (void)animateInStepThree;
+- (void)animateOut;
+- (void)animateOutStepTwo;
+- (void)animateOutStepThree;
 - (void)setAnnotationAndAdjustMap:(id <MKAnnotation>)annotation;
 - (id)initWithAnnotation:(id<MKAnnotation>)annotation;
 

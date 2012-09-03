@@ -230,7 +230,7 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
     {
         self.isAtOwnPost = YES;
     }
-    
+
     [_path completeFlyerPath:_userFlyerId];
     
     [[[[GameManager getInstance] gameViewController] mapControl] dismissFlightPathForFlyer:self];
@@ -275,6 +275,16 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
              */
         }
     }
+}
+
+- (NSTimeInterval) timeTillDest
+{
+    NSTimeInterval time = [_path metersToDest] / [self getFlyerSpeed];
+    if(time <= 0.0)
+    {
+        time = 0.0;
+    }
+    return time;
 }
 
 #pragma mark - flight private

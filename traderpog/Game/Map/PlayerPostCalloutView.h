@@ -15,11 +15,14 @@ extern NSString* const kPlayerPostCalloutViewReuseId;
 @property (weak, nonatomic) IBOutlet UIView *restockBubble;
 @property (weak, nonatomic) IBOutlet UIView *beaconBubble;
 @property (weak, nonatomic) IBOutlet UIView *destroyBubble;
+@property (weak, nonatomic) IBOutlet UIView *flyerLabBubble;
 @property (weak, nonatomic) IBOutlet UIView *beaconLabelContainer;
 @property (weak, nonatomic) IBOutlet UIView *restockLabelContainer;
 @property (weak, nonatomic) IBOutlet UIView *destroyLabelContainer;
+@property (weak, nonatomic) IBOutlet UIView *flyerLabLabelContainer;
 - (IBAction)didPressSetBeacon:(id)sender;
 - (IBAction)didPressRestock:(id)sender;
 - (IBAction)didPressDestroy:(id)sender;
+- (IBAction)didPressFlyerLab:(id)sender;
 
 @end

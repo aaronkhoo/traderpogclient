@@ -12,9 +12,11 @@
 #import "MyTradePost.h"
 #import "PogUIUtility.h"
 #import "GameColors.h"
+#import "CircleView.h"
+#import <QuartzCore/QuartzCore.h>
 
 NSString* const kPlayerPostCalloutViewReuseId = @"PlayerPostCalloutView";
-static const float kCircleBorderWidth = 4.0f;
+static const float kCircleBorderWidth = 3.0f;
 @interface PlayerPostCalloutView ()
 - (void) initRender;
 @end
@@ -24,9 +26,11 @@ static const float kCircleBorderWidth = 4.0f;
 @synthesize restockBubble;
 @synthesize beaconBubble;
 @synthesize destroyBubble;
+@synthesize flyerLabBubble;
 @synthesize beaconLabelContainer;
 @synthesize restockLabelContainer;
 @synthesize destroyLabelContainer;
+@synthesize flyerLabLabelContainer;
 
 - (id) initWithAnnotation:(id<MKAnnotation>)annotation
 {
@@ -45,7 +49,7 @@ static const float kCircleBorderWidth = 4.0f;
     // images
     CGRect imageFrame = [self.beaconBubble frame];
     imageFrame.origin = CGPointMake(0.0f, 0.0f);
-    imageFrame = CGRectInset(imageFrame, 4.0f, 4.0f);
+    imageFrame = CGRectInset(imageFrame, 2.0f, 2.0f);
     UIImage* beaconImage = [UIImage imageNamed:@"bubble_set_beacon.png"];
     UIImageView* beaconView = [[UIImageView alloc] initWithFrame:imageFrame];
     [beaconView setImage:beaconImage];
@@ -55,23 +59,45 @@ static const float kCircleBorderWidth = 4.0f;
     UIImage* destroyImage = [UIImage imageNamed:@"icon_removepost.png"];
     UIImageView* destroyView = [[UIImageView alloc] initWithFrame:imageFrame];
     [destroyView setImage:destroyImage];
+    
+    UIColor* bubbleBgColor = [UIColor colorWithRed:114.0f/255.0f
+                                             green:179.0f/255.0f
+                                              blue:186.0f/255.0f
+                                             alpha:1.0f];
+    
     [self.restockBubble insertSubview:restockView belowSubview:[self restockLabelContainer]];
+    [self.restockBubble setBackgroundColor:bubbleBgColor];
     [self.beaconBubble insertSubview:beaconView belowSubview:[self beaconLabelContainer]];
+    [self.beaconBubble setBackgroundColor:bubbleBgColor];
     [self.destroyBubble insertSubview:destroyView belowSubview:[self destroyLabelContainer]];
+    [self.destroyBubble setBackgroundColor:bubbleBgColor];
+    //[self.flyerLabBubble insertSubview:flyerView belowSubview:[self flyerLabLabelContainer]];
+    [self.flyerLabBubble setBackgroundColor:bubbleBgColor];
     
     // shape
     [self.restockLabelContainer setBackgroundColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [PogUIUtility setCircleForView:[self restockBubble]
                    withBorderWidth:kCircleBorderWidth
                        borderColor:[GameColors borderColorScanWithAlpha:1.0f]];
+    [PogUIUtility setCircleShadowOnView:[self restockBubble] shadowColor:[UIColor blackColor]];
+    
     [self.beaconLabelContainer setBackgroundColor:[GameColors borderColorBeaconsWithAlpha:1.0f]];
     [PogUIUtility setCircleForView:[self beaconBubble]
                    withBorderWidth:kCircleBorderWidth
                        borderColor:[GameColors borderColorBeaconsWithAlpha:1.0f]];
+    [PogUIUtility setCircleShadowOnView:[self beaconBubble] shadowColor:[UIColor blackColor]];
+
     [self.destroyLabelContainer setBackgroundColor:[GameColors borderColorPostsWithAlpha:1.0f]];
     [PogUIUtility setCircleForView:[self destroyBubble]
                    withBorderWidth:kCircleBorderWidth
                        borderColor:[GameColors borderColorPostsWithAlpha:1.0f]];
+    [PogUIUtility setCircleShadowOnView:[self destroyBubble] shadowColor:[UIColor blackColor]];
+
+    [self.flyerLabLabelContainer setBackgroundColor:[GameColors borderColorPostsWithAlpha:1.0f]];
+    [PogUIUtility setCircleForView:[self flyerLabBubble]
+                   withBorderWidth:kCircleBorderWidth
+                       borderColor:[GameColors borderColorPostsWithAlpha:1.0f]];
+    [PogUIUtility setCircleShadowOnView:[self flyerLabBubble] shadowColor:[UIColor blackColor]];
 }
 
 #pragma mark - button actions
@@ -94,6 +120,11 @@ static const float kCircleBorderWidth = 4.0f;
 
 - (IBAction)didPressDestroy:(id)sender
 {
-    NSLog(@"Destroy");
+    NSLog(@"Relocate");
+}
+
+- (IBAction)didPressFlyerLab:(id)sender
+{
+    NSLog(@"FlyerLab");
 }
 @end

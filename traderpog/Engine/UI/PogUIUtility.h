@@ -32,6 +32,9 @@ typedef void (^CompletionBlock)(BOOL finished);
 + (void) setRoundCornersForView:(UIView*)targetView;
 + (void) setCircleForView:(UIView*)targetView;
 + (void) setCircleForView:(UIView *)targetView withBorderWidth:(float)borderWidth borderColor:(UIColor*)borderColor;
++ (void) setCircleShadowOnView:(UIView*)view
+                   shadowColor:(UIColor*)shadowColor;
+
 + (UIView*) createFadeAlert:(NSString*)message;
 + (void) fadeView:(UIView*)parentView toColor:(UIColor*)color completion:(CompletionBlock)completionBlock;
 + (void) fadeView:(UIView*)parentView fromColor:(UIColor*)color completion:(CompletionBlock)completionBlock;

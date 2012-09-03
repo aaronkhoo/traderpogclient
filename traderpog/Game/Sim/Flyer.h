@@ -58,10 +58,8 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 - (id) initWithDictionary:(NSDictionary*)dict;
 - (void) createFlightPathRenderingForFlyer;
 - (void) initFlyerOnMap;
-
-// game
-- (BOOL) departForPostId:(NSString*)postId;
-- (void) updateAtDate:(NSDate*)currentTime;
-- (CLLocationCoordinate2D) flyerCoordinateNow;
+- (BOOL) departForPostId:(NSString *)postId;
+- (void) updateAtDate:(NSDate *)currentTime;
+- (NSTimeInterval) timeTillDest;
 
 @end
