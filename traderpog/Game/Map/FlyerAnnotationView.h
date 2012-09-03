@@ -14,4 +14,5 @@ extern NSString* const kFlyerAnnotationViewReuseId;
 
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation;
 - (void) setRenderTransform:(CGAffineTransform)transform;
+- (void) showCountdown:(BOOL)yesNo;
 @end

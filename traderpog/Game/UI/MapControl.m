@@ -143,6 +143,12 @@ static const float kBrowseAreaRadius = 500.0f;
     {
         [self.view removeOverlay:[flyer flightPathRender]];
     }
+    
+    FlyerAnnotationView* flyerAnnotView = (FlyerAnnotationView*)[self.view viewForAnnotation:flyer];
+    if(flyerAnnotView)
+    {
+        [flyerAnnotView showCountdown:NO];
+    }
 }
 
 - (void) showFlightPathForFlyer:(Flyer *)flyer
@@ -150,6 +156,11 @@ static const float kBrowseAreaRadius = 500.0f;
     if([flyer flightPathRender])
     {
         [self.view addOverlay:[flyer flightPathRender]];
+    }
+    FlyerAnnotationView* flyerAnnotView = (FlyerAnnotationView*)[self.view viewForAnnotation:flyer];
+    if(flyerAnnotView)
+    {
+        [flyerAnnotView showCountdown:YES];
     }
 }
 

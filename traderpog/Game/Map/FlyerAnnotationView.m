@@ -76,8 +76,9 @@ static const float kFlyerAnnotContentSize = 100.0f;
         
         [self addSubview:[self contentView]];
         
-        // timer label
+        // countdown (start out hidden)
         [self createCountdown];
+        [self showCountdown:NO];
         
         _calloutAnnotation = nil;
         
@@ -137,6 +138,18 @@ static const float kFlyerAnnotContentSize = 100.0f;
 {
     [self.imageView setTransform:transform];
     [self.countdown setTransform:[self countdownTransformFromFlyerTransform:transform]];
+}
+
+- (void) showCountdown:(BOOL)yesNo
+{
+    if(yesNo)
+    {
+        [self.countdown setHidden:NO];
+    }
+    else
+    {
+        [self.countdown setHidden:YES];
+    }
 }
 
 #pragma mark - internal methods

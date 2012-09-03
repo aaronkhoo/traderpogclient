@@ -835,7 +835,7 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
 #pragma mark - MapAnnotationProtocol
 - (MKAnnotationView*) annotationViewInMap:(MKMapView *)mapView
 {
-    MKAnnotationView* annotationView = (FlyerAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:kFlyerAnnotationViewReuseId];
+    FlyerAnnotationView* annotationView = (FlyerAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:kFlyerAnnotationViewReuseId];
     if(annotationView)
     {
         annotationView.annotation = self;
@@ -852,6 +852,15 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
     else
     {
         annotationView.enabled = YES;
+    }
+    
+    if([self isEnroute])
+    {
+        [annotationView showCountdown:YES];
+    }
+    else
+    {
+        [annotationView showCountdown:NO];
     }
     
 
