@@ -48,7 +48,7 @@ static const float kTradeDistanceFactor = 1.0f;
     NSLog(@"Trade: deduct %d coins from player", cost);
 
     // place order in escrow
-    [flyer orderItemId:[post itemId] num:numToBuy price:[itemType price]];
+    [[flyer inventory] orderItemId:[post itemId] num:numToBuy price:[itemType price]];
     NSLog(@"Trade: placed order for %d items of %@ at price %d", numToBuy, [post itemId], [itemType price]);
 }
 
@@ -66,7 +66,7 @@ static const float kTradeDistanceFactor = 1.0f;
         // TODO: proceed to timesink
         
         // release escrow
-        [flyer commitOutstandingOrder];
+        [[flyer inventory] commitOutstandingOrder];
     }
 }
 
@@ -75,11 +75,11 @@ static const float kTradeDistanceFactor = 1.0f;
     TradePost* post = [[TradePostMgr getInstance] getTradePostWithId:postId];
     if(post)
     {
-        unsigned int newLevel = [post supplyLevel] + [flyer orderNumItems];
+        unsigned int newLevel = [post supplyLevel] + [[flyer inventory] orderNumItems];
         post.supplyLevel = MIN(newLevel, [post supplyMaxLevel]);
     }
     
-    [flyer revertOutstandingOrder];
+    [[flyer inventory] revertOutstandingOrder];
 }
 
 - (BOOL) playerCanAffordItemsAtPost:(TradePost *)post
@@ -100,7 +100,7 @@ static const float kTradeDistanceFactor = 1.0f;
     BOOL result = NO;
     for(Flyer* cur in [[FlyerMgr getInstance] playerFlyers])
     {
-        if(![cur isEnroute])
+        if(![[cur path] isEnroute])
         {
             result = YES;
         }
@@ -113,21 +113,21 @@ static const float kTradeDistanceFactor = 1.0f;
 {
     NSAssert([post isMemberOfClass:[MyTradePost class]], @"flyer can only sell at own posts");
     
-    TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:[flyer itemId]];
+    TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:[[flyer inventory] itemId]];
     float tierPremiumTerm = [self premiumForItemTier:[itemType tier]] + 1.0f;
-    float distanceTerm = MAX(METERS_TO_KM([flyer metersTraveled]) * kTradeDistanceFactor, 1.0f);
-    float earnings = ceilf([flyer costBasis] * [flyer numItems] * tierPremiumTerm * distanceTerm);
+    float distanceTerm = MAX(METERS_TO_KM([[flyer inventory] metersTraveled]) * kTradeDistanceFactor, 1.0f);
+    float earnings = ceilf([[flyer inventory] costBasis] * [[flyer inventory] numItems] * tierPremiumTerm * distanceTerm);
     NSLog(@"Flyer earnings: tierPremium %f, distance %f km, distanceTerm %f, earnings %f",
-          tierPremiumTerm, METERS_TO_KM([flyer metersTraveled]), distanceTerm, earnings);
+          tierPremiumTerm, METERS_TO_KM([[flyer inventory] metersTraveled]), distanceTerm, earnings);
     
     [[Player getInstance] addBucks:(NSUInteger)earnings];
     
     // unload all items
-    [flyer unloadAllItems];
+    [[flyer inventory] unloadAllItems];
     
     // reset distance
-    NSLog(@"Distance Traveled: %lf", [flyer metersTraveled]);
-    [flyer resetDistanceTraveled];
+    NSLog(@"Distance Traveled: %lf", [[flyer inventory] metersTraveled]);
+    [[flyer inventory] resetDistanceTraveled];
 }
 
 - (float) premiumForItemTier:(int)tier

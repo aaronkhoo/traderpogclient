@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FlyerInventory.h"
+#import "FlyerPath.h"
 #import "HttpCallbackDelegate.h"
 #import "MapProtocols.h"
 #import <CoreLocation/CoreLocation.h>
@@ -23,58 +25,33 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
     BOOL _initializeFlyerOnMap;
     NSInteger _flyerTypeIndex;
     NSString* _userFlyerId;
-    NSString* _flyerPathId;
-    NSString* _curPostId;
-    NSString* _nextPostId;
-    CLLocationDistance _metersTraveled;
-    
-    // inventory
-    NSString* _itemId;
-    unsigned int _numItems;
-    float _costBasis;
-    
-    // escrow
-    NSString* _orderItemId;
-    unsigned int _orderNumItems;
-    unsigned int _orderPrice;
     
     // transient variables (not saved; reconstructed after load)
     CLLocationCoordinate2D _coord;
     FlightPathOverlay* _flightPathRender;
     CGAffineTransform _transform;
-    BOOL _isNewFlyer;               // this is only ever TRUE when this flyer has just been newly created
-                                    // in all other cases (including when it is initWithDictionary, it is FALSE)
+    
+    // this is only ever TRUE when this flyer has just been newly created
+    // in all other cases (including when it is initWithDictionary, it is FALSE)
+    BOOL _isNewFlyer;
     BOOL _isAtOwnPost;
     
-    // flight enroute processing
-    NSDate* _departureDate;
-    CLLocationCoordinate2D _srcCoord;
-    CLLocationCoordinate2D _destCoord;
-    CLLocationDistance _metersToDest;
+    FlyerInventory* _inventory;
+    FlyerPath* _path;
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
 }
 @property (nonatomic,readonly) NSString* userFlyerId;
-@property (nonatomic,strong) NSString* curPostId;
-@property (nonatomic,strong) NSString* nextPostId;
-@property (nonatomic) CLLocationDistance metersTraveled;
-@property (nonatomic,strong) NSString* itemId;
-@property (nonatomic) unsigned int numItems;
-@property (nonatomic) float costBasis;
-@property (nonatomic,strong) NSString* orderItemId;
-@property (nonatomic) unsigned int orderNumItems;
-@property (nonatomic) unsigned int orderPrice;
 @property (nonatomic,strong) FlightPathOverlay* flightPathRender;
 @property (nonatomic) CLLocationCoordinate2D coord;
 @property (nonatomic) CGAffineTransform transform;
 @property (nonatomic) BOOL initializeFlyerOnMap;
-@property (nonatomic,strong) NSDate* departureDate;
-@property (nonatomic) CLLocationCoordinate2D srcCoord;
-@property (nonatomic) CLLocationCoordinate2D destCoord;
 @property (nonatomic,readonly) BOOL isNewFlyer;
 @property (nonatomic) BOOL isAtOwnPost;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
+@property (nonatomic,readonly) FlyerInventory* inventory;
+@property (nonatomic,readonly) FlyerPath* path;
 
 - (id) initWithPostAndFlyer:(TradePost*)tradePost, NSInteger flyerTypeIndex;
 - (void) createNewUserFlyerOnServer;
@@ -86,15 +63,5 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 - (BOOL) departForPostId:(NSString*)postId;
 - (void) updateAtDate:(NSDate*)currentTime;
 - (CLLocationCoordinate2D) flyerCoordinateNow;
-- (BOOL) isEnroute;
-
-// trade
-- (void) addItemId:(NSString*)itemId num:(unsigned int)num price:(unsigned int)price;
-- (void) orderItemId:(NSString*)itemId num:(unsigned int)num price:(unsigned int)price;
-- (void) commitOutstandingOrder;
-- (void) revertOutstandingOrder;
-- (void) unloadAllItems;
-- (void) resetDistanceTraveled;
-
 
 @end

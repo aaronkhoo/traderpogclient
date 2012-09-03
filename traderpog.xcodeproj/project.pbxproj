@@ -14,6 +14,8 @@
 		38821ED215F18DE0004733E2 /* ForeignTradePost.m in Sources */ = {isa = PBXBuildFile; fileRef = 38821ED115F18DDF004733E2 /* ForeignTradePost.m */; };
 		38821ED515F19023004733E2 /* MyTradePost.m in Sources */ = {isa = PBXBuildFile; fileRef = 38821ED415F19022004733E2 /* MyTradePost.m */; };
 		38821ED815F1910F004733E2 /* PlayerTradePost.m in Sources */ = {isa = PBXBuildFile; fileRef = 38821ED715F1910E004733E2 /* PlayerTradePost.m */; };
+		38821EDF15F45670004733E2 /* FlyerInventory.m in Sources */ = {isa = PBXBuildFile; fileRef = 38821EDE15F45670004733E2 /* FlyerInventory.m */; };
+		38821EE315F45685004733E2 /* FlyerPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 38821EE215F45685004733E2 /* FlyerPath.m */; };
 		3887ACC415D4CB9700B4E0FA /* ResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3887ACC315D4CB9700B4E0FA /* ResourceManager.m */; };
 		3889127415D5BA8E009CF624 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3889127315D5BA8E009CF624 /* libz.1.2.5.dylib */; };
 		3889129615D5D8B6009CF624 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 3889128C15D5D8B6009CF624 /* ioapi.c */; };
@@ -152,6 +154,10 @@
 		38821ED415F19022004733E2 /* MyTradePost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyTradePost.m; path = Game/Sim/MyTradePost.m; sourceTree = "<group>"; };
 		38821ED615F1910D004733E2 /* PlayerTradePost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerTradePost.h; path = Game/Sim/PlayerTradePost.h; sourceTree = "<group>"; };
 		38821ED715F1910E004733E2 /* PlayerTradePost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerTradePost.m; path = Game/Sim/PlayerTradePost.m; sourceTree = "<group>"; };
+		38821EDD15F45670004733E2 /* FlyerInventory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerInventory.h; path = Game/Sim/FlyerInventory.h; sourceTree = "<group>"; };
+		38821EDE15F45670004733E2 /* FlyerInventory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerInventory.m; path = Game/Sim/FlyerInventory.m; sourceTree = "<group>"; };
+		38821EE115F45685004733E2 /* FlyerPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerPath.h; path = Game/Sim/FlyerPath.h; sourceTree = "<group>"; };
+		38821EE215F45685004733E2 /* FlyerPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerPath.m; path = Game/Sim/FlyerPath.m; sourceTree = "<group>"; };
 		3887ACC215D4CB9700B4E0FA /* ResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResourceManager.h; path = Resources/ResourceManager.h; sourceTree = "<group>"; };
 		3887ACC315D4CB9700B4E0FA /* ResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResourceManager.m; path = Resources/ResourceManager.m; sourceTree = "<group>"; };
 		3889127315D5BA8E009CF624 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
@@ -815,6 +821,10 @@
 				385972F915C0B8FF003DBA04 /* FlyerType.m */,
 				3859730015C0BFD2003DBA04 /* FlyerTypes.h */,
 				3859730115C0BFD4003DBA04 /* FlyerTypes.m */,
+				38821EDD15F45670004733E2 /* FlyerInventory.h */,
+				38821EDE15F45670004733E2 /* FlyerInventory.m */,
+				38821EE115F45685004733E2 /* FlyerPath.h */,
+				38821EE215F45685004733E2 /* FlyerPath.m */,
 			);
 			name = Sim;
 			sourceTree = "<group>";
@@ -1013,6 +1023,8 @@
 				38821ED515F19023004733E2 /* MyTradePost.m in Sources */,
 				38821ED815F1910F004733E2 /* PlayerTradePost.m in Sources */,
 				42F692C815F1D4D20002B1B2 /* GameColors.m in Sources */,
+				38821EDF15F45670004733E2 /* FlyerInventory.m in Sources */,
+				38821EE315F45685004733E2 /* FlyerPath.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

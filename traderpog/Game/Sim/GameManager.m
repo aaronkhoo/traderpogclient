@@ -566,11 +566,11 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
 
 - (void) flyer:(Flyer *)flyer departForTradePost:(TradePost *)tradePost
 {
-    if([flyer curPostId] != [tradePost postId])
+    if([[flyer path] curPostId] != [tradePost postId])
     {
         if ([flyer departForPostId:[tradePost postId]])
         {
-            TradePost* curPost = [[TradePostMgr getInstance] getTradePostWithId:[flyer curPostId]];
+            TradePost* curPost = [[TradePostMgr getInstance] getTradePostWithId:[[flyer path] curPostId]];
             curPost.hasFlyer = NO;
             
             // Flyer path was successfully created. Delete the old path from the view.

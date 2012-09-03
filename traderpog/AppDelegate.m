@@ -79,7 +79,7 @@
     // commit any escrow money to player now because that isn't saved yet
     for(Flyer* cur in [[FlyerMgr getInstance] playerFlyers])
     {
-        [cur commitOutstandingOrder];
+        [[cur inventory] commitOutstandingOrder];
     }
     // HACK
     

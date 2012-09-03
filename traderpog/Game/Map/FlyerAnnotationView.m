@@ -115,7 +115,7 @@ static NSString* const kKeyFlyerIsAtOwnPost = @"isAtOwnPost";
         if([[GameManager getInstance] canShowMapAnnotationCallout])
         {
             Flyer* flyer = (Flyer*) [self annotation];
-            if(![flyer isEnroute])
+            if(![[flyer path] isEnroute])
             {
                 // show Flyer Callout if not enroute
                 _calloutAnnotation = [[FlyerCallout alloc] initWithFlyer:flyer];

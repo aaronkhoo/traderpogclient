@@ -191,9 +191,9 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
         if(![cur isNewFlyer])
         {
             TradeItemType* itemType = nil;
-            if([cur orderItemId])
+            if([[cur inventory] orderItemId])
             {
-                itemType = [[TradeItemTypes getInstance] getItemTypeForId:[cur orderItemId]];
+                itemType = [[TradeItemTypes getInstance] getItemTypeForId:[[cur inventory] orderItemId]];
             }
             else
             {
@@ -201,28 +201,28 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
                 unsigned int randItem = RandomWithinRange(0, [itemTypes count]-1);
                 itemType = [itemTypes objectAtIndex:randItem];                
             }
-            if(![cur curPostId])
+            if(![[cur path] curPostId])
             {
-                TradePost* post = [self tradePosts:patchPosts withinMeters:kSimilarCoordThresholdMeters fromCoord:[cur srcCoord]];
+                TradePost* post = [self tradePosts:patchPosts withinMeters:kSimilarCoordThresholdMeters fromCoord:[[cur path] srcCoord]];
                 if(!post)
                 {
                     // patch a new npc post here
                     unsigned int playerBucks = [[Player getInstance] bucks];
-                    post = [[TradePostMgr getInstance] newNPCTradePostAtCoord:[cur srcCoord] bucks:playerBucks];
+                    post = [[TradePostMgr getInstance] newNPCTradePostAtCoord:[[cur path] srcCoord] bucks:playerBucks];
                     [patchPosts addObject:post];
                 }
-                cur.curPostId = [post postId];
+                cur.path.curPostId = [post postId];
             }
-            if(![cur nextPostId])
+            if(![[cur path] nextPostId])
             {
-                TradePost* post = [self tradePosts:patchPosts withinMeters:kSimilarCoordThresholdMeters fromCoord:[cur destCoord]];
+                TradePost* post = [self tradePosts:patchPosts withinMeters:kSimilarCoordThresholdMeters fromCoord:[[cur path] destCoord]];
                 if(!post)
                 {
                     // patch a new npc post here
-                    post = [[TradePostMgr getInstance] newNPCTradePostAtCoord:[cur destCoord] bucks:0];
+                    post = [[TradePostMgr getInstance] newNPCTradePostAtCoord:[[cur path] destCoord] bucks:0];
                     [patchPosts addObject:post];
                 }
-                cur.nextPostId = [post postId];
+                cur.path.nextPostId = [post postId];
             }
         }
     }
@@ -245,9 +245,9 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
     NSMutableArray* result = [NSMutableArray arrayWithCapacity:[self.playerFlyers count]];
     for(Flyer* cur in [self playerFlyers])
     {
-        if((![cur isEnroute]) && ([cur curPostId]))
+        if((![[cur path] isEnroute]) && ([[cur path] curPostId]))
         {
-            [result addObject:[cur curPostId]];
+            [result addObject:[[cur path] curPostId]];
         }
     }
     if(![result count])
