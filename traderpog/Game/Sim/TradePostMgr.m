@@ -25,6 +25,7 @@
 #import "BeaconMgr.h"
 #import "FlyerMgr.h"
 #import "GameColors.h"
+#import "ImageManager.h"
 
 enum _MyPostSlots
 {
@@ -43,6 +44,7 @@ enum _MyPostSlots
 };
 
 static double const refreshTime = -(60 * 15);
+static const float kPostBubbleBorderWidth = 1.5f;
 
 @interface TradePostMgr ()
 {
@@ -340,7 +342,6 @@ static double const refreshTime = -(60 * 15);
     return num;
 }
 
-static const float kPostBubbleBorderWidth = 1.0f;
 - (WheelBubble*) wheel:(WheelControl *)wheel bubbleAtIndex:(unsigned int)index
 {
     WheelBubble* contentView = [wheel dequeueResuableBubble];
@@ -349,18 +350,24 @@ static const float kPostBubbleBorderWidth = 1.0f;
         CGRect contentRect = CGRectMake(5.0f, 5.0f, 30.0f, 30.0f);
         contentView = [[WheelBubble alloc] initWithFrame:contentRect];
     }
+
     if([NSNull null] == [self.myPostSlots objectAtIndex:index])
     {
         contentView.backgroundColor = [UIColor grayColor];
+        UIImage* image = [[ImageManager getInstance] getImage:@"bubble_postmark_g.png" fallbackNamed:@"bubble_postmark_g.png"];
+        [contentView.imageView setImage:image];
     }
     else
     {
         contentView.backgroundColor = [UIColor redColor];
+        UIImage* image = [[ImageManager getInstance] getImage:@"b_flyerlab.png" fallbackNamed:@"b_flyerlab.png"];
+        [contentView.imageView setImage:image];
     }
     
+    UIColor* borderColor = [GameColors borderColorPostsWithAlpha:1.0f];
     [PogUIUtility setCircleForView:contentView
                    withBorderWidth:kPostBubbleBorderWidth
-                       borderColor:[GameColors bubbleColorPostsWithAlpha:1.0f]];
+                       borderColor:borderColor];
     return contentView;
 }
 

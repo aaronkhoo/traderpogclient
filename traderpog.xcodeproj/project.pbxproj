@@ -41,6 +41,7 @@
 		4290AB0B15EF2099001FAF0B /* BrowsePan.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0A15EF2099001FAF0B /* BrowsePan.m */; };
 		4290AB0F15EF3D06001FAF0B /* BrowsePinch.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0E15EF3D06001FAF0B /* BrowsePinch.m */; };
 		429A31D415F041DF00069CC7 /* CalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 429A31D315F041DF00069CC7 /* CalloutView.m */; };
+		429B154815F5CFAF00107D5F /* bubble_postmark_g.png in Resources */ = {isa = PBXBuildFile; fileRef = 429B154715F5CFAF00107D5F /* bubble_postmark_g.png */; };
 		42A2989115B5F1E700384A52 /* KnobControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2988D15B5F1E700384A52 /* KnobControl.m */; };
 		42A2989215B5F1E700384A52 /* KnobSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2989015B5F1E700384A52 /* KnobSlice.m */; };
 		42B28E2F15E99E5A0008901C /* NSArray+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B28E2E15E99E5A0008901C /* NSArray+Pog.m */; };
@@ -220,6 +221,7 @@
 		4290AB0E15EF3D06001FAF0B /* BrowsePinch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrowsePinch.m; path = Game/Map/BrowsePinch.m; sourceTree = "<group>"; };
 		429A31D215F041DF00069CC7 /* CalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalloutView.h; path = Map/CalloutView.h; sourceTree = "<group>"; };
 		429A31D315F041DF00069CC7 /* CalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalloutView.m; path = Map/CalloutView.m; sourceTree = "<group>"; };
+		429B154715F5CFAF00107D5F /* bubble_postmark_g.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_postmark_g.png; path = assets/UI/bubble_postmark_g.png; sourceTree = SOURCE_ROOT; };
 		42A2988C15B5F1E700384A52 /* KnobControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobControl.h; sourceTree = "<group>"; };
 		42A2988D15B5F1E700384A52 /* KnobControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KnobControl.m; sourceTree = "<group>"; };
 		42A2988E15B5F1E700384A52 /* KnobProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobProtocol.h; sourceTree = "<group>"; };
@@ -674,6 +676,7 @@
 		C4D5DDEC15B3D05600D5A746 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				429B154715F5CFAF00107D5F /* bubble_postmark_g.png */,
 				42B28E3015EA39620008901C /* b_homebase.png */,
 				42B28E3115EA39620008901C /* b_tradepost.png */,
 				C4D9B07215E3DE160096448E /* b_flyerlab.png */,
@@ -934,6 +937,7 @@
 				42F692D215F1E1B60002B1B2 /* bubble_set_beacon.png in Resources */,
 				42F692D315F1E1B60002B1B2 /* icon_removepost.png in Resources */,
 				42FA1A5A15F55EBA00EB2433 /* checkerboard.png in Resources */,
+				429B154815F5CFAF00107D5F /* bubble_postmark_g.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
