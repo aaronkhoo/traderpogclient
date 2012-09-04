@@ -24,12 +24,30 @@
 #import "NSArray+Pog.h"
 #import "BeaconMgr.h"
 #import "FlyerMgr.h"
+#import "GameColors.h"
+
+enum _MyPostSlots
+{
+    kMyPostSlotFreeBegin = 0,
+    kMyPostSlotFree0 = kMyPostSlotFreeBegin,
+    kMyPostSlotFree1,
+    kMyPostSlotFree2,
+    kMyPostSlotFreeEnd,
+    kMyPostSlotMemberBegin = kMyPostSlotFreeEnd,
+    kMyPostSlotMember0 = kMyPostSlotMemberBegin,
+    kMyPostSlotMember1,
+    kMyPostSlotMember2,
+    kMyPostSlotMemberEnd,
+    
+    kMyPostSlotNum = kMyPostSlotMemberEnd
+};
 
 static double const refreshTime = -(60 * 15);
 
 @interface TradePostMgr ()
 {
     NSMutableDictionary* _activePosts;
+    NSMutableArray* _myPostSlots;
     NSMutableDictionary* _npcPosts;
     
     // for NPC posts generation
@@ -39,6 +57,7 @@ static double const refreshTime = -(60 * 15);
     MyTradePost* _tempTradePost;
 }
 @property (nonatomic,strong) NSMutableDictionary* activePosts;
+@property (nonatomic,strong) NSMutableArray* myPostSlots;
 @property (nonatomic,strong) NSMutableDictionary* npcPosts;
 
 - (BOOL) post:(TradePost*)post isWithinDistance:(float)distance fromCoord:(CLLocationCoordinate2D)coord;
@@ -46,6 +65,7 @@ static double const refreshTime = -(60 * 15);
 
 @implementation TradePostMgr
 @synthesize activePosts = _activePosts;
+@synthesize myPostSlots = _myPostSlots;
 @synthesize npcPosts = _npcPosts;
 @synthesize delegate = _delegate;
 
@@ -55,6 +75,7 @@ static double const refreshTime = -(60 * 15);
     if(self)
     {
         _activePosts = [NSMutableDictionary dictionaryWithCapacity:10];
+        _myPostSlots = [NSMutableArray arrayWithCapacity:6];
         _npcPosts = [NSMutableDictionary dictionaryWithCapacity:10];
         _npcPostIndex = 0;
         _tempTradePost = nil;
@@ -244,6 +265,17 @@ static double const refreshTime = -(60 * 15);
     {
         MyTradePost* current = [[MyTradePost alloc] initWithDictionary:post];
         [self.activePosts setObject:current forKey:current.postId];
+        [self.myPostSlots addObject:current];
+    }
+    
+    if([self.myPostSlots count] < kMyPostSlotNum)
+    {
+        unsigned int index = [self.myPostSlots count];
+        while(index < kMyPostSlotNum)
+        {
+            [self.myPostSlots addObject:[NSNull null]];
+            ++index;
+        }
     }
 }
 
@@ -304,26 +336,31 @@ static double const refreshTime = -(60 * 15);
 #pragma mark - WheelDataSource
 - (unsigned int) numItemsInWheel:(WheelControl *)wheel
 {
-    unsigned int num = [_activePosts count];
+    unsigned int num = [self.myPostSlots count];
     return num;
 }
 
-
+static const float kPostBubbleBorderWidth = 1.0f;
 - (WheelBubble*) wheel:(WheelControl *)wheel bubbleAtIndex:(unsigned int)index
 {
     WheelBubble* contentView = [wheel dequeueResuableBubble];
-    UILabel* labelView = nil;
     if(nil == contentView)
     {
         CGRect contentRect = CGRectMake(5.0f, 5.0f, 30.0f, 30.0f);
         contentView = [[WheelBubble alloc] initWithFrame:contentRect];
     }
-    labelView = [contentView labelView];
-    labelView.backgroundColor = [UIColor clearColor];
-    [labelView setText:[NSString stringWithFormat:@"%d", index]];
-    contentView.backgroundColor = [UIColor redColor];
+    if([NSNull null] == [self.myPostSlots objectAtIndex:index])
+    {
+        contentView.backgroundColor = [UIColor grayColor];
+    }
+    else
+    {
+        contentView.backgroundColor = [UIColor redColor];
+    }
     
-    [PogUIUtility setCircleForView:contentView];
+    [PogUIUtility setCircleForView:contentView
+                   withBorderWidth:kPostBubbleBorderWidth
+                       borderColor:[GameColors bubbleColorPostsWithAlpha:1.0f]];
     return contentView;
 }
 

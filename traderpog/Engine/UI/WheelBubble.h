@@ -11,6 +11,8 @@
 @interface WheelBubble : UIView
 {
     UILabel* _labelView;
+    UIImageView* _imageView;
 }
 @property (nonatomic,strong) UILabel* labelView;
+@property (nonatomic,strong) UIImageView* imageView;
 @end
