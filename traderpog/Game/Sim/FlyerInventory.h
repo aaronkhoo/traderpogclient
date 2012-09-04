@@ -9,7 +9,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <Foundation/Foundation.h>
 
-@interface FlyerInventory : NSObject
+@interface FlyerInventory : NSObject<NSCoding>
 {
     // inventory
     NSString* _itemId;

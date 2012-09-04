@@ -20,16 +20,11 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 @class TradePost;
 @class FlightPathOverlay;
 @class TradeItemType;
-@interface Flyer : NSObject<MKAnnotation, MapAnnotationProtocol>
+@interface Flyer : NSObject<NSCoding, MKAnnotation, MapAnnotationProtocol>
 {
     BOOL _initializeFlyerOnMap;
     NSInteger _flyerTypeIndex;
     NSString* _userFlyerId;
-    
-    // transient variables (not saved; reconstructed after load)
-    CLLocationCoordinate2D _coord;
-    FlightPathOverlay* _flightPathRender;
-    CGAffineTransform _transform;
     
     // this is only ever TRUE when this flyer has just been newly created
     // in all other cases (including when it is initWithDictionary, it is FALSE)
@@ -38,6 +33,11 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
     
     FlyerInventory* _inventory;
     FlyerPath* _path;
+    
+    // transient variables (not saved; reconstructed after load)
+    CLLocationCoordinate2D _coord;
+    FlightPathOverlay* _flightPathRender;
+    CGAffineTransform _transform;
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;

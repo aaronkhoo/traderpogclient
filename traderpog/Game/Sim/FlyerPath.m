@@ -7,6 +7,7 @@
 //
 
 #import "AFClientManager.h"
+#import "AsyncHttpCallMgr.h"
 #import "Flyer.h"
 #import "FlyerPath.h"
 #import "Player.h"
@@ -15,6 +16,7 @@
 
 static const NSInteger kStormCountOne = 10;
 static const NSInteger kStormCountTwo = 5;
+static NSString* const kKeyVersion = @"version";
 static NSString* const kKeyFlyerPathId = @"id";
 static NSString* const kKeyDepartureDate = @"created_at";
 static NSString* const kKeyPost1 = @"post1";
@@ -23,9 +25,17 @@ static NSString* const kKeyLongitude1 = @"longitude1";
 static NSString* const kKeyLatitude1 = @"latitude1";
 static NSString* const kKeyLongitude2 = @"longitude2";
 static NSString* const kKeyLatitude2 = @"latitude2";
+static NSString* const kKeyMetersToDest= @"meterstodest";
 static NSString* const kKeyStorms= @"storms";
 static NSString* const kKeyStormed= @"stormed";
 static NSString* const kKeyDone = @"done";
+
+@interface FlyerPath ()
+{
+    // internal
+    NSString* _createdVersion;
+}
+@end
 
 @implementation FlyerPath
 @synthesize curPostId = _curPostId;
@@ -34,7 +44,6 @@ static NSString* const kKeyDone = @"done";
 @synthesize srcCoord = _srcCoord;
 @synthesize destCoord = _destCoord;
 @synthesize doneWithCurrentPath = _doneWithCurrentPath;
-@synthesize updatingFlyerPathOnServer = _updatingFlyerPathOnServer;
 @synthesize metersToDest = _metersToDest;
 
 - (id) initWithPost:(TradePost*)tradePost
@@ -42,8 +51,6 @@ static NSString* const kKeyDone = @"done";
     self = [super init];
     if(self)
     {
-        _updatingFlyerPathOnServer = FALSE;
-        _projectedNextPost = nil;
         _doneWithCurrentPath = TRUE;
         _metersToDest = 0.0;
         
@@ -64,10 +71,6 @@ static NSString* const kKeyDone = @"done";
     self = [super init];
     if(self)
     {
-        // Clear variables
-        _updatingFlyerPathOnServer = FALSE;
-        _projectedNextPost = nil;
-        
         _flyerPathId = [NSString stringWithFormat:@"%d", [[path_dict valueForKeyPath:kKeyFlyerPathId] integerValue]];
         
         id obj = [path_dict valueForKeyPath:kKeyDone];
@@ -129,6 +132,41 @@ static NSString* const kKeyDone = @"done";
     return self;
 }
 
+#pragma mark - NSCoding
+- (void) encodeWithCoder:(NSCoder *)aCoder
+{    
+    [aCoder encodeObject:_createdVersion forKey:kKeyVersion];
+    [aCoder encodeObject:_flyerPathId forKey:kKeyFlyerPathId];
+    [aCoder encodeObject:_departureDate forKey:kKeyDepartureDate];
+    [aCoder encodeObject:_curPostId forKey:kKeyPost1];
+    [aCoder encodeObject:_nextPostId forKey:kKeyPost2];
+    [aCoder encodeDouble:_srcCoord.latitude forKey:kKeyLatitude1];
+    [aCoder encodeDouble:_srcCoord.longitude forKey:kKeyLongitude1];
+    [aCoder encodeDouble:_destCoord.latitude forKey:kKeyLatitude2];
+    [aCoder encodeDouble:_destCoord.longitude forKey:kKeyLongitude2];
+    [aCoder encodeDouble:_metersToDest forKey:kKeyMetersToDest];
+    [aCoder encodeBool:_doneWithCurrentPath forKey:kKeyDone];
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+    _createdVersion = [aDecoder decodeObjectForKey:kKeyVersion];
+    _flyerPathId = [aDecoder decodeObjectForKey:kKeyFlyerPathId];
+    _departureDate = [aDecoder decodeObjectForKey:kKeyDepartureDate];
+    _curPostId = [aDecoder decodeObjectForKey:kKeyPost1];
+    _nextPostId = [aDecoder decodeObjectForKey:kKeyPost2];
+    
+    _srcCoord.latitude = [aDecoder decodeDoubleForKey:kKeyLatitude1];
+    _srcCoord.longitude = [aDecoder decodeDoubleForKey:kKeyLongitude1];
+    _destCoord.latitude = [aDecoder decodeDoubleForKey:kKeyLatitude2];
+    _destCoord.longitude = [aDecoder decodeDoubleForKey:kKeyLongitude2];
+    
+    _metersToDest = [aDecoder decodeDoubleForKey:kKeyMetersToDest];
+    _doneWithCurrentPath = [aDecoder decodeBoolForKey:kKeyDone];
+    return self;
+}
+
+#pragma mark - Public functions
 - (void) initFlyerPathOnMap
 {
     if (_doneWithCurrentPath)
@@ -198,11 +236,18 @@ static NSString* const kKeyDone = @"done";
     if((![postId isEqualToString:[self curPostId]]) &&
        (![self nextPostId]))
     {
-        // Store the next post in a temp variable first
-        _updatingFlyerPathOnServer = TRUE;
+        _departureDate = [[NSDate alloc] init];
         _doneWithCurrentPath = FALSE;
-        _projectedNextPost = postId;
-        [self createFlyerPathOnServer:userFlyerId];
+        _nextPostId = postId;
+        
+        NSString *flyerPathUrl = [NSString stringWithFormat:@"users/%d/user_flyers/%@/flyer_paths", [[Player getInstance] playerId], userFlyerId];
+        NSDictionary* parameters = [self createParametersForFlyerPath];
+        NSString* msg = [[NSString alloc] initWithFormat:@"Directing flyer to post %@ failed", _nextPostId];
+        [[AsyncHttpCallMgr getInstance] newAsyncHttpCall:flyerPathUrl
+                                          current_params:parameters
+                                         current_headers:nil
+                                             current_msg:msg
+                                            current_type:postType];
         return TRUE;
     }
     return FALSE;
@@ -236,7 +281,7 @@ static NSString* const kKeyDone = @"done";
     }
     
     // Destination post
-    TradePost* post2 = [[TradePostMgr getInstance] getTradePostWithId:_projectedNextPost];
+    TradePost* post2 = [[TradePostMgr getInstance] getTradePostWithId:_nextPostId];
     if ([post2 isMemberOfClass:[NPCTradePost class]])
     {
         CLLocationCoordinate2D location = post2.coord;
@@ -245,7 +290,7 @@ static NSString* const kKeyDone = @"done";
     }
     else
     {
-        [parameters setObject:_projectedNextPost forKey:kKeyPost2];
+        [parameters setObject:_nextPostId forKey:kKeyPost2];
     }
     
     // Set a storm count
@@ -258,48 +303,6 @@ static NSString* const kKeyDone = @"done";
     return parameters;
 }
 
-- (void) createFlyerPathOnServer:(NSString*)userFlyerId
-{
-    _departureDate = [[NSDate alloc] init];
-    
-    // post parameters
-    NSString *flyerPathUrl = [NSString stringWithFormat:@"users/%d/user_flyers/%@/flyer_paths", [[Player getInstance] playerId], userFlyerId];
-    NSDictionary* parameters = [self createParametersForFlyerPath];
-    
-    // make a post request
-    AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
-    [httpClient postPath:flyerPathUrl
-              parameters:parameters
-                 success:^(AFHTTPRequestOperation *operation, id responseObject){
-                     NSLog(@"FlyerPath created");
-                     _flyerPathId = [NSString stringWithFormat:@"%d", [[responseObject valueForKeyPath:kKeyFlyerPathId] integerValue]];
-                     
-                     // Departure date
-                     NSString* utcdate = [NSString stringWithFormat:@"%@", [responseObject valueForKeyPath:kKeyDepartureDate]];
-                     if (![utcdate isEqualToString:@"<null>"])
-                     {
-                         _departureDate = [PogUIUtility convertUtcToNSDate:utcdate];
-                     }
-                     
-                     _nextPostId = _projectedNextPost;
-                     
-                     _updatingFlyerPathOnServer = FALSE;
-                 }
-                 failure:^(AFHTTPRequestOperation* operation, NSError* error){
-                     UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
-                                                                       message:@"Unable to create flyer path. Please try again later."
-                                                                      delegate:nil
-                                                             cancelButtonTitle:@"OK"
-                                                             otherButtonTitles:nil];
-                     
-                     [message show];
-                     
-                     //[[TradeManager getInstance] flyer:self revertOrderFromPostId:_projectedNextPost];
-                     _updatingFlyerPathOnServer = FALSE;
-                 }
-     ];
-}
-
 - (void) updateFlyerPath:(NSString*)userFlyerId parameters:(NSDictionary*)parameters
 {
     // make a post request
@@ -310,7 +313,6 @@ static NSString* const kKeyDone = @"done";
              parameters:parameters
                 success:^(AFHTTPRequestOperation *operation, id responseObject){
                     NSLog(@"Flyer path data updated");
-                    _updatingFlyerPathOnServer = FALSE;
                 }
                 failure:^(AFHTTPRequestOperation* operation, NSError* error){
                     UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
@@ -320,7 +322,6 @@ static NSString* const kKeyDone = @"done";
                                                             otherButtonTitles:nil];
                     
                     [message show];
-                    _updatingFlyerPathOnServer = FALSE;
                 }
      ];
 }
@@ -332,11 +333,10 @@ static NSString* const kKeyDone = @"done";
     _curPostId = _nextPostId;
     _srcCoord = _destCoord;
     self.nextPostId = nil;
-    _updatingFlyerPathOnServer = TRUE;
     NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 [NSNumber numberWithBool:YES], kKeyDone,
                                 nil];
-    [self updateFlyerPath:userFlyerId parameters:parameters];
+    //[self updateFlyerPath:userFlyerId parameters:parameters];
     _doneWithCurrentPath = TRUE;
 }
 
@@ -344,10 +344,6 @@ static NSString* const kKeyDone = @"done";
 {
     BOOL result = NO;
     if(!_doneWithCurrentPath && [self curPostId] && [self nextPostId])
-    {
-        result = YES;
-    }
-    else if(_updatingFlyerPathOnServer && _projectedNextPost)
     {
         result = YES;
     }

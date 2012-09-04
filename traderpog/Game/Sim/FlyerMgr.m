@@ -22,13 +22,21 @@
 #import "WorldState.h"
 #include "MathUtils.h"
 
-
+static NSString* const kKeyVersion = @"version";
+static NSString* const kKeyUserFlyerId = @"id";
+static NSString* const kKeyDepartureDate = @"created_at";
+static NSString* const kKeyFlyerArray = @"flyerArray";
+static NSString* const kKeyLastUpdated= @"lastUpdated";
+static NSString* const kFlyerMgrFilename = @"flyermgr.sav";
 static double const refreshTime = -(60 * 15);
 static NSUInteger kFlyerPreviewZoomLevel = 8;
 static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
 
 @interface FlyerMgr ()
-{    
+{
+    // internal
+    NSString* _createdVersion;
+    
     // User flyer in the midst of being generated
     Flyer* _tempFlyer;
     
@@ -38,7 +46,6 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
 - (TradePost*) tradePosts:(NSArray*)tradePosts withinMeters:(CLLocationDistance)meters fromCoord:(CLLocationCoordinate2D)coord;
 - (void) reconstructFlightPaths;
 @end
-
 
 @implementation FlyerMgr
 @synthesize playerFlyers = _playerFlyers;
@@ -56,6 +63,80 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
     return self;
 }
 
+#pragma mark - NSCoding
+- (void) encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:_createdVersion forKey:kKeyVersion];
+    [aCoder encodeObject:_playerFlyers forKey:kKeyFlyerArray];
+    [aCoder encodeObject:_lastUpdate forKey:kKeyLastUpdated];
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+    _createdVersion = [aDecoder decodeObjectForKey:kKeyVersion];
+    _playerFlyers = [aDecoder decodeObjectForKey:kKeyFlyerArray];
+    _lastUpdate = [aDecoder decodeObjectForKey:kKeyLastUpdated];
+    _previewMap = nil;
+    
+    return self;
+}
+
+
+#pragma mark - private functions
+
++ (NSString*) flyermgrFilePath
+{
+    NSString* docsDir = [GameManager documentsDirectory];
+    NSString* filepath = [docsDir stringByAppendingPathComponent:kFlyerMgrFilename];
+    return filepath;
+}
+
+#pragma mark - saved game data loading and unloading
++ (FlyerMgr*) loadFlyerMgrData
+{
+    FlyerMgr* current = nil;
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString* filepath = [FlyerMgr flyermgrFilePath];
+    if ([fileManager fileExistsAtPath:filepath])
+    {
+        NSData* readData = [NSData dataWithContentsOfFile:filepath];
+        if(readData)
+        {
+            current = [NSKeyedUnarchiver unarchiveObjectWithData:readData];
+        }
+    }
+    return current;
+}
+
+- (void) saveFlyerMgrData
+{
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self];
+    NSError* error = nil;
+    BOOL writeSuccess = [data writeToFile:[FlyerMgr flyermgrFilePath]
+                                  options:NSDataWritingAtomic
+                                    error:&error];
+    if(writeSuccess)
+    {
+        NSLog(@"flyermgr file saved successfully");
+    }
+    else
+    {
+        NSLog(@"flyermgr file save failed: %@", error);
+    }
+}
+
+- (void) removeFlyerMgrData
+{
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString* filepath = [FlyerMgr flyermgrFilePath];
+    NSError *error = nil;
+    if ([fileManager fileExistsAtPath:filepath])
+    {
+        [fileManager removeItemAtPath:filepath error:&error];
+    }
+}
+
+#pragma mark - Public functions
 - (BOOL) needsRefresh
 {
     return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime);
@@ -105,12 +186,76 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
     }
 }
 
-- (void) createFlyerssArray:(id)responseObject
+- (Flyer*) getFlyerById:(NSString*)userFlyerId
+{
+    Flyer* flyerById = nil;
+    for (Flyer* current in _playerFlyers)
+    {
+        if ([current.userFlyerId compare:userFlyerId] == NSOrderedSame)
+        {
+            flyerById = current;
+        }
+    }
+    return flyerById;
+}
+
+- (BOOL) clearOldFlyerInfoIfNecessary:(NSDictionary*)dict
+{
+    BOOL cleared = TRUE;
+    // Get the userFlyerId
+    NSString* userFlyerId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:kKeyUserFlyerId] integerValue]];
+    Flyer* current = [self getFlyerById:userFlyerId];
+    if (current)
+    {
+        NSArray* paths_array = [dict valueForKeyPath:@"flyer_paths"];
+        NSDictionary* path_dict = [paths_array objectAtIndex:0];
+        
+        // get the departure date from the server
+        NSDate* departureDate = nil;
+        id obj = [path_dict valueForKeyPath:kKeyDepartureDate];
+        if ((NSNull *)obj != [NSNull null])
+        {
+            NSString* utcdate = [NSString stringWithFormat:@"%@", obj];
+            if (![utcdate isEqualToString:@"<null>"])
+            {
+                departureDate = [PogUIUtility convertUtcToNSDate:utcdate];
+            }
+        }
+        
+        if (departureDate)
+        {
+            if ([departureDate timeIntervalSinceDate:[[current path] departureDate]] < 0)
+            {
+                // Departure date from server is earlier than current. Keep it. 
+                cleared = FALSE;
+            }
+        }
+        else
+        {
+            // Something is wrong with the departure date from the server
+            // Keep the local copy
+            cleared = FALSE;
+        }
+        
+        if (cleared)
+        {
+            // We should remove this object and recreate it using the one from the server
+            [_playerFlyers removeObjectIdenticalTo:current];
+        }
+    }
+    return cleared;
+}
+
+- (void) createFlyersArray:(id)responseObject
 {
     for (NSDictionary* flyer in responseObject)
     {
-        Flyer* current = [[Flyer alloc] initWithDictionary:flyer];
-        [self.playerFlyers addObject:current];
+        if ([self clearOldFlyerInfoIfNecessary:flyer])
+        {
+            // old flyer info was either not there or removed; recreate from server
+            Flyer* current = [[Flyer alloc] initWithDictionary:flyer];
+            [self.playerFlyers addObject:current];
+        }
     }
 }
 
@@ -123,8 +268,9 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
              parameters:nil
                 success:^(AFHTTPRequestOperation *operation, id responseObject){
                     NSLog(@"Retrieved: %@", responseObject);
-                    [self createFlyerssArray:responseObject];
+                    [self createFlyersArray:responseObject];
                     _lastUpdate = [NSDate date];
+                    [self saveFlyerMgrData];
                     [self.delegate didCompleteHttpCallback:kFlyerMgr_ReceiveFlyers, TRUE];
                 }
                 failure:^(AFHTTPRequestOperation* operation, NSError* error){
@@ -264,6 +410,7 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
     if (success)
     {
         [self setTempFlyerToActive];
+        [self saveFlyerMgrData];
     }
     [[GameManager getInstance] selectNextGameUI];
 }
@@ -382,7 +529,6 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
     [_previewMap stopTrackingAnnotation];
 }
 
-
 #pragma mark - Singleton
 static FlyerMgr* singleton = nil;
 + (FlyerMgr*) getInstance
@@ -391,6 +537,8 @@ static FlyerMgr* singleton = nil;
 	{
 		if (!singleton)
 		{
+            // First, try to load the flyermgr data from disk
+            singleton = [FlyerMgr loadFlyerMgrData];
             if (!singleton)
             {
                 singleton = [[FlyerMgr alloc] init];

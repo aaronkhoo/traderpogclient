@@ -70,18 +70,6 @@ static const float kTradeDistanceFactor = 1.0f;
     }
 }
 
-- (void) flyer:(Flyer*)flyer revertOrderFromPostId:(NSString*)postId
-{
-    TradePost* post = [[TradePostMgr getInstance] getTradePostWithId:postId];
-    if(post)
-    {
-        unsigned int newLevel = [post supplyLevel] + [[flyer inventory] orderNumItems];
-        post.supplyLevel = MIN(newLevel, [post supplyMaxLevel]);
-    }
-    
-    [[flyer inventory] revertOutstandingOrder];
-}
-
 - (BOOL) playerCanAffordItemsAtPost:(TradePost *)post
 {
     TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:[post itemId]];

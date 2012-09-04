@@ -23,8 +23,16 @@
 static const float kFlyerDefaultSpeedMetersPerSec = 10000.0f;
 static NSString* const kKeyUserFlyerId = @"id";
 static NSString* const kKeyFlyerId = @"flyer_info_id";
+static NSString* const kKeyFlyerTypeIndex = @"flyer_type_index";
+static NSString* const kKeyVersion = @"version";
+static NSString* const kKeyInventory = @"inventory";
+static NSString* const kKeyPath = @"path";
 
 @interface Flyer ()
+{
+    // internal
+    NSString* _createdVersion;
+}
 - (CLLocationCoordinate2D) flyerCoordinateAtTimeSinceDeparture:(NSTimeInterval)elapsed;
 - (CLLocationCoordinate2D) flyerCoordinateAtTimeAhead:(NSTimeInterval)timeAhead;
 @end
@@ -100,6 +108,42 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
     return self;
 }
 
+#pragma mark - NSCoding
+- (void) encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:_createdVersion forKey:kKeyVersion];
+    [aCoder encodeInteger:_flyerTypeIndex forKey:kKeyFlyerTypeIndex];
+    [aCoder encodeObject:_userFlyerId forKey:kKeyUserFlyerId];
+    
+    [aCoder encodeObject:_inventory forKey:kKeyInventory];
+    [aCoder encodeObject:_path forKey:kKeyPath];
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+    _createdVersion = [aDecoder decodeObjectForKey:kKeyVersion];
+    _flyerTypeIndex = [aDecoder decodeIntegerForKey:kKeyFlyerTypeIndex];
+    _userFlyerId = [aDecoder decodeObjectForKey:kKeyUserFlyerId];
+    _inventory = [aDecoder decodeObjectForKey:kKeyInventory];
+    _path = [aDecoder decodeObjectForKey:kKeyPath];
+    
+    _initializeFlyerOnMap = FALSE;
+    
+    // init runtime transient vars
+    _coord = _path.srcCoord;
+    _flightPathRender = nil;
+    _transform = CGAffineTransformIdentity;
+    
+    // this flyer is loaded (see Flyer.h for more details)
+    _isNewFlyer = NO;
+    
+    // this will get set in initFlyerOnMap when the game has info
+    // to determine whether this flyer is at own post
+    _isAtOwnPost = NO;
+    
+    return self;
+}
+
 - (NSInteger) getFlyerSpeed
 {
     FlyerType* current  = [[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex];
@@ -137,12 +181,6 @@ static NSString* const kKeyFlyerId = @"flyer_info_id";
                  }
      ];
     [httpClient setDefaultHeader:@"Init-Post-Id" value:nil];
-}
-
-- (void) createFlyerPathOnServer
-{
-    [_path createFlyerPathOnServer:_userFlyerId];
-    [self createFlightPathRenderingForFlyer];
 }
 
 // Create flight-path rendering for flyer

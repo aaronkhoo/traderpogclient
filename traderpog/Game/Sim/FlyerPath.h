@@ -10,7 +10,7 @@
 #import <Foundation/Foundation.h>
 #import "TradePost.h"
 
-@interface FlyerPath : NSObject
+@interface FlyerPath : NSObject<NSCoding>
 {
     NSString* _flyerPathId;
     
@@ -22,10 +22,7 @@
     CLLocationCoordinate2D _destCoord;
     
     CLLocationDistance _metersToDest;
-    
-    // temp variable for storing next flight path before it is confirmed by server
-    BOOL _updatingFlyerPathOnServer;
-    NSString* _projectedNextPost;
+
     BOOL _doneWithCurrentPath;
 }
 @property (nonatomic,strong) NSString* curPostId;
@@ -44,7 +41,6 @@
 - (BOOL) departForPostId:(NSString *)postId userFlyerId:(NSString*)userFlyerId;
 - (void) completeFlyerPath:(NSString*)userFlyerId;
 - (BOOL) isEnrouteWhenLoaded;
-- (void) createFlyerPathOnServer:(NSString*)userFlyerId;
 - (BOOL) isEnroute;
 
 @end

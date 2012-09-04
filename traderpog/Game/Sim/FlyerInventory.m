@@ -9,6 +9,7 @@
 #import "FlyerInventory.h"
 #import "Player.h"
 
+static NSString* const kKeyVersion = @"version";
 static NSString* const kKeyItemId = @"itemId";
 static NSString* const kKeyNumItems = @"numItems";
 static NSString* const kKeyCostBasis = @"costBasis";
@@ -16,6 +17,13 @@ static NSString* const kKeyOrderItemId = @"orderItemId";
 static NSString* const kKeyOrderNumItems = @"orderNumItems";
 static NSString* const kKeyOrderMoney = @"orderPrice";
 static NSString* const kKeyMetersTraveled = @"metersTraveled";
+
+@interface FlyerInventory ()
+{
+    // internal
+    NSString* _createdVersion;
+}
+@end
 
 @implementation FlyerInventory
 
@@ -119,6 +127,32 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
             _metersTraveled = [obj doubleValue];
         }
     }
+    return self;
+}
+
+#pragma mark - NSCoding
+- (void) encodeWithCoder:(NSCoder *)aCoder
+{    
+    [aCoder encodeObject:_createdVersion forKey:kKeyVersion];
+    [aCoder encodeObject:_itemId forKey:kKeyItemId];
+    [aCoder encodeObject:[NSNumber numberWithUnsignedInt:_numItems] forKey:kKeyNumItems];
+    [aCoder encodeFloat:_costBasis forKey:kKeyCostBasis];
+    [aCoder encodeObject:_orderItemId forKey:kKeyOrderItemId];
+    [aCoder encodeObject:[NSNumber numberWithUnsignedInt:_orderNumItems] forKey:kKeyOrderNumItems];
+    [aCoder encodeObject:[NSNumber numberWithUnsignedInt:_orderPrice] forKey:kKeyOrderMoney];
+    [aCoder encodeDouble:_metersTraveled forKey:kKeyMetersTraveled];
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+    _createdVersion = [aDecoder decodeObjectForKey:kKeyVersion];
+    _itemId = [aDecoder decodeObjectForKey:kKeyItemId];
+    _numItems = [[aDecoder decodeObjectForKey:kKeyNumItems] unsignedIntValue];
+    _costBasis = [aDecoder decodeFloatForKey:kKeyCostBasis];
+    _orderItemId = [aDecoder decodeObjectForKey:kKeyOrderItemId];
+    _orderNumItems = [[aDecoder decodeObjectForKey:kKeyOrderNumItems] unsignedIntValue];
+    _orderPrice = [[aDecoder decodeObjectForKey:kKeyOrderMoney] unsignedIntValue];
+    _metersTraveled = [aDecoder decodeDoubleForKey:kKeyMetersTraveled];
     return self;
 }
 
