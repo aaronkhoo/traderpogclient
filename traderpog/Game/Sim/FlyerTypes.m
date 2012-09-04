@@ -134,6 +134,7 @@ static NSString* const kTradeItemTypesFilename = @"flyertypes.sav";
              parameters:nil
                 success:^(AFHTTPRequestOperation *operation, id responseObject){                     
                     NSLog(@"Retrieved: %@", responseObject);
+                    [_flyerTypes removeAllObjects];
                     [self createFlyerArray:responseObject];
                     _lastUpdate = [NSDate date];
                     [self saveFlyerTypesData];
