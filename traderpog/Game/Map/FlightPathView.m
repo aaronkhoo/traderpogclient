@@ -191,7 +191,6 @@ static BOOL lineIntersectsRect(MKMapPoint p0, MKMapPoint p1, MKMapRect r) {
 						change:(NSDictionary *)change
 					   context:(void *)context 
 {
-//    NSLog(@"%@ value changed", keyPath);
     if([keyPath isEqualToString:keySrcCoord] || [keyPath isEqualToString:keyDestCoord])
     {
         [self setNeedsDisplayInMapRect:self.flightPathOverlay.boundingMapRect];
@@ -203,7 +202,6 @@ static BOOL lineIntersectsRect(MKMapPoint p0, MKMapPoint p1, MKMapRect r) {
         MKMapRect intersectRect = MKMapRectIntersection(updateRect, [self.mapView visibleMapRect]);
         if(!MKMapRectIsEmpty(intersectRect))
         {
-            //NSLog(@"updateRect (%lf, %lf, %lf, %lf)", updateRect.origin.x, updateRect.origin.y, updateRect.size.width, updateRect.size.height);
             [self setNeedsDisplayInMapRect:intersectRect];
         }
     }

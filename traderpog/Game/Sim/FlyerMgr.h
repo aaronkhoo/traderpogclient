@@ -17,8 +17,7 @@ static NSString* const kFlyerMgr_ReceiveFlyers = @"FlyerMgr_ReceiveFlyers";
 @class TradePost;
 @class WorldState;
 @class MapControl;
-
-@interface FlyerMgr : NSObject<HttpCallbackDelegate,WheelDataSource,WheelProtocol>
+@interface FlyerMgr : NSObject<NSCoding,HttpCallbackDelegate,WheelDataSource,WheelProtocol>
 {
     NSMutableArray* _playerFlyers;
     NSDate* _lastUpdate;

@@ -196,11 +196,11 @@ static const float kBrowseAreaRadius = 500.0f;
 
 - (void) centerOnFlyer:(Flyer *)flyer animated:(BOOL)isAnimated
 {
-    if([flyer isEnroute])
+    if([[flyer path] isEnroute])
     {
         // focus map on the route
-        CLLocationCoordinate2D srcCoord = [flyer srcCoord];
-        CLLocationCoordinate2D destCoord = [flyer destCoord];
+        CLLocationCoordinate2D srcCoord = [[flyer path] srcCoord];
+        CLLocationCoordinate2D destCoord = [[flyer path] destCoord];
         
         MKMapRect routeRect = [MKMapView boundingRectForCoordinateA:srcCoord coordinateB:destCoord];
         UIEdgeInsets padding = UIEdgeInsetsMake(20.0f, 5.0f, 20.0f, 5.0f);

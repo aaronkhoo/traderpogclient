@@ -41,9 +41,9 @@ NSString* const kKeyFlyerCostBasis = @"flyerCostBasis";
     for(Flyer* cur in [[FlyerMgr getInstance] playerFlyers])
     {
         NSDictionary* curData = [NSDictionary dictionaryWithObjectsAndKeys:
-                                 [cur itemId], kKeyFlyerItemId,
-                                 [NSNumber numberWithUnsignedInt:[cur numItems]], kKeyFlyerNumItems,
-                                 [NSNumber numberWithFloat:[cur costBasis]], kKeyFlyerCostBasis, nil];
+                                 [[cur inventory] itemId], kKeyFlyerItemId,
+                                 [NSNumber numberWithUnsignedInt:[[cur inventory] numItems]], kKeyFlyerNumItems,
+                                 [NSNumber numberWithFloat:[[cur inventory] costBasis]], kKeyFlyerCostBasis, nil];
         [_flyersInventory setObject:curData forKey:[cur userFlyerId]];
     }
 }
@@ -53,9 +53,9 @@ NSString* const kKeyFlyerCostBasis = @"flyerCostBasis";
     NSDictionary* curData = [[self flyersInventory] objectForKey:[flyer userFlyerId]];
     if(curData)
     {
-        flyer.itemId = [curData objectForKey:kKeyFlyerItemId];
-        flyer.numItems = [[curData objectForKey:kKeyFlyerNumItems] unsignedIntValue];
-        flyer.costBasis = [[curData objectForKey:kKeyFlyerCostBasis] floatValue];
+        flyer.inventory.itemId = [curData objectForKey:kKeyFlyerItemId];
+        flyer.inventory.numItems = [[curData objectForKey:kKeyFlyerNumItems] unsignedIntValue];
+        flyer.inventory.costBasis = [[curData objectForKey:kKeyFlyerCostBasis] floatValue];
     }
 }
 
