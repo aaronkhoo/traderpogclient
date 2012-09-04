@@ -47,6 +47,7 @@ static NSString* const kKeyPath = @"path";
 @synthesize transform = _transform;
 @synthesize delegate = _delegate;
 @synthesize initializeFlyerOnMap = _initializeFlyerOnMap;
+@synthesize metersToDest = _metersToDest;
 @synthesize inventory = _inventory;
 @synthesize path = _path;
 
@@ -58,6 +59,8 @@ static NSString* const kKeyPath = @"path";
         _initializeFlyerOnMap = FALSE;
         
         _flyerTypeIndex = flyerTypeIndex;
+        
+        _metersToDest = 0.0;
 
         // init transient variables
         _coord = [tradePost coord];
@@ -105,6 +108,8 @@ static NSString* const kKeyPath = @"path";
         // this will get set in initFlyerOnMap when the game has info
         // to determine whether this flyer is at own post
         _isAtOwnPost = NO;
+        
+        _metersToDest = 0.0;
     }
     return self;
 }
@@ -129,6 +134,7 @@ static NSString* const kKeyPath = @"path";
     _path = [aDecoder decodeObjectForKey:kKeyPath];
     
     _initializeFlyerOnMap = FALSE;
+    _metersToDest = 0.0;
     
     // init runtime transient vars
     _coord = _path.srcCoord;
@@ -269,6 +275,8 @@ static NSString* const kKeyPath = @"path";
     {
         self.isAtOwnPost = YES;
     }
+    
+    _metersToDest = 0.0;
 
     [_path completeFlyerPath:_userFlyerId];
     
@@ -293,32 +301,17 @@ static NSString* const kKeyPath = @"path";
         
         NSTimeInterval elapsed = -[_path.departureDate timeIntervalSinceNow];
         CLLocationDistance routeDist = metersDistance([_path srcCoord], [_path destCoord]);
-        _path.metersToDest = routeDist - (elapsed * [self getFlyerSpeed]);
-        if(_path.metersToDest <= 0.0)
+        self.metersToDest = routeDist - (elapsed * [self getFlyerSpeed]);
+        if(self.metersToDest <= 0.0)
         {
             [self completeFlyerPath];
-        }
-        else 
-        {
-            /*
-            NSTimeInterval timeRemaining = [self timeTillDest] + 1.0;   // add 1 second for the benefits of the countdown display
-            NSString* timeString = [PogUIUtility stringFromTimeInterval:timeRemaining];
-            UILabel* timeLabel = (UILabel*)[_timeTillDestView.subviews objectAtIndex:0];
-            [timeLabel setText:timeString];
-            
-            if(annotView)
-            {
-                NSTimeInterval timeRemaining = [self timeTillDest] + 1.0;   // add 1 second for the benefits of the countdown display
-                [annotView refreshEnrouteTimerWithTime:timeRemaining];
-            }
-             */
         }
     }
 }
 
 - (NSTimeInterval) timeTillDest
 {
-    NSTimeInterval time = [_path metersToDest] / [self getFlyerSpeed];
+    NSTimeInterval time = [self metersToDest] / [self getFlyerSpeed];
     if(time <= 0.0)
     {
         time = 0.0;

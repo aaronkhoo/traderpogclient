@@ -44,7 +44,6 @@ static NSString* const kKeyDone = @"done";
 @synthesize srcCoord = _srcCoord;
 @synthesize destCoord = _destCoord;
 @synthesize doneWithCurrentPath = _doneWithCurrentPath;
-@synthesize metersToDest = _metersToDest;
 
 - (id) initWithPost:(TradePost*)tradePost
 {
@@ -52,7 +51,6 @@ static NSString* const kKeyDone = @"done";
     if(self)
     {
         _doneWithCurrentPath = TRUE;
-        _metersToDest = 0.0;
         
         _flyerPathId = nil;
         
@@ -126,8 +124,6 @@ static NSString* const kKeyDone = @"done";
             // Set it to current time to prevent problems. 
             _departureDate = [[NSDate alloc] init];
         }
-        
-        _metersToDest = 0.0;
     }
     return self;
 }
@@ -144,7 +140,6 @@ static NSString* const kKeyDone = @"done";
     [aCoder encodeDouble:_srcCoord.longitude forKey:kKeyLongitude1];
     [aCoder encodeDouble:_destCoord.latitude forKey:kKeyLatitude2];
     [aCoder encodeDouble:_destCoord.longitude forKey:kKeyLongitude2];
-    [aCoder encodeDouble:_metersToDest forKey:kKeyMetersToDest];
     [aCoder encodeBool:_doneWithCurrentPath forKey:kKeyDone];
 }
 
@@ -160,8 +155,7 @@ static NSString* const kKeyDone = @"done";
     _srcCoord.longitude = [aDecoder decodeDoubleForKey:kKeyLongitude1];
     _destCoord.latitude = [aDecoder decodeDoubleForKey:kKeyLatitude2];
     _destCoord.longitude = [aDecoder decodeDoubleForKey:kKeyLongitude2];
-    
-    _metersToDest = [aDecoder decodeDoubleForKey:kKeyMetersToDest];
+
     _doneWithCurrentPath = [aDecoder decodeBoolForKey:kKeyDone];
     return self;
 }
@@ -329,7 +323,6 @@ static NSString* const kKeyDone = @"done";
 - (void) completeFlyerPath:(NSString*)userFlyerId
 {
     // Clearing up the various parameters properly as the Flyer has arrived at its destination
-    _metersToDest = 0.0;
     _curPostId = _nextPostId;
     _srcCoord = _destCoord;
     self.nextPostId = nil;

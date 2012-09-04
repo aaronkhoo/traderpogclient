@@ -20,8 +20,6 @@
     NSString* _nextPostId;
     CLLocationCoordinate2D _srcCoord;
     CLLocationCoordinate2D _destCoord;
-    
-    CLLocationDistance _metersToDest;
 
     BOOL _doneWithCurrentPath;
 }
@@ -31,7 +29,6 @@
 @property (nonatomic) CLLocationCoordinate2D srcCoord;
 @property (nonatomic) CLLocationCoordinate2D destCoord;
 @property (nonatomic) BOOL doneWithCurrentPath;
-@property (nonatomic) CLLocationDistance metersToDest;
 
 - (id) initWithPost:(TradePost*)tradePost;
 - (id) initWithDictionary:(NSDictionary*)dict;

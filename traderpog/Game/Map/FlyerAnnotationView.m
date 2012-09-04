@@ -9,6 +9,7 @@
 #import "FlyerAnnotationView.h"
 #import "Flyer.h"
 #import "FlyerCallout.h"
+#import "FlyerPath.h"
 #import "GameManager.h"
 #import "PogUIUtility.h"
 #import "CircleBarView.h"
@@ -83,9 +84,10 @@ static const float kFlyerAnnotContentSize = 100.0f;
         _calloutAnnotation = nil;
         
         // observe flyer transform and isAtOwnPost
-        [annotation addObserver:self forKeyPath:kFlyerTransformKey options:0 context:nil];
-        [annotation addObserver:self forKeyPath:kKeyFlyerIsAtOwnPost options:0 context:nil];
-        [annotation addObserver:self forKeyPath:kKeyFlyerMetersToDest options:0 context:nil];
+        Flyer* flyer = (Flyer*)annotation;
+        [flyer addObserver:self forKeyPath:kFlyerTransformKey options:0 context:nil];
+        [flyer addObserver:self forKeyPath:kKeyFlyerIsAtOwnPost options:0 context:nil];
+        [flyer addObserver:self forKeyPath:kKeyFlyerMetersToDest options:0 context:nil];
     }
     return self;
 }
@@ -93,7 +95,7 @@ static const float kFlyerAnnotContentSize = 100.0f;
 - (void) dealloc
 {
     Flyer* flyer = (Flyer*)[self annotation];
-    [flyer removeObserver:self forKeyPath:kKeyFlyerMetersToDest];
+    [flyer.path removeObserver:self forKeyPath:kKeyFlyerMetersToDest];
     [flyer removeObserver:self forKeyPath:kKeyFlyerIsAtOwnPost];
     [flyer removeObserver:self forKeyPath:kFlyerTransformKey];
 }

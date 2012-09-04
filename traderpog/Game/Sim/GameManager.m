@@ -572,9 +572,6 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
         {
             TradePost* curPost = [[TradePostMgr getInstance] getTradePostWithId:[[flyer path] curPostId]];
             curPost.hasFlyer = NO;
-            
-            // Flyer path was successfully created. Delete the old path from the view.
-            [self.gameViewController.mapControl dismissFlightPathForFlyer:flyer];
         }
     }
 }

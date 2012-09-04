@@ -25,6 +25,7 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
     BOOL _initializeFlyerOnMap;
     NSInteger _flyerTypeIndex;
     NSString* _userFlyerId;
+    CLLocationDistance _metersToDest;
     
     // this is only ever TRUE when this flyer has just been newly created
     // in all other cases (including when it is initWithDictionary, it is FALSE)
@@ -49,6 +50,7 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 @property (nonatomic) BOOL initializeFlyerOnMap;
 @property (nonatomic,readonly) BOOL isNewFlyer;
 @property (nonatomic) BOOL isAtOwnPost;
+@property (nonatomic) CLLocationDistance metersToDest;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 @property (nonatomic,readonly) FlyerInventory* inventory;
 @property (nonatomic,readonly) FlyerPath* path;
