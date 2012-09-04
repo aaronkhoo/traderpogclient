@@ -93,8 +93,10 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
 @synthesize numSlices = _numSlices;
 @synthesize slices = _slices;
 @synthesize selectedSlice = _selectedSlice;
-@synthesize previewLabelContainer = _previewLabelContainer;
+@synthesize previewLabelBg = _previewLabelBg;
 @synthesize previewLabel = _previewLabel;
+@synthesize okView = _okView;
+@synthesize cancelView = _cancelView;
 
 static const float kHiddenPreviewScale = 0.37f;
 static const float kHiddenPreviewXFrac = 0.24f; // fraction of width of preview-frame
@@ -274,8 +276,9 @@ static const float kPreviewButtonOkXFrac = 0.75f;
 static const float kPreviewButtonOkYFrac = 0.4f;
 static const float kPreviewButtonCloseXFrac = 0.7f;
 static const float kPreviewButtonCloseYFrac = 0.7f;
-static const float kPreviewBorderWidth = 9.0f;
-static const float kPreviewLabelOriginY = 0.7f;
+static const float kPreviewBorderWidth = 14.0f;
+static const float kPreviewLabelBgOriginY = 0.7f;
+static const float kPreviewLabelOriginY = 0.05f;
 static const float kPreviewLabelTextSize = 10.0f;
 - (void) createPreviewCircleWithFrame:(CGRect)previewFrame
 {
@@ -297,22 +300,23 @@ static const float kPreviewLabelTextSize = 10.0f;
     [_previewView addSubview:_previewCircle];
     
     // text label container
-    CGRect labelContainerFrame = CGRectMake(0.0f,
-                                            kPreviewLabelOriginY * previewFrame.size.height,
+    CGRect labelBgFrame = CGRectMake(0.0f,
+                                            kPreviewLabelBgOriginY * previewFrame.size.height,
                                             previewFrame.size.width,
-                                            (1.0f - kPreviewLabelOriginY) * previewFrame.size.height);
-    UIView* labelContainer = [[UIView alloc] initWithFrame:labelContainerFrame];
-    [labelContainer setBackgroundColor:borderColor];
-    [_previewCircle addSubview:labelContainer];
-    labelContainer.hidden = YES;
-    self.previewLabelContainer = labelContainer;
-    CGRect labelFrame = labelContainerFrame;
-    labelFrame.origin = CGPointMake(0.0f, 0.0f);
+                                            (1.0f - kPreviewLabelBgOriginY) * previewFrame.size.height);
+    UIView* labelBg = [[UIView alloc] initWithFrame:labelBgFrame];
+    [labelBg setBackgroundColor:borderColor];
+    [_previewCircle addSubview:labelBg];
+    labelBg.hidden = YES;
+    self.previewLabelBg = labelBg;
+    CGRect labelFrame = labelBgFrame;
+    labelFrame.origin = CGPointMake(0.0f, -(kPreviewLabelOriginY * previewFrame.size.height));
     UILabel* label = [[UILabel alloc] initWithFrame:labelFrame];
     [label setBackgroundColor:[UIColor clearColor]];
     [label setFont:[UIFont fontWithName:@"Marker Felt" size:kPreviewLabelTextSize]];
     [label setTextColor:[UIColor whiteColor]];
     [label setTextAlignment:UITextAlignmentCenter];
+    [self.previewLabelBg addSubview:label];
     self.previewLabel = label;
     
     CGRect okRect = CGRectMake(kPreviewButtonOkXFrac * previewFrame.size.width,

@@ -20,14 +20,9 @@
         [self setBackgroundColor:[UIColor clearColor]];
         _labelView = [[UILabel alloc] initWithFrame:[self bounds]];
         [_labelView setTextAlignment:UITextAlignmentCenter];
-        [self addSubview:_labelView];
         
         _imageView = [[UIImageView alloc] initWithFrame:[self bounds]];
-        UIColor* imageBgColor = [UIColor colorWithRed:114.0f/255.0f
-                                                 green:179.0f/255.0f
-                                                  blue:186.0f/255.0f
-                                                 alpha:1.0f];
-        [_imageView setBackgroundColor:imageBgColor];
+        [_imageView setBackgroundColor:[UIColor clearColor]];
         [self addSubview:_imageView];
     }
     return self;

@@ -58,5 +58,12 @@
     return result;
 }
 
-
++ (UIColor*) bubbleBgColorWithAlpha:(CGFloat)alpha
+{
+    UIColor* bgColor = [UIColor colorWithRed:114.0f/255.0f
+                                            green:179.0f/255.0f
+                                             blue:186.0f/255.0f
+                                            alpha:alpha];
+    return bgColor;
+}
 @end

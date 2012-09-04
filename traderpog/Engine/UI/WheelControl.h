@@ -19,8 +19,10 @@
     UIView*                 _container;
     UIView*                 _wheelView;
     UIView*                 _previewView;
-    UIView*                 _previewLabelContainer;
+    UIView*                 _previewLabelBg;
     UILabel*                _previewLabel;
+    UIView*                 _okView;
+    UIView*                 _cancelView;
     unsigned int            _numSlices;
     NSMutableArray*         _reuseQueue;    // WheelBubble
     NSMutableArray*         _activeQueue;   // WheelBubble
@@ -30,8 +32,10 @@
 @property (nonatomic,weak) MapControl* superMap;
 @property (nonatomic,strong) UIView* container;
 @property (nonatomic,readonly) UIView* previewView;
-@property (nonatomic,strong) UIView* previewLabelContainer;
+@property (nonatomic,strong) UIView* previewLabelBg;
 @property (nonatomic,strong) UILabel* previewLabel;
+@property (nonatomic,strong) UIView* okView;
+@property (nonatomic,strong) UIView* cancelView;
 @property (nonatomic) unsigned int numSlices;
 
 - (id)initWithFrame:(CGRect)frame 

@@ -18,4 +18,6 @@
 + (UIColor*) borderColorBeaconsWithAlpha:(CGFloat)alpha;
 + (UIColor*) borderColorPostsWithAlpha:(CGFloat)alpha;
 + (UIColor*) borderColorScanWithAlpha:(CGFloat)alpha;
+
++ (UIColor*) bubbleBgColorWithAlpha:(CGFloat)alpha;
 @end

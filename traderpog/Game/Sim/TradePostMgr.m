@@ -351,19 +351,17 @@ static const float kPostBubbleBorderWidth = 1.5f;
         contentView = [[WheelBubble alloc] initWithFrame:contentRect];
     }
 
+    contentView.backgroundColor = [GameColors bubbleBgColorWithAlpha:1.0f];
     if([NSNull null] == [self.myPostSlots objectAtIndex:index])
     {
-        contentView.backgroundColor = [UIColor grayColor];
         UIImage* image = [[ImageManager getInstance] getImage:@"bubble_postmark_g.png" fallbackNamed:@"bubble_postmark_g.png"];
         [contentView.imageView setImage:image];
     }
     else
     {
-        contentView.backgroundColor = [UIColor redColor];
         UIImage* image = [[ImageManager getInstance] getImage:@"b_flyerlab.png" fallbackNamed:@"b_flyerlab.png"];
         [contentView.imageView setImage:image];
     }
-    
     UIColor* borderColor = [GameColors borderColorPostsWithAlpha:1.0f];
     [PogUIUtility setCircleForView:contentView
                    withBorderWidth:kPostBubbleBorderWidth
@@ -407,25 +405,28 @@ static const float kPostBubbleBorderWidth = 1.5f;
 
 - (void) wheel:(WheelControl*)wheel didSettleAt:(unsigned int)index
 {
-    /*
-    if([_activePosts count])
-    {
-        index = MIN(index, [_activePosts count]-1);
-        TradePost* cur = [_activePosts.allValues objectAtIndex:index];
-        [_previewMap centerOn:[cur coord] animated:YES];
-    }
-    */
     index = MIN(index, kMyPostSlotNum-1);
     if([NSNull null] != [self.myPostSlots objectAtIndex:index])
     {
         TradePost* cur = [self.myPostSlots objectAtIndex:index];
         [_previewMap centerOn:[cur coord] animated:YES];
-        wheel.previewLabelContainer.hidden = YES;
+        wheel.previewLabelBg.hidden = YES;
+    }
+    else if(kMyPostSlotFreeEnd > index)
+    {
+        // free slots
+        wheel.previewLabelBg.hidden = NO;
+        [wheel.previewLabel setNumberOfLines:1];
+        [wheel.previewLabel setText:@"Create Post"];
+        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
     }
     else
     {
-        wheel.previewLabelContainer.hidden = NO;
-        [wheel.previewLabel setText:@"hello"];
+        // member slots
+        wheel.previewLabelBg.hidden = NO;
+        [wheel.previewLabel setNumberOfLines:2];
+        [wheel.previewLabel setText:@"Member Only\nJoin NOW!"];
+        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:15.0f]];
     }
 }
 
