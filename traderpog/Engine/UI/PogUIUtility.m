@@ -182,7 +182,9 @@ static const float kSecondsPerMinute = 60.0;
     [[targetView layer] setCornerRadius:0.5f * width];
     [[targetView layer] setMasksToBounds:YES];
     [[targetView layer] setBorderWidth:borderWidth];
-    [[targetView layer] setBorderColor:[borderColor CGColor]];    
+    [[targetView layer] setBorderColor:[borderColor CGColor]];
+    [[targetView layer] setRasterizationScale:[[UIScreen mainScreen] scale]];
+    [[targetView layer] setShouldRasterize:YES];
 }
 
 + (void) setCircleShadowOnView:(UIView *)view shadowColor:(UIColor *)shadowColor
