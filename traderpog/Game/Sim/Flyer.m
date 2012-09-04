@@ -280,7 +280,7 @@ static NSString* const kKeyPath = @"path";
 
 - (void) updateAtDate:(NSDate *)currentTime
 {
-    if(_initializeFlyerOnMap && !_path.updatingFlyerPathOnServer && !_path.doneWithCurrentPath)
+    if(_initializeFlyerOnMap && !_path.doneWithCurrentPath)
     {
         // enroute
         CLLocationCoordinate2D curCoord = [self flyerCoordinateNow];
@@ -296,7 +296,7 @@ static NSString* const kKeyPath = @"path";
         _path.metersToDest = routeDist - (elapsed * [self getFlyerSpeed]);
         if(_path.metersToDest <= 0.0)
         {
-            [_path completeFlyerPath:_userFlyerId];
+            [self completeFlyerPath];
         }
         else 
         {

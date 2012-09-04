@@ -37,7 +37,6 @@
 - (void) addItemId:(NSString*)itemId num:(unsigned int)num price:(unsigned int)price;
 - (void) orderItemId:(NSString*)itemId num:(unsigned int)num price:(unsigned int)price;
 - (void) commitOutstandingOrder;
-- (void) revertOutstandingOrder;
 - (void) unloadAllItems;
 - (void) incrementTravelDistance:(CLLocationDistance) routeDist;
 - (void) resetDistanceTraveled;

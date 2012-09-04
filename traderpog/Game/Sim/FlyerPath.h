@@ -30,7 +30,6 @@
 @property (nonatomic,strong) NSDate* departureDate;
 @property (nonatomic) CLLocationCoordinate2D srcCoord;
 @property (nonatomic) CLLocationCoordinate2D destCoord;
-@property (nonatomic) BOOL updatingFlyerPathOnServer;
 @property (nonatomic) BOOL doneWithCurrentPath;
 @property (nonatomic) CLLocationDistance metersToDest;
 
