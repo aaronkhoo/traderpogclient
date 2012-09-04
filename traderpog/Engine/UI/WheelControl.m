@@ -17,6 +17,7 @@
 #import "WheelSlice.h"
 #import "PogUIUtility.h"
 #import "WheelBubble.h"
+#import "LabelCircle.h"
 #import <QuartzCore/QuartzCore.h>
 
 enum kWheelStates
@@ -52,7 +53,6 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
     CGAffineTransform _pushedWheelTransform;
     CGAffineTransform _hiddenPreviewTransform;
     
-    UIView* _previewCircle;
     UIView* _previewContent;
     UIButton* _buttonOk;
     UIButton* _buttonClose;
@@ -90,11 +90,13 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
 @synthesize superMap = _superMap;
 @synthesize container = _container;
 @synthesize previewView = _previewView;
+@synthesize previewCircle = _previewCircle;
 @synthesize numSlices = _numSlices;
 @synthesize slices = _slices;
 @synthesize selectedSlice = _selectedSlice;
 @synthesize previewLabelBg = _previewLabelBg;
 @synthesize previewLabel = _previewLabel;
+@synthesize previewImageView = _previewImageView;
 @synthesize okView = _okView;
 @synthesize cancelView = _cancelView;
 
@@ -271,12 +273,14 @@ static const int kLabelViewTag = 10;
 }
 
 
-static const float kPreviewButtonSizeFrac = 0.25f;
-static const float kPreviewButtonOkXFrac = 0.75f;
-static const float kPreviewButtonOkYFrac = 0.4f;
-static const float kPreviewButtonCloseXFrac = 0.7f;
-static const float kPreviewButtonCloseYFrac = 0.7f;
-static const float kPreviewBorderWidth = 14.0f;
+static const float kPreviewButtonOkSizeFrac = 0.23f;
+static const float kPreviewButtonOkXFrac = 0.76f;
+static const float kPreviewButtonOkYFrac = 0.41f;
+static const float kPreviewButtonCloseSizeFrac = 0.16f;
+static const float kPreviewButtonCloseXFrac = 0.75f;
+static const float kPreviewButtonCloseYFrac = 0.66f;
+static const float kPreviewButtonBorderWidth = 1.8f;
+static const float kPreviewBorderWidth = 14.5f;
 static const float kPreviewLabelBgOriginY = 0.7f;
 static const float kPreviewLabelOriginY = 0.05f;
 static const float kPreviewLabelTextSize = 10.0f;
@@ -289,14 +293,35 @@ static const float kPreviewLabelTextSize = 10.0f;
     _previewCircle = [[UIView alloc] initWithFrame:[_previewView bounds]];
     [_previewCircle setBackgroundColor:[UIColor greenColor]];
     
+    UIColor* bgColor = [UIColor darkGrayColor];
+    if([self.dataSource respondsToSelector:@selector(previewColorForWheel:)])
+    {
+        bgColor = [self.dataSource previewColorForWheel:self];
+    }
     UIColor* borderColor = [UIColor darkGrayColor];
     if([self.dataSource respondsToSelector:@selector(previewBorderColorForWheel:)])
     {
         borderColor = [self.dataSource previewBorderColorForWheel:self];
     }
+    UIColor* buttonColor = [UIColor darkGrayColor];
+    if([self.dataSource respondsToSelector:@selector(previewButtonColorForWheel:)])
+    {
+        buttonColor = [self.dataSource previewButtonColorForWheel:self];
+    }
+    UIColor* buttonBorderColor = [UIColor darkGrayColor];
+    if([self.dataSource respondsToSelector:@selector(previewButtonBorderColorForWheel:)])
+    {
+        buttonBorderColor = [self.dataSource previewButtonBorderColorForWheel:self];
+    }
     [PogUIUtility setCircleForView:_previewCircle withBorderWidth:kPreviewBorderWidth borderColor:borderColor];
     _previewContent = [self.dataSource wheel:self previewContentInitAtIndex:0];
     [_previewCircle addSubview:_previewContent];
+    
+    // previewImageView that can optionally cover up the content
+    _previewImageView = [[UIImageView alloc] initWithFrame:[_previewView bounds]];
+    _previewImageView.hidden = YES;
+    _previewImageView.backgroundColor = [UIColor clearColor];
+    [_previewCircle addSubview:_previewImageView];
     [_previewView addSubview:_previewCircle];
     
     // text label container
@@ -321,22 +346,33 @@ static const float kPreviewLabelTextSize = 10.0f;
     
     CGRect okRect = CGRectMake(kPreviewButtonOkXFrac * previewFrame.size.width,
                                kPreviewButtonOkYFrac * previewFrame.size.width,
-                               kPreviewButtonSizeFrac * previewFrame.size.width,
-                               kPreviewButtonSizeFrac * previewFrame.size.height);
-    _buttonOk = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [_buttonOk setTitle:@"OK" forState:UIControlStateNormal];
-    [_buttonOk setFrame:okRect];
+                               kPreviewButtonOkSizeFrac * previewFrame.size.width,
+                               kPreviewButtonOkSizeFrac * previewFrame.size.height);
+    self.okView = [[LabelCircle alloc] initWithFrame:okRect
+                                         borderWidth:kPreviewButtonBorderWidth
+                                         borderColor:buttonBorderColor
+                                             bgColor:buttonColor];
+    [self.okView.label setText:@"Yes"];
+    [_previewView addSubview:[self okView]];
+    _buttonOk = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_buttonOk setBackgroundColor:[UIColor clearColor]];
+    [_buttonOk setFrame:[self.okView bounds]];
     [_buttonOk addTarget:self action:@selector(didOkInPreview:) forControlEvents:UIControlEventTouchUpInside];
-    [_previewView addSubview:_buttonOk];
+    [self.okView addSubview:_buttonOk];
+    
     CGRect closeRect = CGRectMake(kPreviewButtonCloseXFrac * previewFrame.size.width,
                                   kPreviewButtonCloseYFrac * previewFrame.size.width,
-                                  kPreviewButtonSizeFrac * previewFrame.size.width,
-                                  kPreviewButtonSizeFrac * previewFrame.size.height);
-    _buttonClose = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [_buttonClose setTitle:@"X" forState:UIControlStateNormal];
-    [_buttonClose setFrame:closeRect];
+                                  kPreviewButtonCloseSizeFrac * previewFrame.size.width,
+                                  kPreviewButtonCloseSizeFrac * previewFrame.size.height);
+    self.cancelView = [[LabelCircle alloc] initWithFrame:closeRect
+                                         borderWidth:kPreviewButtonBorderWidth
+                                         borderColor:buttonBorderColor
+                                             bgColor:buttonColor];
+    [_previewView addSubview:[self cancelView]];
+    _buttonClose = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_buttonClose setFrame:[self.cancelView bounds]];
     [_buttonClose addTarget:self action:@selector(didCloseInPreview:) forControlEvents:UIControlEventTouchUpInside];
-    [_previewView addSubview:_buttonClose];
+    [self.cancelView addSubview:_buttonClose];
 }
 
 - (float) distFromCenter:(CGPoint)point

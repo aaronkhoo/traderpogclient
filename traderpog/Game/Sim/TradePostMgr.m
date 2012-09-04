@@ -391,9 +391,27 @@ static const float kPostBubbleBorderWidth = 1.5f;
     return result;
 }
 
+- (UIColor*) previewColorForWheel:(WheelControl *)wheel
+{
+    UIColor* result = [GameColors bubbleBgColorWithAlpha:1.0f];
+    return result;
+}
+
 - (UIColor*) previewBorderColorForWheel:(WheelControl *)wheel
 {
-    UIColor* result = [GameColors borderColorPostsWithAlpha:1.0f];
+    UIColor* result = [GameColors bubbleColorPostsWithAlpha:1.0f];
+    return result;
+}
+
+- (UIColor*) previewButtonColorForWheel:(WheelControl *)wheel
+{
+    UIColor* result = [GameColors bubbleColorScanWithAlpha:1.0f];
+    return result;
+}
+
+- (UIColor*) previewButtonBorderColorForWheel:(WheelControl *)wheel
+{
+    UIColor* result = [GameColors bubbleColorPostsWithAlpha:1.0f];
     return result;
 }
 
@@ -411,6 +429,8 @@ static const float kPostBubbleBorderWidth = 1.5f;
         TradePost* cur = [self.myPostSlots objectAtIndex:index];
         [_previewMap centerOn:[cur coord] animated:YES];
         wheel.previewLabelBg.hidden = YES;
+        [wheel.previewImageView setImage:nil];
+        [wheel.previewImageView setHidden:YES];
     }
     else if(kMyPostSlotFreeEnd > index)
     {
@@ -419,6 +439,10 @@ static const float kPostBubbleBorderWidth = 1.5f;
         [wheel.previewLabel setNumberOfLines:1];
         [wheel.previewLabel setText:@"Create Post"];
         [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
+        UIImage* bgImage = [[ImageManager getInstance] getImage:@"pogbuilding_001.png" fallbackNamed:@"pogbuilding_001.png"];
+        [wheel.previewImageView setImage:bgImage];
+        [wheel.previewImageView setHidden:NO];
+        [wheel.previewImageView setBackgroundColor:[GameColors bubbleBgColorWithAlpha:1.0f]];
     }
     else
     {
@@ -427,16 +451,29 @@ static const float kPostBubbleBorderWidth = 1.5f;
         [wheel.previewLabel setNumberOfLines:2];
         [wheel.previewLabel setText:@"Member Only\nJoin NOW!"];
         [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:15.0f]];
+        
+        UIImage* bgImage = [[ImageManager getInstance] getImage:@"icon_none_member.png" fallbackNamed:@"icon_none_member.png"];
+        [wheel.previewImageView setImage:bgImage];
+        [wheel.previewImageView setHidden:NO];
+        [wheel.previewImageView setBackgroundColor:[GameColors bubbleBgColorWithAlpha:1.0f]];
     }
 }
 
 - (void) wheel:(WheelControl*)wheel didPressOkOnIndex:(unsigned int)index
 {
-    if([_activePosts count])
+    index = MIN(index, kMyPostSlotNum-1);
+    if([NSNull null] != [self.myPostSlots objectAtIndex:index])
     {
-        index = MIN(index, [_activePosts count]-1);
-        TradePost* cur = [_activePosts.allValues objectAtIndex:index];
+        TradePost* cur = [self.myPostSlots objectAtIndex:index];
         [[GameManager getInstance] wheel:wheel commitOnTradePost:cur];
+    }
+    else if(kMyPostSlotFreeEnd > index)
+    {
+        NSLog(@"Create Post");
+    }
+    else
+    {
+        NSLog(@"Member Create Post");
     }
 }
 

@@ -30,6 +30,12 @@
 		42094DB615C9B236001FA77D /* WheelBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB015C9B235001FA77D /* WheelBubble.m */; };
 		42094DB715C9B236001FA77D /* WheelControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB215C9B236001FA77D /* WheelControl.m */; };
 		42094DB815C9B236001FA77D /* WheelSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB515C9B236001FA77D /* WheelSlice.m */; };
+		421564D115F6A1AB00AAE851 /* LabelCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 421564D015F6A1AB00AAE851 /* LabelCircle.m */; };
+		421564D415F6B1C000AAE851 /* icon_none_member.png in Resources */ = {isa = PBXBuildFile; fileRef = 421564D315F6B1C000AAE851 /* icon_none_member.png */; };
+		421564DA15F6B2E400AAE851 /* pogbuilding_001.png in Resources */ = {isa = PBXBuildFile; fileRef = 421564D615F6B2E400AAE851 /* pogbuilding_001.png */; };
+		421564DB15F6B2E400AAE851 /* pogbuilding_002.png in Resources */ = {isa = PBXBuildFile; fileRef = 421564D715F6B2E400AAE851 /* pogbuilding_002.png */; };
+		421564DC15F6B2E400AAE851 /* pogbuilding_003.png in Resources */ = {isa = PBXBuildFile; fileRef = 421564D815F6B2E400AAE851 /* pogbuilding_003.png */; };
+		421564DD15F6B2E400AAE851 /* pogbuilding_004.png in Resources */ = {isa = PBXBuildFile; fileRef = 421564D915F6B2E400AAE851 /* pogbuilding_004.png */; };
 		4221E4D115D9CB7B00781664 /* FlyerCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4221E4D015D9CB7B00781664 /* FlyerCallout.m */; };
 		4221E4D515D9D47E00781664 /* FlyerCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4221E4D415D9D47E00781664 /* FlyerCalloutView.m */; };
 		4221E4D715DA2A2200781664 /* FlyerCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4221E4D615DA2A2200781664 /* FlyerCalloutView.xib */; };
@@ -201,6 +207,13 @@
 		42094DB315C9B236001FA77D /* WheelProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WheelProtocol.h; sourceTree = "<group>"; };
 		42094DB415C9B236001FA77D /* WheelSlice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WheelSlice.h; sourceTree = "<group>"; };
 		42094DB515C9B236001FA77D /* WheelSlice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WheelSlice.m; sourceTree = "<group>"; };
+		421564CF15F6A1AB00AAE851 /* LabelCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabelCircle.h; sourceTree = "<group>"; };
+		421564D015F6A1AB00AAE851 /* LabelCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LabelCircle.m; sourceTree = "<group>"; };
+		421564D315F6B1C000AAE851 /* icon_none_member.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_none_member.png; path = assets/UI/icon_none_member.png; sourceTree = SOURCE_ROOT; };
+		421564D615F6B2E400AAE851 /* pogbuilding_001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pogbuilding_001.png; sourceTree = "<group>"; };
+		421564D715F6B2E400AAE851 /* pogbuilding_002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pogbuilding_002.png; sourceTree = "<group>"; };
+		421564D815F6B2E400AAE851 /* pogbuilding_003.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pogbuilding_003.png; sourceTree = "<group>"; };
+		421564D915F6B2E400AAE851 /* pogbuilding_004.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pogbuilding_004.png; sourceTree = "<group>"; };
 		4221E4CF15D9CB7B00781664 /* FlyerCallout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCallout.h; path = Game/Map/FlyerCallout.h; sourceTree = "<group>"; };
 		4221E4D015D9CB7B00781664 /* FlyerCallout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerCallout.m; path = Game/Map/FlyerCallout.m; sourceTree = "<group>"; };
 		4221E4D315D9D47E00781664 /* FlyerCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCalloutView.h; path = Game/Map/FlyerCalloutView.h; sourceTree = "<group>"; };
@@ -465,6 +478,18 @@
 			path = "facebook-ios-sdk";
 			sourceTree = "<group>";
 		};
+		421564D515F6B2E400AAE851 /* anim */ = {
+			isa = PBXGroup;
+			children = (
+				421564D615F6B2E400AAE851 /* pogbuilding_001.png */,
+				421564D715F6B2E400AAE851 /* pogbuilding_002.png */,
+				421564D815F6B2E400AAE851 /* pogbuilding_003.png */,
+				421564D915F6B2E400AAE851 /* pogbuilding_004.png */,
+			);
+			name = anim;
+			path = assets/anim;
+			sourceTree = SOURCE_ROOT;
+		};
 		C41E0C8015AC032E006662DF /* External */ = {
 			isa = PBXGroup;
 			children = (
@@ -666,6 +691,7 @@
 			isa = PBXGroup;
 			children = (
 				42FA1A5915F55EBA00EB2433 /* checkerboard.png */,
+				421564D515F6B2E400AAE851 /* anim */,
 				C4FA8F4E15B5401000E82A93 /* UI */,
 				C4D5DDEC15B3D05600D5A746 /* Map */,
 			);
@@ -680,6 +706,7 @@
 				42B28E3015EA39620008901C /* b_homebase.png */,
 				42B28E3115EA39620008901C /* b_tradepost.png */,
 				C4D9B07215E3DE160096448E /* b_flyerlab.png */,
+				421564D315F6B1C000AAE851 /* icon_none_member.png */,
 				4264B6AF15CD93F300621548 /* TradePost.png */,
 				C4D5DDED15B3D12B00D5A746 /* HomeBase.png */,
 			);
@@ -751,6 +778,8 @@
 			children = (
 				C4BFC9C515CFC7EE009B7122 /* CircleView.h */,
 				C4BFC9C615CFC7EE009B7122 /* CircleView.m */,
+				421564CF15F6A1AB00AAE851 /* LabelCircle.h */,
+				421564D015F6A1AB00AAE851 /* LabelCircle.m */,
 				C4E381CC15AABECC00924A86 /* PogUIUtility.h */,
 				C4E381CD15AABECC00924A86 /* PogUIUtility.m */,
 				C4E381B715AA3B4C00924A86 /* UINavigationController+Pog.h */,
@@ -938,6 +967,11 @@
 				42F692D315F1E1B60002B1B2 /* icon_removepost.png in Resources */,
 				42FA1A5A15F55EBA00EB2433 /* checkerboard.png in Resources */,
 				429B154815F5CFAF00107D5F /* bubble_postmark_g.png in Resources */,
+				421564D415F6B1C000AAE851 /* icon_none_member.png in Resources */,
+				421564DA15F6B2E400AAE851 /* pogbuilding_001.png in Resources */,
+				421564DB15F6B2E400AAE851 /* pogbuilding_002.png in Resources */,
+				421564DC15F6B2E400AAE851 /* pogbuilding_003.png in Resources */,
+				421564DD15F6B2E400AAE851 /* pogbuilding_004.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1037,6 +1071,7 @@
 				38821EE315F45685004733E2 /* FlyerPath.m in Sources */,
 				42FA1A5415F522FF00EB2433 /* CircleBarView.m in Sources */,
 				42FA1A5815F5511B00EB2433 /* MKMapView+Game.m in Sources */,
+				421564D115F6A1AB00AAE851 /* LabelCircle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

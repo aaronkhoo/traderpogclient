@@ -11,6 +11,7 @@
 
 @class WheelBubble;
 @class MapControl;
+@class LabelCircle;
 @interface WheelControl : UIControl
 {
     __weak id<WheelProtocol>    _delegate;
@@ -19,10 +20,12 @@
     UIView*                 _container;
     UIView*                 _wheelView;
     UIView*                 _previewView;
+    UIView*                 _previewCircle;
     UIView*                 _previewLabelBg;
     UILabel*                _previewLabel;
-    UIView*                 _okView;
-    UIView*                 _cancelView;
+    UIImageView*            _previewImageView;
+    LabelCircle*            _okView;
+    LabelCircle*            _cancelView;
     unsigned int            _numSlices;
     NSMutableArray*         _reuseQueue;    // WheelBubble
     NSMutableArray*         _activeQueue;   // WheelBubble
@@ -32,10 +35,12 @@
 @property (nonatomic,weak) MapControl* superMap;
 @property (nonatomic,strong) UIView* container;
 @property (nonatomic,readonly) UIView* previewView;
+@property (nonatomic,readonly) UIView* previewCircle;
 @property (nonatomic,strong) UIView* previewLabelBg;
 @property (nonatomic,strong) UILabel* previewLabel;
-@property (nonatomic,strong) UIView* okView;
-@property (nonatomic,strong) UIView* cancelView;
+@property (nonatomic,readonly) UIImageView* previewImageView;
+@property (nonatomic,strong) LabelCircle* okView;
+@property (nonatomic,strong) LabelCircle* cancelView;
 @property (nonatomic) unsigned int numSlices;
 
 - (id)initWithFrame:(CGRect)frame 

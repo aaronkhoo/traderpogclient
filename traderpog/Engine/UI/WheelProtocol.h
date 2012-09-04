@@ -24,5 +24,8 @@
 - (WheelBubble*) wheel:(WheelControl*)wheel bubbleAtIndex:(unsigned int)index;
 - (UIView*) wheel:(WheelControl*)wheel previewContentInitAtIndex:(unsigned int)index;
 @optional
+- (UIColor*) previewColorForWheel:(WheelControl*)wheel;
 - (UIColor*) previewBorderColorForWheel:(WheelControl*)wheel;
+- (UIColor*) previewButtonColorForWheel:(WheelControl*)wheel;
+- (UIColor*) previewButtonBorderColorForWheel:(WheelControl*)wheel;
 @end
