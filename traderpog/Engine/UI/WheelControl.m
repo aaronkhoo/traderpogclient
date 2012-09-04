@@ -93,6 +93,8 @@ static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this fact
 @synthesize numSlices = _numSlices;
 @synthesize slices = _slices;
 @synthesize selectedSlice = _selectedSlice;
+@synthesize previewLabelContainer = _previewLabelContainer;
+@synthesize previewLabel = _previewLabel;
 
 static const float kHiddenPreviewScale = 0.37f;
 static const float kHiddenPreviewXFrac = 0.24f; // fraction of width of preview-frame
@@ -136,7 +138,7 @@ static const float kHiddenPreviewYFrac = 0.66f; // fraction of height of preview
         _pushedWheelTransform = CGAffineTransformIdentity;
 
         [self initBeaconSlots];
-        [self.delegate wheelDidSettleAt:_selectedBeacon];
+        [self.delegate wheel:self didSettleAt:_selectedBeacon];
 
         // init hidden preview transform
         CGAffineTransform hiddenPreviewPos = CGAffineTransformMakeTranslation(kHiddenPreviewXFrac* previewFrame.size.width, kHiddenPreviewYFrac * previewFrame.size.height);
@@ -272,6 +274,9 @@ static const float kPreviewButtonOkXFrac = 0.75f;
 static const float kPreviewButtonOkYFrac = 0.4f;
 static const float kPreviewButtonCloseXFrac = 0.7f;
 static const float kPreviewButtonCloseYFrac = 0.7f;
+static const float kPreviewBorderWidth = 9.0f;
+static const float kPreviewLabelOriginY = 0.7f;
+static const float kPreviewLabelTextSize = 10.0f;
 - (void) createPreviewCircleWithFrame:(CGRect)previewFrame
 {
     _previewView = [[UIView alloc] initWithFrame:previewFrame];
@@ -280,10 +285,35 @@ static const float kPreviewButtonCloseYFrac = 0.7f;
     [self addSubview:_previewView];
     _previewCircle = [[UIView alloc] initWithFrame:[_previewView bounds]];
     [_previewCircle setBackgroundColor:[UIColor greenColor]];
-    [PogUIUtility setCircleForView:_previewCircle withBorderWidth:5.0f borderColor:[UIColor darkGrayColor]];
+    
+    UIColor* borderColor = [UIColor darkGrayColor];
+    if([self.dataSource respondsToSelector:@selector(previewBorderColorForWheel:)])
+    {
+        borderColor = [self.dataSource previewBorderColorForWheel:self];
+    }
+    [PogUIUtility setCircleForView:_previewCircle withBorderWidth:kPreviewBorderWidth borderColor:borderColor];
     _previewContent = [self.dataSource wheel:self previewContentInitAtIndex:0];
     [_previewCircle addSubview:_previewContent];
     [_previewView addSubview:_previewCircle];
+    
+    // text label container
+    CGRect labelContainerFrame = CGRectMake(0.0f,
+                                            kPreviewLabelOriginY * previewFrame.size.height,
+                                            previewFrame.size.width,
+                                            (1.0f - kPreviewLabelOriginY) * previewFrame.size.height);
+    UIView* labelContainer = [[UIView alloc] initWithFrame:labelContainerFrame];
+    [labelContainer setBackgroundColor:borderColor];
+    [_previewCircle addSubview:labelContainer];
+    labelContainer.hidden = YES;
+    self.previewLabelContainer = labelContainer;
+    CGRect labelFrame = labelContainerFrame;
+    labelFrame.origin = CGPointMake(0.0f, 0.0f);
+    UILabel* label = [[UILabel alloc] initWithFrame:labelFrame];
+    [label setBackgroundColor:[UIColor clearColor]];
+    [label setFont:[UIFont fontWithName:@"Marker Felt" size:kPreviewLabelTextSize]];
+    [label setTextColor:[UIColor whiteColor]];
+    [label setTextAlignment:UITextAlignmentCenter];
+    self.previewLabel = label;
     
     CGRect okRect = CGRectMake(kPreviewButtonOkXFrac * previewFrame.size.width,
                                kPreviewButtonOkYFrac * previewFrame.size.width,
@@ -779,7 +809,7 @@ static const float kSelectedOffset = -6.5f;
                                 // so, inform delegate here
                                 if(shouldEndTracking)
                                 {
-                                    [self.delegate wheelDidSettleAt:_selectedBeacon];
+                                    [self.delegate wheel:self didSettleAt:_selectedBeacon];
                                 }
                             }];
         /*
@@ -858,7 +888,7 @@ static const float kSelectedOffset = -6.5f;
         _absAngle = [self midAngleAtItemIndex:beaconSlot forNumItems:numItems];
         [self levelContentViewsWithItem:beaconSlot numItems:numItems];
         [UIView commitAnimations];
-        [self.delegate wheelDidSettleAt:_selectedBeacon];
+//        [self.delegate wheel:self didSettleAt:_selectedBeacon];
     }
     else 
     {
@@ -875,7 +905,7 @@ static const float kSelectedOffset = -6.5f;
     }
     
     _selectedBeacon = beaconSlot;
-    [self.delegate wheelDidSettleAt:_selectedBeacon];
+    [self.delegate wheel:self didSettleAt:_selectedBeacon];
 }
 
 /*

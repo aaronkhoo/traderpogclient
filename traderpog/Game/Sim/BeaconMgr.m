@@ -162,7 +162,7 @@ static double const refreshTime = -(60 * 15);
     NSLog(@"wheel moved to %d",index);
 }
 
-- (void) wheelDidSettleAt:(unsigned int)index
+- (void) wheel:(WheelControl*)wheel didSettleAt:(unsigned int)index
 {
     if([_activeBeacons count])
     {

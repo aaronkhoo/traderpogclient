@@ -393,19 +393,39 @@ static const float kPostBubbleBorderWidth = 1.5f;
     return result;
 }
 
+- (UIColor*) previewBorderColorForWheel:(WheelControl *)wheel
+{
+    UIColor* result = [GameColors borderColorPostsWithAlpha:1.0f];
+    return result;
+}
+
 #pragma mark - WheelProtocol
 - (void) wheelDidMoveTo:(unsigned int)index
 {
     NSLog(@"wheel moved to %d",index);
 }
 
-- (void) wheelDidSettleAt:(unsigned int)index
+- (void) wheel:(WheelControl*)wheel didSettleAt:(unsigned int)index
 {
+    /*
     if([_activePosts count])
     {
         index = MIN(index, [_activePosts count]-1);
         TradePost* cur = [_activePosts.allValues objectAtIndex:index];
         [_previewMap centerOn:[cur coord] animated:YES];
+    }
+    */
+    index = MIN(index, kMyPostSlotNum-1);
+    if([NSNull null] != [self.myPostSlots objectAtIndex:index])
+    {
+        TradePost* cur = [self.myPostSlots objectAtIndex:index];
+        [_previewMap centerOn:[cur coord] animated:YES];
+        wheel.previewLabelContainer.hidden = YES;
+    }
+    else
+    {
+        wheel.previewLabelContainer.hidden = NO;
+        [wheel.previewLabel setText:@"hello"];
     }
 }
 

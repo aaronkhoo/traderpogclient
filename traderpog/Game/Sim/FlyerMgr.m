@@ -483,7 +483,7 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
     }
 }
 
-- (void) wheelDidSettleAt:(unsigned int)index
+- (void) wheel:(WheelControl*)wheel didSettleAt:(unsigned int)index
 {
     // do nothing
 }

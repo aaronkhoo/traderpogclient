@@ -12,7 +12,7 @@
 @class WheelControl;
 @protocol WheelProtocol <NSObject>
 - (void) wheelDidMoveTo:(unsigned int)index;
-- (void) wheelDidSettleAt:(unsigned int)index;
+- (void) wheel:(WheelControl*)wheel didSettleAt:(unsigned int)index;
 - (void) wheel:(WheelControl*)wheel didPressOkOnIndex:(unsigned int)index;
 - (void) wheel:(WheelControl*)wheel didPressCloseOnIndex:(unsigned int)index;
 - (void) wheel:(WheelControl*)wheel willShowAtIndex:(unsigned int)index;
@@ -23,4 +23,6 @@
 - (unsigned int) numItemsInWheel:(WheelControl*)wheel;
 - (WheelBubble*) wheel:(WheelControl*)wheel bubbleAtIndex:(unsigned int)index;
 - (UIView*) wheel:(WheelControl*)wheel previewContentInitAtIndex:(unsigned int)index;
+@optional
+- (UIColor*) previewBorderColorForWheel:(WheelControl*)wheel;
 @end
