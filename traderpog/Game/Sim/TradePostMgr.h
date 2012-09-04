@@ -21,10 +21,12 @@ static NSString* const kTradePostMgr_ReceivePosts = @"TradePostMgr_ReceivePosts"
 @interface TradePostMgr : NSObject<HttpCallbackDelegate,WheelDataSource,WheelProtocol>
 {
     NSDate* _lastUpdate;
+    MapControl* _previewMap;
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
 }
+@property (nonatomic,strong) MapControl* previewMap;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 // Public methods

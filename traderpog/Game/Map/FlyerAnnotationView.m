@@ -11,42 +11,42 @@
 #import "FlyerCallout.h"
 #import "GameManager.h"
 #import "PogUIUtility.h"
+#import "CircleBarView.h"
 
 NSString* const kFlyerAnnotationViewReuseId = @"FlyerAnnotationView";
 static NSString* const kFlyerTransformKey = @"transform";
 static NSString* const kKeyFlyerIsAtOwnPost = @"isAtOwnPost";
 static NSString* const kKeyFlyerMetersToDest = @"metersToDest";
 
-static const float kFlyerTimerOriginOffset = 30.0f;
-static const float kFlyerTimerSizeWidth = 80.0f;
-static const float kFlyerTimerSizeHeight = 20.0f;
+static const float kFlyerTimerOriginOffsetX = 0.0f;
+static const float kFlyerTimerOriginOffsetY = 42.0f;
 static const float kFlyerAnnotViewSize = 50.0f;
-static const float kFlyerAnnotContentSize = 80.0f;
+static const float kFlyerAnnotContentSize = 100.0f;
 
 @interface FlyerAnnotationView ()
 {
     FlyerCallout* _calloutAnnotation;
     UIImageView* _imageView;
     UIView* _contentView;
-    UILabel* _timerLabel;
+    CircleBarView* _countdown;
 }
 @property (nonatomic,strong) UIImageView* imageView;
 @property (nonatomic,strong) UIView* contentView;
-@property (nonatomic,strong) UILabel* timerLabel;
-- (CGRect) timerFrameForFlyerTransform:(CGAffineTransform)transform;
-- (void) createTimerLabel;
+@property (nonatomic,strong) CircleBarView* countdown;
+- (CGAffineTransform) countdownTransformFromFlyerTransform:(CGAffineTransform)transform;
+- (void) createCountdown;
 @end
 
 @implementation FlyerAnnotationView
 @synthesize imageView = _imageView;
 @synthesize contentView = _contentView;
-@synthesize timerLabel = _timerLabel;
+@synthesize countdown = _countdown;
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation
 {
     self = [super initWithAnnotation:annotation reuseIdentifier:kFlyerAnnotationViewReuseId];
     if(self)
     {
-        [self setBackgroundColor:[UIColor blueColor]];
+        [self setBackgroundColor:[UIColor clearColor]];
         
         // handle our own callout
         self.canShowCallout = NO;
@@ -70,14 +70,15 @@ static const float kFlyerAnnotContentSize = 80.0f;
         self.opaque = NO;
         
         self.imageView = [[UIImageView alloc] initWithFrame:imageFrame];
-        [self.imageView setBackgroundColor:[UIColor colorWithWhite:0.5f alpha:0.5f]];
+        [self.imageView setBackgroundColor:[UIColor clearColor]];
         [self.imageView setImage:annotationImage];
         [self.contentView addSubview:[self imageView]];
         
         [self addSubview:[self contentView]];
         
-        // timer label
-        [self createTimerLabel];
+        // countdown (start out hidden)
+        [self createCountdown];
+        [self showCountdown:NO];
         
         _calloutAnnotation = nil;
         
@@ -124,9 +125,11 @@ static const float kFlyerAnnotContentSize = 80.0f;
         }
         else if([keyPath isEqualToString:kKeyFlyerMetersToDest])
         {
-            NSTimeInterval timeTillDest = [flyer timeTillDest];
+            // add 1 second as a fake roundup (so that when time is less than 1 second but larger than
+            // 0), user would see 1 sec
+            NSTimeInterval timeTillDest = [flyer timeTillDest] + 1.0f;
             NSString* timerString = [PogUIUtility stringFromTimeInterval:timeTillDest];
-            [self.timerLabel setText:timerString];
+            [self.countdown.label setText:timerString];
         }
     }
 }
@@ -134,28 +137,43 @@ static const float kFlyerAnnotContentSize = 80.0f;
 - (void) setRenderTransform:(CGAffineTransform)transform
 {
     [self.imageView setTransform:transform];
-    self.timerLabel.frame = [self timerFrameForFlyerTransform:transform];
+    [self.countdown setTransform:[self countdownTransformFromFlyerTransform:transform]];
+}
+
+- (void) showCountdown:(BOOL)yesNo
+{
+    if(yesNo)
+    {
+        [self.countdown setHidden:NO];
+    }
+    else
+    {
+        [self.countdown setHidden:YES];
+    }
 }
 
 #pragma mark - internal methods
-- (CGRect) timerFrameForFlyerTransform:(CGAffineTransform)transform
+- (CGAffineTransform) countdownTransformFromFlyerTransform:(CGAffineTransform)transform
 {
-    CGPoint center = CGPointMake(self.contentView.frame.size.width * 0.5f,
-                                 self.contentView.frame.size.height * 0.5f);
-    CGPoint up = CGPointMake(0.0f, 1.0f);
+    CGPoint up = CGPointMake(kFlyerTimerOriginOffsetX, kFlyerTimerOriginOffsetY);
     CGPoint vec = CGPointApplyAffineTransform(up, transform);
-    CGPoint origin = CGPointMake(center.x + (kFlyerTimerOriginOffset * vec.x),
-                                 center.y + (kFlyerTimerOriginOffset * vec.y));
-    CGRect result = CGRectMake(origin.x, origin.y, kFlyerTimerSizeWidth, kFlyerTimerSizeHeight);
+    CGAffineTransform result = CGAffineTransformMakeTranslation(vec.x, vec.y);
     return result;
 }
 
-- (void) createTimerLabel
+- (void) createCountdown
 {
-    self.timerLabel = [[UILabel alloc] initWithFrame:[self timerFrameForFlyerTransform:CGAffineTransformIdentity]];
-    [self.timerLabel setFont:[UIFont fontWithName:@"Marker Felt" size:10.0f]];
-    [self.timerLabel setText:@"Hello"];
-    [self.contentView addSubview:[self timerLabel]];
+    // place it in the center of contentView
+    CGRect countdownFrame = CGRectMake(self.contentView.frame.size.width * 0.5f,
+                                       self.contentView.frame.size.height * 0.5f,
+                                       0.0f, 0.0f);
+    self.countdown = [[CircleBarView alloc] initWithFrame:countdownFrame
+                                                    color:[UIColor colorWithRed:237.0f/255.0f
+                                                                          green:28.0f/255.0f
+                                                                           blue:36.0f/255.0f
+                                                                          alpha:1.0f]
+                                                textColor:[UIColor whiteColor]];
+    [self.contentView addSubview:[self countdown]];
 }
 
 #pragma mark - MKAnnotationView

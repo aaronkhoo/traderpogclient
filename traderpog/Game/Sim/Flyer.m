@@ -17,6 +17,7 @@
 #import "TradePostMgr.h"
 #import "Player.h"
 #import "MKMapView+Pog.h"
+#import "MKMapView+Game.h"
 #import "TradeManager.h"
 #import "GameNotes.h"
 
@@ -411,7 +412,7 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
 #pragma mark - MapAnnotationProtocol
 - (MKAnnotationView*) annotationViewInMap:(MKMapView *)mapView
 {
-    MKAnnotationView* annotationView = (FlyerAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:kFlyerAnnotationViewReuseId];
+    FlyerAnnotationView* annotationView = (FlyerAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:kFlyerAnnotationViewReuseId];
     if(annotationView)
     {
         annotationView.annotation = self;
@@ -421,15 +422,34 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
         annotationView = [[FlyerAnnotationView alloc] initWithAnnotation:self];
     }
     
-    if([self isAtOwnPost])
+    if([mapView isPreviewMap])
     {
+        // for preview map, annotation views are disabled
+        // countdown not shown
         annotationView.enabled = NO;
+        [annotationView showCountdown:NO];
     }
     else
     {
-        annotationView.enabled = YES;
+        // otherwise, follow these rules
+        if([self isAtOwnPost])
+        {
+            annotationView.enabled = NO;
+        }
+        else
+        {
+            annotationView.enabled = YES;
+        }
+        
+        if([_path isEnroute])
+        {
+            [annotationView showCountdown:YES];
+        }
+        else
+        {
+            [annotationView showCountdown:NO];
+        }
     }
-    
 
     return annotationView;
 }

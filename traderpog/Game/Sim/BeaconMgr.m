@@ -23,10 +23,7 @@ static double const refreshTime = -(60 * 15);
 
 @interface BeaconMgr ()
 {
-    // for wheel
-    MapControl* _previewMap;
 }
-@property (nonatomic,strong) MapControl* previewMap;
 @end
 
 @implementation BeaconMgr

@@ -16,15 +16,18 @@ static NSString* const kFlyerMgr_ReceiveFlyers = @"FlyerMgr_ReceiveFlyers";
 @class Flyer;
 @class TradePost;
 @class WorldState;
+@class MapControl;
 @interface FlyerMgr : NSObject<NSCoding,HttpCallbackDelegate,WheelDataSource,WheelProtocol>
 {
     NSMutableArray* _playerFlyers;
     NSDate* _lastUpdate;
+    MapControl* _previewMap;
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
 }
 @property (nonatomic,strong) NSMutableArray* playerFlyers;
+@property (nonatomic,strong) MapControl* previewMap;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 - (BOOL) needsRefresh;

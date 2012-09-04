@@ -39,9 +39,6 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
     
     // User flyer in the midst of being generated
     Flyer* _tempFlyer;
-    
-    // Flyer Wheel datasource
-    MapControl* _previewMap;
 }
 - (TradePost*) tradePosts:(NSArray*)tradePosts withinMeters:(CLLocationDistance)meters fromCoord:(CLLocationCoordinate2D)coord;
 - (void) reconstructFlightPaths;
