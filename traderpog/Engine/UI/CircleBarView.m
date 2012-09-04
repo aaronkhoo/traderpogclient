@@ -41,9 +41,9 @@
 }
 */
 
-static const float kLeftCircleSize = 17.0f * 1.5f;
-static const float kRightBarSizeWidth = 40.0f * 1.5f;
-static const float kRightBarSizeHeight = 12.0f * 1.5f;
+static const float kLeftCircleSize = 17.0f * 1.3f;
+static const float kRightBarSizeWidth = 40.0f * 1.3f;
+static const float kRightBarSizeHeight = 12.0f * 1.3f;
 static const float kLeftCircleBorderWidth = 1.2f;
 static const float kLabelFontSize = 15.0f;
 

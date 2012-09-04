@@ -19,9 +19,9 @@ static NSString* const kKeyFlyerIsAtOwnPost = @"isAtOwnPost";
 static NSString* const kKeyFlyerMetersToDest = @"metersToDest";
 
 static const float kFlyerTimerOriginOffsetX = 0.0f;
-static const float kFlyerTimerOriginOffsetY = 42.0f;
+static const float kFlyerTimerOriginOffsetY = 44.0f;
 static const float kFlyerAnnotViewSize = 50.0f;
-static const float kFlyerAnnotContentSize = 100.0f;
+static const float kFlyerAnnotContentSize = 85.0f;
 
 @interface FlyerAnnotationView ()
 {
