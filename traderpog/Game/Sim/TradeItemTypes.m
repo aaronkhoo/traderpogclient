@@ -137,6 +137,7 @@ static NSString* const kTradeItemTypesFilename = @"tradeitemtypes.sav";
               parameters:nil
                  success:^(AFHTTPRequestOperation *operation, id responseObject){                     
                      NSLog(@"Retrieved: %@", responseObject);
+                     [_itemTypeReg removeAllObjects];
                      [self createItemsReg:responseObject];
                      _lastUpdate = [NSDate date];
                      [self saveTradeItemTypesData];

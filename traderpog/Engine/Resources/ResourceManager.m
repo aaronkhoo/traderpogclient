@@ -23,6 +23,7 @@ static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpo
     NSString* _createdVersion;
     
     NSDate* _resourceLastModified;
+    NSDate* _resourceNewlyModifiedDate;
     NSURLConnection* _headConnection;
     NSURLConnection* _getConnection;
     NSMutableData* _dataBuffer;
@@ -40,6 +41,7 @@ static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpo
     if(self)
     {
         _resourceLastModified = nil;
+        _resourceNewlyModifiedDate = nil;
         _headConnection = nil;
         _getConnection = nil;
         _dataBuffer = nil;
@@ -194,15 +196,14 @@ static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpo
             df.dateFormat = @"EEE, dd MMM yyyy HH:mm:ss z";
             df.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
             df.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
-            NSDate* currentLastModified = [df dateFromString:last_modified];
+            _resourceNewlyModifiedDate = [df dateFromString:last_modified];
             
             // If the resource package has been modified recently, then download it
-            if (!_resourceLastModified || [_resourceLastModified timeIntervalSinceDate:currentLastModified] < 0)
+            if (!_resourceLastModified || [_resourceLastModified timeIntervalSinceDate:_resourceNewlyModifiedDate] < 0)
             {
                 NSLog(@"Requesting resource package");
                 _dataBuffer = [[NSMutableData alloc] init];
                 [self sendRequestForResourcePackage:FALSE];
-                _resourceLastModified = currentLastModified;
             }
             else
             {
@@ -272,6 +273,10 @@ static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpo
             
             // Open the bundle file
             _bundle = [NSBundle bundleWithPath:[ResourceManager resourceBundlePath]];
+            
+            // Save the last modified date
+            _resourceLastModified = _resourceNewlyModifiedDate;
+            _resourceNewlyModifiedDate = nil;
             
             // The ResourcePackage is done loading. Save anything we need to. 
             [self saveResourceManagerData];
