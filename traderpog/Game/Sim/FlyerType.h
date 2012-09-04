@@ -23,12 +23,16 @@
     NSInteger _multiplier;
     NSInteger _stormresist;
     NSInteger _tier;
+    NSString* _topimg;
+    NSString* _sideimg;
 }
 @property (nonatomic,strong) NSString* flyerId;
 @property (nonatomic,strong) NSString* name;
 @property (nonatomic,strong) NSString* desc;
 @property (nonatomic) NSInteger tier;
 @property (nonatomic) NSInteger speed;
+@property (nonatomic,strong) NSString* topimg;
+@property (nonatomic,strong) NSString* sideimg;
 
 - (id) initWithDictionary:(NSDictionary*)dict;
 

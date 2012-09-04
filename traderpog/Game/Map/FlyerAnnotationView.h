@@ -11,7 +11,10 @@
 
 extern NSString* const kFlyerAnnotationViewReuseId;
 @interface FlyerAnnotationView : MKAnnotationView<MapAnnotationViewProtocol>
-
+{
+    UIImageView* _imageView;
+}
+@property (nonatomic,strong) UIImageView* imageView;
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation;
 - (void) setRenderTransform:(CGAffineTransform)transform;
 - (void) showCountdown:(BOOL)yesNo;

@@ -56,6 +56,7 @@
 		42F692D315F1E1B60002B1B2 /* icon_removepost.png in Resources */ = {isa = PBXBuildFile; fileRef = 42F692D015F1E1B60002B1B2 /* icon_removepost.png */; };
 		42FA1A5415F522FF00EB2433 /* CircleBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FA1A5315F522FE00EB2433 /* CircleBarView.m */; };
 		42FA1A5815F5511B00EB2433 /* MKMapView+Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FA1A5715F5511A00EB2433 /* MKMapView+Game.m */; };
+		42FA1A5A15F55EBA00EB2433 /* checkerboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 42FA1A5915F55EBA00EB2433 /* checkerboard.png */; };
 		C41E0C9815AC0391006662DF /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C8415AC0391006662DF /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C41E0C9915AC0391006662DF /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C8615AC0391006662DF /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C41E0C9A15AC0391006662DF /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E0C8815AC0391006662DF /* AFImageRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -113,8 +114,6 @@
 		C4BBE46E15BBDA2C00F582DE /* Flyer.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE46D15BBDA2C00F582DE /* Flyer.m */; };
 		C4BBE47115BBEF0000F582DE /* FlyerMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE47015BBEEFF00F582DE /* FlyerMgr.m */; };
 		C4BBE47715BC5F5100F582DE /* FlyerAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE47615BC5F5000F582DE /* FlyerAnnotationView.m */; };
-		C4BBE47915BC603F00F582DE /* Flyer.png in Resources */ = {isa = PBXBuildFile; fileRef = C4BBE47815BC603F00F582DE /* Flyer.png */; };
-		C4BFC9B815CEBE6D009B7122 /* FlyerLanded.png in Resources */ = {isa = PBXBuildFile; fileRef = C4BFC9B715CEBE6D009B7122 /* FlyerLanded.png */; };
 		C4BFC9C715CFC7EE009B7122 /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BFC9C615CFC7EE009B7122 /* CircleView.m */; };
 		C4D5DDD515B2718100D5A746 /* ConfirmNewPost.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */; };
 		C4D5DDD615B2718100D5A746 /* ConfirmNewPost.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */; };
@@ -242,6 +241,7 @@
 		42FA1A5315F522FE00EB2433 /* CircleBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleBarView.m; sourceTree = "<group>"; };
 		42FA1A5615F5511A00EB2433 /* MKMapView+Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MKMapView+Game.h"; path = "Game/Map/MKMapView+Game.h"; sourceTree = "<group>"; };
 		42FA1A5715F5511A00EB2433 /* MKMapView+Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MKMapView+Game.m"; path = "Game/Map/MKMapView+Game.m"; sourceTree = "<group>"; };
+		42FA1A5915F55EBA00EB2433 /* checkerboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = checkerboard.png; path = assets/checkerboard.png; sourceTree = SOURCE_ROOT; };
 		C41E0C8315AC0391006662DF /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		C41E0C8415AC0391006662DF /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		C41E0C8515AC0391006662DF /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -343,9 +343,7 @@
 		C4BBE47015BBEEFF00F582DE /* FlyerMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerMgr.m; path = Game/Sim/FlyerMgr.m; sourceTree = "<group>"; };
 		C4BBE47515BC5F4F00F582DE /* FlyerAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerAnnotationView.h; path = Game/Map/FlyerAnnotationView.h; sourceTree = "<group>"; };
 		C4BBE47615BC5F5000F582DE /* FlyerAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerAnnotationView.m; path = Game/Map/FlyerAnnotationView.m; sourceTree = "<group>"; };
-		C4BBE47815BC603F00F582DE /* Flyer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Flyer.png; path = assets/Map/Flyer.png; sourceTree = SOURCE_ROOT; };
 		C4BBE47C15BC955000F582DE /* traderpog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = traderpog.entitlements; sourceTree = "<group>"; };
-		C4BFC9B715CEBE6D009B7122 /* FlyerLanded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FlyerLanded.png; path = assets/Map/FlyerLanded.png; sourceTree = SOURCE_ROOT; };
 		C4BFC9C515CFC7EE009B7122 /* CircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleView.h; sourceTree = "<group>"; };
 		C4BFC9C615CFC7EE009B7122 /* CircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleView.m; sourceTree = "<group>"; };
 		C4D5DDD215B2718100D5A746 /* ConfirmNewPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmNewPost.h; path = Game/UI/ConfirmNewPost.h; sourceTree = "<group>"; };
@@ -659,6 +657,7 @@
 		C4D5DDEB15B3D04700D5A746 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				42FA1A5915F55EBA00EB2433 /* checkerboard.png */,
 				C4FA8F4E15B5401000E82A93 /* UI */,
 				C4D5DDEC15B3D05600D5A746 /* Map */,
 			);
@@ -672,9 +671,7 @@
 				42B28E3015EA39620008901C /* b_homebase.png */,
 				42B28E3115EA39620008901C /* b_tradepost.png */,
 				C4D9B07215E3DE160096448E /* b_flyerlab.png */,
-				C4BFC9B715CEBE6D009B7122 /* FlyerLanded.png */,
 				4264B6AF15CD93F300621548 /* TradePost.png */,
-				C4BBE47815BC603F00F582DE /* Flyer.png */,
 				C4D5DDED15B3D12B00D5A746 /* HomeBase.png */,
 			);
 			name = Map;
@@ -914,10 +911,8 @@
 				C4FA8F5C15B54A7200E82A93 /* FBSignIn.png in Resources */,
 				C4BBE44915B7E7C600F582DE /* SignupBackground.png in Resources */,
 				C4BBE45F15BA99B500F582DE /* TradePostCalloutView.xib in Resources */,
-				C4BBE47915BC603F00F582DE /* Flyer.png in Resources */,
 				38B6DAEF15C85A9D00F37BD9 /* FBDialog.bundle in Resources */,
 				4264B6B015CD93F300621548 /* TradePost.png in Resources */,
-				C4BFC9B815CEBE6D009B7122 /* FlyerLanded.png in Resources */,
 				42E92B0815D0E19F0054686F /* Yun.png in Resources */,
 				42E92B0A15D0E7AD0054686F /* startButton.png in Resources */,
 				4221E4D715DA2A2200781664 /* FlyerCalloutView.xib in Resources */,
@@ -928,6 +923,7 @@
 				42F692D115F1E1B60002B1B2 /* bubble_restock.png in Resources */,
 				42F692D215F1E1B60002B1B2 /* bubble_set_beacon.png in Resources */,
 				42F692D315F1E1B60002B1B2 /* icon_removepost.png in Resources */,
+				42FA1A5A15F55EBA00EB2433 /* checkerboard.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,6 +20,7 @@
 #import "MKMapView+Pog.h"
 #import "MKMapView+Game.h"
 #import "TradeManager.h"
+#import "ImageManager.h"
 #import "GameNotes.h"
 
 static const float kFlyerDefaultSpeedMetersPerSec = 10000.0f;
@@ -845,6 +846,12 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
     {
         annotationView = [[FlyerAnnotationView alloc] initWithAnnotation:self];
     }
+    
+    // set image
+    FlyerType* flyerType  = [[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex];
+    UIImage* image = [[ImageManager getInstance] getImage:[flyerType topimg]
+                                            fallbackNamed:@"checkerboard.png"];
+    [annotationView.imageView setImage:image];
     
     if([mapView isPreviewMap])
     {

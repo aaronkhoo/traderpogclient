@@ -26,11 +26,9 @@ static const float kFlyerAnnotContentSize = 100.0f;
 @interface FlyerAnnotationView ()
 {
     FlyerCallout* _calloutAnnotation;
-    UIImageView* _imageView;
     UIView* _contentView;
     CircleBarView* _countdown;
 }
-@property (nonatomic,strong) UIImageView* imageView;
 @property (nonatomic,strong) UIView* contentView;
 @property (nonatomic,strong) CircleBarView* countdown;
 - (CGAffineTransform) countdownTransformFromFlyerTransform:(CGAffineTransform)transform;
@@ -66,12 +64,10 @@ static const float kFlyerAnnotContentSize = 100.0f;
         // setup tradepost image
         CGRect imageFrame = contentFrame;
         imageFrame.origin = CGPointMake(0.0f, 0.0f);
-        UIImage *annotationImage = [UIImage imageNamed:@"Flyer.png"];
         self.opaque = NO;
         
         self.imageView = [[UIImageView alloc] initWithFrame:imageFrame];
         [self.imageView setBackgroundColor:[UIColor clearColor]];
-        [self.imageView setImage:annotationImage];
         [self.contentView addSubview:[self imageView]];
         
         [self addSubview:[self contentView]];

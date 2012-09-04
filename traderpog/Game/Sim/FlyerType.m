@@ -19,6 +19,8 @@ static NSString* const kKeySpeed = @"speed";
 static NSString* const kKeyMultiplier = @"multiplier";
 static NSString* const kKeyStormResist = @"stormresist";
 static NSString* const kKeyTier = @"tier";
+static NSString* const kKeyTopimg = @"topimg";
+static NSString* const kKeySideimg = @"sideimg";
 
 @implementation FlyerType
 @synthesize flyerId = _flyerId;
@@ -26,6 +28,8 @@ static NSString* const kKeyTier = @"tier";
 @synthesize desc = _desc;
 @synthesize tier = _tier;
 @synthesize speed = _speed;
+@synthesize topimg = _topimg;
+@synthesize sideimg = _sideimg;
 
 - (id) initWithDictionary:(NSDictionary*)dict
 {
@@ -41,6 +45,8 @@ static NSString* const kKeyTier = @"tier";
         _multiplier =[[dict valueForKeyPath:@"multiplier"] integerValue];
         _stormresist =[[dict valueForKeyPath:@"stormresist"] integerValue];
         _tier = [[dict valueForKeyPath:@"tier"] integerValue];
+        _topimg = [dict valueForKeyPath:kKeyTopimg];
+        _sideimg = [dict valueForKeyPath:kKeySideimg];
     }
     return self;
 }
@@ -58,6 +64,8 @@ static NSString* const kKeyTier = @"tier";
     [aCoder encodeObject:[NSNumber numberWithInteger:_multiplier] forKey:kKeyMultiplier];
     [aCoder encodeObject:[NSNumber numberWithInteger:_stormresist] forKey:kKeyStormResist];
     [aCoder encodeObject:[NSNumber numberWithInteger:_tier] forKey:kKeyTier];
+    [aCoder encodeObject:_topimg forKey:kKeyTopimg];
+    [aCoder encodeObject:_sideimg forKey:kKeySideimg];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
@@ -72,6 +80,8 @@ static NSString* const kKeyTier = @"tier";
     _multiplier = [[aDecoder decodeObjectForKey:kKeyMultiplier] integerValue];
     _stormresist = [[aDecoder decodeObjectForKey:kKeyStormResist] integerValue];
     _tier = [[aDecoder decodeObjectForKey:kKeyTier] integerValue];
+    _topimg = [aDecoder decodeObjectForKey:kKeyTopimg];
+    _sideimg = [aDecoder decodeObjectForKey:kKeySideimg];
     return self;
 }
 
