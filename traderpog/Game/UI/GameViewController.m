@@ -236,8 +236,8 @@ static const float kKnobHiddenYOffsetFrac = (kKnobRadiusFrac * 0.4f); // frac of
 static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
 static const float kWheelRadiusFrac = 0.75f;
 static const float kWheelPreviewXViewFrac = 0.0f;
-static const float kWheelPreviewYHeightFrac = 1.75f;
-static const float kWheelPreviewSizeFrac = 0.35f * 2.3f; // in terms of wheel radius
+static const float kWheelPreviewYHeightFrac = 1.65f;
+static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel radius
 - (void) initKnob
 {
     CGRect viewFrame = self.view.frame;

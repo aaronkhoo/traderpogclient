@@ -273,9 +273,9 @@ static const int kLabelViewTag = 10;
 }
 
 
-static const float kPreviewButtonOkSizeFrac = 0.23f;
-static const float kPreviewButtonOkXFrac = 0.76f;
-static const float kPreviewButtonOkYFrac = 0.41f;
+static const float kPreviewButtonOkSizeFrac = 0.26f;
+static const float kPreviewButtonOkXFrac = 0.73f;
+static const float kPreviewButtonOkYFrac = 0.39f;
 static const float kPreviewButtonCloseSizeFrac = 0.16f;
 static const float kPreviewButtonCloseXFrac = 0.75f;
 static const float kPreviewButtonCloseYFrac = 0.66f;
