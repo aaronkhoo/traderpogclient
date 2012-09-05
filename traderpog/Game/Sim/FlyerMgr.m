@@ -20,7 +20,10 @@
 #import "TradeItemTypes.h"
 #import "TradeItemType.h"
 #import "WorldState.h"
+#import "GameColors.h"
+#import "ImageManager.h"
 #include "MathUtils.h"
+#import <QuartzCore/QuartzCore.h>
 
 static NSString* const kKeyVersion = @"version";
 static NSString* const kKeyUserFlyerId = @"id";
@@ -31,6 +34,11 @@ static NSString* const kFlyerMgrFilename = @"flyermgr.sav";
 static double const refreshTime = -(60 * 15);
 static NSUInteger kFlyerPreviewZoomLevel = 8;
 static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
+
+static const unsigned int kFlyerFreeNum = 3;
+static const unsigned int kFlyerMemberNum = 3;
+static const unsigned int kFlyerNum = kFlyerFreeNum + kFlyerMemberNum;
+static const float kBubbleBorderWidth = 1.5f;
 
 @interface FlyerMgr ()
 {
@@ -415,7 +423,7 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
 #pragma mark - WheelDataSource
 - (unsigned int) numItemsInWheel:(WheelControl *)wheel
 {
-    unsigned int num = [_playerFlyers count];
+    unsigned int num = kFlyerNum;
     return num;
 }
 
@@ -423,18 +431,28 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
 - (WheelBubble*) wheel:(WheelControl *)wheel bubbleAtIndex:(unsigned int)index
 {
     WheelBubble* contentView = [wheel dequeueResuableBubble];
-    UILabel* labelView = nil;
     if(nil == contentView)
     {
         CGRect contentRect = CGRectMake(5.0f, 5.0f, 30.0f, 30.0f);
         contentView = [[WheelBubble alloc] initWithFrame:contentRect];
     }
-    labelView = [contentView labelView];
-    labelView.backgroundColor = [UIColor clearColor];
-    [labelView setText:[NSString stringWithFormat:@"%d", index]];
-    contentView.backgroundColor = [UIColor redColor];
-    
-    [PogUIUtility setCircleForView:contentView];
+    contentView.backgroundColor = [GameColors bubbleBgColorWithAlpha:1.0f];
+    UIColor* borderColor = [GameColors borderColorFlyersWithAlpha:1.0f];
+    [PogUIUtility setCircleForView:contentView
+                   withBorderWidth:kBubbleBorderWidth
+                       borderColor:borderColor
+                    rasterizeScale:1.5f];
+    if(index < [_playerFlyers count])
+    {
+        UIImage* image = [[ImageManager getInstance] getImage:@"bubble_flyer.png" fallbackNamed:@"bubble_flyer.png"];
+        [contentView.imageView setImage:image];
+    }
+    else
+    {
+        UIImage* image = [[ImageManager getInstance] getImage:@"bubble_flyer_g.png" fallbackNamed:@"bubble_flyer_g.png"];
+        [contentView.imageView setImage:image];
+    }
+
     return contentView;
 }
 
@@ -467,19 +485,58 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
     return result;
 }
 
-#pragma mark - WheelProtocol
-- (void) wheelDidMoveTo:(unsigned int)index
+- (UIColor*) previewColorForWheel:(WheelControl *)wheel
 {
-    NSLog(@"wheel moved to %d",index);
-    if([_playerFlyers count])
+    UIColor* result = [GameColors bubbleBgColorWithAlpha:1.0f];
+    return result;
+}
+
+- (UIColor*) previewBorderColorForWheel:(WheelControl *)wheel
+{
+    UIColor* result = [GameColors bubbleColorFlyersWithAlpha:1.0f];
+    return result;
+}
+
+- (UIColor*) previewButtonColorForWheel:(WheelControl *)wheel
+{
+    UIColor* result = [GameColors bubbleColorScanWithAlpha:1.0f];
+    return result;
+}
+
+- (UIColor*) previewButtonBorderColorForWheel:(WheelControl *)wheel
+{
+    UIColor* result = [GameColors bubbleColorFlyersWithAlpha:1.0f];
+    return result;
+}
+
+
+#pragma mark - WheelProtocol
+- (void) wheel:(WheelControl*)wheel didMoveTo:(unsigned int)index
+{
+    index = MIN(index, kFlyerNum - 1);
+    if([_playerFlyers count] > index)
     {
-        index = MIN(index, [_playerFlyers count]-1);
         Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
         if([_previewMap trackedAnnotation] != curFlyer)
         {
             [_previewMap centerOn:[curFlyer coord] animated:YES];
             [_previewMap startTrackingAnnotation:curFlyer];
         }
+        wheel.previewLabelBg.hidden = YES;
+        [wheel.previewImageView setImage:nil];
+        [wheel.previewImageView setHidden:YES];
+    }
+    else
+    {
+        // empty flyer slot
+        wheel.previewLabelBg.hidden = NO;
+        [wheel.previewLabel setNumberOfLines:1];
+        [wheel.previewLabel setText:@"Buy Flyer!"];
+        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
+        UIImage* bgImage = [[ImageManager getInstance] getImage:@"flyer_landed.png" fallbackNamed:@"flyer_landed.png"];
+        [wheel.previewImageView setImage:bgImage];
+        [wheel.previewImageView setHidden:NO];
+        [wheel.previewImageView setBackgroundColor:[GameColors bubbleBgColorWithAlpha:1.0f]];
     }
 }
 
@@ -490,14 +547,16 @@ static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
 
 - (void) wheel:(WheelControl*)wheel didPressOkOnIndex:(unsigned int)index
 {
-    if([_playerFlyers count])
+    index = MIN(index, kFlyerNum - 1);
+    if([_playerFlyers count] > index)
     {
         index = MIN(index, [_playerFlyers count]-1);
         Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
-//        [wheel.superMap centerOn:[curFlyer coord] animated:YES];
-//        [wheel.superMap startTrackingAnnotation:curFlyer];
-//        [wheel.superMap centerOnFlyer:curFlyer animated:YES];
         [[GameManager getInstance] wheel:wheel commitOnFlyer:curFlyer];
+    }
+    else
+    {
+        NSLog(@"Buy New Flyer");
     }
 }
 

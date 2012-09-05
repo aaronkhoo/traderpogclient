@@ -32,7 +32,13 @@ typedef void (^CompletionBlock)(BOOL finished);
 + (void) createInsertScrimForView:(UIView*)contentView;
 + (void) setRoundCornersForView:(UIView*)targetView;
 + (void) setCircleForView:(UIView*)targetView;
-+ (void) setCircleForView:(UIView *)targetView withBorderWidth:(float)borderWidth borderColor:(UIColor*)borderColor;
++ (void) setCircleForView:(UIView *)targetView
+          withBorderWidth:(float)borderWidth
+              borderColor:(UIColor*)borderColor;
++ (void) setCircleForView:(UIView *)targetView
+          withBorderWidth:(float)borderWidth
+              borderColor:(UIColor*)borderColor
+           rasterizeScale:(float)rasterScale;
 + (void) setCircleShadowOnView:(UIView*)view
                    shadowColor:(UIColor*)shadowColor;
 

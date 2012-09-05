@@ -17,14 +17,13 @@
 #import "FlyerMgr.h"
 #import "Flyer.h"
 #import "NSArray+Pog.h"
+#import "GameColors.h"
+#import "ImageManager.h"
 
 static NSUInteger kBeaconPreviewZoomLevel = 8;
 static double const refreshTime = -(60 * 15);
-
-@interface BeaconMgr ()
-{
-}
-@end
+static const unsigned int kBeaconNum = 10;
+static const float kBubbleBorderWidth = 1.5f;
 
 @implementation BeaconMgr
 @synthesize activeBeacons = _activeBeacons;
@@ -107,33 +106,47 @@ static double const refreshTime = -(60 * 15);
 #pragma mark - WheelDataSource
 - (unsigned int) numItemsInWheel:(WheelControl *)wheel
 {
-    unsigned int num = [_activeBeacons count];
+    unsigned int num = kBeaconNum;
     return num;
 }
 
 
 - (WheelBubble*) wheel:(WheelControl *)wheel bubbleAtIndex:(unsigned int)index
 {
+    index = MIN(index, kBeaconNum - 1);
+
     WheelBubble* contentView = [wheel dequeueResuableBubble];
-    UILabel* labelView = nil;
     if(nil == contentView)
     {
         CGRect contentRect = CGRectMake(5.0f, 5.0f, 30.0f, 30.0f);
         contentView = [[WheelBubble alloc] initWithFrame:contentRect];
     }
-    labelView = [contentView labelView];
-    labelView.backgroundColor = [UIColor clearColor];
-    [labelView setText:[NSString stringWithFormat:@"%d", index]];
-    contentView.backgroundColor = [UIColor redColor];
+    contentView.backgroundColor = [GameColors bubbleBgColorWithAlpha:1.0f];
+    UIColor* borderColor = [GameColors borderColorBeaconsWithAlpha:1.0f];
+    [PogUIUtility setCircleForView:contentView
+                   withBorderWidth:kBubbleBorderWidth
+                       borderColor:borderColor
+                    rasterizeScale:1.5f];
+
+    if([_activeBeacons count] > index)
+    {
+        UIImage* image = [[ImageManager getInstance] getImage:@"bubble_beacon_fb.png" fallbackNamed:@"bubble_beacon_fb.png"];
+        [contentView.imageView setImage:image];
+    }
+    else
+    {
+        UIImage* image = [[ImageManager getInstance] getImage:@"bubble_beacon_g_001.png" fallbackNamed:@"bubble_beacon_g_001.png"];
+        [contentView.imageView setImage:image];
+    }
     
-    [PogUIUtility setCircleForView:contentView];
     return contentView;
 }
 
 - (UIView*) wheel:(WheelControl*)wheel previewContentInitAtIndex:(unsigned int)index;
 {
     MKMapView* result = nil;
-    if([_activeBeacons count])
+    index = MIN(index, kBeaconNum - 1);
+    if([_activeBeacons count] > index)
     {
         if(_previewMap)
         {
@@ -143,7 +156,6 @@ static double const refreshTime = -(60 * 15);
         {
             CGRect superFrame = wheel.previewView.bounds;
             result = [[MKMapView alloc] initWithFrame:superFrame];
-            index = MIN(index, [_activeBeacons count]-1);
             ForeignTradePost* initBeacon = [_activeBeacons.allValues objectAtIndex:index];
             _previewMap = [[MapControl alloc] initWithMapView:result
                                                     andCenter:[initBeacon coord]
@@ -153,32 +165,80 @@ static double const refreshTime = -(60 * 15);
             [self addBeaconAnnotationsToMap:_previewMap];
         }
     }
+    else
+    {
+        // do nothing
+    }
+    return result;
+}
+
+- (UIColor*) previewColorForWheel:(WheelControl *)wheel
+{
+    UIColor* result = [GameColors bubbleBgColorWithAlpha:1.0f];
+    return result;
+}
+
+- (UIColor*) previewBorderColorForWheel:(WheelControl *)wheel
+{
+    UIColor* result = [GameColors bubbleColorBeaconsWithAlpha:1.0f];
+    return result;
+}
+
+- (UIColor*) previewButtonColorForWheel:(WheelControl *)wheel
+{
+    UIColor* result = [GameColors bubbleColorScanWithAlpha:1.0f];
+    return result;
+}
+
+- (UIColor*) previewButtonBorderColorForWheel:(WheelControl *)wheel
+{
+    UIColor* result = [GameColors borderColorBeaconsWithAlpha:1.0f];
     return result;
 }
 
 #pragma mark - WheelProtocol
-- (void) wheelDidMoveTo:(unsigned int)index
+- (void) wheel:(WheelControl*)wheel didMoveTo:(unsigned int)index
 {
-    NSLog(@"wheel moved to %d",index);
+    index = MIN(index, kBeaconNum - 1);
+    if([_activeBeacons count] > index)
+    {
+        ForeignTradePost* cur = [_activeBeacons.allValues objectAtIndex:index];
+        [_previewMap centerOn:[cur coord] animated:YES];        
+        wheel.previewLabelBg.hidden = YES;
+        [wheel.previewImageView setImage:nil];
+        [wheel.previewImageView setHidden:YES];
+    }
+    else
+    {
+        // empty flyer slot
+        wheel.previewLabelBg.hidden = NO;
+        [wheel.previewLabel setNumberOfLines:1];
+        [wheel.previewLabel setText:@"Invite Friends!"];
+        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
+        UIImage* bgImage = [[ImageManager getInstance] getImage:@"bubble_beacon_fb.png" fallbackNamed:@"bubble_beacon_fb.png"];
+        [wheel.previewImageView setImage:bgImage];
+        [wheel.previewImageView setHidden:NO];
+        [wheel.previewImageView setBackgroundColor:[GameColors bubbleBgColorWithAlpha:1.0f]];
+    }
 }
 
 - (void) wheel:(WheelControl*)wheel didSettleAt:(unsigned int)index
 {
-    if([_activeBeacons count])
-    {
-        index = MIN(index, [_activeBeacons count]-1);
-        ForeignTradePost* cur = [_activeBeacons.allValues objectAtIndex:index];
-        [_previewMap centerOn:[cur coord] animated:YES];
-    }
+    // do nothing
 }
 
 - (void) wheel:(WheelControl*)wheel didPressOkOnIndex:(unsigned int)index
 {
-    if([_activeBeacons count])
+    index = MIN(index, kBeaconNum - 1);
+    if([_activeBeacons count] > index)
     {
         index = MIN(index, [_activeBeacons count]-1);
         ForeignTradePost* cur = [_activeBeacons.allValues objectAtIndex:index];
         [wheel.superMap defaultZoomCenterOn:[cur coord] animated:YES];
+    }
+    else
+    {
+        NSLog(@"Invite Friends!");
     }
 }
 

@@ -365,7 +365,8 @@ static const float kPostBubbleBorderWidth = 1.5f;
     UIColor* borderColor = [GameColors borderColorPostsWithAlpha:1.0f];
     [PogUIUtility setCircleForView:contentView
                    withBorderWidth:kPostBubbleBorderWidth
-                       borderColor:borderColor];
+                       borderColor:borderColor
+                    rasterizeScale:1.5f];
     return contentView;
 }
 
@@ -416,12 +417,7 @@ static const float kPostBubbleBorderWidth = 1.5f;
 }
 
 #pragma mark - WheelProtocol
-- (void) wheelDidMoveTo:(unsigned int)index
-{
-    NSLog(@"wheel moved to %d",index);
-}
-
-- (void) wheel:(WheelControl*)wheel didSettleAt:(unsigned int)index
+- (void) wheel:(WheelControl*)wheel didMoveTo:(unsigned int)index
 {
     index = MIN(index, kMyPostSlotNum-1);
     if([NSNull null] != [self.myPostSlots objectAtIndex:index])
@@ -457,6 +453,11 @@ static const float kPostBubbleBorderWidth = 1.5f;
         [wheel.previewImageView setHidden:NO];
         [wheel.previewImageView setBackgroundColor:[GameColors bubbleBgColorWithAlpha:1.0f]];
     }
+}
+
+- (void) wheel:(WheelControl*)wheel didSettleAt:(unsigned int)index
+{
+    // do nothing
 }
 
 - (void) wheel:(WheelControl*)wheel didPressOkOnIndex:(unsigned int)index

@@ -41,6 +41,9 @@
 		4221E4D715DA2A2200781664 /* FlyerCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4221E4D615DA2A2200781664 /* FlyerCalloutView.xib */; };
 		4227882815D7230100852AC4 /* BeaconAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227882715D7230100852AC4 /* BeaconAnnotationView.m */; };
 		4227883015D74A9A00852AC4 /* TradeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227882F15D74A9900852AC4 /* TradeManager.m */; };
+		423F56BF15F72FA100E42AC2 /* bubble_flyer_g.png in Resources */ = {isa = PBXBuildFile; fileRef = 423F56BD15F72FA100E42AC2 /* bubble_flyer_g.png */; };
+		423F56C015F72FA100E42AC2 /* bubble_flyer.png in Resources */ = {isa = PBXBuildFile; fileRef = 423F56BE15F72FA100E42AC2 /* bubble_flyer.png */; };
+		423F56C315F7C60900E42AC2 /* flyer_landed.png in Resources */ = {isa = PBXBuildFile; fileRef = 423F56C215F7C60900E42AC2 /* flyer_landed.png */; };
 		4264B6B015CD93F300621548 /* TradePost.png in Resources */ = {isa = PBXBuildFile; fileRef = 4264B6AF15CD93F300621548 /* TradePost.png */; };
 		4277385215D3A5CE004DCC13 /* BeaconMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385115D3A5CE004DCC13 /* BeaconMgr.m */; };
 		4277385615D3A971004DCC13 /* Beacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385515D3A971004DCC13 /* Beacon.m */; };
@@ -53,6 +56,8 @@
 		42B28E2F15E99E5A0008901C /* NSArray+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B28E2E15E99E5A0008901C /* NSArray+Pog.m */; };
 		42B28E3215EA39620008901C /* b_homebase.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B28E3015EA39620008901C /* b_homebase.png */; };
 		42B28E3315EA39620008901C /* b_tradepost.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B28E3115EA39620008901C /* b_tradepost.png */; };
+		42D909F415F7D33800BBE992 /* bubble_beacon_fb.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909F215F7D33800BBE992 /* bubble_beacon_fb.png */; };
+		42D909F515F7D33800BBE992 /* bubble_beacon_g_001.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909F315F7D33800BBE992 /* bubble_beacon_g_001.png */; };
 		42E92B0815D0E19F0054686F /* Yun.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E92B0715D0E19F0054686F /* Yun.png */; };
 		42E92B0A15D0E7AD0054686F /* startButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E92B0915D0E7AD0054686F /* startButton.png */; };
 		42E92B0D15D0E8E00054686F /* UIImage+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E92B0C15D0E8E00054686F /* UIImage+Pog.m */; };
@@ -223,6 +228,9 @@
 		4227882715D7230100852AC4 /* BeaconAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeaconAnnotationView.m; path = Game/Map/BeaconAnnotationView.m; sourceTree = "<group>"; };
 		4227882E15D74A9800852AC4 /* TradeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradeManager.h; path = Game/Sim/TradeManager.h; sourceTree = "<group>"; };
 		4227882F15D74A9900852AC4 /* TradeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradeManager.m; path = Game/Sim/TradeManager.m; sourceTree = "<group>"; };
+		423F56BD15F72FA100E42AC2 /* bubble_flyer_g.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_flyer_g.png; path = assets/UI/bubble_flyer_g.png; sourceTree = SOURCE_ROOT; };
+		423F56BE15F72FA100E42AC2 /* bubble_flyer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_flyer.png; path = assets/UI/bubble_flyer.png; sourceTree = SOURCE_ROOT; };
+		423F56C215F7C60900E42AC2 /* flyer_landed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer_landed.png; path = assets/Map/flyer_landed.png; sourceTree = SOURCE_ROOT; };
 		4264B6AF15CD93F300621548 /* TradePost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TradePost.png; path = assets/Map/TradePost.png; sourceTree = SOURCE_ROOT; };
 		4277385015D3A5CE004DCC13 /* BeaconMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BeaconMgr.h; path = Game/Sim/BeaconMgr.h; sourceTree = "<group>"; };
 		4277385115D3A5CE004DCC13 /* BeaconMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeaconMgr.m; path = Game/Sim/BeaconMgr.m; sourceTree = "<group>"; };
@@ -244,6 +252,8 @@
 		42B28E2E15E99E5A0008901C /* NSArray+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Pog.m"; path = "traderpog/Engine/Sim/NSArray+Pog.m"; sourceTree = SOURCE_ROOT; };
 		42B28E3015EA39620008901C /* b_homebase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = b_homebase.png; path = assets/Map/b_homebase.png; sourceTree = SOURCE_ROOT; };
 		42B28E3115EA39620008901C /* b_tradepost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = b_tradepost.png; path = assets/Map/b_tradepost.png; sourceTree = SOURCE_ROOT; };
+		42D909F215F7D33800BBE992 /* bubble_beacon_fb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_beacon_fb.png; path = assets/UI/bubble_beacon_fb.png; sourceTree = SOURCE_ROOT; };
+		42D909F315F7D33800BBE992 /* bubble_beacon_g_001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_beacon_g_001.png; path = assets/UI/bubble_beacon_g_001.png; sourceTree = SOURCE_ROOT; };
 		42E92B0715D0E19F0054686F /* Yun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Yun.png; path = assets/UI/Yun.png; sourceTree = SOURCE_ROOT; };
 		42E92B0915D0E7AD0054686F /* startButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = startButton.png; path = assets/UI/startButton.png; sourceTree = SOURCE_ROOT; };
 		42E92B0B15D0E8E00054686F /* UIImage+Pog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Pog.h"; sourceTree = "<group>"; };
@@ -702,7 +712,10 @@
 		C4D5DDEC15B3D05600D5A746 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				423F56C215F7C60900E42AC2 /* flyer_landed.png */,
 				429B154715F5CFAF00107D5F /* bubble_postmark_g.png */,
+				423F56BD15F72FA100E42AC2 /* bubble_flyer_g.png */,
+				423F56BE15F72FA100E42AC2 /* bubble_flyer.png */,
 				42B28E3015EA39620008901C /* b_homebase.png */,
 				42B28E3115EA39620008901C /* b_tradepost.png */,
 				C4D9B07215E3DE160096448E /* b_flyerlab.png */,
@@ -875,6 +888,8 @@
 				42F692CE15F1E1B60002B1B2 /* bubble_restock.png */,
 				42F692CF15F1E1B60002B1B2 /* bubble_set_beacon.png */,
 				42F692D015F1E1B60002B1B2 /* icon_removepost.png */,
+				42D909F215F7D33800BBE992 /* bubble_beacon_fb.png */,
+				42D909F315F7D33800BBE992 /* bubble_beacon_g_001.png */,
 				42E92B0715D0E19F0054686F /* Yun.png */,
 				C4BBE44815B7E7C600F582DE /* SignupBackground.png */,
 				C4FA8F5915B54A7200E82A93 /* CreateAccount.png */,
@@ -972,6 +987,11 @@
 				421564DB15F6B2E400AAE851 /* pogbuilding_002.png in Resources */,
 				421564DC15F6B2E400AAE851 /* pogbuilding_003.png in Resources */,
 				421564DD15F6B2E400AAE851 /* pogbuilding_004.png in Resources */,
+				423F56BF15F72FA100E42AC2 /* bubble_flyer_g.png in Resources */,
+				423F56C015F72FA100E42AC2 /* bubble_flyer.png in Resources */,
+				423F56C315F7C60900E42AC2 /* flyer_landed.png in Resources */,
+				42D909F415F7D33800BBE992 /* bubble_beacon_fb.png in Resources */,
+				42D909F515F7D33800BBE992 /* bubble_beacon_g_001.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
