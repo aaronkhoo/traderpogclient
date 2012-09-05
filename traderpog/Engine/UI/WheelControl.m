@@ -842,7 +842,7 @@ static const float kSelectedOffset = -6.5f;
                                 if(beaconSlot != _selectedBeacon) 
                                 {
                                     _selectedBeacon = beaconSlot;
-                                    [self.delegate wheelDidMoveTo:_selectedBeacon];
+                                    [self.delegate wheel:self didMoveTo:_selectedBeacon];
                                 }
                                 
                                 // if we are ending-tracking here, endTrackingWithTouch would not get called
@@ -868,7 +868,7 @@ static const float kSelectedOffset = -6.5f;
         if(beaconSlot != _selectedBeacon) 
         {
             _selectedBeacon = beaconSlot;
-            [self.delegate wheelDidMoveTo:_selectedBeacon];
+            [self.delegate wheel:self didMoveTo:_selectedBeacon];
         }
     }
     

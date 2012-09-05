@@ -41,6 +41,9 @@
 		4221E4D715DA2A2200781664 /* FlyerCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4221E4D615DA2A2200781664 /* FlyerCalloutView.xib */; };
 		4227882815D7230100852AC4 /* BeaconAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227882715D7230100852AC4 /* BeaconAnnotationView.m */; };
 		4227883015D74A9A00852AC4 /* TradeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227882F15D74A9900852AC4 /* TradeManager.m */; };
+		423F56BF15F72FA100E42AC2 /* bubble_flyer_g.png in Resources */ = {isa = PBXBuildFile; fileRef = 423F56BD15F72FA100E42AC2 /* bubble_flyer_g.png */; };
+		423F56C015F72FA100E42AC2 /* bubble_flyer.png in Resources */ = {isa = PBXBuildFile; fileRef = 423F56BE15F72FA100E42AC2 /* bubble_flyer.png */; };
+		423F56C315F7C60900E42AC2 /* flyer_landed.png in Resources */ = {isa = PBXBuildFile; fileRef = 423F56C215F7C60900E42AC2 /* flyer_landed.png */; };
 		4264B6B015CD93F300621548 /* TradePost.png in Resources */ = {isa = PBXBuildFile; fileRef = 4264B6AF15CD93F300621548 /* TradePost.png */; };
 		4277385215D3A5CE004DCC13 /* BeaconMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385115D3A5CE004DCC13 /* BeaconMgr.m */; };
 		4277385615D3A971004DCC13 /* Beacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385515D3A971004DCC13 /* Beacon.m */; };
@@ -223,6 +226,9 @@
 		4227882715D7230100852AC4 /* BeaconAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeaconAnnotationView.m; path = Game/Map/BeaconAnnotationView.m; sourceTree = "<group>"; };
 		4227882E15D74A9800852AC4 /* TradeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradeManager.h; path = Game/Sim/TradeManager.h; sourceTree = "<group>"; };
 		4227882F15D74A9900852AC4 /* TradeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradeManager.m; path = Game/Sim/TradeManager.m; sourceTree = "<group>"; };
+		423F56BD15F72FA100E42AC2 /* bubble_flyer_g.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_flyer_g.png; path = assets/UI/bubble_flyer_g.png; sourceTree = SOURCE_ROOT; };
+		423F56BE15F72FA100E42AC2 /* bubble_flyer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_flyer.png; path = assets/UI/bubble_flyer.png; sourceTree = SOURCE_ROOT; };
+		423F56C215F7C60900E42AC2 /* flyer_landed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer_landed.png; path = assets/Map/flyer_landed.png; sourceTree = SOURCE_ROOT; };
 		4264B6AF15CD93F300621548 /* TradePost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TradePost.png; path = assets/Map/TradePost.png; sourceTree = SOURCE_ROOT; };
 		4277385015D3A5CE004DCC13 /* BeaconMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BeaconMgr.h; path = Game/Sim/BeaconMgr.h; sourceTree = "<group>"; };
 		4277385115D3A5CE004DCC13 /* BeaconMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeaconMgr.m; path = Game/Sim/BeaconMgr.m; sourceTree = "<group>"; };
@@ -702,7 +708,10 @@
 		C4D5DDEC15B3D05600D5A746 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				423F56C215F7C60900E42AC2 /* flyer_landed.png */,
 				429B154715F5CFAF00107D5F /* bubble_postmark_g.png */,
+				423F56BD15F72FA100E42AC2 /* bubble_flyer_g.png */,
+				423F56BE15F72FA100E42AC2 /* bubble_flyer.png */,
 				42B28E3015EA39620008901C /* b_homebase.png */,
 				42B28E3115EA39620008901C /* b_tradepost.png */,
 				C4D9B07215E3DE160096448E /* b_flyerlab.png */,
@@ -972,6 +981,9 @@
 				421564DB15F6B2E400AAE851 /* pogbuilding_002.png in Resources */,
 				421564DC15F6B2E400AAE851 /* pogbuilding_003.png in Resources */,
 				421564DD15F6B2E400AAE851 /* pogbuilding_004.png in Resources */,
+				423F56BF15F72FA100E42AC2 /* bubble_flyer_g.png in Resources */,
+				423F56C015F72FA100E42AC2 /* bubble_flyer.png in Resources */,
+				423F56C315F7C60900E42AC2 /* flyer_landed.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

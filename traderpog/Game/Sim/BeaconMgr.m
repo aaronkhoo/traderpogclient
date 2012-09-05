@@ -157,7 +157,7 @@ static double const refreshTime = -(60 * 15);
 }
 
 #pragma mark - WheelProtocol
-- (void) wheelDidMoveTo:(unsigned int)index
+- (void) wheel:(WheelControl*)wheel didMoveTo:(unsigned int)index
 {
     NSLog(@"wheel moved to %d",index);
 }

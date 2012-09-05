@@ -11,7 +11,7 @@
 @class WheelBubble;
 @class WheelControl;
 @protocol WheelProtocol <NSObject>
-- (void) wheelDidMoveTo:(unsigned int)index;
+- (void) wheel:(WheelControl*)wheel didMoveTo:(unsigned int)index;
 - (void) wheel:(WheelControl*)wheel didSettleAt:(unsigned int)index;
 - (void) wheel:(WheelControl*)wheel didPressOkOnIndex:(unsigned int)index;
 - (void) wheel:(WheelControl*)wheel didPressCloseOnIndex:(unsigned int)index;

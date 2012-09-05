@@ -178,12 +178,20 @@ static const float kSecondsPerMinute = 60.0;
 
 + (void) setCircleForView:(UIView *)targetView withBorderWidth:(float)borderWidth borderColor:(UIColor*)borderColor
 {
+    [PogUIUtility setCircleForView:targetView withBorderWidth:borderWidth borderColor:borderColor rasterizeScale:1.0f];
+}
+
++ (void) setCircleForView:(UIView *)targetView
+          withBorderWidth:(float)borderWidth
+              borderColor:(UIColor*)borderColor
+           rasterizeScale:(float)rasterScale
+{
     float width = targetView.bounds.size.width;
     [[targetView layer] setCornerRadius:0.5f * width];
     [[targetView layer] setMasksToBounds:YES];
     [[targetView layer] setBorderWidth:borderWidth];
     [[targetView layer] setBorderColor:[borderColor CGColor]];
-    [[targetView layer] setRasterizationScale:[[UIScreen mainScreen] scale]];
+    [[targetView layer] setRasterizationScale:[[UIScreen mainScreen] scale] * rasterScale];
     [[targetView layer] setShouldRasterize:YES];
 }
 
