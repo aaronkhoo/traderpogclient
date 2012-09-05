@@ -41,6 +41,7 @@ typedef void (^CompletionBlock)(BOOL finished);
            rasterizeScale:(float)rasterScale;
 + (void) setCircleShadowOnView:(UIView*)view
                    shadowColor:(UIColor*)shadowColor;
++ (void) setBorderOnView:(UIView*)view width:(float)borderWidth color:(UIColor*)borderColor;
 
 + (UIView*) createFadeAlert:(NSString*)message;
 + (void) fadeView:(UIView*)parentView toColor:(UIColor*)color completion:(CompletionBlock)completionBlock;

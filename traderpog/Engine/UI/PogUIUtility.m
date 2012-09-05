@@ -176,8 +176,8 @@ static const float kSecondsPerMinute = 60.0;
     // init round corners
     [[targetView layer] setCornerRadius:8.0f];
     [[targetView layer] setMasksToBounds:YES];
-    [[targetView layer] setBorderWidth:4.0f];
-    [[targetView layer] setBorderColor:[[UIColor clearColor] CGColor]];
+    //[[targetView layer] setBorderWidth:4.0f];
+    //[[targetView layer] setBorderColor:[[UIColor clearColor] CGColor]];
 }
 
 + (void) setCircleForView:(UIView *)targetView
@@ -207,6 +207,12 @@ static const float kSecondsPerMinute = 60.0;
     [[targetView layer] setBorderColor:[borderColor CGColor]];
     [[targetView layer] setRasterizationScale:[[UIScreen mainScreen] scale] * rasterScale];
     [[targetView layer] setShouldRasterize:YES];
+}
+
++ (void) setBorderOnView:(UIView*)view width:(float)borderWidth color:(UIColor*)borderColor
+{
+    [[view layer] setBorderWidth:borderWidth];
+    [[view layer] setBorderColor:[borderColor CGColor]];
 }
 
 + (void) setCircleShadowOnView:(UIView *)view shadowColor:(UIColor *)shadowColor

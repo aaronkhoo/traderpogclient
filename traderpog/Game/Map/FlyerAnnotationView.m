@@ -159,18 +159,26 @@ static const float kFlyerAnnotContentSize = 85.0f;
     return result;
 }
 
+static const float kFlyerCountdownWidth = 64.0f;
+static const float kFlyerCountdownHeight = 22.0f;
 - (void) createCountdown
 {
     // place it in the center of contentView
     CGRect countdownFrame = CGRectMake(self.contentView.frame.size.width * 0.5f,
                                        self.contentView.frame.size.height * 0.5f,
-                                       0.0f, 0.0f);
+                                       kFlyerCountdownWidth, kFlyerCountdownHeight);
+    UIColor* color = [UIColor colorWithRed:237.0f/255.0f
+                                     green:28.0f/255.0f
+                                      blue:36.0f/255.0f
+                                     alpha:1.0f];
     self.countdown = [[CircleBarView alloc] initWithFrame:countdownFrame
-                                                    color:[UIColor colorWithRed:237.0f/255.0f
-                                                                          green:28.0f/255.0f
-                                                                           blue:36.0f/255.0f
-                                                                          alpha:1.0f]
-                                                textColor:[UIColor whiteColor]];
+                                                    color:color
+                                                textColor:[UIColor whiteColor]
+                                              borderColor:color
+                                              borderWidth:1.5f
+                                                 textSize:15.0f
+                                            barHeightFrac:0.7f
+                                           hasRoundCorner:NO];
     [self.contentView addSubview:[self countdown]];
 }
 

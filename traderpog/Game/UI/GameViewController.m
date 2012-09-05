@@ -22,6 +22,8 @@
 #import "PogUIUtility.h"
 #import "GameNotes.h"
 #import "GameColors.h"
+#import "GameHud.h"
+#import "CircleBarView.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -51,6 +53,8 @@ enum kKnobSlices
     WheelControl* _beaconWheel;
     Flyer* _trackedFlyer;
     
+    GameHud* _hud;
+    
     // HACK
     UILabel* _labelScan;
     UIActivityIndicatorView* _scanActivity;
@@ -61,6 +65,7 @@ enum kKnobSlices
 @property (nonatomic,strong) WheelControl* postWheel;
 @property (nonatomic,strong) WheelControl* beaconWheel;
 @property (nonatomic,strong) Flyer* trackedFlyer;
+@property (nonatomic,strong) GameHud* hud;
 
 - (void) startDisplayLink;
 - (void) stopDisplayLink;
@@ -74,14 +79,15 @@ enum kKnobSlices
 - (void) handleScanResultTradePosts:(NSArray*)tradePosts;
 - (void) initWheels;
 - (void) shutdownWheels;
-- (void) hudSetCoins:(unsigned int)newCoins;
+- (void) initHud;
+- (void) shutdownHud;
 
+- (void) hudSetCoins:(unsigned int)newCoins;
 - (void) handleCoinsChanged:(NSNotification*)note;
 @end
 
 @implementation GameViewController
 @synthesize mapView;
-@synthesize hudCoins;
 @synthesize mapControl = _mapControl;
 @synthesize knob = _knob;
 @synthesize flyerWheel = _flyerWheel;
@@ -89,6 +95,7 @@ enum kKnobSlices
 @synthesize beaconWheel = _beaconWheel;
 @synthesize coord = _initCoord;
 @synthesize trackedFlyer = _trackedFlyer;
+@synthesize hud = _hud;
 
 - (id)init
 {
@@ -128,6 +135,7 @@ enum kKnobSlices
     // create knob
     [self initKnob];
     [self initWheels];
+    [self initHud];
     [self hudSetCoins:[[Player getInstance] bucks]];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleCoinsChanged:)
@@ -142,11 +150,11 @@ enum kKnobSlices
 {
     [self stopDisplayLink];
     
+    [self shutdownHud];
     [self shutdownWheels];
     [self shutdownKnob];
     [self.mapControl stopTrackingAnnotation];
     self.mapControl = nil;
-    [self setHudCoins:nil];
     [super viewDidUnload];
 }
 
@@ -383,7 +391,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 - (void) hudSetCoins:(unsigned int)newCoins
 {
     NSString* coinsString = [PogUIUtility currencyStringForAmount:newCoins];
-    [self.hudCoins setText:coinsString];    
+    [self.hud.coins.label setText:coinsString];
 }
 
 - (void) handleCoinsChanged:(NSNotification *)note
@@ -393,6 +401,18 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     {
         [self hudSetCoins:[player bucks]];
     }
+}
+
+- (void) initHud
+{
+    self.hud = [[GameHud alloc] initWithFrame:[self.view bounds]];
+    [self.view addSubview:[self hud]];
+}
+
+- (void) shutdownHud
+{
+    [self.hud removeFromSuperview];
+    self.hud = nil;
 }
 
 #pragma mark - KnobProtocol

@@ -58,6 +58,7 @@
 		42B28E3315EA39620008901C /* b_tradepost.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B28E3115EA39620008901C /* b_tradepost.png */; };
 		42D909F415F7D33800BBE992 /* bubble_beacon_fb.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909F215F7D33800BBE992 /* bubble_beacon_fb.png */; };
 		42D909F515F7D33800BBE992 /* bubble_beacon_g_001.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909F315F7D33800BBE992 /* bubble_beacon_g_001.png */; };
+		42D909F915F801E700BBE992 /* GameHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D909F815F801E700BBE992 /* GameHud.m */; };
 		42E92B0815D0E19F0054686F /* Yun.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E92B0715D0E19F0054686F /* Yun.png */; };
 		42E92B0A15D0E7AD0054686F /* startButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E92B0915D0E7AD0054686F /* startButton.png */; };
 		42E92B0D15D0E8E00054686F /* UIImage+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E92B0C15D0E8E00054686F /* UIImage+Pog.m */; };
@@ -254,6 +255,8 @@
 		42B28E3115EA39620008901C /* b_tradepost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = b_tradepost.png; path = assets/Map/b_tradepost.png; sourceTree = SOURCE_ROOT; };
 		42D909F215F7D33800BBE992 /* bubble_beacon_fb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_beacon_fb.png; path = assets/UI/bubble_beacon_fb.png; sourceTree = SOURCE_ROOT; };
 		42D909F315F7D33800BBE992 /* bubble_beacon_g_001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_beacon_g_001.png; path = assets/UI/bubble_beacon_g_001.png; sourceTree = SOURCE_ROOT; };
+		42D909F715F801E700BBE992 /* GameHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameHud.h; path = Game/UI/GameHud.h; sourceTree = "<group>"; };
+		42D909F815F801E700BBE992 /* GameHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameHud.m; path = Game/UI/GameHud.m; sourceTree = "<group>"; };
 		42E92B0715D0E19F0054686F /* Yun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Yun.png; path = assets/UI/Yun.png; sourceTree = SOURCE_ROOT; };
 		42E92B0915D0E7AD0054686F /* startButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = startButton.png; path = assets/UI/startButton.png; sourceTree = SOURCE_ROOT; };
 		42E92B0B15D0E8E00054686F /* UIImage+Pog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Pog.h"; sourceTree = "<group>"; };
@@ -760,6 +763,8 @@
 				C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */,
 				42F692C615F1D4D20002B1B2 /* GameColors.h */,
 				42F692C715F1D4D20002B1B2 /* GameColors.m */,
+				42D909F715F801E700BBE992 /* GameHud.h */,
+				42D909F815F801E700BBE992 /* GameHud.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -1092,6 +1097,7 @@
 				42FA1A5415F522FF00EB2433 /* CircleBarView.m in Sources */,
 				42FA1A5815F5511B00EB2433 /* MKMapView+Game.m in Sources */,
 				421564D115F6A1AB00AAE851 /* LabelCircle.m in Sources */,
+				42D909F915F801E700BBE992 /* GameHud.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
