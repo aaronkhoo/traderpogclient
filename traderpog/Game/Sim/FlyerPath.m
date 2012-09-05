@@ -294,6 +294,9 @@ static NSString* const kKeyDone = @"done";
     
     [parameters setObject:[NSNumber numberWithBool:NO] forKey:kKeyDone];
     
+    NSString* utcDate = [PogUIUtility convertNSDateToUtc:_departureDate];
+    [parameters setObject:utcDate forKey:kKeyDepartureDate];
+    
     return parameters;
 }
 

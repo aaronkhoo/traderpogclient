@@ -258,6 +258,7 @@ static NSString* const kKeyPath = @"path";
     {
         self.isAtOwnPost = NO;
     }
+    [_inventory updateFlyerInventoryOnServer:_userFlyerId];
     [self createFlightPathRenderingForFlyer];
     
     return success;
@@ -280,6 +281,8 @@ static NSString* const kKeyPath = @"path";
     _metersToDest = 0.0;
 
     [_path completeFlyerPath:_userFlyerId];
+    
+    [_inventory updateFlyerInventoryOnServer:_userFlyerId];
     
     [[[[GameManager getInstance] gameViewController] mapControl] dismissFlightPathForFlyer:self];
     

@@ -6,17 +6,17 @@
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
+#import "AsyncHttpCallMgr.h"
 #import "FlyerInventory.h"
 #import "Player.h"
 
 static NSString* const kKeyVersion = @"version";
-static NSString* const kKeyItemId = @"itemId";
-static NSString* const kKeyNumItems = @"numItems";
-static NSString* const kKeyCostBasis = @"costBasis";
-static NSString* const kKeyOrderItemId = @"orderItemId";
-static NSString* const kKeyOrderNumItems = @"orderNumItems";
-static NSString* const kKeyOrderMoney = @"orderPrice";
-static NSString* const kKeyMetersTraveled = @"metersTraveled";
+static NSString* const kKeyItemId = @"item_info_id";
+static NSString* const kKeyNumItems = @"num_items";
+static NSString* const kKeyCostBasis = @"cost_basis";
+static NSString* const kKeyOrderMoney = @"price";
+static NSString* const kKeyMetersTraveled = @"meterstraveled";
+static NSString* const kKeyFlyerPath = @"flyer_path";
 
 @interface FlyerInventory ()
 {
@@ -58,65 +58,33 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
     {
         // inventory
         id obj = [dict valueForKeyPath:kKeyItemId];
-        if (obj)
-        {
-            _itemId = [NSString stringWithFormat:@"%d", [obj integerValue]];
-        }
-        else
+        if ((NSNull *)obj == [NSNull null])
         {
             // no item for this flyer
             _itemId = nil;
         }
-        obj = [dict valueForKeyPath:kKeyNumItems];
-        if (obj)
-        {
-            _numItems = [obj unsignedIntegerValue];
-        }
         else
+        {
+            _itemId = [NSString stringWithFormat:@"%d", [obj integerValue]];
+        }
+        obj = [dict valueForKeyPath:kKeyNumItems];
+        if ((NSNull *)obj == [NSNull null])
         {
             _numItems = 0;
         }
-        obj = [dict valueForKeyPath:kKeyCostBasis];
-        if (obj)
-        {
-            _costBasis = [obj floatValue];
-        }
         else
+        {
+            _numItems = [obj integerValue];
+        }
+        obj = [dict valueForKeyPath:kKeyCostBasis];
+        if ((NSNull *)obj == [NSNull null])
         {
             _costBasis = 0.0f;
         }
-        
-        // escrow
-        obj = [dict valueForKeyPath:kKeyOrderItemId];
-        if (obj)
-        {
-            _orderItemId = [NSString stringWithFormat:@"%d", [obj integerValue]];
-        }
         else
         {
-            // no item for this flyer
-            _orderItemId = nil;
+            _costBasis = [obj floatValue];
         }
-        obj = [dict valueForKeyPath:kKeyOrderNumItems];
-        if (obj)
-        {
-            _orderNumItems = [obj unsignedIntValue];
-        }
-        else
-        {
-            _orderNumItems = 0;
-        }
-        obj = [dict valueForKeyPath:kKeyOrderMoney];
-        if (obj)
-        {
-            _orderPrice = [obj unsignedIntValue];
-        }
-        else
-        {
-            _orderPrice = 0;
-        }
-        
-        // meters traveled
         obj = [dict valueForKeyPath:kKeyMetersTraveled];
         if ((NSNull *)obj == [NSNull null])
         {
@@ -125,6 +93,38 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
         else
         {
             _metersTraveled = [obj doubleValue];
+        }
+        
+        // escrow
+        NSArray* paths_array = [dict valueForKeyPath:@"flyer_paths"];
+        NSDictionary* path_dict = [paths_array objectAtIndex:0];
+        obj = [path_dict valueForKeyPath:kKeyItemId];
+        if ((NSNull *)obj == [NSNull null])
+        {
+            // no item for this flyer
+            _orderItemId = nil;
+        }
+        else
+        {
+            _orderItemId = [NSString stringWithFormat:@"%d", [obj integerValue]];
+        }
+        obj = [path_dict valueForKeyPath:kKeyNumItems];
+        if ((NSNull *)obj == [NSNull null])
+        {
+            _orderNumItems = 0;
+        }
+        else
+        {
+            _orderNumItems = [obj unsignedIntValue];
+        }
+        obj = [path_dict valueForKeyPath:kKeyOrderMoney];
+        if ((NSNull *)obj == [NSNull null])
+        {
+            _orderPrice = 0;
+        }
+        else
+        {
+            _orderPrice = [obj unsignedIntValue];
         }
     }
     return self;
@@ -137,8 +137,8 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
     [aCoder encodeObject:_itemId forKey:kKeyItemId];
     [aCoder encodeObject:[NSNumber numberWithUnsignedInt:_numItems] forKey:kKeyNumItems];
     [aCoder encodeFloat:_costBasis forKey:kKeyCostBasis];
-    [aCoder encodeObject:_orderItemId forKey:kKeyOrderItemId];
-    [aCoder encodeObject:[NSNumber numberWithUnsignedInt:_orderNumItems] forKey:kKeyOrderNumItems];
+    [aCoder encodeObject:_orderItemId forKey:kKeyItemId];
+    [aCoder encodeObject:[NSNumber numberWithUnsignedInt:_orderNumItems] forKey:kKeyNumItems];
     [aCoder encodeObject:[NSNumber numberWithUnsignedInt:_orderPrice] forKey:kKeyOrderMoney];
     [aCoder encodeDouble:_metersTraveled forKey:kKeyMetersTraveled];
 }
@@ -149,8 +149,8 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
     _itemId = [aDecoder decodeObjectForKey:kKeyItemId];
     _numItems = [[aDecoder decodeObjectForKey:kKeyNumItems] unsignedIntValue];
     _costBasis = [aDecoder decodeFloatForKey:kKeyCostBasis];
-    _orderItemId = [aDecoder decodeObjectForKey:kKeyOrderItemId];
-    _orderNumItems = [[aDecoder decodeObjectForKey:kKeyOrderNumItems] unsignedIntValue];
+    _orderItemId = [aDecoder decodeObjectForKey:kKeyItemId];
+    _orderNumItems = [[aDecoder decodeObjectForKey:kKeyNumItems] unsignedIntValue];
     _orderPrice = [[aDecoder decodeObjectForKey:kKeyOrderMoney] unsignedIntValue];
     _metersTraveled = [aDecoder decodeDoubleForKey:kKeyMetersTraveled];
     return self;
@@ -215,6 +215,60 @@ static NSString* const kKeyMetersTraveled = @"metersTraveled";
 {
     _metersTraveled += routeDist;
     NSLog(@"Distance added: %lf (total %lf)", routeDist, _metersTraveled);
+}
+
+#pragma mark - server calls
+- (void) updateFlyerInventoryOnServer:(NSString*)userFlyerId
+{
+    NSString *flyerInventoryUrl = [NSString stringWithFormat:@"users/%d/user_flyers/%@", [[Player getInstance] playerId], userFlyerId];
+    NSDictionary* parameters = [self createParametersForFlyerInventory];
+    NSString* msg = [self createFlyerInventoryErrorMsg];
+    [[AsyncHttpCallMgr getInstance] newAsyncHttpCall:flyerInventoryUrl
+                                      current_params:parameters
+                                     current_headers:nil
+                                         current_msg:msg
+                                        current_type:putType];
+}
+
+- (NSDictionary*) createParametersForFlyerInventory
+{
+    NSMutableDictionary* parameters = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* flyerPathParameters = [[NSMutableDictionary alloc] init];
+    
+    if (_orderItemId)
+    {
+        [flyerPathParameters setObject:_orderItemId forKey:kKeyItemId];   
+    }
+    else
+    {
+        [flyerPathParameters setObject:[NSNull null] forKey:kKeyItemId];
+    }
+    [flyerPathParameters setValue:[NSNumber numberWithUnsignedInt:_orderNumItems] forKey:kKeyNumItems];
+    [flyerPathParameters setValue:[NSNumber numberWithUnsignedInt:_orderPrice] forKey:kKeyOrderMoney];
+    
+    if (_itemId)
+    {
+        [parameters setObject:_itemId forKey:kKeyItemId];   
+    }
+    else
+    {
+        [parameters setObject:[NSNull null] forKey:kKeyItemId];
+    }
+    [parameters setValue:[NSNumber numberWithUnsignedInt:_numItems] forKey:kKeyNumItems];
+    [parameters setValue:[NSNumber numberWithFloat:_costBasis] forKey:kKeyCostBasis];
+    [parameters setValue:[NSNumber numberWithDouble:_metersTraveled] forKey:kKeyMetersTraveled];
+    
+    [parameters setObject:flyerPathParameters forKey:kKeyFlyerPath];
+    
+    return parameters;
+}
+
+- (NSString*) createFlyerInventoryErrorMsg
+{
+    NSString* msg = [NSString stringWithFormat:@"FlyerInventory update failed with params: orderItemID:%@ orderNumItems:%d orderItemPrice:%d currentItem:%@ numItems:%d costBasis:%f metersTraveled:%f",
+                     _orderItemId, _orderNumItems, _orderPrice,
+                     _itemId, _numItems, _costBasis, _metersTraveled];
+    return msg;
 }
 
 @end

@@ -19,6 +19,7 @@ typedef void (^CompletionBlock)(BOOL finished);
 
 + (NSString*) stringFromTimeInterval:(NSTimeInterval)timeInterval;
 + (NSDate*) convertUtcToNSDate:(NSString*)utcdate;
++ (NSString*) convertNSDateToUtc:(NSDate*)utcdate;
 + (NSString*) commaSeparatedStringFromUnsignedInt:(unsigned int)number;
 + (NSString*) currencyStringForAmount:(unsigned int)amount;
 + (NSString*) stringTrimAllWhitespaces:(NSString*)src;

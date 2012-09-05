@@ -15,13 +15,12 @@
     NSString* _itemId;
     unsigned int _numItems;
     float _costBasis;
+    CLLocationDistance _metersTraveled;
     
     // escrow
     NSString* _orderItemId;
     unsigned int _orderNumItems;
     unsigned int _orderPrice;
-    
-    CLLocationDistance _metersTraveled;
 }
 @property (nonatomic,strong) NSString* itemId;
 @property (nonatomic) unsigned int numItems;
@@ -40,5 +39,6 @@
 - (void) unloadAllItems;
 - (void) incrementTravelDistance:(CLLocationDistance) routeDist;
 - (void) resetDistanceTraveled;
+- (void) updateFlyerInventoryOnServer:(NSString*)userFlyerId;
 
 @end
