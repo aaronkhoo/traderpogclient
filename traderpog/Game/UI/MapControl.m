@@ -181,11 +181,19 @@ static const float kBrowseAreaRadius = 500.0f;
 
 - (void) defaultZoomCenterOn:(CLLocationCoordinate2D)coord animated:(BOOL)isAnimated
 {
+    [self defaultZoomCenterOn:coord modifyMap:YES animated:isAnimated];
+}
+
+- (void) defaultZoomCenterOn:(CLLocationCoordinate2D)coord modifyMap:(BOOL)modifyMap animated:(BOOL)isAnimated
+{
     // stop any ongoing tracking
     [self stopTrackingAnnotation];
     
     // center the map and browse area
-    [self.view setCenterCoordinate:coord zoomLevel:kDefaultZoomLevel animated:isAnimated];
+    if(modifyMap)
+    {
+        [self.view setCenterCoordinate:coord zoomLevel:kDefaultZoomLevel animated:isAnimated];
+    }
     [self.browseArea setCenterCoord:coord];
     [self.browseArea setRadius:kBrowseAreaRadius];
 

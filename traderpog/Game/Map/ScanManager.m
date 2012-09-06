@@ -31,17 +31,23 @@ static const NSUInteger kScanLocateZoomLevel = 15;
 static const float kScanRadius = 300.0f;    // meters
 static const float kScanRadiusMinFactor = 0.5f;
 static const unsigned int kScanNumPosts = 4;
+static const NSTimeInterval kScanDurationMin = 2.0f;    // minimum amount of time for Scan
+                                                        // so that the player has a chance to observe
+                                                        // their own location
 
 @interface ScanManager ()
 {
     ScanCompletionBlock _completion;
     __weak MapControl* _map;
+    
+    NSDate* _scanBegin;
 }
 @property (nonatomic,weak) MapControl* map;
 - (void) startLocate;
 - (void) startScanAtCoord:(CLLocationCoordinate2D)scanCoord;
 - (void) abortLocateScan;
 - (MKMapPoint) createPointFromCenter:(CLLocationCoordinate2D)center atDistance:(double)meters angle:(float)radians;
+- (void) completeScanWithPosts:(NSMutableArray*)posts;
 @end
 
 @implementation ScanManager
@@ -55,10 +61,11 @@ static const unsigned int kScanNumPosts = 4;
     if(self)
     {
         _state = kScanStateIdle;
-        _locator = [[HiAccuracyLocator alloc] init];
+        _locator = [[HiAccuracyLocator alloc] initWithAccuracy:kCLLocationAccuracyHundredMeters];
         _locator.delegate = self;
         _completion = nil;
         self.map = nil;
+        _scanBegin = nil;
     }
     return self;
 }
@@ -97,6 +104,8 @@ static const unsigned int kScanNumPosts = 4;
 - (void) startLocate
 {
     [self.locator startUpdatingLocation];
+    self.map.view.showsUserLocation = YES;
+    //self.map.view.userTrackingMode = MKUserTrackingModeFollow;
     _state = kScanStateLocating;
 }
 
@@ -105,6 +114,7 @@ static const unsigned int kScanNumPosts = 4;
     // TODO: ask TradePostMgr to scan
     NSLog(@"scanning...");
     _state = kScanStateScanning;
+    _scanBegin = [NSDate date];
     
     // retrieve existing posts
     NSMutableArray* posts = [[TradePostMgr getInstance] getTradePostsAtCoord:scanCoord radius:kScanRadius maxNum:kScanNumPosts];
@@ -176,13 +186,27 @@ static const unsigned int kScanNumPosts = 4;
     }
     
     // complete scan
-    if(_completion)
+    NSLog(@"scan ready to return");
+    NSTimeInterval elapsed = kScanDurationMin;
+    if(_scanBegin)
     {
-        NSLog(@"done");
-        self.map = nil;
-        _completion(YES, posts);
+        elapsed = -[_scanBegin timeIntervalSinceNow];
     }
-    _state = kScanStateIdle;
+    if(elapsed < kScanDurationMin)
+    {
+        // if not enough time has elapsed, explicitly introduce a delay for user
+        // so that they get to observe their location a little bit before the posts pop up
+        NSTimeInterval delay = kScanDurationMin - elapsed;
+        NSLog(@"delay is %f", delay);
+        dispatch_time_t completionDelay = dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC);
+        dispatch_after(completionDelay, dispatch_get_main_queue(), ^(void){
+            [self completeScanWithPosts:posts];
+        });
+    }
+    else
+    {
+        [self completeScanWithPosts:posts];
+    }
 }
 
 - (void) abortLocateScan
@@ -192,7 +216,21 @@ static const unsigned int kScanNumPosts = 4;
     {
         self.map = nil;
         _completion(NO, nil);
-    }    
+    }
+}
+
+- (void) completeScanWithPosts:(NSMutableArray *)posts
+{
+    NSLog(@"complete scan");
+    self.map.view.showsUserLocation = NO;
+    self.map.view.userTrackingMode = MKUserTrackingModeNone;
+    self.map = nil;
+    _scanBegin = nil;
+    if(_completion)
+    {
+        _completion(YES, posts);
+    }
+    _state = kScanStateIdle;    
 }
 
 #pragma mark - HiAccuracyLocatorDelegate
@@ -203,12 +241,11 @@ static const unsigned int kScanNumPosts = 4;
         // center map on my location
         if([self map])
         {
-            [self.map defaultZoomCenterOn:locator.bestLocation.coordinate animated:YES];
-            
-            // Store up the last known player location
-            [Player getInstance].lastKnownLocation = locator.bestLocation.coordinate;
-            [Player getInstance].lastKnownLocationValid = TRUE;
+            [self.map defaultZoomCenterOn:locator.bestLocation.coordinate modifyMap:YES animated:YES];
         }
+        // Store up the last known player location
+        [Player getInstance].lastKnownLocation = locator.bestLocation.coordinate;
+        [Player getInstance].lastKnownLocationValid = TRUE;
         
         // start the scan
         [self startScanAtCoord:locator.bestLocation.coordinate];

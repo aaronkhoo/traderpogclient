@@ -19,6 +19,7 @@ extern NSString* const kUserLocationDenied;
 @property (nonatomic,strong) CLLocation* bestLocation;
 @property (nonatomic,weak) NSObject<HiAccuracyLocatorDelegate>* delegate;
            
+- (id) initWithAccuracy:(CLLocationAccuracy)accuracy;
 - (void) startUpdatingLocation;
 
 @end

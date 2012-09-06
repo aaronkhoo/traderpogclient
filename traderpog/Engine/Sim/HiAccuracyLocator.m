@@ -22,7 +22,7 @@ typedef enum
 NSString* const kUserLocated = @"UserLocated";
 NSString* const kUserLocationDenied = @"UserLocationDenied";
 
-static NSTimeInterval kLocationUpdateTimeout = 6.0;
+static NSTimeInterval kLocationUpdateTimeout = 4.0;
 
 @interface HiAccuracyLocator ()
 {
@@ -31,6 +31,7 @@ static NSTimeInterval kLocationUpdateTimeout = 6.0;
     NSDate*     _startTimestamp;
 }
 
+- (void) internalInitWithAccuracy:(CLLocationAccuracy)accuracy;
 - (void) updatingLocationTimedOut;
 - (void) stopUpdatingLocation:(StopReason)reason;
 @end
@@ -39,18 +40,33 @@ static NSTimeInterval kLocationUpdateTimeout = 6.0;
 @synthesize bestLocation = _bestLocation;
 @synthesize delegate;
 
+- (void) internalInitWithAccuracy:(CLLocationAccuracy)accuracy
+{
+    _locationManager = [[CLLocationManager alloc] init];
+    _locationManager.delegate = self;
+    _locationManager.desiredAccuracy = accuracy;
+    _bestLocation = nil;
+    _isLocating = NO;
+    _startTimestamp = [NSDate date];
+    self.delegate = nil;    
+}
+
+- (id) initWithAccuracy:(CLLocationAccuracy)accuracy
+{
+    self = [super init];
+    if(self)
+    {
+        [self internalInitWithAccuracy:accuracy];
+    }
+    return self;    
+}
+
 - (id) init
 {
     self = [super init];
     if(self)
     {
-        _locationManager = [[CLLocationManager alloc] init];
-        _locationManager.delegate = self;
-        _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-        _bestLocation = nil;
-        _isLocating = NO;
-        _startTimestamp = [NSDate date];
-        self.delegate = nil;
+        [self internalInitWithAccuracy:kCLLocationAccuracyNearestTenMeters];
     }
     return self;
 }
