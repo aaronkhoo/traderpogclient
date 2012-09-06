@@ -15,7 +15,6 @@
 #import "LoadingScreen.h"
 #import "UINavigationController+Pog.h"
 #import "GameNotes.h"
-#import "WorldState.h"
 
 // encoding keys
 static NSString* const kKeyVersion = @"version";

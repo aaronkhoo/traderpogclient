@@ -21,6 +21,7 @@
 - (BOOL) callsRemain;
 - (void) applicationDidEnterBackground;
 - (void) applicationWillTerminate;
+- (void) removeAsyncHttpCallMgrData;
 - (void) addDelegateInstance:(__weak NSObject<AsyncHttpDelegate>*) delegate;
 
 // singleton

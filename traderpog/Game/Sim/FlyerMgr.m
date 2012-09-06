@@ -19,7 +19,6 @@
 #import "MapControl.h"
 #import "TradeItemTypes.h"
 #import "TradeItemType.h"
-#import "WorldState.h"
 #import "GameColors.h"
 #import "ImageManager.h"
 #include "MathUtils.h"
@@ -379,14 +378,6 @@ static const float kBubbleBorderWidth = 1.5f;
     }
 }
 
-- (void) refreshFromWorldState:(WorldState *)worldState
-{
-    for(Flyer* cur in [self playerFlyers])
-    {
-        [worldState setDataIntoFlyer:cur];
-    }
-}
-
 #pragma mark - queries
 
 // returns an array of ids for tradeposts that has a Flyer
@@ -426,7 +417,6 @@ static const float kBubbleBorderWidth = 1.5f;
     unsigned int num = kFlyerNum;
     return num;
 }
-
 
 - (WheelBubble*) wheel:(WheelControl *)wheel bubbleAtIndex:(unsigned int)index
 {
