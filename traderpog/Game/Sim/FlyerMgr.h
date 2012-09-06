@@ -36,6 +36,7 @@ static NSString* const kFlyerMgr_ReceiveFlyers = @"FlyerMgr_ReceiveFlyers";
 - (void) retrieveUserFlyersFromServer;
 - (void) updateFlyersAtDate:(NSDate*)currentTime;
 - (void) initFlyersOnMap;
+- (void) saveFlyerMgrData;
 
 - (void) refreshFromWorldState:(WorldState*)worldState;
 
