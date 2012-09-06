@@ -20,6 +20,7 @@
     float       _textSize;
     float       _barHeightFrac;
     BOOL        _hasRoundCorner;
+    UIImageView*    _imageView;
 }
 @property (nonatomic,strong) UIView* leftCircle;
 @property (nonatomic,strong) UIView* rightBar;
@@ -31,6 +32,7 @@
 @property (nonatomic) float textSize;
 @property (nonatomic) float barHeightFrac;
 @property (nonatomic) BOOL hasRoundCorner;
+@property (nonatomic,strong) UIImageView* imageView;
 
 - (id)initWithFrame:(CGRect)frame
               color:(UIColor*)color
@@ -40,4 +42,6 @@
            textSize:(float)sizeForText
       barHeightFrac:(float)heightFracForBar
      hasRoundCorner:(BOOL)roundCorner;
+
+- (void) setImage:(UIImage*)image;
 @end

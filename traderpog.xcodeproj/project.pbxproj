@@ -59,6 +59,12 @@
 		42D909F415F7D33800BBE992 /* bubble_beacon_fb.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909F215F7D33800BBE992 /* bubble_beacon_fb.png */; };
 		42D909F515F7D33800BBE992 /* bubble_beacon_g_001.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909F315F7D33800BBE992 /* bubble_beacon_g_001.png */; };
 		42D909F915F801E700BBE992 /* GameHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D909F815F801E700BBE992 /* GameHud.m */; };
+		42D909FB15F8195E00BBE992 /* icon_member.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909FA15F8195E00BBE992 /* icon_member.png */; };
+		42D90A0115F81A3800BBE992 /* coin_001.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909FC15F81A3800BBE992 /* coin_001.png */; };
+		42D90A0215F81A3800BBE992 /* coin_002.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909FD15F81A3800BBE992 /* coin_002.png */; };
+		42D90A0315F81A3800BBE992 /* coin_003.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909FE15F81A3800BBE992 /* coin_003.png */; };
+		42D90A0415F81A3800BBE992 /* coin_004.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909FF15F81A3800BBE992 /* coin_004.png */; };
+		42D90A0515F81A3800BBE992 /* coin_005.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D90A0015F81A3800BBE992 /* coin_005.png */; };
 		42E92B0815D0E19F0054686F /* Yun.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E92B0715D0E19F0054686F /* Yun.png */; };
 		42E92B0A15D0E7AD0054686F /* startButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E92B0915D0E7AD0054686F /* startButton.png */; };
 		42E92B0D15D0E8E00054686F /* UIImage+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E92B0C15D0E8E00054686F /* UIImage+Pog.m */; };
@@ -257,6 +263,12 @@
 		42D909F315F7D33800BBE992 /* bubble_beacon_g_001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_beacon_g_001.png; path = assets/UI/bubble_beacon_g_001.png; sourceTree = SOURCE_ROOT; };
 		42D909F715F801E700BBE992 /* GameHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameHud.h; path = Game/UI/GameHud.h; sourceTree = "<group>"; };
 		42D909F815F801E700BBE992 /* GameHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameHud.m; path = Game/UI/GameHud.m; sourceTree = "<group>"; };
+		42D909FA15F8195E00BBE992 /* icon_member.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_member.png; path = assets/UI/icon_member.png; sourceTree = SOURCE_ROOT; };
+		42D909FC15F81A3800BBE992 /* coin_001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin_001.png; sourceTree = "<group>"; };
+		42D909FD15F81A3800BBE992 /* coin_002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin_002.png; sourceTree = "<group>"; };
+		42D909FE15F81A3800BBE992 /* coin_003.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin_003.png; sourceTree = "<group>"; };
+		42D909FF15F81A3800BBE992 /* coin_004.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin_004.png; sourceTree = "<group>"; };
+		42D90A0015F81A3800BBE992 /* coin_005.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin_005.png; sourceTree = "<group>"; };
 		42E92B0715D0E19F0054686F /* Yun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Yun.png; path = assets/UI/Yun.png; sourceTree = SOURCE_ROOT; };
 		42E92B0915D0E7AD0054686F /* startButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = startButton.png; path = assets/UI/startButton.png; sourceTree = SOURCE_ROOT; };
 		42E92B0B15D0E8E00054686F /* UIImage+Pog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Pog.h"; sourceTree = "<group>"; };
@@ -498,6 +510,11 @@
 				421564D715F6B2E400AAE851 /* pogbuilding_002.png */,
 				421564D815F6B2E400AAE851 /* pogbuilding_003.png */,
 				421564D915F6B2E400AAE851 /* pogbuilding_004.png */,
+				42D909FC15F81A3800BBE992 /* coin_001.png */,
+				42D909FD15F81A3800BBE992 /* coin_002.png */,
+				42D909FE15F81A3800BBE992 /* coin_003.png */,
+				42D909FF15F81A3800BBE992 /* coin_004.png */,
+				42D90A0015F81A3800BBE992 /* coin_005.png */,
 			);
 			name = anim;
 			path = assets/anim;
@@ -722,7 +739,6 @@
 				42B28E3015EA39620008901C /* b_homebase.png */,
 				42B28E3115EA39620008901C /* b_tradepost.png */,
 				C4D9B07215E3DE160096448E /* b_flyerlab.png */,
-				421564D315F6B1C000AAE851 /* icon_none_member.png */,
 				4264B6AF15CD93F300621548 /* TradePost.png */,
 				C4D5DDED15B3D12B00D5A746 /* HomeBase.png */,
 			);
@@ -893,6 +909,8 @@
 				42F692CE15F1E1B60002B1B2 /* bubble_restock.png */,
 				42F692CF15F1E1B60002B1B2 /* bubble_set_beacon.png */,
 				42F692D015F1E1B60002B1B2 /* icon_removepost.png */,
+				42D909FA15F8195E00BBE992 /* icon_member.png */,
+				421564D315F6B1C000AAE851 /* icon_none_member.png */,
 				42D909F215F7D33800BBE992 /* bubble_beacon_fb.png */,
 				42D909F315F7D33800BBE992 /* bubble_beacon_g_001.png */,
 				42E92B0715D0E19F0054686F /* Yun.png */,
@@ -997,6 +1015,12 @@
 				423F56C315F7C60900E42AC2 /* flyer_landed.png in Resources */,
 				42D909F415F7D33800BBE992 /* bubble_beacon_fb.png in Resources */,
 				42D909F515F7D33800BBE992 /* bubble_beacon_g_001.png in Resources */,
+				42D909FB15F8195E00BBE992 /* icon_member.png in Resources */,
+				42D90A0115F81A3800BBE992 /* coin_001.png in Resources */,
+				42D90A0215F81A3800BBE992 /* coin_002.png in Resources */,
+				42D90A0315F81A3800BBE992 /* coin_003.png in Resources */,
+				42D90A0415F81A3800BBE992 /* coin_004.png in Resources */,
+				42D90A0515F81A3800BBE992 /* coin_005.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

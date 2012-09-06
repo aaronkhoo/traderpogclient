@@ -9,13 +9,22 @@
 #import "GameHud.h"
 #import "CircleBarView.h"
 #import "GameColors.h"
+#import "ImageManager.h"
 
 static const float kHudCoinsX = 40.0f;
-static const float kHudCoinsY = 30.0f;
-static const float kHudCoinsWidth = 120.0f;
+static const float kHudCoinsY = 40.0f;
+static const float kHudCoinsWidth = 150.0f;
 static const float kHudCoinsHeight = 60.0f;
+static const float kHudCoinsBarHeightFrac = 0.55f;
 static const float kHudCoinsBorderWidth = 2.5f;
 static const float kHudCoinsTextSize = 20.0f;
+static const float kHudCoinsIconX = 0.3f * kHudCoinsWidth;
+
+@interface GameHud ()
+{
+    UIImageView* _coinIcon;
+}
+@end
 
 @implementation GameHud
 
@@ -27,7 +36,7 @@ static const float kHudCoinsTextSize = 20.0f;
         // HUD is push only; no user interaction;
         [self setUserInteractionEnabled:NO];
         
-        // coins
+        // coins HUD
         CGRect coinsFrame = CGRectMake(kHudCoinsX, kHudCoinsY,
                                        kHudCoinsWidth, kHudCoinsHeight);
         self.coins = [[CircleBarView alloc] initWithFrame:coinsFrame
@@ -36,9 +45,29 @@ static const float kHudCoinsTextSize = 20.0f;
                                               borderColor:[GameColors borderColorScanWithAlpha:1.0f]
                                               borderWidth:kHudCoinsBorderWidth
                                                  textSize:kHudCoinsTextSize
-                                            barHeightFrac:0.6f
+                                            barHeightFrac:kHudCoinsBarHeightFrac
                                            hasRoundCorner:YES];
+        [self.coins setImage:[[ImageManager getInstance] getImage:@"icon_member.png" fallbackNamed:@"icon_member.png"]];        
         [self addSubview:[self coins]];
+         
+         // shiny coin in coins HUD
+        float iconSize = kHudCoinsBarHeightFrac * kHudCoinsHeight;
+        float iconY = 0.5f * (kHudCoinsHeight - iconSize);
+        CGRect iconCoinFrame = CGRectMake(kHudCoinsIconX, iconY, iconSize, iconSize);
+        _coinIcon = [[UIImageView alloc] initWithFrame:iconCoinFrame];
+        const unsigned int kNumFrames = 20;
+        unsigned int animFrames[kNumFrames] = {1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 1, 1, 1, 1, 1, 1, 1, 1};
+        NSMutableArray* coinImages = [NSMutableArray arrayWithCapacity:kNumFrames];
+        for(unsigned int i = 0; i < kNumFrames; ++i)
+        {
+            NSString* name = [NSString stringWithFormat:@"coin_00%d.png", animFrames[i]];
+            UIImage* image = [[ImageManager getInstance] getImage:name fallbackNamed:name];
+            [coinImages addObject:image];
+        }
+        [_coinIcon setAnimationImages:coinImages];
+        [_coinIcon setAnimationDuration:1.5f];
+        [_coinIcon startAnimating];
+        [self.coins addSubview:_coinIcon];
     }
     return self;
 }

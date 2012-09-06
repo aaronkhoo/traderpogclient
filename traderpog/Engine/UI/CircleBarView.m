@@ -24,6 +24,7 @@
 @synthesize textSize = _textSize;
 @synthesize barHeightFrac = _barHeightFrac;
 @synthesize hasRoundCorner = _hasRoundCorner;
+@synthesize imageView = _imageView;
 
 - (id)initWithFrame:(CGRect)frame
               color:(UIColor*)color
@@ -44,6 +45,7 @@
         _textSize = sizeForText;
         _barHeightFrac = heightFracForBar;
         _hasRoundCorner = roundCorner;
+        _imageView = nil;
         [self createLayout];
     }
     return self;
@@ -58,17 +60,14 @@
 }
 */
 
-static const float kLeftCircleSizeFrac = 0.34f;
-static const float kRightBarWidthFrac = 1.0f - (0.5f * kLeftCircleSizeFrac);
-
 #pragma mark - internal methods
 - (void) createLayout
 {
     // setup my frame's size and offset origin so that origin of frame is at
     // center of left-circle
     CGRect myFrame = self.frame;
-    float leftCircleSize = kLeftCircleSizeFrac * myFrame.size.width;
-    float rightBarWidth = kRightBarWidthFrac * myFrame.size.width;
+    float leftCircleSize = myFrame.size.height;
+    float rightBarWidth = myFrame.size.width - (0.5f * leftCircleSize);
     float rightBarHeight = [self barHeightFrac] * myFrame.size.height;
     CGPoint kRightBarOrigin = CGPointMake(0.5f * leftCircleSize,
                                           0.5f * (leftCircleSize - rightBarHeight));
@@ -112,6 +111,27 @@ static const float kRightBarWidthFrac = 1.0f - (0.5f * kLeftCircleSizeFrac);
                    withBorderWidth:[self borderWidth]
                        borderColor:[self borderColor]];
     [self addSubview:[self leftCircle]];
+}
+
+- (void) setImage:(UIImage *)image
+{
+    if(image)
+    {
+        if(!_imageView)
+        {
+            _imageView = [[UIImageView alloc] initWithFrame:self.leftCircle.bounds];
+            [self.leftCircle addSubview:_imageView];
+        }
+        [_imageView setImage:image];
+    }
+    else
+    {
+        if(_imageView)
+        {
+            [_imageView removeFromSuperview];
+            _imageView = nil;
+        }
+    }
 }
 
 @end
