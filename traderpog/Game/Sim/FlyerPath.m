@@ -134,8 +134,45 @@ static NSString* const kKeyDone = @"done";
     [aCoder encodeObject:_createdVersion forKey:kKeyVersion];
     [aCoder encodeObject:_flyerPathId forKey:kKeyFlyerPathId];
     [aCoder encodeObject:_departureDate forKey:kKeyDepartureDate];
-    [aCoder encodeObject:_curPostId forKey:kKeyPost1];
-    [aCoder encodeObject:_nextPostId forKey:kKeyPost2];
+    
+    // Only save the post if it is a "real" post and not an NPC one. NPC posts
+    // don't get persisted between sessions.
+    if (_curPostId)
+    {
+        TradePost* post1 = [[TradePostMgr getInstance] getTradePostWithId:_curPostId];
+        if (!post1 || [post1 isMemberOfClass:[NPCTradePost class]])
+        {
+            [aCoder encodeObject:nil forKey:kKeyPost1];
+        }
+        else
+        {
+            [aCoder encodeObject:_curPostId forKey:kKeyPost1];
+        }
+    }
+    else
+    {
+        [aCoder encodeObject:nil forKey:kKeyPost1];
+    }
+    
+    // Only save the post if it is a "real" post and not an NPC one. NPC posts
+    // don't get persisted between sessions.
+    if (_nextPostId)
+    {
+        TradePost* post2 = [[TradePostMgr getInstance] getTradePostWithId:_nextPostId];
+        if (!post2 || [post2 isMemberOfClass:[NPCTradePost class]])
+        {
+            [aCoder encodeObject:nil forKey:kKeyPost2];
+        }
+        else
+        {
+            [aCoder encodeObject:_nextPostId forKey:kKeyPost2];
+        }
+    }
+    else
+    {
+        [aCoder encodeObject:nil forKey:kKeyPost2];
+    }
+    
     [aCoder encodeDouble:_srcCoord.latitude forKey:kKeyLatitude1];
     [aCoder encodeDouble:_srcCoord.longitude forKey:kKeyLongitude1];
     [aCoder encodeDouble:_destCoord.latitude forKey:kKeyLatitude2];

@@ -84,6 +84,7 @@
     // HACK
     
     [[AsyncHttpCallMgr getInstance] applicationDidEnterBackground];
+    [[FlyerMgr getInstance] saveFlyerMgrData];
     [[Player getInstance] appDidEnterBackground];
     [[GameManager getInstance] applicationDidEnterBackground];
 }
@@ -103,6 +104,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     [[AsyncHttpCallMgr getInstance] applicationWillTerminate];
+    [[FlyerMgr getInstance] saveFlyerMgrData];
     [self appShutdown];
     [self teardownNavigationController];
 }
