@@ -47,7 +47,7 @@
 
 - (IBAction)didPressStart:(id)sender 
 {
-    [[GameManager getInstance] selectNextGameUI];
+    [[GameManager getInstance] validateConnectivity];
 }
 
 - (IBAction)didPressDebug:(id)sender 

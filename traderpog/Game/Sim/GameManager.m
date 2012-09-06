@@ -13,6 +13,7 @@
 #import "GameManager.h"
 #import "Player.h"
 #import "PogUIUtility.h"
+#import "Reachability.h"
 #import "TradePostMgr.h"
 #import "TradePost.h"
 #import "TradeItemTypes.h"
@@ -36,11 +37,15 @@
 #import "SignupScreen.h"
 
 // How often to check if the gameinfo has been updated (2 hours)
+static double const timeTillReinitialize = -(60 * 15);
 static double const gameinfoRefreshTime = -(60 * 60 * 2);
 static NSString* const kKeyLastUpdated = @"lastupdated";
 
 @interface GameManager ()
 {
+    // Last time we went through game state initialization
+    NSDate* _lastGameStateInitializeTime;
+    
     // Variables to track any outstanding async http calls that need to be completed
     BOOL _asyncHttpCallsCompleted;
     
@@ -102,6 +107,8 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     self = [super init];
     if(self)
     {
+        _lastGameStateInitializeTime = nil;
+        
         _gameState = kGameStateNew;
         _loadingScreen = nil;
         _gameViewController = nil;
@@ -415,12 +422,16 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
 - (void) applicationWillEnterForeground
 {
     // Reset
-    _asyncHttpCallsCompleted = TRUE;
-    _gameInfoRefreshed = FALSE;
-    _gameInfoRefreshCount = 0;
-    _playerInfoRefreshed = FALSE;
-    _playerInfoRefreshCount = 0;
-    [self selectNextGameUI];
+    if (_gameState != kGameStateNew && ([_lastGameStateInitializeTime timeIntervalSinceNow] < timeTillReinitialize))
+    {
+        _gameState = kGameStateNew;
+        _asyncHttpCallsCompleted = TRUE;
+        _gameInfoRefreshed = FALSE;
+        _gameInfoRefreshCount = 0;
+        _playerInfoRefreshed = FALSE;
+        _playerInfoRefreshCount = 0;
+        [self validateConnectivity];
+    }
 }
 
 - (void) applicationDidEnterBackground
@@ -434,12 +445,56 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     [[Player getInstance] removePlayerData];
 }
 
+- (void) validateConnectivity
+{
+    // Get the navigation controller
+    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    UINavigationController* nav = appDelegate.navController;
+    [self pushLoadingScreenIfNecessary:nav message:@"Checking connectivity"];
+    
+    // Check if the TraderPog is reachable
+    Reachability* hostReach = [Reachability reachabilityWithHostname: [[AFClientManager sharedInstance] getTraderPogURL]];
+    // It looks like there are occasional transient errors, try a couple times before giving up.
+    BOOL noConnectivity = FALSE;
+    unsigned int retries = 0;
+    while ([hostReach currentReachabilityStatus] == NotReachable)
+    {
+        if (retries < 3)
+        {
+            retries++;
+            sleep(3);
+        }
+        else
+        {
+            noConnectivity = TRUE;
+            break;
+        }
+    }
+    if (noConnectivity)
+    {
+        // No connectivity. Pop an error and return to root page.
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"No Connection"
+                                                          message:@"TraderPog requires online connectivity. Please try again later."
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+        
+        [message show];
+        [self popLoadingScreenIfNecessary:nav];
+    }
+    else
+    {
+        // We have connectivity; move onto the next steps
+        [self selectNextGameUI];
+    }
+}
+
 - (void) selectNextGameUI
 {
     // Get the navigation controller
     AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     UINavigationController* nav = appDelegate.navController;
-    
+
     // No player has been created
     if ([Player getInstance].playerId == 0) {
         
@@ -457,7 +512,7 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     else if (!_asyncHttpCallsCompleted)
     {
         [self pushLoadingScreenIfNecessary:nav message:@"Completing outstanding http calls"];
-
+        
         if (![[AsyncHttpCallMgr getInstance] startCalls])
         {
             // A return of FALSE from startCalls indicates no calls to make
@@ -473,7 +528,7 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
         _gameInfoRefreshSucceeded = TRUE;
         
         [self pushLoadingScreenIfNecessary:nav message:@"Loading game info"];
-
+        
         [self loadGameInfo];
     }
     else if (!_playerInfoRefreshed)
@@ -488,10 +543,10 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     else if(![[Player getInstance] lastKnownLocationValid])
     {
         [self pushLoadingScreenIfNecessary:nav message:@"Determining player location"];
-   
+        
         [self locateNewPlayer];
     }
-    // Player has no posts 
+    // Player has no posts
     else if([[TradePostMgr getInstance] postsCount] == 0)
     {
         [self pushLoadingScreenIfNecessary:nav message:@"Generating initial trade post"];
@@ -502,7 +557,7 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
                                                  sellingItem:[itemsArray objectAtIndex:index]])
         {
             // Something failed in the trade post creation, probably because another post
-            // creation was already in flight. We should never get into this state. Log and 
+            // creation was already in flight. We should never get into this state. Log and
             // move on so we can fix this during debug.
             NSLog(@"First trade post creation failed!");
         }
@@ -524,9 +579,9 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
         }
     }
     else
-    {        
-        // Right now, pop any loading screens if they are on the stack when 
-        // we come in here. 
+    {
+        // Right now, pop any loading screens if they are on the stack when
+        // we come in here.
         [self popLoadingScreenIfNecessary:nav];
         
         if (![self gameViewController])
@@ -537,10 +592,13 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
             [nav pushFadeInViewController:self.gameViewController animated:YES];
         }
         
+        _lastGameStateInitializeTime = [[NSDate alloc] init];
+        
         // handle in-game states
         switch(_gameState)
         {
             case kGameStateNew:
+                // Set game state to loop and set initialize time to now
                 _gameState = kGameStateGameLoop;
                 
                 // Save the player state

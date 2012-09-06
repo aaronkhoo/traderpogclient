@@ -17,6 +17,7 @@
 }
 @property (nonatomic,readonly) AFHTTPClient* traderPog;
 
+- (NSString*) getTraderPogURL;
 - (void) resetTraderPogWithIp:(NSString*)serverIp;
 
 // singelton

@@ -34,6 +34,11 @@ static NSString* const kTraderPogPort = @"80";
     [_traderPog unregisterHTTPOperationClass:[AFJSONRequestOperation class]];
 }
 
+- (NSString*) getTraderPogURL
+{
+    return [NSString stringWithFormat:@"%@", kTraderPogBaseURLString];
+}
+
 - (void) resetTraderPogWithIp:(NSString *)serverIp
 {
     if(_traderPog)
