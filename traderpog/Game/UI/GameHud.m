@@ -27,6 +27,7 @@ static const float kHudCoinsIconX = 0.3f * kHudCoinsWidth;
 @end
 
 @implementation GameHud
+@synthesize coins = _coins;
 
 - (id)initWithFrame:(CGRect)frame
 {

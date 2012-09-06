@@ -15,6 +15,7 @@
 @synthesize itemId = _itemId;
 @synthesize annotation = _annotation;
 @synthesize supplyLevel = _supplyLevel;
+@synthesize imgPath = _imgPath;
 @synthesize supplyMaxLevel = _supplyMaxLevel;
 @synthesize beacontime = _beacontime;
 @synthesize hasFlyer = _hasFlyer;
