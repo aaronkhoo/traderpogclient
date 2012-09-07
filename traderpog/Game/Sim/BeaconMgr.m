@@ -19,11 +19,18 @@
 #import "NSArray+Pog.h"
 #import "GameColors.h"
 #import "ImageManager.h"
+#import "UrlImage.h"
 
 static NSUInteger kBeaconPreviewZoomLevel = 8;
 static double const refreshTime = -(60 * 15);
 static const unsigned int kBeaconNum = 10;
 static const float kBubbleBorderWidth = 1.5f;
+
+@interface BeaconMgr ()
+{
+    NSMutableDictionary* _urlImages;
+}
+@end
 
 @implementation BeaconMgr
 @synthesize activeBeacons = _activeBeacons;
@@ -37,6 +44,7 @@ static const float kBubbleBorderWidth = 1.5f;
     {
         _activeBeacons = [NSMutableDictionary dictionaryWithCapacity:10];
         _lastUpdate = nil;
+        _urlImages = [NSMutableDictionary dictionaryWithCapacity:10];
     }
     return self;
 }
@@ -110,6 +118,7 @@ static const float kBubbleBorderWidth = 1.5f;
     return num;
 }
 
+static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
 
 - (WheelBubble*) wheel:(WheelControl *)wheel bubbleAtIndex:(unsigned int)index
 {
@@ -130,12 +139,29 @@ static const float kBubbleBorderWidth = 1.5f;
 
     if([_activeBeacons count] > index)
     {
-        UIImage* image = [[ImageManager getInstance] getImage:@"bubble_beacon_fb.png" fallbackNamed:@"bubble_beacon_fb.png"];
-        [contentView.imageView setImage:image];
+        // request the FB picture for this beacon's owner
+        ForeignTradePost* cur = [_activeBeacons.allValues objectAtIndex:index];
+        UrlImage* urlImage = [_urlImages objectForKey:[cur fbId]];
+        if(urlImage)
+        {
+            [contentView.imageView setImage:[urlImage image]];
+        }
+        else
+        {
+            // set an image so that there's always something there when picture is being loaded
+            UIImage* image = [[ImageManager getInstance] getImage:@"bubble_beacon_fb.png"
+                                                    fallbackNamed:@"bubble_beacon_fb.png"];
+            [contentView.imageView setImage:image];
+
+            NSString* pictureUrlString = [NSString stringWithFormat:kFbPictureUrl, [cur fbId]];
+            UrlImage* urlImage = [[UrlImage alloc] initWithUrl:pictureUrlString forImageView:[contentView imageView]];
+            [_urlImages setObject:urlImage forKey:[cur fbId]];            
+        }
     }
     else
     {
-        UIImage* image = [[ImageManager getInstance] getImage:@"bubble_beacon_g_001.png" fallbackNamed:@"bubble_beacon_g_001.png"];
+        UIImage* image = [[ImageManager getInstance] getImage:@"bubble_beacon_g_001.png"
+                                                fallbackNamed:@"bubble_beacon_g_001.png"];
         [contentView.imageView setImage:image];
     }
     

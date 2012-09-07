@@ -14,6 +14,7 @@
 #import "TradeItemTypes.h"
 
 @implementation ForeignTradePost
+@synthesize fbId = _fbId;
 
 #pragma mark - public functions
 - (id) initWithDictionary:(NSDictionary*)dict

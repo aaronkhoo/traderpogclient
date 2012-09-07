@@ -14,5 +14,6 @@
     NSString*   _userId;
     NSString*   _fbId;
 }
+@property (nonatomic,readonly) NSString* fbId;
 
 @end
