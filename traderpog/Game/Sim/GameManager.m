@@ -30,14 +30,13 @@
 #import "FlightPathOverlay.h"
 #import "ResourceManager.h"
 #import "GameNotes.h"
-#import "WorldState.h"
 #import <CoreLocation/CoreLocation.h>
 
 // List of Game UI screens that GameManager can kick off
 #import "SignupScreen.h"
 
 // How often to check if the gameinfo has been updated (2 hours)
-static double const timeTillReinitialize = -(60 * 15);
+static double const timeTillReinitialize = -(60 * 30);
 static double const gameinfoRefreshTime = -(60 * 60 * 2);
 static NSString* const kKeyLastUpdated = @"lastupdated";
 
@@ -64,9 +63,6 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     GameViewController* _gameViewController;
     HiAccuracyLocator* _playerLocator;
     
-    // local world state
-    WorldState* _localWorldState;
-    
     // in-game UI context
     Flyer* _contextFlyer;
     TradePost* _contextPost;
@@ -78,13 +74,10 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
 }
 @property (nonatomic,strong) ModalNavControl* modalNav;
 @property (nonatomic,strong) HiAccuracyLocator* playerLocator;
-@property (nonatomic,strong) WorldState* localWorldState;
 
 - (void) getGameInfoModifiedDate;
 - (void) loadGameInfo;
 - (void) loadPlayerInfo;
-- (void) loadLocalWorldState;
-- (void) saveLocalWorldState;
 
 - (void) startModalNavControlInView:(UIView*)parentView 
                      withController:(UIViewController *)viewController
@@ -100,8 +93,8 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
 @synthesize modalNav;
 @synthesize gameViewController = _gameViewController;
 @synthesize playerLocator = _playerLocator;
-@synthesize localWorldState = _localWorldState;
 
+#pragma mark - initialization
 - (id) init
 {
     self = [super init];
@@ -140,9 +133,6 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
         pthread_rwlock_init(&_browseEnforcedLock, NULL);
         
         [self registerAllNotificationHandlers];
-        
-        // load up local world state
-        [self loadLocalWorldState];
     }
     return self;
 }
@@ -150,6 +140,16 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
 - (void) dealloc
 {
     pthread_rwlock_destroy(&_browseEnforcedLock);
+}
+
+- (void) resetGame
+{
+    // abort all the way back to the start screen
+    _gameState = kGameStateNew;
+    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    UINavigationController* nav = appDelegate.navController;
+    [nav popFadeOutToRootViewControllerAnimated:YES];
+    _gameViewController = nil;
 }
 
 #pragma mark - internal methods
@@ -168,11 +168,13 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
 - (void) getGameInfoModifiedDate
 {
     // make a get request
+    NSLog(@"Calling getGameInfoModifiedDate");
     AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
     NSString* path = @"gameinfo.json";
     [httpClient getPath:path
              parameters:nil
                 success:^(AFHTTPRequestOperation *operation, id responseObject){
+                    NSLog(@"getGameInfoModifiedDate call succeeded");
                     BOOL successfullyRetrievedModifiedDate = FALSE;
                     
                     // Convert the utc date from string to NSDate instance
@@ -293,54 +295,6 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     }
 }
 
-- (void) loadLocalWorldState
-{
-    self.localWorldState = nil;
-    NSFileManager* fileManager = [NSFileManager defaultManager];
-    NSString* filepath = [WorldState filepath];
-    if ([fileManager fileExistsAtPath:filepath])
-    {
-        NSData* readData = [NSData dataWithContentsOfFile:filepath];
-        if(readData)
-        {
-            self.localWorldState = [NSKeyedUnarchiver unarchiveObjectWithData:readData];
-        }
-    }
-}
-
-- (void) saveLocalWorldState
-{
-    if(![self localWorldState])
-    {
-        // create new local cache if non exists
-        self.localWorldState = [[WorldState alloc] init];
-    }
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:[self localWorldState]];
-    NSError* error = nil;
-    BOOL writeSuccess = [data writeToFile:[WorldState filepath]
-                                  options:NSDataWritingAtomic
-                                    error:&error];
-    if(writeSuccess)
-    {
-        NSLog(@"localWorldState file saved successfully");
-    }
-    else
-    {
-        NSLog(@"localWorldState file save failed: %@", error);
-    }
-}
-
-- (void) removeLocalWorldStateData
-{
-    NSFileManager* fileManager = [NSFileManager defaultManager];
-    NSString* filepath = [WorldState filepath];
-    NSError *error = nil;
-    if ([fileManager fileExistsAtPath:filepath])
-    {
-        [fileManager removeItemAtPath:filepath error:&error];
-    }
-}
-
 - (void) locateNewPlayer
 {
     _playerLocator = [[HiAccuracyLocator alloc] init];
@@ -389,11 +343,7 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
 
 - (void) handleNewPlayerLocationDenied:(NSNotification *)note 
 {
-    // abort all the way back to the start screen
-    _gameState = kGameStateNew;
-    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    UINavigationController* nav = appDelegate.navController;
-    [nav popFadeOutToRootViewControllerAnimated:YES];    
+    [self resetGame];
 }
 
 - (void) pushLoadingScreenIfNecessary:(UINavigationController*)nav message:(NSString*)message
@@ -424,7 +374,7 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     // Reset
     if (_gameState != kGameStateNew && ([_lastGameStateInitializeTime timeIntervalSinceNow] < timeTillReinitialize))
     {
-        _gameState = kGameStateNew;
+        [self resetGame];
         _asyncHttpCallsCompleted = TRUE;
         _gameInfoRefreshed = FALSE;
         _gameInfoRefreshCount = 0;
@@ -434,15 +384,11 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     }
 }
 
-- (void) applicationDidEnterBackground
-{
-    [self saveLocalWorldState];
-}
-
 - (void) clearCache
 {
-    [self removeLocalWorldStateData];
+    [[AsyncHttpCallMgr getInstance] removeAsyncHttpCallMgrData];
     [[Player getInstance] removePlayerData];
+    [[FlyerMgr getInstance] removeFlyerMgrData];
 }
 
 - (void) validateConnectivity
@@ -604,12 +550,6 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
                 // Save the player state
                 [[Player getInstance] savePlayerData];
                 
-                // refresh game data from local cache
-                if([self localWorldState])
-                {
-                    [[FlyerMgr getInstance] refreshFromWorldState:[self localWorldState]];
-                }
-                
                 NSLog(@"start gameloop");
                 [self.gameViewController showKnobAnimated:YES delay:0.5f];
                 
@@ -633,7 +573,6 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
         }
     }
 }
-
 
 #pragma mark - in-game UI flow
 - (void) showHomeSelectForFlyer:(Flyer *)flyer

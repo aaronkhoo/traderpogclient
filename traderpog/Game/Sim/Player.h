@@ -8,7 +8,6 @@
 
 #import "FBConnect.h"
 #import "HttpCallbackDelegate.h"
-#import "WorldState.h"
 #import <CoreLocation/CoreLocation.h>
 #import <UIKit/UIKit.h>
 

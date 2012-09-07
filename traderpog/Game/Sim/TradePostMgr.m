@@ -291,6 +291,7 @@ static const float kPostBubbleBorderWidth = 1.5f;
              parameters:nil
                 success:^(AFHTTPRequestOperation *operation, id responseObject){                     
                     NSLog(@"Retrieved: %@", responseObject);
+                    [_myPostSlots removeAllObjects];
                     [self createPostsArray:responseObject];
                     _lastUpdate = [NSDate date];
                     [self.delegate didCompleteHttpCallback:kTradePostMgr_ReceivePosts, TRUE];

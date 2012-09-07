@@ -117,7 +117,6 @@
 		C481146015ACB927007FA214 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C481145E15ACB927007FA214 /* GameViewController.xib */; };
 		C481146915ACBFED007FA214 /* MapControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146815ACBFED007FA214 /* MapControl.m */; };
 		C481146C15AD024C007FA214 /* TradePost.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146B15AD024C007FA214 /* TradePost.m */; };
-		C481146F15AD0605007FA214 /* WorldState.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146E15AD0605007FA214 /* WorldState.m */; };
 		C481147615B07D96007FA214 /* TradePostMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = C481147515B07D96007FA214 /* TradePostMgr.m */; };
 		C4945B8015AC26D900EEC0C0 /* LoadingScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B7E15AC26D900EEC0C0 /* LoadingScreen.m */; };
 		C4945B8115AC26D900EEC0C0 /* LoadingScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4945B7F15AC26D900EEC0C0 /* LoadingScreen.xib */; };
@@ -360,8 +359,6 @@
 		C481146815ACBFED007FA214 /* MapControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapControl.m; path = Game/UI/MapControl.m; sourceTree = "<group>"; };
 		C481146A15AD024B007FA214 /* TradePost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradePost.h; path = Game/Sim/TradePost.h; sourceTree = "<group>"; };
 		C481146B15AD024C007FA214 /* TradePost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradePost.m; path = Game/Sim/TradePost.m; sourceTree = "<group>"; };
-		C481146D15AD0604007FA214 /* WorldState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorldState.h; path = Game/Sim/WorldState.h; sourceTree = "<group>"; };
-		C481146E15AD0605007FA214 /* WorldState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorldState.m; path = Game/Sim/WorldState.m; sourceTree = "<group>"; };
 		C481147415B07D96007FA214 /* TradePostMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradePostMgr.h; path = Game/Sim/TradePostMgr.h; sourceTree = "<group>"; };
 		C481147515B07D96007FA214 /* TradePostMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradePostMgr.m; path = Game/Sim/TradePostMgr.m; sourceTree = "<group>"; };
 		C4945B7D15AC26D900EEC0C0 /* LoadingScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingScreen.h; sourceTree = "<group>"; };
@@ -895,8 +892,6 @@
 				C4D5DDD915B3155B00D5A746 /* TradeItem.m */,
 				C4D5DDDB15B3168000D5A746 /* TradeItemType.h */,
 				C4D5DDDC15B3168100D5A746 /* TradeItemType.m */,
-				C481146D15AD0604007FA214 /* WorldState.h */,
-				C481146E15AD0605007FA214 /* WorldState.m */,
 				C481147415B07D96007FA214 /* TradePostMgr.h */,
 				C481147515B07D96007FA214 /* TradePostMgr.m */,
 				4277385415D3A971004DCC13 /* Beacon.h */,
@@ -1077,7 +1072,6 @@
 				C481145F15ACB927007FA214 /* GameViewController.m in Sources */,
 				C481146915ACBFED007FA214 /* MapControl.m in Sources */,
 				C481146C15AD024C007FA214 /* TradePost.m in Sources */,
-				C481146F15AD0605007FA214 /* WorldState.m in Sources */,
 				C481147615B07D96007FA214 /* TradePostMgr.m in Sources */,
 				C42FC49015B13293006D29A3 /* ModalNavControl.m in Sources */,
 				C42FC49615B141A3006D29A3 /* ModalNavRoot.m in Sources */,

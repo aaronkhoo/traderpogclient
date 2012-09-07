@@ -87,7 +87,6 @@
     [[AsyncHttpCallMgr getInstance] applicationDidEnterBackground];
     [[FlyerMgr getInstance] saveFlyerMgrData];
     [[Player getInstance] appDidEnterBackground];
-    [[GameManager getInstance] applicationDidEnterBackground];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
