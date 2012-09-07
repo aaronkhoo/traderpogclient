@@ -36,7 +36,7 @@
 #import "SignupScreen.h"
 
 // How often to check if the gameinfo has been updated (2 hours)
-static double const timeTillReinitialize = -(60 * 15);
+static double const timeTillReinitialize = -(60 * 30);
 static double const gameinfoRefreshTime = -(60 * 60 * 2);
 static NSString* const kKeyLastUpdated = @"lastupdated";
 
@@ -94,6 +94,7 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
 @synthesize gameViewController = _gameViewController;
 @synthesize playerLocator = _playerLocator;
 
+#pragma mark - initialization
 - (id) init
 {
     self = [super init];
@@ -141,6 +142,16 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     pthread_rwlock_destroy(&_browseEnforcedLock);
 }
 
+- (void) resetGame
+{
+    // abort all the way back to the start screen
+    _gameState = kGameStateNew;
+    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    UINavigationController* nav = appDelegate.navController;
+    [nav popFadeOutToRootViewControllerAnimated:YES];
+    _gameViewController = nil;
+}
+
 #pragma mark - internal methods
 - (void) startModalNavControlInView:(UIView*)parentView 
                      withController:(UIViewController *)viewController
@@ -157,11 +168,13 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
 - (void) getGameInfoModifiedDate
 {
     // make a get request
+    NSLog(@"Calling getGameInfoModifiedDate");
     AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
     NSString* path = @"gameinfo.json";
     [httpClient getPath:path
              parameters:nil
                 success:^(AFHTTPRequestOperation *operation, id responseObject){
+                    NSLog(@"getGameInfoModifiedDate call succeeded");
                     BOOL successfullyRetrievedModifiedDate = FALSE;
                     
                     // Convert the utc date from string to NSDate instance
@@ -330,11 +343,7 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
 
 - (void) handleNewPlayerLocationDenied:(NSNotification *)note 
 {
-    // abort all the way back to the start screen
-    _gameState = kGameStateNew;
-    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    UINavigationController* nav = appDelegate.navController;
-    [nav popFadeOutToRootViewControllerAnimated:YES];    
+    [self resetGame];
 }
 
 - (void) pushLoadingScreenIfNecessary:(UINavigationController*)nav message:(NSString*)message
@@ -365,7 +374,7 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     // Reset
     if (_gameState != kGameStateNew && ([_lastGameStateInitializeTime timeIntervalSinceNow] < timeTillReinitialize))
     {
-        _gameState = kGameStateNew;
+        [self resetGame];
         _asyncHttpCallsCompleted = TRUE;
         _gameInfoRefreshed = FALSE;
         _gameInfoRefreshCount = 0;
@@ -564,7 +573,6 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
         }
     }
 }
-
 
 #pragma mark - in-game UI flow
 - (void) showHomeSelectForFlyer:(Flyer *)flyer
