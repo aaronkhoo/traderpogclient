@@ -39,7 +39,6 @@
 		421564DD15F6B2E400AAE851 /* pogbuilding_004.png in Resources */ = {isa = PBXBuildFile; fileRef = 421564D915F6B2E400AAE851 /* pogbuilding_004.png */; };
 		4216380515F95D00002E6FD5 /* Clockface.m in Sources */ = {isa = PBXBuildFile; fileRef = 4216380415F95D00002E6FD5 /* Clockface.m */; };
 		4216380915F97C4E002E6FD5 /* AnimMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4216380815F97C4D002E6FD5 /* AnimMgr.m */; };
-		4216381515F9A08A002E6FD5 /* DownloadMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4216381415F9A08A002E6FD5 /* DownloadMgr.m */; };
 		4216381A15F9A4E3002E6FD5 /* UrlImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4216381915F9A4E3002E6FD5 /* UrlImage.m */; };
 		4221E4D115D9CB7B00781664 /* FlyerCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4221E4D015D9CB7B00781664 /* FlyerCallout.m */; };
 		4221E4D515D9D47E00781664 /* FlyerCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4221E4D415D9D47E00781664 /* FlyerCalloutView.m */; };
@@ -237,8 +236,6 @@
 		4216380715F97C4D002E6FD5 /* AnimMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimMgr.h; sourceTree = "<group>"; };
 		4216380815F97C4D002E6FD5 /* AnimMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimMgr.m; sourceTree = "<group>"; };
 		4216380A15F97CBB002E6FD5 /* AnimDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnimDelegate.h; sourceTree = "<group>"; };
-		4216381315F9A08A002E6FD5 /* DownloadMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadMgr.h; path = Resources/DownloadMgr.h; sourceTree = "<group>"; };
-		4216381415F9A08A002E6FD5 /* DownloadMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadMgr.m; path = Resources/DownloadMgr.m; sourceTree = "<group>"; };
 		4216381715F9A139002E6FD5 /* DownloadDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DownloadDelegate.h; path = Resources/DownloadDelegate.h; sourceTree = "<group>"; };
 		4216381815F9A4E3002E6FD5 /* UrlImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UrlImage.h; path = Resources/UrlImage.h; sourceTree = "<group>"; };
 		4216381915F9A4E3002E6FD5 /* UrlImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UrlImage.m; path = Resources/UrlImage.m; sourceTree = "<group>"; };
@@ -465,8 +462,6 @@
 			children = (
 				3887ACC215D4CB9700B4E0FA /* ResourceManager.h */,
 				3887ACC315D4CB9700B4E0FA /* ResourceManager.m */,
-				4216381315F9A08A002E6FD5 /* DownloadMgr.h */,
-				4216381415F9A08A002E6FD5 /* DownloadMgr.m */,
 				4216381715F9A139002E6FD5 /* DownloadDelegate.h */,
 				4216381815F9A4E3002E6FD5 /* UrlImage.h */,
 				4216381915F9A4E3002E6FD5 /* UrlImage.m */,
@@ -1148,7 +1143,6 @@
 				38F6593915F8023100816517 /* Reachability.m in Sources */,
 				4216380515F95D00002E6FD5 /* Clockface.m in Sources */,
 				4216380915F97C4E002E6FD5 /* AnimMgr.m in Sources */,
-				4216381515F9A08A002E6FD5 /* DownloadMgr.m in Sources */,
 				4216381A15F9A4E3002E6FD5 /* UrlImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
