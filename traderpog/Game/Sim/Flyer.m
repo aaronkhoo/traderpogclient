@@ -266,6 +266,8 @@ static NSString* const kKeyPath = @"path";
 
 - (void) completeFlyerPath
 {
+    NSLog(@"Flyer path completed");
+    
     // track distance
     CLLocationDistance routeDist = metersDistance([_path srcCoord], [_path destCoord]);
     [_inventory incrementTravelDistance:routeDist];
