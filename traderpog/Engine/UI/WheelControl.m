@@ -313,15 +313,18 @@ static const float kPreviewLabelTextSize = 10.0f;
     {
         buttonBorderColor = [self.dataSource previewButtonBorderColorForWheel:self];
     }
+    // previewImageView that can optionally cover up the content
+    _previewImageView = [[UIImageView alloc] initWithFrame:[_previewView bounds]];
+    _previewImageView.backgroundColor = [UIColor clearColor];
+    [_previewCircle addSubview:_previewImageView];
+
+    // add the content to the bottom-most layer in the preview circle
     [PogUIUtility setCircleForView:_previewCircle withBorderWidth:kPreviewBorderWidth borderColor:borderColor];
     _previewContent = [self.dataSource wheel:self previewContentInitAtIndex:0];
     [_previewCircle addSubview:_previewContent];
+    [_previewCircle sendSubviewToBack:_previewContent];
     
-    // previewImageView that can optionally cover up the content
-    _previewImageView = [[UIImageView alloc] initWithFrame:[_previewView bounds]];
-    _previewImageView.hidden = YES;
-    _previewImageView.backgroundColor = [UIColor clearColor];
-    [_previewCircle addSubview:_previewImageView];
+    // add the preview circle into the container view
     [_previewView addSubview:_previewCircle];
     
     // text label container

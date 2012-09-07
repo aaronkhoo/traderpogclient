@@ -45,6 +45,8 @@ enum _MyPostSlots
 
 static double const refreshTime = -(60 * 15);
 static const float kPostBubbleBorderWidth = 1.5f;
+static const float kPreviewPostWidth = 120.0f;
+static const float kPreviewPostHeight = 120.0f;
 
 @interface TradePostMgr ()
 {
@@ -388,6 +390,17 @@ static const float kPostBubbleBorderWidth = 1.5f;
             TradePost* initPost = [_activePosts.allValues objectAtIndex:index];
             _previewMap = [[MapControl alloc] initWithMapView:result
                                                     andCenter:[initPost coord]];
+            
+            CGSize previewSize = wheel.previewCircle.bounds.size;
+            CGRect imageRect = CGRectMake(0.5f * (previewSize.width - kPreviewPostWidth),
+                                          (0.5f * (previewSize.height - kPreviewPostHeight)) - (0.4f * kPreviewPostHeight),
+                                          kPreviewPostWidth,
+                                          kPreviewPostHeight);
+            
+            wheel.previewImageView.frame = imageRect;
+            UIImage* image = [[ImageManager getInstance] getImage:[initPost imgPath] fallbackNamed:@"b_flyerlab.png"];
+            [wheel.previewImageView setImage:image];
+            [wheel.previewImageView setHidden:NO];
         }
     }
     return result;
@@ -395,7 +408,7 @@ static const float kPostBubbleBorderWidth = 1.5f;
 
 - (UIColor*) previewColorForWheel:(WheelControl *)wheel
 {
-    UIColor* result = [GameColors bubbleBgColorWithAlpha:1.0f];
+    UIColor* result = [UIColor clearColor];//[GameColors bubbleBgColorWithAlpha:1.0f];
     return result;
 }
 
@@ -420,14 +433,24 @@ static const float kPostBubbleBorderWidth = 1.5f;
 #pragma mark - WheelProtocol
 - (void) wheel:(WheelControl*)wheel didMoveTo:(unsigned int)index
 {
+    CGSize previewSize = wheel.previewCircle.bounds.size;
+    CGRect imageRect = CGRectMake(0.5f * (previewSize.width - kPreviewPostWidth),
+                                  (0.5f * (previewSize.height - kPreviewPostHeight)) - (0.4f * kPreviewPostHeight),
+                                  kPreviewPostWidth,
+                                  kPreviewPostHeight);
+    wheel.previewImageView.frame = imageRect;
+    
     index = MIN(index, kMyPostSlotNum-1);
     if([NSNull null] != [self.myPostSlots objectAtIndex:index])
     {
         TradePost* cur = [self.myPostSlots objectAtIndex:index];
         [_previewMap centerOn:[cur coord] animated:YES];
         wheel.previewLabelBg.hidden = YES;
-        [wheel.previewImageView setImage:nil];
-        [wheel.previewImageView setHidden:YES];
+        
+        UIImage* image = [[ImageManager getInstance] getImage:[cur imgPath] fallbackNamed:@"b_flyerlab.png"];
+        [wheel.previewImageView setImage:image];
+        [wheel.previewImageView setHidden:NO];
+        [wheel.previewImageView setBackgroundColor:[UIColor clearColor]];
     }
     else if(kMyPostSlotFreeEnd > index)
     {
