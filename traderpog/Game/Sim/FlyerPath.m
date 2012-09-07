@@ -366,12 +366,6 @@ static NSString* const kKeyDone = @"done";
     _curPostId = _nextPostId;
     _srcCoord = _destCoord;
     self.nextPostId = nil;
-    /*
-     NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
-                                [NSNumber numberWithBool:YES], kKeyDone,
-                                nil];
-    [self updateFlyerPath:userFlyerId parameters:parameters];
-    */
      _doneWithCurrentPath = TRUE;
 }
 

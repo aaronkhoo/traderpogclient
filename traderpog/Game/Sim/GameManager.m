@@ -40,8 +40,32 @@ static double const timeTillReinitialize = -(60 * 30);
 static double const gameinfoRefreshTime = -(60 * 60 * 2);
 static NSString* const kKeyLastUpdated = @"lastupdated";
 
+typedef enum {
+    serverCallType_none = 0,
+    
+    // Global game info, should come before player specific info
+    serverCallType_resourceManager,
+    serverCallType_flyerTypes,
+    serverCallType_tradeItemTypes,
+    
+    // Player specific info
+    serverCallType_player,
+    serverCallType_flyerMgr,
+    serverCallType_tradePostMgr,
+    serverCallType_beaconMgr,
+    serverCallType_facebook,
+    
+    // Any new server calls should go above this
+    serverCallType_end
+} serverCallType;
+
 @interface GameManager ()
 {
+    // Game state variables
+    serverCallType _currentServerCall;
+    BOOL _gameStateRefreshedFromServer;
+    BOOL _gameInfoRefreshSucceeded;
+    
     // Last time we went through game state initialization
     NSDate* _lastGameStateInitializeTime;
     
@@ -51,14 +75,6 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     // Variables to track general game information
     NSDate* _gameInfoModifiedDateLastChecked;
     NSDate* _gameInfoModifiedDate;
-    BOOL _gameInfoRefreshed;
-    BOOL _gameInfoRefreshSucceeded;
-    NSInteger _gameInfoRefreshCount;
-    
-    // Variables to track player specific information
-    BOOL _playerInfoRefreshed;
-    BOOL _playerInfoRefreshSucceeded;
-    NSInteger _playerInfoRefreshCount;
     
     GameViewController* _gameViewController;
     HiAccuracyLocator* _playerLocator;
@@ -76,8 +92,6 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
 @property (nonatomic,strong) HiAccuracyLocator* playerLocator;
 
 - (void) getGameInfoModifiedDate;
-- (void) loadGameInfo;
-- (void) loadPlayerInfo;
 
 - (void) startModalNavControlInView:(UIView*)parentView 
                      withController:(UIViewController *)viewController
@@ -100,7 +114,10 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     self = [super init];
     if(self)
     {
+        _currentServerCall = serverCallType_none;
+        _gameStateRefreshedFromServer = FALSE;
         _lastGameStateInitializeTime = nil;
+        _gameInfoRefreshSucceeded = TRUE;
         
         _gameState = kGameStateNew;
         _loadingScreen = nil;
@@ -110,19 +127,6 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
         
         _gameInfoModifiedDateLastChecked = nil;
         _gameInfoModifiedDate = nil;
-        _gameInfoRefreshed = FALSE;
-        _gameInfoRefreshSucceeded = TRUE;
-        // This counter is used to track how many game info refresh
-        // requests are still in flight. See loadGameInfo function for
-        // more details.
-        _gameInfoRefreshCount = 0;
-        
-        _playerInfoRefreshed = FALSE;
-        _playerInfoRefreshSucceeded = TRUE;
-        // This counter is used to track how many player info refresh
-        // requests are still in flight. See loadPlayerInfo function for
-        // more details.
-        _playerInfoRefreshCount = 0;
         
         // in-game UI context
         _contextFlyer = nil;
@@ -213,84 +217,107 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
      ];
 }
 
-- (void) loadGameInfo
+- (BOOL) makeServerCall
 {
-    // loadGame should be responsible for reloading any data from the server it requires 
-    // before the main game sequence starts.
+    // Get the navigation controller
+    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    UINavigationController* nav = appDelegate.navController;
     
-    [[ResourceManager getInstance] downloadResourceFileIfNecessary];
-    _gameInfoRefreshCount++;
-    
-    // Load item information
-    if ([[TradeItemTypes getInstance] needsRefresh:_gameInfoModifiedDate])
-    {
-        [[TradeItemTypes getInstance] retrieveItemsFromServer];   
-        _gameInfoRefreshCount++;
+    BOOL noCall = TRUE;
+    switch (_currentServerCall) {
+        case serverCallType_resourceManager:
+            [self pushLoadingScreenIfNecessary:nav message:@"Hiring Pogs..."];
+            [[ResourceManager getInstance] downloadResourceFileIfNecessary];
+            noCall = FALSE;
+            break;
+            
+        case serverCallType_tradeItemTypes:
+            // Load trade item information
+            [self pushLoadingScreenIfNecessary:nav message:@"Manufacturing items for trade..."];
+            if ([[TradeItemTypes getInstance] needsRefresh:_gameInfoModifiedDate])
+            {
+                [[TradeItemTypes getInstance] retrieveItemsFromServer];
+                noCall = FALSE;
+            }
+            break;
+            
+        case serverCallType_flyerTypes:
+            // Load flyers information
+            [self pushLoadingScreenIfNecessary:nav message:@"Building flyers..."];
+            if ([[FlyerTypes getInstance] needsRefresh:_gameInfoModifiedDate])
+            {
+                [[FlyerTypes getInstance] retrieveFlyersFromServer];
+                noCall = FALSE;
+            }
+            break;
+            
+        case serverCallType_player:
+                        // Load player information
+            [self pushLoadingScreenIfNecessary:nav message:@"Raising capital...."];
+            if ([[Player getInstance] needsRefresh])
+            {
+                [[Player getInstance] getPlayerDataFromServer];
+                noCall = FALSE;
+            }
+            break;
+            
+        case serverCallType_flyerMgr:
+            // Load flyers associated with the current user
+            [self pushLoadingScreenIfNecessary:nav message:@"Searching for trade routes..."];
+            if ([[FlyerMgr getInstance] needsRefresh])
+            {
+                [[FlyerMgr getInstance] retrieveUserFlyersFromServer];
+                noCall = FALSE;
+            }
+            break;
+            
+        case serverCallType_tradePostMgr:
+            // Load posts information
+            [self pushLoadingScreenIfNecessary:nav message:@"Signing contracts..."];
+            if ([[TradePostMgr getInstance] needsRefresh])
+            {
+                [[TradePostMgr getInstance] retrievePostsFromServer];
+                noCall = FALSE;
+            }
+            break;
+            
+        case serverCallType_beaconMgr:
+                        // Load beacons
+            [self pushLoadingScreenIfNecessary:nav message:@"Contacting trading partners..."];
+            if ([[BeaconMgr getInstance] needsRefresh])
+            {
+                [[BeaconMgr getInstance] retrieveBeaconsFromServer];
+                noCall = FALSE;
+            }
+            break;
+            
+        case serverCallType_facebook:
+            // Refresh friends data from Facebook if necessary
+            [self pushLoadingScreenIfNecessary:nav message:@"Cornering markets..."];
+            if ([[Player getInstance] facebookSessionValid] && [[Player getInstance] needsFriendsRefresh])
+            {
+                [[Player getInstance] getFacebookFriendsList];
+                noCall = FALSE;
+            }
+            break;
+            
+        default:
+            break;
     }
-    
-    // Load flyers information
-    if ([[FlyerTypes getInstance] needsRefresh:_gameInfoModifiedDate])
-    {
-        [[FlyerTypes getInstance] retrieveFlyersFromServer];   
-        _gameInfoRefreshCount++;
-    }
-    
-    // We got to this point and there was nothing to refresh, 
-    // so just call selectNextGameUI to move on
-    if (_gameInfoRefreshCount == 0)
-    {
-        // First indicate that gameInfo has been refreshed
-        _gameInfoRefreshed = TRUE;
-        [self selectNextGameUI];
-    }
+    // reverse the noCall value, i.e. return TRUE if a call was made, and FALSE otherwise
+    return !noCall;
 }
 
-- (void) loadPlayerInfo
+- (void) refreshServerData
 {
-    // loadPlayerInfo should be responsible for reloading any data from the server it requires
-    // that is specific to the player before the main game sequence starts.
-    
-    // Load player information
-    if ([[Player getInstance] needsRefresh])
-    {
-        [[Player getInstance] getPlayerDataFromServer];
-        _playerInfoRefreshCount++;
+    // Try to refresh data from server
+    while (_currentServerCall != serverCallType_end && ![self makeServerCall]) {
+        _currentServerCall++;
     }
-    
-    // Load posts information
-    if ([[TradePostMgr getInstance] needsRefresh])
+    if (_currentServerCall == serverCallType_end)
     {
-        [[TradePostMgr getInstance] retrievePostsFromServer];
-        _playerInfoRefreshCount++;
-    }
-    
-    // Load flyers associated with the current user
-    if ([[FlyerMgr getInstance] needsRefresh])
-    {
-        [[FlyerMgr getInstance] retrieveUserFlyersFromServer];
-        _playerInfoRefreshCount++;
-    }
-    
-    // Load beacons
-    if ([[BeaconMgr getInstance] needsRefresh])
-    {
-        [[BeaconMgr getInstance] retrieveBeaconsFromServer];
-        _playerInfoRefreshCount++;
-    }
-    
-    // Refresh friends data from Facebook if necessary
-    if ([[Player getInstance] facebookSessionValid] && [[Player getInstance] needsFriendsRefresh])
-    {
-        [[Player getInstance] getFacebookFriendsList];
-        _playerInfoRefreshCount++;
-    }
-    
-    // We got to this point and there was nothing to refresh,
-    // so just call selectNextGameUI to move on
-    if (_playerInfoRefreshCount == 0)
-    {
-        // First indicate that gameInfo has been refreshed
-        _playerInfoRefreshed = TRUE;
+        NSLog(@"Done with game state refresh from the server.");
+        _gameStateRefreshedFromServer = TRUE;
         [self selectNextGameUI];
     }
 }
@@ -375,11 +402,9 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
     if (_gameState != kGameStateNew && ([_lastGameStateInitializeTime timeIntervalSinceNow] < timeTillReinitialize))
     {
         [self resetGame];
+        _currentServerCall = serverCallType_none;
+        _gameStateRefreshedFromServer = FALSE;
         _asyncHttpCallsCompleted = TRUE;
-        _gameInfoRefreshed = FALSE;
-        _gameInfoRefreshCount = 0;
-        _playerInfoRefreshed = FALSE;
-        _playerInfoRefreshCount = 0;
         [self validateConnectivity];
     }
 }
@@ -468,23 +493,14 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
             [self selectNextGameUI];
         }
     }
-    else if (!_gameInfoRefreshed)
+    else if (!_gameStateRefreshedFromServer)
     {
         // show loading screen and load game info from server
         _gameInfoRefreshSucceeded = TRUE;
         
-        [self pushLoadingScreenIfNecessary:nav message:@"Loading game info"];
+        _currentServerCall = serverCallType_none;
         
-        [self loadGameInfo];
-    }
-    else if (!_playerInfoRefreshed)
-    {
-        // show loading screen and load player info from server
-        _playerInfoRefreshSucceeded = TRUE;
-        
-        [self pushLoadingScreenIfNecessary:nav message:@"Loading player info"];
-        
-        [self loadPlayerInfo];
+        [self refreshServerData];
     }
     else if(![[Player getInstance] lastKnownLocationValid])
     {
@@ -717,74 +733,37 @@ static NSString* const kKeyLastUpdated = @"lastupdated";
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {
-    // Game is presently in gameinfo refresh mode. Only call selectNextGameUI 
-    // if the refresh is complete. 
-    if (_gameInfoRefreshCount > 0)
+    if ([callName compare:kTradeItemTypes_ReceiveItems] == NSOrderedSame ||
+        [callName compare:kFlyerTypes_ReceiveFlyers] == NSOrderedSame ||
+        [callName compare:kResourceManager_PackageReady] == NSOrderedSame ||
+        [callName compare:kPlayer_GetPlayerData] == NSOrderedSame ||
+        [callName compare:kTradePostMgr_ReceivePosts] == NSOrderedSame ||
+        [callName compare:kFlyerMgr_ReceiveFlyers] == NSOrderedSame ||
+        [callName compare:kPlayer_SavePlayerData] == NSOrderedSame ||
+        [callName compare:kBeaconMgr_ReceiveBeacons] == NSOrderedSame)
     {
-        if ([callName compare:kTradeItemTypes_ReceiveItems] == NSOrderedSame ||
-            [callName compare:kFlyerTypes_ReceiveFlyers] == NSOrderedSame ||
-            [callName compare:kResourceManager_PackageReady] == NSOrderedSame)
+        _gameInfoRefreshSucceeded = _gameInfoRefreshSucceeded && success;
+        if (_gameInfoRefreshSucceeded)
         {
-            _gameInfoRefreshCount--;
-            _gameInfoRefreshSucceeded = _gameInfoRefreshSucceeded && success;
-            if (_gameInfoRefreshCount == 0)
-            {
-                // If one of the refreshes failed, then treat the entire refresh process as failed.
-                _gameInfoRefreshed = _gameInfoRefreshSucceeded;
-                
-                if (_gameInfoRefreshed)
-                {
-                    // Game info refresh succeeded. Go ahead and continue the process
-                    // of starting up.
-                    [self selectNextGameUI];
-                }
-                else
-                {
-                    // Something failed in the game refresh process. Stop for now.
-                    // Pop the loading screen.
-                    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-                    UINavigationController* nav = appDelegate.navController;
-                    [self popLoadingScreenIfNecessary:nav];
-                }
-            }
+            // Try to make the next server call
+            NSLog(@"Successful http call received from: %@. Trying next call.", callName);
+            _currentServerCall++;
+            [self refreshServerData];
         }
-    }
-    // Game is presently in player info refresh mode. Only call selectNextGameUI
-    // if the refresh is complete.
-    else if (_playerInfoRefreshCount > 0)
-    {
-        if ([callName compare:kPlayer_GetPlayerData] == NSOrderedSame ||
-            [callName compare:kTradePostMgr_ReceivePosts] == NSOrderedSame ||
-            [callName compare:kFlyerMgr_ReceiveFlyers] == NSOrderedSame ||
-            [callName compare:kPlayer_SavePlayerData] == NSOrderedSame ||
-            [callName compare:kBeaconMgr_ReceiveBeacons] == NSOrderedSame)
+        else
         {
-            _playerInfoRefreshCount--;
-            _playerInfoRefreshSucceeded = _playerInfoRefreshSucceeded && success;
-            if (_playerInfoRefreshCount == 0)
-            {
-                // If one of the refreshes failed, then treat the entire refresh process as failed.
-                _playerInfoRefreshed = _playerInfoRefreshSucceeded;
-                
-                if (_playerInfoRefreshed)
-                {
-                    // Player info refresh succeeded. Go ahead and continue the process
-                    // of starting up.
-                    [self selectNextGameUI];
-                }
-                else
-                {
-                    // Something failed in the player refresh process. Stop for now.
-                    // Pop the loading screen.
-                    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-                    UINavigationController* nav = appDelegate.navController;
-                    [self popLoadingScreenIfNecessary:nav];
-                }
-            }
+            // Something failed in the game refresh process. Stop for now.
+            // Pop the loading screen.
+            NSLog(@"Http call %@ failed. Stopping cycle.", callName);
+            _gameStateRefreshedFromServer = FALSE;
+            AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+            UINavigationController* nav = appDelegate.navController;
+            [self popLoadingScreenIfNecessary:nav];
         }
     }
     else
     {
+        NSLog(@"Http callback received from unknown call: %@", callName);
         [self selectNextGameUI];
     }
 }
