@@ -13,6 +13,7 @@
 #import "GameManager.h"
 #import "PogUIUtility.h"
 #import "CircleBarView.h"
+#import "Clockface.h"
 
 NSString* const kFlyerAnnotationViewReuseId = @"FlyerAnnotationView";
 static NSString* const kFlyerTransformKey = @"transform";
@@ -29,6 +30,7 @@ static const float kFlyerAnnotContentSize = 85.0f;
     FlyerCallout* _calloutAnnotation;
     UIView* _contentView;
     CircleBarView* _countdown;
+    Clockface* _countdownClock;
 }
 @property (nonatomic,strong) UIView* contentView;
 @property (nonatomic,strong) CircleBarView* countdown;
@@ -143,10 +145,13 @@ static const float kFlyerAnnotContentSize = 85.0f;
     if(yesNo)
     {
         [self.countdown setHidden:NO];
+        [_countdownClock startAnimating];
+        
     }
     else
     {
         [self.countdown setHidden:YES];
+        [_countdownClock stopAnimating];
     }
 }
 
@@ -179,6 +184,9 @@ static const float kFlyerCountdownHeight = 22.0f;
                                                  textSize:15.0f
                                             barHeightFrac:0.7f
                                            hasRoundCorner:NO];
+    
+    _countdownClock = [[Clockface alloc] initWithFrame:self.countdown.leftCircle.bounds];
+    [self.countdown.leftCircle addSubview:_countdownClock];
     [self.contentView addSubview:[self countdown]];
 }
 

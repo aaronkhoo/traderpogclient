@@ -20,6 +20,7 @@
 #import "FlyerTypes.h"
 #import "BeaconMgr.h"
 #import "ResourceManager.h"
+#import "AnimMgr.h"
 
 @interface AppDelegate()
 {
@@ -135,6 +136,7 @@
     [ScanManager getInstance];
     [ResourceManager getInstance];
     [AsyncHttpCallMgr getInstance];
+    [AnimMgr getInstance];
     
     // Setting up the HTTP callback delegates
     [[Player getInstance] setDelegate:[GameManager getInstance]];
@@ -155,6 +157,7 @@
 
 - (void) appShutdown
 {
+    [AnimMgr destroyInstance];
     [ScanManager destroyInstance];
     [GameManager destroyInstance];
     [BeaconMgr destroyInstance];

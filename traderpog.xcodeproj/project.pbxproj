@@ -37,6 +37,8 @@
 		421564DB15F6B2E400AAE851 /* pogbuilding_002.png in Resources */ = {isa = PBXBuildFile; fileRef = 421564D715F6B2E400AAE851 /* pogbuilding_002.png */; };
 		421564DC15F6B2E400AAE851 /* pogbuilding_003.png in Resources */ = {isa = PBXBuildFile; fileRef = 421564D815F6B2E400AAE851 /* pogbuilding_003.png */; };
 		421564DD15F6B2E400AAE851 /* pogbuilding_004.png in Resources */ = {isa = PBXBuildFile; fileRef = 421564D915F6B2E400AAE851 /* pogbuilding_004.png */; };
+		4216380515F95D00002E6FD5 /* Clockface.m in Sources */ = {isa = PBXBuildFile; fileRef = 4216380415F95D00002E6FD5 /* Clockface.m */; };
+		4216380915F97C4E002E6FD5 /* AnimMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4216380815F97C4D002E6FD5 /* AnimMgr.m */; };
 		4221E4D115D9CB7B00781664 /* FlyerCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4221E4D015D9CB7B00781664 /* FlyerCallout.m */; };
 		4221E4D515D9D47E00781664 /* FlyerCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4221E4D415D9D47E00781664 /* FlyerCalloutView.m */; };
 		4221E4D715DA2A2200781664 /* FlyerCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4221E4D615DA2A2200781664 /* FlyerCalloutView.xib */; };
@@ -229,6 +231,11 @@
 		421564D715F6B2E400AAE851 /* pogbuilding_002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pogbuilding_002.png; sourceTree = "<group>"; };
 		421564D815F6B2E400AAE851 /* pogbuilding_003.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pogbuilding_003.png; sourceTree = "<group>"; };
 		421564D915F6B2E400AAE851 /* pogbuilding_004.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pogbuilding_004.png; sourceTree = "<group>"; };
+		4216380315F95D00002E6FD5 /* Clockface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Clockface.h; sourceTree = "<group>"; };
+		4216380415F95D00002E6FD5 /* Clockface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Clockface.m; sourceTree = "<group>"; };
+		4216380715F97C4D002E6FD5 /* AnimMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimMgr.h; sourceTree = "<group>"; };
+		4216380815F97C4D002E6FD5 /* AnimMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimMgr.m; sourceTree = "<group>"; };
+		4216380A15F97CBB002E6FD5 /* AnimDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnimDelegate.h; sourceTree = "<group>"; };
 		4221E4CF15D9CB7B00781664 /* FlyerCallout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCallout.h; path = Game/Map/FlyerCallout.h; sourceTree = "<group>"; };
 		4221E4D015D9CB7B00781664 /* FlyerCallout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerCallout.m; path = Game/Map/FlyerCallout.m; sourceTree = "<group>"; };
 		4221E4D315D9D47E00781664 /* FlyerCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCalloutView.h; path = Game/Map/FlyerCalloutView.h; sourceTree = "<group>"; };
@@ -662,6 +669,9 @@
 				C4BBE45415B9A9EF00F582DE /* HiAccuracyLocatorDelegate.h */,
 				C4945B8615AC91B500EEC0C0 /* CLLocation+Pog.h */,
 				C4945B8715AC91B500EEC0C0 /* CLLocation+Pog.m */,
+				4216380715F97C4D002E6FD5 /* AnimMgr.h */,
+				4216380815F97C4D002E6FD5 /* AnimMgr.m */,
+				4216380A15F97CBB002E6FD5 /* AnimDelegate.h */,
 			);
 			path = Sim;
 			sourceTree = "<group>";
@@ -849,6 +859,8 @@
 				42E92B0C15D0E8E00054686F /* UIImage+Pog.m */,
 				42FA1A5215F522FE00EB2433 /* CircleBarView.h */,
 				42FA1A5315F522FE00EB2433 /* CircleBarView.m */,
+				4216380315F95D00002E6FD5 /* Clockface.h */,
+				4216380415F95D00002E6FD5 /* Clockface.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1128,6 +1140,8 @@
 				421564D115F6A1AB00AAE851 /* LabelCircle.m in Sources */,
 				42D909F915F801E700BBE992 /* GameHud.m in Sources */,
 				38F6593915F8023100816517 /* Reachability.m in Sources */,
+				4216380515F95D00002E6FD5 /* Clockface.m in Sources */,
+				4216380915F97C4E002E6FD5 /* AnimMgr.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

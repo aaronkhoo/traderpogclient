@@ -24,6 +24,7 @@
 #import "GameColors.h"
 #import "GameHud.h"
 #import "CircleBarView.h"
+#import "AnimMgr.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -215,6 +216,7 @@ enum kKnobSlices
 
 - (void) updateSim:(NSTimeInterval)elapsed
 {
+    [[AnimMgr getInstance] update:elapsed];
 }
 
 - (void) updateRender:(NSTimeInterval)elapsed
