@@ -390,6 +390,7 @@ static const float kPreviewPostHeight = 120.0f;
             TradePost* initPost = [_activePosts.allValues objectAtIndex:index];
             _previewMap = [[MapControl alloc] initWithMapView:result
                                                     andCenter:[initPost coord]];
+            result.userInteractionEnabled = NO;
             
             CGSize previewSize = wheel.previewCircle.bounds.size;
             CGRect imageRect = CGRectMake(0.5f * (previewSize.width - kPreviewPostWidth),
@@ -401,6 +402,11 @@ static const float kPreviewPostHeight = 120.0f;
             UIImage* image = [[ImageManager getInstance] getImage:[initPost imgPath] fallbackNamed:@"b_flyerlab.png"];
             [wheel.previewImageView setImage:image];
             [wheel.previewImageView setHidden:NO];
+
+            // label
+            [wheel.previewLabel setNumberOfLines:1];
+            [wheel.previewLabel setText:@"Reverse Geocode"];
+            [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
         }
     }
     return result;
@@ -433,20 +439,27 @@ static const float kPreviewPostHeight = 120.0f;
 #pragma mark - WheelProtocol
 - (void) wheel:(WheelControl*)wheel didMoveTo:(unsigned int)index
 {
-    CGSize previewSize = wheel.previewCircle.bounds.size;
-    CGRect imageRect = CGRectMake(0.5f * (previewSize.width - kPreviewPostWidth),
-                                  (0.5f * (previewSize.height - kPreviewPostHeight)) - (0.4f * kPreviewPostHeight),
-                                  kPreviewPostWidth,
-                                  kPreviewPostHeight);
-    wheel.previewImageView.frame = imageRect;
-    
     index = MIN(index, kMyPostSlotNum-1);
     if([NSNull null] != [self.myPostSlots objectAtIndex:index])
     {
+        // map
         TradePost* cur = [self.myPostSlots objectAtIndex:index];
-        [_previewMap centerOn:[cur coord] animated:YES];
-        wheel.previewLabelBg.hidden = YES;
-        
+        [_previewMap centerOn:[cur coord] animated:NO];
+        _previewMap.view.showsUserLocation = NO;
+        _previewMap.view.userTrackingMode = MKUserTrackingModeNone;
+
+        // label
+        [wheel.previewLabel setNumberOfLines:1];
+        [wheel.previewLabel setText:@"Reverse Geocode"];
+        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
+
+        // image
+        CGSize previewSize = wheel.previewCircle.bounds.size;
+        CGRect imageRect = CGRectMake(0.5f * (previewSize.width - kPreviewPostWidth),
+                                      (0.5f * (previewSize.height - kPreviewPostHeight)) - (0.4f * kPreviewPostHeight),
+                                      kPreviewPostWidth,
+                                      kPreviewPostHeight);
+        wheel.previewImageView.frame = imageRect;
         UIImage* image = [[ImageManager getInstance] getImage:[cur imgPath] fallbackNamed:@"b_flyerlab.png"];
         [wheel.previewImageView setImage:image];
         [wheel.previewImageView setHidden:NO];
@@ -455,23 +468,34 @@ static const float kPreviewPostHeight = 120.0f;
     else if(kMyPostSlotFreeEnd > index)
     {
         // free slots
-        wheel.previewLabelBg.hidden = NO;
+        
+        // map
+        _previewMap.view.showsUserLocation = YES;
+        _previewMap.view.userTrackingMode = MKUserTrackingModeFollow;
+        
+        // label
         [wheel.previewLabel setNumberOfLines:1];
         [wheel.previewLabel setText:@"Create Post"];
         [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
-        UIImage* bgImage = [[ImageManager getInstance] getImage:@"pogbuilding_001.png" fallbackNamed:@"pogbuilding_001.png"];
-        [wheel.previewImageView setImage:bgImage];
-        [wheel.previewImageView setHidden:NO];
-        [wheel.previewImageView setBackgroundColor:[GameColors bubbleBgColorWithAlpha:1.0f]];
+
+        // image
+        [wheel.previewImageView setHidden:YES];
     }
     else
-    {
+    {        
         // member slots
-        wheel.previewLabelBg.hidden = NO;
+        
+        // map
+        _previewMap.view.showsUserLocation = NO;
+        _previewMap.view.userTrackingMode = MKUserTrackingModeNone;
+        
+        // label
         [wheel.previewLabel setNumberOfLines:2];
         [wheel.previewLabel setText:@"Member Only\nJoin NOW!"];
         [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:15.0f]];
-        
+
+        // image
+        wheel.previewImageView.frame = wheel.previewCircle.bounds;
         UIImage* bgImage = [[ImageManager getInstance] getImage:@"icon_none_member.png" fallbackNamed:@"icon_none_member.png"];
         [wheel.previewImageView setImage:bgImage];
         [wheel.previewImageView setHidden:NO];

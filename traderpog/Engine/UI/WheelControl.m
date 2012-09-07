@@ -318,12 +318,6 @@ static const float kPreviewLabelTextSize = 10.0f;
     _previewImageView.backgroundColor = [UIColor clearColor];
     [_previewCircle addSubview:_previewImageView];
 
-    // add the content to the bottom-most layer in the preview circle
-    [PogUIUtility setCircleForView:_previewCircle withBorderWidth:kPreviewBorderWidth borderColor:borderColor];
-    _previewContent = [self.dataSource wheel:self previewContentInitAtIndex:0];
-    [_previewCircle addSubview:_previewContent];
-    [_previewCircle sendSubviewToBack:_previewContent];
-    
     // add the preview circle into the container view
     [_previewView addSubview:_previewCircle];
     
@@ -335,7 +329,6 @@ static const float kPreviewLabelTextSize = 10.0f;
     UIView* labelBg = [[UIView alloc] initWithFrame:labelBgFrame];
     [labelBg setBackgroundColor:borderColor];
     [_previewCircle addSubview:labelBg];
-    labelBg.hidden = YES;
     self.previewLabelBg = labelBg;
     CGRect labelFrame = labelBgFrame;
     labelFrame.origin = CGPointMake(0.0f, -(kPreviewLabelOriginY * previewFrame.size.height));
@@ -376,6 +369,12 @@ static const float kPreviewLabelTextSize = 10.0f;
     [_buttonClose setFrame:[self.cancelView bounds]];
     [_buttonClose addTarget:self action:@selector(didCloseInPreview:) forControlEvents:UIControlEventTouchUpInside];
     [self.cancelView addSubview:_buttonClose];
+    
+    // add the content to the bottom-most layer in the preview circle
+    [PogUIUtility setCircleForView:_previewCircle withBorderWidth:kPreviewBorderWidth borderColor:borderColor];
+    _previewContent = [self.dataSource wheel:self previewContentInitAtIndex:0];
+    [_previewCircle addSubview:_previewContent];
+    [_previewCircle sendSubviewToBack:_previewContent];
 }
 
 - (float) distFromCenter:(CGPoint)point
