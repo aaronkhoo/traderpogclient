@@ -10,9 +10,15 @@
 
 @interface CircleView : UIView
 @property (nonatomic,strong) UIView* coloredView;
+@property (nonatomic,strong) UIView* borderCircle;
+@property (nonatomic,strong) UIView* centerBg;
 
 - (id)initWithFrame:(CGRect)frame
+         borderFrac:(float)borderFrac
         borderWidth:(CGFloat)borderWidth
         borderColor:(UIColor*)borderColor;
+
+- (void) showBigBorder;
+- (void) showSmallBorder;
 
 @end

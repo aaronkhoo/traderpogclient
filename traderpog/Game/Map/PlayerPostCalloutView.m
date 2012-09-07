@@ -12,7 +12,6 @@
 #import "MyTradePost.h"
 #import "PogUIUtility.h"
 #import "GameColors.h"
-#import "CircleView.h"
 #import <QuartzCore/QuartzCore.h>
 
 NSString* const kPlayerPostCalloutViewReuseId = @"PlayerPostCalloutView";
