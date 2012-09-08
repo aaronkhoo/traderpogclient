@@ -7,7 +7,6 @@
 //
 
 #import "BeaconAnnotationView.h"
-#import "Beacon.h"
 #import "TradePostCallout.h"
 #import "ImageManager.h"
 #import "TradePost.h"

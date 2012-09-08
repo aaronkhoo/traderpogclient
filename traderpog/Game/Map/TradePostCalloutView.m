@@ -14,7 +14,6 @@
 #import "TradePost.h"
 #import "BeaconAnnotationView.h"
 #import "TradePostAnnotationView.h"
-#import "Beacon.h"
 #import "TradePostMgr.h"
 
 NSString* const kTradePostCalloutViewReuseId = @"PostCalloutView";

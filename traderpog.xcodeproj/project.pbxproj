@@ -50,7 +50,6 @@
 		423F56C315F7C60900E42AC2 /* flyer_landed.png in Resources */ = {isa = PBXBuildFile; fileRef = 423F56C215F7C60900E42AC2 /* flyer_landed.png */; };
 		4264B6B015CD93F300621548 /* TradePost.png in Resources */ = {isa = PBXBuildFile; fileRef = 4264B6AF15CD93F300621548 /* TradePost.png */; };
 		4277385215D3A5CE004DCC13 /* BeaconMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385115D3A5CE004DCC13 /* BeaconMgr.m */; };
-		4277385615D3A971004DCC13 /* Beacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385515D3A971004DCC13 /* Beacon.m */; };
 		4290AB0B15EF2099001FAF0B /* BrowsePan.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0A15EF2099001FAF0B /* BrowsePan.m */; };
 		4290AB0F15EF3D06001FAF0B /* BrowsePinch.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0E15EF3D06001FAF0B /* BrowsePinch.m */; };
 		429A31D415F041DF00069CC7 /* CalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 429A31D315F041DF00069CC7 /* CalloutView.m */; };
@@ -254,8 +253,6 @@
 		4264B6AF15CD93F300621548 /* TradePost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TradePost.png; path = assets/Map/TradePost.png; sourceTree = SOURCE_ROOT; };
 		4277385015D3A5CE004DCC13 /* BeaconMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BeaconMgr.h; path = Game/Sim/BeaconMgr.h; sourceTree = "<group>"; };
 		4277385115D3A5CE004DCC13 /* BeaconMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeaconMgr.m; path = Game/Sim/BeaconMgr.m; sourceTree = "<group>"; };
-		4277385415D3A971004DCC13 /* Beacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Beacon.h; path = Game/Sim/Beacon.h; sourceTree = "<group>"; };
-		4277385515D3A971004DCC13 /* Beacon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Beacon.m; path = Game/Sim/Beacon.m; sourceTree = "<group>"; };
 		4290AB0915EF2099001FAF0B /* BrowsePan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrowsePan.h; path = Game/Map/BrowsePan.h; sourceTree = "<group>"; };
 		4290AB0A15EF2099001FAF0B /* BrowsePan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrowsePan.m; path = Game/Map/BrowsePan.m; sourceTree = "<group>"; };
 		4290AB0D15EF3D06001FAF0B /* BrowsePinch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrowsePinch.h; path = Game/Map/BrowsePinch.h; sourceTree = "<group>"; };
@@ -901,8 +898,6 @@
 				C4D5DDDC15B3168100D5A746 /* TradeItemType.m */,
 				C481147415B07D96007FA214 /* TradePostMgr.h */,
 				C481147515B07D96007FA214 /* TradePostMgr.m */,
-				4277385415D3A971004DCC13 /* Beacon.h */,
-				4277385515D3A971004DCC13 /* Beacon.m */,
 				4277385015D3A5CE004DCC13 /* BeaconMgr.h */,
 				4277385115D3A5CE004DCC13 /* BeaconMgr.m */,
 				C4BBE46C15BBDA2C00F582DE /* Flyer.h */,
@@ -1109,7 +1104,6 @@
 				C4BFC9C715CFC7EE009B7122 /* CircleView.m in Sources */,
 				42E92B0D15D0E8E00054686F /* UIImage+Pog.m in Sources */,
 				4277385215D3A5CE004DCC13 /* BeaconMgr.m in Sources */,
-				4277385615D3A971004DCC13 /* Beacon.m in Sources */,
 				3887ACC415D4CB9700B4E0FA /* ResourceManager.m in Sources */,
 				3889129615D5D8B6009CF624 /* ioapi.c in Sources */,
 				3889129715D5D8B6009CF624 /* mztools.c in Sources */,

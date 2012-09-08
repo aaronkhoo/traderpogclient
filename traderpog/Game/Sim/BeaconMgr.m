@@ -8,7 +8,6 @@
 
 #import "AFClientManager.h"
 #import "BeaconMgr.h"
-#import "Beacon.h"
 #import "ForeignTradePost.h"
 #import "WheelControl.h"
 #import "WheelBubble.h"
