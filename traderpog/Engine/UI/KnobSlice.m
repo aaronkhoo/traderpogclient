@@ -84,7 +84,7 @@ static const float kSliceTextPopoutScale = 0.55f;
         [PogUIUtility setCircleForView:_popoutShadow withBorderWidth:0.0f borderColor:[UIColor clearColor]];
         _popoutShadow.layer.masksToBounds = NO;
         _popoutShadow.layer.shadowColor = [UIColor colorWithRed:9.0f/255.0f green:1.0f/255.0f blue:51.0f/255.0f alpha:1.0f].CGColor;
-        _popoutShadow.layer.shadowOpacity = 0.8f;
+        _popoutShadow.layer.shadowOpacity = 0.4f;
         _popoutShadow.layer.shadowOffset = CGSizeMake(4.0f, 8.0f);
         _popoutCircle = [[UIView alloc] initWithFrame:popoutRect];
         [_popoutCircle setBackgroundColor:[UIColor grayColor]];
