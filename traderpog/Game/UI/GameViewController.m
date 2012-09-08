@@ -25,6 +25,7 @@
 #import "GameHud.h"
 #import "CircleBarView.h"
 #import "AnimMgr.h"
+#import "ImageManager.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -498,7 +499,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 - (UIImage*) knob:(KnobControl*)knob decalImageAtIndex:(unsigned int)index
 {
     UIColor* color = [self colorAtIndex:index withAlpha:1.0f];
-    UIImage* result = [UIImage imageNamed:@"Yun.png" withColor:color];
+    UIImage* result = [[ImageManager getInstance] getImage:@"icon_yun.png" fallbackNamed:@"icon_yun.png" withColor:color];
     return result;
 }
 

@@ -48,6 +48,7 @@
 		423F56C015F72FA100E42AC2 /* bubble_flyer.png in Resources */ = {isa = PBXBuildFile; fileRef = 423F56BE15F72FA100E42AC2 /* bubble_flyer.png */; };
 		423F56C315F7C60900E42AC2 /* flyer_landed.png in Resources */ = {isa = PBXBuildFile; fileRef = 423F56C215F7C60900E42AC2 /* flyer_landed.png */; };
 		4277385215D3A5CE004DCC13 /* BeaconMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385115D3A5CE004DCC13 /* BeaconMgr.m */; };
+		428839BF15FB240A00CA4FDC /* icon_yun.png in Resources */ = {isa = PBXBuildFile; fileRef = 428839BE15FB240A00CA4FDC /* icon_yun.png */; };
 		4290AB0B15EF2099001FAF0B /* BrowsePan.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0A15EF2099001FAF0B /* BrowsePan.m */; };
 		4290AB0F15EF3D06001FAF0B /* BrowsePinch.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0E15EF3D06001FAF0B /* BrowsePinch.m */; };
 		429A31D415F041DF00069CC7 /* CalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 429A31D315F041DF00069CC7 /* CalloutView.m */; };
@@ -66,7 +67,6 @@
 		42D90A0315F81A3800BBE992 /* coin_003.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909FE15F81A3800BBE992 /* coin_003.png */; };
 		42D90A0415F81A3800BBE992 /* coin_004.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909FF15F81A3800BBE992 /* coin_004.png */; };
 		42D90A0515F81A3800BBE992 /* coin_005.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D90A0015F81A3800BBE992 /* coin_005.png */; };
-		42E92B0815D0E19F0054686F /* Yun.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E92B0715D0E19F0054686F /* Yun.png */; };
 		42E92B0A15D0E7AD0054686F /* startButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E92B0915D0E7AD0054686F /* startButton.png */; };
 		42E92B0D15D0E8E00054686F /* UIImage+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E92B0C15D0E8E00054686F /* UIImage+Pog.m */; };
 		42EF841F15DE2ED100A8469B /* PlayerPostCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EF841E15DE2ED100A8469B /* PlayerPostCalloutView.m */; };
@@ -247,6 +247,7 @@
 		423F56C215F7C60900E42AC2 /* flyer_landed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer_landed.png; path = assets/Map/flyer_landed.png; sourceTree = SOURCE_ROOT; };
 		4277385015D3A5CE004DCC13 /* BeaconMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BeaconMgr.h; path = Game/Sim/BeaconMgr.h; sourceTree = "<group>"; };
 		4277385115D3A5CE004DCC13 /* BeaconMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeaconMgr.m; path = Game/Sim/BeaconMgr.m; sourceTree = "<group>"; };
+		428839BE15FB240A00CA4FDC /* icon_yun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_yun.png; path = assets/UI/icon_yun.png; sourceTree = SOURCE_ROOT; };
 		4290AB0915EF2099001FAF0B /* BrowsePan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrowsePan.h; path = Game/Map/BrowsePan.h; sourceTree = "<group>"; };
 		4290AB0A15EF2099001FAF0B /* BrowsePan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrowsePan.m; path = Game/Map/BrowsePan.m; sourceTree = "<group>"; };
 		4290AB0D15EF3D06001FAF0B /* BrowsePinch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrowsePinch.h; path = Game/Map/BrowsePinch.h; sourceTree = "<group>"; };
@@ -273,7 +274,6 @@
 		42D909FE15F81A3800BBE992 /* coin_003.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin_003.png; sourceTree = "<group>"; };
 		42D909FF15F81A3800BBE992 /* coin_004.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin_004.png; sourceTree = "<group>"; };
 		42D90A0015F81A3800BBE992 /* coin_005.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin_005.png; sourceTree = "<group>"; };
-		42E92B0715D0E19F0054686F /* Yun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Yun.png; path = assets/UI/Yun.png; sourceTree = SOURCE_ROOT; };
 		42E92B0915D0E7AD0054686F /* startButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = startButton.png; path = assets/UI/startButton.png; sourceTree = SOURCE_ROOT; };
 		42E92B0B15D0E8E00054686F /* UIImage+Pog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Pog.h"; sourceTree = "<group>"; };
 		42E92B0C15D0E8E00054686F /* UIImage+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Pog.m"; sourceTree = "<group>"; };
@@ -916,7 +916,7 @@
 				421564D315F6B1C000AAE851 /* icon_none_member.png */,
 				42D909F215F7D33800BBE992 /* bubble_beacon_fb.png */,
 				42D909F315F7D33800BBE992 /* bubble_beacon_g_001.png */,
-				42E92B0715D0E19F0054686F /* Yun.png */,
+				428839BE15FB240A00CA4FDC /* icon_yun.png */,
 				C4BBE44815B7E7C600F582DE /* SignupBackground.png */,
 				C4FA8F5915B54A7200E82A93 /* CreateAccount.png */,
 				C4FA8F5A15B54A7200E82A93 /* FBSignIn.png */,
@@ -994,7 +994,6 @@
 				C4BBE44915B7E7C600F582DE /* SignupBackground.png in Resources */,
 				C4BBE45F15BA99B500F582DE /* TradePostCalloutView.xib in Resources */,
 				38B6DAEF15C85A9D00F37BD9 /* FBDialog.bundle in Resources */,
-				42E92B0815D0E19F0054686F /* Yun.png in Resources */,
 				42E92B0A15D0E7AD0054686F /* startButton.png in Resources */,
 				4221E4D715DA2A2200781664 /* FlyerCalloutView.xib in Resources */,
 				42EF842515DE32F000A8469B /* PlayerPostCalloutView.xib in Resources */,
@@ -1022,6 +1021,7 @@
 				42D90A0315F81A3800BBE992 /* coin_003.png in Resources */,
 				42D90A0415F81A3800BBE992 /* coin_004.png in Resources */,
 				42D90A0515F81A3800BBE992 /* coin_005.png in Resources */,
+				428839BF15FB240A00CA4FDC /* icon_yun.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
