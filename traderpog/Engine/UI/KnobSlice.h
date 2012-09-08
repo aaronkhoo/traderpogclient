@@ -27,7 +27,8 @@
             radius:(float)radius angle:(float)angle
              index:(unsigned int)index;
 - (void) setText:(NSString*)text;
-- (void) useBigText;
+- (void) useBigTextWithColor:(UIColor*)color;
 - (void) useSmallText;
+- (void) usePopoutTextWithColor:(UIColor*)color;
 
 @end

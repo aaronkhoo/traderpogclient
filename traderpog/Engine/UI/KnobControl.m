@@ -19,7 +19,7 @@ static const float kKnobBorderWidth = 5.0f;
 
 // units in fraction of KnobControl width
 static const float kKnobRenderRadius = 0.7f;
-static const float kKnobDragRadius = kKnobRenderRadius - 0.1f;
+static const float kKnobDragRadius = kKnobRenderRadius - 0.15f;
 
 @interface KnobControl ()
 {
@@ -66,8 +66,6 @@ static const float kKnobDragRadius = kKnobRenderRadius - 0.1f;
         
         // initial refresh of sliceview
         [self refreshSliceViewDidSelectWithDelay:0.0f];
-        
-        [self setBackgroundColor:[UIColor darkGrayColor]];
     }
     return self;
 }
@@ -193,9 +191,9 @@ static const float kKnobDragRadius = kKnobRenderRadius - 0.1f;
     float containerRadius = _container.bounds.size.width * 0.5f;
     float centerRadius = containerRadius * kKnobDragRadius;
     float centerWidth = centerRadius * 1.3f;
-    float centerHeight = centerRadius * 0.8f;
-    CGRect centerRect = CGRectMake(containerRadius - (centerWidth * 0.5f), 
-                                   containerRadius - centerHeight, 
+    float centerHeight = centerRadius;
+    CGRect centerRect = CGRectMake(_container.frame.origin.x + ((_container.bounds.size.width - centerWidth) * 0.5f),
+                                   _container.frame.origin.y + (0.5f * centerRadius),
                                    centerWidth, centerHeight);
     [self.centerButton setFrame:centerRect];
     [self.centerButton setBackgroundColor:[UIColor clearColor]];
@@ -218,17 +216,17 @@ static const float kKnobDragRadius = kKnobRenderRadius - 0.1f;
     unsigned int sliceIndex = 0;
     for(KnobSlice* cur in _slices)
     {
-        if([self selectedSlice] == sliceIndex)
+        //if([self selectedSlice] == sliceIndex)
         {
             [UIView animateWithDuration:0.2f
                                   delay:delay
                                 options:UIViewAnimationCurveEaseInOut
                              animations:^(void){
-                                 [cur useBigText];
+                                 [cur useBigTextWithColor:[UIColor whiteColor]];
                              }
                              completion:nil];
         }
-        else 
+        if([self selectedSlice] != sliceIndex)
         {
             [cur.view setHidden:YES];
         }
@@ -255,11 +253,12 @@ static const float kKnobDragRadius = kKnobRenderRadius - 0.1f;
     unsigned int sliceIndex = 0;
     for(KnobSlice* cur in _slices)
     {
-        if([self selectedSlice] == sliceIndex)
+        UIColor* textColor = [self.delegate knob:self colorAtIndex:sliceIndex];
+        //if([self selectedSlice] == sliceIndex)
         {
             [UIView animateWithDuration:0.2f 
                              animations:^(void){
-                                 [cur useSmallText];
+                                 [cur usePopoutTextWithColor:textColor];
                              }
                              completion:nil];            
         }

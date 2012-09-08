@@ -11,6 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 static const float kBorderCircleSmallScale = 0.75f;
+static const float kBorderCircleBigScale = 0.8f;
 static const NSTimeInterval kBorderCircleAnimDuration = 0.2f;
 
 @implementation CircleView
@@ -66,9 +67,10 @@ static const NSTimeInterval kBorderCircleAnimDuration = 0.2f;
 
 - (void) showBigBorder
 {
+    CGAffineTransform t = CGAffineTransformMakeScale(kBorderCircleBigScale, kBorderCircleBigScale);
     [UIView animateWithDuration:kBorderCircleAnimDuration
                      animations:^(void){
-                         [self.borderCircle setTransform:CGAffineTransformIdentity];
+                         [self.borderCircle setTransform:t];
                      }];
 }
 

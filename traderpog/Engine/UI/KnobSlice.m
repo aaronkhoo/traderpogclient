@@ -9,8 +9,9 @@
 #import "KnobSlice.h"
 #import <QuartzCore/QuartzCore.h>
 
-static const float kSliceTextSmallScale = 0.5f;
-static const float kSliceTextBigScale = 1.0f;
+static const float kSliceTextSmallScale = 0.3f;
+static const float kSliceTextBigScale = 0.7f;
+static const float kSliceTextPopoutScale = 1.0f;
 
 @interface KnobSlice ()
 {
@@ -18,6 +19,7 @@ static const float kSliceTextBigScale = 1.0f;
     UILabel* _contentLabel;
     CGAffineTransform _labelTransformSmall;
     CGAffineTransform _labelTransformBig;
+    CGAffineTransform _labelTransformPopout;
     CGAffineTransform _decalTransformSmall;
     CGAffineTransform _decalTransformBig;
 }
@@ -69,7 +71,7 @@ static const float kSliceTextBigScale = 1.0f;
         [_view addSubview:newContainer];
         _contentContainer = newContainer;
 
-        CGRect labelRect = CGRectInset(contentRect, -15.0f, -15.0f);
+        CGRect labelRect = CGRectInset(contentRect, -55.0f, -25.0f);//-15.0f, -15.0f);
 
         // decal
         CGRect decalRect = CGRectMake(0.0f, 0.0f,
@@ -82,13 +84,15 @@ static const float kSliceTextBigScale = 1.0f;
         // label
         UILabel* sliceLabel = [[UILabel alloc] initWithFrame:labelRect];
         [sliceLabel setTextAlignment:UITextAlignmentCenter];
-        [sliceLabel setFont:[UIFont fontWithName:@"Marker Felt" size:35.0f]];
+        [sliceLabel setFont:[UIFont fontWithName:@"Marker Felt" size:55.0f]];
         [sliceLabel setBackgroundColor:[UIColor clearColor]];
         [sliceLabel setTextColor:[UIColor whiteColor]];
         [_contentContainer addSubview:sliceLabel];
         _contentLabel = sliceLabel;
         
         // setup preset transforms for text label
+        _labelTransformPopout = CGAffineTransformMakeScale(kSliceTextPopoutScale, kSliceTextPopoutScale);
+        _labelTransformPopout = CGAffineTransformTranslate(_labelTransformPopout, 0.0f, -labelRect.size.height * 0.8f);
         _labelTransformBig = CGAffineTransformMakeScale(kSliceTextBigScale, kSliceTextBigScale);
         _labelTransformBig = CGAffineTransformTranslate(_labelTransformBig, 0.0f, labelRect.size.height * 0.2f);
         _labelTransformSmall = CGAffineTransformMakeScale(kSliceTextSmallScale, kSliceTextSmallScale);
@@ -107,8 +111,9 @@ static const float kSliceTextBigScale = 1.0f;
     [_contentLabel setText:text];
 }
 
-- (void) useBigText
+- (void) useBigTextWithColor:(UIColor *)color
 {
+    [_contentLabel setTextColor:color];
     [_contentLabel setTransform:_labelTransformBig];
     [_decal setTransform:_decalTransformBig];
 }
@@ -120,5 +125,11 @@ static const float kSliceTextBigScale = 1.0f;
     [_decal setAlpha:0.5];
 }
 
+- (void) usePopoutTextWithColor:(UIColor *)color
+{
+    [_contentLabel setTextColor:color];
+    [_contentLabel setTransform:_labelTransformPopout];
+    [_decal setTransform:_decalTransformSmall];
+}
 
 @end
