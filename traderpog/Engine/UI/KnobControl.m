@@ -199,8 +199,6 @@ static const float kKnobButtonFrac = 0.4f;
     [self.centerButton setBackgroundColor:[UIColor clearColor]];
     [self.centerButton addTarget:self action:@selector(didPressCenterButton:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:[self centerButton]];
-    
-    [self.centerButton setBackgroundColor:[UIColor whiteColor]];
 }
 
 - (float) distFromCenter:(CGPoint)point
@@ -244,6 +242,7 @@ static const float kKnobButtonFrac = 0.4f;
                          self.circle.borderCircle.backgroundColor = knobColor;
                          self.circle.coloredView.layer.shadowColor = knobColor.CGColor;
                          self.circle.layer.borderColor = borderColor.CGColor;
+                         [self.circle setAlpha:1.0f];
                      }
                      completion:nil];
     [self.circle showBigBorder];
@@ -255,12 +254,13 @@ static const float kKnobButtonFrac = 0.4f;
     unsigned int sliceIndex = 0;
     for(KnobSlice* cur in _slices)
     {
-        UIColor* textColor = [self.delegate knob:self colorAtIndex:sliceIndex];
+        UIColor* color = [self.delegate knob:self colorAtIndex:sliceIndex];
+        UIColor* borderColor = [self.delegate knob:self borderColorAtIndex:sliceIndex];
         //if([self selectedSlice] == sliceIndex)
         {
             [UIView animateWithDuration:0.2f 
                              animations:^(void){
-                                 [cur usePopoutTextWithColor:textColor];
+                                 [cur usePopoutWithColor:color borderColor:borderColor];
                              }
                              completion:nil];            
         }
@@ -273,6 +273,7 @@ static const float kKnobButtonFrac = 0.4f;
                          self.circle.borderCircle.backgroundColor = [UIColor grayColor];
                          self.circle.coloredView.layer.shadowColor = [UIColor grayColor].CGColor;
                          self.circle.layer.borderColor = [UIColor darkGrayColor].CGColor;
+                         [self.circle setAlpha:0.2f];
                      }
                      completion:nil];
     

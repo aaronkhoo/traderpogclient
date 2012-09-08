@@ -18,7 +18,7 @@ static const NSTimeInterval kBorderCircleAnimDuration = 0.2f;
 @synthesize coloredView;
 @synthesize borderCircle;
 @synthesize centerBg;
-
+// 9, 1, 51
 - (id)initWithFrame:(CGRect)frame
          borderFrac:(float)borderFrac
         borderWidth:(CGFloat)borderWidth
@@ -39,7 +39,7 @@ static const NSTimeInterval kBorderCircleAnimDuration = 0.2f;
                                         0.5f * (frame.size.width - coloredSize),
                                         coloredSize, coloredSize);
         self.centerBg = [[UIView alloc] initWithFrame:centerRect];
-        [self.centerBg setBackgroundColor:[UIColor colorWithWhite:0.1f alpha:1.0f]];
+        [self.centerBg setBackgroundColor:[UIColor colorWithRed:9.0f/255.0f green:1.0f/255.0f blue:51.0f/255.0f alpha:1.0f]];
         [self addSubview:[self centerBg]];
         [PogUIUtility setCircleForView:[self centerBg] withBorderWidth:0.0f borderColor:[UIColor clearColor]];
 

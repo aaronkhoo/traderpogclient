@@ -29,6 +29,6 @@
 - (void) setText:(NSString*)text;
 - (void) useBigTextWithColor:(UIColor*)color;
 - (void) useSmallText;
-- (void) usePopoutTextWithColor:(UIColor*)color;
+- (void) usePopoutWithColor:(UIColor*)color borderColor:(UIColor*)borderColor;
 
 @end
