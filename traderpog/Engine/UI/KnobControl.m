@@ -14,12 +14,12 @@
 
 static const float kRenderOffsetFactor = 1.0f; // offset angle is this factor multiplied with sliceWidth 
 
-static const float kKnobCenterRadiusFrac = 0.7f;
 static const float kKnobBorderWidth = 5.0f;
 
 // units in fraction of KnobControl width
-static const float kKnobRenderRadius = 0.7f;
-static const float kKnobDragRadius = kKnobRenderRadius - 0.15f;
+static const float kKnobRenderFrac = 0.7f;
+static const float kKnobDragFrac = kKnobRenderFrac - 0.3f;
+static const float kKnobButtonFrac = 0.4f;
 
 @interface KnobControl ()
 {
@@ -143,7 +143,7 @@ static const float kKnobDragRadius = kKnobRenderRadius - 0.15f;
 - (void) createWheelRender
 {
         
-    float containerRadius = kKnobRenderRadius * self.bounds.size.width;
+    float containerRadius = kKnobRenderFrac * self.bounds.size.width;
     CGRect containerRect = CGRectMake(0.5f * (self.bounds.size.width - containerRadius),
                                    0.5f * (self.bounds.size.width - containerRadius),
                                    containerRadius, containerRadius);
@@ -151,7 +151,7 @@ static const float kKnobDragRadius = kKnobRenderRadius - 0.15f;
     
     CGRect circleInContainerRect = CGRectMake(-containerRect.origin.x, -containerRect.origin.y,
                                               self.bounds.size.width, self.bounds.size.height);
-    self.circle = [[CircleView alloc] initWithFrame:circleInContainerRect borderFrac:kKnobRenderRadius
+    self.circle = [[CircleView alloc] initWithFrame:circleInContainerRect borderFrac:kKnobRenderFrac
                                         borderWidth:kKnobBorderWidth
                                         borderColor:[UIColor redColor]];
     [self.container addSubview:[self circle]];
@@ -188,17 +188,19 @@ static const float kKnobDragRadius = kKnobRenderRadius - 0.15f;
 - (void) createCenterButton
 {
     self.centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    float containerRadius = _container.bounds.size.width * 0.5f;
-    float centerRadius = containerRadius * kKnobDragRadius;
-    float centerWidth = centerRadius * 1.3f;
-    float centerHeight = centerRadius;
+//    float containerRadius = _container.bounds.size.width * 0.5f;
+    float centerSize = self.bounds.size.width * kKnobButtonFrac;
+    float centerWidth = centerSize;
+    float centerHeight = centerSize;
     CGRect centerRect = CGRectMake(_container.frame.origin.x + ((_container.bounds.size.width - centerWidth) * 0.5f),
-                                   _container.frame.origin.y + (0.5f * centerRadius),
+                                   _container.frame.origin.y + ((_container.bounds.size.height - centerHeight) * 0.5f),
                                    centerWidth, centerHeight);
     [self.centerButton setFrame:centerRect];
     [self.centerButton setBackgroundColor:[UIColor clearColor]];
     [self.centerButton addTarget:self action:@selector(didPressCenterButton:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:[self centerButton]];
+    
+    [self.centerButton setBackgroundColor:[UIColor whiteColor]];
 }
 
 - (float) distFromCenter:(CGPoint)point
@@ -293,7 +295,7 @@ static const float kKnobDragRadius = kKnobRenderRadius - 0.15f;
     BOOL beginTracking = YES;
     CGPoint touchPoint = [touch locationInView:self];
     float dist = [self distFromCenter:touchPoint];
-    float minDist = self.bounds.size.width * 0.5f * kKnobDragRadius;
+    float minDist = self.bounds.size.width * 0.5f * kKnobDragFrac;
     float maxDist = self.bounds.size.width * 0.5f;
     if((minDist <= dist) && (dist <= maxDist))
     {

@@ -29,7 +29,9 @@ enum kWheelStates
     
     kWheelStateNum
 };
-static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this factor multiplied with sliceWidth 
+static const float kWheelRenderOffsetFactor = 2.4f; // offset angle is this factor multiplied with sliceWidth
+static const float kSliceTouchMaxDistFrac = 0.8f;
+static const float kSliceLengthFrac = 0.63f;
 
 @interface WheelControl ()
 {
@@ -386,7 +388,7 @@ static const float kPreviewLabelTextSize = 10.0f;
     return sqrt(dx*dx + dy*dy);
 }
 
-// Slices are ordered clockwise starting at the negative x-axis 
+// Slices are ordered clockwise starting at the negative x-axis
 - (void) buildSlicesOdd
 {
     CGFloat fanWidth = [self sliceWidth];
@@ -397,11 +399,12 @@ static const float kPreviewLabelTextSize = 10.0f;
         float minAngle = mid - (fanWidth / 2.0f);
         float maxAngle = mid + (fanWidth / 2.0f);
         WheelSlice* newSlice = [[WheelSlice alloc] initWithMin:minAngle
-                                                                 mid:midAngle
-                                                                 max:maxAngle
-                                                              radius:self.container.bounds.size.width / 2.0f
-                                                               angle:fanWidth
-                                                               index:i];
+                                                           mid:midAngle
+                                                           max:maxAngle
+                                                        radius:self.container.bounds.size.width * 0.5f
+                                                   sliceLength:self.container.bounds.size.width * kSliceLengthFrac
+                                                         angle:fanWidth
+                                                         index:i];
         [self.slices addObject:newSlice];
 
         mid -= fanWidth;
@@ -429,11 +432,12 @@ static const float kPreviewLabelTextSize = 10.0f;
             minAngle = fabsf(maxAngle);
         }
         WheelSlice* newSlice = [[WheelSlice alloc] initWithMin:minAngle
-                                                                 mid:midAngle
-                                                                 max:maxAngle
-                                                              radius:self.container.bounds.size.width / 2.0f
-                                                               angle:fanWidth
-                                                               index:i];
+                                                           mid:midAngle
+                                                           max:maxAngle
+                                                        radius:self.container.bounds.size.width * 0.5f
+                                                   sliceLength:self.container.bounds.size.width * kSliceLengthFrac
+                                                         angle:fanWidth
+                                                         index:i];
         [self.slices addObject:newSlice];
 
         mid -= fanWidth;
@@ -701,8 +705,8 @@ static const float kSelectedOffset = -6.5f;
     BOOL beginTracking = YES;
     CGPoint touchPoint = [touch locationInView:_wheelView];
     float dist = [self distFromCenter:touchPoint];
-    float minDist = _container.bounds.size.width * 0.5f * 0.7f;
-    float maxDist = _container.bounds.size.width * 0.6f;
+    float minDist = _container.bounds.size.width * kSliceTouchMaxDistFrac * 0.3f;
+    float maxDist = _container.bounds.size.width * kSliceTouchMaxDistFrac;
     if((minDist <= dist) && (dist <= maxDist))
     {
         float dx = touchPoint.x - self.container.center.x;

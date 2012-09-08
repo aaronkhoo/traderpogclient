@@ -10,8 +10,8 @@
 #import <QuartzCore/QuartzCore.h>
 
 static const float kSliceTextSmallScale = 0.3f;
-static const float kSliceTextBigScale = 0.7f;
-static const float kSliceTextPopoutScale = 1.0f;
+static const float kSliceTextBigScale = 0.8f;
+static const float kSliceTextPopoutScale = 0.7f;
 
 @interface KnobSlice ()
 {
@@ -92,7 +92,7 @@ static const float kSliceTextPopoutScale = 1.0f;
         
         // setup preset transforms for text label
         _labelTransformPopout = CGAffineTransformMakeScale(kSliceTextPopoutScale, kSliceTextPopoutScale);
-        _labelTransformPopout = CGAffineTransformTranslate(_labelTransformPopout, 0.0f, -labelRect.size.height * 0.8f);
+        _labelTransformPopout = CGAffineTransformTranslate(_labelTransformPopout, 0.0f, -labelRect.size.height * 1.2f);
         _labelTransformBig = CGAffineTransformMakeScale(kSliceTextBigScale, kSliceTextBigScale);
         _labelTransformBig = CGAffineTransformTranslate(_labelTransformBig, 0.0f, labelRect.size.height * 0.2f);
         _labelTransformSmall = CGAffineTransformMakeScale(kSliceTextSmallScale, kSliceTextSmallScale);
