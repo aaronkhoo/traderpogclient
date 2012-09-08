@@ -19,6 +19,7 @@ static const float kSliceTextPopoutScale = 0.55f;
     UIView* _contentContainer;
     UILabel* _contentLabel;
     UIView* _popoutCircle;
+    UIView* _popoutShadow;
     CGAffineTransform _labelTransformSmall;
     CGAffineTransform _labelTransformBig;
     CGAffineTransform _labelTransformPopout;
@@ -78,11 +79,18 @@ static const float kSliceTextPopoutScale = 0.55f;
         // popout circle
         CGRect popoutRect = CGRectMake(0.0f, 0.0f, _radius, _radius);
         popoutRect = CGRectInset(popoutRect, -2.0f, -2.0f);
+        _popoutShadow = [[UIView alloc] initWithFrame:popoutRect];
+        [_popoutShadow setBackgroundColor:[UIColor clearColor]];
+        [PogUIUtility setCircleForView:_popoutShadow withBorderWidth:0.0f borderColor:[UIColor clearColor]];
+        _popoutShadow.layer.masksToBounds = NO;
+        _popoutShadow.layer.shadowColor = [UIColor colorWithRed:9.0f/255.0f green:1.0f/255.0f blue:51.0f/255.0f alpha:1.0f].CGColor;
+        _popoutShadow.layer.shadowOpacity = 0.8f;
+        _popoutShadow.layer.shadowOffset = CGSizeMake(4.0f, 8.0f);
         _popoutCircle = [[UIView alloc] initWithFrame:popoutRect];
         [_popoutCircle setBackgroundColor:[UIColor grayColor]];
-        [_popoutCircle setAlpha:0.0f];
         [PogUIUtility setCircleForView:_popoutCircle withBorderWidth:3.0f borderColor:[UIColor darkGrayColor]];
-        [_contentContainer addSubview:_popoutCircle];
+        [_popoutShadow addSubview:_popoutCircle];
+        [_contentContainer addSubview:_popoutShadow];
         
         CGRect labelRect = CGRectInset(contentRect, -55.0f, -25.0f);
 
@@ -134,8 +142,8 @@ static const float kSliceTextPopoutScale = 0.55f;
 //    [_contentLabel setTextColor:color];
     [_contentLabel setTransform:_labelTransformBig];
     [_decal setTransform:_decalTransformBig];
-    [_popoutCircle setTransform:_popoutTransformIdle];
-    [_popoutCircle setAlpha:0.0f];
+    [_popoutShadow setTransform:_popoutTransformIdle];
+    [_popoutShadow setAlpha:0.0f];
     [_popoutCircle setBackgroundColor:[UIColor grayColor]];
     [[_popoutCircle layer] setBorderColor:[UIColor darkGrayColor].CGColor];
 }
@@ -152,8 +160,8 @@ static const float kSliceTextPopoutScale = 0.55f;
 //    [_contentLabel setTextColor:color];
     [_contentLabel setTransform:_labelTransformPopout];
     [_decal setTransform:_decalTransformPopout];
-    [_popoutCircle setTransform:_popoutTransformOut];
-    [_popoutCircle setAlpha:1.0f];
+    [_popoutShadow setTransform:_popoutTransformOut];
+    [_popoutShadow setAlpha:1.0f];
     [_popoutCircle setBackgroundColor:color];
     [[_popoutCircle layer] setBorderColor:borderColor.CGColor];
 }
