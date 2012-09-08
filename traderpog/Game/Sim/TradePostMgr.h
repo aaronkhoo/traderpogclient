@@ -15,6 +15,7 @@
 #import "WheelProtocol.h"
 
 static NSString* const kTradePostMgr_ReceivePosts = @"TradePostMgr_ReceivePosts";
+static NSString* const kTradePostMgr_ScanForPosts = @"TradePostMgr_ScanForPosts";
 
 @class TradePost;
 @class TradeItemType;
@@ -23,11 +24,15 @@ static NSString* const kTradePostMgr_ReceivePosts = @"TradePostMgr_ReceivePosts"
     NSDate* _lastUpdate;
     MapControl* _previewMap;
     
-    // Delegate for callbacks to inform interested parties of completion
+    // Delegate for callbacks to inform interested parties of Post retrieval completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
+    
+    // Delegate for callbacks to inform interested parties of Scan retrieval completion
+    __weak NSObject<HttpCallbackDelegate>* _delegateScan;
 }
 @property (nonatomic,strong) MapControl* previewMap;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
+@property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegateScan;
 
 // Public methods
 - (BOOL) needsRefresh;
@@ -45,6 +50,7 @@ static NSString* const kTradePostMgr_ReceivePosts = @"TradePostMgr_ReceivePosts"
 - (NSMutableArray*) getTradePostsAtCoord:(CLLocationCoordinate2D)coord 
                                   radius:(float)radius 
                                   maxNum:(unsigned int)maxNum;
+- (void) scanForTradePosts:(CLLocationCoordinate2D)coord;
 
 // singleton
 +(TradePostMgr*) getInstance;

@@ -50,6 +50,7 @@ static const float kPreviewPostHeight = 120.0f;
 
 @interface TradePostMgr ()
 {
+    NSMutableDictionary* _foundPosts;
     NSMutableDictionary* _activePosts;
     NSMutableArray* _myPostSlots;
     NSMutableDictionary* _npcPosts;
@@ -60,6 +61,7 @@ static const float kPreviewPostHeight = 120.0f;
     // User trade post in the midst of being generated
     MyTradePost* _tempTradePost;
 }
+@property (nonatomic,strong) NSMutableDictionary* foundPosts;
 @property (nonatomic,strong) NSMutableDictionary* activePosts;
 @property (nonatomic,strong) NSMutableArray* myPostSlots;
 @property (nonatomic,strong) NSMutableDictionary* npcPosts;
@@ -68,10 +70,12 @@ static const float kPreviewPostHeight = 120.0f;
 @end
 
 @implementation TradePostMgr
+@synthesize foundPosts = _foundPosts;
 @synthesize activePosts = _activePosts;
 @synthesize myPostSlots = _myPostSlots;
 @synthesize npcPosts = _npcPosts;
 @synthesize delegate = _delegate;
+@synthesize delegateScan = _delegateScan;
 
 - (id) init
 {
@@ -232,8 +236,8 @@ static const float kPreviewPostHeight = 120.0f;
         }
     }
     
-    // query npc posts
-    for(NPCTradePost* cur in self.npcPosts.allValues)
+    // query friends posts
+    for(ForeignTradePost* cur in [BeaconMgr getInstance].activeBeacons.allValues)
     {
         if([self post:cur isWithinDistance:radius fromCoord:coord])
         {
@@ -243,11 +247,25 @@ static const float kPreviewPostHeight = 120.0f;
             {
                 break;
             }
-        }        
+        }
     }
     
-    // query friends posts
-    for(ForeignTradePost* cur in [BeaconMgr getInstance].activeBeacons.allValues)
+    // query for other tradeposts (not belonging to self or friends)
+    for(ForeignTradePost* cur in self.foundPosts.allValues)
+    {
+        if([self post:cur isWithinDistance:radius fromCoord:coord])
+        {
+            [result addObject:cur];
+            ++num;
+            if(num >= maxNum)
+            {
+                break;
+            }
+        }
+    }
+    
+    // query npc posts
+    for(NPCTradePost* cur in self.npcPosts.allValues)
     {
         if([self post:cur isWithinDistance:radius fromCoord:coord])
         {
@@ -263,6 +281,7 @@ static const float kPreviewPostHeight = 120.0f;
     return result;
 }
 
+#pragma mark - retrieve data from server
 - (void) createPostsArray:(id)responseObject
 {
     for (NSDictionary* post in responseObject)
@@ -292,7 +311,7 @@ static const float kPreviewPostHeight = 120.0f;
     [httpClient getPath:@"posts.json" 
              parameters:nil
                 success:^(AFHTTPRequestOperation *operation, id responseObject){                     
-                    NSLog(@"Retrieved: %@", responseObject);
+                    NSLog(@"Retrieved from retrievePostsFromServer: %@", responseObject);
                     [_myPostSlots removeAllObjects];
                     [self createPostsArray:responseObject];
                     _lastUpdate = [NSDate date];
@@ -307,6 +326,45 @@ static const float kPreviewPostHeight = 120.0f;
                     
                     [message show];
                     [self.delegate didCompleteHttpCallback:kTradePostMgr_ReceivePosts, FALSE];
+                }
+     ];
+    [httpClient setDefaultHeader:@"user_id" value:nil];
+}
+
+- (void) createFoundPosts:(id)responseObject
+{
+    for (NSDictionary* post in responseObject)
+    {
+        NSString* postId = [NSString stringWithFormat:@"%d", [[post valueForKeyPath:kKeyTradePostId] integerValue]];
+        TradePost* foundPost = [self getTradePostWithId:postId];
+        if (!foundPost)
+        {
+            ForeignTradePost* current = [[ForeignTradePost alloc] initWithDictionary:post];
+            [self.foundPosts setObject:current forKey:current.postId];
+        }
+    }
+}
+
+- (void) scanForTradePosts:(CLLocationCoordinate2D)coord
+{
+    // make a get request
+    AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
+    NSString *userId = [NSString stringWithFormat:@"%d", [[Player getInstance] playerId]];
+    NSString *latitude = [NSString stringWithFormat:@"%f", coord.latitude];
+    NSString *longitude = [NSString stringWithFormat:@"%f", coord.longitude];
+    
+    [httpClient setDefaultHeader:@"traderpog-latitude" value:latitude];
+    [httpClient setDefaultHeader:@"traderpog-longitude" value:longitude];
+    [httpClient setDefaultHeader:@"user-id" value:userId];
+    [httpClient getPath:@"posts/scan"
+             parameters:nil
+                success:^(AFHTTPRequestOperation *operation, id responseObject){
+                    NSLog(@"Retrieved from scanForTradePosts: %@", responseObject);
+                    [self createFoundPosts:responseObject];
+                    [self.delegateScan didCompleteHttpCallback:kTradePostMgr_ScanForPosts, TRUE];
+                }
+                failure:^(AFHTTPRequestOperation* operation, NSError* error){
+                    [self.delegateScan didCompleteHttpCallback:kTradePostMgr_ScanForPosts, FALSE];
                 }
      ];
     [httpClient setDefaultHeader:@"user_id" value:nil];

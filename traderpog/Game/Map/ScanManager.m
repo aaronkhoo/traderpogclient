@@ -233,6 +233,22 @@ static const NSTimeInterval kScanDurationMin = 2.0f;    // minimum amount of tim
     _state = kScanStateIdle;    
 }
 
+#pragma mark - HttpCallbackDelegate
+- (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
+{
+    if (success)
+    {
+        NSLog(@"Scanning for tradeposts from the server succeeded");
+    }
+    else
+    {
+        NSLog(@"Scanning for tradeposts from the server FAILED");
+    }
+    
+    // either way, return the tradeposts for the current location that we have
+    [self startScanAtCoord:[[Player getInstance] lastKnownLocation]];
+}
+
 #pragma mark - HiAccuracyLocatorDelegate
 - (void) locator:(HiAccuracyLocator *)locator didLocateUser:(BOOL)didLocateUser
 {
@@ -246,11 +262,10 @@ static const NSTimeInterval kScanDurationMin = 2.0f;    // minimum amount of tim
         // Store up the last known player location
         [Player getInstance].lastKnownLocation = locator.bestLocation.coordinate;
         [Player getInstance].lastKnownLocationValid = TRUE;
-        
         NSLog(@"Located myself (%f, %f)", locator.bestLocation.coordinate.latitude, locator.bestLocation.coordinate.longitude);
         
-        // start the scan
-        [self startScanAtCoord:locator.bestLocation.coordinate];
+        // Now that we know where the player's location is, request any posts in the vicinity
+        [[TradePostMgr getInstance] scanForTradePosts:locator.bestLocation.coordinate];
     }
     else 
     {

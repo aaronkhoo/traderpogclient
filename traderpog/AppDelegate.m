@@ -146,6 +146,9 @@
     [[ResourceManager getInstance] setDelegate:[GameManager getInstance]];
     [[BeaconMgr getInstance] setDelegate:[GameManager getInstance]];
     
+    // Setting up callback for scanning
+    [[TradePostMgr getInstance] setDelegateScan:[ScanManager getInstance]];
+    
     // Setting up async http callback delegates
     [[AsyncHttpCallMgr getInstance] addDelegateInstance:[AsyncHttpCallMgr getInstance]];
     [[AsyncHttpCallMgr getInstance] addDelegateInstance:[GameManager getInstance]];
