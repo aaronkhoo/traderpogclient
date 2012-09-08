@@ -50,9 +50,9 @@ typedef enum {
     
     // Player specific info
     serverCallType_player,
-    serverCallType_flyerMgr,
     serverCallType_tradePostMgr,
     serverCallType_beaconMgr,
+    serverCallType_flyerMgr,
     serverCallType_facebook,
     
     // Any new server calls should go above this
@@ -261,19 +261,9 @@ typedef enum {
             }
             break;
             
-        case serverCallType_flyerMgr:
-            // Load flyers associated with the current user
-            [self pushLoadingScreenIfNecessary:nav message:@"Searching for trade routes..."];
-            if ([[FlyerMgr getInstance] needsRefresh])
-            {
-                [[FlyerMgr getInstance] retrieveUserFlyersFromServer];
-                noCall = FALSE;
-            }
-            break;
-            
         case serverCallType_tradePostMgr:
             // Load posts information
-            [self pushLoadingScreenIfNecessary:nav message:@"Signing contracts..."];
+            [self pushLoadingScreenIfNecessary:nav message:@"Searching for trade routes..."];
             if ([[TradePostMgr getInstance] needsRefresh])
             {
                 [[TradePostMgr getInstance] retrievePostsFromServer];
@@ -287,6 +277,16 @@ typedef enum {
             if ([[BeaconMgr getInstance] needsRefresh])
             {
                 [[BeaconMgr getInstance] retrieveBeaconsFromServer];
+                noCall = FALSE;
+            }
+            break;
+            
+        case serverCallType_flyerMgr:
+            // Load flyers associated with the current user
+            [self pushLoadingScreenIfNecessary:nav message:@"Signing contracts..."];
+            if ([[FlyerMgr getInstance] needsRefresh])
+            {
+                [[FlyerMgr getInstance] retrieveUserFlyersFromServer];
                 noCall = FALSE;
             }
             break;
