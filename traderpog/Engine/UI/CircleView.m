@@ -18,7 +18,7 @@ static const NSTimeInterval kBorderCircleAnimDuration = 0.2f;
 @synthesize coloredView;
 @synthesize borderCircle;
 @synthesize centerBg;
-// 9, 1, 51
+
 - (id)initWithFrame:(CGRect)frame
          borderFrac:(float)borderFrac
         borderWidth:(CGFloat)borderWidth
