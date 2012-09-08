@@ -8,12 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "HiAccuracyLocatorDelegate.h"
+#import "HttpCallbackDelegate.h"
 
 typedef void (^ScanCompletionBlock)(BOOL finished, NSArray* tradePosts);
 
 @class HiAccuracyLocator;
 @class MapControl;
-@interface ScanManager : NSObject<HiAccuracyLocatorDelegate>
+@interface ScanManager : NSObject<HttpCallbackDelegate,HiAccuracyLocatorDelegate>
 {
     unsigned int _state;
     HiAccuracyLocator* _locator;
