@@ -247,6 +247,8 @@ static const NSTimeInterval kScanDurationMin = 2.0f;    // minimum amount of tim
         [Player getInstance].lastKnownLocation = locator.bestLocation.coordinate;
         [Player getInstance].lastKnownLocationValid = TRUE;
         
+        NSLog(@"Located myself (%f, %f)", locator.bestLocation.coordinate.latitude, locator.bestLocation.coordinate.longitude);
+        
         // start the scan
         [self startScanAtCoord:locator.bestLocation.coordinate];
     }
