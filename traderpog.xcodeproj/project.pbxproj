@@ -43,12 +43,10 @@
 		4221E4D115D9CB7B00781664 /* FlyerCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4221E4D015D9CB7B00781664 /* FlyerCallout.m */; };
 		4221E4D515D9D47E00781664 /* FlyerCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4221E4D415D9D47E00781664 /* FlyerCalloutView.m */; };
 		4221E4D715DA2A2200781664 /* FlyerCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4221E4D615DA2A2200781664 /* FlyerCalloutView.xib */; };
-		4227882815D7230100852AC4 /* BeaconAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227882715D7230100852AC4 /* BeaconAnnotationView.m */; };
 		4227883015D74A9A00852AC4 /* TradeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227882F15D74A9900852AC4 /* TradeManager.m */; };
 		423F56BF15F72FA100E42AC2 /* bubble_flyer_g.png in Resources */ = {isa = PBXBuildFile; fileRef = 423F56BD15F72FA100E42AC2 /* bubble_flyer_g.png */; };
 		423F56C015F72FA100E42AC2 /* bubble_flyer.png in Resources */ = {isa = PBXBuildFile; fileRef = 423F56BE15F72FA100E42AC2 /* bubble_flyer.png */; };
 		423F56C315F7C60900E42AC2 /* flyer_landed.png in Resources */ = {isa = PBXBuildFile; fileRef = 423F56C215F7C60900E42AC2 /* flyer_landed.png */; };
-		4264B6B015CD93F300621548 /* TradePost.png in Resources */ = {isa = PBXBuildFile; fileRef = 4264B6AF15CD93F300621548 /* TradePost.png */; };
 		4277385215D3A5CE004DCC13 /* BeaconMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385115D3A5CE004DCC13 /* BeaconMgr.m */; };
 		4290AB0B15EF2099001FAF0B /* BrowsePan.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0A15EF2099001FAF0B /* BrowsePan.m */; };
 		4290AB0F15EF3D06001FAF0B /* BrowsePinch.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0E15EF3D06001FAF0B /* BrowsePinch.m */; };
@@ -143,7 +141,6 @@
 		C4D5DDDA15B3155B00D5A746 /* TradeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD915B3155B00D5A746 /* TradeItem.m */; };
 		C4D5DDDD15B3168100D5A746 /* TradeItemType.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDDC15B3168100D5A746 /* TradeItemType.m */; };
 		C4D5DDEA15B3CF0800D5A746 /* TradePostAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDE915B3CF0800D5A746 /* TradePostAnnotationView.m */; };
-		C4D5DDEE15B3D12B00D5A746 /* HomeBase.png in Resources */ = {isa = PBXBuildFile; fileRef = C4D5DDED15B3D12B00D5A746 /* HomeBase.png */; };
 		C4D9B07315E3DE160096448E /* b_flyerlab.png in Resources */ = {isa = PBXBuildFile; fileRef = C4D9B07215E3DE160096448E /* b_flyerlab.png */; };
 		C4E3819D15AA0C5B00924A86 /* StartScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E3819B15AA0C5B00924A86 /* StartScreen.m */; };
 		C4E3819E15AA0C5B00924A86 /* StartScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E3819C15AA0C5B00924A86 /* StartScreen.xib */; };
@@ -243,14 +240,11 @@
 		4221E4D315D9D47E00781664 /* FlyerCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCalloutView.h; path = Game/Map/FlyerCalloutView.h; sourceTree = "<group>"; };
 		4221E4D415D9D47E00781664 /* FlyerCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerCalloutView.m; path = Game/Map/FlyerCalloutView.m; sourceTree = "<group>"; };
 		4221E4D615DA2A2200781664 /* FlyerCalloutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerCalloutView.xib; path = Game/Map/FlyerCalloutView.xib; sourceTree = "<group>"; };
-		4227882615D7230100852AC4 /* BeaconAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BeaconAnnotationView.h; path = Game/Map/BeaconAnnotationView.h; sourceTree = "<group>"; };
-		4227882715D7230100852AC4 /* BeaconAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeaconAnnotationView.m; path = Game/Map/BeaconAnnotationView.m; sourceTree = "<group>"; };
 		4227882E15D74A9800852AC4 /* TradeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradeManager.h; path = Game/Sim/TradeManager.h; sourceTree = "<group>"; };
 		4227882F15D74A9900852AC4 /* TradeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradeManager.m; path = Game/Sim/TradeManager.m; sourceTree = "<group>"; };
 		423F56BD15F72FA100E42AC2 /* bubble_flyer_g.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_flyer_g.png; path = assets/UI/bubble_flyer_g.png; sourceTree = SOURCE_ROOT; };
 		423F56BE15F72FA100E42AC2 /* bubble_flyer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_flyer.png; path = assets/UI/bubble_flyer.png; sourceTree = SOURCE_ROOT; };
 		423F56C215F7C60900E42AC2 /* flyer_landed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer_landed.png; path = assets/Map/flyer_landed.png; sourceTree = SOURCE_ROOT; };
-		4264B6AF15CD93F300621548 /* TradePost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TradePost.png; path = assets/Map/TradePost.png; sourceTree = SOURCE_ROOT; };
 		4277385015D3A5CE004DCC13 /* BeaconMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BeaconMgr.h; path = Game/Sim/BeaconMgr.h; sourceTree = "<group>"; };
 		4277385115D3A5CE004DCC13 /* BeaconMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeaconMgr.m; path = Game/Sim/BeaconMgr.m; sourceTree = "<group>"; };
 		4290AB0915EF2099001FAF0B /* BrowsePan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrowsePan.h; path = Game/Map/BrowsePan.h; sourceTree = "<group>"; };
@@ -410,7 +404,6 @@
 		C4D5DDE015B3B34A00D5A746 /* MapProtocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MapProtocols.h; path = Map/MapProtocols.h; sourceTree = "<group>"; };
 		C4D5DDE815B3CF0700D5A746 /* TradePostAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradePostAnnotationView.h; path = Game/Map/TradePostAnnotationView.h; sourceTree = "<group>"; };
 		C4D5DDE915B3CF0800D5A746 /* TradePostAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradePostAnnotationView.m; path = Game/Map/TradePostAnnotationView.m; sourceTree = "<group>"; };
-		C4D5DDED15B3D12B00D5A746 /* HomeBase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HomeBase.png; path = assets/Map/HomeBase.png; sourceTree = SOURCE_ROOT; };
 		C4D9B07215E3DE160096448E /* b_flyerlab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = b_flyerlab.png; path = assets/Map/b_flyerlab.png; sourceTree = SOURCE_ROOT; };
 		C4E3819A15AA0C5B00924A86 /* StartScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartScreen.h; path = Game/UI/StartScreen.h; sourceTree = "<group>"; };
 		C4E3819B15AA0C5B00924A86 /* StartScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartScreen.m; path = Game/UI/StartScreen.m; sourceTree = "<group>"; };
@@ -688,8 +681,6 @@
 				C4D5DDE915B3CF0800D5A746 /* TradePostAnnotationView.m */,
 				C4BBE47515BC5F4F00F582DE /* FlyerAnnotationView.h */,
 				C4BBE47615BC5F5000F582DE /* FlyerAnnotationView.m */,
-				4227882615D7230100852AC4 /* BeaconAnnotationView.h */,
-				4227882715D7230100852AC4 /* BeaconAnnotationView.m */,
 				C4BBE44F15B92B7600F582DE /* ScanManager.h */,
 				C4BBE45015B92B7600F582DE /* ScanManager.m */,
 				4221E4CF15D9CB7B00781664 /* FlyerCallout.h */,
@@ -755,8 +746,6 @@
 				42B28E3015EA39620008901C /* b_homebase.png */,
 				42B28E3115EA39620008901C /* b_tradepost.png */,
 				C4D9B07215E3DE160096448E /* b_flyerlab.png */,
-				4264B6AF15CD93F300621548 /* TradePost.png */,
-				C4D5DDED15B3D12B00D5A746 /* HomeBase.png */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -1000,13 +989,11 @@
 				C42FC49115B13293006D29A3 /* ModalNavControl.xib in Resources */,
 				C42FC49715B141A3006D29A3 /* ModalNavRoot.xib in Resources */,
 				C4D5DDD615B2718100D5A746 /* ConfirmNewPost.xib in Resources */,
-				C4D5DDEE15B3D12B00D5A746 /* HomeBase.png in Resources */,
 				C4FA8F5B15B54A7200E82A93 /* CreateAccount.png in Resources */,
 				C4FA8F5C15B54A7200E82A93 /* FBSignIn.png in Resources */,
 				C4BBE44915B7E7C600F582DE /* SignupBackground.png in Resources */,
 				C4BBE45F15BA99B500F582DE /* TradePostCalloutView.xib in Resources */,
 				38B6DAEF15C85A9D00F37BD9 /* FBDialog.bundle in Resources */,
-				4264B6B015CD93F300621548 /* TradePost.png in Resources */,
 				42E92B0815D0E19F0054686F /* Yun.png in Resources */,
 				42E92B0A15D0E7AD0054686F /* startButton.png in Resources */,
 				4221E4D715DA2A2200781664 /* FlyerCalloutView.xib in Resources */,
@@ -1110,7 +1097,6 @@
 				3889129815D5D8B6009CF624 /* unzip.c in Sources */,
 				3889129915D5D8B6009CF624 /* zip.c in Sources */,
 				3889129A15D5D8B6009CF624 /* SSZipArchive.m in Sources */,
-				4227882815D7230100852AC4 /* BeaconAnnotationView.m in Sources */,
 				4227883015D74A9A00852AC4 /* TradeManager.m in Sources */,
 				4221E4D115D9CB7B00781664 /* FlyerCallout.m in Sources */,
 				4221E4D515D9D47E00781664 /* FlyerCalloutView.m in Sources */,

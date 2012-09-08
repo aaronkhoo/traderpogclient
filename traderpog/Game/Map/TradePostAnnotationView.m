@@ -44,39 +44,18 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
         
         // offset annotation so that anchor point is at the bottom of the frame
         self.centerOffset = CGPointMake(0.0f, -(myFrame.size.height * 0.5f));
-        
-        // setup tradepost image
-        UIImage* annotationImage = nil;
-        if([tradePost isMemberOfClass:[MyTradePost class]])
-        {
-            annotationImage = [[ImageManager getInstance] getImage:[tradePost imgPath]
-                                                     fallbackNamed:@"b_flyerlab.png"];
-        }
-        else
-        {
-            annotationImage = [[ImageManager getInstance] getImage:[tradePost imgPath]
-                                                     fallbackNamed:@"b_flyerlab.png"];
-        }
+
         float imageWidth = 80.0f;
         float imageHeight = 80.0f;
         float imageOriginX = myFrame.origin.x - (0.5f * (imageWidth - myFrame.size.width));
         float imageOriginY = myFrame.origin.y - (imageWidth - myFrame.size.height);
         CGRect imageRect = CGRectMake(imageOriginX, imageOriginY, imageWidth, imageHeight);
-        /*
-        CGRect resizeRect = CGRectMake(0.0f, 0.0f, 120.0f, 120.0f);
-        UIGraphicsBeginImageContext(resizeRect.size);
-        [annotationImage drawInRect:resizeRect];
-        UIImage *resizedImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-         */
-        UIImage* resizedImage = annotationImage;
         self.opaque = NO;
         
         // annotation-view anchor is at the center of the view;
         // so, shift the image so that its bottom is at the coordinate
         UIView* contentView = [[UIView alloc] initWithFrame:myFrame];
-        _imageView = [[UIImageView alloc] initWithImage:resizedImage];
-        [_imageView setFrame:imageRect];
+        _imageView = [[UIImageView alloc] initWithFrame:imageRect];
         [contentView addSubview:_imageView];
         
         [self addSubview:contentView];
