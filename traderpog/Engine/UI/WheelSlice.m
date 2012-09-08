@@ -21,7 +21,8 @@
 @synthesize view = _view;
 
 - (id) initWithMin:(float)min mid:(float)mid max:(float)max 
-            radius:(float)radius angle:(float)angle
+            radius:(float)radius sliceLength:(float)sliceLength
+             angle:(float)angle
              index:(unsigned int)index
 {
     self = [super init];
@@ -36,7 +37,7 @@
         _labelView = nil;
         
         // create container view
-        CGRect viewRect = CGRectMake(0.0f, 0.0f, _radius, 40.0f);
+        CGRect viewRect = CGRectMake(0.0f, 0.0f, sliceLength, 40.0f);
         UIView* newView = [[UIView alloc] initWithFrame:viewRect];
         newView.backgroundColor = [UIColor clearColor];
         newView.layer.anchorPoint = CGPointMake(1.0f, 0.5f);

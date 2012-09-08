@@ -262,6 +262,7 @@ static const NSTimeInterval kScanDurationMin = 2.0f;    // minimum amount of tim
         // Store up the last known player location
         [Player getInstance].lastKnownLocation = locator.bestLocation.coordinate;
         [Player getInstance].lastKnownLocationValid = TRUE;
+        NSLog(@"Located myself (%f, %f)", locator.bestLocation.coordinate.latitude, locator.bestLocation.coordinate.longitude);
         
         // Now that we know where the player's location is, request any posts in the vicinity
         [[TradePostMgr getInstance] scanForTradePosts:locator.bestLocation.coordinate];

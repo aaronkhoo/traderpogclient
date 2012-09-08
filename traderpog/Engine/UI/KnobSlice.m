@@ -7,19 +7,26 @@
 //
 
 #import "KnobSlice.h"
+#import "PogUIUtility.h"
 #import <QuartzCore/QuartzCore.h>
 
-static const float kSliceTextSmallScale = 0.5f;
-static const float kSliceTextBigScale = 1.0f;
+static const float kSliceTextSmallScale = 0.3f;
+static const float kSliceTextBigScale = 0.8f;
+static const float kSliceTextPopoutScale = 0.55f;
 
 @interface KnobSlice ()
 {
     UIView* _contentContainer;
     UILabel* _contentLabel;
+    UIView* _popoutCircle;
+    UIView* _popoutShadow;
     CGAffineTransform _labelTransformSmall;
     CGAffineTransform _labelTransformBig;
-    CGAffineTransform _decalTransformSmall;
+    CGAffineTransform _labelTransformPopout;
+    CGAffineTransform _decalTransformPopout;
     CGAffineTransform _decalTransformBig;
+    CGAffineTransform _popoutTransformIdle;
+    CGAffineTransform _popoutTransformOut;
 }
 @end
 
@@ -69,7 +76,23 @@ static const float kSliceTextBigScale = 1.0f;
         [_view addSubview:newContainer];
         _contentContainer = newContainer;
 
-        CGRect labelRect = CGRectInset(contentRect, -15.0f, -15.0f);
+        // popout circle
+        CGRect popoutRect = CGRectMake(0.0f, 0.0f, _radius, _radius);
+        popoutRect = CGRectInset(popoutRect, -2.0f, -2.0f);
+        _popoutShadow = [[UIView alloc] initWithFrame:popoutRect];
+        [_popoutShadow setBackgroundColor:[UIColor clearColor]];
+        [PogUIUtility setCircleForView:_popoutShadow withBorderWidth:0.0f borderColor:[UIColor clearColor]];
+        _popoutShadow.layer.masksToBounds = NO;
+        _popoutShadow.layer.shadowColor = [UIColor colorWithRed:9.0f/255.0f green:1.0f/255.0f blue:51.0f/255.0f alpha:1.0f].CGColor;
+        _popoutShadow.layer.shadowOpacity = 0.4f;
+        _popoutShadow.layer.shadowOffset = CGSizeMake(4.0f, 8.0f);
+        _popoutCircle = [[UIView alloc] initWithFrame:popoutRect];
+        [_popoutCircle setBackgroundColor:[UIColor grayColor]];
+        [PogUIUtility setCircleForView:_popoutCircle withBorderWidth:3.0f borderColor:[UIColor darkGrayColor]];
+        [_popoutShadow addSubview:_popoutCircle];
+        [_contentContainer addSubview:_popoutShadow];
+        
+        CGRect labelRect = CGRectInset(contentRect, -55.0f, -25.0f);
 
         // decal
         CGRect decalRect = CGRectMake(0.0f, 0.0f,
@@ -82,7 +105,7 @@ static const float kSliceTextBigScale = 1.0f;
         // label
         UILabel* sliceLabel = [[UILabel alloc] initWithFrame:labelRect];
         [sliceLabel setTextAlignment:UITextAlignmentCenter];
-        [sliceLabel setFont:[UIFont fontWithName:@"Marker Felt" size:35.0f]];
+        [sliceLabel setFont:[UIFont fontWithName:@"Marker Felt" size:55.0f]];
         [sliceLabel setBackgroundColor:[UIColor clearColor]];
         [sliceLabel setTextColor:[UIColor whiteColor]];
         [_contentContainer addSubview:sliceLabel];
@@ -93,8 +116,15 @@ static const float kSliceTextBigScale = 1.0f;
         _labelTransformBig = CGAffineTransformTranslate(_labelTransformBig, 0.0f, labelRect.size.height * 0.2f);
         _labelTransformSmall = CGAffineTransformMakeScale(kSliceTextSmallScale, kSliceTextSmallScale);
         _decalTransformBig = CGAffineTransformIdentity;
-        _decalTransformSmall = CGAffineTransformMakeScale(kSliceTextSmallScale, kSliceTextSmallScale);
-        _decalTransformSmall = CGAffineTransformTranslate(_decalTransformSmall, 0.0f, -labelRect.size.height * 0.2f);
+        _popoutTransformIdle = CGAffineTransformMakeScale(0.5f, 0.5f);
+
+        // popout
+        _labelTransformPopout = CGAffineTransformMakeScale(kSliceTextPopoutScale, kSliceTextPopoutScale);
+        _labelTransformPopout = CGAffineTransformTranslate(_labelTransformPopout, 0.0f, -popoutRect.size.height * 1.9f);
+        _popoutTransformOut = CGAffineTransformMakeScale(1.0f, 1.0f);
+        _popoutTransformOut = CGAffineTransformTranslate(_popoutTransformOut, 0.0f, -popoutRect.size.height * 1.3f);
+        _decalTransformPopout = CGAffineTransformMakeScale(kSliceTextPopoutScale, kSliceTextPopoutScale);
+        _decalTransformPopout = CGAffineTransformTranslate(_decalTransformPopout, 0.0f, -popoutRect.size.height * 2.0f);
         
         // init all slices as small (Knob will make them big when selected)
         [self useSmallText];
@@ -107,18 +137,33 @@ static const float kSliceTextBigScale = 1.0f;
     [_contentLabel setText:text];
 }
 
-- (void) useBigText
+- (void) useBigTextWithColor:(UIColor *)color
 {
+//    [_contentLabel setTextColor:color];
     [_contentLabel setTransform:_labelTransformBig];
     [_decal setTransform:_decalTransformBig];
+    [_popoutShadow setTransform:_popoutTransformIdle];
+    [_popoutShadow setAlpha:0.0f];
+    [_popoutCircle setBackgroundColor:[UIColor grayColor]];
+    [[_popoutCircle layer] setBorderColor:[UIColor darkGrayColor].CGColor];
 }
 
 - (void) useSmallText
 {
     [_contentLabel setTransform:_labelTransformSmall];
-    [_decal setTransform:_decalTransformSmall];
+    [_decal setTransform:_decalTransformPopout];
     [_decal setAlpha:0.5];
 }
 
+- (void) usePopoutWithColor:(UIColor *)color borderColor:(UIColor *)borderColor
+{
+//    [_contentLabel setTextColor:color];
+    [_contentLabel setTransform:_labelTransformPopout];
+    [_decal setTransform:_decalTransformPopout];
+    [_popoutShadow setTransform:_popoutTransformOut];
+    [_popoutShadow setAlpha:1.0f];
+    [_popoutCircle setBackgroundColor:color];
+    [[_popoutCircle layer] setBorderColor:borderColor.CGColor];
+}
 
 @end

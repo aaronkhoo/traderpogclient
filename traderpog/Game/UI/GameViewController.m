@@ -25,6 +25,7 @@
 #import "GameHud.h"
 #import "CircleBarView.h"
 #import "AnimMgr.h"
+#import "ImageManager.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -240,13 +241,13 @@ static const float kKnobAnimInDuration = 0.5f;
 static const float kKnobAnimOutDuration = 0.25f;
 
 // all knob position consts are expressed in terms of fraction of view-width
-static const float kKnobRadiusFrac = 0.5f;  // frac of view-width
+static const float kKnobRadiusFrac = 0.85f;  // frac of view-width
 static const float kKnobFrameYOffsetFrac = (kKnobRadiusFrac * 0.05f);
 static const float kKnobHiddenYOffsetFrac = (kKnobRadiusFrac * 0.4f); // frac of view-width
 static const float kKnobShowButtonHeightFrac = 0.05f;   // frac of view-height
 static const float kWheelRadiusFrac = 0.75f;
-static const float kWheelPreviewXViewFrac = 0.0f;
-static const float kWheelPreviewYHeightFrac = 1.65f;
+static const float kWheelPreviewXViewFrac = 0.03f;
+static const float kWheelPreviewYHeightFrac = 1.75f;
 static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel radius
 - (void) initKnob
 {
@@ -498,7 +499,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 - (UIImage*) knob:(KnobControl*)knob decalImageAtIndex:(unsigned int)index
 {
     UIColor* color = [self colorAtIndex:index withAlpha:1.0f];
-    UIImage* result = [UIImage imageNamed:@"Yun.png" withColor:color];
+    UIImage* result = [[ImageManager getInstance] getImage:@"icon_yun.png" fallbackNamed:@"icon_yun.png" withColor:color];
     return result;
 }
 

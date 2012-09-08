@@ -30,7 +30,8 @@
 @property (nonatomic,strong) UILabel* labelView;
 @property (nonatomic,readonly) UIView* view;
 - (id) initWithMin:(float)min mid:(float)mid max:(float)max 
-            radius:(float)radius angle:(float)angle
+            radius:(float)radius sliceLength:(float)sliceLength
+             angle:(float)angle
              index:(unsigned int)index;
 
 - (void) wheel:(WheelControl*)wheel setContentBubble:(WheelBubble*)bubble;

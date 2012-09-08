@@ -15,6 +15,7 @@
 - (void) unloadFrontMenuBackground;
 
 - (UIImage*) getImage:(NSString*)name fallbackNamed:(NSString*)fallback;
+- (UIImage*) getImage:(NSString *)name fallbackNamed:(NSString *)fallback withColor:(UIColor*)color;
 
 // singleton
 +(ImageManager*) getInstance;

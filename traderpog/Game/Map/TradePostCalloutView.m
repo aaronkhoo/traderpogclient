@@ -12,7 +12,6 @@
 #import "Flyer.h"
 #import "TradeManager.h"
 #import "TradePost.h"
-#import "BeaconAnnotationView.h"
 #import "TradePostAnnotationView.h"
 #import "TradePostMgr.h"
 
@@ -40,18 +39,7 @@ NSString* const kTradePostCalloutViewReuseId = @"PostCalloutView";
 
 - (IBAction)didPressGo:(id)sender 
 {
-    TradePost* destPost = nil;
-    if([self.parentAnnotationView isMemberOfClass:[TradePostAnnotationView class]])
-    {
-        // parent is tradePost
-        destPost = (TradePost*)[[self parentAnnotationView] annotation];
-    }
-    else if([self.parentAnnotationView isMemberOfClass:[BeaconAnnotationView class]])
-    {
-        // parent is a beacon
-        destPost = (TradePost*) [self.parentAnnotationView annotation];
-    }
-
+    TradePost* destPost = (TradePost*)[[self parentAnnotationView] annotation];
     if(destPost)
     {
         if([destPost isMemberOfClass:[MyTradePost class]])

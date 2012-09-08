@@ -12,7 +12,7 @@
 #import "MyTradePost.h"
 #import "PogUIUtility.h"
 #import "GameColors.h"
-#import "CircleView.h"
+#import "ImageManager.h"
 #import <QuartzCore/QuartzCore.h>
 
 NSString* const kPlayerPostCalloutViewReuseId = @"PlayerPostCalloutView";
@@ -50,13 +50,13 @@ static const float kCircleBorderWidth = 3.0f;
     CGRect imageFrame = [self.beaconBubble frame];
     imageFrame.origin = CGPointMake(0.0f, 0.0f);
     imageFrame = CGRectInset(imageFrame, 2.0f, 2.0f);
-    UIImage* beaconImage = [UIImage imageNamed:@"bubble_set_beacon.png"];
+    UIImage* beaconImage = [[ImageManager getInstance] getImage:@"bubble_set_beacon.png" fallbackNamed:@"bubble_set_beacon.png"];
     UIImageView* beaconView = [[UIImageView alloc] initWithFrame:imageFrame];
     [beaconView setImage:beaconImage];
-    UIImage* restockImage = [UIImage imageNamed:@"bubble_restock.png"];
+    UIImage* restockImage = [[ImageManager getInstance] getImage:@"bubble_restock.png" fallbackNamed:@"bubble_restock.png"];
     UIImageView* restockView = [[UIImageView alloc] initWithFrame:imageFrame];
     [restockView setImage:restockImage];
-    UIImage* destroyImage = [UIImage imageNamed:@"icon_removepost.png"];
+    UIImage* destroyImage = [[ImageManager getInstance] getImage:@"icon_removepost.png" fallbackNamed:@"icon_removepost.png"];
     UIImageView* destroyView = [[UIImageView alloc] initWithFrame:imageFrame];
     [destroyView setImage:destroyImage];
     

@@ -14,8 +14,12 @@
 
 static const float kRenderOffsetFactor = 1.0f; // offset angle is this factor multiplied with sliceWidth 
 
-// units in fraction of Knob-radius
-static const float kKnobCenterRadiusFrac = 0.7f;
+static const float kKnobBorderWidth = 5.0f;
+
+// units in fraction of KnobControl width
+static const float kKnobRenderFrac = 0.7f;
+static const float kKnobDragFrac = kKnobRenderFrac - 0.3f;
+static const float kKnobButtonFrac = 0.4f;
 
 @interface KnobControl ()
 {
@@ -138,10 +142,17 @@ static const float kKnobCenterRadiusFrac = 0.7f;
 
 - (void) createWheelRender
 {
-    _container = [[UIView alloc] initWithFrame:self.bounds];
         
-    self.circle = [[CircleView alloc] initWithFrame:self.bounds
-                                        borderWidth:5.0f
+    float containerRadius = kKnobRenderFrac * self.bounds.size.width;
+    CGRect containerRect = CGRectMake(0.5f * (self.bounds.size.width - containerRadius),
+                                   0.5f * (self.bounds.size.width - containerRadius),
+                                   containerRadius, containerRadius);
+    _container = [[UIView alloc] initWithFrame:containerRect];
+    
+    CGRect circleInContainerRect = CGRectMake(-containerRect.origin.x, -containerRect.origin.y,
+                                              self.bounds.size.width, self.bounds.size.height);
+    self.circle = [[CircleView alloc] initWithFrame:circleInContainerRect borderFrac:kKnobRenderFrac
+                                        borderWidth:kKnobBorderWidth
                                         borderColor:[UIColor redColor]];
     [self.container addSubview:[self circle]];
     
@@ -177,12 +188,12 @@ static const float kKnobCenterRadiusFrac = 0.7f;
 - (void) createCenterButton
 {
     self.centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    float containerRadius = _container.bounds.size.width * 0.5f;
-    float centerRadius = containerRadius * kKnobCenterRadiusFrac;
-    float centerWidth = centerRadius * 1.3f;
-    float centerHeight = centerRadius * 0.8f;
-    CGRect centerRect = CGRectMake(containerRadius - (centerWidth * 0.5f), 
-                                   containerRadius - centerHeight, 
+//    float containerRadius = _container.bounds.size.width * 0.5f;
+    float centerSize = self.bounds.size.width * kKnobButtonFrac;
+    float centerWidth = centerSize;
+    float centerHeight = centerSize;
+    CGRect centerRect = CGRectMake(_container.frame.origin.x + ((_container.bounds.size.width - centerWidth) * 0.5f),
+                                   _container.frame.origin.y + ((_container.bounds.size.height - centerHeight) * 0.5f),
                                    centerWidth, centerHeight);
     [self.centerButton setFrame:centerRect];
     [self.centerButton setBackgroundColor:[UIColor clearColor]];
@@ -205,17 +216,17 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     unsigned int sliceIndex = 0;
     for(KnobSlice* cur in _slices)
     {
-        if([self selectedSlice] == sliceIndex)
+        //if([self selectedSlice] == sliceIndex)
         {
             [UIView animateWithDuration:0.2f
                                   delay:delay
                                 options:UIViewAnimationCurveEaseInOut
                              animations:^(void){
-                                 [cur useBigText];
+                                 [cur useBigTextWithColor:[UIColor whiteColor]];
                              }
                              completion:nil];
         }
-        else 
+        if([self selectedSlice] != sliceIndex)
         {
             [cur.view setHidden:YES];
         }
@@ -228,10 +239,13 @@ static const float kKnobCenterRadiusFrac = 0.7f;
                           delay:delay
                         options:UIViewAnimationCurveEaseInOut
                      animations:^(void){
+                         self.circle.borderCircle.backgroundColor = knobColor;
                          self.circle.coloredView.layer.shadowColor = knobColor.CGColor;
                          self.circle.layer.borderColor = borderColor.CGColor;
+                         [self.circle setAlpha:1.0f];
                      }
                      completion:nil];
+    [self.circle showBigBorder];
 }
 
 - (void) refreshSliceViewDidBeginTouch
@@ -240,11 +254,13 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     unsigned int sliceIndex = 0;
     for(KnobSlice* cur in _slices)
     {
-        if([self selectedSlice] == sliceIndex)
+        UIColor* color = [self.delegate knob:self colorAtIndex:sliceIndex];
+        UIColor* borderColor = [self.delegate knob:self borderColorAtIndex:sliceIndex];
+        //if([self selectedSlice] == sliceIndex)
         {
             [UIView animateWithDuration:0.2f 
                              animations:^(void){
-                                 [cur useSmallText];
+                                 [cur usePopoutWithColor:color borderColor:borderColor];
                              }
                              completion:nil];            
         }
@@ -254,10 +270,14 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     
     [UIView animateWithDuration:0.2f
                      animations:^(void){
+                         self.circle.borderCircle.backgroundColor = [UIColor grayColor];
                          self.circle.coloredView.layer.shadowColor = [UIColor grayColor].CGColor;
                          self.circle.layer.borderColor = [UIColor darkGrayColor].CGColor;
+                         [self.circle setAlpha:0.2f];
                      }
                      completion:nil];
+    
+    [self.circle showSmallBorder];
 }
 
 - (void) refreshSliceTitles
@@ -276,8 +296,8 @@ static const float kKnobCenterRadiusFrac = 0.7f;
     BOOL beginTracking = YES;
     CGPoint touchPoint = [touch locationInView:self];
     float dist = [self distFromCenter:touchPoint];
-    float minDist = _container.bounds.size.width * 0.5f * kKnobCenterRadiusFrac;
-    float maxDist = _container.bounds.size.width * 0.5f;
+    float minDist = self.bounds.size.width * 0.5f * kKnobDragFrac;
+    float maxDist = self.bounds.size.width * 0.5f;
     if((minDist <= dist) && (dist <= maxDist))
     {
         float dx = touchPoint.x - self.container.center.x;
