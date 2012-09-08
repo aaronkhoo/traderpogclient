@@ -19,8 +19,8 @@ static NSString* const kResourceManager_PackageReady = @"ResourceManager_Package
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 - (void)downloadResourceFileIfNecessary;
-- (NSString*)getImagePath:(NSString*)resourceName;
 - (NSString*)getAudioPath:(NSString*)resourceName;
+- (NSString*)getImagePath:(NSString*)subDir forResource:(NSString*)resourceName;
 
 // singleton
 +(ResourceManager*) getInstance;

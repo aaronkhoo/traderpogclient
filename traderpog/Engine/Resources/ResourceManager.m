@@ -13,7 +13,7 @@
 static NSString* const kKeyVersion = @"version";
 static NSString* const kKeyLastModified = @"lastmodified";
 static NSString* const kResourceManagerFilename = @"resourcemanager.sav";
-static NSString* const kResourceBundleFilename = @"Resources.bundle";
+static NSString* const kResourceBundleFilename = @"resources.bundle";
 static NSString* const kResourcePackagePath = @"resources.zip";
 static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpog/resources.zip";
 
@@ -308,15 +308,16 @@ static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpo
     [self sendRequestForResourcePackage:TRUE];
 }
 
-- (NSString*)getImagePath:(NSString*)resourceName
-{
-    return [self getResourcePath:@"images" resourceName:resourceName];
-}
-
 - (NSString*)getAudioPath:(NSString*)resourceName
 {
     return [self getResourcePath:@"audio" resourceName:resourceName];
 }
+
+- (NSString*)getImagePath:(NSString*)subDir forResource:(NSString*)resourceName
+{
+    return [self getResourcePath:subDir resourceName:resourceName];
+}
+
 
 #pragma mark - Singleton
 static ResourceManager* singleton = nil;

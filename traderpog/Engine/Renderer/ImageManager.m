@@ -10,6 +10,10 @@
 #import "AppDelegate.h"
 #import "ResourceManager.h"
 
+static NSString* const kImageSubGame = @"game";
+static NSString* const kImageSubShared = @"shared";
+static NSString* const kImageSubUi = @"ui";
+
 @interface ImageManager ()
 {
     UIView* _frontMenuBgView;
@@ -49,7 +53,25 @@
     // Check downloaded resource package
     if(!result && name)
     {
-        NSString* path = [[ResourceManager getInstance] getImagePath:name];
+        NSString* const imageSubs[] =
+        {
+            kImageSubGame,
+            kImageSubShared,
+            kImageSubUi,
+            nil
+        };
+        NSString* path = nil;
+        unsigned int subIndex = 0;
+        while(imageSubs[subIndex])
+        {
+            path = [[ResourceManager getInstance] getImagePath:imageSubs[subIndex] forResource:name];
+            if(path)
+            {
+                break;
+            }
+            ++subIndex;
+        }
+
         if (path)
         {
             result = [[UIImage alloc] initWithContentsOfFile:path];
@@ -62,6 +84,10 @@
         result = [UIImage imageNamed:fallback];
     }
     
+    if(result)
+    {
+        [self.imageCache setObject:result forKey:imageKey];
+    }
     return result;
 }
 
