@@ -400,6 +400,38 @@ static const float kBubbleBorderWidth = 1.5f;
     return result;
 }
 
+- (NSMutableArray*) unknownTradePostsFromFlyers
+{
+    NSMutableArray* result = [NSMutableArray arrayWithCapacity:[self.playerFlyers count]];
+    for(Flyer* cur in [self playerFlyers])
+    {        
+        NSString* curPostId = [[cur path] curPostId];
+        if (curPostId)
+        {
+            TradePost* post = [[TradePostMgr getInstance] getTradePostWithId:curPostId];
+            if (!post)
+            {
+                [result addObject:curPostId];
+            }
+        }
+        
+        NSString* destPostId = [[cur path] nextPostId];
+        if (destPostId)
+        {
+            TradePost* post = [[TradePostMgr getInstance] getTradePostWithId:destPostId];
+            if (!post)
+            {
+                [result addObject:destPostId];
+            }
+        }
+    }
+    if(![result count])
+    {
+        result = nil;
+    }
+    return result;
+}
+
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {

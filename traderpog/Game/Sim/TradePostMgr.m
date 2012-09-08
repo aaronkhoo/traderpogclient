@@ -47,6 +47,7 @@ static double const refreshTime = -(60 * 15);
 static const float kPostBubbleBorderWidth = 1.5f;
 static const float kPreviewPostWidth = 120.0f;
 static const float kPreviewPostHeight = 120.0f;
+static NSString* const kNPCPost_prepend = @"NPCPost";
 
 @interface TradePostMgr ()
 {
@@ -54,6 +55,9 @@ static const float kPreviewPostHeight = 120.0f;
     NSMutableDictionary* _activePosts;
     NSMutableArray* _myPostSlots;
     NSMutableDictionary* _npcPosts;
+    
+    // Posts found on flyers, but not in retrieved lists
+    NSMutableArray* _danglingPosts;
     
     // for NPC posts generation
     unsigned int _npcPostIndex;
@@ -76,6 +80,7 @@ static const float kPreviewPostHeight = 120.0f;
 @synthesize npcPosts = _npcPosts;
 @synthesize delegate = _delegate;
 @synthesize delegateScan = _delegateScan;
+@synthesize delegateDanglingPosts = _delegateDanglingPosts;
 
 - (id) init
 {
@@ -85,6 +90,7 @@ static const float kPreviewPostHeight = 120.0f;
         _activePosts = [NSMutableDictionary dictionaryWithCapacity:10];
         _myPostSlots = [NSMutableArray arrayWithCapacity:6];
         _npcPosts = [NSMutableDictionary dictionaryWithCapacity:10];
+        _foundPosts = [NSMutableDictionary dictionaryWithCapacity:10];
         _npcPostIndex = 0;
         _tempTradePost = nil;
         _previewMap = nil;
@@ -140,12 +146,28 @@ static const float kPreviewPostHeight = 120.0f;
             post.hasFlyer = YES;
         }
     }
+    
+    for (ForeignTradePost* post in [self.foundPosts allValues])
+    {
+        [[[GameManager getInstance] gameViewController].mapControl addAnnotationForTradePost:post];
+        if([postIdsWithFlyers stringArrayContainsString:[post postId]])
+        {
+            post.hasFlyer = YES;
+        }
+    }
+}
+
+- (BOOL) isNPCPostId:(NSString*)postid
+{
+    // Check if the current postid is an NPC one, i.e. it's of the form "NPCPost<some_num>"
+    NSRange range = [postid rangeOfString:kNPCPost_prepend];
+    return (range.location != NSNotFound);
 }
 
 - (NPCTradePost*) newNPCTradePostAtCoord:(CLLocationCoordinate2D)coord
                           bucks:(unsigned int)bucks
 {
-    NSString* postId = [NSString stringWithFormat:@"NPCPost%d", _npcPostIndex];
+    NSString* postId = [NSString stringWithFormat:@"%@%d", kNPCPost_prepend, _npcPostIndex];
     
     ++_npcPostIndex;
     NPCTradePost* newPost = [[NPCTradePost alloc] initWithPostId:postId
@@ -200,6 +222,10 @@ static const float kPreviewPostHeight = 120.0f;
     if(!result)
     {
         result = [self.npcPosts objectForKey:postId];
+    }
+    if(!result)
+    {
+        result = [self.foundPosts objectForKey:postId];
     }
     if(!result)
     {
@@ -281,6 +307,26 @@ static const float kPreviewPostHeight = 120.0f;
     return result;
 }
 
+- (BOOL) resolveDanglingPosts
+{
+    BOOL done = TRUE;
+    _danglingPosts = [[FlyerMgr getInstance] unknownTradePostsFromFlyers];
+    if (_danglingPosts.count > 0)
+    {
+        done = FALSE;
+        NSString* postid = [_danglingPosts objectAtIndex:0];
+        [_danglingPosts removeObjectAtIndex:0];
+        [self retrieveSpecificPostFromServer:postid];
+    }
+    return done;
+}
+
+- (void) flushForeignPosts
+{
+    // Clear all found posts
+    [_foundPosts removeAllObjects];
+}
+
 #pragma mark - retrieve data from server
 - (void) createPostsArray:(id)responseObject
 {
@@ -329,6 +375,44 @@ static const float kPreviewPostHeight = 120.0f;
                 }
      ];
     [httpClient setDefaultHeader:@"user_id" value:nil];
+}
+
+- (void) retrieveSpecificPostFromServer:(NSString*)postid
+{
+    // make a get request
+    AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
+    NSString* postUrl = [NSString stringWithFormat:@"posts/%@.json", postid];
+    [httpClient getPath:postUrl
+             parameters:nil
+                success:^(AFHTTPRequestOperation *operation, id responseObject){
+                    NSLog(@"Retrieved post %@ from server: %@", postid, responseObject);
+                    ForeignTradePost* current = [[ForeignTradePost alloc] initWithDictionary:responseObject];
+                    [self.foundPosts setObject:current forKey:current.postId];
+                    if (_danglingPosts.count > 0)
+                    {
+                        NSString* postid = [_danglingPosts objectAtIndex:0];
+                        [_danglingPosts removeObjectAtIndex:0];
+                        [self retrieveSpecificPostFromServer:postid];
+                    }
+                    else
+                    {
+                        [self.delegate didCompleteHttpCallback:kTradePostMgr_ReceiveSinglePost, TRUE];   
+                    }
+                }
+                failure:^(AFHTTPRequestOperation* operation, NSError* error){
+                    NSLog(@"Failed to retrieve post %@ from server", postid);
+                    if (_danglingPosts.count > 0)
+                    {
+                        NSString* postid = [_danglingPosts objectAtIndex:0];
+                        [_danglingPosts removeObjectAtIndex:0];
+                        [self retrieveSpecificPostFromServer:postid];
+                    }
+                    else
+                    {
+                        [self.delegate didCompleteHttpCallback:kTradePostMgr_ReceiveSinglePost, FALSE];
+                    }
+                }
+     ];
 }
 
 - (void) createFoundPosts:(id)responseObject
