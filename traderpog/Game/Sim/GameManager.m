@@ -65,6 +65,7 @@ typedef enum {
     serverCallType _currentServerCall;
     BOOL _gameStateRefreshedFromServer;
     BOOL _gameInfoRefreshSucceeded;
+    BOOL _danglingPostsResolved;
     
     // Last time we went through game state initialization
     NSDate* _lastGameStateInitializeTime;
@@ -114,10 +115,14 @@ typedef enum {
     self = [super init];
     if(self)
     {
+        // Refreshing data from server
         _currentServerCall = serverCallType_none;
         _gameStateRefreshedFromServer = FALSE;
         _lastGameStateInitializeTime = nil;
         _gameInfoRefreshSucceeded = TRUE;
+        
+        // Resolving any dangling posts (as a result of previous flights to foreign posts)
+        _danglingPostsResolved = FALSE;
         
         _gameState = kGameStateNew;
         _loadingScreen = nil;
@@ -405,6 +410,8 @@ typedef enum {
         _currentServerCall = serverCallType_none;
         _gameStateRefreshedFromServer = FALSE;
         _asyncHttpCallsCompleted = TRUE;
+        _danglingPostsResolved = FALSE;
+        [[TradePostMgr getInstance] flushForeignPosts];
         [self validateConnectivity];
     }
 }
@@ -501,6 +508,15 @@ typedef enum {
         _currentServerCall = serverCallType_none;
         
         [self refreshServerData];
+    }
+    else if (!_danglingPostsResolved)
+    {
+        // If true is returned, then all posts are resolved and we can continue.
+        if ([[TradePostMgr getInstance] resolveDanglingPosts])
+        {
+            _danglingPostsResolved = TRUE;
+            [self selectNextGameUI];
+        }
     }
     else if(![[Player getInstance] lastKnownLocationValid])
     {
@@ -763,7 +779,7 @@ typedef enum {
     }
     else
     {
-        NSLog(@"Http callback received from unknown call: %@", callName);
+        NSLog(@"Http callback received from call: %@. Calling selectNextGameUI.", callName);
         [self selectNextGameUI];
     }
 }

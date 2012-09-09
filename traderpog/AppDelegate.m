@@ -149,6 +149,9 @@
     // Setting up callback for scanning
     [[TradePostMgr getInstance] setDelegateScan:[ScanManager getInstance]];
     
+    // Setting up callback for single post retrieval
+    [[TradePostMgr getInstance] setDelegateDanglingPosts:[GameManager getInstance]];
+    
     // Setting up async http callback delegates
     [[AsyncHttpCallMgr getInstance] addDelegateInstance:[AsyncHttpCallMgr getInstance]];
     [[AsyncHttpCallMgr getInstance] addDelegateInstance:[GameManager getInstance]];

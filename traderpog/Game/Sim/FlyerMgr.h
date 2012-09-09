@@ -40,6 +40,7 @@ static NSString* const kFlyerMgr_ReceiveFlyers = @"FlyerMgr_ReceiveFlyers";
 
 // queries
 - (NSArray*) tradePostIdsWithFlyers;
+- (NSMutableArray*) unknownTradePostsFromFlyers;
 
 // singleton
 +(FlyerMgr*) getInstance;

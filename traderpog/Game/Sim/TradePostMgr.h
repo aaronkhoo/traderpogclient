@@ -14,6 +14,7 @@
 #import "NPCTradePost.h"
 #import "WheelProtocol.h"
 
+static NSString* const kTradePostMgr_ReceiveSinglePost = @"TradePostMgr_ReceiveSinglePost";
 static NSString* const kTradePostMgr_ReceivePosts = @"TradePostMgr_ReceivePosts";
 static NSString* const kTradePostMgr_ScanForPosts = @"TradePostMgr_ScanForPosts";
 
@@ -29,10 +30,14 @@ static NSString* const kTradePostMgr_ScanForPosts = @"TradePostMgr_ScanForPosts"
     
     // Delegate for callbacks to inform interested parties of Scan retrieval completion
     __weak NSObject<HttpCallbackDelegate>* _delegateScan;
+    
+    // Delegate for callbacks to inform interested parties of dangling posts retrieval completion
+    __weak NSObject<HttpCallbackDelegate>* _delegateDanglingPosts;
 }
 @property (nonatomic,strong) MapControl* previewMap;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegateScan;
+@property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegateDanglingPosts;
 
 // Public methods
 - (BOOL) needsRefresh;
@@ -51,6 +56,9 @@ static NSString* const kTradePostMgr_ScanForPosts = @"TradePostMgr_ScanForPosts"
                                   radius:(float)radius 
                                   maxNum:(unsigned int)maxNum;
 - (void) scanForTradePosts:(CLLocationCoordinate2D)coord;
+- (BOOL) isNPCPostId:(NSString*)postid;
+- (BOOL) resolveDanglingPosts;
+- (void) flushForeignPosts;
 
 // singleton
 +(TradePostMgr*) getInstance;
