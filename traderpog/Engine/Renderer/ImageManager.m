@@ -13,6 +13,7 @@
 static NSString* const kImageSubGame = @"game";
 static NSString* const kImageSubShared = @"shared";
 static NSString* const kImageSubUi = @"ui";
+static NSString* const kImageReservedWordDefault = @"default";
 
 @interface ImageManager ()
 {
@@ -42,39 +43,47 @@ static NSString* const kImageSubUi = @"ui";
 {
     UIImage* result = nil;
 
-    // check cache first
-    NSString* imageKey = name;
-    if(!imageKey)
+    // check resource bundle only if name is not the reserved word "default"
+    if([name compare:kImageReservedWordDefault] != NSOrderedSame)
     {
-        imageKey = fallback;
-    }
-    result = [self.imageCache objectForKey:imageKey];
-
-    // Check downloaded resource package
-    if(!result && name)
-    {
-        NSString* const imageSubs[] =
+        // check cache first
+        NSString* imageKey = name;
+        if(!imageKey)
         {
-            kImageSubGame,
-            kImageSubShared,
-            kImageSubUi,
-            nil
-        };
-        NSString* path = nil;
-        unsigned int subIndex = 0;
-        while(imageSubs[subIndex])
-        {
-            path = [[ResourceManager getInstance] getImagePath:imageSubs[subIndex] forResource:name];
-            if(path)
-            {
-                break;
-            }
-            ++subIndex;
+            imageKey = fallback;
         }
-
-        if (path)
+        result = [self.imageCache objectForKey:imageKey];
+        
+        // Check downloaded resource package
+        if(!result && name)
         {
-            result = [[UIImage alloc] initWithContentsOfFile:path];
+            NSString* const imageSubs[] =
+            {
+                kImageSubGame,
+                kImageSubShared,
+                kImageSubUi,
+                nil
+            };
+            NSString* path = nil;
+            unsigned int subIndex = 0;
+            while(imageSubs[subIndex])
+            {
+                path = [[ResourceManager getInstance] getImagePath:imageSubs[subIndex] forResource:name];
+                if(path)
+                {
+                    break;
+                }
+                ++subIndex;
+            }
+            
+            if (path)
+            {
+                result = [[UIImage alloc] initWithContentsOfFile:path];
+            }
+        }
+        if(result)
+        {
+            [self.imageCache setObject:result forKey:imageKey];
         }
     }
     
@@ -84,10 +93,6 @@ static NSString* const kImageSubUi = @"ui";
         result = [UIImage imageNamed:fallback];
     }
     
-    if(result)
-    {
-        [self.imageCache setObject:result forKey:imageKey];
-    }
     return result;
 }
 
