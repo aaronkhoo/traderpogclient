@@ -26,6 +26,7 @@
 #import "FlyerMgr.h"
 #import "GameColors.h"
 #import "ImageManager.h"
+#import "HiAccuracyLocator.h"
 
 enum _MyPostSlots
 {
@@ -64,13 +65,24 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
     
     // User trade post in the midst of being generated
     MyTradePost* _tempTradePost;
+    
+    // UI
+    unsigned int _curBubbleIndex;
+    HiAccuracyLocator* _locator;
+    __weak WheelControl* _postsWheel;
 }
 @property (nonatomic,strong) NSMutableDictionary* foundPosts;
 @property (nonatomic,strong) NSMutableDictionary* activePosts;
 @property (nonatomic,strong) NSMutableArray* myPostSlots;
 @property (nonatomic,strong) NSMutableDictionary* npcPosts;
 
+// sim
 - (BOOL) post:(TradePost*)post isWithinDistance:(float)distance fromCoord:(CLLocationCoordinate2D)coord;
+
+// UI
+- (void) refreshPreviewForWheel:(WheelControl*)wheel atIndex:(unsigned int)index;
+- (void) refreshPreviewForWheel:(WheelControl*)wheel atIndex:(unsigned int)index hasLocated:(BOOL)hasLocated;
+- (void) removeAllAnnotationsFromMap:(MapControl*)map;
 @end
 
 @implementation TradePostMgr
@@ -95,6 +107,10 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
         _tempTradePost = nil;
         _previewMap = nil;
         _lastUpdate = nil;
+        _curBubbleIndex = 0;
+        _locator = [[HiAccuracyLocator alloc] initWithAccuracy:kCLLocationAccuracyHundredMeters];
+        _locator.delegate = self;
+        _postsWheel = nil;
     }
     return self;
 }
@@ -125,13 +141,13 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
 // all data in all managers (FlyerMgr, TradePostMgr, etc.) has been loaded
 // specifically, it adds all the loaded posts as annotations in the game map, and it
 // initializes the hasFlyer variable in each post;
-- (void) annotatePostsOnMap
+- (void) annotatePostsOnMap:(MapControl*)map
 {
     NSArray* postIdsWithFlyers = [[FlyerMgr getInstance] tradePostIdsWithFlyers];
     
     for (MyTradePost* post in [_activePosts allValues])
     {
-        [[[GameManager getInstance] gameViewController].mapControl addAnnotationForTradePost:post];
+        [map addAnnotationForTradePost:post];
         if([postIdsWithFlyers stringArrayContainsString:[post postId]])
         {
             post.hasFlyer = YES;
@@ -140,7 +156,7 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
     
     for (NPCTradePost* post in [self.npcPosts allValues])
     {
-        [[[GameManager getInstance] gameViewController].mapControl addAnnotationForTradePost:post];        
+        [map addAnnotationForTradePost:post];        
         if([postIdsWithFlyers stringArrayContainsString:[post postId]])
         {
             post.hasFlyer = YES;
@@ -149,7 +165,7 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
     
     for (ForeignTradePost* post in [self.foundPosts allValues])
     {
-        [[[GameManager getInstance] gameViewController].mapControl addAnnotationForTradePost:post];
+        [map addAnnotationForTradePost:post];
         if([postIdsWithFlyers stringArrayContainsString:[post postId]])
         {
             post.hasFlyer = YES;
@@ -470,6 +486,14 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
     return result;
 }
 
+- (void) removeAllAnnotationsFromMap:(MapControl *)map
+{
+    for(NSObject<MKAnnotation>* cur in [map.view annotations])
+    {
+        [map.view removeAnnotation:cur];
+    }
+}
+
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {
@@ -532,8 +556,7 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
             TradePost* initPost = [_activePosts.allValues objectAtIndex:index];
             _previewMap = [[MapControl alloc] initWithMapView:result
                                                     andCenter:[initPost coord]];
-            result.userInteractionEnabled = NO;
-            
+/*
             CGSize previewSize = wheel.previewCircle.bounds.size;
             CGRect imageRect = CGRectMake(0.5f * (previewSize.width - kPreviewPostWidth),
                                           (0.5f * (previewSize.height - kPreviewPostHeight)) - (0.4f * kPreviewPostHeight),
@@ -549,14 +572,19 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
             [wheel.previewLabel setNumberOfLines:1];
             [wheel.previewLabel setText:@"Reverse Geocode"];
             [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
+ */
         }
+        _curBubbleIndex = index;
+        result.userInteractionEnabled = NO;
     }
+    
+    [self wheel:wheel didMoveTo:index];
     return result;
 }
 
 - (UIColor*) previewColorForWheel:(WheelControl *)wheel
 {
-    UIColor* result = [UIColor clearColor];//[GameColors bubbleBgColorWithAlpha:1.0f];
+    UIColor* result = [UIColor clearColor];
     return result;
 }
 
@@ -579,6 +607,7 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
 }
 
 #pragma mark - WheelProtocol
+
 - (void) wheel:(WheelControl*)wheel didMoveTo:(unsigned int)index
 {
     index = MIN(index, kMyPostSlotNum-1);
@@ -586,63 +615,25 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
     {
         // map
         TradePost* cur = [self.myPostSlots objectAtIndex:index];
+        [_previewMap addAnnotationForTradePost:cur];
         [_previewMap centerOn:[cur coord] animated:NO];
         _previewMap.view.showsUserLocation = NO;
-        _previewMap.view.userTrackingMode = MKUserTrackingModeNone;
-
-        // label
-        [wheel.previewLabel setNumberOfLines:1];
-        [wheel.previewLabel setText:@"Reverse Geocode"];
-        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
-
-        // image
-        CGSize previewSize = wheel.previewCircle.bounds.size;
-        CGRect imageRect = CGRectMake(0.5f * (previewSize.width - kPreviewPostWidth),
-                                      (0.5f * (previewSize.height - kPreviewPostHeight)) - (0.4f * kPreviewPostHeight),
-                                      kPreviewPostWidth,
-                                      kPreviewPostHeight);
-        wheel.previewImageView.frame = imageRect;
-        UIImage* image = [[ImageManager getInstance] getImage:[cur imgPath] fallbackNamed:@"b_flyerlab.png"];
-        [wheel.previewImageView setImage:image];
-        [wheel.previewImageView setHidden:NO];
-        [wheel.previewImageView setBackgroundColor:[UIColor clearColor]];
     }
     else if(kMyPostSlotFreeEnd > index)
     {
-        // free slots
-        
         // map
-        _previewMap.view.showsUserLocation = YES;
         _previewMap.view.userTrackingMode = MKUserTrackingModeFollow;
-        
-        // label
-        [wheel.previewLabel setNumberOfLines:1];
-        [wheel.previewLabel setText:@"Create Post"];
-        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
-
-        // image
-        [wheel.previewImageView setHidden:YES];
+        _previewMap.view.showsUserLocation = YES;
+        [_locator startUpdatingLocation];
     }
     else
-    {        
-        // member slots
-        
+    {
         // map
         _previewMap.view.showsUserLocation = NO;
-        _previewMap.view.userTrackingMode = MKUserTrackingModeNone;
-        
-        // label
-        [wheel.previewLabel setNumberOfLines:2];
-        [wheel.previewLabel setText:@"Member Only\nJoin NOW!"];
-        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:15.0f]];
-
-        // image
-        wheel.previewImageView.frame = wheel.previewCircle.bounds;
-        UIImage* bgImage = [[ImageManager getInstance] getImage:@"icon_none_member.png" fallbackNamed:@"icon_none_member.png"];
-        [wheel.previewImageView setImage:bgImage];
-        [wheel.previewImageView setHidden:NO];
-        [wheel.previewImageView setBackgroundColor:[GameColors bubbleBgColorWithAlpha:1.0f]];
     }
+    
+    [self refreshPreviewForWheel:wheel atIndex:index];
+    _curBubbleIndex = index;
 }
 
 - (void) wheel:(WheelControl*)wheel didSettleAt:(unsigned int)index
@@ -676,12 +667,103 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
 
 - (void) wheel:(WheelControl*)wheel willShowAtIndex:(unsigned int)index
 {
-    // do nothing
+    _postsWheel = wheel;
+    [self wheel:wheel didMoveTo:index];
 }
 
 - (void) wheel:(WheelControl*)wheel willHideAtIndex:(unsigned int)index
 {
-    // do nothing
+    [self removeAllAnnotationsFromMap:_previewMap];
+    _postsWheel = nil;
+}
+
+#pragma mark - internal UI methods
+
+- (void) refreshPreviewForWheel:(WheelControl*)wheel atIndex:(unsigned int)index
+{
+    [self refreshPreviewForWheel:wheel atIndex:index hasLocated:NO];
+}
+
+// set hasLocated to TRUE if called from HiAccuracyLocator callback
+- (void) refreshPreviewForWheel:(WheelControl*)wheel atIndex:(unsigned int)index hasLocated:(BOOL)hasLocated
+{
+    index = MIN(index, kMyPostSlotNum-1);
+    if([NSNull null] != [self.myPostSlots objectAtIndex:index])
+    {
+        // label
+        [wheel.previewLabel setNumberOfLines:1];
+        [wheel.previewLabel setText:@"Reverse Geocode"];
+        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
+        
+        // image
+        [wheel.previewImageView setHidden:YES];
+        /*
+         CGSize previewSize = wheel.previewCircle.bounds.size;
+         CGRect imageRect = CGRectMake(0.5f * (previewSize.width - kPreviewPostWidth),
+         (0.5f * (previewSize.height - kPreviewPostHeight)) - (0.4f * kPreviewPostHeight),
+         kPreviewPostWidth,
+         kPreviewPostHeight);
+         wheel.previewImageView.frame = imageRect;
+         UIImage* image = [[ImageManager getInstance] getImage:[cur imgPath] fallbackNamed:@"b_flyerlab.png"];
+         [wheel.previewImageView setImage:image];
+         [wheel.previewImageView setHidden:NO];
+         [wheel.previewImageView setBackgroundColor:[UIColor clearColor]];
+         */
+    }
+    else if(kMyPostSlotFreeEnd > index)
+    {
+        // free slots
+        
+        // image
+        if(_previewMap.view.userLocationVisible || hasLocated)
+        {
+            // label
+            [wheel.previewLabel setNumberOfLines:1];
+            [wheel.previewLabel setText:@"Create Post"];
+            [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
+            
+            [wheel.previewImageView setHidden:YES];
+        }
+        else
+        {
+            // label
+            [wheel.previewLabel setNumberOfLines:1];
+            [wheel.previewLabel setText:@"Locating..."];
+            [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
+            
+            wheel.previewImageView.frame = wheel.previewCircle.bounds;
+            UIImage* bgImage = [[ImageManager getInstance] getImage:@"b_flyerlab.png" fallbackNamed:@"b_flyerlab.png"];
+            [wheel.previewImageView setImage:bgImage];
+            [wheel.previewImageView setHidden:NO];
+            [wheel.previewImageView setBackgroundColor:[GameColors bubbleBgColorWithAlpha:1.0f]];
+        }
+    }
+    else
+    {
+        // member slots
+        
+        // label
+        [wheel.previewLabel setNumberOfLines:2];
+        [wheel.previewLabel setText:@"Member Only\nJoin NOW!"];
+        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:15.0f]];
+        
+        // image
+        wheel.previewImageView.frame = wheel.previewCircle.bounds;
+        UIImage* bgImage = [[ImageManager getInstance] getImage:@"icon_none_member.png" fallbackNamed:@"icon_none_member.png"];
+        [wheel.previewImageView setImage:bgImage];
+        [wheel.previewImageView setHidden:NO];
+        [wheel.previewImageView setBackgroundColor:[GameColors bubbleBgColorWithAlpha:1.0f]];
+    }
+}
+
+#pragma mark - HiAccuracyLocatorDelegate
+- (void) locator:(HiAccuracyLocator *)locator didLocateUser:(BOOL)didLocateUser
+{
+    if(didLocateUser && _postsWheel)
+    {
+        // UI located user, refresh preview
+        [self refreshPreviewForWheel:_postsWheel atIndex:_curBubbleIndex hasLocated:YES];
+    }
 }
 
 #pragma mark - Singleton

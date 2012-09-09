@@ -129,7 +129,7 @@ enum kKnobSlices
     // FlyerMgr creates dummy npc posts for all flight-paths; so,
     // must call it first prior to calling TradePostMgr's annotatePostsOnMap
     [[FlyerMgr getInstance] initFlyersOnMap];
-    [[TradePostMgr getInstance] annotatePostsOnMap];
+    [[TradePostMgr getInstance] annotatePostsOnMap:[self mapControl]];
     [[BeaconMgr getInstance] addBeaconAnnotationsToMap:[self mapControl]];
     
     //---

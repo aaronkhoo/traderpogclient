@@ -13,6 +13,7 @@
 #import "MyTradePost.h"
 #import "NPCTradePost.h"
 #import "WheelProtocol.h"
+#import "HiAccuracyLocatorDelegate.h"
 
 static NSString* const kTradePostMgr_ReceiveSinglePost = @"TradePostMgr_ReceiveSinglePost";
 static NSString* const kTradePostMgr_ReceivePosts = @"TradePostMgr_ReceivePosts";
@@ -20,7 +21,7 @@ static NSString* const kTradePostMgr_ScanForPosts = @"TradePostMgr_ScanForPosts"
 
 @class TradePost;
 @class TradeItemType;
-@interface TradePostMgr : NSObject<HttpCallbackDelegate,WheelDataSource,WheelProtocol>
+@interface TradePostMgr : NSObject<HttpCallbackDelegate,WheelDataSource,WheelProtocol,HiAccuracyLocatorDelegate>
 {
     NSDate* _lastUpdate;
     MapControl* _previewMap;
@@ -44,7 +45,7 @@ static NSString* const kTradePostMgr_ScanForPosts = @"TradePostMgr_ScanForPosts"
 - (void) retrievePostsFromServer;
 - (NSInteger) postsCount;
 - (BOOL) isBeaconActive;
-- (void) annotatePostsOnMap;
+- (void) annotatePostsOnMap:(MapControl*)map;
 - (NPCTradePost*) newNPCTradePostAtCoord:(CLLocationCoordinate2D)coord
                                    bucks:(unsigned int)bucks;
 - (BOOL) newTradePostAtCoord:(CLLocationCoordinate2D)coord 
