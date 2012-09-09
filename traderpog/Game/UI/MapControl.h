@@ -28,7 +28,9 @@
 - (void) addAnnotation:(NSObject<MKAnnotation>*)annotation;
 - (void) dismissAnnotationForFlyer:(Flyer*)flyer;
 - (void) dismissFlightPathForFlyer:(Flyer*)flyer;
+- (void) dismissAllFlightPaths;
 - (void) showFlightPathForFlyer:(Flyer*)flyer;
+- (void) showAllFlightPaths;
 - (void) centerOn:(CLLocationCoordinate2D)coord animated:(BOOL)isAnimated;
 - (void) defaultZoomCenterOn:(CLLocationCoordinate2D)coord animated:(BOOL)isAnimated;
 - (void) defaultZoomCenterOn:(CLLocationCoordinate2D)coord modifyMap:(BOOL)modifyMap animated:(BOOL)isAnimated;

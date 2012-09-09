@@ -13,6 +13,7 @@
 #import "FlightPathOverlay.h"
 #import "FlightPathView.h"
 #import "Flyer.h"
+#import "FlyerMgr.h"
 #import "BrowseArea.h"
 #import "CalloutAnnotationView.h"
 #import "FlyerAnnotationView.h"
@@ -151,6 +152,14 @@ static const float kBrowseAreaRadius = 500.0f;
     }
 }
 
+- (void) dismissAllFlightPaths
+{
+    for(Flyer* cur in [[FlyerMgr getInstance] playerFlyers])
+    {
+        [self dismissFlightPathForFlyer:cur];
+    }
+}
+
 - (void) showFlightPathForFlyer:(Flyer *)flyer
 {
     if([flyer flightPathRender])
@@ -161,6 +170,14 @@ static const float kBrowseAreaRadius = 500.0f;
     if(flyerAnnotView)
     {
         [flyerAnnotView showCountdown:YES];
+    }
+}
+
+- (void) showAllFlightPaths
+{
+    for(Flyer* cur in [[FlyerMgr getInstance] playerFlyers])
+    {
+        [self showFlightPathForFlyer:cur];
     }
 }
 
@@ -183,6 +200,7 @@ static const float kBrowseAreaRadius = 500.0f;
 {
     [self defaultZoomCenterOn:coord modifyMap:YES animated:isAnimated];
 }
+static const NSTimeInterval kFlightPathsDelay = 1.0;
 
 - (void) defaultZoomCenterOn:(CLLocationCoordinate2D)coord modifyMap:(BOOL)modifyMap animated:(BOOL)isAnimated
 {
@@ -192,7 +210,12 @@ static const float kBrowseAreaRadius = 500.0f;
     // center the map and browse area
     if(modifyMap)
     {
+        [self dismissAllFlightPaths];
         [self.view setCenterCoordinate:coord zoomLevel:kDefaultZoomLevel animated:isAnimated];
+        dispatch_time_t flightPathsDelay = dispatch_time(DISPATCH_TIME_NOW, kFlightPathsDelay * NSEC_PER_SEC);
+        dispatch_after(flightPathsDelay, dispatch_get_main_queue(), ^(void){
+            [self showAllFlightPaths];
+        });
     }
     [self.browseArea setCenterCoord:coord];
     [self.browseArea setRadius:kBrowseAreaRadius];

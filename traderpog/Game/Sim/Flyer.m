@@ -287,6 +287,7 @@ static NSString* const kKeyPath = @"path";
     [_inventory updateFlyerInventoryOnServer:_userFlyerId];
     
     [[[[GameManager getInstance] gameViewController] mapControl] dismissFlightPathForFlyer:self];
+    self.flightPathRender = nil;
     
     // broadcast arrival
     [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteFlyerDidArrive object:self];
