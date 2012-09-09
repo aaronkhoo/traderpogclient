@@ -139,8 +139,7 @@ static NSString* const kKeyDone = @"done";
     // don't get persisted between sessions.
     if (_curPostId)
     {
-        TradePost* post1 = [[TradePostMgr getInstance] getTradePostWithId:_curPostId];
-        if (!post1 || [post1 isMemberOfClass:[NPCTradePost class]])
+        if ([[TradePostMgr getInstance] isNPCPostId:_curPostId])
         {
             [aCoder encodeObject:nil forKey:kKeyPost1];
         }
@@ -158,8 +157,7 @@ static NSString* const kKeyDone = @"done";
     // don't get persisted between sessions.
     if (_nextPostId)
     {
-        TradePost* post2 = [[TradePostMgr getInstance] getTradePostWithId:_nextPostId];
-        if (!post2 || [post2 isMemberOfClass:[NPCTradePost class]])
+        if ([[TradePostMgr getInstance] isNPCPostId:_nextPostId])
         {
             [aCoder encodeObject:nil forKey:kKeyPost2];
         }
