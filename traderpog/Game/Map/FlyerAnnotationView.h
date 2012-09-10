@@ -12,10 +12,15 @@
 extern NSString* const kFlyerAnnotationViewReuseId;
 @interface FlyerAnnotationView : MKAnnotationView<MapAnnotationViewProtocol>
 {
-    UIImageView* _imageView;
+    UIImageView* _imageView;            // oriented image
+    UIImageView* _imageViewIdentity;    // normal non-oriented image
 }
 @property (nonatomic,strong) UIImageView* imageView;
+@property (nonatomic,strong) UIImageView* imageViewIdentity;
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation;
 - (void) setRenderTransform:(CGAffineTransform)transform;
 - (void) showCountdown:(BOOL)yesNo;
+
+- (void) setOrientedImage:(UIImage*)image;
+- (void) setImage:(UIImage*)image;
 @end

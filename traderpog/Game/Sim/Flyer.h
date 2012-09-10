@@ -34,6 +34,7 @@ enum _FlyerStates
 @class TradePost;
 @class FlightPathOverlay;
 @class TradeItemType;
+@class FlyerAnnotationView;
 @interface Flyer : NSObject<NSCoding, MKAnnotation, MapAnnotationProtocol>
 {
     BOOL _initializeFlyerOnMap;
@@ -83,5 +84,8 @@ enum _FlyerStates
 - (BOOL) departForPostId:(NSString *)postId;
 - (void) updateAtDate:(NSDate *)currentTime;
 - (NSTimeInterval) timeTillDest;
+
+// map
+- (void) refreshImageInAnnotationView:(FlyerAnnotationView*)annotationView;
 
 @end

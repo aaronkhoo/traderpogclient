@@ -19,6 +19,7 @@ NSString* const kFlyerAnnotationViewReuseId = @"FlyerAnnotationView";
 static NSString* const kFlyerTransformKey = @"transform";
 static NSString* const kKeyFlyerIsAtOwnPost = @"isAtOwnPost";
 static NSString* const kKeyFlyerMetersToDest = @"metersToDest";
+static NSString* const kKeyFlyerState = @"state";
 
 static const float kFlyerTimerOriginOffsetX = 0.0f;
 static const float kFlyerTimerOriginOffsetY = 44.0f;
@@ -40,6 +41,7 @@ static const float kFlyerAnnotContentSize = 85.0f;
 
 @implementation FlyerAnnotationView
 @synthesize imageView = _imageView;
+@synthesize imageViewIdentity = _imageViewIdentity;
 @synthesize contentView = _contentView;
 @synthesize countdown = _countdown;
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation
@@ -63,16 +65,23 @@ static const float kFlyerAnnotContentSize = 85.0f;
                                          kFlyerAnnotContentSize,
                                          kFlyerAnnotContentSize);
         self.contentView = [[UIView alloc] initWithFrame:contentFrame];
-        
-        // setup tradepost image
-        CGRect imageFrame = contentFrame;
-        imageFrame.origin = CGPointMake(0.0f, 0.0f);
         self.opaque = NO;
         
-        self.imageView = [[UIImageView alloc] initWithFrame:imageFrame];
+        // setup tradepost image
+        CGRect imageOrientedFrame = contentFrame;
+        imageOrientedFrame.origin = CGPointMake(0.0f, 0.0f);
+        self.imageView = [[UIImageView alloc] initWithFrame:imageOrientedFrame];
         [self.imageView setBackgroundColor:[UIColor clearColor]];
+        [self.imageView setHidden:YES];
         [self.contentView addSubview:[self imageView]];
+                
+        CGRect imageIdentityFrame = contentFrame;
+        imageIdentityFrame.origin = CGPointMake(0.0f, -(0.5f * contentFrame.size.height));
+        self.imageViewIdentity = [[UIImageView alloc] initWithFrame:imageIdentityFrame];
+        [self.imageViewIdentity setBackgroundColor:[UIColor clearColor]];
+        [self.imageViewIdentity setHidden:YES];
         
+        [self.contentView addSubview:[self imageViewIdentity]];
         [self addSubview:[self contentView]];
         
         // countdown (start out hidden)
@@ -86,6 +95,7 @@ static const float kFlyerAnnotContentSize = 85.0f;
         [flyer addObserver:self forKeyPath:kFlyerTransformKey options:0 context:nil];
         [flyer addObserver:self forKeyPath:kKeyFlyerIsAtOwnPost options:0 context:nil];
         [flyer addObserver:self forKeyPath:kKeyFlyerMetersToDest options:0 context:nil];
+        [flyer addObserver:self forKeyPath:kKeyFlyerState options:0 context:nil];
     }
     return self;
 }
@@ -93,7 +103,8 @@ static const float kFlyerAnnotContentSize = 85.0f;
 - (void) dealloc
 {
     Flyer* flyer = (Flyer*)[self annotation];
-    [flyer.path removeObserver:self forKeyPath:kKeyFlyerMetersToDest];
+    [flyer removeObserver:self forKeyPath:kKeyFlyerState];
+    [flyer removeObserver:self forKeyPath:kKeyFlyerMetersToDest];
     [flyer removeObserver:self forKeyPath:kKeyFlyerIsAtOwnPost];
     [flyer removeObserver:self forKeyPath:kFlyerTransformKey];
 }
@@ -131,6 +142,11 @@ static const float kFlyerAnnotContentSize = 85.0f;
             NSString* timerString = [PogUIUtility stringFromTimeInterval:timeTillDest];
             [self.countdown.label setText:timerString];
         }
+        else if([keyPath isEqualToString:kKeyFlyerState])
+        {
+            // flyer state changed
+            [flyer refreshImageInAnnotationView:self];
+        }
     }
 }
 
@@ -153,6 +169,20 @@ static const float kFlyerAnnotContentSize = 85.0f;
         [self.countdown setHidden:YES];
         [_countdownClock stopAnimating];
     }
+}
+
+- (void) setOrientedImage:(UIImage *)image
+{
+    [self.imageView setImage:image];
+    [self.imageView setHidden:NO];
+    [self.imageViewIdentity setHidden:YES];
+}
+
+- (void) setImage:(UIImage *)image
+{
+    [self.imageViewIdentity setImage:image];
+    [self.imageViewIdentity setHidden:NO];
+    [self.imageView setHidden:YES];
 }
 
 #pragma mark - internal methods

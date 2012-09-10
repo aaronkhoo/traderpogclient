@@ -40,8 +40,8 @@ static NSString* const kKeyStateBegin = @"stateBegin";
 }
 - (CLLocationCoordinate2D) flyerCoordinateAtTimeSinceDeparture:(NSTimeInterval)elapsed;
 - (CLLocationCoordinate2D) flyerCoordinateAtTimeAhead:(NSTimeInterval)timeAhead;
-- (BOOL) gotoNextState;
 - (BOOL) gotoState:(unsigned int)newState;
+- (NSString*) nameOfFlyerState:(unsigned int)queryState;
 @end
 
 @implementation Flyer
@@ -379,6 +379,23 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     return time;
 }
 
+- (void) refreshImageInAnnotationView:(FlyerAnnotationView *)annotationView
+{
+    FlyerType* flyerType  = [[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex];
+    if(kFlyerStateEnroute == [self state])
+    {
+        UIImage* image = [[ImageManager getInstance] getImage:[flyerType topimg]
+                                                fallbackNamed:@"checkerboard.png"];
+        [annotationView setOrientedImage:image];
+    }
+    else
+    {
+        UIImage* image = [[ImageManager getInstance] getImage:[flyerType sideimg]
+                                                fallbackNamed:@"checkerboard.png"];
+        [annotationView setImage:image];
+    }
+}
+
 #pragma mark - flight private
 static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLLocationCoordinate2D destCoord)
 {
@@ -434,45 +451,69 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
 }
 
 // returns YES if state changed; NO if no change;
-- (BOOL) gotoNextState
-{
-    BOOL changed = NO;
-    
-    switch([self state])
-    {
-        case kFlyerStateIdle:
-            self.state = kFlyerStateEnroute;
-            changed = YES;
-            break;
-            
-        case kFlyerStateEnroute:
-            self.state = kFlyerStateIdle;
-            break;
-            
-        default:
-            // do nothing
-            break;
-    }
-    
-    if(changed)
-    {
-        self.stateBegin = [NSDate date];
-    }
-    
-    return changed;
-}
-
 - (BOOL) gotoState:(unsigned int)newState
 {
     BOOL changed = NO;
     
     if([self state] != newState)
     {
-        self.state = newState;
-        self.stateBegin = [NSDate date];
-        changed = YES;
+        // enforce state transition rules
+        BOOL canChange = NO;
+        switch(newState)
+        {
+            case kFlyerStateIdle:
+                if(kFlyerStateEnroute == [self state])
+                {
+                    canChange = YES;
+                }
+                break;
+                
+            case kFlyerStateEnroute:
+                if(kFlyerStateIdle == [self state])
+                {
+                    canChange = YES;
+                }
+                break;
+                
+            default:
+                // do nothing
+                break;
+        }
+        
+        if(canChange)
+        {
+            self.state = newState;
+            self.stateBegin = [NSDate date];
+            changed = YES;
+        }
+        else
+        {
+            NSLog(@"FlyerState Warning: cannot go from %@ to %@", [self nameOfFlyerState:[self state]], [self nameOfFlyerState:newState]);
+        }
     }
     return changed;
+}
+
+- (NSString*) nameOfFlyerState:(unsigned int)queryState
+{
+    NSString* result = nil;
+    if(kFlyerStateNum > queryState)
+    {
+        NSString* const names[kFlyerStateNum] =
+        {
+            @"kFlyerStateIdle",
+            @"kFlyerStateEnroute",
+            @"kFlyerStateWaitingToLoad",
+            @"kFlyerStateLoading",
+            @"kFlyerStateLoaded",
+            @"kFlyerStateWaitingToUnload",
+            @"kFlyerStateUnloading",
+            @"kFlyerStateUnloaded"
+        };
+        
+        result = names[queryState];
+    }
+    return result;
 }
 
 #pragma mark - MKAnnotation delegate
@@ -518,11 +559,8 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
     }
     
     // set image
-    FlyerType* flyerType  = [[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex];
-    UIImage* image = [[ImageManager getInstance] getImage:[flyerType topimg]
-                                            fallbackNamed:@"checkerboard.png"];
-    [annotationView.imageView setImage:image];
-    
+    [self refreshImageInAnnotationView:annotationView];
+
     if([mapView isPreviewMap])
     {
         // for preview map, annotation views are disabled
