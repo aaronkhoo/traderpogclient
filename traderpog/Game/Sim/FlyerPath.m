@@ -54,8 +54,10 @@ static NSString* const kKeyDone = @"done";
         
         _flyerPathId = nil;
         
+        // must init cur and next postIds because with _doneWithCurrentPath TRUE,
+        // initFlyerPathOnMap will take nextPostId and assign it to curPostId
         _curPostId = [tradePost postId];
-        _nextPostId = nil;
+        _nextPostId = [tradePost postId];
         
         _departureDate = nil;
         _srcCoord = [tradePost coord];
