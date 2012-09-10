@@ -113,7 +113,7 @@ static const float kBubbleBorderWidth = 1.5f;
 #pragma mark - WheelDataSource
 - (unsigned int) numItemsInWheel:(WheelControl *)wheel
 {
-    unsigned int num = kBeaconNum;
+    unsigned int num = [_activeBeacons count] + 1;
     return num;
 }
 
@@ -228,15 +228,13 @@ static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
     if([_activeBeacons count] > index)
     {
         ForeignTradePost* cur = [_activeBeacons.allValues objectAtIndex:index];
-        [_previewMap centerOn:[cur coord] animated:YES];        
-        wheel.previewLabelBg.hidden = YES;
+        [_previewMap centerOn:[cur coord] animated:YES];
         [wheel.previewImageView setImage:nil];
         [wheel.previewImageView setHidden:YES];
     }
     else
     {
         // empty flyer slot
-        wheel.previewLabelBg.hidden = NO;
         [wheel.previewLabel setNumberOfLines:1];
         [wheel.previewLabel setText:@"Invite Friends!"];
         [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];

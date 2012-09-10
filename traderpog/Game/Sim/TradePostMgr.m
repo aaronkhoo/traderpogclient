@@ -558,7 +558,6 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
                                                     andCenter:[initPost coord]];
         }
         _curBubbleIndex = index;
-        result.userInteractionEnabled = NO;
     }
     
     [self wheel:wheel didMoveTo:index];

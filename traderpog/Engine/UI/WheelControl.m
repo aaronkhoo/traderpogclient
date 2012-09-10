@@ -325,9 +325,9 @@ static const float kPreviewLabelTextSize = 10.0f;
     
     // text label container
     CGRect labelBgFrame = CGRectMake(0.0f,
-                                            kPreviewLabelBgOriginY * previewFrame.size.height,
-                                            previewFrame.size.width,
-                                            (1.0f - kPreviewLabelBgOriginY) * previewFrame.size.height);
+                                     kPreviewLabelBgOriginY * previewFrame.size.height,
+                                     previewFrame.size.width,
+                                     (1.0f - kPreviewLabelBgOriginY) * previewFrame.size.height);
     UIView* labelBg = [[UIView alloc] initWithFrame:labelBgFrame];
     [labelBg setBackgroundColor:borderColor];
     [_previewCircle addSubview:labelBg];
@@ -377,6 +377,7 @@ static const float kPreviewLabelTextSize = 10.0f;
     _previewContent = [self.dataSource wheel:self previewContentInitAtIndex:0];
     [_previewCircle addSubview:_previewContent];
     [_previewCircle sendSubviewToBack:_previewContent];
+    [_previewCircle setUserInteractionEnabled:NO];
 }
 
 - (float) distFromCenter:(CGPoint)point
