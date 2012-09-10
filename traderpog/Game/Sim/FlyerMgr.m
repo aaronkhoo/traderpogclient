@@ -458,7 +458,7 @@ static const float kBubbleBorderWidth = 1.5f;
         CGRect contentRect = CGRectMake(5.0f, 5.0f, 30.0f, 30.0f);
         contentView = [[WheelBubble alloc] initWithFrame:contentRect];
     }
-    contentView.backgroundColor = [GameColors bubbleBgColorWithAlpha:1.0f];
+    contentView.backgroundColor = [GameColors bubbleColorFlyersWithAlpha:1.0f];
     UIColor* borderColor = [GameColors borderColorFlyersWithAlpha:1.0f];
     [PogUIUtility setCircleForView:contentView
                    withBorderWidth:kBubbleBorderWidth

@@ -556,23 +556,6 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
             TradePost* initPost = [_activePosts.allValues objectAtIndex:index];
             _previewMap = [[MapControl alloc] initWithMapView:result
                                                     andCenter:[initPost coord]];
-/*
-            CGSize previewSize = wheel.previewCircle.bounds.size;
-            CGRect imageRect = CGRectMake(0.5f * (previewSize.width - kPreviewPostWidth),
-                                          (0.5f * (previewSize.height - kPreviewPostHeight)) - (0.4f * kPreviewPostHeight),
-                                          kPreviewPostWidth,
-                                          kPreviewPostHeight);
-            
-            wheel.previewImageView.frame = imageRect;
-            UIImage* image = [[ImageManager getInstance] getImage:[initPost imgPath] fallbackNamed:@"b_flyerlab.png"];
-            [wheel.previewImageView setImage:image];
-            [wheel.previewImageView setHidden:NO];
-
-            // label
-            [wheel.previewLabel setNumberOfLines:1];
-            [wheel.previewLabel setText:@"Reverse Geocode"];
-            [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
- */
         }
         _curBubbleIndex = index;
         result.userInteractionEnabled = NO;
@@ -697,18 +680,6 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
         
         // image
         [wheel.previewImageView setHidden:YES];
-        /*
-         CGSize previewSize = wheel.previewCircle.bounds.size;
-         CGRect imageRect = CGRectMake(0.5f * (previewSize.width - kPreviewPostWidth),
-         (0.5f * (previewSize.height - kPreviewPostHeight)) - (0.4f * kPreviewPostHeight),
-         kPreviewPostWidth,
-         kPreviewPostHeight);
-         wheel.previewImageView.frame = imageRect;
-         UIImage* image = [[ImageManager getInstance] getImage:[cur imgPath] fallbackNamed:@"b_flyerlab.png"];
-         [wheel.previewImageView setImage:image];
-         [wheel.previewImageView setHidden:NO];
-         [wheel.previewImageView setBackgroundColor:[UIColor clearColor]];
-         */
     }
     else if(kMyPostSlotFreeEnd > index)
     {
