@@ -14,13 +14,16 @@
     NSString* _serverIp;
     BOOL _useServer;
     BOOL _localDev;
+    BOOL _speed100x;
 }
 @property (nonatomic) NSString* serverIp;
 @property (nonatomic) BOOL useServer;
 @property (nonatomic) BOOL localDev;
+@property (nonatomic) BOOL speed100x;
 
 - (void) setOnOffUseServer:(id)sender;
 - (void) setOnOffLocalDev:(id)sender;
+- (void) setOnOffSpeed100x:(id)sender;
 
 // singleton
 +(DebugOptions*) getInstance;

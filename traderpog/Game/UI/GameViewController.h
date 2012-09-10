@@ -27,4 +27,5 @@
 - (void) dismissKnobAnimated:(BOOL)isAnimated;
 - (void) showPostWheelAnimated:(BOOL)isAnimated;
 - (void) showFlyerWheelAnimated:(BOOL)isAnimated;
+- (IBAction)didPressDebug:(id)sender;
 @end

@@ -19,6 +19,7 @@
 
 @implementation DebugMenu
 @synthesize localDevSwitch;
+@synthesize speed100xSwitch;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,6 +40,7 @@
 {
     [self teardownOnOff];
     [self setLocalDevSwitch:nil];
+    [self setSpeed100xSwitch:nil];
     [super viewDidUnload];
 }
 
@@ -52,12 +54,15 @@
     DebugOptions* debugOptions = [DebugOptions getInstance];
     [self.localDevSwitch addTarget:debugOptions action:@selector(setOnOffLocalDev:) forControlEvents:UIControlEventValueChanged];
     self.localDevSwitch.on = [debugOptions localDev];
+    [self.speed100xSwitch addTarget:debugOptions action:@selector(setOnOffSpeed100x:) forControlEvents:UIControlEventValueChanged];
+    self.speed100xSwitch.on = [debugOptions speed100x];
 }
 
 - (void) teardownOnOff
 {
     DebugOptions* debugOptions = [DebugOptions getInstance];
     [self.localDevSwitch removeTarget:debugOptions action:@selector(setOnOffLocalDev:) forControlEvents:UIControlEventValueChanged];
+    [self.speed100xSwitch removeTarget:debugOptions action:@selector(setOnOffSpeed100x:) forControlEvents:UIControlEventValueChanged];
 }
 
 

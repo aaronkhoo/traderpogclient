@@ -10,6 +10,7 @@
 
 @interface DebugMenu : UIViewController
 @property (weak, nonatomic) IBOutlet UISwitch *localDevSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *speed100xSwitch;
 
 - (IBAction)didPressClearCache:(id)sender;
 - (IBAction)didPressClose:(id)sender;

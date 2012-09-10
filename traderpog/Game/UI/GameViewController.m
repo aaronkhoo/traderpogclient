@@ -26,6 +26,8 @@
 #import "CircleBarView.h"
 #import "AnimMgr.h"
 #import "ImageManager.h"
+#import "DebugMenu.h"
+#import "UINavigationController+Pog.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -389,6 +391,12 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 {
     [self.flyerWheel showWheelAnimated:YES withDelay:0.0f];
     [self.knob gotoSliceIndex:kKnobSliceFlyer];
+}
+
+- (IBAction)didPressDebug:(id)sender
+{
+    DebugMenu* menu = [[DebugMenu alloc] initWithNibName:@"DebugMenu" bundle:nil];
+    [self.navigationController pushFromRightViewController:menu animated:YES];
 }
 
 - (void) hudSetCoins:(unsigned int)newCoins

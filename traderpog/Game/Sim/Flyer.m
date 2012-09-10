@@ -21,6 +21,7 @@
 #import "TradeManager.h"
 #import "ImageManager.h"
 #import "GameNotes.h"
+#import "DebugOptions.h"
 
 static const float kFlyerDefaultSpeedMetersPerSec = 10000.0f;
 static NSString* const kKeyUserFlyerId = @"id";
@@ -197,7 +198,14 @@ static NSString* const kKeyStateBegin = @"stateBegin";
 - (NSInteger) getFlyerSpeed
 {
     FlyerType* current  = [[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex];
-    return [current speed];
+    NSInteger speed = [current speed];
+    
+    if([[DebugOptions getInstance] speed100x])
+    {
+        speed *= 2000;
+    }
+    
+    return speed;
 }
 
 - (void) createNewUserFlyerOnServer
