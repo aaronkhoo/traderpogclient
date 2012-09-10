@@ -606,7 +606,7 @@ typedef enum {
     }
 }
 
-#pragma mark - in-game UI flow
+#pragma mark - in-game UI
 - (void) showHomeSelectForFlyer:(Flyer *)flyer
 {
     if(kGameStateGameLoop == _gameState)
@@ -675,7 +675,6 @@ typedef enum {
     }
 }
 
-#pragma mark - global UI controls
 - (void) haltMapAnnotationCalloutsForDuration:(NSTimeInterval)seconds
 {
     if(0.0 < seconds)

@@ -56,14 +56,12 @@ typedef enum _BrowseEnforcedType
 - (void) selectNextGameUI;
 - (void) flyer:(Flyer*)flyer departForTradePost:(TradePost*)tradePost;
 
-// in-game UI flows
+// in-game UI
 - (void) showHomeSelectForFlyer:(Flyer*)flyer;
 - (void) showFlyerSelectForBuyAtPost:(TradePost*)post;
 - (void) wheel:(WheelControl*)wheel commitOnTradePost:(TradePost*)tradePost;
 - (void) wheel:(WheelControl *)wheel commitOnFlyer:(Flyer *)flyer;
 - (void) popGameStateToLoop;
-
-// global UI controls
 - (void) haltMapAnnotationCalloutsForDuration:(NSTimeInterval)seconds;
 - (BOOL) canShowMapAnnotationCallout;
 - (BrowseEnforcedType) enforceBrowse:(BrowseEnforcedType)enforcedType;
