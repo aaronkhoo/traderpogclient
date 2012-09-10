@@ -18,7 +18,7 @@
 #define METERS_TO_KM(dist) ((dist) * 0.001f)
 
 static const int kTradeMaxItemTypes = 3;
-static const float kTradeDistanceFactor = 1.0f;
+static const float kTradeDistanceFactor = 0.001f;
 
 @interface TradeManager ()
 - (void) flyer:(Flyer*)flyer sellAtPost:(TradePost*)post;
