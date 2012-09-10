@@ -39,4 +39,5 @@
 - (void) centerOnFlyer:(Flyer*)flyer animated:(BOOL)isAnimated;
 
 - (void) deselectAllAnnotations;
+- (void) removeAllAnnotations;
 @end

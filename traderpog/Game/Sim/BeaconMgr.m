@@ -186,14 +186,16 @@ static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
                                                     andCenter:[initBeacon coord]
                                                   atZoomLevel:kBeaconPreviewZoomLevel];
             
-            // add all pre-existing beacons
-            [self addBeaconAnnotationsToMap:_previewMap];
         }
+
+        // add all pre-existing beacons
+        [self addBeaconAnnotationsToMap:_previewMap];
     }
     else
     {
         // do nothing
     }
+    [self wheel:wheel didMoveTo:index];
     return result;
 }
 

@@ -288,6 +288,14 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
     }
 }
 
+- (void) removeAllAnnotations
+{
+    for(NSObject<MKAnnotation>* cur in [self.view annotations])
+    {
+        [self.view removeAnnotation:cur];
+    }
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath
 					  ofObject:(id)object
 						change:(NSDictionary *)change

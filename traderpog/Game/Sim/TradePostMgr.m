@@ -82,7 +82,7 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
 // UI
 - (void) refreshPreviewForWheel:(WheelControl*)wheel atIndex:(unsigned int)index;
 - (void) refreshPreviewForWheel:(WheelControl*)wheel atIndex:(unsigned int)index hasLocated:(BOOL)hasLocated;
-- (void) removeAllAnnotationsFromMap:(MapControl*)map;
+- (void) addAllPostsToMap:(MapControl*)map;
 @end
 
 @implementation TradePostMgr
@@ -143,11 +143,11 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
 // initializes the hasFlyer variable in each post;
 - (void) annotatePostsOnMap:(MapControl*)map
 {
+    [self addAllPostsToMap:map];
     NSArray* postIdsWithFlyers = [[FlyerMgr getInstance] tradePostIdsWithFlyers];
     
     for (MyTradePost* post in [_activePosts allValues])
     {
-        [map addAnnotationForTradePost:post];
         if([postIdsWithFlyers stringArrayContainsString:[post postId]])
         {
             post.hasFlyer = YES;
@@ -156,7 +156,6 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
     
     for (NPCTradePost* post in [self.npcPosts allValues])
     {
-        [map addAnnotationForTradePost:post];        
         if([postIdsWithFlyers stringArrayContainsString:[post postId]])
         {
             post.hasFlyer = YES;
@@ -165,11 +164,28 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
     
     for (ForeignTradePost* post in [self.foundPosts allValues])
     {
-        [map addAnnotationForTradePost:post];
         if([postIdsWithFlyers stringArrayContainsString:[post postId]])
         {
             post.hasFlyer = YES;
         }
+    }
+}
+
+- (void) addAllPostsToMap:(MapControl*)map
+{
+    for (MyTradePost* post in [_activePosts allValues])
+    {
+        [map addAnnotationForTradePost:post];
+    }
+    
+    for (NPCTradePost* post in [self.npcPosts allValues])
+    {
+        [map addAnnotationForTradePost:post];
+    }
+    
+    for (ForeignTradePost* post in [self.foundPosts allValues])
+    {
+        [map addAnnotationForTradePost:post];
     }
 }
 
@@ -486,14 +502,6 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
     return result;
 }
 
-- (void) removeAllAnnotationsFromMap:(MapControl *)map
-{
-    for(NSObject<MKAnnotation>* cur in [map.view annotations])
-    {
-        [map.view removeAnnotation:cur];
-    }
-}
-
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {
@@ -558,6 +566,7 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
                                                     andCenter:[initPost coord]];
         }
         _curBubbleIndex = index;
+        [self addAllPostsToMap:_previewMap];
     }
     
     [self wheel:wheel didMoveTo:index];
@@ -597,7 +606,6 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
     {
         // map
         TradePost* cur = [self.myPostSlots objectAtIndex:index];
-        [_previewMap addAnnotationForTradePost:cur];
         [_previewMap centerOn:[cur coord] animated:NO];
         _previewMap.view.showsUserLocation = NO;
     }
@@ -655,7 +663,6 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
 
 - (void) wheel:(WheelControl*)wheel willHideAtIndex:(unsigned int)index
 {
-    [self removeAllAnnotationsFromMap:_previewMap];
     _postsWheel = nil;
 }
 

@@ -497,11 +497,11 @@ static const float kBubbleBorderWidth = 1.5f;
                                                     andCenter:[initFlyer coord]
                                                   atZoomLevel:kFlyerPreviewZoomLevel];
             
-            // add all existing flyers to previewMap
-            for(Flyer* cur in _playerFlyers)
-            {
-                [_previewMap addAnnotationForFlyer:cur];
-            }
+        }
+        // add all existing flyers to previewMap
+        for(Flyer* cur in _playerFlyers)
+        {
+            [_previewMap addAnnotationForFlyer:cur];
         }
     }
     return result;
