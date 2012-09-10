@@ -304,8 +304,12 @@ static NSString* const kKeyStateBegin = @"stateBegin";
 - (BOOL) departForPostId:(NSString *)postId
 {
     BOOL success = NO;
-    
-    if(kFlyerStateIdle == [self state])
+  
+    // HACK
+    // (Shu) I need to have the flyer-state properly restored first before
+    // this is enforced
+//    if(kFlyerStateIdle == [self state])
+    // HACK
     {
         success = [_path departForPostId:postId userFlyerId:_userFlyerId];
         if (success)

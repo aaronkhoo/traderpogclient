@@ -231,6 +231,7 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
         // The temp TradePost has been successfully uploaded to the server, so move it
         // to the active list.
         [self.activePosts setObject:_tempTradePost forKey:_tempTradePost.postId];
+        [self.myPostSlots addObject:_tempTradePost];
         
         // Add this tradepost as an annotation to the mapcontrol instance if the map control has already
         // been created. If it hasn't, then log and skip this step. It's possible that the mapcontrol
