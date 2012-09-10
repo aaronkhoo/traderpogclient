@@ -49,6 +49,7 @@ static const float kBubbleBorderWidth = 1.5f;
 }
 - (TradePost*) tradePosts:(NSArray*)tradePosts withinMeters:(CLLocationDistance)meters fromCoord:(CLLocationCoordinate2D)coord;
 - (void) reconstructFlightPaths;
+- (void) refreshPreviewForWheel:(WheelControl*)wheel atIndex:(unsigned int)index;
 @end
 
 @implementation FlyerMgr
@@ -432,6 +433,46 @@ static const float kBubbleBorderWidth = 1.5f;
     return result;
 }
 
+- (void) refreshPreviewForWheel:(WheelControl*)wheel atIndex:(unsigned int)index
+{
+    if([_playerFlyers count] > index)
+    {
+        Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
+        if([_previewMap trackedAnnotation] != curFlyer)
+        {
+            [_previewMap centerOn:[curFlyer coord] animated:YES];
+            [_previewMap startTrackingAnnotation:curFlyer];
+        }
+        
+        // label
+        [wheel.previewLabel setNumberOfLines:1];
+        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
+        if([curFlyer state] == kFlyerStateEnroute)
+        {
+            [wheel.previewLabel setText:@"Enroute"];
+        }
+        else
+        {
+            [wheel.previewLabel setText:@"Ready"];
+        }
+        
+        // image
+        [wheel.previewImageView setImage:nil];
+        [wheel.previewImageView setHidden:YES];
+    }
+    else
+    {
+        // empty flyer slot
+        [wheel.previewLabel setNumberOfLines:1];
+        [wheel.previewLabel setText:@"Buy Flyer!"];
+        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
+        UIImage* bgImage = [[ImageManager getInstance] getImage:@"flyer_landed.png" fallbackNamed:@"flyer_landed.png"];
+        [wheel.previewImageView setImage:bgImage];
+        [wheel.previewImageView setHidden:NO];
+        [wheel.previewImageView setBackgroundColor:[GameColors bubbleBgColorWithAlpha:1.0f]];
+    }
+}
+
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {
@@ -503,6 +544,8 @@ static const float kBubbleBorderWidth = 1.5f;
         {
             [_previewMap addAnnotationForFlyer:cur];
         }
+        
+        [self wheel:wheel didMoveTo:index];
     }
     return result;
 }
@@ -536,30 +579,7 @@ static const float kBubbleBorderWidth = 1.5f;
 - (void) wheel:(WheelControl*)wheel didMoveTo:(unsigned int)index
 {
     index = MIN(index, kFlyerNum - 1);
-    if([_playerFlyers count] > index)
-    {
-        Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
-        if([_previewMap trackedAnnotation] != curFlyer)
-        {
-            [_previewMap centerOn:[curFlyer coord] animated:YES];
-            [_previewMap startTrackingAnnotation:curFlyer];
-        }
-        wheel.previewLabelBg.hidden = YES;
-        [wheel.previewImageView setImage:nil];
-        [wheel.previewImageView setHidden:YES];
-    }
-    else
-    {
-        // empty flyer slot
-        wheel.previewLabelBg.hidden = NO;
-        [wheel.previewLabel setNumberOfLines:1];
-        [wheel.previewLabel setText:@"Buy Flyer!"];
-        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
-        UIImage* bgImage = [[ImageManager getInstance] getImage:@"flyer_landed.png" fallbackNamed:@"flyer_landed.png"];
-        [wheel.previewImageView setImage:bgImage];
-        [wheel.previewImageView setHidden:NO];
-        [wheel.previewImageView setBackgroundColor:[GameColors bubbleBgColorWithAlpha:1.0f]];
-    }
+    [self refreshPreviewForWheel:wheel atIndex:index];
 }
 
 - (void) wheel:(WheelControl*)wheel didSettleAt:(unsigned int)index
@@ -590,16 +610,7 @@ static const float kBubbleBorderWidth = 1.5f;
 
 - (void) wheel:(WheelControl*)wheel willShowAtIndex:(unsigned int)index
 {
-    if([_playerFlyers count])
-    {
-        index = MIN(index, [_playerFlyers count]-1);
-        Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
-        if([_previewMap trackedAnnotation] != curFlyer)
-        {
-            [_previewMap centerOn:[curFlyer coord] animated:YES];
-            [_previewMap startTrackingAnnotation:curFlyer];
-        }
-    }
+    [self wheel:wheel didMoveTo:index];
 }
 
 - (void) wheel:(WheelControl*)wheel willHideAtIndex:(unsigned int)index

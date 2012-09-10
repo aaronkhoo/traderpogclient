@@ -29,6 +29,8 @@ static NSString* const kKeyFlyerTypeIndex = @"flyer_type_index";
 static NSString* const kKeyVersion = @"version";
 static NSString* const kKeyInventory = @"inventory";
 static NSString* const kKeyPath = @"path";
+static NSString* const kKeyState = @"state";
+static NSString* const kKeyStateBegin = @"stateBegin";
 
 @interface Flyer ()
 {
@@ -37,6 +39,8 @@ static NSString* const kKeyPath = @"path";
 }
 - (CLLocationCoordinate2D) flyerCoordinateAtTimeSinceDeparture:(NSTimeInterval)elapsed;
 - (CLLocationCoordinate2D) flyerCoordinateAtTimeAhead:(NSTimeInterval)timeAhead;
+- (BOOL) gotoNextState;
+- (BOOL) gotoState:(unsigned int)newState;
 @end
 
 @implementation Flyer
@@ -45,6 +49,8 @@ static NSString* const kKeyPath = @"path";
 @synthesize coord = _coord;
 @synthesize isNewFlyer = _isNewFlyer;
 @synthesize isAtOwnPost = _isAtOwnPost;
+@synthesize state = _state;
+@synthesize stateBegin = _stateBegin;
 @synthesize transform = _transform;
 @synthesize delegate = _delegate;
 @synthesize initializeFlyerOnMap = _initializeFlyerOnMap;
@@ -72,6 +78,9 @@ static NSString* const kKeyPath = @"path";
         _isNewFlyer = YES;
         _isAtOwnPost = YES;
         
+        _state = kFlyerStateIdle;
+        _stateBegin = nil;
+        
         _inventory = [[FlyerInventory alloc] init];
         _path = [[FlyerPath alloc] initWithPost:tradePost];
     }
@@ -91,6 +100,25 @@ static NSString* const kKeyPath = @"path";
         
         NSArray* paths_array = [dict valueForKeyPath:@"flyer_paths"];
         NSDictionary* path_dict = [paths_array objectAtIndex:0];
+        
+        id stateObj = [dict valueForKeyPath:kKeyState];
+        if(([NSNull null] == stateObj) || (!stateObj))
+        {
+            _state = kFlyerStateIdle;
+        }
+        else
+        {
+            _state = [stateObj unsignedIntValue];
+        }
+        id stateBeginObj = [dict valueForKeyPath:kKeyStateBegin];
+        if(([NSNull null] == stateBeginObj) || (!stateBeginObj))
+        {
+            _stateBegin = nil;
+        }
+        else
+        {
+            _stateBegin = stateBeginObj;
+        }
         
         // Initialize inventory
         _inventory = [[FlyerInventory alloc] initWithDictionary:dict];
@@ -124,6 +152,9 @@ static NSString* const kKeyPath = @"path";
     
     [aCoder encodeObject:_inventory forKey:kKeyInventory];
     [aCoder encodeObject:_path forKey:kKeyPath];
+    
+//    [aCoder encodeObject:[NSNumber numberWithUnsignedInt:_state] forKey:kKeyState];
+//    [aCoder encodeObject:_stateBegin forKey:kKeyStateBegin];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
@@ -133,6 +164,17 @@ static NSString* const kKeyPath = @"path";
     _userFlyerId = [aDecoder decodeObjectForKey:kKeyUserFlyerId];
     _inventory = [aDecoder decodeObjectForKey:kKeyInventory];
     _path = [aDecoder decodeObjectForKey:kKeyPath];
+
+    NSNumber* stateObj = [aDecoder decodeObjectForKey:kKeyState];
+    if(stateObj)
+    {
+        _state = [stateObj unsignedIntValue];
+    }
+    else
+    {
+        _state = kFlyerStateIdle;
+    }
+    _stateBegin = [aDecoder decodeObjectForKey:kKeyStateBegin];
     
     _initializeFlyerOnMap = FALSE;
     _metersToDest = 0.0;
@@ -253,14 +295,19 @@ static NSString* const kKeyPath = @"path";
 
 - (BOOL) departForPostId:(NSString *)postId
 {
-    BOOL success = [_path departForPostId:postId userFlyerId:_userFlyerId];
-    if (success)
-    {
-        self.isAtOwnPost = NO;
-    }
-    [_inventory updateFlyerInventoryOnServer:_userFlyerId];
-    [self createFlightPathRenderingForFlyer];
+    BOOL success = NO;
     
+    if(kFlyerStateIdle == [self state])
+    {
+        success = [_path departForPostId:postId userFlyerId:_userFlyerId];
+        if (success)
+        {
+            self.isAtOwnPost = NO;
+            [_inventory updateFlyerInventoryOnServer:_userFlyerId];
+            [self createFlightPathRenderingForFlyer];
+            [self gotoState:kFlyerStateEnroute];
+        }
+    }
     return success;
 }
 
@@ -279,12 +326,10 @@ static NSString* const kKeyPath = @"path";
     {
         self.isAtOwnPost = YES;
     }
-    
     _metersToDest = 0.0;
-
     [_path completeFlyerPath:_userFlyerId];
-    
     [_inventory updateFlyerInventoryOnServer:_userFlyerId];
+    [self gotoState:kFlyerStateIdle];
     
     [[[[GameManager getInstance] gameViewController] mapControl] dismissFlightPathForFlyer:self];
     self.flightPathRender = nil;
@@ -378,6 +423,48 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
     elapsed += timeAhead;
     CLLocationCoordinate2D coordNow = [self flyerCoordinateAtTimeSinceDeparture:elapsed];
     return coordNow;
+}
+
+// returns YES if state changed; NO if no change;
+- (BOOL) gotoNextState
+{
+    BOOL changed = NO;
+    
+    switch([self state])
+    {
+        case kFlyerStateIdle:
+            self.state = kFlyerStateEnroute;
+            changed = YES;
+            break;
+            
+        case kFlyerStateEnroute:
+            self.state = kFlyerStateIdle;
+            break;
+            
+        default:
+            // do nothing
+            break;
+    }
+    
+    if(changed)
+    {
+        self.stateBegin = [NSDate date];
+    }
+    
+    return changed;
+}
+
+- (BOOL) gotoState:(unsigned int)newState
+{
+    BOOL changed = NO;
+    
+    if([self state] != newState)
+    {
+        self.state = newState;
+        self.stateBegin = [NSDate date];
+        changed = YES;
+    }
+    return changed;
 }
 
 #pragma mark - MKAnnotation delegate

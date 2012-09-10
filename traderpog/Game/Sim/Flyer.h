@@ -17,6 +17,20 @@
 static NSString* const kFlyer_CreateNewFlyer = @"Flyer_CreateNewFlyer";
 static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 
+enum _FlyerStates
+{
+    kFlyerStateIdle = 0,
+    kFlyerStateEnroute,
+    kFlyerStateWaitingToLoad,
+    kFlyerStateLoading,
+    kFlyerStateLoaded,
+    kFlyerStateWaitingToUnload,
+    kFlyerStateUnloading,
+    kFlyerStateUnloaded,
+    
+    kFlyerStateNum
+};
+
 @class TradePost;
 @class FlightPathOverlay;
 @class TradeItemType;
@@ -31,6 +45,10 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
     // in all other cases (including when it is initWithDictionary, it is FALSE)
     BOOL _isNewFlyer;
     BOOL _isAtOwnPost;
+    
+    // flyer sim state
+    unsigned int _state;
+    NSDate* _stateBegin;
     
     FlyerInventory* _inventory;
     FlyerPath* _path;
@@ -50,6 +68,8 @@ static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 @property (nonatomic) BOOL initializeFlyerOnMap;
 @property (nonatomic,readonly) BOOL isNewFlyer;
 @property (nonatomic) BOOL isAtOwnPost;
+@property (nonatomic) unsigned int state;
+@property (nonatomic,strong) NSDate* stateBegin;
 @property (nonatomic) CLLocationDistance metersToDest;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 @property (nonatomic,readonly) FlyerInventory* inventory;
