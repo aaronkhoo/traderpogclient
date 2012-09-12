@@ -314,6 +314,8 @@ static NSString* const kKeyStateBegin = @"stateBegin";
         success = [_path departForPostId:postId userFlyerId:_userFlyerId];
         if (success)
         {
+            TradePost* curPost = [[TradePostMgr getInstance] getTradePostWithId:_path.curPostId];
+            curPost.flyerAtPost = nil;
             self.isAtOwnPost = NO;
             [_inventory updateFlyerInventoryOnServer:_userFlyerId];
             [self createFlightPathRenderingForFlyer];
@@ -333,6 +335,7 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     
     // ask TradeManager to handle arrival
     TradePost* arrivalPost = [[TradePostMgr getInstance] getTradePostWithId:[_path nextPostId]];
+    arrivalPost.flyerAtPost = self;
     [[TradeManager getInstance] flyer:self didArriveAtPost:arrivalPost];
     if([arrivalPost isMemberOfClass:[MyTradePost class]])
     {

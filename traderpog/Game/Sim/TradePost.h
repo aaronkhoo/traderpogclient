@@ -15,8 +15,8 @@
 
 static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 
+@class Flyer;
 @class TradeItemType;
-@class TradePostAnnotation;
 @interface TradePost : NSObject<MKAnnotation, MapAnnotationProtocol>
 {
     NSString*   _postId;
@@ -27,9 +27,9 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
     NSInteger   _supplyRateLevel;
     
     // transient variables (not saved; reconstructed after load)
-    __weak TradePostAnnotation* _annotation;
     unsigned int _supplyLevel;
     BOOL        _hasFlyer;
+    __weak Flyer*      _flyerAtPost;
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
@@ -37,12 +37,12 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 @property (nonatomic) NSString* postId;
 @property (nonatomic) CLLocationCoordinate2D coord;
 @property (nonatomic) NSString* itemId;
-@property (nonatomic,weak) TradePostAnnotation* annotation;
 @property (nonatomic,readonly) NSInteger supplyMaxLevel;
 @property (nonatomic) unsigned int supplyLevel;
 @property (nonatomic,readonly) NSString* imgPath;
 @property (nonatomic,strong) NSDate* beacontime;
 @property (nonatomic) BOOL hasFlyer;
+@property (nonatomic,weak) Flyer* flyerAtPost;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
 - (void) deductNumItems:(unsigned int)num;

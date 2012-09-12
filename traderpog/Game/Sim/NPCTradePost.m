@@ -11,6 +11,7 @@
 #import "NPCTradePost.h"
 #import "TradeItemType.h"
 #import "TradeItemTypes.h"
+#import "TradePost+Render.h"
 
 @implementation NPCTradePost
 
@@ -45,7 +46,6 @@
             _supplyMaxLevel = 0;
             _supplyRateLevel = 0;
         }
-        _annotation = nil;
         
         _hasFlyer = NO;
     }
@@ -73,10 +73,7 @@
     {
         annotationView.enabled = YES;
     }
-    
-    UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
-                                            fallbackNamed:@"b_tradepost.png"];
-    [annotationView.imageView setImage:image];
+    [self refreshRenderForAnnotationView:annotationView];
     
     return annotationView;
 }

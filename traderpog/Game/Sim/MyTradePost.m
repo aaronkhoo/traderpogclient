@@ -14,6 +14,7 @@
 #import "TradeItemType.h"
 #import "TradePostMgr.h"
 #import "TradePostAnnotationView.h"
+#import "TradePost+Render.h"
 
 @implementation MyTradePost
 
@@ -37,7 +38,6 @@
     {
         _coord = coordinate;
         _itemId = [itemType itemId];
-        _annotation = nil;
         _beacontime = nil;
         
         _hasFlyer = NO;
@@ -151,9 +151,7 @@
     
     // own post is always enabled
     annotationView.enabled = YES;
-    UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
-                                            fallbackNamed:@"b_flyerlab.png"];
-    [annotationView.imageView setImage:image];
+    [self refreshRenderForAnnotationView:annotationView];
     
     return annotationView;
 }

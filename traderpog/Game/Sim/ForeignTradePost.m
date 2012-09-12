@@ -12,6 +12,7 @@
 #import "MathUtils.h"
 #import "TradeItemType.h"
 #import "TradeItemTypes.h"
+#import "TradePost+Render.h"
 
 @implementation ForeignTradePost
 @synthesize fbId = _fbId;
@@ -79,10 +80,7 @@
     {
         annotationView.enabled = YES;
     }
-    
-    UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
-                                                fallbackNamed:@"b_homebase.png"];
-    [annotationView.imageView setImage:image];
+    [self refreshRenderForAnnotationView:annotationView];
     
     return annotationView;
 }

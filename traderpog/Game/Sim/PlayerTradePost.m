@@ -36,7 +36,6 @@
         }
         
         // transient variables
-        _annotation = nil;
         _hasFlyer = NO;
     }
     return self;

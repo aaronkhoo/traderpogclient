@@ -14,8 +14,10 @@ extern NSString* const kTradePostAnnotationViewReuseId;
 @interface TradePostAnnotationView : MKAnnotationView<MapAnnotationViewProtocol>
 {
     UIImageView* _imageView;
+    UIImageView* _frontImageView;
 }
 @property (nonatomic,strong) UIImageView* imageView;
+@property (nonatomic,strong) UIImageView* frontImageView;
 
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation;
 @end

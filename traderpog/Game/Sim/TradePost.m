@@ -13,13 +13,23 @@
 @implementation TradePost
 @synthesize postId = _postId;
 @synthesize itemId = _itemId;
-@synthesize annotation = _annotation;
 @synthesize supplyLevel = _supplyLevel;
 @synthesize imgPath = _imgPath;
 @synthesize supplyMaxLevel = _supplyMaxLevel;
 @synthesize beacontime = _beacontime;
 @synthesize hasFlyer = _hasFlyer;
+@synthesize flyerAtPost = _flyerAtPost;
 @synthesize delegate = _delegate;
+
+- (id) init
+{
+    self = [super init];
+    if(self)
+    {
+        _flyerAtPost = nil;
+    }
+    return self;
+}
 
 #pragma mark - trade
 - (void) deductNumItems:(unsigned int)num

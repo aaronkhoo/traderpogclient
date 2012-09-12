@@ -26,6 +26,8 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
 
 @implementation TradePostAnnotationView
 @synthesize imageView = _imageView;
+@synthesize frontImageView = _frontImageView;
+
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation
 {
     self = [super initWithAnnotation:annotation reuseIdentifier:kTradePostAnnotationViewReuseId];
@@ -42,8 +44,9 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
         myFrame.size = CGSizeMake(50.0f, 50.0f);
         self.frame = myFrame;
         
-        // offset annotation so that anchor point is at the bottom of the frame
-        self.centerOffset = CGPointMake(0.0f, -(myFrame.size.height * 0.5f));
+        // offset annotation so that anchor point is about the bottom of the frame
+        // (primarily so that flight-path end-points are positioned right underneath the post)
+        self.centerOffset = CGPointMake(0.0f, -(myFrame.size.height * 0.3f));
 
         float imageWidth = 80.0f;
         float imageHeight = 80.0f;
@@ -52,16 +55,17 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
         CGRect imageRect = CGRectMake(imageOriginX, imageOriginY, imageWidth, imageHeight);
         self.opaque = NO;
         
-        // annotation-view anchor is at the center of the view;
-        // so, shift the image so that its bottom is at the coordinate
         UIView* contentView = [[UIView alloc] initWithFrame:myFrame];
+        [self addSubview:contentView];
+
+        // create two layers of image-views for rendering
         _imageView = [[UIImageView alloc] initWithFrame:imageRect];
         [contentView addSubview:_imageView];
-        
-        [self addSubview:contentView];
+        _frontImageView = [[UIImageView alloc] initWithFrame:imageRect];
+        [_frontImageView setHidden:YES];
+        [contentView addSubview:_frontImageView];
         
         _calloutAnnotation = nil;
-        
         [tradePost addObserver:self forKeyPath:kKeyTradePostHasFlyer options:0 context:nil];
     }
     return self;
