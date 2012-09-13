@@ -10,6 +10,9 @@
 #import "MapProtocols.h"
 
 extern NSString* const kTradePostAnnotationViewReuseId;
+extern NSString* const kKeyTradePostHasFlyer;
+extern NSString* const kKeyFlyerAtPost;
+
 @class TradePostAnnotation;
 @interface TradePostAnnotationView : MKAnnotationView<MapAnnotationViewProtocol>
 {

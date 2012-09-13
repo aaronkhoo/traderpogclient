@@ -73,6 +73,10 @@
     {
         annotationView = [[TradePostAnnotationView alloc] initWithAnnotation:self];
     }
+    
+    [self addObserver:annotationView forKeyPath:kKeyTradePostHasFlyer options:0 context:nil];
+    [self addObserver:annotationView forKeyPath:kKeyFlyerAtPost options:0 context:nil];
+
     return annotationView;
 }
 

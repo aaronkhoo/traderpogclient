@@ -282,22 +282,25 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     if (_path.doneWithCurrentPath)
     {        
         [self setCoordinate:_path.srcCoord];
-        
+        [self gotoState:kFlyerStateIdle];
+
         // determine if I am at own post
         TradePost* curPost = [[TradePostMgr getInstance] getTradePostWithId:_path.curPostId];
         if([curPost isMemberOfClass:[MyTradePost class]])
         {
             self.isAtOwnPost = YES;
         }
+        curPost.flyerAtPost = self;
     }
     else
     {
         CLLocationCoordinate2D curCoord = [self flyerCoordinateNow];
         [self setCoordinate:curCoord];
         [self createFlightPathRenderingForFlyer];
+        [self gotoState:kFlyerStateEnroute];
+        [[[GameManager getInstance] gameViewController].mapControl addAnnotationForFlyer:self];
     }
     
-    [[[GameManager getInstance] gameViewController].mapControl addAnnotationForFlyer:self];
     self.initializeFlyerOnMap = TRUE;
 }
 
@@ -320,6 +323,7 @@ static NSString* const kKeyStateBegin = @"stateBegin";
             [_inventory updateFlyerInventoryOnServer:_userFlyerId];
             [self createFlightPathRenderingForFlyer];
             [self gotoState:kFlyerStateEnroute];
+            [[[[GameManager getInstance] gameViewController] mapControl] addAnnotationForFlyer:self];
         }
     }
     return success;
@@ -335,7 +339,6 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     
     // ask TradeManager to handle arrival
     TradePost* arrivalPost = [[TradePostMgr getInstance] getTradePostWithId:[_path nextPostId]];
-    arrivalPost.flyerAtPost = self;
     [[TradeManager getInstance] flyer:self didArriveAtPost:arrivalPost];
     if([arrivalPost isMemberOfClass:[MyTradePost class]])
     {
@@ -348,7 +351,9 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     
     [[[[GameManager getInstance] gameViewController] mapControl] dismissFlightPathForFlyer:self];
     self.flightPathRender = nil;
-    
+    [[[[GameManager getInstance] gameViewController] mapControl] dismissAnnotationForFlyer:self];
+    arrivalPost.flyerAtPost = self;
+
     // broadcast arrival
     [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteFlyerDidArrive object:self];
 }
@@ -401,6 +406,18 @@ static NSString* const kKeyStateBegin = @"stateBegin";
                                                 fallbackNamed:@"checkerboard.png"];
         [annotationView setImage:image];
     }
+}
+
+- (UIImage*) imageForCurrentState
+{
+    FlyerType* flyerType  = [[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex];
+    UIImage* image = [[ImageManager getInstance] getImage:[flyerType sideimg] fallbackNamed:@"checkboard.png"];
+    if(kFlyerStateEnroute == [self state])
+    {
+        image = [[ImageManager getInstance] getImage:[flyerType topimg]
+                                                fallbackNamed:@"checkerboard.png"];
+    }
+    return image;
 }
 
 #pragma mark - flight private

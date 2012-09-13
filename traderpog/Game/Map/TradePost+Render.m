@@ -18,6 +18,7 @@
 @implementation TradePost (Render)
 - (void) refreshRenderForAnnotationView:(TradePostAnnotationView *)annotationView
 {
+    // trade post
     if([self isMemberOfClass:[NPCTradePost class]])
     {
         UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
@@ -35,6 +36,20 @@
         UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
                                                 fallbackNamed:@"b_homebase.png"];
         [annotationView.imageView setImage:image];
+    }
+    
+    // flyer in front
+    if([self flyerAtPost])
+    {
+        Flyer* flyer = [self flyerAtPost];
+        UIImage* image = [flyer imageForCurrentState];
+        [annotationView.frontImageView setImage:image];
+        [annotationView.frontImageView setHidden:NO];
+    }
+    else
+    {
+        [annotationView.frontImageView setImage:nil];
+        [annotationView.frontImageView setHidden:YES];
     }
 }
 @end

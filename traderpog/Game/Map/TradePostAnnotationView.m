@@ -11,12 +11,17 @@
 #import "ImageManager.h"
 #import "MyTradePost.h"
 #import "TradePost.h"
+#import "TradePost+Render.h"
 #import "PlayerPostCallout.h"
 #import "PlayerPostCalloutView.h"
 #import "GameManager.h"
+#import "Flyer.h"
+#import "FlyerPath.h"
+#import "FlyerCallout.h"
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
-static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
+NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
+NSString* const kKeyFlyerAtPost = @"flyerAtPost";
 
 @interface TradePostAnnotationView ()
 {
@@ -36,8 +41,6 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
         // handle our own callout
         self.canShowCallout = NO;
         self.enabled = YES;
-        
-        TradePost* tradePost = (TradePost*)annotation;
         
         // set size of view
         CGRect myFrame = self.frame;
@@ -66,7 +69,6 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
         [contentView addSubview:_frontImageView];
         
         _calloutAnnotation = nil;
-        [tradePost addObserver:self forKeyPath:kKeyTradePostHasFlyer options:0 context:nil];
     }
     return self;
 }
@@ -75,6 +77,7 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
 {
     TradePost* post = (TradePost*) [self annotation];
     [post removeObserver:self forKeyPath:kKeyTradePostHasFlyer];
+    [post removeObserver:self forKeyPath:kKeyFlyerAtPost];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -82,6 +85,7 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
 						change:(NSDictionary *)change
 					   context:(void *)context
 {
+    /*
     if([keyPath isEqualToString:kKeyTradePostHasFlyer])
     {
         TradePost* post = (TradePost*)object;
@@ -100,6 +104,13 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
             }
         }
     }
+    else
+     */
+    if([keyPath isEqualToString:kKeyFlyerAtPost])
+    {
+        TradePost* post = (TradePost*)object;
+        [post refreshRenderForAnnotationView:self];
+    }
 }
 
 #pragma mark - MKAnnotationView
@@ -111,6 +122,13 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
     }
     [super setAnnotation:annotation];
 //    self.enabled = YES;
+}
+
+- (void) prepareForReuse
+{
+    TradePost* post = (TradePost*) [self annotation];
+    [post removeObserver:self forKeyPath:kKeyTradePostHasFlyer];
+    [post removeObserver:self forKeyPath:kKeyFlyerAtPost];    
 }
 
 #pragma mark - PogMapAnnotationViewProtocol
@@ -127,6 +145,18 @@ static NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
                 PlayerPostCallout* callout = [[PlayerPostCallout alloc] initWithTradePost:tradePost];
                 callout.parentAnnotationView = self;
                 _calloutAnnotation = callout;
+            }
+            else if([tradePost flyerAtPost])
+            {
+                // if not own post and there's a flyer at post, then show flyer callout instead
+                Flyer* flyer = [tradePost flyerAtPost];
+                if(![[flyer path] isEnroute])
+                {
+                    // show Flyer Callout if not enroute
+                    FlyerCallout* callout = [[FlyerCallout alloc] initWithFlyer:flyer];
+                    callout.parentAnnotationView = self;
+                    _calloutAnnotation = callout;
+                }
             }
             else
             {

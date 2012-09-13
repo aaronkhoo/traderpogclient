@@ -180,7 +180,7 @@ static const float kBubbleBorderWidth = 1.5f;
         // for more details.
         if ([[GameManager getInstance] gameViewController].mapControl)
         {
-            [[[GameManager getInstance] gameViewController].mapControl addAnnotationForFlyer:_tempFlyer];
+            //[[[GameManager getInstance] gameViewController].mapControl addAnnotationForFlyer:_tempFlyer];
             _tempFlyer.initializeFlyerOnMap = TRUE;
         }
         else
