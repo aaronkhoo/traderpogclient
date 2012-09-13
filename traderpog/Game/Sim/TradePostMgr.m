@@ -139,36 +139,10 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
 
 // this method performs linkage on variables that need to be resolved when
 // all data in all managers (FlyerMgr, TradePostMgr, etc.) has been loaded
-// specifically, it adds all the loaded posts as annotations in the game map, and it
-// initializes the hasFlyer variable in each post;
+// specifically, it adds all the loaded posts as annotations in the game map
 - (void) annotatePostsOnMap:(MapControl*)map
 {
     [self addAllPostsToMap:map];
-    NSArray* postIdsWithFlyers = [[FlyerMgr getInstance] tradePostIdsWithFlyers];
-    
-    for (MyTradePost* post in [_activePosts allValues])
-    {
-        if([postIdsWithFlyers stringArrayContainsString:[post postId]])
-        {
-            post.hasFlyer = YES;
-        }
-    }
-    
-    for (NPCTradePost* post in [self.npcPosts allValues])
-    {
-        if([postIdsWithFlyers stringArrayContainsString:[post postId]])
-        {
-            post.hasFlyer = YES;
-        }
-    }
-    
-    for (ForeignTradePost* post in [self.foundPosts allValues])
-    {
-        if([postIdsWithFlyers stringArrayContainsString:[post postId]])
-        {
-            post.hasFlyer = YES;
-        }
-    }
 }
 
 - (void) addAllPostsToMap:(MapControl*)map

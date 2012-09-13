@@ -99,13 +99,13 @@ static const float kBubbleBorderWidth = 1.5f;
 // initializes the hasFlyer variable in each post;
 - (void) addBeaconAnnotationsToMap:(MapControl*)map
 {
-    NSArray* postIdsWithFlyers = [[FlyerMgr getInstance] tradePostIdsWithFlyers];
     for(ForeignTradePost* cur in [_activeBeacons allValues])
     {
         [map addAnnotation:cur];
-        if([postIdsWithFlyers stringArrayContainsString:[cur postId]])
+        Flyer* flyerAtPost = [[FlyerMgr getInstance] flyerAtPostId:[cur postId]];
+        if(flyerAtPost)
         {
-            cur.hasFlyer = YES;
+            cur.flyerAtPost = flyerAtPost;
         }
     }
 }

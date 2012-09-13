@@ -39,8 +39,6 @@
         _coord = coordinate;
         _itemId = [itemType itemId];
         _beacontime = nil;
-        
-        _hasFlyer = NO;
     }
     return self;
 }

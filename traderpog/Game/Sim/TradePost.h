@@ -28,7 +28,6 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
     
     // transient variables (not saved; reconstructed after load)
     unsigned int _supplyLevel;
-    BOOL        _hasFlyer;
     __weak Flyer*      _flyerAtPost;
     
     // Delegate for callbacks to inform interested parties of completion
@@ -41,7 +40,6 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 @property (nonatomic) unsigned int supplyLevel;
 @property (nonatomic,readonly) NSString* imgPath;
 @property (nonatomic,strong) NSDate* beacontime;
-@property (nonatomic) BOOL hasFlyer;
 @property (nonatomic,weak) Flyer* flyerAtPost;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 

@@ -20,7 +20,6 @@
 #import "FlyerCallout.h"
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
-NSString* const kKeyTradePostHasFlyer = @"hasFlyer";
 NSString* const kKeyFlyerAtPost = @"flyerAtPost";
 
 @interface TradePostAnnotationView ()
@@ -76,7 +75,6 @@ NSString* const kKeyFlyerAtPost = @"flyerAtPost";
 - (void) dealloc
 {
     TradePost* post = (TradePost*) [self annotation];
-    [post removeObserver:self forKeyPath:kKeyTradePostHasFlyer];
     [post removeObserver:self forKeyPath:kKeyFlyerAtPost];
 }
 
@@ -85,27 +83,6 @@ NSString* const kKeyFlyerAtPost = @"flyerAtPost";
 						change:(NSDictionary *)change
 					   context:(void *)context
 {
-    /*
-    if([keyPath isEqualToString:kKeyTradePostHasFlyer])
-    {
-        TradePost* post = (TradePost*)object;
-        if(![post isMemberOfClass:[MyTradePost class]])
-        {
-            // foreign Posts' touchability depends on whether they
-            // have flyers on them
-            if([post hasFlyer])
-            {
-                // if a flyer landed on this Post, disable it from receiving touch events
-                [self setEnabled:NO];
-            }
-            else
-            {
-                [self setEnabled:YES];
-            }
-        }
-    }
-    else
-     */
     if([keyPath isEqualToString:kKeyFlyerAtPost])
     {
         TradePost* post = (TradePost*)object;
@@ -121,13 +98,11 @@ NSString* const kKeyFlyerAtPost = @"flyerAtPost";
         [_calloutAnnotation setCoordinate:annotation.coordinate];
     }
     [super setAnnotation:annotation];
-//    self.enabled = YES;
 }
 
 - (void) prepareForReuse
 {
     TradePost* post = (TradePost*) [self annotation];
-    [post removeObserver:self forKeyPath:kKeyTradePostHasFlyer];
     [post removeObserver:self forKeyPath:kKeyFlyerAtPost];    
 }
 

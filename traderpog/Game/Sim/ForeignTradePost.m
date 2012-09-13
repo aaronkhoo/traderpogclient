@@ -71,17 +71,7 @@
 - (MKAnnotationView*) annotationViewInMap:(MKMapView *)mapView
 {
     TradePostAnnotationView* annotationView = [super getAnnotationViewInstance:mapView];
-    
-    if([self hasFlyer])
-    {
-        annotationView.enabled = NO;
-    }
-    else
-    {
-        annotationView.enabled = YES;
-    }
     [self refreshRenderForAnnotationView:annotationView];
-    
     return annotationView;
 }
 

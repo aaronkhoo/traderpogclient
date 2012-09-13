@@ -598,11 +598,7 @@ typedef enum {
 {
     if([[flyer path] curPostId] != [tradePost postId])
     {
-        if ([flyer departForPostId:[tradePost postId]])
-        {
-            TradePost* curPost = [[TradePostMgr getInstance] getTradePostWithId:[[flyer path] curPostId]];
-            curPost.hasFlyer = NO;
-        }
+        [flyer departForPostId:[tradePost postId]];
     }
 }
 

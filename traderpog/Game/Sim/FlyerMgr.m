@@ -401,6 +401,20 @@ static const float kBubbleBorderWidth = 1.5f;
     return result;
 }
 
+- (Flyer*) flyerAtPostId:(NSString*)postId
+{
+    Flyer* result = nil;
+    for(Flyer* cur in [self playerFlyers])
+    {
+        if((![[cur path] isEnroute]) && ([postId isEqualToString:[[cur path] curPostId]]))
+        {
+            result = cur;
+            break;
+        }
+    }
+    return result;
+}
+
 - (NSMutableArray*) unknownTradePostsFromFlyers
 {
     NSMutableArray* result = [NSMutableArray arrayWithCapacity:[self.playerFlyers count]];

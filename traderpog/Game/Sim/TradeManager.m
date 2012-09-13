@@ -61,8 +61,6 @@ static const float kTradeDistanceFactor = 0.001f;
     else
     {
         // other's post
-        post.hasFlyer = YES;
-        
         // TODO: proceed to timesink
         
         // release escrow

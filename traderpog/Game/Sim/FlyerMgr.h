@@ -39,6 +39,7 @@ static NSString* const kFlyerMgr_ReceiveFlyers = @"FlyerMgr_ReceiveFlyers";
 - (void) removeFlyerMgrData;
 
 // queries
+- (Flyer*) flyerAtPostId:(NSString*)postId;
 - (NSArray*) tradePostIdsWithFlyers;
 - (NSMutableArray*) unknownTradePostsFromFlyers;
 

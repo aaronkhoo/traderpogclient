@@ -17,7 +17,6 @@
 @synthesize imgPath = _imgPath;
 @synthesize supplyMaxLevel = _supplyMaxLevel;
 @synthesize beacontime = _beacontime;
-@synthesize hasFlyer = _hasFlyer;
 @synthesize flyerAtPost = _flyerAtPost;
 @synthesize delegate = _delegate;
 
@@ -74,7 +73,6 @@
         annotationView = [[TradePostAnnotationView alloc] initWithAnnotation:self];
     }
     
-    [self addObserver:annotationView forKeyPath:kKeyTradePostHasFlyer options:0 context:nil];
     [self addObserver:annotationView forKeyPath:kKeyFlyerAtPost options:0 context:nil];
 
     return annotationView;

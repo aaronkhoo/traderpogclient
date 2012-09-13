@@ -46,8 +46,6 @@
             _supplyMaxLevel = 0;
             _supplyRateLevel = 0;
         }
-        
-        _hasFlyer = NO;
     }
     return self;
 }
@@ -64,16 +62,6 @@
 - (MKAnnotationView*) annotationViewInMap:(MKMapView *)mapView
 {
     TradePostAnnotationView* annotationView = [super getAnnotationViewInstance:mapView];
-    /*
-    if([self hasFlyer])
-    {
-        annotationView.enabled = NO;
-    }
-    else
-    {
-        annotationView.enabled = YES;
-    }
-     */
     [self refreshRenderForAnnotationView:annotationView];
     
     return annotationView;

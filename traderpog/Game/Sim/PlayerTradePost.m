@@ -34,9 +34,6 @@
                 _beacontime = [PogUIUtility convertUtcToNSDate:utcdate];
             }
         }
-        
-        // transient variables
-        _hasFlyer = NO;
     }
     return self;
 }
