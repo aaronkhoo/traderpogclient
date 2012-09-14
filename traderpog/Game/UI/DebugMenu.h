@@ -15,4 +15,5 @@
 - (IBAction)didPressClearCache:(id)sender;
 - (IBAction)didPressClose:(id)sender;
 - (IBAction)didPressAdd200Coins:(id)sender;
+- (IBAction)didPressLoading:(id)sender;
 @end

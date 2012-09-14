@@ -11,8 +11,12 @@
 #import "UINavigationController+Pog.h"
 #import "Player.h"
 #import "GameManager.h"
+#import "LoadingScreen.h"
 
 @interface DebugMenu ()
+{
+    UIButton* _loadingPopButton;
+}
 - (void) setupOnOff;
 - (void) teardownOnOff;
 @end
@@ -24,8 +28,12 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if (self)
+    {
+        _loadingPopButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [_loadingPopButton addTarget:self action:@selector(didPressPopButton:) forControlEvents:UIControlEventTouchUpInside];
+        [_loadingPopButton setFrame:CGRectMake(10.0f, 10.0f, 37.0f, 37.0f)];
+        [_loadingPopButton setTitle:@"D" forState:UIControlStateNormal];
     }
     return self;
 }
@@ -79,5 +87,18 @@
 - (IBAction)didPressAdd200Coins:(id)sender
 {
     [[Player getInstance] addBucks:200];
+}
+
+- (void) didPressPopButton:(id)sender
+{
+    [self.navigationController popFadeOutViewControllerAnimated:YES];
+}
+
+- (IBAction)didPressLoading:(id)sender
+{
+    LoadingScreen* screen = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
+    [screen.view addSubview:_loadingPopButton];
+    
+    [self.navigationController pushFadeInViewController:screen animated:YES];
 }
 @end
