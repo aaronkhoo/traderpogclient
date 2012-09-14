@@ -9,11 +9,13 @@
 #import "LoadingScreen.h"
 #import "CircleView.h"
 #import "GameColors.h"
+#import "ImageManager.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface LoadingScreen ()
 {
     CircleView* _circle;
+    UIImageView* _yunView;
 }
 - (void) initBackgroundColor;
 - (void) initCircle;
@@ -62,8 +64,14 @@
 
 static const float kCircleRadiusInWidth = 0.25f;
 static const float kCircleVisibleFrac = 0.8f;
-static const float kCircleBorderFrac = 0.9f;
-static const float kCircleBorderWidth = 0.5f;
+static const float kCircleBorderFrac = 0.95f;
+static const float kYunOriginXInCircleWidth = 0.2f;
+static const float kYunOriginYInCircleHeight = 0.2f;
+static const float kYunSizeInCircleWidth = 0.3f;
+static const float kYunAlpha = 0.1f;
+
+static const float kBorderWidthNotUsed = 0.2f;
+static UIColor* kBorderColorNotUsed = nil;
 
 - (void) initCircle
 {
@@ -73,11 +81,23 @@ static const float kCircleBorderWidth = 0.5f;
     CGRect circleFrame = CGRectMake(originX, originY, radius * 2.0f, radius * 2.0f);
     _circle = [[CircleView alloc] initWithFrame:circleFrame
                                      borderFrac:kCircleBorderFrac
-                                    borderWidth:kCircleBorderWidth
-                                    borderColor:[GameColors borderColorScanWithAlpha:1.0f]];
+                                    borderWidth:kBorderWidthNotUsed
+                                    borderColor:kBorderColorNotUsed];
     UIColor* circleColor = [GameColors bubbleColorScanWithAlpha:1.0f];
-    _circle.borderCircle.backgroundColor = circleColor;
+    _circle.borderCircle.backgroundColor = [GameColors borderColorScanWithAlpha:1.0f];
     _circle.coloredView.layer.shadowColor = circleColor.CGColor;
     [self.view addSubview:_circle];
+    
+    float yunX = kYunOriginXInCircleWidth * circleFrame.size.width;
+    float yunY = kYunOriginYInCircleHeight * circleFrame.size.height;
+    float yunSize = kYunSizeInCircleWidth * circleFrame.size.width;
+    CGRect yunRect = CGRectMake(yunX, yunY, yunSize, yunSize);
+    _yunView = [[UIImageView alloc] initWithFrame:yunRect];
+    UIImage* yunImage = [[ImageManager getInstance] getImage:@"icon_yun.png"
+                                               fallbackNamed:@"icon_yun.png"
+                                                   withColor:[GameColors bubbleColorScanWithAlpha:1.0f]];
+    [_yunView setImage:yunImage];
+    [_yunView setAlpha:kYunAlpha];
+    [_circle addSubview:_yunView];
 }
 @end

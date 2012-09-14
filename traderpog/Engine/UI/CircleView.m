@@ -51,7 +51,7 @@ static const NSTimeInterval kBorderCircleAnimDuration = 0.2f;
         CGPoint circleCenter = CGPointMake((coloredRect.size.width * 0.5f),
                                            (coloredRect.size.height * 0.5f));
         UIBezierPath* circlePath = [UIBezierPath bezierPathWithArcCenter:circleCenter
-                                                                  radius:coloredRect.size.width * 0.48f
+                                                                  radius:coloredRect.size.width * 0.5f
                                                               startAngle:0.0f
                                                                 endAngle:2.0f * M_PI
                                                                clockwise:YES];
