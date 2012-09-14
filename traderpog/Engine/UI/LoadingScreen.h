@@ -12,11 +12,9 @@
 {
     __weak IBOutlet UILabel *_bigLabel;
     __weak IBOutlet UILabel *_progressLabel;
-    __weak IBOutlet UIActivityIndicatorView *_activityIndicator;
 }
 @property (nonatomic, weak, readonly) UILabel* bigLabel;
 @property (nonatomic, weak, readonly) UILabel* progressLabel;
-@property (nonatomic, weak, readonly) UIActivityIndicatorView* activityIndicator;
 
 - (void) stopDisplayLink;
 @end

@@ -21,6 +21,7 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
     CircleView* _circle;
     UIImageView* _yunView;
     UIImageView* _flyerView;
+    UILabel* _circleLabel;
     
     // flyer anim
     CGAffineTransform _transformToBorder;
@@ -41,13 +42,13 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
 @implementation LoadingScreen
 @synthesize bigLabel = _bigLabel;
 @synthesize progressLabel = _progressLabel;
-@synthesize activityIndicator = _activityIndicator;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) 
     {
+        _displayLinkActive = NO;
     }
     return self;
 }
@@ -59,6 +60,9 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
     [self initCircle];
     [self initFlyer];
     [self startDisplayLink];
+    
+    // sim one frame
+    [self update:0.0f];
 }
 
 - (void)viewDidUnload
@@ -66,7 +70,6 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
     [self stopDisplayLink];
     _bigLabel = nil;
     _progressLabel = nil;
-    _activityIndicator = nil;
     _flyerView = nil;
     _yunView = nil;
     _circle = nil;
@@ -91,6 +94,8 @@ static const float kYunOriginXInCircleWidth = 0.2f;
 static const float kYunOriginYInCircleHeight = 0.2f;
 static const float kYunSizeInCircleWidth = 0.3f;
 static const float kYunAlpha = 0.1f;
+static const float kLabelWidthInCircleWidth = 0.9f;
+static const float kLabelHeightInCircleHeight = 0.25f;
 
 static const float kBorderWidthNotUsed = 0.2f;
 static UIColor* kBorderColorNotUsed = nil;
@@ -121,6 +126,21 @@ static UIColor* kBorderColorNotUsed = nil;
     [_yunView setImage:yunImage];
     [_yunView setAlpha:kYunAlpha];
     [_circle addSubview:_yunView];
+    
+    // label
+    float labelWidth = kLabelWidthInCircleWidth * circleFrame.size.width;
+    float labelHeight = kLabelHeightInCircleHeight * circleFrame.size.height;
+    CGRect labelFrame = CGRectMake(0.5f * (circleFrame.size.width - labelWidth),
+                                   (0.5f * ((circleFrame.size.height * (1.0f + kCircleVisibleFrac)/2.0f) - labelHeight)),
+                                   labelWidth, labelHeight);
+    _circleLabel = [[UILabel alloc] initWithFrame:labelFrame];
+    [_circleLabel setFont:[UIFont fontWithName:@"Marker Felt" size:25.0f]];
+    [_circleLabel setAdjustsFontSizeToFitWidth:YES];
+    [_circleLabel setText:@"Loading"];
+    [_circleLabel setTextColor:[UIColor whiteColor]];
+    [_circleLabel setTextAlignment:UITextAlignmentCenter];
+    [_circleLabel setBackgroundColor:[UIColor clearColor]];
+    [_circle addSubview:_circleLabel];
 }
 
 static const float kFlyerSizeInCircleWidth = 0.5f;
