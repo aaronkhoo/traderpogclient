@@ -12,13 +12,30 @@
 #import "ImageManager.h"
 #import <QuartzCore/QuartzCore.h>
 
+static const float kRotationSpeed = M_PI * 1.4f;
+static const NSInteger kDisplayLinkFrameInterval = 1;
+static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
+
 @interface LoadingScreen ()
 {
     CircleView* _circle;
     UIImageView* _yunView;
+    UIImageView* _flyerView;
+    
+    // flyer anim
+    CGAffineTransform _transformToBorder;
+    float _angle;
+    CADisplayLink* _displayLink;
+    BOOL _displayLinkActive;
+    CFTimeInterval _prevTime;
 }
 - (void) initBackgroundColor;
 - (void) initCircle;
+- (void) initFlyer;
+
+- (void) startDisplayLink;
+- (void) displayUpdate;
+- (void) update:(NSTimeInterval)elapsed;
 @end
 
 @implementation LoadingScreen
@@ -40,13 +57,18 @@
     [super viewDidLoad];
     [self initBackgroundColor];
     [self initCircle];
+    [self initFlyer];
+    [self startDisplayLink];
 }
 
 - (void)viewDidUnload
 {
+    [self stopDisplayLink];
     _bigLabel = nil;
     _progressLabel = nil;
     _activityIndicator = nil;
+    _flyerView = nil;
+    _yunView = nil;
     _circle = nil;
     [super viewDidUnload];
 }
@@ -99,5 +121,81 @@ static UIColor* kBorderColorNotUsed = nil;
     [_yunView setImage:yunImage];
     [_yunView setAlpha:kYunAlpha];
     [_circle addSubview:_yunView];
+}
+
+static const float kFlyerSizeInCircleWidth = 0.5f;
+- (void) initFlyer
+{
+    float flyerSize = _circle.bounds.size.width * kFlyerSizeInCircleWidth;
+    float centerX = (_circle.bounds.size.width * 0.5f) - (0.5f * flyerSize);
+    float centerY = (_circle.bounds.size.height * 0.5f) - (0.5f * flyerSize);
+    CGRect flyerRect = CGRectMake(centerX, centerY, flyerSize, flyerSize);
+    _flyerView = [[UIImageView alloc] initWithFrame:flyerRect];
+    UIImage* image = [[ImageManager getInstance] getImage:@"flyer.png" fallbackNamed:@"flyer.png"];
+    [_flyerView setImage:image];
+    [_circle addSubview:_flyerView];
+
+    CGAffineTransform orient = CGAffineTransformMakeRotation(-M_PI_2);
+    CGAffineTransform t = CGAffineTransformMakeTranslation(0.0f, 0.5f * _circle.bounds.size.width);
+    _transformToBorder = CGAffineTransformConcat(orient, t);
+    _angle = 0.0f;
+}
+
+- (void) startDisplayLink
+{
+    if(!_displayLinkActive)
+    {
+        _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayUpdate)];
+        [_displayLink setFrameInterval:kDisplayLinkFrameInterval];
+        [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+        _displayLinkActive = YES;
+        _prevTime = 0.0f;
+    }
+}
+
+- (void) stopDisplayLink
+{
+    if(_displayLinkActive)
+    {
+        [_displayLink invalidate];
+        _displayLink = nil;
+        _displayLinkActive = NO;
+    }
+}
+
+
+- (void) displayUpdate
+{
+    CFTimeInterval displayElapsed = 0.0;
+
+    // update time
+    if(_prevTime > 0.0)
+    {
+        displayElapsed = [_displayLink timestamp] - _prevTime;
+    }
+    else
+    {
+        displayElapsed = [_displayLink timestamp];
+    }
+    _prevTime = [_displayLink timestamp];
+    if(displayElapsed > kDisplayLinkMaxFrametime)
+    {
+        displayElapsed = kDisplayLinkMaxFrametime;
+    }
+    
+    [self update:displayElapsed];
+}
+
+
+- (void) update:(NSTimeInterval)elapsed
+{
+    _angle += (elapsed * kRotationSpeed);
+    if(_angle >= (2.0f * M_PI))
+    {
+        _angle = 0.0f;
+    }
+    CGAffineTransform rotate = CGAffineTransformMakeRotation(_angle);
+    CGAffineTransform transform = CGAffineTransformConcat(_transformToBorder, rotate);
+    [_flyerView setTransform:transform];
 }
 @end

@@ -17,4 +17,6 @@
 @property (nonatomic, weak, readonly) UILabel* bigLabel;
 @property (nonatomic, weak, readonly) UILabel* progressLabel;
 @property (nonatomic, weak, readonly) UIActivityIndicatorView* activityIndicator;
+
+- (void) stopDisplayLink;
 @end

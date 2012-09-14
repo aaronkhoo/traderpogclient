@@ -394,10 +394,13 @@ typedef enum {
 
 - (void) popLoadingScreenIfNecessary:(UINavigationController*)nav
 {
-    NSString* currentViewName = [[nav visibleViewController] nibName];
-    if ([currentViewName compare:@"LoadingScreen"] == NSOrderedSame)
+    if([nav.visibleViewController isMemberOfClass:[LoadingScreen class]])
     {
-        [nav popFadeOutViewControllerAnimated:YES];  
+        // need to stop displayLink on LoadingScreen before pop because if not, then the LoadingScreen
+        // would be prevented from getting deallocated
+        LoadingScreen* loadingScreen = (LoadingScreen*)[nav visibleViewController];
+        [loadingScreen stopDisplayLink];
+        [nav popFadeOutViewControllerAnimated:YES];
     }
 }
 
