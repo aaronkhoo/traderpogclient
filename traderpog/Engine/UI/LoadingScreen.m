@@ -136,7 +136,7 @@ static UIColor* kBorderColorNotUsed = nil;
     _circleLabel = [[UILabel alloc] initWithFrame:labelFrame];
     [_circleLabel setFont:[UIFont fontWithName:@"Marker Felt" size:25.0f]];
     [_circleLabel setAdjustsFontSizeToFitWidth:YES];
-    [_circleLabel setText:@"Loading"];
+    [_circleLabel setText:@"loading..."];
     [_circleLabel setTextColor:[UIColor whiteColor]];
     [_circleLabel setTextAlignment:UITextAlignmentCenter];
     [_circleLabel setBackgroundColor:[UIColor clearColor]];
