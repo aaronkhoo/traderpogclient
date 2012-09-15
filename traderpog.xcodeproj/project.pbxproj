@@ -114,13 +114,13 @@
 		C42FC49715B141A3006D29A3 /* ModalNavRoot.xib in Resources */ = {isa = PBXBuildFile; fileRef = C42FC49515B141A3006D29A3 /* ModalNavRoot.xib */; };
 		C436AEB215DB325800B22E8A /* GameNotes.m in Sources */ = {isa = PBXBuildFile; fileRef = C436AEB115DB325800B22E8A /* GameNotes.m */; };
 		C462694A1603F876002F1626 /* LoadingCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C46269491603F876002F1626 /* LoadingCircle.m */; };
+		C462694F1603FF63002F1626 /* LoadingScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C462694D1603FF63002F1626 /* LoadingScreen.m */; };
+		C46269501603FF63002F1626 /* LoadingScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C462694E1603FF63002F1626 /* LoadingScreen.xib */; };
 		C481145F15ACB927007FA214 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C481145D15ACB927007FA214 /* GameViewController.m */; };
 		C481146015ACB927007FA214 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C481145E15ACB927007FA214 /* GameViewController.xib */; };
 		C481146915ACBFED007FA214 /* MapControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146815ACBFED007FA214 /* MapControl.m */; };
 		C481146C15AD024C007FA214 /* TradePost.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146B15AD024C007FA214 /* TradePost.m */; };
 		C481147615B07D96007FA214 /* TradePostMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = C481147515B07D96007FA214 /* TradePostMgr.m */; };
-		C4945B8015AC26D900EEC0C0 /* LoadingScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B7E15AC26D900EEC0C0 /* LoadingScreen.m */; };
-		C4945B8115AC26D900EEC0C0 /* LoadingScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4945B7F15AC26D900EEC0C0 /* LoadingScreen.xib */; };
 		C4945B8415AC2D2C00EEC0C0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4945B8315AC2D2C00EEC0C0 /* SystemConfiguration.framework */; };
 		C4945B8815AC91B500EEC0C0 /* CLLocation+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B8715AC91B500EEC0C0 /* CLLocation+Pog.m */; };
 		C4945B8B15AC936600EEC0C0 /* HiAccuracyLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = C4945B8A15AC936600EEC0C0 /* HiAccuracyLocator.m */; };
@@ -355,6 +355,9 @@
 		C436AEB115DB325800B22E8A /* GameNotes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameNotes.m; path = Game/Sim/GameNotes.m; sourceTree = "<group>"; };
 		C46269481603F876002F1626 /* LoadingCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingCircle.h; sourceTree = "<group>"; };
 		C46269491603F876002F1626 /* LoadingCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingCircle.m; sourceTree = "<group>"; };
+		C462694C1603FF63002F1626 /* LoadingScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadingScreen.h; path = Game/UI/LoadingScreen.h; sourceTree = "<group>"; };
+		C462694D1603FF63002F1626 /* LoadingScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadingScreen.m; path = Game/UI/LoadingScreen.m; sourceTree = "<group>"; };
+		C462694E1603FF63002F1626 /* LoadingScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LoadingScreen.xib; path = Game/UI/LoadingScreen.xib; sourceTree = "<group>"; };
 		C481145C15ACB927007FA214 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameViewController.h; path = Game/UI/GameViewController.h; sourceTree = "<group>"; };
 		C481145D15ACB927007FA214 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameViewController.m; path = Game/UI/GameViewController.m; sourceTree = "<group>"; };
 		C481145E15ACB927007FA214 /* GameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GameViewController.xib; path = Game/UI/GameViewController.xib; sourceTree = "<group>"; };
@@ -364,9 +367,6 @@
 		C481146B15AD024C007FA214 /* TradePost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradePost.m; path = Game/Sim/TradePost.m; sourceTree = "<group>"; };
 		C481147415B07D96007FA214 /* TradePostMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradePostMgr.h; path = Game/Sim/TradePostMgr.h; sourceTree = "<group>"; };
 		C481147515B07D96007FA214 /* TradePostMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradePostMgr.m; path = Game/Sim/TradePostMgr.m; sourceTree = "<group>"; };
-		C4945B7D15AC26D900EEC0C0 /* LoadingScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingScreen.h; sourceTree = "<group>"; };
-		C4945B7E15AC26D900EEC0C0 /* LoadingScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingScreen.m; sourceTree = "<group>"; };
-		C4945B7F15AC26D900EEC0C0 /* LoadingScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingScreen.xib; sourceTree = "<group>"; };
 		C4945B8315AC2D2C00EEC0C0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C4945B8615AC91B500EEC0C0 /* CLLocation+Pog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocation+Pog.h"; sourceTree = "<group>"; };
 		C4945B8715AC91B500EEC0C0 /* CLLocation+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+Pog.m"; sourceTree = "<group>"; };
@@ -775,6 +775,9 @@
 		C4E3819915AA0BF400924A86 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				C462694C1603FF63002F1626 /* LoadingScreen.h */,
+				C462694D1603FF63002F1626 /* LoadingScreen.m */,
+				C462694E1603FF63002F1626 /* LoadingScreen.xib */,
 				C4E3819A15AA0C5B00924A86 /* StartScreen.h */,
 				C4E3819B15AA0C5B00924A86 /* StartScreen.m */,
 				C4E3819C15AA0C5B00924A86 /* StartScreen.xib */,
@@ -834,9 +837,6 @@
 				C4E381CD15AABECC00924A86 /* PogUIUtility.m */,
 				C4E381B715AA3B4C00924A86 /* UINavigationController+Pog.h */,
 				C4E381B815AA3B4C00924A86 /* UINavigationController+Pog.m */,
-				C4945B7D15AC26D900EEC0C0 /* LoadingScreen.h */,
-				C4945B7E15AC26D900EEC0C0 /* LoadingScreen.m */,
-				C4945B7F15AC26D900EEC0C0 /* LoadingScreen.xib */,
 				C46269481603F876002F1626 /* LoadingCircle.h */,
 				C46269491603F876002F1626 /* LoadingCircle.m */,
 				C42FC48D15B13293006D29A3 /* ModalNavControl.h */,
@@ -996,7 +996,6 @@
 				C4E3819E15AA0C5B00924A86 /* StartScreen.xib in Resources */,
 				C4E381B515AA39DA00924A86 /* DebugMenu.xib in Resources */,
 				C4E381C715AABC7400924A86 /* SignupScreen.xib in Resources */,
-				C4945B8115AC26D900EEC0C0 /* LoadingScreen.xib in Resources */,
 				C481146015ACB927007FA214 /* GameViewController.xib in Resources */,
 				C42FC48C15B10116006D29A3 /* NewHomeSelectItem.xib in Resources */,
 				C42FC49115B13293006D29A3 /* ModalNavControl.xib in Resources */,
@@ -1036,6 +1035,7 @@
 				42D90A0515F81A3800BBE992 /* coin_005.png in Resources */,
 				428839BF15FB240A00CA4FDC /* icon_yun.png in Resources */,
 				42CEEC681603066400AED5ED /* flyer.png in Resources */,
+				C46269501603FF63002F1626 /* LoadingScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1069,7 +1069,6 @@
 				C41E0CB015AC0D5A006662DF /* AFClientManager.m in Sources */,
 				C41E0CB315AC0FB6006662DF /* Player.m in Sources */,
 				C41E0CB615AC1552006662DF /* DebugOptions.m in Sources */,
-				C4945B8015AC26D900EEC0C0 /* LoadingScreen.m in Sources */,
 				C4945B8815AC91B500EEC0C0 /* CLLocation+Pog.m in Sources */,
 				C4945B8B15AC936600EEC0C0 /* HiAccuracyLocator.m in Sources */,
 				C481145F15ACB927007FA214 /* GameViewController.m in Sources */,
@@ -1140,6 +1139,7 @@
 				4216381A15F9A4E3002E6FD5 /* UrlImage.m in Sources */,
 				4245A07B16005C9600AB14EB /* TradePost+Render.m in Sources */,
 				C462694A1603F876002F1626 /* LoadingCircle.m in Sources */,
+				C462694F1603FF63002F1626 /* LoadingScreen.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
