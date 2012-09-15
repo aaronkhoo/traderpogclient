@@ -16,5 +16,5 @@
 @property (nonatomic, weak, readonly) UILabel* bigLabel;
 @property (nonatomic, weak, readonly) UILabel* progressLabel;
 
-- (void) stopDisplayLink;
+- (void) stopAnim;
 @end

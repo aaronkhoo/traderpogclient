@@ -399,7 +399,7 @@ typedef enum {
         // need to stop displayLink on LoadingScreen before pop because if not, then the LoadingScreen
         // would be prevented from getting deallocated
         LoadingScreen* loadingScreen = (LoadingScreen*)[nav visibleViewController];
-        [loadingScreen stopDisplayLink];
+        [loadingScreen stopAnim];
         [nav popFadeOutViewControllerAnimated:YES];
     }
 }

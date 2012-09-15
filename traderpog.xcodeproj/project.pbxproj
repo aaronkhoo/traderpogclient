@@ -113,6 +113,7 @@
 		C42FC49615B141A3006D29A3 /* ModalNavRoot.m in Sources */ = {isa = PBXBuildFile; fileRef = C42FC49415B141A3006D29A3 /* ModalNavRoot.m */; };
 		C42FC49715B141A3006D29A3 /* ModalNavRoot.xib in Resources */ = {isa = PBXBuildFile; fileRef = C42FC49515B141A3006D29A3 /* ModalNavRoot.xib */; };
 		C436AEB215DB325800B22E8A /* GameNotes.m in Sources */ = {isa = PBXBuildFile; fileRef = C436AEB115DB325800B22E8A /* GameNotes.m */; };
+		C462694A1603F876002F1626 /* LoadingCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C46269491603F876002F1626 /* LoadingCircle.m */; };
 		C481145F15ACB927007FA214 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C481145D15ACB927007FA214 /* GameViewController.m */; };
 		C481146015ACB927007FA214 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C481145E15ACB927007FA214 /* GameViewController.xib */; };
 		C481146915ACBFED007FA214 /* MapControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146815ACBFED007FA214 /* MapControl.m */; };
@@ -352,6 +353,8 @@
 		C42FC49515B141A3006D29A3 /* ModalNavRoot.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModalNavRoot.xib; sourceTree = "<group>"; };
 		C436AEB015DB325800B22E8A /* GameNotes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameNotes.h; path = Game/Sim/GameNotes.h; sourceTree = "<group>"; };
 		C436AEB115DB325800B22E8A /* GameNotes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameNotes.m; path = Game/Sim/GameNotes.m; sourceTree = "<group>"; };
+		C46269481603F876002F1626 /* LoadingCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingCircle.h; sourceTree = "<group>"; };
+		C46269491603F876002F1626 /* LoadingCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingCircle.m; sourceTree = "<group>"; };
 		C481145C15ACB927007FA214 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameViewController.h; path = Game/UI/GameViewController.h; sourceTree = "<group>"; };
 		C481145D15ACB927007FA214 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameViewController.m; path = Game/UI/GameViewController.m; sourceTree = "<group>"; };
 		C481145E15ACB927007FA214 /* GameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GameViewController.xib; path = Game/UI/GameViewController.xib; sourceTree = "<group>"; };
@@ -834,6 +837,8 @@
 				C4945B7D15AC26D900EEC0C0 /* LoadingScreen.h */,
 				C4945B7E15AC26D900EEC0C0 /* LoadingScreen.m */,
 				C4945B7F15AC26D900EEC0C0 /* LoadingScreen.xib */,
+				C46269481603F876002F1626 /* LoadingCircle.h */,
+				C46269491603F876002F1626 /* LoadingCircle.m */,
 				C42FC48D15B13293006D29A3 /* ModalNavControl.h */,
 				C42FC48E15B13293006D29A3 /* ModalNavControl.m */,
 				C42FC48F15B13293006D29A3 /* ModalNavControl.xib */,
@@ -1134,6 +1139,7 @@
 				4216380915F97C4E002E6FD5 /* AnimMgr.m in Sources */,
 				4216381A15F9A4E3002E6FD5 /* UrlImage.m in Sources */,
 				4245A07B16005C9600AB14EB /* TradePost+Render.m in Sources */,
+				C462694A1603F876002F1626 /* LoadingCircle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
