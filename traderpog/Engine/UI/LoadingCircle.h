@@ -8,10 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^LoadingCircleDismissCompletion)(void);
+
 @interface LoadingCircle : UIView
 
-- (id)initWithFrame:(CGRect)frame color:(UIColor*)color borderColor:(UIColor*)borderColor decalImage:(UIImage*)decalImage rotateIcon:(UIImage*)rotateIcon;
+// init
+- (id)initWithFrame:(CGRect)frame color:(UIColor*)color borderColor:(UIColor*)borderColor decalImage:(UIImage*)decalImage rotateIcon:(UIImage*)rotateIcon visibleFraction:(float)visibleFraction;
+
+// anim
 - (void) update:(NSTimeInterval)elapsed;
 - (void) startAnim;
 - (void) stopAnim;
+- (void) showAnimated:(BOOL)animated afterDelay:(float)delay;
+- (void) hideAnimated:(BOOL)animated completion:(LoadingCircleDismissCompletion)completion;
 @end

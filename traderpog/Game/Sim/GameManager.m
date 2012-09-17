@@ -383,7 +383,7 @@ typedef enum {
     // first check the view on the stack, if the top view is not LoadingScreen,
     // then push that onto the stack
     UIViewController* current = [nav visibleViewController];
-    if ([[current nibName] compare:@"LoadingScreen"] != NSOrderedSame)
+    if(![current isMemberOfClass:[LoadingScreen class]])
     {
         current = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
         [nav pushFadeInViewController:current animated:YES];
@@ -394,13 +394,23 @@ typedef enum {
 
 - (void) popLoadingScreenIfNecessary:(UINavigationController*)nav
 {
-    if([nav.visibleViewController isMemberOfClass:[LoadingScreen class]])
+    UIViewController* current = [nav visibleViewController];
+    if([current isMemberOfClass:[LoadingScreen class]])
     {
-        // need to stop displayLink on LoadingScreen before pop because if not, then the LoadingScreen
-        // would be prevented from getting deallocated
-        LoadingScreen* loadingScreen = (LoadingScreen*)[nav visibleViewController];
-        [loadingScreen stopAnim];
+        // call LoadingScreen dismiss so that it can do an outro anim before getting popped
+        // HACK
+        // (Shu) this doesn't work with the way the screens are stacked on the navigation controller.
+        // I have a way to fix this in the next check-in; for the time being, pop loading screen immediately
+        // so that the game wouldn't get stuck
         [nav popFadeOutViewControllerAnimated:YES];
+        // HACK
+        /*
+        LoadingScreen* loadingScreen = (LoadingScreen*)current;
+        [loadingScreen dismissWithCompletion:^(void){
+            [nav popFadeOutViewControllerAnimated:YES];
+        }];
+        */
+        
     }
 }
 

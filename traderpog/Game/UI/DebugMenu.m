@@ -91,14 +91,15 @@
 
 - (void) didPressPopButton:(id)sender
 {
-    if([self.navigationController.visibleViewController isMemberOfClass:[LoadingScreen class]])
+    UIViewController* current = self.navigationController.visibleViewController;
+    if([current isMemberOfClass:[LoadingScreen class]])
     {
-        // need to stop displayLink on LoadingScreen before pop because if not, then the LoadingScreen
-        // would be prevented from getting deallocated
-        LoadingScreen* loadingScreen = (LoadingScreen*)[self.navigationController visibleViewController];
-        [loadingScreen stopAnim];
+        // call LoadingScreen dismiss so that it can do an outro anim before getting popped
+        LoadingScreen* loadingScreen = (LoadingScreen*)current;
+        [loadingScreen dismissWithCompletion:^(void){
+            [self.navigationController popFadeOutViewControllerAnimated:YES];
+        }];
     }
-    [self.navigationController popFadeOutViewControllerAnimated:YES];
 }
 
 - (IBAction)didPressLoading:(id)sender

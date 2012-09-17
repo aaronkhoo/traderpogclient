@@ -16,7 +16,6 @@ static const NSInteger kDisplayLinkFrameInterval = 1;
 static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
 
 static const float kCircleRadiusInWidth = 0.25f;
-static const float kCircleVisibleFrac = 0.8f;
 static const float kCircleBorderFrac = 0.95f;
 static const float kYunOriginXInCircleWidth = 0.2f;
 static const float kYunOriginYInCircleHeight = 0.2f;
@@ -34,6 +33,7 @@ static UIColor* kBorderColorNotUsed = nil;
     UIColor* _borderColor;
     UIImage* _decalImage;
     UIImage* _rotateIcon;
+    float _visibleFraction;
     
     CircleView* _circle;
     UIImageView* _yunView;
@@ -70,6 +70,7 @@ static UIColor* kBorderColorNotUsed = nil;
         borderColor:(UIColor*)borderColor
          decalImage:(UIImage*)decalImage
          rotateIcon:(UIImage *)rotateIcon
+    visibleFraction:(float)visibleFraction
 {
     self = [super initWithFrame:frame];
     if (self)
@@ -79,12 +80,15 @@ static UIColor* kBorderColorNotUsed = nil;
         _borderColor = borderColor;
         _decalImage = decalImage;
         _rotateIcon = rotateIcon;
+        _visibleFraction = visibleFraction;
         
         [self initCircle];
         [self initIcon];
         
         // step one frame so that all transforms are in place
         [self update:0.0f];
+        
+        [self hideAnimated:NO completion:nil];
     }
     return self;
 }
@@ -99,13 +103,68 @@ static UIColor* kBorderColorNotUsed = nil;
     [self stopDisplayLink];
 }
 
+static const float kShowAnimDuration = 0.2f;
+
+- (void) showAnimated:(BOOL)animated afterDelay:(float)delay
+{
+    float visibleOffset = (1.0f - _visibleFraction) * _circle.bounds.size.height;
+    CGAffineTransform t = CGAffineTransformMakeTranslation(0.0f, visibleOffset);
+    if(animated)
+    {
+        [UIView animateWithDuration:kShowAnimDuration
+                              delay:delay
+                            options:UIViewAnimationCurveEaseInOut
+                         animations:^(void){
+                             [self setTransform:t];
+                         }
+                         completion:^(BOOL finished){
+                             [self startAnim];
+                         }];
+    }
+    else
+    {
+        [self setTransform:t];
+        [self startAnim];
+    }
+}
+
+- (void) hideAnimated:(BOOL)animated completion:(LoadingCircleDismissCompletion)completion
+{
+    float hiddenOffset = _flyerView.bounds.size.height + _circle.bounds.size.height;
+    CGAffineTransform t = CGAffineTransformMakeTranslation(0.0f, hiddenOffset);
+    
+    if(animated)
+    {
+        [UIView animateWithDuration:kShowAnimDuration
+                         animations:^(void){
+                             [self setTransform:t];
+                         }
+                         completion:^(BOOL finished){
+                             [self stopAnim];
+                             if(completion)
+                             {
+                                 completion();
+                             }
+                         }];
+    }
+    else
+    {
+        [self setTransform:t];
+        [self stopAnim];
+        if(completion)
+        {
+            completion();
+        }
+    }
+}
+
 #pragma mark - internal
 
 - (void) initCircle
 {
     float radius = kCircleRadiusInWidth * self.bounds.size.width;
     float originX = (0.5f * self.bounds.size.width) - radius;
-    float originY = self.bounds.size.height - (kCircleVisibleFrac * radius * 2.0f);
+    float originY = self.bounds.size.height - (radius * 2.0f);
     CGRect circleFrame = CGRectMake(originX, originY, radius * 2.0f, radius * 2.0f);
     _circle = [[CircleView alloc] initWithFrame:circleFrame
                                      borderFrac:kCircleBorderFrac
@@ -128,7 +187,7 @@ static UIColor* kBorderColorNotUsed = nil;
     float labelWidth = kLabelWidthInCircleWidth * circleFrame.size.width;
     float labelHeight = kLabelHeightInCircleHeight * circleFrame.size.height;
     CGRect labelFrame = CGRectMake(0.5f * (circleFrame.size.width - labelWidth),
-                                   (0.5f * ((circleFrame.size.height * (1.0f + kCircleVisibleFrac)/2.0f) - labelHeight)),
+                                   (0.5f * ((0.9f * circleFrame.size.height) - labelHeight)),
                                    labelWidth, labelHeight);
     _circleLabel = [[UILabel alloc] initWithFrame:labelFrame];
     [_circleLabel setFont:[UIFont fontWithName:@"Marker Felt" size:25.0f]];

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^LoadingDismissCompletion)(void);
+
 @interface LoadingScreen : UIViewController
 {
     __weak IBOutlet UILabel *_bigLabel;
@@ -16,5 +18,5 @@
 @property (nonatomic, weak, readonly) UILabel* bigLabel;
 @property (nonatomic, weak, readonly) UILabel* progressLabel;
 
-- (void) stopAnim;
+- (void) dismissWithCompletion:(LoadingDismissCompletion)completion;
 @end

@@ -41,11 +41,12 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
     [super viewDidLoad];
     [self initBackgroundColor];
     [self initCircle];
+    [_loadingCircle showAnimated:YES afterDelay:0.2f];
 }
 
 - (void)viewDidUnload
 {
-    [self stopAnim];
+    [_loadingCircle hideAnimated:NO completion:nil];
     _bigLabel = nil;
     _progressLabel = nil;
     [super viewDidUnload];
@@ -56,9 +57,15 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void) stopAnim
+- (void) dismissWithCompletion:(LoadingDismissCompletion)completion
 {
-    [_loadingCircle stopAnim];
+    [_loadingCircle hideAnimated:YES
+                      completion:^(void){
+                          if(completion)
+                          {
+                              completion();
+                          }
+                      }];
 }
 
 #pragma mark - internal methods
@@ -75,7 +82,7 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
                                                fallbackNamed:@"icon_yun.png"
                                                    withColor:[GameColors bubbleColorScanWithAlpha:1.0f]];
     UIImage* flyerImage = [[ImageManager getInstance] getImage:@"flyer.png" fallbackNamed:@"flyer.png"];
-    _loadingCircle = [[LoadingCircle alloc] initWithFrame:self.view.bounds color:circleColor borderColor:borderColor decalImage:yunImage rotateIcon:flyerImage];
+    _loadingCircle = [[LoadingCircle alloc] initWithFrame:self.view.bounds color:circleColor borderColor:borderColor decalImage:yunImage rotateIcon:flyerImage visibleFraction:0.8f];
     [self.view addSubview:_loadingCircle];
     
     [_loadingCircle startAnim];
