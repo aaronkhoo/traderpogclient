@@ -59,6 +59,8 @@
 		42B28E2F15E99E5A0008901C /* NSArray+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B28E2E15E99E5A0008901C /* NSArray+Pog.m */; };
 		42B28E3215EA39620008901C /* b_homebase.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B28E3015EA39620008901C /* b_homebase.png */; };
 		42B28E3315EA39620008901C /* b_tradepost.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B28E3115EA39620008901C /* b_tradepost.png */; };
+		42C766B31607900900D21354 /* LoadingTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C766B11607900900D21354 /* LoadingTransition.m */; };
+		42C766B41607900900D21354 /* LoadingTransition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C766B21607900900D21354 /* LoadingTransition.xib */; };
 		42CEEC681603066400AED5ED /* flyer.png in Resources */ = {isa = PBXBuildFile; fileRef = 42CEEC671603066400AED5ED /* flyer.png */; };
 		42D909F415F7D33800BBE992 /* bubble_beacon_fb.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909F215F7D33800BBE992 /* bubble_beacon_fb.png */; };
 		42D909F515F7D33800BBE992 /* bubble_beacon_g_001.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909F315F7D33800BBE992 /* bubble_beacon_g_001.png */; };
@@ -269,6 +271,9 @@
 		42B28E2E15E99E5A0008901C /* NSArray+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Pog.m"; path = "traderpog/Engine/Sim/NSArray+Pog.m"; sourceTree = SOURCE_ROOT; };
 		42B28E3015EA39620008901C /* b_homebase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = b_homebase.png; path = assets/Map/b_homebase.png; sourceTree = SOURCE_ROOT; };
 		42B28E3115EA39620008901C /* b_tradepost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = b_tradepost.png; path = assets/Map/b_tradepost.png; sourceTree = SOURCE_ROOT; };
+		42C766B01607900900D21354 /* LoadingTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingTransition.h; sourceTree = "<group>"; };
+		42C766B11607900900D21354 /* LoadingTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingTransition.m; sourceTree = "<group>"; };
+		42C766B21607900900D21354 /* LoadingTransition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingTransition.xib; sourceTree = "<group>"; };
 		42CEEC671603066400AED5ED /* flyer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer.png; path = assets/Map/flyer.png; sourceTree = SOURCE_ROOT; };
 		42D909F215F7D33800BBE992 /* bubble_beacon_fb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_beacon_fb.png; path = assets/UI/bubble_beacon_fb.png; sourceTree = SOURCE_ROOT; };
 		42D909F315F7D33800BBE992 /* bubble_beacon_g_001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_beacon_g_001.png; path = assets/UI/bubble_beacon_g_001.png; sourceTree = SOURCE_ROOT; };
@@ -839,6 +844,9 @@
 				C4E381B815AA3B4C00924A86 /* UINavigationController+Pog.m */,
 				C46269481603F876002F1626 /* LoadingCircle.h */,
 				C46269491603F876002F1626 /* LoadingCircle.m */,
+				42C766B01607900900D21354 /* LoadingTransition.h */,
+				42C766B11607900900D21354 /* LoadingTransition.m */,
+				42C766B21607900900D21354 /* LoadingTransition.xib */,
 				C42FC48D15B13293006D29A3 /* ModalNavControl.h */,
 				C42FC48E15B13293006D29A3 /* ModalNavControl.m */,
 				C42FC48F15B13293006D29A3 /* ModalNavControl.xib */,
@@ -1036,6 +1044,7 @@
 				428839BF15FB240A00CA4FDC /* icon_yun.png in Resources */,
 				42CEEC681603066400AED5ED /* flyer.png in Resources */,
 				C46269501603FF63002F1626 /* LoadingScreen.xib in Resources */,
+				42C766B41607900900D21354 /* LoadingTransition.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1140,6 +1149,7 @@
 				4245A07B16005C9600AB14EB /* TradePost+Render.m in Sources */,
 				C462694A1603F876002F1626 /* LoadingCircle.m in Sources */,
 				C462694F1603FF63002F1626 /* LoadingScreen.m in Sources */,
+				42C766B31607900900D21354 /* LoadingTransition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

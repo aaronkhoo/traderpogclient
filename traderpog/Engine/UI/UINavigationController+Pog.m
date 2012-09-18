@@ -21,7 +21,7 @@
         transition = [CATransition animation];
         transition.type = kCATransitionFade;
         transition.subtype = nil;
-        transition.duration = 0.2;
+        transition.duration = 0.4;
         
         [CATransaction setValue:(id)kCFBooleanTrue
                          forKey:kCATransactionDisableActions];
@@ -47,7 +47,7 @@
         transition = [CATransition animation];
         transition.type = kCATransitionFade;
         transition.subtype = nil;
-        transition.duration = 0.2;
+        transition.duration = 0.4;
         
         [CATransaction setValue:(id)kCFBooleanTrue
                          forKey:kCATransactionDisableActions];
@@ -73,7 +73,7 @@
         transition = [CATransition animation];
         transition.type = kCATransitionFade;
         transition.subtype = nil;
-        transition.duration = 0.2;
+        transition.duration = 0.4;
         
         [CATransaction setValue:(id)kCFBooleanTrue
                          forKey:kCATransactionDisableActions];

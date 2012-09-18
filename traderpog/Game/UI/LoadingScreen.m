@@ -42,6 +42,8 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
     [self initBackgroundColor];
     [self initCircle];
     [_loadingCircle showAnimated:YES afterDelay:0.2f];
+    [_bigLabel setHidden:NO];
+    [_progressLabel setHidden:NO];
 }
 
 - (void)viewDidUnload
@@ -59,6 +61,8 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
 
 - (void) dismissWithCompletion:(LoadingDismissCompletion)completion
 {
+    [_bigLabel setHidden:YES];
+    [_progressLabel setHidden:YES];
     [_loadingCircle hideAnimated:YES
                       completion:^(void){
                           if(completion)

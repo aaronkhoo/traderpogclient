@@ -19,6 +19,7 @@
 #import "TradeItemTypes.h"
 #import "TradeManager.h"
 #import "LoadingScreen.h"
+#import "LoadingTransition.h"
 #import "UINavigationController+Pog.h"
 #import "ModalNavControl.h"
 #import "HiAccuracyLocator.h"
@@ -93,13 +94,14 @@ typedef enum {
 @property (nonatomic,strong) HiAccuracyLocator* playerLocator;
 
 - (void) getGameInfoModifiedDate;
+- (void) startGame;
 
 - (void) startModalNavControlInView:(UIView*)parentView 
                      withController:(UIViewController *)viewController
                     completionBlock:(ModalNavCompletionBlock)completionBlock;
 - (void) locateNewPlayer;
 - (void) registerAllNotificationHandlers;
-- (void) popLoadingScreenIfNecessary:(UINavigationController*)nav;
+- (void) popLoadingScreenToRootIfNecessary:(UINavigationController*)nav;
 @end
 
 @implementation GameManager
@@ -157,7 +159,7 @@ typedef enum {
     _gameState = kGameStateNew;
     AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     UINavigationController* nav = appDelegate.navController;
-    [nav popFadeOutToRootViewControllerAnimated:YES];
+    [nav popFadeOutToRootViewControllerAnimated:NO];
     _gameViewController = nil;
 }
 
@@ -172,6 +174,41 @@ typedef enum {
     modal.delegate = self;
     modal.completionBlock = completionBlock;
     self.modalNav = modal;
+}
+
+- (void) startGame
+{
+    if (![self gameViewController])
+    {
+        _gameViewController = [[GameViewController alloc] initAtCoordinate:[[Player getInstance] lastKnownLocation]];
+        
+        // push the gameViewController onto the stack
+        AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        UINavigationController* nav = appDelegate.navController;
+        [nav pushFadeInViewController:self.gameViewController animated:YES];
+    }
+    
+    _lastGameStateInitializeTime = [[NSDate alloc] init];
+    
+    // handle in-game states
+    switch(_gameState)
+    {
+        case kGameStateNew:
+            // Set game state to loop and set initialize time to now
+            _gameState = kGameStateGameLoop;
+            
+            // Save the player state
+            [[Player getInstance] savePlayerData];
+            
+            NSLog(@"start gameloop");
+            [self.gameViewController showKnobAnimated:YES delay:0.5f];
+            
+            break;
+            
+        default:
+            // do nothing
+            break;
+    }
 }
 
 - (void) getGameInfoModifiedDate
@@ -382,9 +419,13 @@ typedef enum {
 {
     // first check the view on the stack, if the top view is not LoadingScreen,
     // then push that onto the stack
+    NSLog(@"push 1");
     UIViewController* current = [nav visibleViewController];
     if(![current isMemberOfClass:[LoadingScreen class]])
     {
+        NSLog(@"push 2");
+        LoadingTransition* transition = [[LoadingTransition alloc] initWithNibName:@"LoadingTransition" bundle:nil];
+        [nav pushFadeInViewController:transition animated:YES];
         current = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
         [nav pushFadeInViewController:current animated:YES];
     }
@@ -392,26 +433,16 @@ typedef enum {
     loading.progressLabel.text = message;
 }
 
-- (void) popLoadingScreenIfNecessary:(UINavigationController*)nav
+- (void) popLoadingScreenToRootIfNecessary:(UINavigationController*)nav
 {
     UIViewController* current = [nav visibleViewController];
     if([current isMemberOfClass:[LoadingScreen class]])
     {
-        // call LoadingScreen dismiss so that it can do an outro anim before getting popped
-        // HACK
-        // (Shu) this doesn't work with the way the screens are stacked on the navigation controller.
-        // I have a way to fix this in the next check-in; for the time being, pop loading screen immediately
-        // so that the game wouldn't get stuck
-        [nav popFadeOutViewControllerAnimated:YES];
-        // HACK
-        /*
         LoadingScreen* loadingScreen = (LoadingScreen*)current;
         [loadingScreen dismissWithCompletion:^(void){
-            [nav popFadeOutViewControllerAnimated:YES];
+            [nav popFadeOutToRootViewControllerAnimated:YES];
         }];
-        */
-        
-    }
+    } 
 }
 
 - (void) applicationWillEnterForeground
@@ -471,7 +502,7 @@ typedef enum {
                                                 otherButtonTitles:nil];
         
         [message show];
-        [self popLoadingScreenIfNecessary:nav];
+        [self popLoadingScreenToRootIfNecessary:nav];
     }
     else
     {
@@ -573,36 +604,18 @@ typedef enum {
     {
         // Right now, pop any loading screens if they are on the stack when
         // we come in here.
-        [self popLoadingScreenIfNecessary:nav];
-        
-        if (![self gameViewController])
+        UIViewController* current = [nav visibleViewController];
+        if([current isMemberOfClass:[LoadingScreen class]])
         {
-            _gameViewController = [[GameViewController alloc] initAtCoordinate:[[Player getInstance] lastKnownLocation]];
-            
-            // push the gameViewController onto the stack
-            [nav pushFadeInViewController:self.gameViewController animated:YES];
+            LoadingScreen* loadingScreen = (LoadingScreen*)current;
+            [loadingScreen dismissWithCompletion:^(void){
+                [nav popFadeOutViewControllerAnimated:NO];
+                [self startGame];
+            }];
         }
-        
-        _lastGameStateInitializeTime = [[NSDate alloc] init];
-        
-        // handle in-game states
-        switch(_gameState)
+        else
         {
-            case kGameStateNew:
-                // Set game state to loop and set initialize time to now
-                _gameState = kGameStateGameLoop;
-                
-                // Save the player state
-                [[Player getInstance] savePlayerData];
-                
-                NSLog(@"start gameloop");
-                [self.gameViewController showKnobAnimated:YES delay:0.5f];
-                
-                break;
-                
-            default:
-                // do nothing
-                break;
+            [self startGame];
         }
     }
 }
@@ -782,7 +795,7 @@ typedef enum {
             _gameStateRefreshedFromServer = FALSE;
             AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
             UINavigationController* nav = appDelegate.navController;
-            [self popLoadingScreenIfNecessary:nav];
+            [self popLoadingScreenToRootIfNecessary:nav];
         }
     }
     else

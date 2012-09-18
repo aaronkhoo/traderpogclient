@@ -12,6 +12,7 @@
 #import "Player.h"
 #import "GameManager.h"
 #import "LoadingScreen.h"
+#import "LoadingTransition.h"
 
 @interface DebugMenu ()
 {
@@ -97,13 +98,16 @@
         // call LoadingScreen dismiss so that it can do an outro anim before getting popped
         LoadingScreen* loadingScreen = (LoadingScreen*)current;
         [loadingScreen dismissWithCompletion:^(void){
-            [self.navigationController popFadeOutViewControllerAnimated:YES];
+            [self.navigationController popFadeOutToRootViewControllerAnimated:YES];
         }];
     }
 }
 
 - (IBAction)didPressLoading:(id)sender
 {
+    LoadingTransition* transition = [[LoadingTransition alloc] initWithNibName:@"LoadingTransition" bundle:nil];
+    [self.navigationController pushFadeInViewController:transition animated:YES];
+    
     LoadingScreen* screen = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
     [screen.view addSubview:_loadingPopButton];
     

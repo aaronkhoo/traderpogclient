@@ -132,7 +132,6 @@ static const float kShowAnimDuration = 0.2f;
 {
     float hiddenOffset = _flyerView.bounds.size.height + _circle.bounds.size.height;
     CGAffineTransform t = CGAffineTransformMakeTranslation(0.0f, hiddenOffset);
-    
     if(animated)
     {
         [UIView animateWithDuration:kShowAnimDuration
