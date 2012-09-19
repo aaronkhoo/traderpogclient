@@ -229,7 +229,7 @@ static const float kBubbleBorderWidth = 1.5f;
         
         if (departureDate)
         {
-            if ([departureDate timeIntervalSinceDate:[[current path] departureDate]] < 0)
+            if ([departureDate timeIntervalSinceDate:[[current path] departureDate]] <= 0.0)
             {
                 // Departure date from server is earlier than current. Keep it. 
                 cleared = FALSE;
