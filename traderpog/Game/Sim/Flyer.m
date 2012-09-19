@@ -49,7 +49,6 @@ static NSString* const kKeyStateBegin = @"stateBegin";
 @synthesize flightPathRender = _flightPathRender;
 @synthesize coord = _coord;
 @synthesize isNewFlyer = _isNewFlyer;
-@synthesize isAtOwnPost = _isAtOwnPost;
 @synthesize state = _state;
 @synthesize stateBegin = _stateBegin;
 @synthesize transform = _transform;
@@ -77,7 +76,6 @@ static NSString* const kKeyStateBegin = @"stateBegin";
 
         // this flyer is newly created (see Flyer.h for more details)
         _isNewFlyer = YES;
-        _isAtOwnPost = YES;
         
         _state = kFlyerStateIdle;
         _stateBegin = nil;
@@ -135,10 +133,6 @@ static NSString* const kKeyStateBegin = @"stateBegin";
         // this flyer is loaded (see Flyer.h for more details)
         _isNewFlyer = NO;
         
-        // this will get set in initFlyerOnMap when the game has info
-        // to determine whether this flyer is at own post
-        _isAtOwnPost = NO;
-        
         _metersToDest = 0.0;
     }
     return self;
@@ -187,10 +181,6 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     
     // this flyer is loaded (see Flyer.h for more details)
     _isNewFlyer = NO;
-    
-    // this will get set in initFlyerOnMap when the game has info
-    // to determine whether this flyer is at own post
-    _isAtOwnPost = NO;
     
     return self;
 }
@@ -284,12 +274,8 @@ static NSString* const kKeyStateBegin = @"stateBegin";
         [self setCoordinate:_path.srcCoord];
         [self gotoState:kFlyerStateIdle];
 
-        // determine if I am at own post
+        // attach myself to the post I'm at
         TradePost* curPost = [[TradePostMgr getInstance] getTradePostWithId:_path.curPostId];
-        if([curPost isMemberOfClass:[MyTradePost class]])
-        {
-            self.isAtOwnPost = YES;
-        }
         curPost.flyerAtPost = self;
     }
     else
@@ -319,7 +305,6 @@ static NSString* const kKeyStateBegin = @"stateBegin";
         {
             TradePost* curPost = [[TradePostMgr getInstance] getTradePostWithId:_path.curPostId];
             curPost.flyerAtPost = nil;
-            self.isAtOwnPost = NO;
             [_inventory updateFlyerInventoryOnServer:_userFlyerId];
             [self createFlightPathRenderingForFlyer];
             [self gotoState:kFlyerStateEnroute];
@@ -340,10 +325,6 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     // ask TradeManager to handle arrival
     TradePost* arrivalPost = [[TradePostMgr getInstance] getTradePostWithId:[_path nextPostId]];
     [[TradeManager getInstance] flyer:self didArriveAtPost:arrivalPost];
-    if([arrivalPost isMemberOfClass:[MyTradePost class]])
-    {
-        self.isAtOwnPost = YES;
-    }
     _metersToDest = 0.0;
     [_path completeFlyerPath:_userFlyerId];
     [_inventory updateFlyerInventoryOnServer:_userFlyerId];
@@ -486,14 +467,50 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
         switch(newState)
         {
             case kFlyerStateIdle:
-                if(kFlyerStateEnroute == [self state])
+                if((kFlyerStateWaitingToUnload == [self state]) ||
+                   (kFlyerStateEnroute == [self state]))
                 {
                     canChange = YES;
                 }
                 break;
                 
             case kFlyerStateEnroute:
-                if(kFlyerStateIdle == [self state])
+                if((kFlyerStateIdle == [self state]) ||
+                   (kFlyerStateLoaded == [self state]))
+                {
+                    canChange = YES;
+                }
+                break;
+                
+            case kFlyerStateWaitingToLoad:
+                if(kFlyerStateEnroute == [self state])
+                {
+                    canChange = YES;
+                }
+                
+            case kFlyerStateLoading:
+                if(kFlyerStateWaitingToLoad == [self state])
+                {
+                    canChange = YES;
+                }
+                break;
+                
+            case kFlyerStateLoaded:
+                if(kFlyerStateLoading == [self state])
+                {
+                    canChange = YES;
+                }
+                break;
+                
+            case kFlyerStateWaitingToUnload:
+                if(kFlyerStateEnroute == [self state])
+                {
+                    canChange = YES;
+                }
+                break;
+                
+            case kFlyerStateUnloading:
+                if(kFlyerStateWaitingToUnload == [self state])
                 {
                     canChange = YES;
                 }
@@ -532,7 +549,6 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
             @"kFlyerStateLoaded",
             @"kFlyerStateWaitingToUnload",
             @"kFlyerStateUnloading",
-            @"kFlyerStateUnloaded"
         };
         
         result = names[queryState];
@@ -549,24 +565,6 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
 - (void) setCoordinate:(CLLocationCoordinate2D)newCoordinate
 {
     self.coord = newCoordinate;
-    /*
-     self.curLocation = [[[CLLocation alloc] initWithLatitude:newCoordinate.latitude longitude:newCoordinate.longitude] autorelease];
-     if(_flyerAnnotView)
-     {
-     // mapView can decide to throw annotation-views into its reuse queue any time
-     // so, if the view we have retained no longer belongs to us, clear it
-     if(_flyerAnnotView && ([_flyerAnnotView annotation] != self))
-     {
-     NSLog(@"coordinate: flyer annotation recycled %@ (%@, %@)", _name, self, [_flyerAnnotView annotation]);
-     [_flyerAnnotView release];
-     _flyerAnnotView = nil;
-     }
-     else
-     {
-     [_flyerAnnotView setAnnotation:self];
-     }
-     }
-     */
 }
 
 #pragma mark - MapAnnotationProtocol
@@ -595,15 +593,6 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
     else
     {
         // otherwise, follow these rules
-        if([self isAtOwnPost])
-        {
-            annotationView.enabled = NO;
-        }
-        else
-        {
-            annotationView.enabled = YES;
-        }
-        
         if([_path isEnroute])
         {
             [annotationView showCountdown:YES];

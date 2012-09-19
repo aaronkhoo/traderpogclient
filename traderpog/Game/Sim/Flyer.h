@@ -26,7 +26,6 @@ enum _FlyerStates
     kFlyerStateLoaded,
     kFlyerStateWaitingToUnload,
     kFlyerStateUnloading,
-    kFlyerStateUnloaded,
     
     kFlyerStateNum
 };
@@ -45,7 +44,6 @@ enum _FlyerStates
     // this is only ever TRUE when this flyer has just been newly created
     // in all other cases (including when it is initWithDictionary, it is FALSE)
     BOOL _isNewFlyer;
-    BOOL _isAtOwnPost;
     
     // flyer sim state
     unsigned int _state;
@@ -68,7 +66,6 @@ enum _FlyerStates
 @property (nonatomic) CGAffineTransform transform;
 @property (nonatomic) BOOL initializeFlyerOnMap;
 @property (nonatomic,readonly) BOOL isNewFlyer;
-@property (nonatomic) BOOL isAtOwnPost;
 @property (nonatomic) unsigned int state;
 @property (nonatomic,strong) NSDate* stateBegin;
 @property (nonatomic) CLLocationDistance metersToDest;

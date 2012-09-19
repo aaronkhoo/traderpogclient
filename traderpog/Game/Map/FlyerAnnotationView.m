@@ -17,7 +17,6 @@
 
 NSString* const kFlyerAnnotationViewReuseId = @"FlyerAnnotationView";
 static NSString* const kFlyerTransformKey = @"transform";
-static NSString* const kKeyFlyerIsAtOwnPost = @"isAtOwnPost";
 static NSString* const kKeyFlyerMetersToDest = @"metersToDest";
 static NSString* const kKeyFlyerState = @"state";
 
@@ -90,10 +89,9 @@ static const float kFlyerAnnotContentSize = 85.0f;
         
         _calloutAnnotation = nil;
         
-        // observe flyer transform and isAtOwnPost
+        // observe flyer vars
         Flyer* flyer = (Flyer*)annotation;
         [flyer addObserver:self forKeyPath:kFlyerTransformKey options:0 context:nil];
-        [flyer addObserver:self forKeyPath:kKeyFlyerIsAtOwnPost options:0 context:nil];
         [flyer addObserver:self forKeyPath:kKeyFlyerMetersToDest options:0 context:nil];
         [flyer addObserver:self forKeyPath:kKeyFlyerState options:0 context:nil];
     }
@@ -105,7 +103,6 @@ static const float kFlyerAnnotContentSize = 85.0f;
     Flyer* flyer = (Flyer*)[self annotation];
     [flyer removeObserver:self forKeyPath:kKeyFlyerState];
     [flyer removeObserver:self forKeyPath:kKeyFlyerMetersToDest];
-    [flyer removeObserver:self forKeyPath:kKeyFlyerIsAtOwnPost];
     [flyer removeObserver:self forKeyPath:kFlyerTransformKey];
 }
 
@@ -120,19 +117,6 @@ static const float kFlyerAnnotContentSize = 85.0f;
         if([keyPath isEqualToString:kFlyerTransformKey])
         {
             [self setRenderTransform:[flyer transform]];
-        }
-        else if([keyPath isEqualToString:kKeyFlyerIsAtOwnPost])
-        {
-            if([flyer isAtOwnPost])
-            {
-                // disable touch for Flyer when it is at own post
-                // own-post's callout will handle interaction with the user
-                [self setEnabled:NO];
-            }
-            else
-            {
-                [self setEnabled:YES];
-            }
         }
         else if([keyPath isEqualToString:kKeyFlyerMetersToDest])
         {
