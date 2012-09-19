@@ -86,7 +86,8 @@ static const float kTradeDistanceFactor = 0.001f;
     BOOL result = NO;
     for(Flyer* cur in [[FlyerMgr getInstance] playerFlyers])
     {
-        if(![[cur path] isEnroute])
+        if((kFlyerStateIdle == [cur state]) ||
+           (kFlyerStateLoaded == [cur state]))
         {
             result = YES;
         }

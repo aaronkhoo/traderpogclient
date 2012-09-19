@@ -83,6 +83,8 @@
         {
             annotationView.annotation = self;
         }
+
+        [annotationView refreshLayoutWithFlyer:[self flyer]];
         annotationView.parentAnnotationView = self.parentAnnotationView;
         annotationView.mapView = mapView;
         _calloutView = annotationView;

@@ -81,6 +81,7 @@ enum _FlyerStates
 - (BOOL) departForPostId:(NSString *)postId;
 - (void) updateAtDate:(NSDate *)currentTime;
 - (NSTimeInterval) timeTillDest;
+- (BOOL) gotoState:(unsigned int)newState;
 
 // map
 - (void) refreshImageInAnnotationView:(FlyerAnnotationView*)annotationView;

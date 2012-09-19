@@ -10,6 +10,18 @@
 #import "CalloutAnnotationView.h"
 
 extern NSString* const kFlyerCalloutViewReuseId;
+@class Flyer;
 @interface FlyerCalloutView : CalloutAnnotationView
+
+@property (weak, nonatomic) IBOutlet UIButton *buttonGoHome;
+@property (weak, nonatomic) IBOutlet UIButton *buttonLoadNow;
+@property (weak, nonatomic) IBOutlet UIButton *buttonUnloadNow;
+@property (weak, nonatomic) IBOutlet UIButton *buttonCompleteNow;
+
+- (void) refreshLayoutWithFlyer:(Flyer*)flyer;
+
 - (IBAction)didPressHome:(id)sender;
+- (IBAction)didPressLoadNow:(id)sender;
+- (IBAction)didPressUnloadNow:(id)sender;
+- (IBAction)didPressCompleteNow:(id)sender;
 @end

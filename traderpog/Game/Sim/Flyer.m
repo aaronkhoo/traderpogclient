@@ -40,7 +40,6 @@ static NSString* const kKeyStateBegin = @"stateBegin";
 }
 - (CLLocationCoordinate2D) flyerCoordinateAtTimeSinceDeparture:(NSTimeInterval)elapsed;
 - (CLLocationCoordinate2D) flyerCoordinateAtTimeAhead:(NSTimeInterval)timeAhead;
-- (BOOL) gotoState:(unsigned int)newState;
 - (NSString*) nameOfFlyerState:(unsigned int)queryState;
 @end
 
@@ -103,7 +102,7 @@ static NSString* const kKeyStateBegin = @"stateBegin";
         id stateObj = [dict valueForKeyPath:kKeyState];
         if(([NSNull null] == stateObj) || (!stateObj))
         {
-            _state = kFlyerStateIdle;
+            // do nothing, leave it at the state initialized from scratch or from coder
         }
         else
         {
@@ -112,7 +111,7 @@ static NSString* const kKeyStateBegin = @"stateBegin";
         id stateBeginObj = [dict valueForKeyPath:kKeyStateBegin];
         if(([NSNull null] == stateBeginObj) || (!stateBeginObj))
         {
-            _stateBegin = nil;
+            // do nothing, leave it at initialized or coder value
         }
         else
         {
@@ -148,8 +147,8 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     [aCoder encodeObject:_inventory forKey:kKeyInventory];
     [aCoder encodeObject:_path forKey:kKeyPath];
     
-//    [aCoder encodeObject:[NSNumber numberWithUnsignedInt:_state] forKey:kKeyState];
-//    [aCoder encodeObject:_stateBegin forKey:kKeyStateBegin];
+    [aCoder encodeObject:[NSNumber numberWithUnsignedInt:_state] forKey:kKeyState];
+    [aCoder encodeObject:_stateBegin forKey:kKeyStateBegin];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
@@ -272,7 +271,6 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     if (_path.doneWithCurrentPath)
     {        
         [self setCoordinate:_path.srcCoord];
-        [self gotoState:kFlyerStateIdle];
 
         // attach myself to the post I'm at
         TradePost* curPost = [[TradePostMgr getInstance] getTradePostWithId:_path.curPostId];
@@ -328,8 +326,15 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     _metersToDest = 0.0;
     [_path completeFlyerPath:_userFlyerId];
     [_inventory updateFlyerInventoryOnServer:_userFlyerId];
-    [self gotoState:kFlyerStateIdle];
-    
+    if([arrivalPost isMemberOfClass:[MyTradePost class]])
+    {
+        [self gotoState:kFlyerStateWaitingToUnload];
+    }
+    else
+    {
+        [self gotoState:kFlyerStateWaitingToLoad];
+    }
+//    [self gotoState:kFlyerStateIdle];
     [[[[GameManager getInstance] gameViewController] mapControl] dismissFlightPathForFlyer:self];
     self.flightPathRender = nil;
     [[[[GameManager getInstance] gameViewController] mapControl] dismissAnnotationForFlyer:self];
@@ -341,23 +346,34 @@ static NSString* const kKeyStateBegin = @"stateBegin";
 
 - (void) updateAtDate:(NSDate *)currentTime
 {
-    if(_initializeFlyerOnMap && !_path.doneWithCurrentPath)
+    if(_initializeFlyerOnMap)
     {
-        // enroute
-        CLLocationCoordinate2D curCoord = [self flyerCoordinateNow];
-        [self setCoordinate:curCoord];
-        
-        if([self flightPathRender])
+        if(!_path.doneWithCurrentPath)
         {
-            [self.flightPathRender setCurCoord:curCoord];
+            // enroute
+            CLLocationCoordinate2D curCoord = [self flyerCoordinateNow];
+            [self setCoordinate:curCoord];
+            
+            if([self flightPathRender])
+            {
+                [self.flightPathRender setCurCoord:curCoord];
+            }
+            
+            NSTimeInterval elapsed = -[_path.departureDate timeIntervalSinceNow];
+            CLLocationDistance routeDist = metersDistance([_path srcCoord], [_path destCoord]);
+            self.metersToDest = routeDist - (elapsed * [self getFlyerSpeed]);
+            if(self.metersToDest <= 0.0)
+            {
+                [self completeFlyerPath];
+            }
         }
-        
-        NSTimeInterval elapsed = -[_path.departureDate timeIntervalSinceNow];
-        CLLocationDistance routeDist = metersDistance([_path srcCoord], [_path destCoord]);
-        self.metersToDest = routeDist - (elapsed * [self getFlyerSpeed]);
-        if(self.metersToDest <= 0.0)
+        else if(kFlyerStateWaitingToUnload == [self state])
         {
-            [self completeFlyerPath];
+            // do nothing
+        }
+        else if(kFlyerStateWaitingToLoad == [self state])
+        {
+            // do nothing
         }
     }
 }
@@ -523,6 +539,7 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
         
         if(canChange)
         {
+            NSLog(@"FlyerState Changed: %@ to %@", [self nameOfFlyerState:[self state]], [self nameOfFlyerState:newState]);
             self.state = newState;
             self.stateBegin = [NSDate date];
             changed = YES;
