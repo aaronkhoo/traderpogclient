@@ -1234,6 +1234,7 @@
 		C41ED14115A6B33E00995F53 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = armv7;
 				CODE_SIGN_ENTITLEMENTS = traderpog/traderpog.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1253,6 +1254,7 @@
 		C41ED14215A6B33E00995F53 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = armv7;
 				CODE_SIGN_ENTITLEMENTS = traderpog/traderpog.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "traderpog/traderpog-Prefix.pch";
@@ -1291,6 +1293,7 @@
 		C4BBE47B15BC952100F582DE /* Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = armv7;
 				CODE_SIGN_ENTITLEMENTS = traderpog/traderpog.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
