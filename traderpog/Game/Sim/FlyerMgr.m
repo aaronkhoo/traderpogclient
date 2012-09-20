@@ -364,7 +364,7 @@ static const float kBubbleBorderWidth = 1.5f;
                 }
                 cur.path.curPostId = [post postId];
             }
-            if(![[cur path] nextPostId])
+            if((![[cur path] nextPostId]) && (![[cur path] doneWithCurrentPath]))
             {
                 TradePost* post = [self tradePosts:patchPosts withinMeters:kSimilarCoordThresholdMeters fromCoord:[[cur path] destCoord]];
                 if(!post)

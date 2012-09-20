@@ -205,12 +205,15 @@ static NSString* const kKeyDone = @"done";
         if(_nextPostId)
         {
             _destCoord = [[[TradePostMgr getInstance] getTradePostWithId:_nextPostId] coord];
+            
+            // if there is a nextPostId, then set curPostId to it because it is our destination;
+            // otherwise, the path had been updated with curPostId being the destination;
+            _curPostId = _nextPostId;
         }
         else
         {
             // otherwise, destCoord would have loaded from server; so, do nothing
         }
-        _curPostId = _nextPostId;
         _srcCoord = _destCoord;
         _nextPostId = nil;
         _departureDate = nil;
