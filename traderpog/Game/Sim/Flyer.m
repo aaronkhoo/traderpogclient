@@ -483,8 +483,7 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
         switch(newState)
         {
             case kFlyerStateIdle:
-                if((kFlyerStateWaitingToUnload == [self state]) ||
-                   (kFlyerStateEnroute == [self state]))
+                if(kFlyerStateUnloading == [self state])
                 {
                     canChange = YES;
                 }

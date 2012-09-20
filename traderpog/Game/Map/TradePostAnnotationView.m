@@ -113,13 +113,25 @@ NSString* const kKeyFlyerAtPost = @"flyerAtPost";
     {
         if([[GameManager getInstance] canShowMapAnnotationCallout])
         {
-            TradePost* tradePost = (TradePost*) [self annotation];
+            TradePost* tradePost = (TradePost*) [self annotation];            
             if([tradePost isMemberOfClass:[MyTradePost class]])
             {
-                // show player-post callout if own post
-                PlayerPostCallout* callout = [[PlayerPostCallout alloc] initWithTradePost:tradePost];
-                callout.parentAnnotationView = self;
-                _calloutAnnotation = callout;
+                Flyer* flyer = [tradePost flyerAtPost];
+                if(!flyer || (kFlyerStateIdle == [flyer state]))
+                {
+                    // show player-post callout if own post and flyer is idle
+                    PlayerPostCallout* callout = [[PlayerPostCallout alloc] initWithTradePost:tradePost];
+                    callout.parentAnnotationView = self;
+                    _calloutAnnotation = callout;
+                }
+                else if((kFlyerStateWaitingToUnload == [flyer state]) ||
+                        (kFlyerStateUnloading == [flyer state]))
+                {
+                    // show flyer callout if flyer is waiting to unload
+                    FlyerCallout* callout = [[FlyerCallout alloc] initWithFlyer:flyer];
+                    callout.parentAnnotationView = self;
+                    _calloutAnnotation = callout;
+                }
             }
             else if([tradePost flyerAtPost])
             {
