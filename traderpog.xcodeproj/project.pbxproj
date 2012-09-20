@@ -25,6 +25,9 @@
 		3889129A15D5D8B6009CF624 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 3889129515D5D8B6009CF624 /* SSZipArchive.m */; };
 		38B6DAEF15C85A9D00F37BD9 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 38B6DAE215C85A9D00F37BD9 /* FBDialog.bundle */; };
 		38B6DAF015C85A9D00F37BD9 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38B6DAE815C85A9D00F37BD9 /* libfacebook_ios_sdk.a */; };
+		38C8B3251609830200AFD214 /* Leaderboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C8B3241609830200AFD214 /* Leaderboard.m */; };
+		38C8B329160A3F8800AFD214 /* LeaderboardMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C8B328160A3F8800AFD214 /* LeaderboardMgr.m */; };
+		38C8B32C160A44F800AFD214 /* LeaderboardRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C8B32B160A44F800AFD214 /* LeaderboardRow.m */; };
 		38D7371E15ED7290001CD3AE /* AsyncHttpCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D7371D15ED7290001CD3AE /* AsyncHttpCall.m */; };
 		38D7372215ED7DC6001CD3AE /* AsyncHttpCallMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D7372115ED7DC6001CD3AE /* AsyncHttpCallMgr.m */; };
 		38F6593915F8023100816517 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F6593815F8023100816517 /* Reachability.m */; };
@@ -211,6 +214,12 @@
 		38B6DAEC15C85A9D00F37BD9 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
 		38B6DAED15C85A9D00F37BD9 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
 		38B6DAEE15C85A9D00F37BD9 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		38C8B3231609830200AFD214 /* Leaderboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Leaderboard.h; path = Game/Sim/Leaderboard.h; sourceTree = "<group>"; };
+		38C8B3241609830200AFD214 /* Leaderboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Leaderboard.m; path = Game/Sim/Leaderboard.m; sourceTree = "<group>"; };
+		38C8B327160A3F8800AFD214 /* LeaderboardMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeaderboardMgr.h; path = Game/Sim/LeaderboardMgr.h; sourceTree = "<group>"; };
+		38C8B328160A3F8800AFD214 /* LeaderboardMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LeaderboardMgr.m; path = Game/Sim/LeaderboardMgr.m; sourceTree = "<group>"; };
+		38C8B32A160A44F700AFD214 /* LeaderboardRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeaderboardRow.h; path = Game/Sim/LeaderboardRow.h; sourceTree = "<group>"; };
+		38C8B32B160A44F800AFD214 /* LeaderboardRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LeaderboardRow.m; path = Game/Sim/LeaderboardRow.m; sourceTree = "<group>"; };
 		38D7371C15ED7290001CD3AE /* AsyncHttpCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncHttpCall.h; path = Game/ServerAPI/AsyncHttpCall.h; sourceTree = "<group>"; };
 		38D7371D15ED7290001CD3AE /* AsyncHttpCall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncHttpCall.m; path = Game/ServerAPI/AsyncHttpCall.m; sourceTree = "<group>"; };
 		38D7372015ED7DC6001CD3AE /* AsyncHttpCallMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncHttpCallMgr.h; path = Game/ServerAPI/AsyncHttpCallMgr.h; sourceTree = "<group>"; };
@@ -922,6 +931,12 @@
 				38821EDE15F45670004733E2 /* FlyerInventory.m */,
 				38821EE115F45685004733E2 /* FlyerPath.h */,
 				38821EE215F45685004733E2 /* FlyerPath.m */,
+				38C8B32A160A44F700AFD214 /* LeaderboardRow.h */,
+				38C8B32B160A44F800AFD214 /* LeaderboardRow.m */,
+				38C8B3231609830200AFD214 /* Leaderboard.h */,
+				38C8B3241609830200AFD214 /* Leaderboard.m */,
+				38C8B327160A3F8800AFD214 /* LeaderboardMgr.h */,
+				38C8B328160A3F8800AFD214 /* LeaderboardMgr.m */,
 			);
 			name = Sim;
 			sourceTree = "<group>";
@@ -1150,6 +1165,9 @@
 				C462694A1603F876002F1626 /* LoadingCircle.m in Sources */,
 				C462694F1603FF63002F1626 /* LoadingScreen.m in Sources */,
 				42C766B31607900900D21354 /* LoadingTransition.m in Sources */,
+				38C8B3251609830200AFD214 /* Leaderboard.m in Sources */,
+				38C8B329160A3F8800AFD214 /* LeaderboardMgr.m in Sources */,
+				38C8B32C160A44F800AFD214 /* LeaderboardRow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
