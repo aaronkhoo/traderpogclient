@@ -203,6 +203,8 @@ typedef enum {
             NSLog(@"start gameloop");
             [self.gameViewController showKnobAnimated:YES delay:0.5f];
             
+            [[Player getInstance] resetBucksIfNecessary];
+            
             break;
             
         default:
