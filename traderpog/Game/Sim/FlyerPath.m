@@ -287,6 +287,49 @@ static NSString* const kKeyDone = @"done";
     return FALSE;
 }
 
+- (NSDictionary*) createParametersForSetDone
+{
+    NSMutableDictionary* parameters = [NSMutableDictionary dictionaryWithCapacity:6];
+    
+    // Source post
+    if (_curPostId)
+    {
+        TradePost* post1 = [[TradePostMgr getInstance] getTradePostWithId:_curPostId];
+        if ([post1 isMemberOfClass:[NPCTradePost class]])
+        {
+            CLLocationCoordinate2D location = post1.coord;
+            [parameters setValue:[NSNumber numberWithDouble:location.longitude] forKey:kKeyLongitude1];
+            [parameters setValue:[NSNumber numberWithDouble:location.latitude] forKey:kKeyLatitude1];
+        }
+        else
+        {
+            [parameters setObject:_curPostId forKey:kKeyPost1];
+        }
+    }
+    else
+    {
+        // This can happen when the source location is retrieved from the server, and was an NPC trade post
+        // that didn't exist there, so the only info we have on it are the longitude/latitude.
+        [parameters setValue:[NSNumber numberWithDouble:_srcCoord.longitude] forKey:kKeyLongitude1];
+        [parameters setValue:[NSNumber numberWithDouble:_srcCoord.latitude] forKey:kKeyLatitude1];
+    }
+    
+    // Destination post
+    TradePost* post2 = [[TradePostMgr getInstance] getTradePostWithId:_nextPostId];
+    if ([post2 isMemberOfClass:[NPCTradePost class]])
+    {
+        CLLocationCoordinate2D location = post2.coord;
+        [parameters setValue:[NSNumber numberWithDouble:location.longitude] forKey:kKeyLongitude2];
+        [parameters setValue:[NSNumber numberWithDouble:location.latitude] forKey:kKeyLatitude2];
+    }
+    else
+    {
+        [parameters setObject:_nextPostId forKey:kKeyPost2];
+    }
+    
+    return parameters;
+}
+
 - (NSDictionary*) createParametersForFlyerPath
 {
     NSMutableDictionary* parameters = [NSMutableDictionary dictionaryWithCapacity:6];
@@ -365,6 +408,16 @@ static NSString* const kKeyDone = @"done";
 
 - (void) completeFlyerPath:(NSString*)userFlyerId
 {
+    NSString *setdoneUrl = [NSString stringWithFormat:@"users/%d/user_flyers/%@/flyer_paths/setdone", [[Player getInstance] playerId], userFlyerId];
+    NSDictionary* parameters = [self createParametersForSetDone];
+    NSString* msg = [[NSString alloc] initWithFormat:@"Setting done for player %d, flyer %@ failed", [[Player getInstance] playerId], userFlyerId];
+    [[AsyncHttpCallMgr getInstance] newAsyncHttpCall:setdoneUrl
+                                      current_params:parameters
+                                     current_headers:nil
+                                         current_msg:msg
+                                        current_type:putType];
+
+    
     // Clearing up the various parameters properly as the Flyer has arrived at its destination
     _curPostId = _nextPostId;
     _srcCoord = _destCoord;
