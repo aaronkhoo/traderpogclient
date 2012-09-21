@@ -75,6 +75,7 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
 #pragma mark - internal methods
 - (void) initBackgroundColor
 {
+    // hexcolor is ED 1C 24
     [self.view setBackgroundColor:[UIColor colorWithRed:237.0f/255.0f green:28.0f/255.0f blue:36.0f/255.0f alpha:1.0f]];
 }
 

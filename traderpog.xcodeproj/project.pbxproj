@@ -52,6 +52,7 @@
 		423F56C315F7C60900E42AC2 /* flyer_landed.png in Resources */ = {isa = PBXBuildFile; fileRef = 423F56C215F7C60900E42AC2 /* flyer_landed.png */; };
 		4245A07B16005C9600AB14EB /* TradePost+Render.m in Sources */ = {isa = PBXBuildFile; fileRef = 4245A07A16005C9600AB14EB /* TradePost+Render.m */; };
 		4277385215D3A5CE004DCC13 /* BeaconMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385115D3A5CE004DCC13 /* BeaconMgr.m */; };
+		4277D994160C5908008AD767 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4277D993160C5908008AD767 /* Default-568h@2x.png */; };
 		428839BF15FB240A00CA4FDC /* icon_yun.png in Resources */ = {isa = PBXBuildFile; fileRef = 428839BE15FB240A00CA4FDC /* icon_yun.png */; };
 		4290AB0B15EF2099001FAF0B /* BrowsePan.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0A15EF2099001FAF0B /* BrowsePan.m */; };
 		4290AB0F15EF3D06001FAF0B /* BrowsePinch.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0E15EF3D06001FAF0B /* BrowsePinch.m */; };
@@ -263,6 +264,7 @@
 		4245A07A16005C9600AB14EB /* TradePost+Render.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "TradePost+Render.m"; path = "Game/Map/TradePost+Render.m"; sourceTree = "<group>"; };
 		4277385015D3A5CE004DCC13 /* BeaconMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BeaconMgr.h; path = Game/Sim/BeaconMgr.h; sourceTree = "<group>"; };
 		4277385115D3A5CE004DCC13 /* BeaconMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeaconMgr.m; path = Game/Sim/BeaconMgr.m; sourceTree = "<group>"; };
+		4277D993160C5908008AD767 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		428839BE15FB240A00CA4FDC /* icon_yun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_yun.png; path = assets/UI/icon_yun.png; sourceTree = SOURCE_ROOT; };
 		4290AB0915EF2099001FAF0B /* BrowsePan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrowsePan.h; path = Game/Map/BrowsePan.h; sourceTree = "<group>"; };
 		4290AB0A15EF2099001FAF0B /* BrowsePan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrowsePan.m; path = Game/Map/BrowsePan.m; sourceTree = "<group>"; };
@@ -613,6 +615,7 @@
 		C41ED11D15A6B33E00995F53 = {
 			isa = PBXGroup;
 			children = (
+				4277D993160C5908008AD767 /* Default-568h@2x.png */,
 				C41ED14E15A6B42600995F53 /* Default@2x.png */,
 				C41ED14C15A6B42200995F53 /* Default.png */,
 				C41ED14A15A6B41700995F53 /* AppIcon@2x.png */,
@@ -1060,6 +1063,7 @@
 				42CEEC681603066400AED5ED /* flyer.png in Resources */,
 				C46269501603FF63002F1626 /* LoadingScreen.xib in Resources */,
 				42C766B41607900900D21354 /* LoadingTransition.xib in Resources */,
+				4277D994160C5908008AD767 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1247,6 +1251,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1265,6 +1270,7 @@
 					"\"$(SRCROOT)/traderpog/facebook-ios-sdk\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1306,6 +1312,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Distribution;

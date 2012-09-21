@@ -22,6 +22,9 @@
 #import "ResourceManager.h"
 #import "AnimMgr.h"
 
+static const float kAppScreenWidth = 320.0f;
+static const float kAppScreenHeight = 480.0f;
+
 @interface AppDelegate()
 {
     NSDate* _lastEnteredBackgroundDate;
@@ -51,9 +54,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    float originX = 0.5f * (screenBounds.size.width - kAppScreenWidth);
+    float originY = 0.5f * (screenBounds.size.height - kAppScreenHeight);
+    self.window = [[UIWindow alloc] initWithFrame:CGRectMake(originX, originY, kAppScreenWidth, kAppScreenHeight)];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    self.window.clipsToBounds = YES;
 
     // setup navigation controller
     [self setupNavigationController];
