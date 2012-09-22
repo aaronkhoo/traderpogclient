@@ -25,6 +25,11 @@
 		3889129A15D5D8B6009CF624 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 3889129515D5D8B6009CF624 /* SSZipArchive.m */; };
 		38B6DAEF15C85A9D00F37BD9 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 38B6DAE215C85A9D00F37BD9 /* FBDialog.bundle */; };
 		38B6DAF015C85A9D00F37BD9 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38B6DAE815C85A9D00F37BD9 /* libfacebook_ios_sdk.a */; };
+		38BE3BD7160D3CF500758F27 /* LocalyticsDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BE3BD1160D3CF500758F27 /* LocalyticsDatabase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		38BE3BD8160D3CF500758F27 /* LocalyticsSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BE3BD3160D3CF500758F27 /* LocalyticsSession.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		38BE3BD9160D3CF500758F27 /* LocalyticsUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BE3BD5160D3CF500758F27 /* LocalyticsUploader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		38BE3BDC160D41B700758F27 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BE3BDB160D41B700758F27 /* libsqlite3.dylib */; };
+		38BE3BDE160D41D200758F27 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BE3BDD160D41D200758F27 /* AdSupport.framework */; };
 		38C8B3251609830200AFD214 /* Leaderboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C8B3241609830200AFD214 /* Leaderboard.m */; };
 		38C8B329160A3F8800AFD214 /* LeaderboardMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C8B328160A3F8800AFD214 /* LeaderboardMgr.m */; };
 		38C8B32C160A44F800AFD214 /* LeaderboardRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C8B32B160A44F800AFD214 /* LeaderboardRow.m */; };
@@ -215,6 +220,15 @@
 		38B6DAEC15C85A9D00F37BD9 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
 		38B6DAED15C85A9D00F37BD9 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
 		38B6DAEE15C85A9D00F37BD9 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		38BE3BD0160D3CF500758F27 /* LocalyticsDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalyticsDatabase.h; sourceTree = "<group>"; };
+		38BE3BD1160D3CF500758F27 /* LocalyticsDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalyticsDatabase.m; sourceTree = "<group>"; };
+		38BE3BD2160D3CF500758F27 /* LocalyticsSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalyticsSession.h; sourceTree = "<group>"; };
+		38BE3BD3160D3CF500758F27 /* LocalyticsSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalyticsSession.m; sourceTree = "<group>"; };
+		38BE3BD4160D3CF500758F27 /* LocalyticsUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalyticsUploader.h; sourceTree = "<group>"; };
+		38BE3BD5160D3CF500758F27 /* LocalyticsUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalyticsUploader.m; sourceTree = "<group>"; };
+		38BE3BD6160D3CF500758F27 /* WebserviceConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebserviceConstants.h; sourceTree = "<group>"; };
+		38BE3BDB160D41B700758F27 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		38BE3BDD160D41D200758F27 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		38C8B3231609830200AFD214 /* Leaderboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Leaderboard.h; path = Game/Sim/Leaderboard.h; sourceTree = "<group>"; };
 		38C8B3241609830200AFD214 /* Leaderboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Leaderboard.m; path = Game/Sim/Leaderboard.m; sourceTree = "<group>"; };
 		38C8B327160A3F8800AFD214 /* LeaderboardMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeaderboardMgr.h; path = Game/Sim/LeaderboardMgr.h; sourceTree = "<group>"; };
@@ -456,6 +470,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38BE3BDE160D41D200758F27 /* AdSupport.framework in Frameworks */,
+				38BE3BDC160D41B700758F27 /* libsqlite3.dylib in Frameworks */,
 				3889127415D5BA8E009CF624 /* libz.1.2.5.dylib in Frameworks */,
 				C4945B8415AC2D2C00EEC0C0 /* SystemConfiguration.framework in Frameworks */,
 				C41E0CAA15AC04E5006662DF /* CoreLocation.framework in Frameworks */,
@@ -529,6 +545,20 @@
 				38B6DAEE15C85A9D00F37BD9 /* SBJsonWriter.h */,
 			);
 			path = "facebook-ios-sdk";
+			sourceTree = "<group>";
+		};
+		38BE3BCF160D3CF500758F27 /* localytics */ = {
+			isa = PBXGroup;
+			children = (
+				38BE3BD0160D3CF500758F27 /* LocalyticsDatabase.h */,
+				38BE3BD1160D3CF500758F27 /* LocalyticsDatabase.m */,
+				38BE3BD2160D3CF500758F27 /* LocalyticsSession.h */,
+				38BE3BD3160D3CF500758F27 /* LocalyticsSession.m */,
+				38BE3BD4160D3CF500758F27 /* LocalyticsUploader.h */,
+				38BE3BD5160D3CF500758F27 /* LocalyticsUploader.m */,
+				38BE3BD6160D3CF500758F27 /* WebserviceConstants.h */,
+			);
+			path = localytics;
 			sourceTree = "<group>";
 		};
 		421564D515F6B2E400AAE851 /* anim */ = {
@@ -638,6 +668,8 @@
 		C41ED12B15A6B33E00995F53 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				38BE3BDB160D41B700758F27 /* libsqlite3.dylib */,
+				38BE3BDD160D41D200758F27 /* AdSupport.framework */,
 				3889127315D5BA8E009CF624 /* libz.1.2.5.dylib */,
 				C4945B8315AC2D2C00EEC0C0 /* SystemConfiguration.framework */,
 				C41E0CA915AC04E5006662DF /* CoreLocation.framework */,
@@ -653,6 +685,7 @@
 		C41ED13215A6B33E00995F53 /* traderpog */ = {
 			isa = PBXGroup;
 			children = (
+				38BE3BCF160D3CF500758F27 /* localytics */,
 				3889128915D5D8B6009CF624 /* ssziparchive */,
 				38B6DADF15C85A9D00F37BD9 /* facebook-ios-sdk */,
 				C4BBE47C15BC955000F582DE /* traderpog.entitlements */,
@@ -1172,6 +1205,9 @@
 				38C8B3251609830200AFD214 /* Leaderboard.m in Sources */,
 				38C8B329160A3F8800AFD214 /* LeaderboardMgr.m in Sources */,
 				38C8B32C160A44F800AFD214 /* LeaderboardRow.m in Sources */,
+				38BE3BD7160D3CF500758F27 /* LocalyticsDatabase.m in Sources */,
+				38BE3BD8160D3CF500758F27 /* LocalyticsSession.m in Sources */,
+				38BE3BD9160D3CF500758F27 /* LocalyticsUploader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
