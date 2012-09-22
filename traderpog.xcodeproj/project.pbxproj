@@ -29,7 +29,7 @@
 		38BE3BD8160D3CF500758F27 /* LocalyticsSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BE3BD3160D3CF500758F27 /* LocalyticsSession.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		38BE3BD9160D3CF500758F27 /* LocalyticsUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BE3BD5160D3CF500758F27 /* LocalyticsUploader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		38BE3BDC160D41B700758F27 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BE3BDB160D41B700758F27 /* libsqlite3.dylib */; };
-		38BE3BDE160D41D200758F27 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BE3BDD160D41D200758F27 /* AdSupport.framework */; };
+		38BE3BDE160D41D200758F27 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BE3BDD160D41D200758F27 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		38C8B3251609830200AFD214 /* Leaderboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C8B3241609830200AFD214 /* Leaderboard.m */; };
 		38C8B329160A3F8800AFD214 /* LeaderboardMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C8B328160A3F8800AFD214 /* LeaderboardMgr.m */; };
 		38C8B32C160A44F800AFD214 /* LeaderboardRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C8B32B160A44F800AFD214 /* LeaderboardRow.m */; };
