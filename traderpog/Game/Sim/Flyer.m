@@ -338,6 +338,8 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     
     // ask TradeManager to handle arrival
     TradePost* arrivalPost = [[TradePostMgr getInstance] getTradePostWithId:[_path nextPostId]];
+    MapControl* mapControl = [[[GameManager getInstance] gameViewController] mapControl];
+    [mapControl deselectAnnotation:arrivalPost animated:NO];
     [[TradeManager getInstance] flyer:self didArriveAtPost:arrivalPost];
     _metersToDest = 0.0;
     [_path completeFlyerPath:_userFlyerId];
@@ -350,10 +352,9 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     {
         [self gotoState:kFlyerStateWaitingToLoad];
     }
-//    [self gotoState:kFlyerStateIdle];
-    [[[[GameManager getInstance] gameViewController] mapControl] dismissFlightPathForFlyer:self];
+    [mapControl dismissFlightPathForFlyer:self];
     self.flightPathRender = nil;
-    [[[[GameManager getInstance] gameViewController] mapControl] dismissAnnotationForFlyer:self];
+    [mapControl dismissAnnotationForFlyer:self];
     arrivalPost.flyerAtPost = self;
 
     // broadcast arrival

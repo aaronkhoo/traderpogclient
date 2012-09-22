@@ -280,6 +280,14 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
     }
 }
 
+- (void) deselectAnnotation:(NSObject<MKAnnotation> *)annotation animated:(BOOL)animated
+{
+    if([[self.view selectedAnnotations] containsObject:annotation])
+    {
+        [self.view deselectAnnotation:annotation animated:animated];
+    }
+}
+
 - (void) deselectAllAnnotations
 {
     for(NSObject<MKAnnotation>* cur in [self.view selectedAnnotations])

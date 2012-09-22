@@ -38,6 +38,10 @@
 - (void) stopTrackingAnnotation;
 - (void) centerOnFlyer:(Flyer*)flyer animated:(BOOL)isAnimated;
 
+// deselect given annotation if it is selected;
+- (void) deselectAnnotation:(NSObject<MKAnnotation>*)annotation animated:(BOOL)animated;
+
+// deselect all annotations
 - (void) deselectAllAnnotations;
 - (void) removeAllAnnotations;
 @end
