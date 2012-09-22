@@ -111,6 +111,34 @@ static const float kSecondsPerMinute = 60.0;
     return result;
 }
 
++ (NSDate*) getMondayOfTheWeek
+{
+    NSDate *today = [[NSDate alloc] init];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    
+    // Get the weekday component of the current date
+    NSDateComponents *weekdayComponents = [gregorian components:NSWeekdayCalendarUnit fromDate:today];
+    
+    /*
+     Create a date components to represent the number of days to subtract from the current date.
+     The weekday value for Monday in the Gregorian calendar is 2. 
+     */
+    NSDateComponents *componentsToSubtract = [[NSDateComponents alloc] init];
+    [componentsToSubtract setDay: 0 - (([weekdayComponents weekday] + 5) % 7)];
+    
+    NSDate *beginningOfWeek = [gregorian dateByAddingComponents:componentsToSubtract toDate:today options:0];
+    
+    /*
+     beginningOfWeek now has the same hour, minute, and second as the original date (today).
+     To normalize to midnight, extract the year, month, and day components and create a new date from those components.
+     */
+    NSDateComponents *components =
+    [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
+                 fromDate: beginningOfWeek];
+    beginningOfWeek = [gregorian dateFromComponents:components];
+    return beginningOfWeek;
+}
+
 + (void) followUsOnTwitter
 {
     // open the twitter app first, if twitter app not found, open it in safari

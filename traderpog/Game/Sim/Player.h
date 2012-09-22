@@ -36,6 +36,9 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
     NSDate* _fbFriendsUpdate;
     NSDate* _fbPostUpdate;
     
+    // Start of week date for reseting money count
+    NSDate* _currentWeekOf;
+    
     BOOL _lastKnownLocationValid;
     CLLocationCoordinate2D _lastKnownLocation;
     
@@ -68,6 +71,7 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
 - (void) deductBucks:(NSUInteger)bucksToSub;
 - (void) setBucks:(NSUInteger)newBucks;
 - (NSUInteger) bucks;
+- (void) resetBucksIfNecessary;
 
 // system
 - (void) appDidEnterBackground;

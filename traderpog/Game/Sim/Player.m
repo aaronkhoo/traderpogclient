@@ -7,14 +7,15 @@
 //
 
 #import "AsyncHttpCallMgr.h"
-#import "GameManager.h"
-#import "Player.h"
 #import "AFClientManager.h"
 #import "AFHTTPRequestOperation.h"
 #import "AppDelegate.h"
+#import "GameManager.h"
+#import "GameNotes.h"
 #import "LoadingScreen.h"
 #import "UINavigationController+Pog.h"
-#import "GameNotes.h"
+#import "Player.h"
+#import "PogUIUtility.h"
 
 // encoding keys
 static NSString* const kKeyVersion = @"version";
@@ -32,12 +33,22 @@ static NSString* const kKeyFbPostUpdate = @"fbpostupdate";
 static NSString* const kKeyLastKnownLatitude = @"lastlat";
 static NSString* const kKeyLastKnownLongitude = @"lastlong";
 static NSString* const kKeyLastKnownLocationValid = @"lastknownvalid";
+static NSString* const kKeyCurrentWeekOf = @"currentweekof";
 static NSString* const kPlayerFilename = @"player.sav";
+
+// Player ranking based on bucks
+static NSString* const kRankSucker = @"SUCKER\nThere's one born every minute.";
+static NSString* const kRankTenderfoot = @"TENDERFOOT\nYou are learning, though slowly.";
+static NSString* const kRankJourneyman = @"JOURNEYMAN\nAn adequate performance. Nothing more or less.";
+static NSString* const kRankDealer = @"WHEELER DEALER\nOutstanding work by one of our rising stars.";
+static NSString* const kRankMaster = @"MERCHANT MASTER\nYour trading prowess is recognized by all.";
+static NSString* const kRankTaipan = @"TAIPAN\nAll bow before you, Great One.";
 
 static double const refreshTime = -(60 * 15);  // 15 min
 static double const refreshTimeFriends = -(60 * 60 * 24 * 2);  // 2 days
 static double const refreshTimePost = -(60 * 60 * 24);  // 1 day
-static const unsigned int kInitBucks = 500;
+static const unsigned int kInitBucks = 200;
+static const float kPostTribute = 0.02;
 
 @interface Player ()
 
@@ -72,6 +83,9 @@ static const unsigned int kInitBucks = 500;
         _fbPostUpdate = nil;
         
         _lastKnownLocationValid = FALSE;
+        
+        // Date representing current week
+        _currentWeekOf = nil;
         
         // Initialize delegate
         _delegate = nil;
@@ -142,6 +156,94 @@ static const unsigned int kInitBucks = 500;
     return _bucks;
 }
 
+- (NSString*) getBucksResetMessage
+{
+    NSString* rank;
+    if (_bucks < 200)
+    {
+        rank = kRankSucker;
+    }
+    else if (_bucks >= 200 && _bucks < 1000)
+    {
+        rank = kRankTenderfoot;
+    }
+    else if (_bucks >= 1000 && _bucks < 10000)
+    {
+        rank = kRankJourneyman;
+    }
+    else if (_bucks >= 10000 && _bucks < 100000)
+    {
+        rank = kRankDealer;
+    }
+    else if (_bucks >= 100000 && _bucks < 1000000)
+    {
+        rank = kRankMaster;
+    }
+    else // if (_bucks >= 1000000)
+    {
+        rank = kRankTaipan;
+    }
+    
+    NSString* membership;
+    NSUInteger tribute;
+    if (_member)
+    {
+        membership = @"member";
+        tribute = 4;
+    }
+    else
+    {
+        membership = @"non-member";
+        tribute = 2;
+    }
+    
+    NSString* msg = [NSString stringWithFormat:@"Your rank for the week is:\n%@\n\nAs a %@, you may keep %d%% of your earnings as capital.\n", rank, membership, tribute];
+    
+    return msg;
+}
+
+- (void) resetBucksIfNecessary
+{
+    NSDate* currentMonday = [PogUIUtility getMondayOfTheWeek];
+    if (_currentWeekOf)
+    {
+        BOOL needsReset = ([_currentWeekOf timeIntervalSinceDate:currentMonday] < 0);
+        
+        if (needsReset)
+        {
+            NSString* msg = [self getBucksResetMessage];
+            // Inform the user it's time to pay tribute
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Tribute Time!"
+                                                            message:msg
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            
+            [alert show];
+
+            // Deduct the tribute amount
+            if (_member)
+            {
+                _bucks = MAX(kInitBucks*2, _bucks * kPostTribute * 2);
+            }
+            else
+            {
+                _bucks = MAX(kInitBucks, _bucks * kPostTribute);
+            }
+            
+            // broadcast coins changed
+            [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteCoinsChanged object:self];
+            
+            _currentWeekOf = currentMonday;
+            [self updatePlayerBucks];
+        }
+    }
+    else
+    {
+        _currentWeekOf = currentMonday;
+    }
+}
+
 #pragma mark - NSCoding
 - (void) encodeWithCoder:(NSCoder *)aCoder
 {
@@ -156,7 +258,7 @@ static const unsigned int kInitBucks = 500;
     [aCoder encodeObject:[NSNumber numberWithUnsignedInteger:_bucks] forKey:kKeyBucks];
     [aCoder encodeDouble:_lastKnownLocation.latitude forKey:kKeyLastKnownLatitude];
     [aCoder encodeDouble:_lastKnownLocation.longitude forKey:kKeyLastKnownLongitude];
-    [aCoder encodeBool:_lastKnownLocationValid forKey:kKeyLastKnownLocationValid];
+    [aCoder encodeObject:_currentWeekOf forKey:kKeyCurrentWeekOf];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
@@ -181,6 +283,7 @@ static const unsigned int kInitBucks = 500;
     _lastKnownLocation.latitude = [aDecoder decodeDoubleForKey:kKeyLastKnownLatitude];
     _lastKnownLocation.longitude = [aDecoder decodeDoubleForKey:kKeyLastKnownLongitude];
     _lastKnownLocationValid = [aDecoder decodeBoolForKey:kKeyLastKnownLocationValid];
+    _currentWeekOf = [aDecoder decodeObjectForKey:kKeyCurrentWeekOf];
     return self;
 }
 
