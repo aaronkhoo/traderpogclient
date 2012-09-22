@@ -21,6 +21,7 @@
 #import "BeaconMgr.h"
 #import "ResourceManager.h"
 #import "AnimMgr.h"
+#import "LocalyticsSession.h"
 
 static const float kAppScreenWidth = 320.0f;
 static const float kAppScreenHeight = 480.0f;
@@ -54,6 +55,8 @@ static const float kAppScreenHeight = 480.0f;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[LocalyticsSession sharedLocalyticsSession] startSession:@"bf2f53386fe1651bfdea3f1-5feaa8ac-044b-11e2-5623-00ef75f32667"];
+    
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     float originX = 0.5f * (screenBounds.size.width - kAppScreenWidth);
     float originY = 0.5f * (screenBounds.size.height - kAppScreenHeight);
@@ -75,6 +78,9 @@ static const float kAppScreenHeight = 480.0f;
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    
+    [[LocalyticsSession sharedLocalyticsSession] close];
+    [[LocalyticsSession sharedLocalyticsSession] upload];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -82,14 +88,8 @@ static const float kAppScreenHeight = 480.0f;
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
-    // HACK
-    // Remove this after flyer escrow gets saved to server (or local)
-    // commit any escrow money to player now because that isn't saved yet
-    for(Flyer* cur in [[FlyerMgr getInstance] playerFlyers])
-    {
-        [[cur inventory] commitOutstandingOrder];
-    }
-    // HACK
+    [[LocalyticsSession sharedLocalyticsSession] close];
+    [[LocalyticsSession sharedLocalyticsSession] upload];
     
     [[AsyncHttpCallMgr getInstance] applicationDidEnterBackground];
     [[FlyerMgr getInstance] saveFlyerMgrData];
@@ -100,16 +100,25 @@ static const float kAppScreenHeight = 480.0f;
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     
+    [[LocalyticsSession sharedLocalyticsSession] resume];
+    [[LocalyticsSession sharedLocalyticsSession] upload];
+    
     [[GameManager getInstance] applicationWillEnterForeground];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    [[LocalyticsSession sharedLocalyticsSession] resume];
+    [[LocalyticsSession sharedLocalyticsSession] upload];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+    [[LocalyticsSession sharedLocalyticsSession] close];
+    [[LocalyticsSession sharedLocalyticsSession] upload];
+    
     [[AsyncHttpCallMgr getInstance] applicationWillTerminate];
     [[FlyerMgr getInstance] saveFlyerMgrData];
     [self appShutdown];
