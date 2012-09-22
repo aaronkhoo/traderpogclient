@@ -113,7 +113,10 @@ NSString* const kKeyFlyerAtPost = @"flyerAtPost";
 - (void) prepareForReuse
 {
     TradePost* post = (TradePost*) [self annotation];
-    [post removeObserver:self forKeyPath:kKeyFlyerAtPost];    
+    if(post)
+    {
+        [post removeObserver:self forKeyPath:kKeyFlyerAtPost];
+    }
 }
 
 #pragma mark - PogMapAnnotationViewProtocol
