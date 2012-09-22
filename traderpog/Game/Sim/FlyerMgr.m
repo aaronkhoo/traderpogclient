@@ -168,6 +168,9 @@ static const float kBubbleBorderWidth = 1.5f;
         // to the active list.
         [_playerFlyers addObject:_tempFlyer];
         
+        // and set it to a valid Idle state
+        [_tempFlyer gotoState:kFlyerStateIdle];
+        
         // if post previewMap creation, then add this new flyer to previewMap
         if(_previewMap)
         {
@@ -364,7 +367,7 @@ static const float kBubbleBorderWidth = 1.5f;
                 }
                 cur.path.curPostId = [post postId];
             }
-            if((![[cur path] nextPostId]) && (![[cur path] doneWithCurrentPath]))
+            if(![[cur path] nextPostId])
             {
                 TradePost* post = [self tradePosts:patchPosts withinMeters:kSimilarCoordThresholdMeters fromCoord:[[cur path] destCoord]];
                 if(!post)

@@ -27,7 +27,8 @@ enum _FlyerStates
     kFlyerStateWaitingToUnload,
     kFlyerStateUnloading,
     
-    kFlyerStateNum
+    kFlyerStateNum,
+    kFlyerStateInvalid
 };
 
 @class TradePost;

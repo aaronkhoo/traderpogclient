@@ -85,8 +85,18 @@ NSString* const kKeyFlyerAtPost = @"flyerAtPost";
 {
     if([keyPath isEqualToString:kKeyFlyerAtPost])
     {
-        TradePost* post = (TradePost*)object;
-        [post refreshRenderForAnnotationView:self];
+        TradePost* selfPost = (TradePost*)[self annotation];
+        TradePost* observedPost = (TradePost*)object;
+        if([selfPost isEqual:observedPost])
+        {
+            NSLog(@"refreshed view for observedPost %@", [observedPost postId]);
+            [observedPost refreshRenderForAnnotationView:self];
+        }
+        else
+        {
+            NSLog(@"this view has been reused by another post %@; remove observation on observed post %@",
+                  [selfPost postId], [observedPost postId]);
+        }
     }
 }
 

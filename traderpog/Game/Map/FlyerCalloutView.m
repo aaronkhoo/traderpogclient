@@ -103,5 +103,9 @@ NSString* const kFlyerCalloutViewReuseId = @"FlyerCalloutView";
     {
         [buttonCompleteNow setHidden:NO];
     }
+    else
+    {
+        NSLog(@"Warning: flyer callout should not be shown when Flyer is in Idle state");
+    }
 }
 @end

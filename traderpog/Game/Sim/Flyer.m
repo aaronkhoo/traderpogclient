@@ -76,7 +76,7 @@ static NSString* const kKeyStateBegin = @"stateBegin";
         // this flyer is newly created (see Flyer.h for more details)
         _isNewFlyer = YES;
         
-        _state = kFlyerStateIdle;
+        _state = kFlyerStateInvalid;
         _stateBegin = nil;
         
         _inventory = [[FlyerInventory alloc] init];
@@ -102,7 +102,7 @@ static NSString* const kKeyStateBegin = @"stateBegin";
         id stateObj = [dict valueForKeyPath:kKeyState];
         if(([NSNull null] == stateObj) || (!stateObj))
         {
-            // do nothing, leave it at the state initialized from scratch or from coder
+            _state = kFlyerStateInvalid;
         }
         else
         {
@@ -111,7 +111,7 @@ static NSString* const kKeyStateBegin = @"stateBegin";
         id stateBeginObj = [dict valueForKeyPath:kKeyStateBegin];
         if(([NSNull null] == stateBeginObj) || (!stateBeginObj))
         {
-            // do nothing, leave it at initialized or coder value
+            _stateBegin = nil;
         }
         else
         {
@@ -270,10 +270,26 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     // so, this code here ensures dependent data (like coords that depend on postIds) are correctly setup
     if (_path.doneWithCurrentPath)
     {        
+        TradePost* curPost = [[TradePostMgr getInstance] getTradePostWithId:_path.curPostId];
+
         [self setCoordinate:_path.srcCoord];
 
+        // if state is invalid, this is a restore on a newly installed phone
+        // *and* server hasn't provided us with a state
+        // so, state is dependent on whether flyer is arriving at a MyTradePost or a ForeignPost
+        if(kFlyerStateInvalid == [self state])
+        {
+            if([curPost isMemberOfClass:[MyTradePost class]])
+            {
+                [self gotoState:kFlyerStateWaitingToUnload];
+            }
+            else
+            {
+                [self gotoState:kFlyerStateWaitingToLoad];
+            }
+        }
+        
         // attach myself to the post I'm at
-        TradePost* curPost = [[TradePostMgr getInstance] getTradePostWithId:_path.curPostId];
         curPost.flyerAtPost = self;
     }
     else
@@ -498,7 +514,8 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
                 break;
                 
             case kFlyerStateWaitingToLoad:
-                if(kFlyerStateEnroute == [self state])
+                if((kFlyerStateEnroute == [self state]) ||
+                   (kFlyerStateInvalid == [self state]))
                 {
                     canChange = YES;
                 }
@@ -518,7 +535,8 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
                 break;
                 
             case kFlyerStateWaitingToUnload:
-                if(kFlyerStateEnroute == [self state])
+                if((kFlyerStateEnroute == [self state]) ||
+                   (kFlyerStateInvalid == [self state]))
                 {
                     canChange = YES;
                 }
