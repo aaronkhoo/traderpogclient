@@ -506,7 +506,8 @@
 				3889129415D5D8B6009CF624 /* SSZipArchive.h */,
 				3889129515D5D8B6009CF624 /* SSZipArchive.m */,
 			);
-			path = ssziparchive;
+			name = ssziparchive;
+			path = ../ssziparchive;
 			sourceTree = "<group>";
 		};
 		3889128A15D5D8B6009CF624 /* minizip */ = {
@@ -544,7 +545,8 @@
 				38B6DAED15C85A9D00F37BD9 /* SBJsonParser.h */,
 				38B6DAEE15C85A9D00F37BD9 /* SBJsonWriter.h */,
 			);
-			path = "facebook-ios-sdk";
+			name = "facebook-ios-sdk";
+			path = "../facebook-ios-sdk";
 			sourceTree = "<group>";
 		};
 		38BE3BCF160D3CF500758F27 /* localytics */ = {
@@ -558,7 +560,8 @@
 				38BE3BD5160D3CF500758F27 /* LocalyticsUploader.m */,
 				38BE3BD6160D3CF500758F27 /* WebserviceConstants.h */,
 			);
-			path = localytics;
+			name = localytics;
+			path = ../localytics;
 			sourceTree = "<group>";
 		};
 		421564D515F6B2E400AAE851 /* anim */ = {
@@ -581,6 +584,9 @@
 		C41E0C8015AC032E006662DF /* External */ = {
 			isa = PBXGroup;
 			children = (
+				38BE3BCF160D3CF500758F27 /* localytics */,
+				3889128915D5D8B6009CF624 /* ssziparchive */,
+				38B6DADF15C85A9D00F37BD9 /* facebook-ios-sdk */,
 				C41E0CA215AC0441006662DF /* MKMapViewZoomLevel */,
 				C41E0C8215AC0391006662DF /* AFNetworking */,
 			);
@@ -685,9 +691,6 @@
 		C41ED13215A6B33E00995F53 /* traderpog */ = {
 			isa = PBXGroup;
 			children = (
-				38BE3BCF160D3CF500758F27 /* localytics */,
-				3889128915D5D8B6009CF624 /* ssziparchive */,
-				38B6DADF15C85A9D00F37BD9 /* facebook-ios-sdk */,
 				C4BBE47C15BC955000F582DE /* traderpog.entitlements */,
 				C41ED13B15A6B33E00995F53 /* AppDelegate.h */,
 				C41ED13C15A6B33E00995F53 /* AppDelegate.m */,
