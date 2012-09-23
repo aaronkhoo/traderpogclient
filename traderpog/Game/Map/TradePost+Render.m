@@ -46,9 +46,9 @@
            (kFlyerStateUnloading == [flyer state]))
         {
             [annotationView.frontImageView setImage:nil];
-            UIImage* frame1 = [[ImageManager getInstance] getImage:@"pogstacking_001.png" fallbackNamed:@"pogstacking_001.png"];
-            UIImage* frame2 = [[ImageManager getInstance] getImage:@"pogstacking_002.png" fallbackNamed:@"pogstacking_002.png"];
-            UIImage* frame3 = [[ImageManager getInstance] getImage:@"pogstacking_003.png" fallbackNamed:@"pogstacking_003.png"];
+            UIImage* frame1 = [[ImageManager getInstance] getImage:@"default" fallbackNamed:@"pogstacking_001.png"];
+            UIImage* frame2 = [[ImageManager getInstance] getImage:@"default" fallbackNamed:@"pogstacking_002.png"];
+            UIImage* frame3 = [[ImageManager getInstance] getImage:@"default" fallbackNamed:@"pogstacking_003.png"];
             NSArray* frames = [NSArray arrayWithObjects:frame1, frame2, frame3, nil];
             [annotationView.frontImageView setAnimationImages:frames];
             [annotationView.frontImageView setAnimationDuration:1.5f];
