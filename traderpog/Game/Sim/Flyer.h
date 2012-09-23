@@ -16,6 +16,7 @@
 
 static NSString* const kFlyer_CreateNewFlyer = @"Flyer_CreateNewFlyer";
 static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
+extern NSString* const kKeyFlyerState;
 
 enum _FlyerStates
 {

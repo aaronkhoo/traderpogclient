@@ -18,6 +18,7 @@
 #import "Flyer.h"
 #import "FlyerPath.h"
 #import "FlyerCallout.h"
+#import "GameNotes.h"
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
 NSString* const kKeyFlyerAtPost = @"flyerAtPost";
@@ -26,6 +27,7 @@ NSString* const kKeyFlyerAtPost = @"flyerAtPost";
 {
     NSObject<MKAnnotation,MapAnnotationProtocol>* _calloutAnnotation;
 }
+- (void) handleFlyerStateChanged:(NSNotification*)note;
 @end
 
 @implementation TradePostAnnotationView
@@ -76,6 +78,7 @@ NSString* const kKeyFlyerAtPost = @"flyerAtPost";
 {
     TradePost* post = (TradePost*) [self annotation];
     [post removeObserver:self forKeyPath:kKeyFlyerAtPost];
+    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kGameNoteFlyerStateChanged];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -100,6 +103,22 @@ NSString* const kKeyFlyerAtPost = @"flyerAtPost";
     }
 }
 
+- (void) handleFlyerStateChanged:(NSNotification *)note
+{
+    Flyer* flyer = (Flyer*)[note object];
+    NSLog(@"flyer state changed to %d", [flyer state]);
+    TradePost* post = (TradePost*)[self annotation];
+    if(post)
+    {
+        NSLog(@"flyer-state-changed post %@", [post postId]);
+        if([flyer isEqual:[post flyerAtPost]])
+        {
+            NSLog(@"flyer-state-changed post %@ refreshRender", [post postId]);
+            [post refreshRenderForAnnotationView:self];
+        }
+    }
+}
+
 #pragma mark - MKAnnotationView
 - (void)setAnnotation:(id<MKAnnotation>)annotation
 {
@@ -117,6 +136,7 @@ NSString* const kKeyFlyerAtPost = @"flyerAtPost";
     {
         [post removeObserver:self forKeyPath:kKeyFlyerAtPost];
     }
+    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kGameNoteFlyerStateChanged];
 }
 
 #pragma mark - PogMapAnnotationViewProtocol

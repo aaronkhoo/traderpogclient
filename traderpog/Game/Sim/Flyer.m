@@ -30,7 +30,7 @@ static NSString* const kKeyFlyerTypeIndex = @"flyer_type_index";
 static NSString* const kKeyVersion = @"version";
 static NSString* const kKeyInventory = @"inventory";
 static NSString* const kKeyPath = @"path";
-static NSString* const kKeyState = @"state";
+NSString* const kKeyFlyerState = @"state";
 static NSString* const kKeyStateBegin = @"stateBegin";
 
 @interface Flyer ()
@@ -99,7 +99,7 @@ static NSString* const kKeyStateBegin = @"stateBegin";
         NSArray* paths_array = [dict valueForKeyPath:@"flyer_paths"];
         NSDictionary* path_dict = [paths_array objectAtIndex:0];
         
-        id stateObj = [dict valueForKeyPath:kKeyState];
+        id stateObj = [dict valueForKeyPath:kKeyFlyerState];
         if(([NSNull null] == stateObj) || (!stateObj))
         {
             _state = kFlyerStateInvalid;
@@ -147,7 +147,7 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     [aCoder encodeObject:_inventory forKey:kKeyInventory];
     [aCoder encodeObject:_path forKey:kKeyPath];
     
-    [aCoder encodeObject:[NSNumber numberWithUnsignedInt:_state] forKey:kKeyState];
+    [aCoder encodeObject:[NSNumber numberWithUnsignedInt:_state] forKey:kKeyFlyerState];
     [aCoder encodeObject:_stateBegin forKey:kKeyStateBegin];
 }
 
@@ -159,7 +159,7 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     _inventory = [aDecoder decodeObjectForKey:kKeyInventory];
     _path = [aDecoder decodeObjectForKey:kKeyPath];
 
-    NSNumber* stateObj = [aDecoder decodeObjectForKey:kKeyState];
+    NSNumber* stateObj = [aDecoder decodeObjectForKey:kKeyFlyerState];
     if(stateObj)
     {
         _state = [stateObj unsignedIntValue];
@@ -562,6 +562,7 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
             self.state = newState;
             self.stateBegin = [NSDate date];
             changed = YES;
+            [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteFlyerStateChanged object:self];
         }
         else
         {

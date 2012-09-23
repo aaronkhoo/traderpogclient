@@ -18,7 +18,6 @@
 NSString* const kFlyerAnnotationViewReuseId = @"FlyerAnnotationView";
 static NSString* const kFlyerTransformKey = @"transform";
 static NSString* const kKeyFlyerMetersToDest = @"metersToDest";
-static NSString* const kKeyFlyerState = @"state";
 
 static const float kFlyerTimerOriginOffsetX = 0.0f;
 static const float kFlyerTimerOriginOffsetY = 44.0f;

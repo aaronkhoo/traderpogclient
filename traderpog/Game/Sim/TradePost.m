@@ -9,6 +9,8 @@
 #import "Player.h"
 #import "TradePost.h"
 #import "TradePostMgr.h"
+#import "TradePostAnnotationView.h"
+#import "GameNotes.h"
 
 @implementation TradePost
 @synthesize postId = _postId;
@@ -73,8 +75,12 @@
         annotationView = [[TradePostAnnotationView alloc] initWithAnnotation:self];
     }
     
+    // set myself up to observe flyerAtPost
     [self addObserver:annotationView forKeyPath:kKeyFlyerAtPost options:0 context:nil];
 
+    // observe flyer-state-changed notifications
+    [[NSNotificationCenter defaultCenter] addObserver:annotationView selector:@selector(handleFlyerStateChanged:) name:kGameNoteFlyerStateChanged object:nil];
+    
     return annotationView;
 }
 

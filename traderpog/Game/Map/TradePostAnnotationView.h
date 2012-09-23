@@ -13,6 +13,7 @@ extern NSString* const kTradePostAnnotationViewReuseId;
 extern NSString* const kKeyFlyerAtPost;
 
 @class TradePostAnnotation;
+@class Flyer;
 @interface TradePostAnnotationView : MKAnnotationView<MapAnnotationViewProtocol>
 {
     UIImageView* _imageView;
