@@ -70,6 +70,9 @@ NSString* const kKeyFlyerAtPost = @"flyerAtPost";
         [contentView addSubview:_frontImageView];
         
         _calloutAnnotation = nil;
+
+        // observe flyer-state-changed notifications
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleFlyerStateChanged:) name:kGameNoteFlyerStateChanged object:nil];
     }
     return self;
 }
@@ -136,7 +139,6 @@ NSString* const kKeyFlyerAtPost = @"flyerAtPost";
     {
         [post removeObserver:self forKeyPath:kKeyFlyerAtPost];
     }
-    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kGameNoteFlyerStateChanged];
 }
 
 #pragma mark - PogMapAnnotationViewProtocol

@@ -78,9 +78,6 @@
     // set myself up to observe flyerAtPost
     [self addObserver:annotationView forKeyPath:kKeyFlyerAtPost options:0 context:nil];
 
-    // observe flyer-state-changed notifications
-    [[NSNotificationCenter defaultCenter] addObserver:annotationView selector:@selector(handleFlyerStateChanged:) name:kGameNoteFlyerStateChanged object:nil];
-    
     return annotationView;
 }
 
