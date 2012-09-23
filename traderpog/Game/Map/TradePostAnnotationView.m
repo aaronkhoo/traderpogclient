@@ -119,11 +119,11 @@ NSString* const kKeyFlyerAtPost = @"flyerAtPost";
 - (void) handleFlyerStateChanged:(NSNotification *)note
 {
     Flyer* flyer = (Flyer*)[note object];
-    NSLog(@"flyer state changed to %d", [flyer state]);
+    //NSLog(@"flyer state changed to %d", [flyer state]);
     TradePost* post = (TradePost*)[self annotation];
     if(post)
     {
-        NSLog(@"flyer-state-changed post %@", [post postId]);
+        //NSLog(@"flyer-state-changed post %@", [post postId]);
         if([flyer isEqual:[post flyerAtPost]])
         {
             NSLog(@"flyer-state-changed post %@ refreshRender", [post postId]);
