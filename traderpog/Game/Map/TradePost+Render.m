@@ -45,28 +45,31 @@
         if((kFlyerStateLoading == [flyer state]) ||
            (kFlyerStateUnloading == [flyer state]))
         {
-            [annotationView.frontImageView setImage:nil];
             UIImage* frame1 = [[ImageManager getInstance] getImage:@"default" fallbackNamed:@"pogstacking_001.png"];
             UIImage* frame2 = [[ImageManager getInstance] getImage:@"default" fallbackNamed:@"pogstacking_002.png"];
             UIImage* frame3 = [[ImageManager getInstance] getImage:@"default" fallbackNamed:@"pogstacking_003.png"];
             NSArray* frames = [NSArray arrayWithObjects:frame1, frame2, frame3, nil];
-            [annotationView.frontImageView setAnimationImages:frames];
-            [annotationView.frontImageView setAnimationDuration:1.5f];
-            [annotationView.frontImageView startAnimating];
+            [annotationView.frontLeftView setAnimationImages:frames];
+            [annotationView.frontLeftView setAnimationDuration:1.5f];
+            [annotationView.frontLeftView startAnimating];
+            [annotationView.frontLeftView setHidden:NO];
         }
         else
         {
-            [annotationView.frontImageView stopAnimating];
-            [annotationView.frontImageView setAnimationImages:nil];
-            UIImage* image = [flyer imageForCurrentState];
-            [annotationView.frontImageView setImage:image];
+            [annotationView.frontLeftView stopAnimating];
+            [annotationView.frontLeftView setAnimationImages:nil];
+            [annotationView.frontLeftView setHidden:YES];
         }
+        UIImage* image = [flyer imageForCurrentState];
+        [annotationView.frontImageView setImage:image];
         [annotationView.frontImageView setHidden:NO];
     }
     else
     {
         [annotationView.frontImageView setImage:nil];
         [annotationView.frontImageView setHidden:YES];
+        [annotationView.frontLeftView setImage:nil];
+        [annotationView.frontLeftView setHidden:YES];
     }
 }
 @end

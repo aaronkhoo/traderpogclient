@@ -63,6 +63,7 @@
 		4290AB0F15EF3D06001FAF0B /* BrowsePinch.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0E15EF3D06001FAF0B /* BrowsePinch.m */; };
 		429A31D415F041DF00069CC7 /* CalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 429A31D315F041DF00069CC7 /* CalloutView.m */; };
 		429B154815F5CFAF00107D5F /* bubble_postmark_g.png in Resources */ = {isa = PBXBuildFile; fileRef = 429B154715F5CFAF00107D5F /* bubble_postmark_g.png */; };
+		42A0FA0C160E925200683B8A /* GameAnim.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A0FA0B160E925200683B8A /* GameAnim.m */; };
 		42A2989115B5F1E700384A52 /* KnobControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2988D15B5F1E700384A52 /* KnobControl.m */; };
 		42A2989215B5F1E700384A52 /* KnobSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2989015B5F1E700384A52 /* KnobSlice.m */; };
 		42B28E2F15E99E5A0008901C /* NSArray+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B28E2E15E99E5A0008901C /* NSArray+Pog.m */; };
@@ -292,6 +293,8 @@
 		429A31D215F041DF00069CC7 /* CalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalloutView.h; path = Map/CalloutView.h; sourceTree = "<group>"; };
 		429A31D315F041DF00069CC7 /* CalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalloutView.m; path = Map/CalloutView.m; sourceTree = "<group>"; };
 		429B154715F5CFAF00107D5F /* bubble_postmark_g.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_postmark_g.png; path = assets/UI/bubble_postmark_g.png; sourceTree = SOURCE_ROOT; };
+		42A0FA0A160E925200683B8A /* GameAnim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameAnim.h; path = Game/Sim/GameAnim.h; sourceTree = "<group>"; };
+		42A0FA0B160E925200683B8A /* GameAnim.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameAnim.m; path = Game/Sim/GameAnim.m; sourceTree = "<group>"; };
 		42A2988C15B5F1E700384A52 /* KnobControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobControl.h; sourceTree = "<group>"; };
 		42A2988D15B5F1E700384A52 /* KnobControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KnobControl.m; sourceTree = "<group>"; };
 		42A2988E15B5F1E700384A52 /* KnobProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobProtocol.h; sourceTree = "<group>"; };
@@ -991,6 +994,8 @@
 				38C8B3241609830200AFD214 /* Leaderboard.m */,
 				38C8B327160A3F8800AFD214 /* LeaderboardMgr.h */,
 				38C8B328160A3F8800AFD214 /* LeaderboardMgr.m */,
+				42A0FA0A160E925200683B8A /* GameAnim.h */,
+				42A0FA0B160E925200683B8A /* GameAnim.m */,
 			);
 			name = Sim;
 			sourceTree = "<group>";
@@ -1231,6 +1236,7 @@
 				38BE3BD7160D3CF500758F27 /* LocalyticsDatabase.m in Sources */,
 				38BE3BD8160D3CF500758F27 /* LocalyticsSession.m in Sources */,
 				38BE3BD9160D3CF500758F27 /* LocalyticsUploader.m in Sources */,
+				42A0FA0C160E925200683B8A /* GameAnim.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

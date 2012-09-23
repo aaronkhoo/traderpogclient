@@ -9,5 +9,41 @@
 #import "GameAnim.h"
 
 @implementation GameAnim
+- (id) init
+{
+    self = [super init];
+    if(self)
+    {
+        
+    }
+    return self;
+}
+
+
+
+#pragma mark - Singleton
+static GameAnim* singleton = nil;
++ (GameAnim*) getInstance
+{
+	@synchronized(self)
+	{
+		if (!singleton)
+		{
+            if (!singleton)
+            {
+                singleton = [[GameAnim alloc] init];
+            }
+		}
+	}
+	return singleton;
+}
+
++ (void) destroyInstance
+{
+	@synchronized(self)
+	{
+		singleton = nil;
+	}
+}
 
 @end

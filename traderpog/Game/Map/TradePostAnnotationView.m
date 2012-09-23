@@ -33,6 +33,7 @@ NSString* const kKeyFlyerAtPost = @"flyerAtPost";
 @implementation TradePostAnnotationView
 @synthesize imageView = _imageView;
 @synthesize frontImageView = _frontImageView;
+@synthesize frontLeftView = _frontLeftView;
 
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation
 {
@@ -62,12 +63,21 @@ NSString* const kKeyFlyerAtPost = @"flyerAtPost";
         UIView* contentView = [[UIView alloc] initWithFrame:myFrame];
         [self addSubview:contentView];
 
-        // create two layers of image-views for rendering
+        // create primary image view
         _imageView = [[UIImageView alloc] initWithFrame:imageRect];
         [contentView addSubview:_imageView];
-        _frontImageView = [[UIImageView alloc] initWithFrame:imageRect];
+
+        // create two front image views for rendering various anim states
+        CGRect frRect = imageRect;
+        frRect.origin = CGPointMake(frRect.origin.x + (0.5f * frRect.size.width), frRect.origin.y);
+        _frontImageView = [[UIImageView alloc] initWithFrame:frRect];
         [_frontImageView setHidden:YES];
         [contentView addSubview:_frontImageView];
+        CGRect flRect = imageRect;
+        flRect.origin = CGPointMake(flRect.origin.x - (0.5f * frRect.size.width), flRect.origin.y);
+        _frontLeftView = [[UIImageView alloc] initWithFrame:flRect];
+        [_frontLeftView setHidden:YES];
+        [contentView addSubview:_frontLeftView];
         
         _calloutAnnotation = nil;
 
