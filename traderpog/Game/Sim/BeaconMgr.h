@@ -31,6 +31,7 @@ static NSString* const kBeaconMgr_ReceiveBeacons = @"kBeaconMgr_ReceiveBeacons";
 - (void) retrieveBeaconsFromServer;
 - (void) addBeaconAnnotationsToMap:(MapControl*)map;
 - (BOOL) needsRefresh;
+- (BOOL) isPostABeacon:(NSString*)postId;
 
 // singleton
 +(BeaconMgr*) getInstance;

@@ -8,6 +8,7 @@
 
 #import "AFClientManager.h"
 #import "ImageManager.h"
+#import "MetricLogger.h"
 #import "MyTradePost.h"
 #import "Player.h"
 #import "PogUIUtility.h"
@@ -134,6 +135,9 @@
                                     dateString, kKeyTradeBeacontime,
                                     nil];
         [self updatePost:parameters];
+        
+        // Beacons don't have "slots". Put 0 as a placeholder.
+        [MetricLogger logCreateObject:@"Beacon" slot:0 member:[[Player getInstance] member]];
     }
 }
 

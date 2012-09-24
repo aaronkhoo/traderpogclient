@@ -27,6 +27,7 @@
 #import "GameColors.h"
 #import "ImageManager.h"
 #import "HiAccuracyLocator.h"
+#import "MetricLogger.h"
 
 enum _MyPostSlots
 {
@@ -216,6 +217,8 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
         }
         if(firstFreeSlot < [[self myPostSlots] count])
         {
+            [MetricLogger logCreateObject:@"Post" slot:firstFreeSlot member:[[Player getInstance] member]];
+            
             [self.myPostSlots replaceObjectAtIndex:firstFreeSlot withObject:_tempTradePost];
         }
         else

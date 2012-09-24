@@ -22,6 +22,7 @@
 #import "GameColors.h"
 #import "ImageManager.h"
 #include "MathUtils.h"
+#import "MetricLogger.h"
 #import <QuartzCore/QuartzCore.h>
 
 static NSString* const kKeyVersion = @"version";
@@ -167,6 +168,8 @@ static const float kBubbleBorderWidth = 1.5f;
         // The temp TradePost has been successfully uploaded to the server, so move it
         // to the active list.
         [_playerFlyers addObject:_tempFlyer];
+        
+        [MetricLogger logCreateObject:@"Flyer" slot:[_playerFlyers count] member:[[Player getInstance] member]];
         
         // and set it to a valid Idle state
         [_tempFlyer gotoState:kFlyerStateIdle];

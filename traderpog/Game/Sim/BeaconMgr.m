@@ -56,6 +56,11 @@ static const float kBubbleBorderWidth = 1.5f;
             ([_lastUpdate timeIntervalSinceNow] < refreshTime));
 }
 
+- (BOOL) isPostABeacon:(NSString*)postId
+{
+    return ([_activeBeacons objectForKey:postId] != nil);
+}
+
 - (void) createPostsArray:(id)responseObject
 {
     for (NSDictionary* post in responseObject)

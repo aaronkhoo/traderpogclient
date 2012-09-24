@@ -13,6 +13,7 @@
 #import "GameManager.h"
 #import "GameNotes.h"
 #import "LoadingScreen.h"
+#import "MetricLogger.h"
 #import "UINavigationController+Pog.h"
 #import "Player.h"
 #import "PogUIUtility.h"
@@ -58,6 +59,7 @@ static const float kPostTribute = 0.02;
 @implementation Player
 @synthesize delegate = _delegate;
 @synthesize playerId = _playerId;
+@synthesize member = _member;
 @synthesize dataRefreshed = _dataRefreshed;
 @synthesize facebook = _facebook;
 @synthesize lastKnownLocationValid = _lastKnownLocationValid;
@@ -438,6 +440,10 @@ static const float kPostTribute = 0.02;
                      _lastUpdate = [NSDate date];
                      NSLog(@"user id is %i", _playerId);
                      [self savePlayerData];
+                     
+                     // Player objects don't have slots. Put 0 as a placeholder.
+                     [MetricLogger logCreateObject:@"Player" slot:0 member:FALSE];
+                     
                      [self.delegate didCompleteHttpCallback:kPlayer_CreateNewUser, TRUE];
                  }
                  failure:^(AFHTTPRequestOperation* operation, NSError* error){

@@ -7,12 +7,14 @@
 //
 
 #import "AFClientManager.h"
+#import "BeaconMgr.h"
 #import "Flyer.h"
 #import "FlyerType.h"
 #import "FlyerTypes.h"
 #import "FlightPathOverlay.h"
 #import "FlyerAnnotationView.h"
 #import "GameManager.h"
+#import "MetricLogger.h"
 #import "NPCTradePost.h"
 #import "TradePostMgr.h"
 #import "Player.h"
@@ -323,6 +325,30 @@ static NSString* const kKeyStateBegin = @"stateBegin";
             [self createFlightPathRenderingForFlyer];
             [self gotoState:kFlyerStateEnroute];
             [[[[GameManager getInstance] gameViewController] mapControl] addAnnotationForFlyer:self];
+            
+            // Log the departure
+            NSString* currentPostType;
+            if([curPost isMemberOfClass:[MyTradePost class]])
+            {
+                currentPostType = @"Self";
+            }
+            else if([curPost isMemberOfClass:[NPCTradePost class]])
+            {
+                currentPostType = @"NPC";
+            }
+            else
+            {
+                if ([[BeaconMgr getInstance] isPostABeacon:curPost.postId])
+                {
+                    currentPostType = @"Beacon";
+                }
+                else
+                {
+                    currentPostType = @"Foreign";
+                }
+            }
+            [MetricLogger logDepartEvent:[[[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex] flyerId]
+                                postType:currentPostType];
         }
     }
     return success;
@@ -335,6 +361,9 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     // track distance
     CLLocationDistance routeDist = metersDistance([_path srcCoord], [_path destCoord]);
     [_inventory incrementTravelDistance:routeDist];
+    
+    // Log arrival
+    [MetricLogger logArriveEvent:routeDist numItems:[_inventory numItems] itemType:[_inventory itemId]];
     
     // ask TradeManager to handle arrival
     TradePost* arrivalPost = [[TradePostMgr getInstance] getTradePostWithId:[_path nextPostId]];

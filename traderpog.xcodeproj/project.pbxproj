@@ -30,6 +30,7 @@
 		38BE3BD9160D3CF500758F27 /* LocalyticsUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BE3BD5160D3CF500758F27 /* LocalyticsUploader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		38BE3BDC160D41B700758F27 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BE3BDB160D41B700758F27 /* libsqlite3.dylib */; };
 		38BE3BDE160D41D200758F27 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BE3BDD160D41D200758F27 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		38BE3BEB160E435700758F27 /* MetricLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BE3BEA160E435700758F27 /* MetricLogger.m */; };
 		38C8B3251609830200AFD214 /* Leaderboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C8B3241609830200AFD214 /* Leaderboard.m */; };
 		38C8B329160A3F8800AFD214 /* LeaderboardMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C8B328160A3F8800AFD214 /* LeaderboardMgr.m */; };
 		38C8B32C160A44F800AFD214 /* LeaderboardRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C8B32B160A44F800AFD214 /* LeaderboardRow.m */; };
@@ -235,6 +236,8 @@
 		38BE3BD6160D3CF500758F27 /* WebserviceConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebserviceConstants.h; sourceTree = "<group>"; };
 		38BE3BDB160D41B700758F27 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		38BE3BDD160D41D200758F27 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		38BE3BE9160E435700758F27 /* MetricLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetricLogger.h; path = Metrics/MetricLogger.h; sourceTree = "<group>"; };
+		38BE3BEA160E435700758F27 /* MetricLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MetricLogger.m; path = Metrics/MetricLogger.m; sourceTree = "<group>"; };
 		38C8B3231609830200AFD214 /* Leaderboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Leaderboard.h; path = Game/Sim/Leaderboard.h; sourceTree = "<group>"; };
 		38C8B3241609830200AFD214 /* Leaderboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Leaderboard.m; path = Game/Sim/Leaderboard.m; sourceTree = "<group>"; };
 		38C8B327160A3F8800AFD214 /* LeaderboardMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeaderboardMgr.h; path = Game/Sim/LeaderboardMgr.h; sourceTree = "<group>"; };
@@ -577,6 +580,15 @@
 			path = ../localytics;
 			sourceTree = "<group>";
 		};
+		38BE3BE8160E423100758F27 /* Metrics */ = {
+			isa = PBXGroup;
+			children = (
+				38BE3BE9160E435700758F27 /* MetricLogger.h */,
+				38BE3BEA160E435700758F27 /* MetricLogger.m */,
+			);
+			name = Metrics;
+			sourceTree = "<group>";
+		};
 		421564D515F6B2E400AAE851 /* anim */ = {
 			isa = PBXGroup;
 			children = (
@@ -878,6 +890,7 @@
 		C4E381A715AA381E00924A86 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				38BE3BE8160E423100758F27 /* Metrics */,
 				3887ACC015D4CB6300B4E0FA /* Resources */,
 				C41E0C8015AC032E006662DF /* External */,
 				C4E381A815AA381F00924A86 /* Renderer */,
@@ -1237,6 +1250,7 @@
 				38BE3BD8160D3CF500758F27 /* LocalyticsSession.m in Sources */,
 				38BE3BD9160D3CF500758F27 /* LocalyticsUploader.m in Sources */,
 				42A0FA0C160E925200683B8A /* GameAnim.m in Sources */,
+				38BE3BEB160E435700758F27 /* MetricLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
