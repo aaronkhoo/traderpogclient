@@ -154,6 +154,11 @@ static const float kBubbleBorderWidth = 1.5f;
     {
         Flyer* newFlyer = [[Flyer alloc] initWithPostAndFlyer:tradePost, flyerTypeIndex];
         [newFlyer setDelegate:[FlyerMgr getInstance]];
+        
+        // lande new flyer at post that creates it
+        tradePost.flyerAtPost = newFlyer;
+        
+        // create it on server
         _tempFlyer = newFlyer;
         [_tempFlyer createNewUserFlyerOnServer];
         return TRUE;
@@ -167,32 +172,8 @@ static const float kBubbleBorderWidth = 1.5f;
     {
         // The temp TradePost has been successfully uploaded to the server, so move it
         // to the active list.
-        [_playerFlyers addObject:_tempFlyer];
-        
+        [_playerFlyers addObject:_tempFlyer];        
         [MetricLogger logCreateObject:@"Flyer" slot:[_playerFlyers count] member:[[Player getInstance] member]];
-        
-        // and set it to a valid Idle state
-        [_tempFlyer gotoState:kFlyerStateIdle];
-        
-        // if post previewMap creation, then add this new flyer to previewMap
-        if(_previewMap)
-        {
-            [_previewMap addAnnotationForFlyer:_tempFlyer];
-        }
-        
-        // Add this tradepost as an annotation to the mapcontrol instance if the map control has already
-        // been created. If it hasn't, then log and skip this step. It's possible that the mapcontrol
-        // doesn't exist yet during the startup flow. This will be taken care of properly, see GameManager
-        // for more details.
-        if ([[GameManager getInstance] gameViewController].mapControl)
-        {
-            //[[[GameManager getInstance] gameViewController].mapControl addAnnotationForFlyer:_tempFlyer];
-            _tempFlyer.initializeFlyerOnMap = TRUE;
-        }
-        else
-        {
-            NSLog(@"Map control has not been initialized!");
-        }
         _tempFlyer = nil;
     }
 }

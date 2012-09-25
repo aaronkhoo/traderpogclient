@@ -266,44 +266,46 @@ static NSString* const kKeyStateBegin = @"stateBegin";
 - (void) initFlyerOnMap
 {
     [_path initFlyerPathOnMap];
-    
-    // init flight-state with all necessary info in place
-    // Flyer initWithDictionary may get called prior to TradePostMgr receiving its server data;
-    // so, this code here ensures dependent data (like coords that depend on postIds) are correctly setup
-    if (_path.doneWithCurrentPath)
-    {        
-        TradePost* curPost = [[TradePostMgr getInstance] getTradePostWithId:_path.curPostId];
-
-        [self setCoordinate:_path.srcCoord];
-
-        // if state is invalid, this is a restore on a newly installed phone
-        // *and* server hasn't provided us with a state
-        // so, state is dependent on whether flyer is arriving at a MyTradePost or a ForeignPost
-        if(kFlyerStateInvalid == [self state])
-        {
-            if([curPost isMemberOfClass:[MyTradePost class]])
-            {
-                [self gotoState:kFlyerStateWaitingToUnload];
-            }
-            else
-            {
-                [self gotoState:kFlyerStateWaitingToLoad];
-            }
-        }
-        
-        // attach myself to the post I'm at
-        curPost.flyerAtPost = self;
-    }
-    else
+    if(![self initializeFlyerOnMap])
     {
-        CLLocationCoordinate2D curCoord = [self flyerCoordinateNow];
-        [self setCoordinate:curCoord];
-        [self createFlightPathRenderingForFlyer];
-        [self gotoState:kFlyerStateEnroute];
-        [[[GameManager getInstance] gameViewController].mapControl addAnnotationForFlyer:self];
+        // init flight-state with all necessary info in place
+        // Flyer initWithDictionary may get called prior to TradePostMgr receiving its server data;
+        // so, this code here ensures dependent data (like coords that depend on postIds) are correctly setup
+        if (_path.doneWithCurrentPath)
+        {
+            TradePost* curPost = [[TradePostMgr getInstance] getTradePostWithId:_path.curPostId];
+            
+            [self setCoordinate:_path.srcCoord];
+            
+            // if state is invalid, this is a restore on a newly installed phone
+            // since server doesn't store state, state is dependent on whether flyer is arriving at a MyTradePost or a ForeignPost
+            if(kFlyerStateInvalid == [self state])
+            {
+                if([curPost isMemberOfClass:[MyTradePost class]])
+                {
+                    // if my post, skip forward to unloading done because player had already made the earnings
+                    [self gotoState:kFlyerStateIdle];
+                }
+                else
+                {
+                    // if foreign post, make player go through the loading motion again to make it interesting for them (we can go either way here at this point)
+                    [self gotoState:kFlyerStateWaitingToLoad];
+                }
+            }
+            
+            // attach myself to the post I'm at
+            curPost.flyerAtPost = self;
+        }
+        else
+        {
+            CLLocationCoordinate2D curCoord = [self flyerCoordinateNow];
+            [self setCoordinate:curCoord];
+            [self createFlightPathRenderingForFlyer];
+            [self gotoState:kFlyerStateEnroute];
+            [[[GameManager getInstance] gameViewController].mapControl addAnnotationForFlyer:self];
+        }
+        self.initializeFlyerOnMap = TRUE;
     }
-    
-    self.initializeFlyerOnMap = TRUE;
 }
 
 - (BOOL) departForPostId:(NSString *)postId
@@ -529,7 +531,8 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
         switch(newState)
         {
             case kFlyerStateIdle:
-                if(kFlyerStateUnloading == [self state])
+                if((kFlyerStateUnloading == [self state]) ||
+                   (kFlyerStateInvalid == [self state]))
                 {
                     canChange = YES;
                 }
