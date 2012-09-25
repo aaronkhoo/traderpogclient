@@ -13,6 +13,7 @@
 #import "GameManager.h"
 #import "LoadingScreen.h"
 #import "LoadingTransition.h"
+#import "LeaderboardsScreen.h"
 
 @interface DebugMenu ()
 {
@@ -25,6 +26,7 @@
 @implementation DebugMenu
 @synthesize localDevSwitch;
 @synthesize speed100xSwitch;
+@synthesize leaderboardsButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,6 +45,12 @@
 {
     [super viewDidLoad];
     [self setupOnOff];
+    
+    // Disable leaderboards if no player exists
+    if ([Player getInstance].playerId == 0)
+    {
+        leaderboardsButton.enabled = FALSE;
+    }
 }
 
 - (void)viewDidUnload
@@ -88,6 +96,12 @@
 - (IBAction)didPressAdd200Coins:(id)sender
 {
     [[Player getInstance] addBucks:200];
+}
+
+- (IBAction)didPressLeaderboards:(id)sender
+{
+    LeaderboardsScreen* leaderboards = [[LeaderboardsScreen alloc] initWithNibName:@"LeaderboardsScreen" bundle:nil];
+    [self.navigationController pushFromRightViewController:leaderboards animated:YES];
 }
 
 - (void) didPressPopButton:(id)sender

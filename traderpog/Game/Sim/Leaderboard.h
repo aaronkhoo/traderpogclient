@@ -13,15 +13,17 @@
 {
     NSMutableArray* _lbRows;
     NSString* _lbName;
-    NSDate* _weekOf;
+    NSDate* _week_of;
 }
 @property (nonatomic,strong) NSMutableArray* lbRows;
 @property (nonatomic,strong) NSString* lbName;
-@property (nonatomic,strong) NSDate* weekOf;
+@property (nonatomic,strong) NSDate* week_of;
 
-- (id) initBoard:(NSString*)name, NSDate* current_date;
+- (id) initBoard:(NSString*)name;
 - (void) insertNewRow:(LeaderboardRow*)current_row;
 - (void) clearLeaderboard;
 - (void) sortLeaderboard;
+- (BOOL) weekofValid;
+- (void) createWeekOfUsingString:(NSString*) datefromserver;
 
 @end

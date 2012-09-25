@@ -23,17 +23,17 @@ static NSString* const kKeyWeekOf = @"weekof";
 @implementation Leaderboard
 @synthesize lbRows = _lbRows;
 @synthesize lbName = _lbName;
-@synthesize weekOf = _weekOf;
+@synthesize week_of = _week_of;
 
 #pragma mark - Public functions
-- (id) initBoard:(NSString*)name, NSDate* current_date
+- (id) initBoard:(NSString*)name
 {
     self = [super init];
     if(self)
     {
         _lbRows = [[NSMutableArray alloc] initWithCapacity:20];
         _lbName = name;
-        _weekOf = current_date;
+        _week_of = nil;
     }
     return self;
 }
@@ -46,6 +46,7 @@ static NSString* const kKeyWeekOf = @"weekof";
 - (void) clearLeaderboard
 {
     [_lbRows removeAllObjects];
+    _week_of = nil;
 }
 
 - (void) sortLeaderboard
@@ -62,13 +63,31 @@ static NSString* const kKeyWeekOf = @"weekof";
     }];
 }
 
+- (BOOL) weekofValid
+{
+    return (_week_of != nil);
+}
+
+- (void) createWeekOfUsingString:(NSString*) datefromserver
+{
+    // Set up conversion of RFC 3339 time format
+    NSDateFormatter *rfc3339DateFormatter = [[NSDateFormatter alloc] init];
+    NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    
+    [rfc3339DateFormatter setLocale:enUSPOSIXLocale];
+    [rfc3339DateFormatter setDateFormat:@"yyyy'-'MM'-'dd'"];
+    [rfc3339DateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    
+    // Convert the RFC 3339 date time string to an NSDate.
+    _week_of = [rfc3339DateFormatter dateFromString:datefromserver];
+}
+
 #pragma mark - NSCoding
 - (void) encodeWithCoder:(NSCoder *)aCoder
 {
     [aCoder encodeObject:_createdVersion forKey:kKeyVersion];
     [aCoder encodeObject:_lbRows forKey:kKeyRows];
     [aCoder encodeObject:_lbName forKey:kKeyName];
-    [aCoder encodeObject:_weekOf forKey:kKeyWeekOf];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
@@ -76,7 +95,6 @@ static NSString* const kKeyWeekOf = @"weekof";
     _createdVersion = [aDecoder decodeObjectForKey:kKeyVersion];
     _lbRows = [aDecoder decodeObjectForKey:kKeyRows];
     _lbName = [aDecoder decodeObjectForKey:kKeyName];
-    _weekOf = [aDecoder decodeObjectForKey:kKeyWeekOf];
     return self;
 }
 

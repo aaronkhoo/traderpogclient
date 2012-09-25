@@ -22,6 +22,7 @@
 #import "ResourceManager.h"
 #import "AnimMgr.h"
 #import "LocalyticsSession.h"
+#import "LeaderboardMgr.h"
 
 static const float kAppScreenWidth = 320.0f;
 static const float kAppScreenHeight = 480.0f;
@@ -152,6 +153,7 @@ static const float kAppScreenHeight = 480.0f;
     [ResourceManager getInstance];
     [AsyncHttpCallMgr getInstance];
     [AnimMgr getInstance];
+    [LeaderboardMgr getInstance];
     
     // Setting up the HTTP callback delegates
     [[Player getInstance] setDelegate:[GameManager getInstance]];

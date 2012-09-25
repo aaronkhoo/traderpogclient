@@ -11,9 +11,11 @@
 @interface DebugMenu : UIViewController
 @property (weak, nonatomic) IBOutlet UISwitch *localDevSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *speed100xSwitch;
+@property (weak, nonatomic) IBOutlet UIButton *leaderboardsButton;
 
 - (IBAction)didPressClearCache:(id)sender;
 - (IBAction)didPressClose:(id)sender;
 - (IBAction)didPressAdd200Coins:(id)sender;
 - (IBAction)didPressLoading:(id)sender;
+- (IBAction)didPressLeaderboards:(id)sender;
 @end

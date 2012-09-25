@@ -37,6 +37,8 @@
 		38D7371E15ED7290001CD3AE /* AsyncHttpCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D7371D15ED7290001CD3AE /* AsyncHttpCall.m */; };
 		38D7372215ED7DC6001CD3AE /* AsyncHttpCallMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D7372115ED7DC6001CD3AE /* AsyncHttpCallMgr.m */; };
 		38F6593915F8023100816517 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F6593815F8023100816517 /* Reachability.m */; };
+		38FCF6D41610D05A00540F34 /* LeaderboardsScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF6D31610D05A00540F34 /* LeaderboardsScreen.xib */; };
+		38FCF6D81610D0A400540F34 /* LeaderboardsScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FCF6D71610D0A400540F34 /* LeaderboardsScreen.m */; };
 		42094DB615C9B236001FA77D /* WheelBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB015C9B235001FA77D /* WheelBubble.m */; };
 		42094DB715C9B236001FA77D /* WheelControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB215C9B236001FA77D /* WheelControl.m */; };
 		42094DB815C9B236001FA77D /* WheelSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB515C9B236001FA77D /* WheelSlice.m */; };
@@ -251,6 +253,9 @@
 		38D7372415EDEBF4001CD3AE /* AsyncHttpDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncHttpDelegate.h; path = Game/ServerAPI/AsyncHttpDelegate.h; sourceTree = "<group>"; };
 		38F6593715F8023100816517 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = Game/ServerAPI/Reachability.h; sourceTree = "<group>"; };
 		38F6593815F8023100816517 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Game/ServerAPI/Reachability.m; sourceTree = "<group>"; };
+		38FCF6D31610D05A00540F34 /* LeaderboardsScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LeaderboardsScreen.xib; path = Game/UI/LeaderboardsScreen.xib; sourceTree = "<group>"; };
+		38FCF6D61610D0A400540F34 /* LeaderboardsScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeaderboardsScreen.h; path = Game/UI/LeaderboardsScreen.h; sourceTree = "<group>"; };
+		38FCF6D71610D0A400540F34 /* LeaderboardsScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LeaderboardsScreen.m; path = Game/UI/LeaderboardsScreen.m; sourceTree = "<group>"; };
 		42094DAF15C9B235001FA77D /* WheelBubble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WheelBubble.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		42094DB015C9B235001FA77D /* WheelBubble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WheelBubble.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		42094DB115C9B235001FA77D /* WheelControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WheelControl.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -883,6 +888,9 @@
 				42F692C715F1D4D20002B1B2 /* GameColors.m */,
 				42D909F715F801E700BBE992 /* GameHud.h */,
 				42D909F815F801E700BBE992 /* GameHud.m */,
+				38FCF6D61610D0A400540F34 /* LeaderboardsScreen.h */,
+				38FCF6D71610D0A400540F34 /* LeaderboardsScreen.m */,
+				38FCF6D31610D05A00540F34 /* LeaderboardsScreen.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -1138,6 +1146,7 @@
 				42CF832C160E57CA00561CA0 /* pogstacking_001.png in Resources */,
 				42CF832D160E57CA00561CA0 /* pogstacking_002.png in Resources */,
 				42CF832E160E57CA00561CA0 /* pogstacking_003.png in Resources */,
+				38FCF6D41610D05A00540F34 /* LeaderboardsScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1251,6 +1260,7 @@
 				38BE3BD9160D3CF500758F27 /* LocalyticsUploader.m in Sources */,
 				42A0FA0C160E925200683B8A /* GameAnim.m in Sources */,
 				38BE3BEB160E435700758F27 /* MetricLogger.m in Sources */,
+				38FCF6D81610D0A400540F34 /* LeaderboardsScreen.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

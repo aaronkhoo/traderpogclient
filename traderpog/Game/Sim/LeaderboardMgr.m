@@ -13,7 +13,7 @@
 #import "LeaderboardRow.h"
 #import "Player.h"
 
-static const NSString *strings[kLBNum] = {
+static NSString *leaderboard_names[kLBNum] = {
     @"BUCKS",
     @"TOTAL DISTANCE TRAVELLED",
     @"FURTHEST DISTANCE BETWEEN 2 POSTS",
@@ -29,6 +29,7 @@ static NSString* const kKeyLeaderboards = @"leaderboards";
 static NSString* const kKeyFbid = @"fbid";
 static NSString* const kKeyType = @"lbtype";
 static NSString* const kKeyValue = @"lbvalue";
+static NSString* const kKeyWeekOf = @"weekof";
 
 @interface LeaderboardMgr ()
 {
@@ -50,6 +51,12 @@ static NSString* const kKeyValue = @"lbvalue";
     {
         _lastUpdate = nil;
         _leaderboards = [[NSMutableArray alloc] initWithCapacity:kLBNum];
+        
+        for (NSUInteger index = 0; index < kLBNum; index++)
+        {
+            Leaderboard* current_lb = [[Leaderboard alloc] initBoard:leaderboard_names[index]];
+            [_leaderboards addObject:current_lb];
+        }
     }
     return self;
 }
@@ -68,7 +75,14 @@ static NSString* const kKeyValue = @"lbvalue";
         NSUInteger current_type = [[lbRow valueForKey:kKeyType] integerValue];
         
         LeaderboardRow* new_row = [[LeaderboardRow alloc] initWithFbidAndValue:current_fbid current_value:current_value];
-        Leaderboard* current_leaderboard = [_leaderboards objectAtIndex:current_type];
+        Leaderboard* current_leaderboard = [_leaderboards objectAtIndex:(current_type - 1)];
+        if (![current_leaderboard weekofValid])
+        {
+            // week of needs to be set for this leaderboard
+            // it's the same for all the entries
+            NSString* current_weekof = [NSString stringWithFormat:@"%@", [lbRow valueForKeyPath:kKeyWeekOf]];
+            [current_leaderboard createWeekOfUsingString:current_weekof];
+        }
         [current_leaderboard insertNewRow:new_row];
     }
 }
@@ -109,9 +123,8 @@ static NSString* const kKeyValue = @"lbvalue";
                     [self.delegate didCompleteHttpCallback:kLeaderboardMgr_ReceiveLeaderboards, TRUE];
                 }
                 failure:^(AFHTTPRequestOperation* operation, NSError* error){
-                    // No failures if the player can't retrieve leaderboards; just log it and move on
                     NSLog(@"Leaderboards retrieval failed: %@", error.localizedFailureReason);
-                    [self.delegate didCompleteHttpCallback:kLeaderboardMgr_ReceiveLeaderboards, TRUE];
+                    [self.delegate didCompleteHttpCallback:kLeaderboardMgr_ReceiveLeaderboards, FALSE];
                 }
      ];
 }
