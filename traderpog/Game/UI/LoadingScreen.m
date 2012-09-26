@@ -10,6 +10,7 @@
 #import "GameColors.h"
 #import "ImageManager.h"
 #import "LoadingCircle.h"
+#import "PogUIUtility.h"
 
 static const float kRotationSpeed = M_PI * 1.4f;
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -46,8 +47,7 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
     [_progressLabel setHidden:NO];
 
     // version string
-    NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
-    [self.versionLabel setText:[NSString stringWithFormat:@"%@", versionString]];
+    [self.versionLabel setText:[PogUIUtility versionStringForCurConfig]];
 }
 
 - (void)viewDidUnload

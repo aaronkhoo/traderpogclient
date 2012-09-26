@@ -50,4 +50,6 @@ typedef void (^CompletionBlock)(BOOL finished);
 
 + (unsigned int) smallerDiffFromMarker:(unsigned int)markA toMarker:(unsigned int)markB numMarkers:(unsigned int)num;
 + (float) gaussianFor:(float)x withA:(float)a b:(float)b c:(float)c;
+
++ (NSString*) versionStringForCurConfig;
 @end

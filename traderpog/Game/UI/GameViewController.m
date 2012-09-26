@@ -123,8 +123,7 @@ enum kKnobSlices
     [super viewDidLoad];
 
     // version string
-    NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
-    [self.versionLabel setText:[NSString stringWithFormat:@"%@", versionString]];
+    [self.versionLabel setText:[PogUIUtility versionStringForCurConfig]];
     
     // create main mapview
     self.mapControl = [[MapControl alloc] initWithMapView:[self mapView] andCenter:_initCoord];

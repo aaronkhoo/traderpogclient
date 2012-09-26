@@ -11,6 +11,7 @@
 #import "SignupScreen.h"
 #import "UINavigationController+Pog.h"
 #import "GameManager.h"
+#import "PogUIUtility.h"
 
 @interface StartScreen ()
 
@@ -32,8 +33,7 @@
     [super viewDidLoad];
 
     // version string
-    NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
-    [self.versionLabel setText:[NSString stringWithFormat:@"%@", versionString]];
+    [self.versionLabel setText:[PogUIUtility versionStringForCurConfig]];
 }
 
 - (void)viewDidUnload
