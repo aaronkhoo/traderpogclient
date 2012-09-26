@@ -121,6 +121,10 @@ enum kKnobSlices
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    // version string
+    NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
+    [self.versionLabel setText:[NSString stringWithFormat:@"%@", versionString]];
     
     // create main mapview
     self.mapControl = [[MapControl alloc] initWithMapView:[self mapView] andCenter:_initCoord];
@@ -159,6 +163,7 @@ enum kKnobSlices
     [self shutdownKnob];
     [self.mapControl stopTrackingAnnotation];
     self.mapControl = nil;
+    [self setVersionLabel:nil];
     [super viewDidUnload];
 }
 

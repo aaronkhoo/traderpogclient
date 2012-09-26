@@ -44,6 +44,10 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
     [_loadingCircle showAnimated:YES afterDelay:0.2f];
     [_bigLabel setHidden:NO];
     [_progressLabel setHidden:NO];
+
+    // version string
+    NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
+    [self.versionLabel setText:[NSString stringWithFormat:@"%@", versionString]];
 }
 
 - (void)viewDidUnload
@@ -51,6 +55,7 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
     [_loadingCircle hideAnimated:NO completion:nil];
     _bigLabel = nil;
     _progressLabel = nil;
+    [self setVersionLabel:nil];
     [super viewDidUnload];
 }
 
