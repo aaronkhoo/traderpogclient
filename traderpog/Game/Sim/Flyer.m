@@ -369,20 +369,21 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     
     // ask TradeManager to handle arrival
     TradePost* arrivalPost = [[TradePostMgr getInstance] getTradePostWithId:[_path nextPostId]];
+    if([arrivalPost isMemberOfClass:[MyTradePost class]])
+    {
+        [self gotoState:kFlyerStateWaitingToUnload];
+        [[[GameManager getInstance] gameViewController] setHoldHudCoinsUpdate:YES];
+    }
+    else
+    {
+        [self gotoState:kFlyerStateWaitingToLoad];
+    }
     MapControl* mapControl = [[[GameManager getInstance] gameViewController] mapControl];
     [mapControl deselectAnnotation:arrivalPost animated:NO];
     [[TradeManager getInstance] flyer:self didArriveAtPost:arrivalPost];
     _metersToDest = 0.0;
     [_path completeFlyerPath:_userFlyerId];
     [_inventory updateFlyerInventoryOnServer:_userFlyerId];
-    if([arrivalPost isMemberOfClass:[MyTradePost class]])
-    {
-        [self gotoState:kFlyerStateWaitingToUnload];
-    }
-    else
-    {
-        [self gotoState:kFlyerStateWaitingToLoad];
-    }
     [mapControl dismissFlightPathForFlyer:self];
     self.flightPathRender = nil;
     [mapControl dismissAnnotationForFlyer:self];
@@ -591,6 +592,11 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
         if(canChange)
         {
             NSLog(@"FlyerState Changed: %@ to %@", [self nameOfFlyerState:[self state]], [self nameOfFlyerState:newState]);
+            if(([self state] == kFlyerStateUnloading) && (newState == kFlyerStateIdle))
+            {
+                // flyer finished unloading, release hold on hud coins
+                [[[GameManager getInstance] gameViewController] setHoldHudCoinsUpdate:NO];
+            }
             self.state = newState;
             self.stateBegin = [NSDate date];
             changed = YES;

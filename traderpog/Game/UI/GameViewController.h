@@ -29,4 +29,7 @@
 - (void) showPostWheelAnimated:(BOOL)isAnimated;
 - (void) showFlyerWheelAnimated:(BOOL)isAnimated;
 - (IBAction)didPressDebug:(id)sender;
+
+- (BOOL) isHeldHudCoinsUpdate;
+- (void) setHoldHudCoinsUpdate:(BOOL)shouldHold;
 @end

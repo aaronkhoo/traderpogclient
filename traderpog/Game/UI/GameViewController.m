@@ -411,10 +411,13 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 
 - (void) handleCoinsChanged:(NSNotification *)note
 {
-    Player* player = (Player*)[note object];
-    if(player)
+    if(![self.hud holdNextCoinsUpdate])
     {
-        [self hudSetCoins:[player bucks]];
+        Player* player = (Player*)[note object];
+        if(player)
+        {
+            [self hudSetCoins:[player bucks]];
+        }
     }
 }
 
@@ -428,6 +431,21 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 {
     [self.hud removeFromSuperview];
     self.hud = nil;
+}
+
+- (BOOL) isHeldHudCoinsUpdate
+{
+    return [self.hud holdNextCoinsUpdate];
+}
+
+- (void) setHoldHudCoinsUpdate:(BOOL)shouldHold
+{
+    if([self.hud holdNextCoinsUpdate] && !shouldHold)
+    {
+        NSString* coinsString = [PogUIUtility currencyStringForAmount:[[Player getInstance] bucks]];
+        [self.hud.coins.label setText:coinsString];
+    }
+    self.hud.holdNextCoinsUpdate = shouldHold;
 }
 
 #pragma mark - KnobProtocol

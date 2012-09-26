@@ -56,13 +56,11 @@ static const float kTradeDistanceFactor = 0.001f;
 {
     if([post isMemberOfClass:[MyTradePost class]])
     {
+        // sell everything at post
         [self flyer:flyer sellAtPost:post];
     }
     else
     {
-        // other's post
-        // TODO: proceed to timesink
-        
         // release escrow
         [[flyer inventory] commitOutstandingOrder];
     }

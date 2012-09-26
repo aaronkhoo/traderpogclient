@@ -10,6 +10,8 @@
 #import "CircleBarView.h"
 #import "GameColors.h"
 #import "ImageManager.h"
+#import "PogUIUtility.h"
+#import "Player.h"
 
 static const float kHudCoinsX = 40.0f;
 static const float kHudCoinsY = 40.0f;
@@ -28,6 +30,7 @@ static const float kHudCoinsIconX = 0.3f * kHudCoinsWidth;
 
 @implementation GameHud
 @synthesize coins = _coins;
+@synthesize holdNextCoinsUpdate = _holdNextCoinsUpdate;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -69,6 +72,10 @@ static const float kHudCoinsIconX = 0.3f * kHudCoinsWidth;
         [_coinIcon setAnimationDuration:1.5f];
         [_coinIcon startAnimating];
         [self.coins addSubview:_coinIcon];
+        
+        // when _holdNextCoinsUpdate is true, the next coins-changed note will not skip updating
+        // GameHud coins; instead, the coins will be set when _holdNextCoinsUpdate gets unset
+        _holdNextCoinsUpdate = NO;
     }
     return self;
 }

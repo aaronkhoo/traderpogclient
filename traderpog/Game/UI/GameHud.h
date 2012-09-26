@@ -12,6 +12,9 @@
 @interface GameHud : UIView
 {
     CircleBarView* _coins;
+    BOOL _holdNextCoinsUpdate;
 }
 @property (nonatomic,strong) CircleBarView* coins;
+@property (nonatomic) BOOL holdNextCoinsUpdate;
+
 @end
