@@ -9,7 +9,8 @@
 #import "LeaderboardRow.h"
 
 static NSString* const kKeyVersion = @"version";
-static NSString* const kKeyFbid = @"fbid";
+static NSString* const kKeyFbname = @"fb_name";
+static NSString* const kKeyMember = @"member";
 static NSString* const kKeyValue = @"value";
 
 @interface LeaderboardRow ()
@@ -20,16 +21,20 @@ static NSString* const kKeyValue = @"value";
 @end
 
 @implementation LeaderboardRow
-@synthesize fbid = _fbid;
+@synthesize fbname = _fbname;
+@synthesize member = _member;
 @synthesize lbValue = _lbValue;
 
-- (id) initWithFbidAndValue:(NSString*)current_fbid current_value:(NSInteger)current_value
+- (id) initWithData:(NSString*)current_fbname
+      current_value:(NSInteger)current_value
+     current_member:(BOOL)current_member
 {
     self = [super init];
     if(self)
     {
-        _fbid = current_fbid;
+        _fbname = current_fbname;
         _lbValue = current_value;
+        _member = current_member;
     }
     return self;
 }
@@ -38,15 +43,17 @@ static NSString* const kKeyValue = @"value";
 - (void) encodeWithCoder:(NSCoder *)aCoder
 {
     [aCoder encodeObject:_createdVersion forKey:kKeyVersion];
-    [aCoder encodeObject:_fbid forKey:kKeyFbid];
+    [aCoder encodeObject:_fbname forKey:kKeyFbname];
     [aCoder encodeInteger:_lbValue forKey:kKeyValue];
+    [aCoder encodeBool:_member forKey:kKeyMember];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
     _createdVersion = [aDecoder decodeObjectForKey:kKeyVersion];
-    _fbid = [aDecoder decodeObjectForKey:kKeyFbid];
+    _fbname = [aDecoder decodeObjectForKey:kKeyFbname];
     _lbValue = [aDecoder decodeIntegerForKey:kKeyValue];
+    _member = [aDecoder decodeBoolForKey:kKeyMember];
     return self;
 }
 

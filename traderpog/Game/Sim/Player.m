@@ -24,7 +24,7 @@ static NSString* const kKeyUserId = @"id";
 static NSString* const kKeySecretkey = @"secretkey";
 static NSString* const kKeyFacebookId = @"fbid";
 static NSString* const kKeyFacebookFriends = @"fb_friends";
-static NSString* const kKeyFacebookName = @"fbname";
+static NSString* const kKeyFacebookName = @"fb_name";
 static NSString* const kKeyEmail = @"email";
 static NSString* const kKeyBucks = @"bucks";
 static NSString* const kKeyMember = @"member";
@@ -421,6 +421,7 @@ static const float kPostTribute = 0.02;
     // post parameters
     NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 _facebookid, kKeyFacebookId,
+                                _fbname, kKeyFacebookName,
                                 friends_string, kKeyFacebookFriends,
                                 _email, kKeyEmail,
                                 nil];
@@ -486,6 +487,7 @@ static const float kPostTribute = 0.02;
     // post parameters
     NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 _facebookid, kKeyFacebookId,
+                                _fbname, kKeyFacebookName,
                                 friends_string, kKeyFacebookFriends,
                                 _email, kKeyEmail,
                                 nil];

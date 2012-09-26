@@ -84,12 +84,7 @@
     NSUInteger index = 1;
     for (LeaderboardRow* current_row in [current_lb lbRows])
     {
-        NSString* name = [[Player getInstance] getFacebookNameByFbid:[current_row fbid]];
-        if (!name)
-        {
-            name = [current_row fbid];
-        }
-        NSString* row_in_text = [NSString stringWithFormat:@"%d. %@ %d\r", index, name, [current_row lbValue]];
+        NSString* row_in_text = [NSString stringWithFormat:@"%d. %@ %d\r", index, [current_row fbname], [current_row lbValue]];
         label_text = [label_text stringByAppendingString:row_in_text];
         index++;
     }

@@ -55,11 +55,11 @@ static NSString* const kKeyWeekOf = @"weekof";
         LeaderboardRow* firstRow = (LeaderboardRow*)firstObject;
         LeaderboardRow* secondRow = (LeaderboardRow*)secondObject;
         if (firstRow.lbValue < secondRow.lbValue)
-            return NSOrderedAscending;
+            return NSOrderedDescending;
         else if (firstRow.lbValue == secondRow.lbValue)
             return NSOrderedSame;
         else
-            return NSOrderedDescending;
+            return NSOrderedAscending;
     }];
 }
 
