@@ -30,10 +30,10 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
     NSString* _email;
     NSString* _fbAccessToken;
     NSDate* _fbExpiration;
-    NSString* _fbFriends;
+    NSMutableDictionary* _fbFriends;
+    NSString* _fbname;
     
     NSDate* _lastUpdate;
-    NSDate* _fbFriendsUpdate;
     NSDate* _fbPostUpdate;
     
     // Start of week date for reseting money count
@@ -59,13 +59,13 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
 - (void)authorizeFacebook;
 - (void)savePlayerData;
 - (BOOL)needsRefresh;
-- (BOOL)needsFriendsRefresh;
 - (void)createNewPlayerOnServer;
 - (void)getPlayerDataFromServer;
 - (BOOL)facebookSessionValid;
 - (void)getFacebookFriendsList;
 - (void)updateFacebookFeed:(NSString*)message;
 - (BOOL)isFacebookConnected;
+- (NSString*)getFacebookNameByFbid:(NSString*)fbid;
 
 // trade
 - (void) addBucks:(NSUInteger)newBucks;

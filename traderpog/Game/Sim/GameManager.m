@@ -54,7 +54,6 @@ typedef enum {
     serverCallType_tradePostMgr,
     serverCallType_beaconMgr,
     serverCallType_flyerMgr,
-    serverCallType_facebook,
     
     // Any new server calls should go above this
     serverCallType_end
@@ -331,16 +330,6 @@ typedef enum {
             if ([[FlyerMgr getInstance] needsRefresh])
             {
                 [[FlyerMgr getInstance] retrieveUserFlyersFromServer];
-                noCall = FALSE;
-            }
-            break;
-            
-        case serverCallType_facebook:
-            // Refresh friends data from Facebook if necessary
-            [self pushLoadingScreenIfNecessary:nav message:@"Cornering markets..."];
-            if ([[Player getInstance] facebookSessionValid] && [[Player getInstance] needsFriendsRefresh])
-            {
-                [[Player getInstance] getFacebookFriendsList];
                 noCall = FALSE;
             }
             break;

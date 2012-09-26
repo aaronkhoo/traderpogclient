@@ -24,6 +24,7 @@ static NSString* const kKeyUserId = @"id";
 static NSString* const kKeySecretkey = @"secretkey";
 static NSString* const kKeyFacebookId = @"fbid";
 static NSString* const kKeyFacebookFriends = @"fb_friends";
+static NSString* const kKeyFacebookName = @"fbname";
 static NSString* const kKeyEmail = @"email";
 static NSString* const kKeyBucks = @"bucks";
 static NSString* const kKeyMember = @"member";
@@ -79,9 +80,9 @@ static const float kPostTribute = 0.02;
         _fbAccessToken = nil;
         _fbExpiration = nil;
         _fbFriends = nil;
+        _fbname = nil;
         
         _lastUpdate = nil;
-        _fbFriendsUpdate = nil;
         _fbPostUpdate = nil;
         
         _lastKnownLocationValid = FALSE;
@@ -100,13 +101,6 @@ static const float kPostTribute = 0.02;
 - (BOOL) needsRefresh
 {
     return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime);
-}
-
-- (BOOL) needsFriendsRefresh
-{
-    // Check that facebook is initialized first. Then check to see if
-    // the friends list needs to be updated. 
-    return (_facebook && ((!_fbFriendsUpdate) || ([_fbFriendsUpdate timeIntervalSinceNow] < refreshTimeFriends)));
 }
 
 - (BOOL) canUpdateFacebookFeed
@@ -255,12 +249,12 @@ static const float kPostTribute = 0.02;
     [aCoder encodeObject:_facebookid forKey:kKeyFacebookId];
     [aCoder encodeObject:_fbAccessToken forKey:kKeyFbAccessToken];
     [aCoder encodeObject:_fbExpiration forKey:kKeyFbExpiration];
-    [aCoder encodeObject:_fbFriendsUpdate forKey:kKeyFbFriendsRefresh];
     [aCoder encodeObject:_fbPostUpdate forKey:kKeyFbPostUpdate];
     [aCoder encodeObject:[NSNumber numberWithUnsignedInteger:_bucks] forKey:kKeyBucks];
     [aCoder encodeDouble:_lastKnownLocation.latitude forKey:kKeyLastKnownLatitude];
     [aCoder encodeDouble:_lastKnownLocation.longitude forKey:kKeyLastKnownLongitude];
     [aCoder encodeObject:_currentWeekOf forKey:kKeyCurrentWeekOf];
+    [aCoder encodeObject:_fbname forKey:kKeyFacebookName];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
@@ -271,7 +265,6 @@ static const float kPostTribute = 0.02;
     _facebookid = [aDecoder decodeObjectForKey:kKeyFacebookId];
     _fbAccessToken = [aDecoder decodeObjectForKey:kKeyFbAccessToken];
     _fbExpiration = [aDecoder decodeObjectForKey:kKeyFbExpiration];
-    _fbFriendsUpdate = [aDecoder decodeObjectForKey:kKeyFbFriendsRefresh];
     _fbPostUpdate = [aDecoder decodeObjectForKey:kKeyFbPostUpdate];
     NSNumber* bucksNumber = [aDecoder decodeObjectForKey:kKeyBucks];
     if(bucksNumber)
@@ -286,6 +279,7 @@ static const float kPostTribute = 0.02;
     _lastKnownLocation.longitude = [aDecoder decodeDoubleForKey:kKeyLastKnownLongitude];
     _lastKnownLocationValid = [aDecoder decodeBoolForKey:kKeyLastKnownLocationValid];
     _currentWeekOf = [aDecoder decodeObjectForKey:kKeyCurrentWeekOf];
+    _fbname = [aDecoder decodeObjectForKey:kKeyFacebookName];
     return self;
 }
 
@@ -422,10 +416,12 @@ static const float kPostTribute = 0.02;
 
 - (void) createNewPlayerOnServer
 {
+    NSString* friends_string = [self generateFriendsString];
+    
     // post parameters
     NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 _facebookid, kKeyFacebookId,
-                                _fbFriends, kKeyFacebookFriends,
+                                friends_string, kKeyFacebookFriends,
                                 _email, kKeyEmail,
                                 nil];
     
@@ -468,7 +464,6 @@ static const float kPostTribute = 0.02;
              parameters:parameters
                 success:^(AFHTTPRequestOperation *operation, id responseObject){
                     NSLog(@"Player data updated");
-                    _fbFriendsUpdate = [NSDate date];
                     [self.delegate didCompleteHttpCallback:kPlayer_SavePlayerData, TRUE];
                 }
                 failure:^(AFHTTPRequestOperation* operation, NSError* error){
@@ -486,10 +481,12 @@ static const float kPostTribute = 0.02;
 
 - (void) updateUserPersonalData
 {
+    NSString* friends_string = [self generateFriendsString];
+    
     // post parameters
     NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 _facebookid, kKeyFacebookId,
-                                _fbFriends, kKeyFacebookFriends,
+                                friends_string, kKeyFacebookFriends,
                                 _email, kKeyEmail,
                                 nil];
     [self updatePlayerOnServer:parameters];
@@ -609,16 +606,29 @@ static const float kPostTribute = 0.02;
     // TODO: Still needs to be implemented
 }
 
+- (NSString*)generateFriendsString
+{
+    NSString* friends_string = [[NSString alloc] init];
+    NSString *fbid;
+    for(fbid in _fbFriends){
+        if ([friends_string length] > 0)
+        {
+            friends_string = [friends_string stringByAppendingString:@"|"];
+        }
+        friends_string = [friends_string stringByAppendingString:fbid];
+    }
+    NSLog(@"Friends: %@", friends_string);
+    return friends_string;
+}
+
 - (void)parseFacebookFriends:(NSArray*)friendsArray
 {
-    _fbFriends = @"";
+    _fbFriends = [[NSMutableDictionary alloc] initWithCapacity:[friendsArray count]];
     for (id object in friendsArray) {
         NSDictionary* dict = (NSDictionary*)object;
-        if ([_fbFriends length] > 0)
-        {
-            _fbFriends = [_fbFriends stringByAppendingString:@"|"];
-        }
-        _fbFriends = [_fbFriends stringByAppendingString:[dict valueForKeyPath:@"id"]];
+        NSString* name = [NSString stringWithFormat:@"%@", [dict valueForKeyPath:@"name"]];
+        NSString* key = [NSString stringWithFormat:@"%@", [dict valueForKeyPath:@"id"]];
+        [_fbFriends setObject:name forKey:key];
     }
     NSLog(@"Friends: %@", _fbFriends);
 }
@@ -656,8 +666,9 @@ static const float kPostTribute = 0.02;
     {
         NSLog(@"Facebook /me call completed");
         
-        // Grab the facebook ID for the current user
+        // Grab the facebook ID and for the current user
         _facebookid = [result valueForKeyPath:@"id"];
+        _fbname = [result valueForKeyPath:@"name"];
         
         [self getFacebookFriendsList];
     }
@@ -680,6 +691,24 @@ static const float kPostTribute = 0.02;
 {
     // get the logged-in user's friends
     [_facebook requestWithGraphPath:@"me/friends" andDelegate:self];
+}
+
+- (NSString*)getFacebookNameByFbid:(NSString*)fbid
+{
+    NSString* name = [_fbFriends objectForKey:fbid];
+    if (!name)
+    {
+        // Check to see if it matches the current user
+        if ([fbid compare:_facebookid] == NSOrderedSame)
+        {
+            name = _fbname;
+        }
+        else
+        {
+            NSLog(@"No name found for fb friend %@", fbid);   
+        }
+    }
+    return name;
 }
 
 #pragma mark - Singleton
