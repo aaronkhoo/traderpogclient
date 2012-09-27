@@ -39,6 +39,7 @@
 		38F6593915F8023100816517 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F6593815F8023100816517 /* Reachability.m */; };
 		38FCF6D41610D05A00540F34 /* LeaderboardsScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF6D31610D05A00540F34 /* LeaderboardsScreen.xib */; };
 		38FCF6D81610D0A400540F34 /* LeaderboardsScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FCF6D71610D0A400540F34 /* LeaderboardsScreen.m */; };
+		38FCF6E21614100600540F34 /* RevMobAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38FCF6E11614100600540F34 /* RevMobAds.framework */; };
 		42094DB615C9B236001FA77D /* WheelBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB015C9B235001FA77D /* WheelBubble.m */; };
 		42094DB715C9B236001FA77D /* WheelControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB215C9B236001FA77D /* WheelControl.m */; };
 		42094DB815C9B236001FA77D /* WheelSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB515C9B236001FA77D /* WheelSlice.m */; };
@@ -256,6 +257,7 @@
 		38FCF6D31610D05A00540F34 /* LeaderboardsScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LeaderboardsScreen.xib; path = Game/UI/LeaderboardsScreen.xib; sourceTree = "<group>"; };
 		38FCF6D61610D0A400540F34 /* LeaderboardsScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeaderboardsScreen.h; path = Game/UI/LeaderboardsScreen.h; sourceTree = "<group>"; };
 		38FCF6D71610D0A400540F34 /* LeaderboardsScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LeaderboardsScreen.m; path = Game/UI/LeaderboardsScreen.m; sourceTree = "<group>"; };
+		38FCF6E11614100600540F34 /* RevMobAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RevMobAds.framework; sourceTree = "<group>"; };
 		42094DAF15C9B235001FA77D /* WheelBubble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WheelBubble.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		42094DB015C9B235001FA77D /* WheelBubble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WheelBubble.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		42094DB115C9B235001FA77D /* WheelControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WheelControl.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -502,6 +504,7 @@
 				C41ED12F15A6B33E00995F53 /* Foundation.framework in Frameworks */,
 				C41ED13115A6B33E00995F53 /* CoreGraphics.framework in Frameworks */,
 				38B6DAF015C85A9D00F37BD9 /* libfacebook_ios_sdk.a in Frameworks */,
+				38FCF6E21614100600540F34 /* RevMobAds.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -709,6 +712,7 @@
 		C41ED12B15A6B33E00995F53 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				38FCF6E11614100600540F34 /* RevMobAds.framework */,
 				38BE3BDB160D41B700758F27 /* libsqlite3.dylib */,
 				38BE3BDD160D41D200758F27 /* AdSupport.framework */,
 				3889127315D5BA8E009CF624 /* libz.1.2.5.dylib */,
@@ -1330,6 +1334,10 @@
 				ARCHS = armv7;
 				CODE_SIGN_ENTITLEMENTS = traderpog/traderpog.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "traderpog/traderpog-Prefix.pch";
 				INFOPLIST_FILE = "traderpog/traderpog-Info.plist";
@@ -1350,6 +1358,10 @@
 			buildSettings = {
 				ARCHS = armv7;
 				CODE_SIGN_ENTITLEMENTS = traderpog/traderpog.entitlements;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "traderpog/traderpog-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
@@ -1392,6 +1404,10 @@
 				ARCHS = armv7;
 				CODE_SIGN_ENTITLEMENTS = traderpog/traderpog.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "traderpog/traderpog-Prefix.pch";
 				INFOPLIST_FILE = "traderpog/traderpog-Info.plist";

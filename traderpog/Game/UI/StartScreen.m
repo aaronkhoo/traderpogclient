@@ -34,6 +34,8 @@
 
     // version string
     [self.versionLabel setText:[PogUIUtility versionStringForCurConfig]];
+    
+    [RevMobAds showFullscreenAd];
 }
 
 - (void)viewDidUnload
