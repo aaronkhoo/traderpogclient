@@ -25,6 +25,7 @@
     NSInteger _tier;
     NSString* _topimg;
     NSString* _sideimg;
+    float _loadDuration;
 }
 @property (nonatomic,strong) NSString* flyerId;
 @property (nonatomic,strong) NSString* name;
@@ -33,6 +34,7 @@
 @property (nonatomic) NSInteger speed;
 @property (nonatomic,strong) NSString* topimg;
 @property (nonatomic,strong) NSString* sideimg;
+@property (nonatomic) float loadDuration;
 
 - (id) initWithDictionary:(NSDictionary*)dict;
 

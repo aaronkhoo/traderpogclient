@@ -199,6 +199,12 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     return speed;
 }
 
+- (float) getFlyerLoadDuration
+{
+    FlyerType* current = [[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex];
+    return [current loadDuration];
+}
+
 - (void) createNewUserFlyerOnServer
 {
     // post parameters
@@ -395,7 +401,11 @@ static NSString* const kKeyStateBegin = @"stateBegin";
 
 - (void) updateAtDate:(NSDate *)currentTime
 {
-    if(_initializeFlyerOnMap)
+    if(!_initializeFlyerOnMap)
+    {
+        // do nothing for flyer not yet initialized on the map
+    }
+    else
     {
         if(!_path.doneWithCurrentPath)
         {
@@ -416,13 +426,23 @@ static NSString* const kKeyStateBegin = @"stateBegin";
                 [self completeFlyerPath];
             }
         }
-        else if(kFlyerStateWaitingToUnload == [self state])
+        else if(kFlyerStateUnloading == [self state])
         {
-            // do nothing
+            NSTimeInterval elapsed = [currentTime timeIntervalSinceDate:_stateBegin];
+            if(elapsed > [self getFlyerLoadDuration])
+            {
+                // done unloading
+                [self gotoState:kFlyerStateIdle];
+            }
         }
-        else if(kFlyerStateWaitingToLoad == [self state])
+        else if(kFlyerStateLoading == [self state])
         {
-            // do nothing
+            NSTimeInterval elapsed = [currentTime timeIntervalSinceDate:_stateBegin];
+            if(elapsed > [self getFlyerLoadDuration])
+            {
+                // done unloading
+                [self gotoState:kFlyerStateLoaded];
+            }
         }
     }
 }

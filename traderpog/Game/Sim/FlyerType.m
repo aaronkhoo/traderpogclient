@@ -21,6 +21,10 @@ static NSString* const kKeyStormResist = @"stormresist";
 static NSString* const kKeyTier = @"tier";
 static NSString* const kKeyTopimg = @"topimg";
 static NSString* const kKeySideimg = @"sideimg";
+static NSString* const kKeyLoadDuration = @"load_duration";
+
+// default values
+static const float kFlyerDefaultLoadDuration = 10.0f;   // seconds
 
 @implementation FlyerType
 @synthesize flyerId = _flyerId;
@@ -30,6 +34,7 @@ static NSString* const kKeySideimg = @"sideimg";
 @synthesize speed = _speed;
 @synthesize topimg = _topimg;
 @synthesize sideimg = _sideimg;
+@synthesize loadDuration = _loadDuration;
 
 - (id) initWithDictionary:(NSDictionary*)dict
 {
@@ -47,6 +52,15 @@ static NSString* const kKeySideimg = @"sideimg";
         _tier = [[dict valueForKeyPath:@"tier"] integerValue];
         _topimg = [dict valueForKeyPath:kKeyTopimg];
         _sideimg = [dict valueForKeyPath:kKeySideimg];
+        NSNumber* loadDurNum = [dict valueForKeyPath:kKeyLoadDuration];
+        if(loadDurNum)
+        {
+            _loadDuration = [loadDurNum floatValue];
+        }
+        else
+        {
+            _loadDuration = kFlyerDefaultLoadDuration;
+        }
     }
     return self;
 }
@@ -66,6 +80,7 @@ static NSString* const kKeySideimg = @"sideimg";
     [aCoder encodeObject:[NSNumber numberWithInteger:_tier] forKey:kKeyTier];
     [aCoder encodeObject:_topimg forKey:kKeyTopimg];
     [aCoder encodeObject:_sideimg forKey:kKeySideimg];
+    [aCoder encodeObject:[NSNumber numberWithFloat:_loadDuration] forKey:kKeyLoadDuration];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
@@ -82,6 +97,15 @@ static NSString* const kKeySideimg = @"sideimg";
     _tier = [[aDecoder decodeObjectForKey:kKeyTier] integerValue];
     _topimg = [aDecoder decodeObjectForKey:kKeyTopimg];
     _sideimg = [aDecoder decodeObjectForKey:kKeySideimg];
+    NSNumber* loadDurNum = [aDecoder decodeObjectForKey:kKeyLoadDuration];
+    if(loadDurNum)
+    {
+        _loadDuration = [loadDurNum floatValue];
+    }
+    else
+    {
+        _loadDuration = kFlyerDefaultLoadDuration;
+    }
     return self;
 }
 
