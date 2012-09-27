@@ -20,13 +20,14 @@ static NSString *leaderboard_names[kLBNum] = {
     @"PLAYER POSTS VISITED"
 };
 
-// 4 hour refresh schedule
-static double const refreshTime = -(60 * 60 * 4);
+// 1 hour refresh schedule
+static double const refreshTime = -(60 * 60);
 
 static NSString* const kLeaderboardMgrFilename = @"leaderboardmgr.sav";
 static NSString* const kKeyVersion = @"version";
 static NSString* const kKeyLeaderboards = @"leaderboards";
-static NSString* const kKeyFbid = @"fbid";
+static NSString* const kKeyFbname = @"fb_name";
+static NSString* const kKeyMember = @"member";
 static NSString* const kKeyType = @"lbtype";
 static NSString* const kKeyValue = @"lbvalue";
 static NSString* const kKeyWeekOf = @"weekof";
@@ -70,11 +71,12 @@ static NSString* const kKeyWeekOf = @"weekof";
 {
     for (NSDictionary* lbRow in playerValues)
     {
-        NSString* current_fbid = [NSString stringWithFormat:@"%@", [lbRow valueForKeyPath:kKeyFbid]];
+        NSString* current_fbname = [NSString stringWithFormat:@"%@", [lbRow valueForKeyPath:kKeyFbname]];
         NSInteger current_value = [[lbRow valueForKey:kKeyValue] integerValue];
         NSUInteger current_type = [[lbRow valueForKey:kKeyType] integerValue];
+        BOOL current_member = [[lbRow valueForKey:kKeyMember] boolValue];
         
-        LeaderboardRow* new_row = [[LeaderboardRow alloc] initWithFbidAndValue:current_fbid current_value:current_value];
+        LeaderboardRow* new_row = [[LeaderboardRow alloc] initWithData:current_fbname current_value:current_value current_member:current_member];
         Leaderboard* current_leaderboard = [_leaderboards objectAtIndex:(current_type - 1)];
         if (![current_leaderboard weekofValid])
         {

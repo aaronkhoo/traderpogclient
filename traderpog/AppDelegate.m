@@ -23,6 +23,7 @@
 #import "AnimMgr.h"
 #import "LocalyticsSession.h"
 #import "LeaderboardMgr.h"
+#import <RevMobAds/RevMobAds.h>
 
 static const float kAppScreenWidth = 320.0f;
 static const float kAppScreenHeight = 480.0f;
@@ -56,6 +57,9 @@ static const float kAppScreenHeight = 480.0f;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //[RevMobAds startSessionWithAppID:@"5063b48ba0aeaf0800000034"];
+    [RevMobAds startSessionWithAppID:@"5063b48ba0aeaf0800000034" testingMode:RevMobAdsTestingModeWithAds];
+
     [[LocalyticsSession sharedLocalyticsSession] startSession:@"bf2f53386fe1651bfdea3f1-5feaa8ac-044b-11e2-5623-00ef75f32667"];
     
     CGRect screenBounds = [[UIScreen mainScreen] bounds];

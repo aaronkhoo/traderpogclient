@@ -6,9 +6,10 @@
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
+#import <RevMobAds/RevMobAds.h>
 #import <UIKit/UIKit.h>
 
-@interface StartScreen : UIViewController
+@interface StartScreen : UIViewController<RevMobAdsDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 
 

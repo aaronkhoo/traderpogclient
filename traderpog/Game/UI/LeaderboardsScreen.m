@@ -11,6 +11,7 @@
 #import "LeaderboardMgr.h"
 #import "LeaderboardRow.h"
 #import "LeaderboardsScreen.h"
+#import "Player.h"
 
 @implementation LeaderboardsScreen
 @synthesize spinner;
@@ -83,7 +84,7 @@
     NSUInteger index = 1;
     for (LeaderboardRow* current_row in [current_lb lbRows])
     {
-        NSString* row_in_text = [NSString stringWithFormat:@"%d. %@ %d\r", index, [current_row fbid], [current_row lbValue]];
+        NSString* row_in_text = [NSString stringWithFormat:@"%d. %@ %d\r", index, [current_row fbname], [current_row lbValue]];
         label_text = [label_text stringByAppendingString:row_in_text];
         index++;
     }

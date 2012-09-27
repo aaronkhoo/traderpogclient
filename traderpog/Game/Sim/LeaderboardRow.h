@@ -10,12 +10,16 @@
 
 @interface LeaderboardRow : NSObject<NSCoding>
 {
-    NSString* _fbid;
+    NSString* _fbname;
     NSInteger _lbValue;
+    BOOL _member;
 }
-@property (nonatomic) NSString* fbid;
+@property (nonatomic) NSString* fbname;
 @property (nonatomic) NSInteger lbValue;
+@property (nonatomic) BOOL member;
 
-- (id) initWithFbidAndValue:(NSString*)current_fbid current_value:(NSInteger)current_value;
+- (id) initWithData:(NSString*)current_fbname
+      current_value:(NSInteger)current_value
+     current_member:(BOOL)current_member;
 
 @end
