@@ -94,6 +94,8 @@
 		42EF841F15DE2ED100A8469B /* PlayerPostCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EF841E15DE2ED100A8469B /* PlayerPostCalloutView.m */; };
 		42EF842315DE2F0400A8469B /* PlayerPostCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EF842215DE2F0400A8469B /* PlayerPostCallout.m */; };
 		42EF842515DE32F000A8469B /* PlayerPostCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42EF842415DE32F000A8469B /* PlayerPostCalloutView.xib */; };
+		42F52A1B16135A000077ED37 /* AnimClip.m in Sources */ = {isa = PBXBuildFile; fileRef = 42F52A1A16135A000077ED37 /* AnimClip.m */; };
+		42F52A1D16135D5A0077ED37 /* gameanim.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42F52A1C16135D5A0077ED37 /* gameanim.plist */; };
 		42F692C815F1D4D20002B1B2 /* GameColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 42F692C715F1D4D20002B1B2 /* GameColors.m */; };
 		42F692D115F1E1B60002B1B2 /* bubble_restock.png in Resources */ = {isa = PBXBuildFile; fileRef = 42F692CE15F1E1B60002B1B2 /* bubble_restock.png */; };
 		42F692D215F1E1B60002B1B2 /* bubble_set_beacon.png in Resources */ = {isa = PBXBuildFile; fileRef = 42F692CF15F1E1B60002B1B2 /* bubble_set_beacon.png */; };
@@ -339,6 +341,9 @@
 		42EF842115DE2F0400A8469B /* PlayerPostCallout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerPostCallout.h; path = Game/Map/PlayerPostCallout.h; sourceTree = "<group>"; };
 		42EF842215DE2F0400A8469B /* PlayerPostCallout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerPostCallout.m; path = Game/Map/PlayerPostCallout.m; sourceTree = "<group>"; };
 		42EF842415DE32F000A8469B /* PlayerPostCalloutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlayerPostCalloutView.xib; path = Game/Map/PlayerPostCalloutView.xib; sourceTree = "<group>"; };
+		42F52A1916135A000077ED37 /* AnimClip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimClip.h; sourceTree = "<group>"; };
+		42F52A1A16135A000077ED37 /* AnimClip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimClip.m; sourceTree = "<group>"; };
+		42F52A1C16135D5A0077ED37 /* gameanim.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gameanim.plist; sourceTree = "<group>"; };
 		42F692C615F1D4D20002B1B2 /* GameColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameColors.h; path = Game/UI/GameColors.h; sourceTree = "<group>"; };
 		42F692C715F1D4D20002B1B2 /* GameColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameColors.m; path = Game/UI/GameColors.m; sourceTree = "<group>"; };
 		42F692CE15F1E1B60002B1B2 /* bubble_restock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_restock.png; path = assets/UI/bubble_restock.png; sourceTree = SOURCE_ROOT; };
@@ -611,6 +616,7 @@
 				42CF8327160E57CA00561CA0 /* pogstacking_001.png */,
 				42CF8328160E57CA00561CA0 /* pogstacking_002.png */,
 				42CF8329160E57CA00561CA0 /* pogstacking_003.png */,
+				42F52A1C16135D5A0077ED37 /* gameanim.plist */,
 			);
 			name = anim;
 			path = assets/anim;
@@ -914,6 +920,8 @@
 			children = (
 				C4E381A915AA381F00924A86 /* ImageManager.h */,
 				C4E381AA15AA381F00924A86 /* ImageManager.m */,
+				42F52A1916135A000077ED37 /* AnimClip.h */,
+				42F52A1A16135A000077ED37 /* AnimClip.m */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -1147,6 +1155,7 @@
 				42CF832D160E57CA00561CA0 /* pogstacking_002.png in Resources */,
 				42CF832E160E57CA00561CA0 /* pogstacking_003.png in Resources */,
 				38FCF6D41610D05A00540F34 /* LeaderboardsScreen.xib in Resources */,
+				42F52A1D16135D5A0077ED37 /* gameanim.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1261,6 +1270,7 @@
 				42A0FA0C160E925200683B8A /* GameAnim.m in Sources */,
 				38BE3BEB160E435700758F27 /* MetricLogger.m in Sources */,
 				38FCF6D81610D0A400540F34 /* LeaderboardsScreen.m in Sources */,
+				42F52A1B16135A000077ED37 /* AnimClip.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -26,6 +26,7 @@
 #import "CircleBarView.h"
 #import "AnimMgr.h"
 #import "ImageManager.h"
+#import "GameAnim.h"
 #import "DebugMenu.h"
 #import "UINavigationController+Pog.h"
 #import <QuartzCore/QuartzCore.h>
@@ -118,12 +119,21 @@ enum kKnobSlices
     return self;
 }
 
+- (void) dealloc
+{
+    // unload game anim
+    [GameAnim destroyInstance];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
     // version string
     [self.versionLabel setText:[PogUIUtility versionStringForCurConfig]];
+    
+    // load game anim
+    [GameAnim getInstance];
     
     // create main mapview
     self.mapControl = [[MapControl alloc] initWithMapView:[self mapView] andCenter:_initCoord];
@@ -162,6 +172,10 @@ enum kKnobSlices
     [self shutdownKnob];
     [self.mapControl stopTrackingAnnotation];
     self.mapControl = nil;
+    
+    // unload game anim
+    [GameAnim destroyInstance];
+    
     [self setVersionLabel:nil];
     [super viewDidUnload];
 }

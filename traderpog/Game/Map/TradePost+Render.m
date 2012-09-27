@@ -14,6 +14,8 @@
 #import "ForeignTradePost.h"
 #import "Flyer.h"
 #import "ImageManager.h"
+#import "AnimMgr.h"
+#import "AnimClip.h"
 
 @implementation TradePost (Render)
 - (void) refreshRenderForAnnotationView:(TradePostAnnotationView *)annotationView
@@ -42,17 +44,27 @@
     if([self flyerAtPost])
     {
         Flyer* flyer = [self flyerAtPost];
-        if((kFlyerStateLoading == [flyer state]) ||
-           (kFlyerStateUnloading == [flyer state]))
+        if(kFlyerStateLoading == [flyer state])
         {
-            UIImage* frame1 = [[ImageManager getInstance] getImage:@"default" fallbackNamed:@"pogstacking_001.png"];
-            UIImage* frame2 = [[ImageManager getInstance] getImage:@"default" fallbackNamed:@"pogstacking_002.png"];
-            UIImage* frame3 = [[ImageManager getInstance] getImage:@"default" fallbackNamed:@"pogstacking_003.png"];
-            NSArray* frames = [NSArray arrayWithObjects:frame1, frame2, frame3, nil];
-            [annotationView.frontLeftView setAnimationImages:frames];
-            [annotationView.frontLeftView setAnimationDuration:1.5f];
-            [annotationView.frontLeftView startAnimating];
-            [annotationView.frontLeftView setHidden:NO];
+            AnimClip* clip = [[AnimMgr getInstance] getClipWithName:@"loading"];
+            if(clip)
+            {
+                [annotationView.frontLeftView setAnimationImages:[clip imagesArray]];
+                [annotationView.frontLeftView setAnimationDuration:[clip secondsPerLoop]];
+                [annotationView.frontLeftView startAnimating];
+                [annotationView.frontLeftView setHidden:NO];
+            }
+        }
+        else if(kFlyerStateUnloading == [flyer state])
+        {
+            AnimClip* clip = [[AnimMgr getInstance] getClipWithName:@"unloading"];
+            if(clip)
+            {
+                [annotationView.frontLeftView setAnimationImages:[clip imagesArray]];
+                [annotationView.frontLeftView setAnimationDuration:[clip secondsPerLoop]];
+                [annotationView.frontLeftView startAnimating];
+                [annotationView.frontLeftView setHidden:NO];
+            }
         }
         else
         {

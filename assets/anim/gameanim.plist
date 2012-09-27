@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>loading</key>
+	<dict>
+		<key>loop</key>
+		<true/>
+		<key>fps</key>
+		<integer>3</integer>
+		<key>frames</key>
+		<array>
+			<string>pogstacking_001.png</string>
+			<string>pogstacking_002.png</string>
+			<string>pogstacking_003.png</string>
+		</array>
+	</dict>
+	<key>unloading</key>
+	<dict>
+		<key>loop</key>
+		<true/>
+		<key>fps</key>
+		<integer>3</integer>
+		<key>frames</key>
+		<array>
+			<string>pogstacking_003.png</string>
+			<string>pogstacking_002.png</string>
+			<string>pogstacking_001.png</string>
+		</array>
+	</dict>
+</dict>
+</plist>

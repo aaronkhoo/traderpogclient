@@ -39,6 +39,12 @@ static NSString* const kImageReservedWordDefault = @"default";
 }
 
 #pragma mark - image accessors
+- (UIImage*) getImage:(NSString *)name
+{
+    UIImage* result = [self getImage:name fallbackNamed:name];
+    return result;
+}
+
 - (UIImage*) getImage:(NSString *)name fallbackNamed:(NSString *)fallback
 {
     UIImage* result = nil;

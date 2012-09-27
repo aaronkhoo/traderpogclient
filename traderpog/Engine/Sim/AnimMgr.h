@@ -9,14 +9,22 @@
 #import <Foundation/Foundation.h>
 #import "AnimDelegate.h"
 
+@class AnimClip;
 @interface AnimMgr : NSObject
 {
     NSMutableArray* _animObjects;
+    NSMutableDictionary* _clipReg;
 }
 
+// procedural anims
 - (void) addAnimObject:(NSObject<AnimDelegate>*)animObject;
 - (void) removeAnimObject:(NSObject<AnimDelegate>*)animObject;
 - (void) update:(NSTimeInterval)elapsed;
+
+// clip anims
+- (NSArray*) addClipsFromPlistFile:(NSString*)filename;
+- (void) removeClipsInNameArray:(NSArray*)nameArray;
+- (AnimClip*) getClipWithName:(NSString*)clipname;
 
 // singleton
 +(AnimMgr*) getInstance;

@@ -9,9 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface GameAnim : NSObject
-{
-    NSMutableDictionary* _reg;
-}
 
 // singleton
 +(GameAnim*) getInstance;

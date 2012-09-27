@@ -7,6 +7,14 @@
 //
 
 #import "GameAnim.h"
+#import "AnimMgr.h"
+
+@interface GameAnim ()
+{
+    // names of clips loaded by this class
+    NSArray* _clipnames;
+}
+@end
 
 @implementation GameAnim
 - (id) init
@@ -14,11 +22,16 @@
     self = [super init];
     if(self)
     {
-        
+        _clipnames = [[AnimMgr getInstance] addClipsFromPlistFile:@"gameanim"];
     }
     return self;
 }
 
+- (void) dealloc
+{
+    [[AnimMgr getInstance] removeClipsInNameArray:_clipnames];
+    _clipnames = nil;
+}
 
 
 #pragma mark - Singleton
