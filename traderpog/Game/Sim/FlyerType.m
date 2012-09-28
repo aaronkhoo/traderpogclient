@@ -21,10 +21,10 @@ static NSString* const kKeyStormResist = @"stormresist";
 static NSString* const kKeyTier = @"tier";
 static NSString* const kKeyTopimg = @"topimg";
 static NSString* const kKeySideimg = @"sideimg";
+static NSString* const kKeyLoadTime = @"load_time";
 
 // default values
-static const float kFlyerDefaultLoadDuration = 90.0f;   // seconds
-static NSString* const kKeyLoadTime = @"load_time";
+static const float kFlyerDefaultLoadTime = 90.0f;   // seconds
 
 @implementation FlyerType
 @synthesize flyerId = _flyerId;
@@ -83,7 +83,15 @@ static NSString* const kKeyLoadTime = @"load_time";
     _desc = [aDecoder decodeObjectForKey:kKeyDesc];
     _price = [[aDecoder decodeObjectForKey:kKeyPrice] integerValue];
     _capacity = [[aDecoder decodeObjectForKey:kKeyCapacity] integerValue];
-    _loadtime = [[aDecoder decodeObjectForKey:kKeyLoadTime] integerValue];
+    NSNumber* loadTimeNum = [aDecoder decodeObjectForKey:kKeyLoadTime];
+    if(loadTimeNum)
+    {
+        _loadtime = [loadTimeNum integerValue];
+    }
+    else
+    {
+        _loadtime = kFlyerDefaultLoadTime;
+    }
     _speed = [[aDecoder decodeObjectForKey:kKeySpeed] integerValue];
     _multiplier = [[aDecoder decodeObjectForKey:kKeyMultiplier] integerValue];
     _stormresist = [[aDecoder decodeObjectForKey:kKeyStormResist] integerValue];

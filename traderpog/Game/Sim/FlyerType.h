@@ -26,7 +26,7 @@
     NSInteger _tier;
     NSString* _topimg;
     NSString* _sideimg;
-    float _loadDuration;
+    NSInteger _loadTime;
 }
 @property (nonatomic,strong) NSString* flyerId;
 @property (nonatomic,strong) NSString* name;
