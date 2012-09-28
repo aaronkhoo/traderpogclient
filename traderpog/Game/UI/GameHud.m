@@ -32,7 +32,7 @@ static const float kHudCoinsIconX = 0.3f * kHudCoinsWidth;
 @synthesize coins = _coins;
 @synthesize holdNextCoinsUpdate = _holdNextCoinsUpdate;
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithFrameWithHeight:(CGRect)frame bannershift:(CGFloat)bannershift
 {
     self = [super initWithFrame:frame];
     if (self)
@@ -41,7 +41,7 @@ static const float kHudCoinsIconX = 0.3f * kHudCoinsWidth;
         [self setUserInteractionEnabled:NO];
         
         // coins HUD
-        CGRect coinsFrame = CGRectMake(kHudCoinsX, kHudCoinsY,
+        CGRect coinsFrame = CGRectMake(kHudCoinsX, kHudCoinsY + bannershift,
                                        kHudCoinsWidth, kHudCoinsHeight);
         self.coins = [[CircleBarView alloc] initWithFrame:coinsFrame
                                                     color:[GameColors borderColorPostsWithAlpha:1.0f]
