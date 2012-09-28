@@ -24,7 +24,7 @@ static NSString* const kKeySideimg = @"sideimg";
 static NSString* const kKeyLoadDuration = @"load_duration";
 
 // default values
-static const float kFlyerDefaultLoadDuration = 60.0f;   // seconds
+static const float kFlyerDefaultLoadDuration = 90.0f;   // seconds
 
 @implementation FlyerType
 @synthesize flyerId = _flyerId;

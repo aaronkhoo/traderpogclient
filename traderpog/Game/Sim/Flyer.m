@@ -39,6 +39,9 @@ static NSString* const kKeyStateBegin = @"stateBegin";
 {
     // internal
     NSString* _createdVersion;
+    
+    // last time a load-timer-changed notification was fired
+    NSDate* _lastLoadTimerChanged;
 }
 - (CLLocationCoordinate2D) flyerCoordinateAtTimeSinceDeparture:(NSTimeInterval)elapsed;
 - (CLLocationCoordinate2D) flyerCoordinateAtTimeAhead:(NSTimeInterval)timeAhead;
@@ -202,7 +205,8 @@ static NSString* const kKeyStateBegin = @"stateBegin";
 - (float) getFlyerLoadDuration
 {
     FlyerType* current = [[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex];
-    return [current loadDuration];
+    float result = (float)[current loadDuration];
+    return result;
 }
 
 - (void) createNewUserFlyerOnServer
@@ -426,22 +430,29 @@ static NSString* const kKeyStateBegin = @"stateBegin";
                 [self completeFlyerPath];
             }
         }
-        else if(kFlyerStateUnloading == [self state])
+        else if((kFlyerStateUnloading == [self state]) || (kFlyerStateLoading == [self state]))
         {
             NSTimeInterval elapsed = [currentTime timeIntervalSinceDate:_stateBegin];
             if(elapsed > [self getFlyerLoadDuration])
             {
-                // done unloading
-                [self gotoState:kFlyerStateIdle];
+                // done
+                if(kFlyerStateUnloading == [self state])
+                {
+                    [self gotoState:kFlyerStateIdle];
+                }
+                else
+                {
+                    [self gotoState:kFlyerStateLoaded];
+                }
             }
-        }
-        else if(kFlyerStateLoading == [self state])
-        {
-            NSTimeInterval elapsed = [currentTime timeIntervalSinceDate:_stateBegin];
-            if(elapsed > [self getFlyerLoadDuration])
+            else
             {
-                // done unloading
-                [self gotoState:kFlyerStateLoaded];
+                NSTimeInterval noteElapsed = [currentTime timeIntervalSinceDate:_lastLoadTimerChanged];
+                if(noteElapsed >= 1.0f)
+                {
+                    _lastLoadTimerChanged = currentTime;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteFlyerLoadTimerChanged object:self];
+                }
             }
         }
     }
@@ -621,6 +632,12 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
             self.stateBegin = [NSDate date];
             changed = YES;
             [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteFlyerStateChanged object:self];
+            
+            if((kFlyerStateLoading == newState) || (kFlyerStateUnloading == newState))
+            {
+                _lastLoadTimerChanged = [NSDate date];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteFlyerLoadTimerChanged object:self];
+            }
         }
         else
         {

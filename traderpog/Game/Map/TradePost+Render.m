@@ -54,6 +54,7 @@
                 [annotationView.frontLeftView startAnimating];
                 [annotationView.frontLeftView setHidden:NO];
             }
+            [annotationView.smallLabel setHidden:NO];
         }
         else if(kFlyerStateUnloading == [flyer state])
         {
@@ -65,12 +66,14 @@
                 [annotationView.frontLeftView startAnimating];
                 [annotationView.frontLeftView setHidden:NO];
             }
+            [annotationView.smallLabel setHidden:NO];
         }
         else
         {
             [annotationView.frontLeftView stopAnimating];
             [annotationView.frontLeftView setAnimationImages:nil];
             [annotationView.frontLeftView setHidden:YES];
+            [annotationView.smallLabel setHidden:YES];
         }
         UIImage* image = [flyer imageForCurrentState];
         [annotationView.frontImageView setImage:image];
@@ -82,6 +85,7 @@
         [annotationView.frontImageView setHidden:YES];
         [annotationView.frontLeftView setImage:nil];
         [annotationView.frontLeftView setHidden:YES];
+        [annotationView.smallLabel setHidden:YES];
     }
 }
 @end

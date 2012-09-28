@@ -19,21 +19,25 @@
 #import "FlyerPath.h"
 #import "FlyerCallout.h"
 #import "GameNotes.h"
+#import "PogUIUtility.h"
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
 NSString* const kKeyFlyerAtPost = @"flyerAtPost";
+static const float kSmallLabelHeight = 20.0f;
 
 @interface TradePostAnnotationView ()
 {
     NSObject<MKAnnotation,MapAnnotationProtocol>* _calloutAnnotation;
 }
 - (void) handleFlyerStateChanged:(NSNotification*)note;
+- (void) handleFlyerLoadTimerChanged:(NSNotification*)note;
 @end
 
 @implementation TradePostAnnotationView
 @synthesize imageView = _imageView;
 @synthesize frontImageView = _frontImageView;
 @synthesize frontLeftView = _frontLeftView;
+@synthesize smallLabel = _smallLabel;
 
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation
 {
@@ -79,10 +83,23 @@ NSString* const kKeyFlyerAtPost = @"flyerAtPost";
         [_frontLeftView setHidden:YES];
         [contentView addSubview:_frontLeftView];
         
+        // small text label at bottom
+        CGRect smallLabelRect = CGRectMake(imageRect.origin.x, imageRect.origin.y + imageRect.size.height,
+                                           imageRect.size.width, kSmallLabelHeight);
+        _smallLabel = [[UILabel alloc] initWithFrame:smallLabelRect];
+        [_smallLabel setAdjustsFontSizeToFitWidth:YES];
+        [_smallLabel setFont:[UIFont fontWithName:@"Marker Felt" size:20.0f]];
+        [_smallLabel setText:@"Hello"];
+        [_smallLabel setTextAlignment:UITextAlignmentCenter];
+        [_smallLabel setBackgroundColor:[UIColor clearColor]];
+        [_smallLabel setHidden:YES];
+        [contentView addSubview:_smallLabel];
+        
         _calloutAnnotation = nil;
 
         // observe flyer-state-changed notifications
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleFlyerStateChanged:) name:kGameNoteFlyerStateChanged object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleFlyerLoadTimerChanged:) name:kGameNoteFlyerLoadTimerChanged object:nil];
     }
     return self;
 }
@@ -92,6 +109,7 @@ NSString* const kKeyFlyerAtPost = @"flyerAtPost";
     TradePost* post = (TradePost*) [self annotation];
     [post removeObserver:self forKeyPath:kKeyFlyerAtPost];
     [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kGameNoteFlyerStateChanged];
+    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kGameNoteFlyerLoadTimerChanged];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -128,6 +146,25 @@ NSString* const kKeyFlyerAtPost = @"flyerAtPost";
         {
             NSLog(@"flyer-state-changed post %@ refreshRender", [post postId]);
             [post refreshRenderForAnnotationView:self];
+        }
+    }
+}
+
+- (void) handleFlyerLoadTimerChanged:(NSNotification *)note
+{
+    Flyer* flyer = (Flyer*)[note object];
+    TradePost* post = (TradePost*)[self annotation];
+    if(post)
+    {
+        if([flyer isEqual:[post flyerAtPost]])
+        {
+            NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:[flyer stateBegin]];
+            NSTimeInterval remaining = [flyer getFlyerLoadDuration] - elapsed;
+            if(0.0f > remaining)
+            {
+                remaining = 0.0f;
+            }
+            [self.smallLabel setText:[PogUIUtility stringFromTimeInterval:remaining]];
         }
     }
 }
