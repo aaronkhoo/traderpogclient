@@ -84,7 +84,7 @@ enum kKnobSlices
 - (void) handleScanResultTradePosts:(NSArray*)tradePosts;
 - (void) initWheels;
 - (void) shutdownWheels;
-- (void) initHud;
+- (void) initHud:(CGFloat)heightChange;
 - (void) shutdownHud;
 
 - (void) hudSetCoins:(unsigned int)newCoins;
@@ -152,7 +152,26 @@ enum kKnobSlices
     // create knob
     [self initKnob];
     [self initWheels];
-    [self initHud];
+    if ([[Player getInstance] member])
+    {
+        [self initHud:0];
+    }
+    else
+    {
+        CGFloat heightChange = kGADAdSizeBanner.size.height;
+        
+        // Shift the hud downward to account for the banner
+        [self initHud:heightChange];
+        
+        // Non member, so shift UI elements downward and display banner ad
+        UIButton* dbgButton = [self debugButton];
+        dbgButton.frame = CGRectMake(dbgButton.frame.origin.x, dbgButton.frame.origin.y + heightChange, dbgButton.frame.size.width, dbgButton.frame.size.height);
+        UILabel* versionLabel = [self versionLabel];
+        versionLabel.frame = CGRectMake(versionLabel.frame.origin.x, versionLabel.frame.origin.y + heightChange, versionLabel.frame.size.width, versionLabel.frame.size.height);
+        
+        // Show banner ad
+        [self displayBannerAd];
+    }
     [self hudSetCoins:[[Player getInstance] bucks]];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleCoinsChanged:)
@@ -161,9 +180,6 @@ enum kKnobSlices
 
     
     [self startDisplayLink];
-    
-    // Show banner ad
-    //[self displayBannerAd];
 }
 
 - (void)viewDidUnload
@@ -438,9 +454,9 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     }
 }
 
-- (void) initHud
+- (void) initHud:(CGFloat)heightChange
 {
-    self.hud = [[GameHud alloc] initWithFrame:[self.view bounds]];
+    self.hud = [[GameHud alloc] initWithFrameWithHeight:[self.view bounds] bannershift:heightChange];
     [self.view addSubview:[self hud]];
 }
 

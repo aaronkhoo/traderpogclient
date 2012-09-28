@@ -17,4 +17,6 @@
 @property (nonatomic,strong) CircleBarView* coins;
 @property (nonatomic) BOOL holdNextCoinsUpdate;
 
+- (id)initWithFrameWithHeight:(CGRect)frame bannershift:(CGFloat)bannershift;
+
 @end

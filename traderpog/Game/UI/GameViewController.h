@@ -21,8 +21,8 @@
 @property (nonatomic, strong) MapControl* mapControl;
 @property (nonatomic) CLLocationCoordinate2D coord;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
-
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 
 - (id) init;
 - (id) initAtCoordinate:(CLLocationCoordinate2D)coord;
