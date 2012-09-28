@@ -161,6 +161,9 @@ enum kKnobSlices
 
     
     [self startDisplayLink];
+    
+    // Show banner ad
+    //[self displayBannerAd];
 }
 
 - (void)viewDidUnload
@@ -588,6 +591,29 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 - (void) knob:(KnobControl *)knob didSettleAt:(unsigned int)index
 {
     
+}
+
+#pragma mark - AdMob banner
+- (void) displayBannerAd
+{
+    // Create a view of the standard size at the top of the screen.
+    // Available AdSize constants are explained in GADAdSize.h.
+    _bannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+    
+    // Specify the ad's "unit identifier." This is your AdMob Publisher ID.
+    _bannerView.adUnitID = @"a150639ac683921";
+    
+    // Let the runtime know which UIViewController to restore after taking
+    // the user wherever the ad goes and add it to the view hierarchy.
+    _bannerView.rootViewController = self;
+    [self.view addSubview:_bannerView];
+    
+    // HACK TODO: Remove this before ship. Setting up test ads!
+    GADRequest *current_req = [GADRequest request];
+    current_req.testing = YES;
+    
+    // Initiate a generic request to load it with an ad.
+    [_bannerView loadRequest:current_req];
 }
 
 @end

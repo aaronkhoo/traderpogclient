@@ -205,8 +205,7 @@ static NSString* const kKeyStateBegin = @"stateBegin";
 - (float) getFlyerLoadDuration
 {
     FlyerType* current = [[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex];
-    float result = (float)[current loadDuration];
-    return result;
+    return (float)([current loadtime]);
 }
 
 - (void) createNewUserFlyerOnServer

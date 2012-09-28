@@ -40,6 +40,10 @@
 		38FCF6D41610D05A00540F34 /* LeaderboardsScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF6D31610D05A00540F34 /* LeaderboardsScreen.xib */; };
 		38FCF6D81610D0A400540F34 /* LeaderboardsScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FCF6D71610D0A400540F34 /* LeaderboardsScreen.m */; };
 		38FCF6E21614100600540F34 /* RevMobAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38FCF6E11614100600540F34 /* RevMobAds.framework */; };
+		38FCF704161522BB00540F34 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38FCF702161522BB00540F34 /* libGoogleAdMobAds.a */; };
+		38FCF705161522BC00540F34 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF703161522BB00540F34 /* README.txt */; };
+		38FCF7081615235900540F34 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38FCF7071615235900540F34 /* AudioToolbox.framework */; };
+		38FCF70A1615236C00540F34 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38FCF7091615236C00540F34 /* MessageUI.framework */; };
 		42094DB615C9B236001FA77D /* WheelBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB015C9B235001FA77D /* WheelBubble.m */; };
 		42094DB715C9B236001FA77D /* WheelControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB215C9B236001FA77D /* WheelControl.m */; };
 		42094DB815C9B236001FA77D /* WheelSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB515C9B236001FA77D /* WheelSlice.m */; };
@@ -260,6 +264,25 @@
 		38FCF6D61610D0A400540F34 /* LeaderboardsScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeaderboardsScreen.h; path = Game/UI/LeaderboardsScreen.h; sourceTree = "<group>"; };
 		38FCF6D71610D0A400540F34 /* LeaderboardsScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LeaderboardsScreen.m; path = Game/UI/LeaderboardsScreen.m; sourceTree = "<group>"; };
 		38FCF6E11614100600540F34 /* RevMobAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RevMobAds.framework; sourceTree = "<group>"; };
+		38FCF6F3161522BB00540F34 /* GADCustomEventBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADCustomEventBanner.h; sourceTree = "<group>"; };
+		38FCF6F4161522BB00540F34 /* GADCustomEventBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADCustomEventBannerDelegate.h; sourceTree = "<group>"; };
+		38FCF6F5161522BB00540F34 /* GADCustomEventExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADCustomEventExtras.h; sourceTree = "<group>"; };
+		38FCF6F6161522BB00540F34 /* GADCustomEventInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADCustomEventInterstitial.h; sourceTree = "<group>"; };
+		38FCF6F7161522BB00540F34 /* GADCustomEventInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADCustomEventInterstitialDelegate.h; sourceTree = "<group>"; };
+		38FCF6F8161522BB00540F34 /* GADCustomEventRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADCustomEventRequest.h; sourceTree = "<group>"; };
+		38FCF6F9161522BB00540F34 /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
+		38FCF6FA161522BB00540F34 /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
+		38FCF6FB161522BB00540F34 /* GADAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdSize.h; sourceTree = "<group>"; };
+		38FCF6FC161522BB00540F34 /* GADBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerView.h; sourceTree = "<group>"; };
+		38FCF6FD161522BB00540F34 /* GADBannerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerViewDelegate.h; sourceTree = "<group>"; };
+		38FCF6FE161522BB00540F34 /* GADInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitial.h; sourceTree = "<group>"; };
+		38FCF6FF161522BB00540F34 /* GADInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitialDelegate.h; sourceTree = "<group>"; };
+		38FCF700161522BB00540F34 /* GADRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequest.h; sourceTree = "<group>"; };
+		38FCF701161522BB00540F34 /* GADRequestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequestError.h; sourceTree = "<group>"; };
+		38FCF702161522BB00540F34 /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
+		38FCF703161522BB00540F34 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		38FCF7071615235900540F34 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		38FCF7091615236C00540F34 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		42094DAF15C9B235001FA77D /* WheelBubble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WheelBubble.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		42094DB015C9B235001FA77D /* WheelBubble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WheelBubble.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		42094DB115C9B235001FA77D /* WheelControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WheelControl.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -498,6 +521,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38FCF70A1615236C00540F34 /* MessageUI.framework in Frameworks */,
+				38FCF7081615235900540F34 /* AudioToolbox.framework in Frameworks */,
 				38BE3BDE160D41D200758F27 /* AdSupport.framework in Frameworks */,
 				38BE3BDC160D41B700758F27 /* libsqlite3.dylib in Frameworks */,
 				3889127415D5BA8E009CF624 /* libz.1.2.5.dylib in Frameworks */,
@@ -510,6 +535,7 @@
 				C41ED13115A6B33E00995F53 /* CoreGraphics.framework in Frameworks */,
 				38B6DAF015C85A9D00F37BD9 /* libfacebook_ios_sdk.a in Frameworks */,
 				38FCF6E21614100600540F34 /* RevMobAds.framework in Frameworks */,
+				38FCF704161522BB00540F34 /* libGoogleAdMobAds.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -602,6 +628,47 @@
 			name = Metrics;
 			sourceTree = "<group>";
 		};
+		38FCF6F0161522BB00540F34 /* GoogleAdMobAdsSdkiOS-6.2.0 */ = {
+			isa = PBXGroup;
+			children = (
+				38FCF6F1161522BB00540F34 /* Add-ons */,
+				38FCF6F9161522BB00540F34 /* GADAdMobExtras.h */,
+				38FCF6FA161522BB00540F34 /* GADAdNetworkExtras.h */,
+				38FCF6FB161522BB00540F34 /* GADAdSize.h */,
+				38FCF6FC161522BB00540F34 /* GADBannerView.h */,
+				38FCF6FD161522BB00540F34 /* GADBannerViewDelegate.h */,
+				38FCF6FE161522BB00540F34 /* GADInterstitial.h */,
+				38FCF6FF161522BB00540F34 /* GADInterstitialDelegate.h */,
+				38FCF700161522BB00540F34 /* GADRequest.h */,
+				38FCF701161522BB00540F34 /* GADRequestError.h */,
+				38FCF702161522BB00540F34 /* libGoogleAdMobAds.a */,
+				38FCF703161522BB00540F34 /* README.txt */,
+			);
+			name = "GoogleAdMobAdsSdkiOS-6.2.0";
+			path = "../GoogleAdMobAdsSdkiOS-6.2.0";
+			sourceTree = "<group>";
+		};
+		38FCF6F1161522BB00540F34 /* Add-ons */ = {
+			isa = PBXGroup;
+			children = (
+				38FCF6F2161522BB00540F34 /* Mediation */,
+			);
+			path = "Add-ons";
+			sourceTree = "<group>";
+		};
+		38FCF6F2161522BB00540F34 /* Mediation */ = {
+			isa = PBXGroup;
+			children = (
+				38FCF6F3161522BB00540F34 /* GADCustomEventBanner.h */,
+				38FCF6F4161522BB00540F34 /* GADCustomEventBannerDelegate.h */,
+				38FCF6F5161522BB00540F34 /* GADCustomEventExtras.h */,
+				38FCF6F6161522BB00540F34 /* GADCustomEventInterstitial.h */,
+				38FCF6F7161522BB00540F34 /* GADCustomEventInterstitialDelegate.h */,
+				38FCF6F8161522BB00540F34 /* GADCustomEventRequest.h */,
+			);
+			path = Mediation;
+			sourceTree = "<group>";
+		};
 		421564D515F6B2E400AAE851 /* anim */ = {
 			isa = PBXGroup;
 			children = (
@@ -628,6 +695,7 @@
 		C41E0C8015AC032E006662DF /* External */ = {
 			isa = PBXGroup;
 			children = (
+				38FCF6F0161522BB00540F34 /* GoogleAdMobAdsSdkiOS-6.2.0 */,
 				38BE3BCF160D3CF500758F27 /* localytics */,
 				3889128915D5D8B6009CF624 /* ssziparchive */,
 				38B6DADF15C85A9D00F37BD9 /* facebook-ios-sdk */,
@@ -718,6 +786,8 @@
 		C41ED12B15A6B33E00995F53 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				38FCF7091615236C00540F34 /* MessageUI.framework */,
+				38FCF7071615235900540F34 /* AudioToolbox.framework */,
 				38FCF6E11614100600540F34 /* RevMobAds.framework */,
 				38BE3BDB160D41B700758F27 /* libsqlite3.dylib */,
 				38BE3BDD160D41D200758F27 /* AdSupport.framework */,
@@ -1160,6 +1230,7 @@
 				42CF832E160E57CA00561CA0 /* pogstacking_003.png in Resources */,
 				38FCF6D41610D05A00540F34 /* LeaderboardsScreen.xib in Resources */,
 				42F52A1D16135D5A0077ED37 /* gameanim.plist in Resources */,
+				38FCF705161522BC00540F34 /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1355,7 +1426,9 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/traderpog/facebook-ios-sdk\"",
+					"\"$(SRCROOT)/traderpog/GoogleAdMobAdsSdkiOS-6.2.0\"",
 				);
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1380,7 +1453,9 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/traderpog/facebook-ios-sdk\"",
+					"\"$(SRCROOT)/traderpog/GoogleAdMobAdsSdkiOS-6.2.0\"",
 				);
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -1425,7 +1500,9 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/traderpog/facebook-ios-sdk\"",
+					"\"$(SRCROOT)/traderpog/GoogleAdMobAdsSdkiOS-6.2.0\"",
 				);
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = 1;

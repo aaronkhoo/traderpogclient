@@ -19,6 +19,7 @@
     NSString* _desc;
     NSInteger _price;
     NSInteger _capacity;
+    NSInteger _loadtime;
     NSInteger _speed;
     NSInteger _multiplier;
     NSInteger _stormresist;
@@ -34,7 +35,7 @@
 @property (nonatomic) NSInteger speed;
 @property (nonatomic,strong) NSString* topimg;
 @property (nonatomic,strong) NSString* sideimg;
-@property (nonatomic) float loadDuration;
+@property (nonatomic) NSInteger loadtime;
 
 - (id) initWithDictionary:(NSDictionary*)dict;
 

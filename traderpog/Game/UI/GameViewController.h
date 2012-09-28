@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "GADBannerView.h"
 #import "KnobProtocol.h"
 
 @class MKMapView;
@@ -15,6 +16,7 @@
 @interface GameViewController : UIViewController<KnobProtocol>
 {
     MapControl* _mapControl;
+    GADBannerView* _bannerView;
 }
 @property (nonatomic, strong) MapControl* mapControl;
 @property (nonatomic) CLLocationCoordinate2D coord;
