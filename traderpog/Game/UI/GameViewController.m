@@ -29,6 +29,7 @@
 #import "GameAnim.h"
 #import "DebugMenu.h"
 #import "UINavigationController+Pog.h"
+#import "GameEventView.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -59,6 +60,7 @@ enum kKnobSlices
     Flyer* _trackedFlyer;
     
     GameHud* _hud;
+    GameEventView *_gameEventNote;
     
     // HACK
     UILabel* _labelScan;
@@ -71,6 +73,7 @@ enum kKnobSlices
 @property (nonatomic,strong) WheelControl* beaconWheel;
 @property (nonatomic,strong) Flyer* trackedFlyer;
 @property (nonatomic,strong) GameHud* hud;
+@property (nonatomic,strong) GameEventView* gameEventNote;
 
 - (void) startDisplayLink;
 - (void) stopDisplayLink;
@@ -89,6 +92,7 @@ enum kKnobSlices
 
 - (void) hudSetCoins:(unsigned int)newCoins;
 - (void) handleCoinsChanged:(NSNotification*)note;
+- (void) showGameEventNotificationViewAnimated:(BOOL)isAnimated;
 @end
 
 @implementation GameViewController
@@ -101,6 +105,7 @@ enum kKnobSlices
 @synthesize coord = _initCoord;
 @synthesize trackedFlyer = _trackedFlyer;
 @synthesize hud = _hud;
+@synthesize gameEventNote = _gameEventNote;
 
 - (id)init
 {
@@ -458,10 +463,17 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 {
     self.hud = [[GameHud alloc] initWithFrameWithHeight:[self.view bounds] bannershift:heightChange];
     [self.view addSubview:[self hud]];
+    
+    CGRect noteFrame = CGRectMake(0.0f, heightChange, self.view.bounds.size.width, self.view.bounds.size.height - heightChange);
+    self.gameEventNote = [[GameEventView alloc] initWithFrame:noteFrame];
+    [self.gameEventNote setPrimaryColor:[GameColors bubbleColorFlyersWithAlpha:1.0f]];
+    [self.view addSubview:[self gameEventNote]];
 }
 
 - (void) shutdownHud
 {
+    [self.gameEventNote removeFromSuperview];
+    self.gameEventNote = nil;
     [self.hud removeFromSuperview];
     self.hud = nil;
 }
@@ -479,6 +491,11 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
         [self.hud.coins.label setText:coinsString];
     }
     self.hud.holdNextCoinsUpdate = shouldHold;
+}
+
+- (void) showGameEventNotificationViewAnimated:(BOOL)isAnimated
+{
+    
 }
 
 #pragma mark - KnobProtocol

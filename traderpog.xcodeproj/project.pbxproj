@@ -66,6 +66,7 @@
 		4245A07B16005C9600AB14EB /* TradePost+Render.m in Sources */ = {isa = PBXBuildFile; fileRef = 4245A07A16005C9600AB14EB /* TradePost+Render.m */; };
 		4254BDF31616C527008FD41D /* GameEventMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4254BDF21616C527008FD41D /* GameEventMgr.m */; };
 		4254BDF71616CE77008FD41D /* GameEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4254BDF61616CE77008FD41D /* GameEvent.m */; };
+		4254BDFE1617490D008FD41D /* GameEventView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4254BDFD1617490D008FD41D /* GameEventView.m */; };
 		4277385215D3A5CE004DCC13 /* BeaconMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385115D3A5CE004DCC13 /* BeaconMgr.m */; };
 		4277D994160C5908008AD767 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4277D993160C5908008AD767 /* Default-568h@2x.png */; };
 		428839BF15FB240A00CA4FDC /* icon_yun.png in Resources */ = {isa = PBXBuildFile; fileRef = 428839BE15FB240A00CA4FDC /* icon_yun.png */; };
@@ -323,6 +324,8 @@
 		4254BDF21616C527008FD41D /* GameEventMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameEventMgr.m; path = Game/Sim/GameEventMgr.m; sourceTree = "<group>"; };
 		4254BDF51616CE77008FD41D /* GameEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameEvent.h; path = Game/Sim/GameEvent.h; sourceTree = "<group>"; };
 		4254BDF61616CE77008FD41D /* GameEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameEvent.m; path = Game/Sim/GameEvent.m; sourceTree = "<group>"; };
+		4254BDFC1617490D008FD41D /* GameEventView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameEventView.h; path = Game/UI/GameEventView.h; sourceTree = "<group>"; };
+		4254BDFD1617490D008FD41D /* GameEventView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameEventView.m; path = Game/UI/GameEventView.m; sourceTree = "<group>"; };
 		4277385015D3A5CE004DCC13 /* BeaconMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BeaconMgr.h; path = Game/Sim/BeaconMgr.h; sourceTree = "<group>"; };
 		4277385115D3A5CE004DCC13 /* BeaconMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeaconMgr.m; path = Game/Sim/BeaconMgr.m; sourceTree = "<group>"; };
 		4277D993160C5908008AD767 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -977,6 +980,8 @@
 				38FCF6D61610D0A400540F34 /* LeaderboardsScreen.h */,
 				38FCF6D71610D0A400540F34 /* LeaderboardsScreen.m */,
 				38FCF6D31610D05A00540F34 /* LeaderboardsScreen.xib */,
+				4254BDFC1617490D008FD41D /* GameEventView.h */,
+				4254BDFD1617490D008FD41D /* GameEventView.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -1358,6 +1363,7 @@
 				42F52A1B16135A000077ED37 /* AnimClip.m in Sources */,
 				4254BDF31616C527008FD41D /* GameEventMgr.m in Sources */,
 				4254BDF71616CE77008FD41D /* GameEvent.m in Sources */,
+				4254BDFE1617490D008FD41D /* GameEventView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
