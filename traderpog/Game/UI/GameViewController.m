@@ -467,6 +467,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     CGRect noteFrame = CGRectMake(0.0f, heightChange, self.view.bounds.size.width, self.view.bounds.size.height - heightChange);
     self.gameEventNote = [[GameEventView alloc] initWithFrame:noteFrame];
     [self.gameEventNote setPrimaryColor:[GameColors bubbleColorFlyersWithAlpha:1.0f]];
+    [self.gameEventNote setHidden:YES];
     [self.view addSubview:[self gameEventNote]];
 }
 
@@ -495,7 +496,30 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 
 - (void) showGameEventNotificationViewAnimated:(BOOL)isAnimated
 {
-    
+    if(isAnimated)
+    {
+        [self.gameEventNote setHidden:NO];
+        [self.gameEventNote setAlpha:0.0f];
+        [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationCurveEaseInOut
+                         animations:^(void){
+                             [self.gameEventNote setAlpha:1.0f];
+                         }
+                         completion:^(BOOL finished){
+                             if(finished)
+                             {
+                                 [UIView animateWithDuration:1.5f delay:10.0f options:UIViewAnimationCurveEaseInOut
+                                                  animations:^(void){
+                                                      [self.gameEventNote setAlpha:0.0f];
+                                                  }
+                                                  completion:^(BOOL finished){
+                                                      if(finished)
+                                                      {
+                                                          [self.gameEventNote setHidden:YES];
+                                                      }
+                                                  }];
+                             }
+                         }];
+    }
 }
 
 #pragma mark - KnobProtocol
@@ -589,6 +613,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     {
         case kKnobSliceFlyer:
             [self.flyerWheel showWheelAnimated:YES withDelay:0.0f];
+            [self showGameEventNotificationViewAnimated:YES];
             break;
                   
         case kKnobSliceBeacon:

@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class GameEvent;
 @interface GameEventView : UIView
 
 - (void) setPrimaryColor:(UIColor*)color;
+- (void) refreshWithGameEvent:(GameEvent*)gameEvent;
 @end

@@ -8,6 +8,7 @@
 
 #import "GameEventView.h"
 #import "PogUIUtility.h"
+#import "GameEvent.h"
 
 static const float kGameEventViewTopOffset = 0.15f;
 static const float kGameEventViewWidth = 305.0f;
@@ -17,6 +18,12 @@ static const float kGameEventViewWInset = 4.0f;
 static const float kGameEventLabelWInset = 10.0f;
 static const float kGameEventLabelHInset = 6.0f;
 static const float kGameEventImageWHRatio = 1.3f;
+
+static NSString* const kGameEventMessages[kGameEventTypesNum] =
+{
+    @"Flyer Arrived",       // kGameEvent_FlyerArrival
+    @"Loading Completed"    //kGameEvent_LoadingCompleted
+};
 
 @interface GameEventView ()
 @property (nonatomic,strong) UIImageView* imageView;
@@ -50,6 +57,14 @@ static const float kGameEventImageWHRatio = 1.3f;
 {
     [self setBackgroundColor:color];
     [PogUIUtility setBorderOnView:self width:5.0f color:color];
+}
+
+- (void) refreshWithGameEvent:(GameEvent *)gameEvent
+{
+    if([gameEvent eventType] < kGameEventTypesNum)
+    {
+        [self.infoLabel setText:kGameEventMessages[gameEvent.eventType]];
+    }
 }
 
 #pragma mark - internal methods
