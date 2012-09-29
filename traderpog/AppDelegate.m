@@ -23,6 +23,7 @@
 #import "AnimMgr.h"
 #import "LocalyticsSession.h"
 #import "LeaderboardMgr.h"
+#import "GameEventMgr.h"
 #import <RevMobAds/RevMobAds.h>
 
 static const float kAppScreenWidth = 320.0f;
@@ -158,6 +159,7 @@ static const float kAppScreenHeight = 480.0f;
     [AsyncHttpCallMgr getInstance];
     [AnimMgr getInstance];
     [LeaderboardMgr getInstance];
+    [GameEventMgr getInstance];
     
     // Setting up the HTTP callback delegates
     [[Player getInstance] setDelegate:[GameManager getInstance]];
@@ -184,6 +186,7 @@ static const float kAppScreenHeight = 480.0f;
 
 - (void) appShutdown
 {
+    [GameEventMgr destroyInstance];
     [AnimMgr destroyInstance];
     [ScanManager destroyInstance];
     [GameManager destroyInstance];
