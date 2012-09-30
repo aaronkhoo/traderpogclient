@@ -640,6 +640,12 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
             {
                 self.gameEvent = [[GameEventMgr getInstance] queueEventWithType:kGameEvent_LoadingCompleted atCoord:[self coord]];
             }
+            else if((kFlyerStateIdle == newState) && (kFlyerStateUnloading == [self state]))
+            {
+                // display notification, but don't show alert icon (so, set gameEvent as nil)
+                [[GameEventMgr getInstance] queueEventWithType:kGameEvent_UnloadingCompleted atCoord:[self coord]];
+                self.gameEvent = nil;
+            }
             else if((kFlyerStateWaitingToLoad == newState) || (kFlyerStateWaitingToUnload == newState))
             {
                 self.gameEvent = [[GameEventMgr getInstance] queueEventWithType:kGameEvent_FlyerArrival atCoord:[self coord]];
