@@ -537,7 +537,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 }
 
 - (void) hideNotificationViewForGameEventAnimated:(BOOL)isAnimated
-{/*
+{
     if(![self.gameEventNote isHidden])
     {
         if(isAnimated)
@@ -554,7 +554,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
         {
             [self.gameEventNote setHidden:YES];
         }
-    }*/
+    }
     _gameEventDisplayBegin = nil;
 }
 

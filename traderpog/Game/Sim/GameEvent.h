@@ -13,6 +13,10 @@ enum _GameEventTypes
 {
     kGameEvent_FlyerArrival = 0,
     kGameEvent_LoadingCompleted,
+    kGameEvent_UnloadingCompleted,
+    kGameEvent_FlyerStormed,
+    kGameEvent_PostNeedsRestocking,
+    kGameEvent_BeaconExpired,
     
     kGameEventTypesNum
 };

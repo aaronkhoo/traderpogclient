@@ -26,8 +26,12 @@ static const float kGameEventBorderWidth = 3.0f;
 
 static NSString* const kGameEventMessages[kGameEventTypesNum] =
 {
-    @"Flyer Arrived",       // kGameEvent_FlyerArrival
-    @"Loading Completed"    //kGameEvent_LoadingCompleted
+    @"Flyer Arrived",                   // kGameEvent_FlyerArrival
+    @"Loading Completed",               //kGameEvent_LoadingCompleted
+    @"Unloading Completed",             // kGameEvent_UnloadingCompleted
+    @"Your Flyer encountered a Storm",  // kGameEvent_FlyerStormed
+    @"Your Trade Post is out of supply" // kGameEvent_PostNeedsRestocking
+    @"Your Beacon has expired"          // kGameEvent_BeaconExpired
 };
 
 @interface GameEventView ()
@@ -86,8 +90,20 @@ static NSString* const kGameEventMessages[kGameEventTypesNum] =
         UIColor* infoColor = [GameColors bubbleColorFlyersWithAlpha:1.0f];
         switch([gameEvent eventType])
         {
-            case kGameEvent_LoadingCompleted:
+            case kGameEvent_PostNeedsRestocking:
+                borderColor = [GameColors borderColorPostsWithAlpha:1.0f];
+                infoColor = [GameColors bubbleColorPostsWithAlpha:1.0f];
+                break;
+                
+            case kGameEvent_BeaconExpired:
+                borderColor = [GameColors borderColorBeaconsWithAlpha:1.0f];
+                infoColor = [GameColors bubbleColorBeaconsWithAlpha:1.0f];
+                break;
+                
             case kGameEvent_FlyerArrival:
+            case kGameEvent_LoadingCompleted:
+            case kGameEvent_UnloadingCompleted:
+            case kGameEvent_FlyerStormed:
             default:
                 // do nothing, use defaults from initializer
                 break;

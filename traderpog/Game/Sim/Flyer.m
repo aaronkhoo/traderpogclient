@@ -402,10 +402,6 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     self.flightPathRender = nil;
     [mapControl dismissAnnotationForFlyer:self];
     arrivalPost.flyerAtPost = self;
-
-    // inform game event
-    GameEvent* arrivalEvent = [[GameEventMgr getInstance] queueEventWithType:kGameEvent_FlyerArrival atCoord:[arrivalPost coord]];
-    self.gameEvent = arrivalEvent;
 }
 
 - (void) updateAtDate:(NSDate *)currentTime
@@ -633,16 +629,29 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
                 // flyer finished unloading, release hold on hud coins
                 [[[GameManager getInstance] gameViewController] setHoldHudCoinsUpdate:NO];
             }
-            self.state = newState;
-            self.stateBegin = [NSDate date];
-            changed = YES;
-            [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteFlyerStateChanged object:self];
-            
             if((kFlyerStateLoading == newState) || (kFlyerStateUnloading == newState))
             {
                 _lastLoadTimerChanged = [NSDate date];
                 [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteFlyerLoadTimerChanged object:self];
             }
+            else if(kFlyerStateLoaded == newState)
+            {
+                [[GameEventMgr getInstance] queueEventWithType:kGameEvent_LoadingCompleted atCoord:[self coord]];
+            }
+            else if((kFlyerStateIdle == newState) && (kFlyerStateUnloading == [self state]))
+            {
+                [[GameEventMgr getInstance] queueEventWithType:kGameEvent_UnloadingCompleted atCoord:[self coord]];
+            }
+            else if((kFlyerStateWaitingToLoad == newState) || (kFlyerStateWaitingToUnload == newState))
+            {
+                [[GameEventMgr getInstance] queueEventWithType:kGameEvent_FlyerArrival atCoord:[self coord]];
+            }
+            
+            self.state = newState;
+            self.stateBegin = [NSDate date];
+            changed = YES;
+            [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteFlyerStateChanged object:self];
+            
         }
         else
         {
