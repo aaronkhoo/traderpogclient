@@ -286,6 +286,7 @@ static const float kPreviewBorderWidth = 14.5f;
 static const float kPreviewLabelBgOriginY = 0.7f;
 static const float kPreviewLabelOriginY = 0.05f;
 static const float kPreviewLabelTextSize = 10.0f;
+static const float kPreviewCancelImageInset = 6.0f;
 - (void) createPreviewCircleWithFrame:(CGRect)previewFrame
 {
     _previewView = [[UIView alloc] initWithFrame:previewFrame];
@@ -367,6 +368,9 @@ static const float kPreviewLabelTextSize = 10.0f;
                                          borderColor:buttonBorderColor
                                              bgColor:buttonColor];
     [_previewView addSubview:[self cancelView]];
+    UIImageView* cancelImageView = [[UIImageView alloc] initWithFrame:CGRectInset(self.cancelView.bounds, kPreviewCancelImageInset, kPreviewCancelImageInset)];
+    [cancelImageView setImage:[UIImage imageNamed:@"x.png"]];
+    [self.cancelView addSubview:cancelImageView];
     _buttonClose = [UIButton buttonWithType:UIButtonTypeCustom];
     [_buttonClose setFrame:[self.cancelView bounds]];
     [_buttonClose addTarget:self action:@selector(didCloseInPreview:) forControlEvents:UIControlEventTouchUpInside];
