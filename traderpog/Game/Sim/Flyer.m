@@ -634,17 +634,19 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
                 _lastLoadTimerChanged = [NSDate date];
                 [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteFlyerLoadTimerChanged object:self];
             }
-            else if(kFlyerStateLoaded == newState)
+            
+            // game events
+            if(kFlyerStateLoaded == newState)
             {
-                [[GameEventMgr getInstance] queueEventWithType:kGameEvent_LoadingCompleted atCoord:[self coord]];
-            }
-            else if((kFlyerStateIdle == newState) && (kFlyerStateUnloading == [self state]))
-            {
-                [[GameEventMgr getInstance] queueEventWithType:kGameEvent_UnloadingCompleted atCoord:[self coord]];
+                self.gameEvent = [[GameEventMgr getInstance] queueEventWithType:kGameEvent_LoadingCompleted atCoord:[self coord]];
             }
             else if((kFlyerStateWaitingToLoad == newState) || (kFlyerStateWaitingToUnload == newState))
             {
-                [[GameEventMgr getInstance] queueEventWithType:kGameEvent_FlyerArrival atCoord:[self coord]];
+                self.gameEvent = [[GameEventMgr getInstance] queueEventWithType:kGameEvent_FlyerArrival atCoord:[self coord]];
+            }
+            else
+            {
+                self.gameEvent = nil;
             }
             
             self.state = newState;

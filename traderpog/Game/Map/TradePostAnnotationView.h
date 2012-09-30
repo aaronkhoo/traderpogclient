@@ -19,11 +19,13 @@ extern NSString* const kKeyFlyerAtPost;
     UIImageView* _imageView;
     UIImageView* _frontImageView;
     UIImageView* _frontLeftView;
+    UIImageView* _topImageView;
     UILabel*     _smallLabel;
 }
 @property (nonatomic,strong) UIImageView* imageView;
 @property (nonatomic,strong) UIImageView* frontImageView;
 @property (nonatomic,strong) UIImageView* frontLeftView;
+@property (nonatomic,strong) UIImageView* topImageView;
 @property (nonatomic,strong) UILabel* smallLabel;
 
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation;

@@ -24,6 +24,8 @@
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
 NSString* const kKeyFlyerAtPost = @"flyerAtPost";
 static const float kSmallLabelHeight = 20.0f;
+static const float kTopImageSize = 40.0f;
+static const float kTopImageYOffset = -0.1f;
 
 @interface TradePostAnnotationView ()
 {
@@ -37,6 +39,7 @@ static const float kSmallLabelHeight = 20.0f;
 @synthesize imageView = _imageView;
 @synthesize frontImageView = _frontImageView;
 @synthesize frontLeftView = _frontLeftView;
+@synthesize topImageView = _topImageView;
 @synthesize smallLabel = _smallLabel;
 
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation
@@ -82,6 +85,15 @@ static const float kSmallLabelHeight = 20.0f;
         _frontLeftView = [[UIImageView alloc] initWithFrame:flRect];
         [_frontLeftView setHidden:YES];
         [contentView addSubview:_frontLeftView];
+        
+        // create top image (used for alert icon)
+        float topX = (0.5f * (myFrame.size.width - kTopImageSize));
+        float topY = imageRect.origin.y + (kTopImageYOffset * imageRect.size.height);
+        CGRect topRect = CGRectMake(topX, topY, kTopImageSize, kTopImageSize);
+        _topImageView = [[UIImageView alloc] initWithFrame:topRect];
+        [_topImageView setBackgroundColor:[UIColor clearColor]];
+        [_topImageView setHidden:YES];
+        [contentView addSubview:_topImageView];
         
         // small text label at bottom
         CGRect smallLabelRect = CGRectMake(imageRect.origin.x, imageRect.origin.y + imageRect.size.height,
@@ -241,6 +253,15 @@ static const float kSmallLabelHeight = 20.0f;
             // selection not allowed; deselect it
             [mapView deselectAnnotation:[self annotation] animated:NO];
         }
+    }
+
+    // remove game-event alert icon if one is being displayed on this post
+    TradePost* post = (TradePost*)[self annotation];
+    Flyer* flyer = [post flyerAtPost];
+    if(flyer && [flyer gameEvent])
+    {
+        flyer.gameEvent = nil;
+        [post refreshRenderForAnnotationView:self];
     }
 }
 

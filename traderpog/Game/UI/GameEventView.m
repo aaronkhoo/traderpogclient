@@ -17,7 +17,7 @@ const float kGameEventViewVisibleSecs = 5.0f;
 static const float kGameEventViewTopOffset = 0.15f;
 static const float kGameEventViewWidth = 305.0f;
 static const float kGameEventViewHeight = 60.0f;
-static const float kGameEventViewHInset = 3.0f;
+static const float kGameEventViewHInset = 4.0f;
 static const float kGameEventViewWInset = 4.0f;
 static const float kGameEventLabelWInset = 10.0f;
 static const float kGameEventLabelHInset = 6.0f;
@@ -26,12 +26,12 @@ static const float kGameEventBorderWidth = 3.0f;
 
 static NSString* const kGameEventMessages[kGameEventTypesNum] =
 {
-    @"Flyer Arrived",                   // kGameEvent_FlyerArrival
-    @"Loading Completed",               //kGameEvent_LoadingCompleted
-    @"Unloading Completed",             // kGameEvent_UnloadingCompleted
-    @"Your Flyer encountered a Storm",  // kGameEvent_FlyerStormed
-    @"Your Trade Post is out of supply" // kGameEvent_PostNeedsRestocking
-    @"Your Beacon has expired"          // kGameEvent_BeaconExpired
+    @"Flyer Arrived",                       // kGameEvent_FlyerArrival
+    @"Loading Completed",                   // kGameEvent_LoadingCompleted
+    @"Unloading Completed",                 // kGameEvent_UnloadingCompleted
+    @"Your Flyer encountered a Storm",      // kGameEvent_FlyerStormed
+    @"Your Trade Post is out of supply",    // kGameEvent_PostNeedsRestocking
+    @"Your Beacon has expired"              // kGameEvent_BeaconExpired
 };
 
 @interface GameEventView ()

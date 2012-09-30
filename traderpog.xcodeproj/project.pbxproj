@@ -67,6 +67,9 @@
 		4254BDF31616C527008FD41D /* GameEventMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4254BDF21616C527008FD41D /* GameEventMgr.m */; };
 		4254BDF71616CE77008FD41D /* GameEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4254BDF61616CE77008FD41D /* GameEvent.m */; };
 		4254BDFE1617490D008FD41D /* GameEventView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4254BDFD1617490D008FD41D /* GameEventView.m */; };
+		4254BE0C161817AF008FD41D /* icon_alert_flyer.png in Resources */ = {isa = PBXBuildFile; fileRef = 4254BE09161817AE008FD41D /* icon_alert_flyer.png */; };
+		4254BE0D161817AF008FD41D /* icon_alert_post.png in Resources */ = {isa = PBXBuildFile; fileRef = 4254BE0A161817AE008FD41D /* icon_alert_post.png */; };
+		4254BE0E161817AF008FD41D /* x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4254BE0B161817AF008FD41D /* x.png */; };
 		4277385215D3A5CE004DCC13 /* BeaconMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385115D3A5CE004DCC13 /* BeaconMgr.m */; };
 		4277D994160C5908008AD767 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4277D993160C5908008AD767 /* Default-568h@2x.png */; };
 		428839BF15FB240A00CA4FDC /* icon_yun.png in Resources */ = {isa = PBXBuildFile; fileRef = 428839BE15FB240A00CA4FDC /* icon_yun.png */; };
@@ -326,6 +329,9 @@
 		4254BDF61616CE77008FD41D /* GameEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameEvent.m; path = Game/Sim/GameEvent.m; sourceTree = "<group>"; };
 		4254BDFC1617490D008FD41D /* GameEventView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameEventView.h; path = Game/UI/GameEventView.h; sourceTree = "<group>"; };
 		4254BDFD1617490D008FD41D /* GameEventView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameEventView.m; path = Game/UI/GameEventView.m; sourceTree = "<group>"; };
+		4254BE09161817AE008FD41D /* icon_alert_flyer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_alert_flyer.png; path = assets/UI/icon_alert_flyer.png; sourceTree = SOURCE_ROOT; };
+		4254BE0A161817AE008FD41D /* icon_alert_post.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_alert_post.png; path = assets/UI/icon_alert_post.png; sourceTree = SOURCE_ROOT; };
+		4254BE0B161817AF008FD41D /* x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = x.png; path = assets/UI/x.png; sourceTree = SOURCE_ROOT; };
 		4277385015D3A5CE004DCC13 /* BeaconMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BeaconMgr.h; path = Game/Sim/BeaconMgr.h; sourceTree = "<group>"; };
 		4277385115D3A5CE004DCC13 /* BeaconMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeaconMgr.m; path = Game/Sim/BeaconMgr.m; sourceTree = "<group>"; };
 		4277D993160C5908008AD767 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -1121,6 +1127,9 @@
 		C4FA8F4E15B5401000E82A93 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				4254BE09161817AE008FD41D /* icon_alert_flyer.png */,
+				4254BE0A161817AE008FD41D /* icon_alert_post.png */,
+				4254BE0B161817AF008FD41D /* x.png */,
 				42E92B0915D0E7AD0054686F /* startButton.png */,
 				42F692CE15F1E1B60002B1B2 /* bubble_restock.png */,
 				42F692CF15F1E1B60002B1B2 /* bubble_set_beacon.png */,
@@ -1246,6 +1255,9 @@
 				38FCF6D41610D05A00540F34 /* LeaderboardsScreen.xib in Resources */,
 				42F52A1D16135D5A0077ED37 /* gameanim.plist in Resources */,
 				38FCF705161522BC00540F34 /* README.txt in Resources */,
+				4254BE0C161817AF008FD41D /* icon_alert_flyer.png in Resources */,
+				4254BE0D161817AF008FD41D /* icon_alert_post.png in Resources */,
+				4254BE0E161817AF008FD41D /* x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -78,6 +78,17 @@
         UIImage* image = [flyer imageForCurrentState];
         [annotationView.frontImageView setImage:image];
         [annotationView.frontImageView setHidden:NO];
+        
+        if([flyer gameEvent])
+        {
+            UIImage* iconImage = [[ImageManager getInstance] getImage:@"icon_alert_flyer.png"];
+            [annotationView.topImageView setImage:iconImage];
+            [annotationView.topImageView setHidden:NO];
+        }
+        else
+        {
+            [annotationView.topImageView setHidden:YES];
+        }
     }
     else
     {
@@ -85,6 +96,7 @@
         [annotationView.frontImageView setHidden:YES];
         [annotationView.frontLeftView setImage:nil];
         [annotationView.frontLeftView setHidden:YES];
+        [annotationView.topImageView setHidden:YES];
         [annotationView.smallLabel setHidden:YES];
     }
 }
