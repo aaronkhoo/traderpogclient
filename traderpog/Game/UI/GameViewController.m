@@ -30,6 +30,7 @@
 #import "DebugMenu.h"
 #import "UINavigationController+Pog.h"
 #import "GameEventView.h"
+#import "GameEventMgr.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -61,6 +62,7 @@ enum kKnobSlices
     
     GameHud* _hud;
     GameEventView *_gameEventNote;
+    NSDate* _gameEventDisplayBegin;
     
     // HACK
     UILabel* _labelScan;
@@ -78,8 +80,8 @@ enum kKnobSlices
 - (void) startDisplayLink;
 - (void) stopDisplayLink;
 - (void) displayUpdate;
-- (void) updateSim:(NSTimeInterval)elapsed;
-- (void) updateRender:(NSTimeInterval)elapsed;
+- (void) updateSim:(NSTimeInterval)elapsed currenTime:(NSDate*)currentTime;
+- (void) updateRender:(NSTimeInterval)elapsed currentTime:(NSDate*)currentTime;
 
 - (void) initKnob;
 - (void) shutdownKnob;
@@ -92,7 +94,9 @@ enum kKnobSlices
 
 - (void) hudSetCoins:(unsigned int)newCoins;
 - (void) handleCoinsChanged:(NSNotification*)note;
-- (void) showGameEventNotificationViewAnimated:(BOOL)isAnimated;
+- (void) showNotificationViewForGameEvent:(GameEvent*)gameEvent animated:(BOOL)isAnimated;
+- (void) hideNotificationViewForGameEventAnimated:(BOOL)isAnimated;
+
 @end
 
 @implementation GameViewController
@@ -250,22 +254,37 @@ enum kKnobSlices
         displayElapsed = kDisplayLinkMaxFrametime;
     }
     
-    // sim
-    [self updateSim:displayElapsed];
     NSDate* currentTime = [NSDate date];
-    [[FlyerMgr getInstance] updateFlyersAtDate:currentTime];
+    
+    // sim
+    [self updateSim:displayElapsed currenTime:currentTime];
 
     // render
-    [self updateRender:displayElapsed];
+    [self updateRender:displayElapsed currentTime:currentTime];
 }
 
-- (void) updateSim:(NSTimeInterval)elapsed
+- (void) updateSim:(NSTimeInterval)elapsed currenTime:(NSDate *)currentTime
 {
+    [[FlyerMgr getInstance] updateFlyersAtDate:currentTime];
+    
+    GameEvent* notify = [[GameEventMgr getInstance] dequeueEvent];
+    if(notify)
+    {
+        [self showNotificationViewForGameEvent:notify animated:YES];
+    }
+}
+
+- (void) updateRender:(NSTimeInterval)elapsed currentTime:(NSDate *)currentTime
+{
+    if(_gameEventDisplayBegin)
+    {
+        NSTimeInterval gameEventDisplayDur = [currentTime timeIntervalSinceDate:_gameEventDisplayBegin];
+        if(kGameEventViewVisibleSecs < gameEventDisplayDur)
+        {
+            [self hideNotificationViewForGameEventAnimated:YES];
+        }
+    }
     [[AnimMgr getInstance] update:elapsed];
-}
-
-- (void) updateRender:(NSTimeInterval)elapsed
-{
 }
 
 
@@ -466,13 +485,14 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     
     CGRect noteFrame = CGRectMake(0.0f, heightChange, self.view.bounds.size.width, self.view.bounds.size.height - heightChange);
     self.gameEventNote = [[GameEventView alloc] initWithFrame:noteFrame];
-    [self.gameEventNote setPrimaryColor:[GameColors bubbleColorFlyersWithAlpha:1.0f]];
     [self.gameEventNote setHidden:YES];
     [self.view addSubview:[self gameEventNote]];
+    _gameEventDisplayBegin = nil;
 }
 
 - (void) shutdownHud
 {
+    _gameEventDisplayBegin = nil;
     [self.gameEventNote removeFromSuperview];
     self.gameEventNote = nil;
     [self.hud removeFromSuperview];
@@ -494,32 +514,48 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     self.hud.holdNextCoinsUpdate = shouldHold;
 }
 
-- (void) showGameEventNotificationViewAnimated:(BOOL)isAnimated
+- (void) showNotificationViewForGameEvent:(GameEvent*)gameEvent animated:(BOOL)isAnimated
 {
+    _gameEventDisplayBegin = [NSDate date];
     if(isAnimated)
     {
+        [self.gameEventNote refreshWithGameEvent:gameEvent targetMap:[self mapControl]];
         [self.gameEventNote setHidden:NO];
         [self.gameEventNote setAlpha:0.0f];
-        [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationCurveEaseInOut
+        [UIView animateWithDuration:0.2f delay:0.0f options:(UIViewAnimationCurveEaseInOut|UIViewAnimationOptionAllowUserInteraction)
                          animations:^(void){
                              [self.gameEventNote setAlpha:1.0f];
                          }
-                         completion:^(BOOL finished){
-                             if(finished)
-                             {
-                                 [UIView animateWithDuration:1.5f delay:10.0f options:UIViewAnimationCurveEaseInOut
-                                                  animations:^(void){
-                                                      [self.gameEventNote setAlpha:0.0f];
-                                                  }
-                                                  completion:^(BOOL finished){
-                                                      if(finished)
-                                                      {
-                                                          [self.gameEventNote setHidden:YES];
-                                                      }
-                                                  }];
-                             }
-                         }];
+                         completion:nil];
     }
+    else
+    {
+        [self.gameEventNote refreshWithGameEvent:gameEvent targetMap:[self mapControl]];
+        [self.gameEventNote setHidden:NO];
+        [self.gameEventNote setAlpha:1.0f];
+    }
+}
+
+- (void) hideNotificationViewForGameEventAnimated:(BOOL)isAnimated
+{/*
+    if(![self.gameEventNote isHidden])
+    {
+        if(isAnimated)
+        {
+            [UIView animateWithDuration:1.0f delay:0.0f options:UIViewAnimationCurveEaseInOut
+                             animations:^(void){
+                                 [self.gameEventNote setAlpha:0.0f];
+                             }
+                             completion:^(BOOL finished){
+                                 [self.gameEventNote setHidden:YES];
+                             }];
+        }
+        else
+        {
+            [self.gameEventNote setHidden:YES];
+        }
+    }*/
+    _gameEventDisplayBegin = nil;
 }
 
 #pragma mark - KnobProtocol
@@ -613,7 +649,6 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     {
         case kKnobSliceFlyer:
             [self.flyerWheel showWheelAnimated:YES withDelay:0.0f];
-            [self showGameEventNotificationViewAnimated:YES];
             break;
                   
         case kKnobSliceBeacon:

@@ -41,7 +41,6 @@
     return result;
 }
 
-
 #pragma mark - Singleton
 static GameEventMgr* singleton = nil;
 + (GameEventMgr*) getInstance

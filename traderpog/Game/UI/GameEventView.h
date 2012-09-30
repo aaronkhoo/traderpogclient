@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+extern const float kGameEventViewVisibleSecs;
+
 @class GameEvent;
+@class MapControl;
 @interface GameEventView : UIView
 
-- (void) setPrimaryColor:(UIColor*)color;
-- (void) refreshWithGameEvent:(GameEvent*)gameEvent;
+- (void) refreshWithGameEvent:(GameEvent*)gameEvent targetMap:(MapControl*)map;
 @end

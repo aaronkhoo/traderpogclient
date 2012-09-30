@@ -9,15 +9,20 @@
 #import "GameEventView.h"
 #import "PogUIUtility.h"
 #import "GameEvent.h"
+#import "MapControl.h"
+#import "GameColors.h"
+
+const float kGameEventViewVisibleSecs = 5.0f;
 
 static const float kGameEventViewTopOffset = 0.15f;
 static const float kGameEventViewWidth = 305.0f;
 static const float kGameEventViewHeight = 60.0f;
-static const float kGameEventViewHInset = 1.0f;
+static const float kGameEventViewHInset = 3.0f;
 static const float kGameEventViewWInset = 4.0f;
 static const float kGameEventLabelWInset = 10.0f;
 static const float kGameEventLabelHInset = 6.0f;
 static const float kGameEventImageWHRatio = 1.3f;
+static const float kGameEventBorderWidth = 3.0f;
 
 static NSString* const kGameEventMessages[kGameEventTypesNum] =
 {
@@ -26,14 +31,25 @@ static NSString* const kGameEventMessages[kGameEventTypesNum] =
 };
 
 @interface GameEventView ()
+{
+    CLLocation* _targetLocation;
+    __weak MapControl* _targetMap;
+}
 @property (nonatomic,strong) UIImageView* imageView;
 @property (nonatomic,strong) UIView* infoView;
 @property (nonatomic,strong) UILabel* infoLabel;
+@property (nonatomic,strong) UIButton* button;
 
+- (void) reset;
 - (void) initLayoutInRect:(CGRect)rect;
+- (void) didPressView:(id)sender;
 @end
 
 @implementation GameEventView
+@synthesize imageView;
+@synthesize infoView;
+@synthesize infoLabel;
+@synthesize button;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -47,27 +63,48 @@ static NSString* const kGameEventMessages[kGameEventTypesNum] =
         [self initLayoutInRect:layoutRect];
         
         [self setBackgroundColor:[UIColor blueColor]];
-        [PogUIUtility setBorderOnView:self width:5.0f color:[UIColor orangeColor]];
-        [PogUIUtility setRoundCornersForView:self];
+        [PogUIUtility setBorderOnView:self width:kGameEventBorderWidth color:[UIColor orangeColor]];
+        [PogUIUtility setRoundCornersForView:self withCornerRadius:4.0f];
+        
+        _targetMap = nil;
+        _targetLocation = nil;
     }
     return self;
 }
 
-- (void) setPrimaryColor:(UIColor *)color
-{
-    [self setBackgroundColor:color];
-    [PogUIUtility setBorderOnView:self width:5.0f color:color];
-}
 
-- (void) refreshWithGameEvent:(GameEvent *)gameEvent
+- (void) refreshWithGameEvent:(GameEvent *)gameEvent targetMap:(MapControl*)map
 {
     if([gameEvent eventType] < kGameEventTypesNum)
     {
         [self.infoLabel setText:kGameEventMessages[gameEvent.eventType]];
+        _targetMap = map;
+        _targetLocation = [[CLLocation alloc] initWithLatitude:gameEvent.coord.latitude longitude:gameEvent.coord.longitude];
+        
+        // color
+        UIColor* borderColor = [GameColors borderColorFlyersWithAlpha:1.0f];
+        UIColor* infoColor = [GameColors bubbleColorFlyersWithAlpha:1.0f];
+        switch([gameEvent eventType])
+        {
+            case kGameEvent_LoadingCompleted:
+            case kGameEvent_FlyerArrival:
+            default:
+                // do nothing, use defaults from initializer
+                break;
+        }
+        [self setBackgroundColor:borderColor];
+        [PogUIUtility setBorderOnView:self width:kGameEventBorderWidth color:borderColor];
+        [self.infoView setBackgroundColor:infoColor];
     }
 }
 
 #pragma mark - internal methods
+- (void) reset
+{
+    _targetLocation = nil;
+    _targetMap = nil;
+}
+
 - (void) initLayoutInRect:(CGRect)rect
 {
     CGRect imageRect = CGRectMake(0.0f, 0.0f, kGameEventViewHeight * kGameEventImageWHRatio, kGameEventViewHeight);
@@ -96,6 +133,24 @@ static NSString* const kGameEventMessages[kGameEventTypesNum] =
     [self.infoLabel setTextColor:[UIColor whiteColor]];
     
     [self.infoView addSubview:[self infoLabel]];
+    
+    self.button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.button setFrame:[self bounds]];
+    [self.button setBackgroundColor:[UIColor clearColor]];
+    [self.button addTarget:self action:@selector(didPressView:) forControlEvents:UIControlEventTouchUpInside];
+
+    [self addSubview:[self button]];
+}
+
+- (void) didPressView:(id)sender
+{
+    if(_targetMap && _targetLocation)
+    {
+        [_targetMap centerOn:[_targetLocation coordinate] animated:YES];
+        
+        // dismiss myself
+        [self setHidden:YES];
+    }
 }
 
 @end

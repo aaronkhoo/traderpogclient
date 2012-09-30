@@ -24,6 +24,7 @@
 #import "ImageManager.h"
 #import "GameNotes.h"
 #import "DebugOptions.h"
+#import "GameEventMgr.h"
 
 static const float kFlyerDefaultSpeedMetersPerSec = 10000.0f;
 static NSString* const kKeyUserFlyerId = @"id";
@@ -61,6 +62,7 @@ static NSString* const kKeyStateBegin = @"stateBegin";
 @synthesize metersToDest = _metersToDest;
 @synthesize inventory = _inventory;
 @synthesize path = _path;
+@synthesize gameEvent = _gameEvent;
 
 - (id) initWithPostAndFlyer:(TradePost*)tradePost, NSInteger flyerTypeIndex
 {
@@ -77,6 +79,7 @@ static NSString* const kKeyStateBegin = @"stateBegin";
         _coord = [tradePost coord];
         _flightPathRender = nil;
         _transform = CGAffineTransformIdentity;
+        _gameEvent = nil;
 
         // this flyer is newly created (see Flyer.h for more details)
         _isNewFlyer = YES;
@@ -133,6 +136,7 @@ static NSString* const kKeyStateBegin = @"stateBegin";
         _coord = _path.srcCoord;
         _flightPathRender = nil;
         _transform = CGAffineTransformIdentity;
+        _gameEvent = nil;
         
         // this flyer is loaded (see Flyer.h for more details)
         _isNewFlyer = NO;
@@ -182,6 +186,7 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     _coord = _path.srcCoord;
     _flightPathRender = nil;
     _transform = CGAffineTransformIdentity;
+    _gameEvent = nil;
     
     // this flyer is loaded (see Flyer.h for more details)
     _isNewFlyer = NO;
@@ -398,8 +403,9 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     [mapControl dismissAnnotationForFlyer:self];
     arrivalPost.flyerAtPost = self;
 
-    // broadcast arrival
-    [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteFlyerDidArrive object:self];
+    // inform game event
+    GameEvent* arrivalEvent = [[GameEventMgr getInstance] queueEventWithType:kGameEvent_FlyerArrival atCoord:[arrivalPost coord]];
+    self.gameEvent = arrivalEvent;
 }
 
 - (void) updateAtDate:(NSDate *)currentTime

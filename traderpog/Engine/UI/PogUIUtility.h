@@ -32,6 +32,7 @@ typedef void (^CompletionBlock)(BOOL finished);
 + (void) createScrimAndBorderForView:(UIView*)contentView;
 + (void) createInsertScrimForView:(UIView*)contentView;
 + (void) setRoundCornersForView:(UIView*)targetView;
++ (void) setRoundCornersForView:(UIView *)targetView withCornerRadius:(float)radius;
 + (void) setCircleForView:(UIView*)targetView;
 + (void) setCircleForView:(UIView *)targetView
           withBorderWidth:(float)borderWidth

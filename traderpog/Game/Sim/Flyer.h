@@ -36,6 +36,7 @@ enum _FlyerStates
 @class FlightPathOverlay;
 @class TradeItemType;
 @class FlyerAnnotationView;
+@class GameEvent;
 @interface Flyer : NSObject<NSCoding, MKAnnotation, MapAnnotationProtocol>
 {
     BOOL _initializeFlyerOnMap;
@@ -58,6 +59,7 @@ enum _FlyerStates
     CLLocationCoordinate2D _coord;
     FlightPathOverlay* _flightPathRender;
     CGAffineTransform _transform;
+    GameEvent* _gameEvent;
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
@@ -74,6 +76,7 @@ enum _FlyerStates
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 @property (nonatomic,readonly) FlyerInventory* inventory;
 @property (nonatomic,readonly) FlyerPath* path;
+@property (nonatomic,strong) GameEvent* gameEvent;
 
 - (id) initWithPostAndFlyer:(TradePost*)tradePost, NSInteger flyerTypeIndex;
 - (void) createNewUserFlyerOnServer;
