@@ -47,8 +47,11 @@ NSString* const kFlyerCalloutViewReuseId = @"FlyerCalloutView";
     Flyer* flyer = [annot flyer];
     
     [flyer gotoState:kFlyerStateLoading];
+
+    // halt all other callouts for a second so that we don't get touch-through callouts popping up when
+    // player presses Go
+    [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
     [self refreshLayoutWithFlyer:flyer];
-    [self setNeedsDisplay];
 }
 
 - (IBAction)didPressUnloadNow:(id)sender
@@ -57,8 +60,11 @@ NSString* const kFlyerCalloutViewReuseId = @"FlyerCalloutView";
     Flyer* flyer = [annot flyer];
     
     [flyer gotoState:kFlyerStateUnloading];
+
+    // halt all other callouts for a second so that we don't get touch-through callouts popping up when
+    // player presses Go
+    [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
     [self refreshLayoutWithFlyer:flyer];
-    [self setNeedsDisplay];
 }
 
 - (IBAction)didPressCompleteNow:(id)sender
@@ -74,8 +80,11 @@ NSString* const kFlyerCalloutViewReuseId = @"FlyerCalloutView";
     {
         [flyer gotoState:kFlyerStateIdle];
     }
+
+    // halt all other callouts for a second so that we don't get touch-through callouts popping up when
+    // player presses Go
+    [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
     [self refreshLayoutWithFlyer:flyer];
-    [self setNeedsDisplay];
 }
 
 #pragma mark - internal methods

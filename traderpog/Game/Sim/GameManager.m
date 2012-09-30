@@ -697,6 +697,9 @@ typedef enum {
             _calloutHaltBegin = [NSDate date];
             _calloutHaltDuration = seconds;
         }
+        
+        // dismiss all callouts
+        [[[[GameManager getInstance] gameViewController] mapControl] deselectAllAnnotations];
     }
 }
 
