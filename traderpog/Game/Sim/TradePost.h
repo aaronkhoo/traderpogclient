@@ -29,6 +29,7 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
     // transient variables (not saved; reconstructed after load)
     unsigned int _supplyLevel;
     __weak Flyer*      _flyerAtPost;
+    NSDate* _creationDate;
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
@@ -42,8 +43,17 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 @property (nonatomic,strong) NSDate* beacontime;
 @property (nonatomic,weak) Flyer* flyerAtPost;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
+@property (nonatomic,readonly) NSDate* creationDate;
 
+// sort comparison functions
+- (NSComparisonResult) compareSupplyThenDate:(TradePost*)theOtherPost;
+
+// trade
 - (void) deductNumItems:(unsigned int)num;
+
+// helpers related to annotation view
 - (TradePostAnnotationView*) getAnnotationViewInstance:(MKMapView *)mapView;
+- (void) addFlyerAtPostObserver:(TradePostAnnotationView*)observerView;
+- (void) removeFlyerAtPostObserver:(TradePostAnnotationView*)observerView;
 
 @end

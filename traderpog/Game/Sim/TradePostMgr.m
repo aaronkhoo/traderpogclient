@@ -50,13 +50,15 @@ static const float kPostBubbleBorderWidth = 1.5f;
 static const float kPreviewPostWidth = 120.0f;
 static const float kPreviewPostHeight = 120.0f;
 static NSString* const kNPCPost_prepend = @"NPCPost";
+static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total Other Posts we want to keep in the
+                                                            // world at any one time
 
 @interface TradePostMgr ()
 {
-    NSMutableDictionary* _foundPosts;
-    NSMutableDictionary* _activePosts;
-    NSMutableArray* _myPostSlots;
-    NSMutableDictionary* _npcPosts;
+    NSMutableDictionary* _foundPosts;       // other people's posts
+    NSMutableDictionary* _activePosts;      // my posts
+    NSMutableArray* _myPostSlots;           // this is an array of active my posts ordered for the Posts wheel
+    NSMutableDictionary* _npcPosts;         // npc posts
     
     // Posts found on flyers, but not in retrieved lists
     NSMutableArray* _danglingPosts;
@@ -77,6 +79,9 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
 @property (nonatomic,strong) NSMutableArray* myPostSlots;
 @property (nonatomic,strong) NSMutableDictionary* npcPosts;
 
+// queries
+- (unsigned int) numOtherPosts;
+
 // sim
 - (BOOL) post:(TradePost*)post isWithinDistance:(float)distance fromCoord:(CLLocationCoordinate2D)coord;
 
@@ -84,6 +89,7 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
 - (void) refreshPreviewForWheel:(WheelControl*)wheel atIndex:(unsigned int)index;
 - (void) refreshPreviewForWheel:(WheelControl*)wheel atIndex:(unsigned int)index hasLocated:(BOOL)hasLocated;
 - (void) addAllPostsToMap:(MapControl*)map;
+- (void) addAllMyPostsToMap:(MapControl*)map;
 @end
 
 @implementation TradePostMgr
@@ -146,13 +152,17 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
     [self addAllPostsToMap:map];
 }
 
-- (void) addAllPostsToMap:(MapControl*)map
+- (void) addAllMyPostsToMap:(MapControl*)map
 {
     for (MyTradePost* post in [_activePosts allValues])
     {
         [map addAnnotationForTradePost:post];
     }
-    
+}
+
+- (void) addAllPostsToMap:(MapControl*)map
+{
+    [self addAllMyPostsToMap:map];
     for (NPCTradePost* post in [self.npcPosts allValues])
     {
         [map addAnnotationForTradePost:post];
@@ -353,6 +363,103 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
     [_foundPosts removeAllObjects];
 }
 
+- (NSArray*) retireTradePostsWithExcludeSet:(NSSet *)excludeSet
+{
+//    NSSet* excludeSet = [_mapView annotationsInMapRect:[_mapView visibleMapRect]];
+    // make a list of existing posts
+    NSMutableArray* existingPosts = [NSMutableArray arrayWithArray:[_foundPosts allValues]];
+    [existingPosts addObjectsFromArray:[_npcPosts allValues]];
+    
+    NSMutableSet* exclusionSet = [NSMutableSet setWithSet:excludeSet];
+
+    // exclude posts in any active flight paths
+    NSArray* postIdsInPaths = [[FlyerMgr getInstance] tradePostIdsInFlightpaths];
+    for(NSString* cur in postIdsInPaths)
+    {
+        [exclusionSet addObject:[self getTradePostWithId:cur]];
+    }
+
+    // exclude posts at which there are flyers
+    for(TradePost* cur in existingPosts)
+    {
+        if([cur flyerAtPost])
+        {
+            [exclusionSet addObject:cur];
+        }
+    }
+        
+    // remove the excluded posts
+    [existingPosts removeObjectsInArray:[exclusionSet allObjects]];
+/*
+#if defined(DEBUG)
+    NSLog(@"Existing after exclusion");
+    for(TradePost* cur in existingPosts)
+    {
+        NSLog(@"post: %@", [cur postId]);
+    }
+#endif
+*/
+    // sort from earliest trade date to most recent trade date
+    [existingPosts sortUsingSelector:@selector(compareSupplyThenDate:)];
+/*
+#if defined(DEBUG)
+    NSLog(@"Existing after sort");
+    for(TradePost* cur in existingPosts)
+    {
+        NSLog(@"post: %@ (%d) (%@)", [cur postId], [cur supplyLevel], [cur creationDate]);
+    }
+#endif
+*/    
+    // retire all the 0 supply posts
+    NSMutableArray* retiredPosts = [NSMutableArray arrayWithCapacity:[existingPosts count]];
+    for(TradePost* cur in existingPosts)
+    {
+        if(![cur supplyLevel])
+        {
+            [retiredPosts addObject:cur];
+        }
+        else
+        {
+            break;
+        }
+    }
+    [existingPosts removeObjectsInArray:retiredPosts];
+    
+    // then if we still have excessive num with respect to kDesiredOtherPostsNumInWorld, remove the excessive ones
+    int numToRetire = MAX(0, kDesiredOtherPostNumInWorld - [self numOtherPosts] - [retiredPosts count]);
+    if(numToRetire)
+    {
+        for(TradePost* cur in existingPosts)
+        {
+            [retiredPosts addObject:cur];
+            --numToRetire;
+            if(0 >= numToRetire)
+            {
+                break;
+            }
+        }
+    }
+
+    // remove them from npc and found registries
+    for(TradePost* cur in retiredPosts)
+    {
+        [_npcPosts removeObjectForKey:[cur postId]];
+        [_foundPosts removeObjectForKey:[cur postId]];
+    }
+
+#if defined(DEBUG)
+    NSLog(@"----");
+    NSLog(@"Retiring posts ....");
+    for(TradePost* cur in retiredPosts)
+    {
+        NSLog(@"Retired %@", [cur postId]);
+    }
+    NSLog(@"Done");
+    NSLog(@"----");
+#endif
+    return retiredPosts;
+}
+
 #pragma mark - retrieve data from server
 - (void) createPostsArray:(id)responseObject
 {
@@ -496,6 +603,12 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
     return result;
 }
 
+- (unsigned int) numOtherPosts
+{
+    unsigned int num = [_npcPosts count] + [_foundPosts count];
+    return num;
+}
+
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {
@@ -560,7 +673,9 @@ static NSString* const kNPCPost_prepend = @"NPCPost";
                                                     andCenter:[initPost coord]];
         }
         _curBubbleIndex = index;
-        [self addAllPostsToMap:_previewMap];
+
+        // add all existing My Posts to preview map
+        [self addAllMyPostsToMap:_previewMap];
     }
     
     [self wheel:wheel didMoveTo:index];

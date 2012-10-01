@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "HiAccuracyLocatorDelegate.h"
 #import "HttpCallbackDelegate.h"
+#import <CoreLocation/CoreLocation.h>
 
-typedef void (^ScanCompletionBlock)(BOOL finished, NSArray* tradePosts);
+typedef void (^ScanCompletionBlock)(BOOL finished, NSArray* tradePosts, CLLocation* loc);
 
 @class HiAccuracyLocator;
 @class MapControl;

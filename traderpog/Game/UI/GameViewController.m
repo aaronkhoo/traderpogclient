@@ -86,7 +86,7 @@ enum kKnobSlices
 - (void) initKnob;
 - (void) shutdownKnob;
 - (void) didPressShowKnob:(id)sender;
-- (void) handleScanResultTradePosts:(NSArray*)tradePosts;
+- (void) handleScanResultTradePosts:(NSArray*)tradePosts atLoc:(CLLocation*)loc;
 - (void) initWheels;
 - (void) shutdownWheels;
 - (void) initHud:(CGFloat)heightChange;
@@ -289,12 +289,17 @@ enum kKnobSlices
 
 
 #pragma mark - trade posts
-- (void) handleScanResultTradePosts:(NSArray *)tradePosts
+- (void) handleScanResultTradePosts:(NSArray *)tradePosts atLoc:(CLLocation *)loc
 {
     // add annotations
     for(TradePost* cur in tradePosts)
     {
         [self.mapControl addAnnotationForTradePost:cur];
+    }
+    
+    if(loc)
+    {
+        [self.mapControl defaultZoomCenterOn:loc.coordinate animated:YES];
     }
 }
 
@@ -665,10 +670,10 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
             [_scanActivity setHidden:NO];
             [_scanActivity startAnimating];
             [[ScanManager getInstance] locateAndScanInMap:[self mapControl] 
-                                               completion:^(BOOL finished, NSArray* tradePosts){
+                                               completion:^(BOOL finished, NSArray* tradePosts, CLLocation* loc){
                                                    if(finished)
                                                    {
-                                                       [self handleScanResultTradePosts:tradePosts];
+                                                       [self handleScanResultTradePosts:tradePosts atLoc:loc];
                                                    }
                                                    [_scanActivity stopAnimating];
                                                    [_scanActivity setHidden:YES];

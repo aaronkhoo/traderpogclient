@@ -41,6 +41,7 @@ static const NSTimeInterval kScanDurationMin = 2.0f;    // minimum amount of tim
     __weak MapControl* _map;
     
     NSDate* _scanBegin;
+    CLLocation* _scanLoc;
 }
 @property (nonatomic,weak) MapControl* map;
 - (void) startLocate;
@@ -66,6 +67,7 @@ static const NSTimeInterval kScanDurationMin = 2.0f;    // minimum amount of tim
         _completion = nil;
         self.map = nil;
         _scanBegin = nil;
+        _scanLoc = nil;
     }
     return self;
 }
@@ -116,10 +118,26 @@ static const NSTimeInterval kScanDurationMin = 2.0f;    // minimum amount of tim
     _state = kScanStateScanning;
     _scanBegin = [NSDate date];
     
+    // retire posts excluding the visible ones
+    NSSet* visible = [self.map.view annotationsInMapRect:[self.map.view visibleMapRect]];
+    NSMutableSet* excludeSet = [NSMutableSet setWithCapacity:[visible count]];
+    for(NSObject<MKAnnotation>* cur in visible)
+    {
+        if([cur isKindOfClass:[TradePost class]])
+        {
+            [excludeSet addObject:cur];
+        }
+    }
+    NSArray* retiredPosts = [[TradePostMgr getInstance] retireTradePostsWithExcludeSet:excludeSet];
+    for(TradePost* cur in retiredPosts)
+    {
+        [self.map.view removeAnnotation:cur];
+    }
+    
     // retrieve existing posts
     NSMutableArray* posts = [[TradePostMgr getInstance] getTradePostsAtCoord:scanCoord radius:kScanRadius maxNum:kScanNumPosts];
     
-    // generate new locations we there isn't enough existing posts
+    // generate new locations if there isn't enough existing posts
     if([posts count] < kScanNumPosts)
     {
         float angleIncr = 2.0 * M_PI / ((float) kScanNumPosts);
@@ -212,10 +230,11 @@ static const NSTimeInterval kScanDurationMin = 2.0f;    // minimum amount of tim
 - (void) abortLocateScan
 {
     _state = kScanStateIdle;
+    _scanLoc = nil;
     if(_completion)
     {
         self.map = nil;
-        _completion(NO, nil);
+        _completion(NO, nil, nil);
     }
 }
 
@@ -228,9 +247,10 @@ static const NSTimeInterval kScanDurationMin = 2.0f;    // minimum amount of tim
     _scanBegin = nil;
     if(_completion)
     {
-        _completion(YES, posts);
+        _completion(YES, posts, _scanLoc);
     }
-    _state = kScanStateIdle;    
+    _state = kScanStateIdle;
+    _scanLoc = nil;
 }
 
 #pragma mark - HttpCallbackDelegate
@@ -246,7 +266,8 @@ static const NSTimeInterval kScanDurationMin = 2.0f;    // minimum amount of tim
     }
     
     // either way, return the tradeposts for the current location that we have
-    [self startScanAtCoord:[[Player getInstance] lastKnownLocation]];
+//    [self startScanAtCoord:[[Player getInstance] lastKnownLocation]];
+    [self startScanAtCoord:_scanLoc.coordinate];
 }
 
 #pragma mark - HiAccuracyLocatorDelegate
@@ -254,12 +275,18 @@ static const NSTimeInterval kScanDurationMin = 2.0f;    // minimum amount of tim
 {
     if(didLocateUser)
     {
-        // center map on my location
+        // center map on my location;
+        // this is the first of two centers; it zooms out a little bit and then
+        // after the scan completes, the second center zooms back in to defaultZoomLevel
+        // this is necessary to force the mapView to refresh; otherwise, between the
+        // retirement-removeAnnotations and scan-addAnnotations, the annotationViews could disappear and not
+        // get redrawn until the user does a zoom/pinch
         if([self map])
         {
-            [self.map defaultZoomCenterOn:locator.bestLocation.coordinate modifyMap:YES animated:YES];
+            [self.map prescanZoomCenterOn:locator.bestLocation.coordinate modifyMap:YES animated:YES];
         }
         // Store up the last known player location
+        _scanLoc = locator.bestLocation;
         [Player getInstance].lastKnownLocation = locator.bestLocation.coordinate;
         [Player getInstance].lastKnownLocationValid = TRUE;
         NSLog(@"Located myself (%f, %f)", locator.bestLocation.coordinate.latitude, locator.bestLocation.coordinate.longitude);

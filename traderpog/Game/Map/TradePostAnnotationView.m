@@ -119,7 +119,7 @@ static const float kTopImageYOffset = -0.1f;
 - (void) dealloc
 {
     TradePost* post = (TradePost*) [self annotation];
-    [post removeObserver:self forKeyPath:kKeyFlyerAtPost];
+    [post removeFlyerAtPostObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kGameNoteFlyerStateChanged];
     [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kGameNoteFlyerLoadTimerChanged];
 }
@@ -196,7 +196,7 @@ static const float kTopImageYOffset = -0.1f;
     TradePost* post = (TradePost*) [self annotation];
     if(post)
     {
-        [post removeObserver:self forKeyPath:kKeyFlyerAtPost];
+        [post removeFlyerAtPostObserver:self];
     }
 }
 

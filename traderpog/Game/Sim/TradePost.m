@@ -12,6 +12,13 @@
 #import "TradePostAnnotationView.h"
 #import "GameNotes.h"
 
+@interface TradePost()
+{
+    __weak TradePostAnnotationView* _flyerAtPostObserver;
+}
+@property (nonatomic,weak) TradePostAnnotationView* flyerAtPostObserver;
+@end
+
 @implementation TradePost
 @synthesize postId = _postId;
 @synthesize itemId = _itemId;
@@ -21,6 +28,8 @@
 @synthesize beacontime = _beacontime;
 @synthesize flyerAtPost = _flyerAtPost;
 @synthesize delegate = _delegate;
+@synthesize creationDate = _creationDate;
+@synthesize flyerAtPostObserver = _flyerAtPostObserver;
 
 - (id) init
 {
@@ -28,8 +37,72 @@
     if(self)
     {
         _flyerAtPost = nil;
+        _creationDate = [NSDate date];
+        _flyerAtPostObserver = nil;
     }
     return self;
+}
+
+- (void) dealloc
+{
+    if([self flyerAtPostObserver])
+    {
+        [self removeFlyerAtPostObserver:[self flyerAtPostObserver]];
+    }
+}
+
+// sort from low to high supply level
+// secondarily, sort from earliest to latest creationDates
+- (NSComparisonResult) compareSupplyThenDate:(TradePost*)theOtherPost
+{
+    NSComparisonResult result = NSOrderedSame;
+    if([self supplyLevel] < [theOtherPost supplyLevel])
+    {
+        result = NSOrderedAscending;
+    }
+    else if([self supplyLevel] > [theOtherPost supplyLevel])
+    {
+        result = NSOrderedDescending;
+    }
+    else
+    {
+        result = NSOrderedSame;
+    }
+
+    // if result is the same, break ties with creation date
+    if(result == NSOrderedSame)
+    {
+        NSDate* earlierDate = [self.creationDate earlierDate:[theOtherPost creationDate]];
+        if([earlierDate isEqualToDate:[self creationDate]])
+        {
+            result = NSOrderedAscending;
+        }
+        else if([earlierDate isEqualToDate:[theOtherPost creationDate]])
+        {
+            result = NSOrderedDescending;
+        }
+    }
+    
+    return result;
+}
+
+- (void) addFlyerAtPostObserver:(TradePostAnnotationView*)observerView
+{
+    if([self flyerAtPostObserver])
+    {
+        [self removeFlyerAtPostObserver:[self flyerAtPostObserver]];
+    }
+    [self addObserver:observerView forKeyPath:kKeyFlyerAtPost options:0 context:nil];
+    self.flyerAtPostObserver = observerView;
+}
+
+- (void) removeFlyerAtPostObserver:(TradePostAnnotationView*)observerView
+{
+    if([self.flyerAtPostObserver isEqual:observerView])
+    {
+        [self removeObserver:observerView forKeyPath:kKeyFlyerAtPost];
+        self.flyerAtPostObserver = nil;
+    }
 }
 
 #pragma mark - trade
@@ -76,7 +149,7 @@
     }
     
     // set myself up to observe flyerAtPost
-    [self addObserver:annotationView forKeyPath:kKeyFlyerAtPost options:0 context:nil];
+    [self addFlyerAtPostObserver:annotationView];
 
     return annotationView;
 }

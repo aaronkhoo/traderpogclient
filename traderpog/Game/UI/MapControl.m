@@ -49,6 +49,7 @@ static const float kBrowseAreaRadius = 500.0f;
 - (void) internalInitWithMapView:(MKMapView*)mapView
                           center:(CLLocationCoordinate2D)initCoord
                        zoomLevel:(unsigned int)zoomLevel;
+- (void) zoom:(NSUInteger) zoomLevel centerOn:(CLLocationCoordinate2D)coord modifyMap:(BOOL)modifyMap animated:(BOOL)isAnimated;
 @end
 
 @implementation MapControl
@@ -120,17 +121,29 @@ static const float kBrowseAreaRadius = 500.0f;
 
 - (void) addAnnotationForTradePost:(TradePost *)tradePost
 {
-    [self.view addAnnotation:tradePost];
+    NSArray* existingAnnotations = [self.view annotations];
+    if(![existingAnnotations containsObject:tradePost])
+    {
+        [self.view addAnnotation:tradePost];
+    }
 }
 
 - (void) addAnnotationForFlyer:(Flyer *)flyer
 {
-    [self.view addAnnotation:flyer];
+    NSArray* existingAnnotations = [self.view annotations];
+    if(![existingAnnotations containsObject:flyer])
+    {
+        [self.view addAnnotation:flyer];
+    }
 }
 
 - (void) addAnnotation:(NSObject<MKAnnotation> *)annotation
 {
-    [self.view addAnnotation:annotation];
+    NSArray* existingAnnotations = [self.view annotations];
+    if(![existingAnnotations containsObject:annotation])
+    {
+        [self.view addAnnotation:annotation];
+    }
 }
 
 - (void) dismissAnnotationForFlyer:(Flyer *)flyer
@@ -204,6 +217,16 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
 
 - (void) defaultZoomCenterOn:(CLLocationCoordinate2D)coord modifyMap:(BOOL)modifyMap animated:(BOOL)isAnimated
 {
+    [self zoom:kDefaultZoomLevel centerOn:coord modifyMap:modifyMap animated:isAnimated];
+}
+
+- (void) prescanZoomCenterOn:(CLLocationCoordinate2D)coord modifyMap:(BOOL)modifyMap animated:(BOOL)isAnimated
+{
+    [self zoom:kDefaultZoomLevel-1 centerOn:coord modifyMap:modifyMap animated:isAnimated];
+}
+
+- (void) zoom:(NSUInteger) zoomLevel centerOn:(CLLocationCoordinate2D)coord modifyMap:(BOOL)modifyMap animated:(BOOL)isAnimated
+{
     // stop any ongoing tracking
     [self stopTrackingAnnotation];
     
@@ -211,7 +234,7 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
     if(modifyMap)
     {
         [self dismissAllFlightPaths];
-        [self.view setCenterCoordinate:coord zoomLevel:kDefaultZoomLevel animated:isAnimated];
+        [self.view setCenterCoordinate:coord zoomLevel:zoomLevel animated:isAnimated];
         dispatch_time_t flightPathsDelay = dispatch_time(DISPATCH_TIME_NOW, kFlightPathsDelay * NSEC_PER_SEC);
         dispatch_after(flightPathsDelay, dispatch_get_main_queue(), ^(void){
             [self showAllFlightPaths];

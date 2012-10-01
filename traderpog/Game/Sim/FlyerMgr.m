@@ -388,6 +388,20 @@ static const float kBubbleBorderWidth = 1.5f;
     return result;
 }
 
+- (NSArray*) tradePostIdsInFlightpaths
+{
+    NSMutableSet* resultSet = [NSMutableSet setWithCapacity:[self.playerFlyers count]];
+    for(Flyer* cur in [self playerFlyers])
+    {
+        if([cur.path isEnroute])
+        {
+            [resultSet addObject:[cur.path curPostId]];
+            [resultSet addObject:[cur.path nextPostId]];
+        }
+    }
+    return [resultSet allObjects];
+}
+
 - (Flyer*) flyerAtPostId:(NSString*)postId
 {
     Flyer* result = nil;
