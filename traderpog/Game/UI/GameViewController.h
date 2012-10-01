@@ -30,6 +30,7 @@
 - (void) dismissKnobAnimated:(BOOL)isAnimated;
 - (void) showPostWheelAnimated:(BOOL)isAnimated;
 - (void) showFlyerWheelAnimated:(BOOL)isAnimated;
+- (void) setBeaconWheelText:(NSString*)new_text;
 - (IBAction)didPressDebug:(id)sender;
 
 - (BOOL) isHeldHudCoinsUpdate;

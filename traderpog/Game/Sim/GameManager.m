@@ -764,13 +764,28 @@ typedef enum {
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {
-    if ([callName compare:kTradeItemTypes_ReceiveItems] == NSOrderedSame ||
+    if ([callName compare:kPlayer_SavePlayerData] == NSOrderedSame)
+    {
+        NSLog(@"Done associating current account with server.");
+        [self.gameViewController setBeaconWheelText:@"Invite Friends"];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Linked with Facebook!"
+                                                        message:@"The current account has now been linked with Facebook"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        
+        [alert show];
+        
+        _gameStateRefreshedFromServer = TRUE;
+        [self selectNextGameUI];
+    }
+    else if ([callName compare:kTradeItemTypes_ReceiveItems] == NSOrderedSame ||
         [callName compare:kFlyerTypes_ReceiveFlyers] == NSOrderedSame ||
         [callName compare:kResourceManager_PackageReady] == NSOrderedSame ||
         [callName compare:kPlayer_GetPlayerData] == NSOrderedSame ||
         [callName compare:kTradePostMgr_ReceivePosts] == NSOrderedSame ||
         [callName compare:kFlyerMgr_ReceiveFlyers] == NSOrderedSame ||
-        [callName compare:kPlayer_SavePlayerData] == NSOrderedSame ||
         [callName compare:kBeaconMgr_ReceiveBeacons] == NSOrderedSame)
     {
         _gameInfoRefreshSucceeded = _gameInfoRefreshSucceeded && success;

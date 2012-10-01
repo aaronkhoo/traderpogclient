@@ -459,6 +459,11 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     [self.knob gotoSliceIndex:kKnobSliceFlyer];
 }
 
+- (void) setBeaconWheelText:(NSString*)new_text
+{
+    [self.beaconWheel.previewLabel setText:new_text];
+}
+
 - (IBAction)didPressDebug:(id)sender
 {
     DebugMenu* menu = [[DebugMenu alloc] initWithNibName:@"DebugMenu" bundle:nil];

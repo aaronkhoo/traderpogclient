@@ -656,7 +656,6 @@ static const float kPostTribute = 0.02;
             // Player has already been created. Associate facebookid
             // with this user
             [self updateUserPersonalData];
-            // TODO: Force a refresh of beacons
         }
     }
     else if ([[request url] rangeOfString:@"me/feed"].location != NSNotFound)

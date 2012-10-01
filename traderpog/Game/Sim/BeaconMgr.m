@@ -50,8 +50,7 @@ static const float kBubbleBorderWidth = 1.5f;
 
 - (BOOL) needsRefresh
 {
-    BOOL test = ([[Player getInstance] isFacebookConnected]);
-    return test &&
+    return ([[Player getInstance] isFacebookConnected]) &&
             ((!_lastUpdate) ||
             ([_lastUpdate timeIntervalSinceNow] < refreshTime));
 }
@@ -241,9 +240,16 @@ static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
     }
     else
     {
+        if([[Player getInstance] isFacebookConnected])
+        {
+            [wheel.previewLabel setText:@"Invite Friends!"];
+        }
+        else
+        {
+            [wheel.previewLabel setText:@"Connect!"];
+        }
         // empty flyer slot
         [wheel.previewLabel setNumberOfLines:1];
-        [wheel.previewLabel setText:@"Invite Friends!"];
         [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
         UIImage* bgImage = [[ImageManager getInstance] getImage:@"bubble_beacon_fb.png" fallbackNamed:@"bubble_beacon_fb.png"];
         [wheel.previewImageView setImage:bgImage];
@@ -267,8 +273,16 @@ static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
         [wheel.superMap defaultZoomCenterOn:[cur coord] animated:YES];
     }
     else
-    {
-        NSLog(@"Invite Friends!");
+    {        
+        if([[Player getInstance] isFacebookConnected])
+        {
+            NSLog(@"Invite Friends!");
+        }
+        else
+        {
+            NSLog(@"Connecting to Facebook account!");
+            [[Player getInstance] authorizeFacebook];
+        }
     }
 }
 
