@@ -56,13 +56,13 @@ static NSString* const kKeyStateBegin = @"stateBegin";
 @synthesize isNewFlyer = _isNewFlyer;
 @synthesize state = _state;
 @synthesize stateBegin = _stateBegin;
-@synthesize transform = _transform;
 @synthesize delegate = _delegate;
 @synthesize initializeFlyerOnMap = _initializeFlyerOnMap;
 @synthesize metersToDest = _metersToDest;
 @synthesize inventory = _inventory;
 @synthesize path = _path;
 @synthesize gameEvent = _gameEvent;
+@synthesize angle = _angle;
 
 - (id) initWithPostAndFlyer:(TradePost*)tradePost, NSInteger flyerTypeIndex
 {
@@ -78,8 +78,8 @@ static NSString* const kKeyStateBegin = @"stateBegin";
         // init transient variables
         _coord = [tradePost coord];
         _flightPathRender = nil;
-        _transform = CGAffineTransformIdentity;
         _gameEvent = nil;
+        _angle = 0.0f;
 
         // this flyer is newly created (see Flyer.h for more details)
         _isNewFlyer = YES;
@@ -135,8 +135,8 @@ static NSString* const kKeyStateBegin = @"stateBegin";
         // init runtime transient vars
         _coord = _path.srcCoord;
         _flightPathRender = nil;
-        _transform = CGAffineTransformIdentity;
         _gameEvent = nil;
+        _angle = 0.0f;
         
         // this flyer is loaded (see Flyer.h for more details)
         _isNewFlyer = NO;
@@ -185,8 +185,8 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     // init runtime transient vars
     _coord = _path.srcCoord;
     _flightPathRender = nil;
-    _transform = CGAffineTransformIdentity;
     _gameEvent = nil;
+    _angle = 0.0f;
     
     // this flyer is loaded (see Flyer.h for more details)
     _isNewFlyer = NO;
@@ -265,10 +265,8 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     
     self.flightPathRender = [[FlightPathOverlay alloc] initWithSrcCoord:[_path srcCoord] destCoord:[_path destCoord]];
     
-    // flyer zero-angle is up; so, need to offset it by 90 degrees
     float angle = [MKMapView angleBetweenCoordinateA:[_path srcCoord] coordinateB:[_path destCoord]];
-    angle += M_PI_2;
-    self.transform = CGAffineTransformMakeRotation(angle);
+    [self setAngle:angle];
     
     // add rendering
     [[[[GameManager getInstance] gameViewController] mapControl] showFlightPathForFlyer:self];

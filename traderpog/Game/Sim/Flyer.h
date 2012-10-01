@@ -58,8 +58,8 @@ enum _FlyerStates
     // transient variables (not saved; reconstructed after load)
     CLLocationCoordinate2D _coord;
     FlightPathOverlay* _flightPathRender;
-    CGAffineTransform _transform;
     GameEvent* _gameEvent;
+    float _angle;   // the heading angle x-positive is 0, clockwise
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
@@ -67,7 +67,6 @@ enum _FlyerStates
 @property (nonatomic,readonly) NSString* userFlyerId;
 @property (nonatomic,strong) FlightPathOverlay* flightPathRender;
 @property (nonatomic) CLLocationCoordinate2D coord;
-@property (nonatomic) CGAffineTransform transform;
 @property (nonatomic) BOOL initializeFlyerOnMap;
 @property (nonatomic,readonly) BOOL isNewFlyer;
 @property (nonatomic) unsigned int state;
@@ -77,6 +76,7 @@ enum _FlyerStates
 @property (nonatomic,readonly) FlyerInventory* inventory;
 @property (nonatomic,readonly) FlyerPath* path;
 @property (nonatomic,strong) GameEvent* gameEvent;
+@property (nonatomic) float angle;
 
 - (id) initWithPostAndFlyer:(TradePost*)tradePost, NSInteger flyerTypeIndex;
 - (void) createNewUserFlyerOnServer;

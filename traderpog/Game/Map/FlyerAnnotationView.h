@@ -18,7 +18,7 @@ extern NSString* const kFlyerAnnotationViewReuseId;
 @property (nonatomic,strong) UIImageView* imageView;
 @property (nonatomic,strong) UIImageView* imageViewIdentity;
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation;
-- (void) setRenderTransform:(CGAffineTransform)transform;
+- (void) setRenderTransformWithAngle:(float)angle;
 - (void) showCountdown:(BOOL)yesNo;
 
 - (void) setOrientedImage:(UIImage*)image;

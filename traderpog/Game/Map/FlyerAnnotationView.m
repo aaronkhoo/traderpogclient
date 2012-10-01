@@ -16,11 +16,11 @@
 #import "Clockface.h"
 
 NSString* const kFlyerAnnotationViewReuseId = @"FlyerAnnotationView";
-static NSString* const kFlyerTransformKey = @"transform";
+static NSString* const kFlyerAngleKey = @"angle";
 static NSString* const kKeyFlyerMetersToDest = @"metersToDest";
 
-static const float kFlyerTimerOriginOffsetX = 0.0f;
-static const float kFlyerTimerOriginOffsetY = 44.0f;
+static const float kFlyerTimerOriginOffsetX = 44.0f;
+static const float kFlyerTimerOriginOffsetY = 0.0f;
 static const float kFlyerAnnotViewSize = 50.0f;
 static const float kFlyerAnnotContentSize = 85.0f;
 
@@ -33,7 +33,7 @@ static const float kFlyerAnnotContentSize = 85.0f;
 }
 @property (nonatomic,strong) UIView* contentView;
 @property (nonatomic,strong) CircleBarView* countdown;
-- (CGAffineTransform) countdownTransformFromFlyerTransform:(CGAffineTransform)transform;
+- (CGAffineTransform) countdownTransformFromFlyerAngle:(float)angle;
 - (void) createCountdown;
 @end
 
@@ -90,7 +90,7 @@ static const float kFlyerAnnotContentSize = 85.0f;
         
         // observe flyer vars
         Flyer* flyer = (Flyer*)annotation;
-        [flyer addObserver:self forKeyPath:kFlyerTransformKey options:0 context:nil];
+        [flyer addObserver:self forKeyPath:kFlyerAngleKey options:0 context:nil];
         [flyer addObserver:self forKeyPath:kKeyFlyerMetersToDest options:0 context:nil];
         [flyer addObserver:self forKeyPath:kKeyFlyerState options:0 context:nil];
     }
@@ -102,7 +102,7 @@ static const float kFlyerAnnotContentSize = 85.0f;
     Flyer* flyer = (Flyer*)[self annotation];
     [flyer removeObserver:self forKeyPath:kKeyFlyerState];
     [flyer removeObserver:self forKeyPath:kKeyFlyerMetersToDest];
-    [flyer removeObserver:self forKeyPath:kFlyerTransformKey];
+    [flyer removeObserver:self forKeyPath:kFlyerAngleKey];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -113,9 +113,9 @@ static const float kFlyerAnnotContentSize = 85.0f;
     if([object isMemberOfClass:[Flyer class]])
     {
         Flyer* flyer = (Flyer*)object;
-        if([keyPath isEqualToString:kFlyerTransformKey])
+        if([keyPath isEqualToString:kFlyerAngleKey])
         {
-            [self setRenderTransform:[flyer transform]];
+            [self setRenderTransformWithAngle:[flyer angle]];
         }
         else if([keyPath isEqualToString:kKeyFlyerMetersToDest])
         {
@@ -133,11 +133,16 @@ static const float kFlyerAnnotContentSize = 85.0f;
     }
 }
 
-- (void) setRenderTransform:(CGAffineTransform)transform
+- (void) setRenderTransformWithAngle:(float)angle
 {
-    [self.imageView setTransform:transform];
-    [self.countdown setTransform:[self countdownTransformFromFlyerTransform:transform]];
+    // image transform (add PI/2 because image zero-angle points up while angle is zero at x-positive)
+    CGAffineTransform imageTransform = CGAffineTransformMakeRotation(angle + M_PI_2);
+    [self.imageView setTransform:imageTransform];
+
+    // countdown transform
+    [self.countdown setTransform:[self countdownTransformFromFlyerAngle:angle]];
 }
+
 
 - (void) showCountdown:(BOOL)yesNo
 {
@@ -169,10 +174,24 @@ static const float kFlyerAnnotContentSize = 85.0f;
 }
 
 #pragma mark - internal methods
-- (CGAffineTransform) countdownTransformFromFlyerTransform:(CGAffineTransform)transform
+- (CGAffineTransform) countdownTransformFromFlyerAngle:(float)angle
 {
+    // angle is -PI to PI
+    if((-M_PI_2 <= angle) && (M_PI_2 >= angle))
+    {
+        // heading right, place countdown at head of flyer
+        // so, do nothing
+    }
+    else
+    {
+        // heading left, place the countdown at the tail of flyer so that it doesn't occlue the flyer
+        // so, rotate it by PI
+        angle += M_PI;
+    }
+    
+    CGAffineTransform t = CGAffineTransformMakeRotation(angle);
     CGPoint up = CGPointMake(kFlyerTimerOriginOffsetX, kFlyerTimerOriginOffsetY);
-    CGPoint vec = CGPointApplyAffineTransform(up, transform);
+    CGPoint vec = CGPointApplyAffineTransform(up, t);
     CGAffineTransform result = CGAffineTransformMakeTranslation(vec.x, vec.y);
     return result;
 }

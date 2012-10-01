@@ -364,7 +364,7 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
 
             Flyer* flyer = (Flyer*)[cur annotation];
             FlyerAnnotationView* flyerAnnotView = (FlyerAnnotationView*)cur;
-            [flyerAnnotView setRenderTransform:[flyer transform]];
+            [flyerAnnotView setRenderTransformWithAngle:[flyer angle]];
         }
         else if(([cur isKindOfClass:[CalloutAnnotationView class]]) ||
                 ([cur isKindOfClass:[PlayerPostCalloutView class]]))
