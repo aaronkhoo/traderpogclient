@@ -65,6 +65,10 @@ enum kKnobSlices
     GameEventView *_gameEventNote;
     NSDate* _gameEventDisplayBegin;
     
+    // Initial y positions
+    CGFloat _debugmenu_y_origin;
+    CGFloat _versionlabel_y_origin;
+    
     // HACK
     UILabel* _labelScan;
     UIActivityIndicatorView* _scanActivity;
@@ -114,7 +118,12 @@ enum kKnobSlices
 
 - (id)init
 {
-    return [super initWithNibName:@"GameViewController" bundle:nil];
+    self = [super initWithNibName:@"GameViewController" bundle:nil];
+    if (self)
+    {
+        [self storeOriginalYPositions];
+    }
+    return self;
 }
 
 - (id)initAtCoordinate:(CLLocationCoordinate2D)coord
@@ -125,6 +134,8 @@ enum kKnobSlices
         _initCoord = coord;
         _mapControl = nil;
         _trackedFlyer = nil;
+        
+        [self storeOriginalYPositions];
     }
     return self;
 }
@@ -169,15 +180,7 @@ enum kKnobSlices
     else
     {
         CGFloat heightChange = kGADAdSizeBanner.size.height;
-        
-        // Shift the hud downward to account for the banner
         [self initHud:heightChange];
-        
-        // Non member, so shift UI elements downward and display banner ad
-        UIButton* dbgButton = [self debugButton];
-        dbgButton.frame = CGRectMake(dbgButton.frame.origin.x, dbgButton.frame.origin.y + heightChange, dbgButton.frame.size.width, dbgButton.frame.size.height);
-        UILabel* versionLabel = [self versionLabel];
-        versionLabel.frame = CGRectMake(versionLabel.frame.origin.x, versionLabel.frame.origin.y + heightChange, versionLabel.frame.size.width, versionLabel.frame.size.height);
         
         // Show banner ad
         [self displayBannerAd];
@@ -513,7 +516,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 
 - (void) initHud:(CGFloat)heightChange
 {
-    self.hud = [[GameHud alloc] initWithFrameWithHeight:[self.view bounds] bannershift:heightChange];
+    self.hud = [[GameHud alloc] initWithFrame:[self.view bounds]];
     [self.view addSubview:[self hud]];
     
     CGRect noteFrame = CGRectMake(0.0f, heightChange, self.view.bounds.size.width, self.view.bounds.size.height - heightChange);
@@ -729,6 +732,9 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     // Available AdSize constants are explained in GADAdSize.h.
     _bannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
     
+    // Set up this instance as a delegate
+    [_bannerView setDelegate:self];
+    
     // Specify the ad's "unit identifier." This is your AdMob Publisher ID.
     _bannerView.adUnitID = @"a150639ac683921";
     
@@ -743,6 +749,50 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     
     // Initiate a generic request to load it with an ad.
     [_bannerView loadRequest:current_req];
+}
+
+- (void)adViewDidReceiveAd:(GADBannerView *)bannerView
+{
+    NSLog(@"Received ad");
+    CGFloat heightChange = kGADAdSizeBanner.size.height;
+    [self shiftUIElements:heightChange];
+}
+
+- (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error
+{
+    NSLog(@"adView:didFailToReceiveAdWithError:%@", [error localizedDescription]);
+    [self shiftUIElements:0];
+}
+
+#pragma mark - Functions for shifting positions of the UI elements
+- (void) storeOriginalYPositions
+{
+    // Store the original position of the debug button
+    UIButton* dbgButton = [self debugButton];
+    _debugmenu_y_origin = dbgButton.frame.origin.y;
+    
+    // Store original position of versionlabel
+    UILabel* versionLabel = [self versionLabel];
+    _versionlabel_y_origin = versionLabel.frame.origin.y;
+}
+
+- (void) shiftUIElements:(CGFloat)delta
+{
+    CGFloat newDbgButtonPosition = _debugmenu_y_origin + delta;
+    UIButton* dbgButton = [self debugButton];
+    if (dbgButton.frame.origin.y != newDbgButtonPosition)
+    {
+        dbgButton.frame = CGRectMake(dbgButton.frame.origin.x, newDbgButtonPosition, dbgButton.frame.size.width, dbgButton.frame.size.height);
+    }
+    
+    CGFloat newVersionLabelPosition = _versionlabel_y_origin + delta;
+    UILabel* versionLabel = [self versionLabel];
+    if (versionLabel.frame.origin.y != newVersionLabelPosition)
+    {
+        versionLabel.frame = CGRectMake(versionLabel.frame.origin.x, newVersionLabelPosition, versionLabel.frame.size.width, versionLabel.frame.size.height);    
+    }
+    
+    [[self hud] shiftHudPosition:delta];
 }
 
 @end

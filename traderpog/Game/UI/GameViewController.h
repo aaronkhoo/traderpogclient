@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "GADBannerView.h"
+#import "GADBannerViewDelegate.h"
 #import "KnobProtocol.h"
 
 @class MKMapView;
 @class MapControl;
-@interface GameViewController : UIViewController<KnobProtocol>
+@interface GameViewController : UIViewController<KnobProtocol, GADBannerViewDelegate>
 {
     MapControl* _mapControl;
     GADBannerView* _bannerView;
