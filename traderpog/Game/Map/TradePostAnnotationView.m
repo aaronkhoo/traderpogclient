@@ -19,6 +19,7 @@
 #import "FlyerPath.h"
 #import "FlyerCallout.h"
 #import "GameNotes.h"
+#import "MapControl.h"
 #import "PogUIUtility.h"
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
@@ -247,6 +248,7 @@ static const float kTopImageYOffset = -0.1f;
                 _calloutAnnotation = callout;
             }
             [mapView addAnnotation:_calloutAnnotation];
+            [[[[GameManager getInstance] gameViewController] mapControl] defaultZoomCenterOn:[tradePost coord] animated:YES];
         }
         else
         {

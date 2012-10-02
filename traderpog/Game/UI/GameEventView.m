@@ -171,7 +171,7 @@ static NSString* const kGameEventMessages[kGameEventTypesNum] =
         [self setHidden:YES];
         
         // center map
-        [_targetMap centerOn:[_targetLocation coordinate] animated:YES];
+        [_targetMap defaultZoomCenterOn:[_targetLocation coordinate] animated:YES];
     }
 }
 

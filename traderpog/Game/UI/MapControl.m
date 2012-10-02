@@ -18,7 +18,6 @@
 #import "CalloutAnnotationView.h"
 #import "FlyerAnnotationView.h"
 #import "MKMapView+Pog.h"
-#import "BrowsePan.h"
 #import "BrowsePinch.h"
 #import "PlayerPostCalloutView.h"
 
@@ -36,15 +35,11 @@ static const float kBrowseAreaRadius = 500.0f;
     BOOL _regionSetFromCode;
     UIPinchGestureRecognizer* _pinchRecognizer;
     BrowsePinch* _pinchHandler;
-    UIPanGestureRecognizer* _panRecognizer;
-    BrowsePan* _panHandler;
 }
 @property (nonatomic,strong) BrowseArea* browseArea;
 @property (nonatomic) BOOL regionSetFromCode;
 @property (nonatomic,strong) UIPinchGestureRecognizer* pinchRecognizer;
 @property (nonatomic,strong) BrowsePinch* pinchHandler;
-@property (nonatomic,strong) UIPanGestureRecognizer* panRecognizer;
-@property (nonatomic,strong) BrowsePan* panHandler;
 
 - (void) internalInitWithMapView:(MKMapView*)mapView
                           center:(CLLocationCoordinate2D)initCoord
@@ -58,8 +53,6 @@ static const float kBrowseAreaRadius = 500.0f;
 @synthesize regionSetFromCode = _regionSetFromCode;
 @synthesize pinchRecognizer = _pinchRecognizer;
 @synthesize pinchHandler = _pinchHandler;
-@synthesize panRecognizer = _panRecognizer;
-@synthesize panHandler = _panHandler;
 @synthesize trackedAnnotation;
 
 - (void) internalInitWithMapView:(MKMapView *)mapView
@@ -76,11 +69,6 @@ static const float kBrowseAreaRadius = 500.0f;
     self.pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:[self pinchHandler] action:@selector(handleGesture:)];
     self.pinchRecognizer.delegate = [self pinchHandler];
     [self.view addGestureRecognizer:[self pinchRecognizer]];
-    
-    self.panHandler = [[BrowsePan alloc] initWithMap:self browseArea:_browseArea];
-    self.panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:[self panHandler] action:@selector(handleGesture:)];
-    self.panRecognizer.delegate = [self panHandler];
-    [self.view addGestureRecognizer:[self panRecognizer]];
     
     self.trackedAnnotation = nil;
 }
@@ -115,7 +103,6 @@ static const float kBrowseAreaRadius = 500.0f;
 - (void) dealloc
 {
     [self stopTrackingAnnotation];
-    [self.view removeGestureRecognizer:[self panRecognizer]];
     [self.view removeGestureRecognizer:[self pinchRecognizer]];
 }
 
@@ -355,10 +342,7 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
-    if([self.panHandler isPanEnding])
-    {
-        [self.panHandler enforceBrowseArea];
-    }
+    // do nothing
 }
 
 - (void)mapView:(MKMapView*)mapView didSelectAnnotationView:(MKAnnotationView *)annotationView
