@@ -32,6 +32,7 @@
 - (void) showFlyerWheelAnimated:(BOOL)isAnimated;
 - (void) setBeaconWheelText:(NSString*)new_text;
 - (IBAction)didPressDebug:(id)sender;
+- (void) dismissActiveWheelAnimated:(BOOL)isAnimated;
 
 - (BOOL) isHeldHudCoinsUpdate;
 - (void) setHoldHudCoinsUpdate:(BOOL)shouldHold;

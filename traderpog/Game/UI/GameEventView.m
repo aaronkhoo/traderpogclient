@@ -11,6 +11,8 @@
 #import "GameEvent.h"
 #import "MapControl.h"
 #import "GameColors.h"
+#import "GameManager.h"
+#import "GameViewController.h"
 
 const float kGameEventViewVisibleSecs = 5.0f;
 
@@ -162,10 +164,14 @@ static NSString* const kGameEventMessages[kGameEventTypesNum] =
 {
     if(_targetMap && _targetLocation)
     {
-        [_targetMap centerOn:[_targetLocation coordinate] animated:YES];
-        
+        // dismiss any active wheel
+        [[[GameManager getInstance] gameViewController] dismissActiveWheelAnimated:YES];
+
         // dismiss myself
         [self setHidden:YES];
+        
+        // center map
+        [_targetMap centerOn:[_targetLocation coordinate] animated:YES];
     }
 }
 

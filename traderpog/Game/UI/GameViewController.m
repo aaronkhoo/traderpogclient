@@ -471,6 +471,22 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     [self.beaconWheel.previewLabel setText:new_text];
 }
 
+- (void) dismissActiveWheelAnimated:(BOOL)isAnimated
+{
+    if(![self.postWheel isWheelStateHidden])
+    {
+        [self.postWheel hideWheelAnimated:isAnimated withDelay:0.0f];
+    }
+    else if(![self.flyerWheel isWheelStateHidden])
+    {
+        [self.flyerWheel hideWheelAnimated:isAnimated withDelay:0.0f];
+    }
+    else if(![self.beaconWheel isWheelStateHidden])
+    {
+        [self.beaconWheel hideWheelAnimated:isAnimated withDelay:0.0f];
+    }
+}
+
 - (IBAction)didPressDebug:(id)sender
 {
     DebugMenu* menu = [[DebugMenu alloc] initWithNibName:@"DebugMenu" bundle:nil];
