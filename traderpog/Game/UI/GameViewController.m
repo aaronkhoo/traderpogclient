@@ -268,11 +268,8 @@ enum kKnobSlices
 {
     [[FlyerMgr getInstance] updateFlyersAtDate:currentTime];
     
-    if(kGameStateGameLoop == [[GameManager getInstance] gameState])
+    if([[GameManager getInstance] canProcessGameEventNotifications])
     {
-        // only process game-event notifications while in GameLoop state
-        // so that we don't confuse the UI flow by popping up during
-        // a go-home home-select state or a buy flyer-select state
         GameEvent* notify = [[GameEventMgr getInstance] dequeueEvent];
         if(notify)
         {

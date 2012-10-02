@@ -567,13 +567,6 @@ static const float kBubbleBorderWidth = 1.5f;
                                                   atZoomLevel:kFlyerPreviewZoomLevel];
             
         }
-        // add all existing flyers to previewMap
-        for(Flyer* cur in _playerFlyers)
-        {
-            [_previewMap addAnnotationForFlyer:cur];
-        }
-        
-        [self wheel:wheel didMoveTo:index];
     }
     return result;
 }
@@ -639,6 +632,13 @@ static const float kBubbleBorderWidth = 1.5f;
 - (void) wheel:(WheelControl*)wheel willShowAtIndex:(unsigned int)index
 {
     [self wheel:wheel didMoveTo:index];
+
+    // refresh previewMap
+    [_previewMap removeAllAnnotations];
+    for(Flyer* cur in _playerFlyers)
+    {
+        [_previewMap addAnnotationForFlyer:cur];
+    }
 }
 
 - (void) wheel:(WheelControl*)wheel willHideAtIndex:(unsigned int)index

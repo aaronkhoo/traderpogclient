@@ -191,15 +191,11 @@ static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
                                                   atZoomLevel:kBeaconPreviewZoomLevel];
             
         }
-
-        // add all pre-existing beacons
-        [self addBeaconAnnotationsToMap:_previewMap];
     }
     else
     {
         // do nothing
     }
-    [self wheel:wheel didMoveTo:index];
     return result;
 }
 
@@ -293,7 +289,12 @@ static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
 
 - (void) wheel:(WheelControl*)wheel willShowAtIndex:(unsigned int)index
 {
-    // do nothing
+    // refresh at this index
+    [self wheel:wheel didMoveTo:index];
+
+    // refresh preview map
+    [_previewMap removeAllAnnotations];
+    [self addBeaconAnnotationsToMap:_previewMap];
 }
 
 - (void) wheel:(WheelControl*)wheel willHideAtIndex:(unsigned int)index

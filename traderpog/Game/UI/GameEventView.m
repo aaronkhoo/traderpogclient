@@ -162,17 +162,17 @@ static NSString* const kGameEventMessages[kGameEventTypesNum] =
 
 - (void) didPressView:(id)sender
 {
-    if(_targetMap && _targetLocation)
+    if(_targetMap && _targetLocation && [[GameManager getInstance] canProcessGameEventNotifications])
     {
         // dismiss any active wheel
         [[[GameManager getInstance] gameViewController] dismissActiveWheelAnimated:YES];
 
-        // dismiss myself
-        [self setHidden:YES];
-        
         // center map
         [_targetMap defaultZoomCenterOn:[_targetLocation coordinate] animated:YES];
     }
+    // dismiss myself
+    [self setHidden:YES];
+    
 }
 
 @end

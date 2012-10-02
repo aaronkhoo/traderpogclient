@@ -673,12 +673,7 @@ static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total O
                                                     andCenter:[initPost coord]];
         }
         _curBubbleIndex = index;
-
-        // add all existing My Posts to preview map
-        [self addAllMyPostsToMap:_previewMap];
     }
-    
-    [self wheel:wheel didMoveTo:index];
     return result;
 }
 
@@ -768,6 +763,10 @@ static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total O
 {
     _postsWheel = wheel;
     [self wheel:wheel didMoveTo:index];
+    
+    // refresh previewmap
+    [_previewMap removeAllAnnotations];
+    [self addAllMyPostsToMap:_previewMap];
 }
 
 - (void) wheel:(WheelControl*)wheel willHideAtIndex:(unsigned int)index

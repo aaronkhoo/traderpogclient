@@ -725,6 +725,19 @@ typedef enum {
     return result;
 }
 
+- (BOOL) canProcessGameEventNotifications
+{
+    BOOL result = NO;
+    if(kGameStateGameLoop == [[GameManager getInstance] gameState])
+    {
+        // only process game-event notifications while in GameLoop state
+        // so that we don't confuse the UI flow by popping up during
+        // a go-home home-select state or a buy flyer-select state
+        result = YES;
+    }
+    return result;
+}
+
 - (BrowseEnforcedType) enforceBrowse:(BrowseEnforcedType)enforcedType
 {
     BrowseEnforcedType result;
