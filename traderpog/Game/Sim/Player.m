@@ -10,6 +10,8 @@
 #import "AFClientManager.h"
 #import "AFHTTPRequestOperation.h"
 #import "AppDelegate.h"
+#import "BeaconMgr.h"
+#import "FlyerMgr.h"
 #import "GameManager.h"
 #import "GameNotes.h"
 #import "LoadingScreen.h"
@@ -17,6 +19,7 @@
 #import "UINavigationController+Pog.h"
 #import "Player.h"
 #import "PogUIUtility.h"
+#import "TradePostMgr.h"
 
 // encoding keys
 static NSString* const kKeyVersion = @"version";
@@ -338,6 +341,43 @@ static const float kPostTribute = 0.02;
     }
 }
 
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    // User clicked OK on the alertview warning that proceeding will replace the current
+    // account with the previously stored facebook account.
+    if (buttonIndex == 0)
+    {
+        [[TradePostMgr getInstance] resetRefresh];
+        [[FlyerMgr getInstance] resetRefresh];
+        [[BeaconMgr getInstance] resetRefresh];
+        [[FlyerMgr getInstance] clearAllFlyers];
+        [[GameManager getInstance] resetGame];
+        [self getPlayerDataFromServerUsingFacebookId:FALSE];
+    }
+    else
+    {
+        // User canceled downloading the associated facebook account. Clear all facebook info.
+        _facebookid = @"";
+        _fbAccessToken = nil;
+        _fbExpiration = nil;
+        _fbFriends = nil;
+        _fbname = nil;
+        [self savePlayerData];
+        
+        // Pop the loading screen
+        AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        UINavigationController* nav = appDelegate.navController;
+        UIViewController* current = [nav visibleViewController];
+        if([current isMemberOfClass:[LoadingScreen class]])
+        {
+            LoadingScreen* loadingScreen = (LoadingScreen*)current;
+            [loadingScreen dismissWithCompletion:^(void){
+                [nav popFadeOutViewControllerAnimated:NO];
+            }];
+        }
+    }
+}
+
 #pragma mark - Public
 
 - (void) appDidEnterBackground
@@ -345,7 +385,7 @@ static const float kPostTribute = 0.02;
     [self savePlayerData];
 }
 
-- (void) getPlayerDataFromServerUsingFacebookId
+- (void) getPlayerDataFromServerUsingFacebookId:(BOOL)checkOnly
 {
     // make a get request
     AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
@@ -354,30 +394,52 @@ static const float kPostTribute = 0.02;
     [httpClient getPath:path
              parameters:nil
                 success:^(AFHTTPRequestOperation *operation, id responseObject){
-                    _playerId = [[responseObject valueForKeyPath:kKeyUserId] integerValue];
-                    _secretkey = [responseObject valueForKeyPath:kKeySecretkey];
-                    _bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
-                    _email = [responseObject valueForKeyPath:kKeyEmail];
-                    _member = [[responseObject valueForKeyPath:kKeyMember] boolValue];
-                    _lastUpdate = [NSDate date];
-                    [self savePlayerData];
-                    [self.delegate didCompleteHttpCallback:kPlayer_GetPlayerDataWithFacebook, TRUE];
+                    if (checkOnly)
+                    {
+                        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Warning: Account Exists"
+                                                                          message:@"Facebook ID is already associated with an existing account. Use that account instead?"
+                                                                         delegate:self
+                                                                cancelButtonTitle:@"OK"
+                                                                otherButtonTitles:@"Cancel", nil];
+                        
+                        [message show];
+                    }
+                    else
+                    {
+                        _playerId = [[responseObject valueForKeyPath:kKeyUserId] integerValue];
+                        _secretkey = [responseObject valueForKeyPath:kKeySecretkey];
+                        _bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
+                        _email = [responseObject valueForKeyPath:kKeyEmail];
+                        _member = [[responseObject valueForKeyPath:kKeyMember] boolValue];
+                        _lastUpdate = [NSDate date];
+                        [self savePlayerData];
+                        [self.delegate didCompleteHttpCallback:kPlayer_GetPlayerDataWithFacebook, TRUE];
+                    }
                 }
                 failure:^(AFHTTPRequestOperation* operation, NSError* error){
                     if ([[operation response] statusCode] == 404)
                     {
-                        // Unable to retrieve data based on facebookid. So, create a
-                        // new account with this facebook id.
-                        [self createNewPlayerOnServer];
+                        if (checkOnly)
+                        {
+                            // We were checking to see if an account with the current facebookid already exists
+                            // None do, so go ahead and update the current account with the facebook info
+                            [self updateUserPersonalData];
+                        }
+                        else
+                        {
+                            // Unable to retrieve data based on facebookid. So, create a
+                            // new account with this facebook id.
+                            [self createNewPlayerOnServer];
+                        }
                     }
                     else
                     {
                         UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Server Failure"
-                                                                          message:@"Unable to retrieve player data. Please try again later."
+                                                                          message:@"Unable to retrieve player data.Please try again later."
                                                                          delegate:nil
                                                                 cancelButtonTitle:@"OK"
                                                                 otherButtonTitles:nil];
-                        
+                            
                         [message show];
                         [self.delegate didCompleteHttpCallback:kPlayer_GetPlayerDataWithFacebook, FALSE];
                     }
@@ -549,6 +611,11 @@ static const float kPostTribute = 0.02;
                                 nil];
         [_facebook authorize:permissions];
     }
+    else
+    {
+        // Facebook has already been authorized, just go to the next step
+        [self fbDidLogin];
+    }
 }
 
 - (void)updateFacebookFeed:(NSString*)message
@@ -569,7 +636,8 @@ static const float kPostTribute = 0.02;
     }
 }
 
-- (void)fbDidLogin {
+- (void)fbDidLogin
+{
     // show loading screen
     LoadingScreen* loading = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
     loading.progressLabel.text = @"Storing Facebook info";
@@ -649,13 +717,13 @@ static const float kPostTribute = 0.02;
         if ([Player getInstance].playerId == 0)
         {
             // Player has not yet been created or retrieved.
-            [self getPlayerDataFromServerUsingFacebookId];
+            [self getPlayerDataFromServerUsingFacebookId:FALSE];
         }
         else
         {
-            // Player has already been created. Associate facebookid
-            // with this user
-            [self updateUserPersonalData];
+            // Player has already been created. Start by validating whether
+            // an existing account with this userid already exists. 
+            [self getPlayerDataFromServerUsingFacebookId:TRUE];
         }
     }
     else if ([[request url] rangeOfString:@"me/feed"].location != NSNotFound)

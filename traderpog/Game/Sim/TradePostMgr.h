@@ -41,6 +41,7 @@ static NSString* const kTradePostMgr_ScanForPosts = @"TradePostMgr_ScanForPosts"
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegateDanglingPosts;
 
 // Public methods
+- (void) resetRefresh;
 - (BOOL) needsRefresh;
 - (void) retrievePostsFromServer;
 - (NSInteger) postsCount;

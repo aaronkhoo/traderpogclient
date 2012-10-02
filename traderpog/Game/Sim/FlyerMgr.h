@@ -29,6 +29,8 @@ static NSString* const kFlyerMgr_ReceiveFlyers = @"FlyerMgr_ReceiveFlyers";
 @property (nonatomic,strong) MapControl* previewMap;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 
+- (void) clearAllFlyers;
+- (void) resetRefresh;
 - (BOOL) needsRefresh;
 - (BOOL) newPlayerFlyerAtTradePost:(TradePost*)tradePost
                         firstFlyer:(NSInteger)flyerTypeIndex;

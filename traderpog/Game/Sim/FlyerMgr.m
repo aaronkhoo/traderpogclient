@@ -143,6 +143,16 @@ static const float kBubbleBorderWidth = 1.5f;
 }
 
 #pragma mark - Public functions
+- (void) clearAllFlyers
+{
+    _playerFlyers = [NSMutableArray arrayWithCapacity:10];
+}
+
+- (void) resetRefresh
+{
+    _lastUpdate = nil;
+}
+
 - (BOOL) needsRefresh
 {
     return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime);
