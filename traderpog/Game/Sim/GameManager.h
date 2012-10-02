@@ -65,6 +65,8 @@ typedef enum _BrowseEnforcedType
 - (void) popGameStateToLoop;
 - (void) haltMapAnnotationCalloutsForDuration:(NSTimeInterval)seconds;
 - (BOOL) canShowMapAnnotationCallout;
+- (BOOL) mapIsInCalloutZoomLevelRange;
+- (BOOL) mapIsZoomEnabled;
 - (BOOL) canProcessGameEventNotifications;
 - (BrowseEnforcedType) enforceBrowse:(BrowseEnforcedType)enforcedType;
 - (BrowseEnforcedType) currentBrowseEnforced;

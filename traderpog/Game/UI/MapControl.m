@@ -21,7 +21,8 @@
 #import "BrowsePinch.h"
 #import "PlayerPostCalloutView.h"
 
-static const NSUInteger kDefaultZoomLevel = 15;
+const NSUInteger kDefaultZoomLevel = 15;
+const NSUInteger kNoCalloutZoomLevel = kDefaultZoomLevel - 2;
 static NSString* const kKeyCoordinate = @"coordinate";
 
 // TODO: Rationalize placement of these constants
@@ -54,6 +55,18 @@ static const float kBrowseAreaRadius = 500.0f;
 @synthesize pinchRecognizer = _pinchRecognizer;
 @synthesize pinchHandler = _pinchHandler;
 @synthesize trackedAnnotation;
+
+- (NSUInteger) zoomLevel
+{
+    return [self.view zoomLevel];
+}
+
+- (BOOL) isZoomEnabled
+{
+    return [self.view isZoomEnabled];
+}
+
+#pragma mark - public methods
 
 - (void) internalInitWithMapView:(MKMapView *)mapView
                           center:(CLLocationCoordinate2D)initCoord

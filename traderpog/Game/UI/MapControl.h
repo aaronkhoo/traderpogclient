@@ -13,11 +13,18 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
+extern const NSUInteger kDefaultZoomLevel;
+extern const NSUInteger kNoCalloutZoomLevel;
+
 @class TradePost;
 @class Flyer;
 @interface MapControl : NSObject<MKMapViewDelegate>
 @property (nonatomic,strong) MKMapView* view;
 @property (nonatomic,strong) NSObject<MKAnnotation>* trackedAnnotation;
+
+// queries
+- (NSUInteger) zoomLevel;
+- (BOOL) isZoomEnabled;
 
 - (id) initWithMapView:(MKMapView*)mapView andCenter:(CLLocationCoordinate2D)initCoord;
 - (id) initWithMapView:(MKMapView*)mapView

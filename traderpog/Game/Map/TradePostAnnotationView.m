@@ -206,9 +206,9 @@ static const float kTopImageYOffset = -0.1f;
 {    
     if(!_calloutAnnotation)
     {
+        TradePost* tradePost = (TradePost*) [self annotation];
         if([[GameManager getInstance] canShowMapAnnotationCallout])
         {
-            TradePost* tradePost = (TradePost*) [self annotation];            
             if([tradePost isMemberOfClass:[MyTradePost class]])
             {
                 Flyer* flyer = [tradePost flyerAtPost];
@@ -248,13 +248,20 @@ static const float kTopImageYOffset = -0.1f;
                 _calloutAnnotation = callout;
             }
             [mapView addAnnotation:_calloutAnnotation];
-            [[[[GameManager getInstance] gameViewController] mapControl] defaultZoomCenterOn:[tradePost coord] animated:YES];
         }
         else
         {
             // selection not allowed; deselect it
             [mapView deselectAnnotation:[self annotation] animated:NO];
         }
+        
+        // if map not in callout zoom-level or not zoomEnabled, address that by setting the map to the necessary zoom-level
+        // so that player can select it more readily the next time they tap
+        if((![[GameManager getInstance] mapIsInCalloutZoomLevelRange]) || (![[GameManager getInstance] mapIsZoomEnabled]))
+        {
+            [[[[GameManager getInstance] gameViewController] mapControl] defaultZoomCenterOn:[tradePost coord] animated:YES];
+        }
+        
     }
 
     // remove game-event alert icon if one is being displayed on this post

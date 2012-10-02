@@ -706,6 +706,8 @@ typedef enum {
 - (BOOL) canShowMapAnnotationCallout
 {
     BOOL result = YES;
+    
+    // condition 1: don't show if explicitly halted
     @synchronized(self)
     {
         if(_calloutHaltBegin)
@@ -722,6 +724,29 @@ typedef enum {
             }
         }
     }
+    
+    // condition 2: don't show if map is not in callout zoom-level range
+    if(result)
+    {
+        result = [self mapIsInCalloutZoomLevelRange];
+    }
+    
+    return result;
+}
+
+- (BOOL) mapIsInCalloutZoomLevelRange
+{
+    BOOL result = YES;
+    if([self.gameViewController.mapControl zoomLevel] <= kNoCalloutZoomLevel)
+    {
+        result = NO;
+    }
+    return result;
+}
+
+- (BOOL) mapIsZoomEnabled
+{
+    BOOL result = [self.gameViewController.mapControl isZoomEnabled];
     return result;
 }
 
