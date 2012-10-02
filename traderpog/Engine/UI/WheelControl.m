@@ -610,6 +610,11 @@ static const float kSelectedOffset = -6.5f;
                              self.container.alpha = 1.0f;
                          }
                          completion:^(BOOL finished){
+                             
+                             // refresh the bubbles
+                             unsigned int beaconSlot = [self itemIndexAtAngle:_absAngle forNumItems:[self.dataSource numItemsInWheel:self]];
+                             [self refreshBeaconSlotsWithSelectedBeacon:beaconSlot selectedSlice:self.selectedSlice];
+
                              [UIView animateWithDuration:0.1f
                                                    delay:0.0f
                                                  options:UIViewAnimationCurveEaseInOut

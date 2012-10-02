@@ -9,8 +9,8 @@
 #import "WheelBubble.h"
 
 @implementation WheelBubble
-@synthesize labelView = _labelView;
 @synthesize imageView = _imageView;
+@synthesize exclamationView = _exclamationView;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -18,12 +18,17 @@
     if (self) 
     {
         [self setBackgroundColor:[UIColor clearColor]];
-        _labelView = [[UILabel alloc] initWithFrame:[self bounds]];
-        [_labelView setTextAlignment:UITextAlignmentCenter];
         
         _imageView = [[UIImageView alloc] initWithFrame:[self bounds]];
         [_imageView setBackgroundColor:[UIColor clearColor]];
         [self addSubview:_imageView];
+        
+        CGRect exRect = CGRectMake(0.0f, -(0.5f * self.bounds.size.height),
+                                   self.bounds.size.width, self.bounds.size.height);
+        _exclamationView = [[UIImageView alloc] initWithFrame:exRect];
+        [_exclamationView setBackgroundColor:[UIColor clearColor]];
+        [_exclamationView setHidden:YES];
+        [self addSubview:_exclamationView];
     }
     return self;
 }

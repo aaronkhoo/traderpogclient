@@ -635,7 +635,7 @@ static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total O
         contentView = [[WheelBubble alloc] initWithFrame:contentRect];
     }
 
-    contentView.backgroundColor = [GameColors bubbleBgColorWithAlpha:1.0f];
+    contentView.imageView.backgroundColor = [GameColors bubbleBgColorWithAlpha:1.0f];
     if([NSNull null] == [self.myPostSlots objectAtIndex:index])
     {
         UIImage* image = [[ImageManager getInstance] getImage:@"bubble_postmark_g.png" fallbackNamed:@"bubble_postmark_g.png"];
@@ -647,7 +647,7 @@ static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total O
         [contentView.imageView setImage:image];
     }
     UIColor* borderColor = [GameColors borderColorPostsWithAlpha:1.0f];
-    [PogUIUtility setCircleForView:contentView
+    [PogUIUtility setCircleForView:contentView.imageView
                    withBorderWidth:kPostBubbleBorderWidth
                        borderColor:borderColor
                     rasterizeScale:1.5f];

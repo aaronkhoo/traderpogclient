@@ -10,9 +10,9 @@
 
 @interface WheelBubble : UIView
 {
-    UILabel* _labelView;
     UIImageView* _imageView;
+    UIImageView* _exclamationView;
 }
-@property (nonatomic,strong) UILabel* labelView;
 @property (nonatomic,strong) UIImageView* imageView;
+@property (nonatomic,strong) UIImageView* exclamationView;
 @end

@@ -514,9 +514,9 @@ static const float kBubbleBorderWidth = 1.5f;
         CGRect contentRect = CGRectMake(5.0f, 5.0f, 30.0f, 30.0f);
         contentView = [[WheelBubble alloc] initWithFrame:contentRect];
     }
-    contentView.backgroundColor = [GameColors bubbleColorFlyersWithAlpha:1.0f];
+    contentView.imageView.backgroundColor = [GameColors bubbleColorFlyersWithAlpha:1.0f];
     UIColor* borderColor = [GameColors borderColorFlyersWithAlpha:1.0f];
-    [PogUIUtility setCircleForView:contentView
+    [PogUIUtility setCircleForView:contentView.imageView
                    withBorderWidth:kBubbleBorderWidth
                        borderColor:borderColor
                     rasterizeScale:1.5f];
@@ -524,6 +524,19 @@ static const float kBubbleBorderWidth = 1.5f;
     {
         UIImage* image = [[ImageManager getInstance] getImage:@"bubble_flyer.png" fallbackNamed:@"bubble_flyer.png"];
         [contentView.imageView setImage:image];
+        
+        Flyer* flyer = [_playerFlyers objectAtIndex:index];
+        if([flyer gameEvent])
+        {
+            UIImage* excImage = [[ImageManager getInstance] getImage:@"icon_alert_flyer.png"];
+            [contentView.exclamationView setImage:excImage];
+            [contentView.exclamationView setHidden:NO];
+        }
+        else
+        {
+            [contentView.exclamationView setImage:nil];
+            [contentView.exclamationView setHidden:YES];
+        }
     }
     else
     {

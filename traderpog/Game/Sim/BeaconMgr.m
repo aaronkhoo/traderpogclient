@@ -133,9 +133,9 @@ static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
         CGRect contentRect = CGRectMake(5.0f, 5.0f, 30.0f, 30.0f);
         contentView = [[WheelBubble alloc] initWithFrame:contentRect];
     }
-    contentView.backgroundColor = [GameColors bubbleBgColorWithAlpha:1.0f];
+    contentView.imageView.backgroundColor = [GameColors bubbleBgColorWithAlpha:1.0f];
     UIColor* borderColor = [GameColors borderColorBeaconsWithAlpha:1.0f];
-    [PogUIUtility setCircleForView:contentView
+    [PogUIUtility setCircleForView:contentView.imageView
                    withBorderWidth:kBubbleBorderWidth
                        borderColor:borderColor
                     rasterizeScale:1.5f];
