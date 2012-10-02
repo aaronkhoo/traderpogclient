@@ -52,6 +52,7 @@ typedef enum _BrowseEnforcedType
 @property (nonatomic,strong) GameViewController* gameViewController;
 
 // public methods
+- (void) resetGame;
 - (void) validateConnectivity;
 - (void) selectNextGameUI;
 - (void) flyer:(Flyer*)flyer departForTradePost:(TradePost*)tradePost;

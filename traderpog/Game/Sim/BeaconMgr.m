@@ -48,6 +48,11 @@ static const float kBubbleBorderWidth = 1.5f;
     return self;
 }
 
+- (void) resetRefresh
+{
+    _lastUpdate = nil;
+}
+
 - (BOOL) needsRefresh
 {
     return ([[Player getInstance] isFacebookConnected]) &&
@@ -62,6 +67,9 @@ static const float kBubbleBorderWidth = 1.5f;
 
 - (void) createPostsArray:(id)responseObject
 {
+    // Reset beacons
+    _activeBeacons = [NSMutableDictionary dictionaryWithCapacity:10];
+    
     for (NSDictionary* post in responseObject)
     {
         ForeignTradePost* current = [[ForeignTradePost alloc] initWithDictionary:post];

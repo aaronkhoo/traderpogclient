@@ -25,6 +25,9 @@ static const float kHudCoinsIconX = 0.3f * kHudCoinsWidth;
 @interface GameHud ()
 {
     UIImageView* _coinIcon;
+    
+    // Track default y position for coins
+    CGFloat _default_coins_y_position;
 }
 @end
 
@@ -32,7 +35,7 @@ static const float kHudCoinsIconX = 0.3f * kHudCoinsWidth;
 @synthesize coins = _coins;
 @synthesize holdNextCoinsUpdate = _holdNextCoinsUpdate;
 
-- (id)initWithFrameWithHeight:(CGRect)frame bannershift:(CGFloat)bannershift
+- (id)initWithFrame:(CGRect)frame 
 {
     self = [super initWithFrame:frame];
     if (self)
@@ -41,7 +44,7 @@ static const float kHudCoinsIconX = 0.3f * kHudCoinsWidth;
         [self setUserInteractionEnabled:NO];
         
         // coins HUD
-        CGRect coinsFrame = CGRectMake(kHudCoinsX, kHudCoinsY + bannershift,
+        CGRect coinsFrame = CGRectMake(kHudCoinsX, kHudCoinsY,
                                        kHudCoinsWidth, kHudCoinsHeight);
         self.coins = [[CircleBarView alloc] initWithFrame:coinsFrame
                                                     color:[GameColors borderColorPostsWithAlpha:1.0f]
@@ -76,8 +79,21 @@ static const float kHudCoinsIconX = 0.3f * kHudCoinsWidth;
         // when _holdNextCoinsUpdate is true, the next coins-changed note will not skip updating
         // GameHud coins; instead, the coins will be set when _holdNextCoinsUpdate gets unset
         _holdNextCoinsUpdate = NO;
+        
+        // Store the default y position in case we have to reposition later
+        _default_coins_y_position = self.coins.frame.origin.y;
     }
     return self;
+}
+
+- (void) shiftHudPosition:(CGFloat)delta
+{
+    CGFloat newCoinsPosition = _default_coins_y_position + delta;
+    if (self.coins.frame.origin.y != newCoinsPosition)
+    {
+        self.coins.frame = CGRectMake(self.coins.frame.origin.x, newCoinsPosition,
+                                      self.coins.frame.size.width, self.coins.frame.size.height);
+    }
 }
 
 /*

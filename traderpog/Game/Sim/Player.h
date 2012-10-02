@@ -16,7 +16,7 @@ static NSString* const kPlayer_SavePlayerData = @"SavePlayerData";
 static NSString* const kPlayer_GetPlayerData = @"GetPlayerData";
 static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFacebook";
 
-@interface Player : NSObject<NSCoding, FBSessionDelegate, FBRequestDelegate>
+@interface Player : NSObject<NSCoding, FBSessionDelegate, FBRequestDelegate, UIAlertViewDelegate>
 {
     // internal
     NSString* _createdVersion;

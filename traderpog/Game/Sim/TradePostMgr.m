@@ -122,6 +122,11 @@ static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total O
     return self;
 }
 
+- (void) resetRefresh
+{
+    _lastUpdate = nil;
+}
+
 - (BOOL) needsRefresh
 {
     return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime);
@@ -463,6 +468,10 @@ static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total O
 #pragma mark - retrieve data from server
 - (void) createPostsArray:(id)responseObject
 {
+    // Reset posts
+    _activePosts = [NSMutableDictionary dictionaryWithCapacity:10];
+    _myPostSlots = [NSMutableArray arrayWithCapacity:6];
+    
     for (NSDictionary* post in responseObject)
     {
         MyTradePost* current = [[MyTradePost alloc] initWithDictionary:post];
