@@ -31,6 +31,7 @@
 #import "UINavigationController+Pog.h"
 #import "GameEventView.h"
 #import "GameEventMgr.h"
+#import "GameManager.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -267,10 +268,16 @@ enum kKnobSlices
 {
     [[FlyerMgr getInstance] updateFlyersAtDate:currentTime];
     
-    GameEvent* notify = [[GameEventMgr getInstance] dequeueEvent];
-    if(notify)
+    if(kGameStateGameLoop == [[GameManager getInstance] gameState])
     {
-        [self showNotificationViewForGameEvent:notify animated:YES];
+        // only process game-event notifications while in GameLoop state
+        // so that we don't confuse the UI flow by popping up during
+        // a go-home home-select state or a buy flyer-select state
+        GameEvent* notify = [[GameEventMgr getInstance] dequeueEvent];
+        if(notify)
+        {
+            [self showNotificationViewForGameEvent:notify animated:YES];
+        }
     }
 }
 
