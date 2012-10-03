@@ -9,6 +9,8 @@
 #import "TradePost.h"
 
 @class TradePostAnnotationView;
+@class ItemBuyView;
 @interface TradePost (Render)
 - (void) refreshRenderForAnnotationView:(TradePostAnnotationView*)annotationView;
+- (void) refreshRenderForItemBuyView:(ItemBuyView*)buyView;
 @end

@@ -56,4 +56,5 @@ typedef void (^CompletionBlock)(BOOL finished);
 
 // ui frame calculation utilities
 + (CGRect) createCenterFrameWithSize:(CGSize)size inFrame:(CGRect)targetFrame;
++ (CGRect) createCenterFrameWithSize:(CGSize)size inFrame:(CGRect)targetFrame withFrameSize:(CGSize)frameSize;
 @end

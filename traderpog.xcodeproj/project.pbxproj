@@ -74,6 +74,9 @@
 		425158BC161B8C4700F00BEA /* item_pie.png in Resources */ = {isa = PBXBuildFile; fileRef = 425158B3161B8C4700F00BEA /* item_pie.png */; };
 		425158BD161B8C4700F00BEA /* item_rice.png in Resources */ = {isa = PBXBuildFile; fileRef = 425158B4161B8C4700F00BEA /* item_rice.png */; };
 		425158C0161BAD8200F00BEA /* ItemBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 425158BF161BAD8200F00BEA /* ItemBubble.m */; };
+		425158C5161BEFAF00F00BEA /* ItemBuyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 425158C4161BEFAF00F00BEA /* ItemBuyView.m */; };
+		425158CA161C865B00F00BEA /* CircleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 425158C9161C865B00F00BEA /* CircleButton.m */; };
+		425158CE161C898000F00BEA /* ItemBuyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425158CD161C897F00F00BEA /* ItemBuyView.xib */; };
 		4254BDF31616C527008FD41D /* GameEventMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4254BDF21616C527008FD41D /* GameEventMgr.m */; };
 		4254BDF71616CE77008FD41D /* GameEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4254BDF61616CE77008FD41D /* GameEvent.m */; };
 		4254BDFE1617490D008FD41D /* GameEventView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4254BDFD1617490D008FD41D /* GameEventView.m */; };
@@ -344,6 +347,11 @@
 		425158B4161B8C4700F00BEA /* item_rice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = item_rice.png; path = assets/UI/items/item_rice.png; sourceTree = SOURCE_ROOT; };
 		425158BE161BAD8200F00BEA /* ItemBubble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemBubble.h; path = Game/Map/ItemBubble.h; sourceTree = "<group>"; };
 		425158BF161BAD8200F00BEA /* ItemBubble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemBubble.m; path = Game/Map/ItemBubble.m; sourceTree = "<group>"; };
+		425158C3161BEFAF00F00BEA /* ItemBuyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemBuyView.h; path = Game/UI/ItemBuyView.h; sourceTree = "<group>"; };
+		425158C4161BEFAF00F00BEA /* ItemBuyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemBuyView.m; path = Game/UI/ItemBuyView.m; sourceTree = "<group>"; };
+		425158C8161C865B00F00BEA /* CircleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CircleButton.h; path = ib_components/CircleButton.h; sourceTree = "<group>"; };
+		425158C9161C865B00F00BEA /* CircleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CircleButton.m; path = ib_components/CircleButton.m; sourceTree = "<group>"; };
+		425158CD161C897F00F00BEA /* ItemBuyView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ItemBuyView.xib; path = Game/UI/ItemBuyView.xib; sourceTree = "<group>"; };
 		4254BDF11616C527008FD41D /* GameEventMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameEventMgr.h; path = Game/Sim/GameEventMgr.h; sourceTree = "<group>"; };
 		4254BDF21616C527008FD41D /* GameEventMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameEventMgr.m; path = Game/Sim/GameEventMgr.m; sourceTree = "<group>"; };
 		4254BDF51616CE77008FD41D /* GameEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameEvent.h; path = Game/Sim/GameEvent.h; sourceTree = "<group>"; };
@@ -744,6 +752,15 @@
 			name = items;
 			sourceTree = "<group>";
 		};
+		425158C7161C861A00F00BEA /* ib_components */ = {
+			isa = PBXGroup;
+			children = (
+				425158C8161C865B00F00BEA /* CircleButton.h */,
+				425158C9161C865B00F00BEA /* CircleButton.m */,
+			);
+			name = ib_components;
+			sourceTree = "<group>";
+		};
 		C41E0C8015AC032E006662DF /* External */ = {
 			isa = PBXGroup;
 			children = (
@@ -936,6 +953,9 @@
 				42FA1A5715F5511A00EB2433 /* MKMapView+Game.m */,
 				425158BE161BAD8200F00BEA /* ItemBubble.h */,
 				425158BF161BAD8200F00BEA /* ItemBubble.m */,
+				425158C3161BEFAF00F00BEA /* ItemBuyView.h */,
+				425158C4161BEFAF00F00BEA /* ItemBuyView.m */,
+				425158CD161C897F00F00BEA /* ItemBuyView.xib */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -1059,6 +1079,7 @@
 		C4E381B615AA3B4C00924A86 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				425158C7161C861A00F00BEA /* ib_components */,
 				C4BFC9C515CFC7EE009B7122 /* CircleView.h */,
 				C4BFC9C615CFC7EE009B7122 /* CircleView.m */,
 				421564CF15F6A1AB00AAE851 /* LabelCircle.h */,
@@ -1307,6 +1328,7 @@
 				425158BB161B8C4700F00BEA /* item_milk.png in Resources */,
 				425158BC161B8C4700F00BEA /* item_pie.png in Resources */,
 				425158BD161B8C4700F00BEA /* item_rice.png in Resources */,
+				425158CE161C898000F00BEA /* ItemBuyView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1426,6 +1448,8 @@
 				4254BDF71616CE77008FD41D /* GameEvent.m in Sources */,
 				4254BDFE1617490D008FD41D /* GameEventView.m in Sources */,
 				425158C0161BAD8200F00BEA /* ItemBubble.m in Sources */,
+				425158C5161BEFAF00F00BEA /* ItemBuyView.m in Sources */,
+				425158CA161C865B00F00BEA /* CircleButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

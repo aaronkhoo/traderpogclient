@@ -19,6 +19,7 @@
 #import "AnimMgr.h"
 #import "AnimClip.h"
 #import "ItemBubble.h"
+#import "ItemBuyView.h"
 
 @implementation TradePost (Render)
 - (void) refreshRenderForAnnotationView:(TradePostAnnotationView *)annotationView
@@ -129,6 +130,21 @@
     {
         [annotationView.itemBubble setHidden:YES];        
     }
+}
+
+- (void) refreshRenderForItemBuyView:(ItemBuyView *)buyView
+{
+    // trade item info
+    NSString* itemImagePath = @"checkerboard.png";
+    TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:[self itemId]];
+    NSString* itemName = nil;
+    if(itemType)
+    {
+        itemImagePath = [itemType imgPath];
+        itemName = [itemType name];
+    }
+    UIImage* itemImage = [[ImageManager getInstance] getImage:itemImagePath];
+    [buyView.nibImageView setImage:itemImage];
 }
 
 @end

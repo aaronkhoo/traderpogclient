@@ -389,9 +389,16 @@ static const float kFadeAlertHeight = 40.0f;
 #pragma mark - ui frame calculations
 + (CGRect) createCenterFrameWithSize:(CGSize)size inFrame:(CGRect)targetFrame
 {
+    CGRect result = [PogUIUtility createCenterFrameWithSize:size inFrame:targetFrame withFrameSize:size];
+    return result;
+}
+
+// create a frame with frameSize, centered in targetFrame using size as its centering size
++ (CGRect) createCenterFrameWithSize:(CGSize)size inFrame:(CGRect)targetFrame withFrameSize:(CGSize)frameSize
+{
     float originX = targetFrame.origin.x + (0.5f * (targetFrame.size.width - size.width));
     float originY = targetFrame.origin.y + (0.5f * (targetFrame.size.height - size.height));
-    return CGRectMake(originX, originY, size.width, size.height);
+    return CGRectMake(originX, originY, frameSize.width, frameSize.height);
 }
 
 @end

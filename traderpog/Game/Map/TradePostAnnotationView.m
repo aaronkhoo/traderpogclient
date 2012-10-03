@@ -15,6 +15,7 @@
 #import "PlayerPostCallout.h"
 #import "PlayerPostCalloutView.h"
 #import "GameManager.h"
+#import "TradeManager.h"
 #import "Flyer.h"
 #import "FlyerPath.h"
 #import "FlyerCallout.h"
@@ -22,6 +23,7 @@
 #import "GameColors.h"
 #import "MapControl.h"
 #import "ItemBubble.h"
+#import "ItemBuyView.h"
 #import "PogUIUtility.h"
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
@@ -36,9 +38,12 @@ static const float kExclamationYOffset = -0.1f;
 @interface TradePostAnnotationView ()
 {
     NSObject<MKAnnotation,MapAnnotationProtocol>* _calloutAnnotation;
+    ItemBuyView* _buyView;
 }
 - (void) handleFlyerStateChanged:(NSNotification*)note;
 - (void) handleFlyerLoadTimerChanged:(NSNotification*)note;
+- (void) handleBuyClose:(id)sender;
+- (void) handleBuyOk:(id)sender;
 @end
 
 @implementation TradePostAnnotationView
@@ -217,12 +222,105 @@ static const float kExclamationYOffset = -0.1f;
     }
 }
 
+#pragma mark - popup ui
+static const float kBuyViewYOffset = -80.0f;
+- (void) showBuyViewInMap:(MKMapView*)mapView forPost:(TradePost*)tradePost
+{
+    if(!_buyView)
+    {
+        UIView* parent = [mapView superview];
+        _buyView = [[ItemBuyView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0.0f, 0.0f)];
+        CGRect buyFrame = [PogUIUtility createCenterFrameWithSize:_buyView.nibContentView.bounds.size
+                                                          inFrame:parent.bounds
+                                                    withFrameSize:_buyView.nibView.bounds.size];
+        buyFrame.origin.y += kBuyViewYOffset;
+        [_buyView setFrame:buyFrame];
+        [parent addSubview:_buyView];
+    }
+    
+    // setup actions
+    [_buyView.buyButton addTarget:self action:@selector(handleBuyOk:) forControlEvents:UIControlEventTouchUpInside];
+    [_buyView.closeButton addTarget:self action:@selector(handleBuyClose:) forControlEvents:UIControlEventTouchUpInside];
+    
+    // trade item info
+    [tradePost refreshRenderForItemBuyView:_buyView];
+}
+
+- (void) dismissBuyView
+{
+    if(_buyView)
+    {
+        [_buyView.buyButton removeTarget:self action:@selector(handleBuyOk:) forControlEvents:UIControlEventTouchUpInside];
+        [_buyView.closeButton removeTarget:self action:@selector(handleBuyClose:) forControlEvents:UIControlEventTouchUpInside];
+        [_buyView removeFromSuperview];
+        _buyView = nil;
+    }
+}
+
+- (void) handleBuyClose:(id)sender
+{
+    [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
+}
+
+- (void) handleBuyOk:(id)sender
+{
+    TradePost* destPost = (TradePost*)[self annotation];
+    if(destPost)
+    {
+        if([destPost isMemberOfClass:[MyTradePost class]])
+        {
+            // TODO: handle going home
+        }
+        else
+        {
+            // other's post
+            if(![[TradeManager getInstance] playerHasIdleFlyers])
+            {
+                // inform player they cannot afford the order
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Flyers busy"
+                                                                message:@"Need idle Flyer to place this order"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"Ok"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+            else if(![[TradeManager getInstance] playerCanAffordItemsAtPost:destPost])
+            {
+                // inform player they cannot afford the order
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not enough coins"
+                                                                message:@"More coins needed to place this order"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"Ok"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+            else
+            {
+                // player can order
+                [[[[GameManager getInstance] gameViewController] mapControl] defaultZoomCenterOn:[destPost coord] animated:YES];
+                [[GameManager getInstance] showFlyerSelectForBuyAtPost:destPost];
+            }
+            
+        }
+    }
+    [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
+}
+
 #pragma mark - PogMapAnnotationViewProtocol
 - (void)didSelectAnnotationViewInMap:(MKMapView*) mapView;
-{    
+{
+    TradePost* tradePost = (TradePost*) [self annotation];
+
+    BOOL doZoomAdjustment = NO;
+    // if map not in callout zoom-level or not zoomEnabled, address that by setting the map to the necessary zoom-level
+    // so that player can select it more readily the next time they tap
+    if((![[GameManager getInstance] mapIsInCalloutZoomLevelRange]) || (![[GameManager getInstance] mapIsZoomEnabled]))
+    {
+        doZoomAdjustment = YES;
+    }
+    
     if(!_calloutAnnotation)
     {
-        TradePost* tradePost = (TradePost*) [self annotation];
         if([[GameManager getInstance] canShowMapAnnotationCallout])
         {
             if([tradePost isMemberOfClass:[MyTradePost class]])
@@ -259,11 +357,18 @@ static const float kExclamationYOffset = -0.1f;
             else
             {
                 // otherwise, show tradepost callout
+                /*
                 TradePostCallout* callout = [[TradePostCallout alloc] initWithTradePost:tradePost];
                 callout.parentAnnotationView = self;
                 _calloutAnnotation = callout;
+                */
+                [self showBuyViewInMap:mapView forPost:tradePost];
+                doZoomAdjustment = YES;
             }
-            [mapView addAnnotation:_calloutAnnotation];
+            if(_calloutAnnotation)
+            {
+                [mapView addAnnotation:_calloutAnnotation];
+            }
         }
         else
         {
@@ -271,9 +376,7 @@ static const float kExclamationYOffset = -0.1f;
             [mapView deselectAnnotation:[self annotation] animated:NO];
         }
         
-        // if map not in callout zoom-level or not zoomEnabled, address that by setting the map to the necessary zoom-level
-        // so that player can select it more readily the next time they tap
-        if((![[GameManager getInstance] mapIsInCalloutZoomLevelRange]) || (![[GameManager getInstance] mapIsZoomEnabled]))
+        if(doZoomAdjustment)
         {
             [[[[GameManager getInstance] gameViewController] mapControl] defaultZoomCenterOn:[tradePost coord] animated:YES];
         }
@@ -292,6 +395,7 @@ static const float kExclamationYOffset = -0.1f;
 
 - (void)didDeselectAnnotationViewInMap:(MKMapView*) mapView;
 {
+    [self dismissBuyView];
     if(_calloutAnnotation)
     {
         if([_calloutAnnotation isMemberOfClass:[PlayerPostCallout class]])
