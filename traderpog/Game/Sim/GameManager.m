@@ -31,6 +31,7 @@
 #import "FlightPathOverlay.h"
 #import "ResourceManager.h"
 #import "GameNotes.h"
+#import "PlayerSales.h"
 #import <CoreLocation/CoreLocation.h>
 
 // List of Game UI screens that GameManager can kick off
@@ -54,6 +55,7 @@ typedef enum {
     serverCallType_tradePostMgr,
     serverCallType_beaconMgr,
     serverCallType_flyerMgr,
+    serverCallType_playerSales,
     
     // Any new server calls should go above this
     serverCallType_end
@@ -330,6 +332,16 @@ typedef enum {
             if ([[FlyerMgr getInstance] needsRefresh])
             {
                 [[FlyerMgr getInstance] retrieveUserFlyersFromServer];
+                noCall = FALSE;
+            }
+            break;
+            
+        case serverCallType_playerSales:
+            // Grab any player sales information
+            [self pushLoadingScreenIfNecessary:nav message:@"Cornering markets..."];
+            if ([[PlayerSales getInstance] needsRefresh])
+            {
+                [[PlayerSales getInstance] retrieveSalesFromServer];
                 noCall = FALSE;
             }
             break;
@@ -824,7 +836,8 @@ typedef enum {
         [callName compare:kPlayer_GetPlayerData] == NSOrderedSame ||
         [callName compare:kTradePostMgr_ReceivePosts] == NSOrderedSame ||
         [callName compare:kFlyerMgr_ReceiveFlyers] == NSOrderedSame ||
-        [callName compare:kBeaconMgr_ReceiveBeacons] == NSOrderedSame)
+        [callName compare:kBeaconMgr_ReceiveBeacons] == NSOrderedSame ||
+        [callName compare:kPlayerSales_ReceiveSales] == NSOrderedSame)
     {
         _gameInfoRefreshSucceeded = _gameInfoRefreshSucceeded && success;
         if (_gameInfoRefreshSucceeded)

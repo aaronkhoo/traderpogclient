@@ -24,6 +24,7 @@
 #import "LocalyticsSession.h"
 #import "LeaderboardMgr.h"
 #import "GameEventMgr.h"
+#import "PlayerSales.h"
 #import <RevMobAds/RevMobAds.h>
 
 static const float kAppScreenWidth = 320.0f;
@@ -160,6 +161,7 @@ static const float kAppScreenHeight = 480.0f;
     [AnimMgr getInstance];
     [LeaderboardMgr getInstance];
     [GameEventMgr getInstance];
+    [PlayerSales getInstance];
     
     // Setting up the HTTP callback delegates
     [[Player getInstance] setDelegate:[GameManager getInstance]];
@@ -169,6 +171,7 @@ static const float kAppScreenHeight = 480.0f;
     [[FlyerMgr getInstance] setDelegate:[GameManager getInstance]];
     [[ResourceManager getInstance] setDelegate:[GameManager getInstance]];
     [[BeaconMgr getInstance] setDelegate:[GameManager getInstance]];
+    [[PlayerSales getInstance] setDelegate:[GameManager getInstance]];
     
     // Setting up callback for scanning
     [[TradePostMgr getInstance] setDelegateScan:[ScanManager getInstance]];
