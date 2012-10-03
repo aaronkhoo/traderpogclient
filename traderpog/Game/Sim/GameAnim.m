@@ -8,6 +8,7 @@
 
 #import "GameAnim.h"
 #import "AnimMgr.h"
+#import "AnimClip.h"
 
 @interface GameAnim ()
 {
@@ -33,6 +34,18 @@
     _clipnames = nil;
 }
 
+- (BOOL) refreshImageView:(UIImageView*)imageView withClipNamed:(NSString*)clipName
+{
+    BOOL refreshed = NO;
+    AnimClip* clip = [[AnimMgr getInstance] getClipWithName:clipName];
+    if(clip)
+    {
+        [imageView setAnimationImages:[clip imagesArray]];
+        [imageView setAnimationDuration:[clip secondsPerLoop]];
+        refreshed = YES;
+    }
+    return refreshed;
+}
 
 #pragma mark - Singleton
 static GameAnim* singleton = nil;

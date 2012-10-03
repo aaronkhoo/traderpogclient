@@ -28,5 +28,35 @@
 			<string>pogstacking_001.png</string>
 		</array>
 	</dict>
+	<key>coin_shimmer</key>
+	<dict>
+		<key>loop</key>
+		<true/>
+		<key>fps</key>
+		<integer>13</integer>
+		<key>frames</key>
+		<array>
+			<string>coin_001.png</string>
+			<string>coin_001.png</string>
+			<string>coin_001.png</string>
+			<string>coin_001.png</string>
+			<string>coin_001.png</string>
+			<string>coin_001.png</string>
+			<string>coin_001.png</string>
+			<string>coin_001.png</string>
+			<string>coin_002.png</string>
+			<string>coin_003.png</string>
+			<string>coin_004.png</string>
+			<string>coin_005.png</string>
+			<string>coin_001.png</string>
+			<string>coin_001.png</string>
+			<string>coin_001.png</string>
+			<string>coin_001.png</string>
+			<string>coin_001.png</string>
+			<string>coin_001.png</string>
+			<string>coin_001.png</string>
+			<string>coin_001.png</string>
+		</array>
+	</dict>
 </dict>
 </plist>

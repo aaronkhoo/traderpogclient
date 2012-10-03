@@ -12,6 +12,7 @@
 #import "ImageManager.h"
 #import "PogUIUtility.h"
 #import "Player.h"
+#import "GameAnim.h"
 
 static const float kHudCoinsX = 40.0f;
 static const float kHudCoinsY = 40.0f;
@@ -62,17 +63,7 @@ static const float kHudCoinsIconX = 0.3f * kHudCoinsWidth;
         float iconY = 0.5f * (kHudCoinsHeight - iconSize);
         CGRect iconCoinFrame = CGRectMake(kHudCoinsIconX, iconY, iconSize, iconSize);
         _coinIcon = [[UIImageView alloc] initWithFrame:iconCoinFrame];
-        const unsigned int kNumFrames = 20;
-        unsigned int animFrames[kNumFrames] = {1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 1, 1, 1, 1, 1, 1, 1, 1};
-        NSMutableArray* coinImages = [NSMutableArray arrayWithCapacity:kNumFrames];
-        for(unsigned int i = 0; i < kNumFrames; ++i)
-        {
-            NSString* name = [NSString stringWithFormat:@"coin_00%d.png", animFrames[i]];
-            UIImage* image = [[ImageManager getInstance] getImage:name fallbackNamed:name];
-            [coinImages addObject:image];
-        }
-        [_coinIcon setAnimationImages:coinImages];
-        [_coinIcon setAnimationDuration:1.5f];
+        [[GameAnim getInstance] refreshImageView:_coinIcon withClipNamed:@"coin_shimmer"];
         [_coinIcon startAnimating];
         [self.coins addSubview:_coinIcon];
         

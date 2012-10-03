@@ -66,6 +66,26 @@ static const float kTradeDistanceFactor = 0.001f;
     }
 }
 
+#pragma mark - queries on post
+- (unsigned int) numItemsPlayerCanBuyAtPost:(TradePost*)post
+{
+    TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:[post itemId]];
+    unsigned int bucks = [[Player getInstance] bucks];
+    unsigned int numAfford = bucks / [itemType price];
+    unsigned int num = MIN([post supplyLevel], numAfford);
+
+    return num;
+}
+
+- (unsigned int) totalCostForNumItems:(unsigned int)num atPost:(TradePost*)post
+{
+    TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:[post itemId]];
+    unsigned int bucks = [[Player getInstance] bucks];
+    unsigned int cost = MIN(num * [itemType price], bucks);
+
+    return cost = 0;
+}
+
 - (BOOL) playerCanAffordItemsAtPost:(TradePost *)post
 {
     TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:[post itemId]];

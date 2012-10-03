@@ -15,10 +15,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *nibImageView;
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
 @property (weak, nonatomic) IBOutlet UIButton *buyButton;
-
-@property (nonatomic,strong) UIView* closeView;
-@property (nonatomic,strong) UIView* okView;
-@property (nonatomic,strong) UIView* contentView;
-@property (nonatomic,strong) UIImageView* itemImageView;
+@property (weak, nonatomic) IBOutlet UILabel *itemNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *numItemsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *costLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *coinImageView;
 
 @end

@@ -248,6 +248,13 @@ static const float kSecondsPerMinute = 60.0;
     [[view layer] setBorderColor:[borderColor CGColor]];
 }
 
++ (void) setBorderOnView:(UIView*)view width:(float)borderWidth color:(UIColor*)borderColor cornerRadius:(float)cornerRadius
+{
+    [[view layer] setBorderWidth:borderWidth];
+    [[view layer] setBorderColor:[borderColor CGColor]];
+    [[view layer] setCornerRadius:cornerRadius];
+}
+
 + (void) setCircleShadowOnView:(UIView *)view shadowColor:(UIColor *)shadowColor
 {
     CGRect circleFrame = [view bounds];

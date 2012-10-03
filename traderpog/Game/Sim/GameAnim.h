@@ -10,6 +10,9 @@
 
 @interface GameAnim : NSObject
 
+// returns true if imageview successfully refreshed; otherwise, false
+- (BOOL) refreshImageView:(UIImageView*)imageView withClipNamed:(NSString*)clipName;
+
 // singleton
 +(GameAnim*) getInstance;
 +(void) destroyInstance;
