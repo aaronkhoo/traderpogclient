@@ -23,6 +23,7 @@
 		3889129815D5D8B6009CF624 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 3889129015D5D8B6009CF624 /* unzip.c */; };
 		3889129915D5D8B6009CF624 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 3889129215D5D8B6009CF624 /* zip.c */; };
 		3889129A15D5D8B6009CF624 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 3889129515D5D8B6009CF624 /* SSZipArchive.m */; };
+		38A31CE6161BECC6009FC64A /* PlayerSales.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A31CE5161BECC5009FC64A /* PlayerSales.m */; };
 		38B6DAEF15C85A9D00F37BD9 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 38B6DAE215C85A9D00F37BD9 /* FBDialog.bundle */; };
 		38B6DAF015C85A9D00F37BD9 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38B6DAE815C85A9D00F37BD9 /* libfacebook_ios_sdk.a */; };
 		38BE3BD7160D3CF500758F27 /* LocalyticsDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BE3BD1160D3CF500758F27 /* LocalyticsDatabase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -227,6 +228,8 @@
 		3889129315D5D8B6009CF624 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		3889129415D5D8B6009CF624 /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSZipArchive.h; sourceTree = "<group>"; };
 		3889129515D5D8B6009CF624 /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSZipArchive.m; sourceTree = "<group>"; };
+		38A31CE4161BECC5009FC64A /* PlayerSales.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerSales.h; path = Game/Sim/PlayerSales.h; sourceTree = "<group>"; };
+		38A31CE5161BECC5009FC64A /* PlayerSales.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerSales.m; path = Game/Sim/PlayerSales.m; sourceTree = "<group>"; };
 		38B6DAE015C85A9D00F37BD9 /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
 		38B6DAE115C85A9D00F37BD9 /* FBConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBConnect.h; sourceTree = "<group>"; };
 		38B6DAE215C85A9D00F37BD9 /* FBDialog.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBDialog.bundle; sourceTree = "<group>"; };
@@ -1120,6 +1123,8 @@
 				4254BDF61616CE77008FD41D /* GameEvent.m */,
 				4254BDF11616C527008FD41D /* GameEventMgr.h */,
 				4254BDF21616C527008FD41D /* GameEventMgr.m */,
+				38A31CE4161BECC5009FC64A /* PlayerSales.h */,
+				38A31CE5161BECC5009FC64A /* PlayerSales.m */,
 			);
 			name = Sim;
 			sourceTree = "<group>";
@@ -1376,6 +1381,7 @@
 				4254BDF31616C527008FD41D /* GameEventMgr.m in Sources */,
 				4254BDF71616CE77008FD41D /* GameEvent.m in Sources */,
 				4254BDFE1617490D008FD41D /* GameEventView.m in Sources */,
+				38A31CE6161BECC6009FC64A /* PlayerSales.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
