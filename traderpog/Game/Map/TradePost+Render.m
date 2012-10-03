@@ -23,24 +23,29 @@
 @implementation TradePost (Render)
 - (void) refreshRenderForAnnotationView:(TradePostAnnotationView *)annotationView
 {
+    BOOL showItemBubble = NO;
+    
     // trade post
     if([self isMemberOfClass:[NPCTradePost class]])
     {
         UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
                                                 fallbackNamed:@"b_tradepost.png"];
         [annotationView.imageView setImage:image];
+        showItemBubble = YES;
     }
     else if([self isMemberOfClass:[MyTradePost class]])
     {
         UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
                                                 fallbackNamed:@"b_flyerlab.png"];
         [annotationView.imageView setImage:image];
+        showItemBubble = NO;
     }
     else if([self isMemberOfClass:[ForeignTradePost class]])
     {
         UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
                                                 fallbackNamed:@"b_homebase.png"];
         [annotationView.imageView setImage:image];
+        showItemBubble = YES;
     }
     
     // flyer in front
@@ -92,9 +97,20 @@
         {
             [annotationView.excImageView setHidden:YES];
         }
-        [annotationView.itemBubble setHidden:YES];
+        showItemBubble = NO;
     }
     else
+    {
+        [annotationView.frontImageView setImage:nil];
+        [annotationView.frontImageView setHidden:YES];
+        [annotationView.frontLeftView setImage:nil];
+        [annotationView.frontLeftView setHidden:YES];
+        [annotationView.excImageView setImage:nil];
+        [annotationView.excImageView setHidden:YES];
+        [annotationView.smallLabel setHidden:YES];
+    }
+    
+    if(showItemBubble)
     {
         NSString* itemImagePath = @"checkerboard.png";
         TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:[self itemId]];
@@ -107,15 +123,11 @@
         UIImage* itemImage = [[ImageManager getInstance] getImage:itemImagePath];
         [annotationView.itemBubble.imageView setImage:itemImage];
         [annotationView.itemBubble.itemLabel setText:itemName];
-        [annotationView.itemBubble setHidden:NO];
-        
-        [annotationView.frontImageView setImage:nil];
-        [annotationView.frontImageView setHidden:YES];
-        [annotationView.frontLeftView setImage:nil];
-        [annotationView.frontLeftView setHidden:YES];
-        [annotationView.excImageView setImage:nil];
-        [annotationView.excImageView setHidden:YES];
-        [annotationView.smallLabel setHidden:YES];
+        [annotationView.itemBubble setHidden:NO];        
+    }
+    else
+    {
+        [annotationView.itemBubble setHidden:YES];        
     }
 }
 

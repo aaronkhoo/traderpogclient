@@ -60,7 +60,7 @@ static const float kExclamationYOffset = -0.1f;
         
         // set size of view
         CGRect myFrame = self.frame;
-        myFrame.size = CGSizeMake(50.0f, 50.0f);
+        myFrame.size = CGSizeMake(35.0f, 75.0f);
         self.frame = myFrame;
         
         // offset annotation so that anchor point is about the bottom of the frame

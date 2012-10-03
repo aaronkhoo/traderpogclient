@@ -222,7 +222,7 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
 
 - (void) prescanZoomCenterOn:(CLLocationCoordinate2D)coord modifyMap:(BOOL)modifyMap animated:(BOOL)isAnimated
 {
-    [self zoom:kDefaultZoomLevel-1 centerOn:coord modifyMap:modifyMap animated:isAnimated];
+    [self zoom:kDefaultZoomLevel-2 centerOn:coord modifyMap:modifyMap animated:isAnimated];
 }
 
 - (void) zoom:(NSUInteger) zoomLevel centerOn:(CLLocationCoordinate2D)coord modifyMap:(BOOL)modifyMap animated:(BOOL)isAnimated
