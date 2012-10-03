@@ -19,14 +19,19 @@
 #import "FlyerPath.h"
 #import "FlyerCallout.h"
 #import "GameNotes.h"
+#import "GameColors.h"
 #import "MapControl.h"
+#import "ItemBubble.h"
 #import "PogUIUtility.h"
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
 NSString* const kKeyFlyerAtPost = @"flyerAtPost";
 static const float kSmallLabelHeight = 20.0f;
-static const float kTopImageSize = 40.0f;
-static const float kTopImageYOffset = -0.1f;
+static const float kBubbleSize = 60.0f;
+static const float kBubbleYOffset = -0.2f;
+static const float kBubbleBorderWidth = 2.0f;
+static const float kExclamationSize = 40.0f;
+static const float kExclamationYOffset = -0.1f;
 
 @interface TradePostAnnotationView ()
 {
@@ -40,7 +45,8 @@ static const float kTopImageYOffset = -0.1f;
 @synthesize imageView = _imageView;
 @synthesize frontImageView = _frontImageView;
 @synthesize frontLeftView = _frontLeftView;
-@synthesize topImageView = _topImageView;
+@synthesize excImageView = _excImageView;
+@synthesize itemBubble = _itemBubble;
 @synthesize smallLabel = _smallLabel;
 
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation
@@ -87,14 +93,24 @@ static const float kTopImageYOffset = -0.1f;
         [_frontLeftView setHidden:YES];
         [contentView addSubview:_frontLeftView];
         
-        // create top image (used for alert icon)
-        float topX = (0.5f * (myFrame.size.width - kTopImageSize));
-        float topY = imageRect.origin.y + (kTopImageYOffset * imageRect.size.height);
-        CGRect topRect = CGRectMake(topX, topY, kTopImageSize, kTopImageSize);
-        _topImageView = [[UIImageView alloc] initWithFrame:topRect];
-        [_topImageView setBackgroundColor:[UIColor clearColor]];
-        [_topImageView setHidden:YES];
-        [contentView addSubview:_topImageView];
+        // item bubble
+        float bubbleX = (0.5f * (myFrame.size.width - kBubbleSize));
+        float bubbleY = imageRect.origin.y + (kBubbleYOffset * imageRect.size.height);
+        CGRect bubbleRect = CGRectMake(bubbleX, bubbleY, kBubbleSize, kBubbleSize);
+        _itemBubble = [[ItemBubble alloc] initWithFrame:bubbleRect borderWidth:kBubbleBorderWidth
+                                                  color:[GameColors bubbleColorScanWithAlpha:1.0f]
+                                            borderColor:[GameColors borderColorPostsWithAlpha:1.0f]];
+        [_itemBubble setHidden:YES];
+        [contentView addSubview:_itemBubble];
+        
+        // small-frame for top image view (for exclamation mark)
+        float excX = (0.5f * (myFrame.size.width - kExclamationSize));
+        float excY = imageRect.origin.y + (kExclamationYOffset * imageRect.size.height);
+        CGRect exclamationRect = CGRectMake(excX, excY, kExclamationSize, kExclamationSize);
+        _excImageView = [[UIImageView alloc] initWithFrame:exclamationRect];
+        [_excImageView setBackgroundColor:[UIColor clearColor]];
+        [_excImageView setHidden:YES];
+        [contentView addSubview:_excImageView];
         
         // small text label at bottom
         CGRect smallLabelRect = CGRectMake(imageRect.origin.x, imageRect.origin.y + imageRect.size.height,

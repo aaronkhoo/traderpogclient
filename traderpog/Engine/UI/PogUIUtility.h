@@ -53,4 +53,7 @@ typedef void (^CompletionBlock)(BOOL finished);
 + (float) gaussianFor:(float)x withA:(float)a b:(float)b c:(float)c;
 
 + (NSString*) versionStringForCurConfig;
+
+// ui frame calculation utilities
++ (CGRect) createCenterFrameWithSize:(CGSize)size inFrame:(CGRect)targetFrame;
 @end

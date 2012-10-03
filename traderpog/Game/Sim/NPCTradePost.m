@@ -25,7 +25,8 @@
     if(self)
     {
         NSArray* itemTypes = [[TradeItemTypes getInstance] getItemTypesForTier:kTradeItemTierMin];
-        int randItemIndex = RandomWithinRange(0, [itemTypes count]-1);
+        int indexMax = MAX(1, [itemTypes count]);
+        int randItemIndex = arc4random() % indexMax;
         TradeItemType* itemType = [itemTypes objectAtIndex:randItemIndex];
         unsigned int supply = [self generateSupplyLevel:itemType playerBucks:bucks];
         

@@ -19,6 +19,29 @@ static NSString* const kKeySupplyRate = @"supplyrate";
 static NSString* const kKeyMultiplier = @"multiplier";
 static NSString* const kKeyTier = @"tier";
 
+// HACK
+// image names need to come from server DB
+static const unsigned int kHackNumImageNames = 9;
+static NSString* const kItemImageNames[kHackNumImageNames] =
+{
+    // tier 1
+    @"item_grain.png",
+    @"item_rice.png",
+    @"item_eggs.png",
+    
+    // tier 2
+    @"item_flour.png",
+    @"item_milk.png",
+    @"item_apple.png",
+    
+    // tier 3
+    @"item_cake.png",
+    @"item_corn.png",
+    @"item_pie.png"
+};
+
+// HACK
+
 @implementation TradeItemType
 @synthesize itemId = _itemId;
 @synthesize name = _name;
@@ -28,6 +51,23 @@ static NSString* const kKeyTier = @"tier";
 @synthesize supplyrate = _supplyrate;
 @synthesize multiplier = _multiplier;
 @synthesize tier = _tier;
+
+// HACK
+- (NSString* const) hackGetImgPathForItemId:(NSString*)itemId
+{
+    NSInteger itemIndex = [itemId integerValue] - 1;
+    if(0 > itemIndex)
+    {
+        itemIndex = 0;
+    }
+    else if(kHackNumImageNames <= itemIndex)
+    {
+        itemIndex = kHackNumImageNames - 1;
+    }
+    
+    return kItemImageNames[itemIndex];
+}
+// HACK
 
 - (id) initWithDictionary:(NSDictionary*)dict
 {
@@ -42,6 +82,10 @@ static NSString* const kKeyTier = @"tier";
         _supplyrate =[[dict valueForKeyPath:kKeySupplyRate] integerValue];
         _multiplier =[[dict valueForKeyPath:kKeyMultiplier] integerValue];
         _tier = [[dict valueForKeyPath:kKeyTier] integerValue];
+        
+        // HACK (should come from dictionary)
+        _imgPath = [self hackGetImgPathForItemId:_itemId];
+        // HACK
     }
     return self;
 }
@@ -71,6 +115,11 @@ static NSString* const kKeyTier = @"tier";
     _supplyrate = [[aDecoder decodeObjectForKey:kKeySupplyRate] integerValue];
     _multiplier = [[aDecoder decodeObjectForKey:kKeyMultiplier] integerValue];
     _tier = [[aDecoder decodeObjectForKey:kKeyTier] integerValue];
+    
+    // HACK (should come from dictionary)
+    _imgPath = [self hackGetImgPathForItemId:_itemId];
+    // HACK
+    
     return self;
 }
 

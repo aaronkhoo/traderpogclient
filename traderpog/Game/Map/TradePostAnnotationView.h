@@ -14,18 +14,21 @@ extern NSString* const kKeyFlyerAtPost;
 
 @class TradePostAnnotation;
 @class Flyer;
+@class ItemBubble;
 @interface TradePostAnnotationView : MKAnnotationView<MapAnnotationViewProtocol>
 {
     UIImageView* _imageView;
     UIImageView* _frontImageView;
     UIImageView* _frontLeftView;
-    UIImageView* _topImageView;
+    UIImageView* _excImageView;
+    ItemBubble*  _itemBubble;
     UILabel*     _smallLabel;
 }
 @property (nonatomic,strong) UIImageView* imageView;
 @property (nonatomic,strong) UIImageView* frontImageView;
 @property (nonatomic,strong) UIImageView* frontLeftView;
-@property (nonatomic,strong) UIImageView* topImageView;
+@property (nonatomic,strong) UIImageView* excImageView;
+@property (nonatomic,strong) ItemBubble* itemBubble;
 @property (nonatomic,strong) UILabel* smallLabel;
 
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation;

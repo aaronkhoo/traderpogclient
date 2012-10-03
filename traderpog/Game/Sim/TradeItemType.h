@@ -22,6 +22,7 @@
     NSInteger _supplyrate;
     NSInteger _multiplier;
     NSInteger _tier;
+    NSString* _imgPath;
 }
 @property (nonatomic,strong) NSString* itemId;
 @property (nonatomic,strong) NSString* name;
@@ -31,6 +32,7 @@
 @property (nonatomic) NSInteger supplyrate;
 @property (nonatomic) NSInteger multiplier;
 @property (nonatomic) NSInteger tier;
+@property (nonatomic,strong) NSString* imgPath;
 
 - (id) initWithDictionary:(NSDictionary*)dict;
 

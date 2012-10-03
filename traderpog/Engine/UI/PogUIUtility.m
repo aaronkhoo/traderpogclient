@@ -386,4 +386,12 @@ static const float kFadeAlertHeight = 40.0f;
 #endif
 }
 
+#pragma mark - ui frame calculations
++ (CGRect) createCenterFrameWithSize:(CGSize)size inFrame:(CGRect)targetFrame
+{
+    float originX = targetFrame.origin.x + (0.5f * (targetFrame.size.width - size.width));
+    float originY = targetFrame.origin.y + (0.5f * (targetFrame.size.height - size.height));
+    return CGRectMake(originX, originY, size.width, size.height);
+}
+
 @end
