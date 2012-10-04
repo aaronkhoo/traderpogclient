@@ -43,6 +43,9 @@ static const float kBrowsePanSnapDuration = 0.2f;
 {
     if(UIGestureRecognizerStateBegan == [gestureRecognizer state])
     {
+        // deselect all annotations when gesture begins to clear the map of any
+        // callouts and modals
+        [self.map deselectAllAnnotations];
     }
     else if(UIGestureRecognizerStateChanged == [gestureRecognizer state])
     {

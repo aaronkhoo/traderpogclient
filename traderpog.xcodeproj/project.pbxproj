@@ -79,7 +79,6 @@
 		4277385215D3A5CE004DCC13 /* BeaconMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385115D3A5CE004DCC13 /* BeaconMgr.m */; };
 		4277D994160C5908008AD767 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4277D993160C5908008AD767 /* Default-568h@2x.png */; };
 		428839BF15FB240A00CA4FDC /* icon_yun.png in Resources */ = {isa = PBXBuildFile; fileRef = 428839BE15FB240A00CA4FDC /* icon_yun.png */; };
-		4290AB0B15EF2099001FAF0B /* BrowsePan.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0A15EF2099001FAF0B /* BrowsePan.m */; };
 		4290AB0F15EF3D06001FAF0B /* BrowsePinch.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0E15EF3D06001FAF0B /* BrowsePinch.m */; };
 		429A31D415F041DF00069CC7 /* CalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 429A31D315F041DF00069CC7 /* CalloutView.m */; };
 		429B154815F5CFAF00107D5F /* bubble_postmark_g.png in Resources */ = {isa = PBXBuildFile; fileRef = 429B154715F5CFAF00107D5F /* bubble_postmark_g.png */; };
@@ -89,6 +88,7 @@
 		42B28E2F15E99E5A0008901C /* NSArray+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B28E2E15E99E5A0008901C /* NSArray+Pog.m */; };
 		42B28E3215EA39620008901C /* b_homebase.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B28E3015EA39620008901C /* b_homebase.png */; };
 		42B28E3315EA39620008901C /* b_tradepost.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B28E3115EA39620008901C /* b_tradepost.png */; };
+		42B63918161E44E6006ADD62 /* MapGestureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B63917161E44E6006ADD62 /* MapGestureHandler.m */; };
 		42C766B31607900900D21354 /* LoadingTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C766B11607900900D21354 /* LoadingTransition.m */; };
 		42C766B41607900900D21354 /* LoadingTransition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C766B21607900900D21354 /* LoadingTransition.xib */; };
 		42CEEC681603066400AED5ED /* flyer.png in Resources */ = {isa = PBXBuildFile; fileRef = 42CEEC671603066400AED5ED /* flyer.png */; };
@@ -366,8 +366,6 @@
 		4277385115D3A5CE004DCC13 /* BeaconMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeaconMgr.m; path = Game/Sim/BeaconMgr.m; sourceTree = "<group>"; };
 		4277D993160C5908008AD767 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		428839BE15FB240A00CA4FDC /* icon_yun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_yun.png; path = assets/UI/icon_yun.png; sourceTree = SOURCE_ROOT; };
-		4290AB0915EF2099001FAF0B /* BrowsePan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrowsePan.h; path = Game/Map/BrowsePan.h; sourceTree = "<group>"; };
-		4290AB0A15EF2099001FAF0B /* BrowsePan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrowsePan.m; path = Game/Map/BrowsePan.m; sourceTree = "<group>"; };
 		4290AB0D15EF3D06001FAF0B /* BrowsePinch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrowsePinch.h; path = Game/Map/BrowsePinch.h; sourceTree = "<group>"; };
 		4290AB0E15EF3D06001FAF0B /* BrowsePinch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrowsePinch.m; path = Game/Map/BrowsePinch.m; sourceTree = "<group>"; };
 		429A31D215F041DF00069CC7 /* CalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalloutView.h; path = Map/CalloutView.h; sourceTree = "<group>"; };
@@ -384,6 +382,8 @@
 		42B28E2E15E99E5A0008901C /* NSArray+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Pog.m"; path = "traderpog/Engine/Sim/NSArray+Pog.m"; sourceTree = SOURCE_ROOT; };
 		42B28E3015EA39620008901C /* b_homebase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = b_homebase.png; path = assets/Map/b_homebase.png; sourceTree = SOURCE_ROOT; };
 		42B28E3115EA39620008901C /* b_tradepost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = b_tradepost.png; path = assets/Map/b_tradepost.png; sourceTree = SOURCE_ROOT; };
+		42B63916161E44E6006ADD62 /* MapGestureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapGestureHandler.h; path = Game/Map/MapGestureHandler.h; sourceTree = "<group>"; };
+		42B63917161E44E6006ADD62 /* MapGestureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapGestureHandler.m; path = Game/Map/MapGestureHandler.m; sourceTree = "<group>"; };
 		42C766B01607900900D21354 /* LoadingTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingTransition.h; sourceTree = "<group>"; };
 		42C766B11607900900D21354 /* LoadingTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingTransition.m; sourceTree = "<group>"; };
 		42C766B21607900900D21354 /* LoadingTransition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingTransition.xib; sourceTree = "<group>"; };
@@ -938,8 +938,8 @@
 			children = (
 				42FEF1AC161CC60100E7EB4E /* ItemBubble.h */,
 				42FEF1AD161CC60100E7EB4E /* ItemBubble.m */,
-				4290AB0915EF2099001FAF0B /* BrowsePan.h */,
-				4290AB0A15EF2099001FAF0B /* BrowsePan.m */,
+				42B63916161E44E6006ADD62 /* MapGestureHandler.h */,
+				42B63917161E44E6006ADD62 /* MapGestureHandler.m */,
 				4290AB0D15EF3D06001FAF0B /* BrowsePinch.h */,
 				4290AB0E15EF3D06001FAF0B /* BrowsePinch.m */,
 				4245A07916005C9600AB14EB /* TradePost+Render.h */,
@@ -1443,7 +1443,6 @@
 				42B28E2F15E99E5A0008901C /* NSArray+Pog.m in Sources */,
 				38D7371E15ED7290001CD3AE /* AsyncHttpCall.m in Sources */,
 				38D7372215ED7DC6001CD3AE /* AsyncHttpCallMgr.m in Sources */,
-				4290AB0B15EF2099001FAF0B /* BrowsePan.m in Sources */,
 				4290AB0F15EF3D06001FAF0B /* BrowsePinch.m in Sources */,
 				429A31D415F041DF00069CC7 /* CalloutView.m in Sources */,
 				38821ECF15F18DBD004733E2 /* NPCTradePost.m in Sources */,
@@ -1485,6 +1484,7 @@
 				38A31CF5161CDE1D009FC64A /* SingleLeaderboard.m in Sources */,
 				38A31D03161D0A70009FC64A /* LeaderboardRowCell.m in Sources */,
 				4261EC8F161E1847000642B6 /* ViewReuseQueue.m in Sources */,
+				42B63918161E44E6006ADD62 /* MapGestureHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

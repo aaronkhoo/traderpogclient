@@ -19,6 +19,7 @@
 #import "FlyerAnnotationView.h"
 #import "MKMapView+Pog.h"
 #import "BrowsePinch.h"
+#import "MapGestureHandler.h"
 #import "PlayerPostCalloutView.h"
 
 const NSUInteger kDefaultZoomLevel = 15;
@@ -36,6 +37,9 @@ static const float kBrowseAreaRadius = 500.0f;
     BOOL _regionSetFromCode;
     UIPinchGestureRecognizer* _pinchRecognizer;
     BrowsePinch* _pinchHandler;
+    
+    MapGestureHandler* _gestureHandler;
+    UIPanGestureRecognizer* _panRecognizer;
 }
 @property (nonatomic,strong) BrowseArea* browseArea;
 @property (nonatomic) BOOL regionSetFromCode;
@@ -83,6 +87,11 @@ static const float kBrowseAreaRadius = 500.0f;
     self.pinchRecognizer.delegate = [self pinchHandler];
     [self.view addGestureRecognizer:[self pinchRecognizer]];
     
+    _gestureHandler = [[MapGestureHandler alloc] initWithMap:self];
+    _panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:_gestureHandler action:@selector(handlePanGesture:)];
+    _panRecognizer.delegate = _gestureHandler;
+    [self.view addGestureRecognizer:_panRecognizer];
+    
     self.trackedAnnotation = nil;
 }
 
@@ -117,6 +126,7 @@ static const float kBrowseAreaRadius = 500.0f;
 {
     [self stopTrackingAnnotation];
     [self.view removeGestureRecognizer:[self pinchRecognizer]];
+    [self.view removeGestureRecognizer:_panRecognizer];
 }
 
 - (void) addAnnotationForTradePost:(TradePost *)tradePost
