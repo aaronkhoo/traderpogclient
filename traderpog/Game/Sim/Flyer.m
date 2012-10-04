@@ -26,8 +26,6 @@
 #import "DebugOptions.h"
 #import "GameEventMgr.h"
 
-#import "TradePostEx.h"
-
 static const float kFlyerDefaultSpeedMetersPerSec = 10000.0f;
 static NSString* const kKeyUserFlyerId = @"id";
 static NSString* const kKeyFlyerId = @"flyer_info_id";
@@ -259,30 +257,12 @@ static NSString* const kKeyStateBegin = @"stateBegin";
         // an NPC post that isn't stored on the server.
         TradePost* post = [[TradePostMgr getInstance] getTradePostWithId:[_path curPostId]];
         _path.srcCoord = [post coord];
-        /*
-        if([post isMemberOfClass:[MyTradePost class]])
-        {
-            TradePostEx* postEx = [[TradePostEx alloc] init];
-            postEx.coord = post.coord;
-            [[[[GameManager getInstance] gameViewController] mapControl].view addAnnotation:postEx];
-            post.tradePostEx = postEx;
-        }
-         */
     }
     if ([_path nextPostId])
     {
         // Same as above
         TradePost* post = [[TradePostMgr getInstance] getTradePostWithId:[_path nextPostId]];
         _path.destCoord = [post coord];
-        /*
-        if([post isMemberOfClass:[MyTradePost class]])
-        {
-            TradePostEx* postEx = [[TradePostEx alloc] init];
-            postEx.coord = post.coord;
-            [[[[GameManager getInstance] gameViewController] mapControl].view addAnnotation:postEx];
-            post.tradePostEx = postEx;
-        }
-         */
     }
     
     self.flightPathRender = [[FlightPathOverlay alloc] initWithSrcCoord:[_path srcCoord] destCoord:[_path destCoord]];
