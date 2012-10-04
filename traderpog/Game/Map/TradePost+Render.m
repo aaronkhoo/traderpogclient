@@ -108,7 +108,7 @@
         [annotationView.smallLabel setHidden:YES];
     }
     
-    if(showItemBubble)
+    if(showItemBubble && [self supplyLevel])
     {
         NSString* itemImagePath = @"checkerboard.png";
         TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:[self itemId]];
