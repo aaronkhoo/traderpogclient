@@ -75,6 +75,7 @@
 		4254BE0C161817AF008FD41D /* icon_alert_flyer.png in Resources */ = {isa = PBXBuildFile; fileRef = 4254BE09161817AE008FD41D /* icon_alert_flyer.png */; };
 		4254BE0D161817AF008FD41D /* icon_alert_post.png in Resources */ = {isa = PBXBuildFile; fileRef = 4254BE0A161817AE008FD41D /* icon_alert_post.png */; };
 		4254BE0E161817AF008FD41D /* x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4254BE0B161817AF008FD41D /* x.png */; };
+		4261EC8F161E1847000642B6 /* ViewReuseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261EC8E161E1847000642B6 /* ViewReuseQueue.m */; };
 		4277385215D3A5CE004DCC13 /* BeaconMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385115D3A5CE004DCC13 /* BeaconMgr.m */; };
 		4277D994160C5908008AD767 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4277D993160C5908008AD767 /* Default-568h@2x.png */; };
 		428839BF15FB240A00CA4FDC /* icon_yun.png in Resources */ = {isa = PBXBuildFile; fileRef = 428839BE15FB240A00CA4FDC /* icon_yun.png */; };
@@ -358,6 +359,9 @@
 		4254BE09161817AE008FD41D /* icon_alert_flyer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_alert_flyer.png; path = assets/UI/icon_alert_flyer.png; sourceTree = SOURCE_ROOT; };
 		4254BE0A161817AE008FD41D /* icon_alert_post.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_alert_post.png; path = assets/UI/icon_alert_post.png; sourceTree = SOURCE_ROOT; };
 		4254BE0B161817AF008FD41D /* x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = x.png; path = assets/UI/x.png; sourceTree = SOURCE_ROOT; };
+		4261EC8D161E1847000642B6 /* ViewReuseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewReuseQueue.h; sourceTree = "<group>"; };
+		4261EC8E161E1847000642B6 /* ViewReuseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewReuseQueue.m; sourceTree = "<group>"; };
+		4261EC90161E1855000642B6 /* ViewReuseDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewReuseDelegate.h; sourceTree = "<group>"; };
 		4277385015D3A5CE004DCC13 /* BeaconMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BeaconMgr.h; path = Game/Sim/BeaconMgr.h; sourceTree = "<group>"; };
 		4277385115D3A5CE004DCC13 /* BeaconMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeaconMgr.m; path = Game/Sim/BeaconMgr.m; sourceTree = "<group>"; };
 		4277D993160C5908008AD767 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -1138,6 +1142,9 @@
 				42FA1A5315F522FE00EB2433 /* CircleBarView.m */,
 				4216380315F95D00002E6FD5 /* Clockface.h */,
 				4216380415F95D00002E6FD5 /* Clockface.m */,
+				4261EC8D161E1847000642B6 /* ViewReuseQueue.h */,
+				4261EC8E161E1847000642B6 /* ViewReuseQueue.m */,
+				4261EC90161E1855000642B6 /* ViewReuseDelegate.h */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1477,6 +1484,7 @@
 				42FEF1AE161CC60100E7EB4E /* ItemBubble.m in Sources */,
 				38A31CF5161CDE1D009FC64A /* SingleLeaderboard.m in Sources */,
 				38A31D03161D0A70009FC64A /* LeaderboardRowCell.m in Sources */,
+				4261EC8F161E1847000642B6 /* ViewReuseQueue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

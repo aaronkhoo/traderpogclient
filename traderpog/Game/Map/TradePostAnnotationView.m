@@ -38,7 +38,6 @@ static const float kExclamationYOffset = -0.1f;
 @interface TradePostAnnotationView ()
 {
     NSObject<MKAnnotation,MapAnnotationProtocol>* _calloutAnnotation;
-    ItemBuyView* _buyView;
 }
 - (void) handleFlyerStateChanged:(NSNotification*)note;
 - (void) handleFlyerLoadTimerChanged:(NSNotification*)note;
@@ -226,35 +225,25 @@ static const float kExclamationYOffset = -0.1f;
 static const float kBuyViewYOffset = -80.0f;
 - (void) showBuyViewInMap:(MKMapView*)mapView forPost:(TradePost*)tradePost
 {
-    if(!_buyView)
+    GameViewController* controller = [[GameManager getInstance] gameViewController];
+    ItemBuyView* buyView = (ItemBuyView*)[controller dequeueModalViewWithIdentifier:kItemBuyViewReuseIdentifier];
+    if(!buyView)
     {
         UIView* parent = [mapView superview];
-        _buyView = [[ItemBuyView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0.0f, 0.0f)];
-        CGRect buyFrame = [PogUIUtility createCenterFrameWithSize:_buyView.nibContentView.bounds.size
+        buyView = [[ItemBuyView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0.0f, 0.0f)];
+        CGRect buyFrame = [PogUIUtility createCenterFrameWithSize:buyView.nibContentView.bounds.size
                                                           inFrame:parent.bounds
-                                                    withFrameSize:_buyView.nibView.bounds.size];
+                                                    withFrameSize:buyView.nibView.bounds.size];
         buyFrame.origin.y += kBuyViewYOffset;
-        [_buyView setFrame:buyFrame];
-        [parent addSubview:_buyView];
+        [buyView setFrame:buyFrame];
     }
-    
-    // setup actions
-    [_buyView.buyButton addTarget:self action:@selector(handleBuyOk:) forControlEvents:UIControlEventTouchUpInside];
-    [_buyView.closeButton addTarget:self action:@selector(handleBuyClose:) forControlEvents:UIControlEventTouchUpInside];
+    [buyView addButtonTarget:self];
     
     // trade item info
-    [tradePost refreshRenderForItemBuyView:_buyView];
-}
+    [tradePost refreshRenderForItemBuyView:buyView];
 
-- (void) dismissBuyView
-{
-    if(_buyView)
-    {
-        [_buyView.buyButton removeTarget:self action:@selector(handleBuyOk:) forControlEvents:UIControlEventTouchUpInside];
-        [_buyView.closeButton removeTarget:self action:@selector(handleBuyClose:) forControlEvents:UIControlEventTouchUpInside];
-        [_buyView removeFromSuperview];
-        _buyView = nil;
-    }
+    // show it
+    [controller showModalView:buyView animated:YES];
 }
 
 - (void) handleBuyClose:(id)sender
@@ -395,7 +384,7 @@ static const float kBuyViewYOffset = -80.0f;
 
 - (void)didDeselectAnnotationViewInMap:(MKMapView*) mapView;
 {
-    [self dismissBuyView];
+    [[[GameManager getInstance] gameViewController] hideModalViewAnimated:YES];
     if(_calloutAnnotation)
     {
         if([_calloutAnnotation isMemberOfClass:[PlayerPostCallout class]])

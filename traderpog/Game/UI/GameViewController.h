@@ -14,10 +14,15 @@
 
 @class MKMapView;
 @class MapControl;
+@class ViewReuseQueue;
 @interface GameViewController : UIViewController<KnobProtocol, GADBannerViewDelegate>
 {
     MapControl* _mapControl;
     GADBannerView* _bannerView;
+    
+    // game reusable views
+    ViewReuseQueue* _reusableModals;
+    UIView* _modalView;
 }
 @property (nonatomic, strong) MapControl* mapControl;
 @property (nonatomic) CLLocationCoordinate2D coord;
@@ -27,6 +32,8 @@
 
 - (id) init;
 - (id) initAtCoordinate:(CLLocationCoordinate2D)coord;
+
+// knob and wheel
 - (void) showKnobAnimated:(BOOL)isAnimated delay:(NSTimeInterval)delay;
 - (void) dismissKnobAnimated:(BOOL)isAnimated;
 - (void) showPostWheelAnimated:(BOOL)isAnimated;
@@ -35,6 +42,12 @@
 - (IBAction)didPressDebug:(id)sender;
 - (void) dismissActiveWheelAnimated:(BOOL)isAnimated;
 
+// modal ui
+- (UIView*) dequeueModalViewWithIdentifier:(NSString*)identifier;
+- (void) showModalView:(UIView*)view animated:(BOOL)isAnimated;
+- (void) hideModalViewAnimated:(BOOL)isAnimated;
+
+// game-state driven display update
 - (BOOL) isHeldHudCoinsUpdate;
 - (void) setHoldHudCoinsUpdate:(BOOL)shouldHold;
 @end

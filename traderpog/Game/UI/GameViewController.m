@@ -32,6 +32,7 @@
 #import "GameEventView.h"
 #import "GameEventMgr.h"
 #import "GameManager.h"
+#import "ViewReuseQueue.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -121,6 +122,7 @@ enum kKnobSlices
     self = [super initWithNibName:@"GameViewController" bundle:nil];
     if (self)
     {
+        _reusableModals = [[ViewReuseQueue alloc] init];
         [self storeOriginalYPositions];
     }
     return self;
@@ -134,6 +136,7 @@ enum kKnobSlices
         _initCoord = coord;
         _mapControl = nil;
         _trackedFlyer = nil;
+        _reusableModals = [[ViewReuseQueue alloc] init];
         
         [self storeOriginalYPositions];
     }
@@ -191,7 +194,7 @@ enum kKnobSlices
                                                  name:kGameNoteCoinsChanged
                                                object:[Player getInstance]];
 
-    
+    _modalView = nil;
     [self startDisplayLink];
 }
 
@@ -207,6 +210,8 @@ enum kKnobSlices
     
     // unload game anim
     [GameAnim destroyInstance];
+    _modalView = nil;
+    [_reusableModals clearQueue];
     
     [self setVersionLabel:nil];
     [super viewDidUnload];
@@ -589,6 +594,43 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
         }
     }
     _gameEventDisplayBegin = nil;
+}
+
+- (UIView*) dequeueModalViewWithIdentifier:(NSString *)identifier
+{
+    UIView* result = [_reusableModals dequeueReusableViewWithIdentifier:identifier];
+    return result;
+}
+
+- (UIView*) modalView
+{
+    if(_modalView)
+    {
+        UIView<ViewReuseDelegate>* cur = (UIView<ViewReuseDelegate>*)_modalView;
+        [cur prepareForQueue];        
+    }
+    return _modalView;
+}
+
+- (void) showModalView:(UIView<ViewReuseDelegate>*)view animated:(BOOL)isAnimated
+{
+    _modalView = view;
+    [self.view addSubview:view];
+    [self dismissKnobAnimated:YES];
+}
+
+- (void) hideModalViewAnimated:(BOOL)isAnimated
+{
+    if(_modalView)
+    {
+        [_modalView removeFromSuperview];
+        [self showKnobAnimated:YES delay:0.2f];
+        
+        UIView<ViewReuseDelegate>* cur = (UIView<ViewReuseDelegate>*)_modalView;
+        [cur prepareForQueue];
+        [_reusableModals queueView:cur];
+        _modalView = nil;
+    }
 }
 
 #pragma mark - KnobProtocol
