@@ -11,6 +11,7 @@
 #import "TradePostMgr.h"
 #import "TradePostAnnotationView.h"
 #import "GameNotes.h"
+#import "GameManager.h"
 
 @interface TradePost()
 {
@@ -26,7 +27,6 @@
 @synthesize imgPath = _imgPath;
 @synthesize supplyMaxLevel = _supplyMaxLevel;
 @synthesize beacontime = _beacontime;
-@synthesize flyerAtPost = _flyerAtPost;
 @synthesize delegate = _delegate;
 @synthesize creationDate = _creationDate;
 @synthesize flyerAtPostObserver = _flyerAtPostObserver;
@@ -123,6 +123,19 @@
     _coord = coord;
 }
 
+- (Flyer*) flyerAtPost
+{
+    return _flyerAtPost;
+}
+
+- (void) setFlyerAtPost:(Flyer *)flyerAtPost
+{
+    _flyerAtPost = flyerAtPost;
+    // HACK (force refresh MyTradePost; for some reason, MyTradePost
+    // fails to redraw regardless of any changes on its annotation-view unless forced)
+    [[GameManager getInstance] reAddOnMapIfMyPost:self];
+    // HACK
+}
 
 #pragma mark - MKAnnotation delegate
 - (CLLocationCoordinate2D) coordinate

@@ -26,10 +26,13 @@ extern const NSUInteger kNoCalloutZoomLevel;
 - (NSUInteger) zoomLevel;
 - (BOOL) isZoomEnabled;
 
+// creation
 - (id) initWithMapView:(MKMapView*)mapView andCenter:(CLLocationCoordinate2D)initCoord;
 - (id) initWithMapView:(MKMapView*)mapView
              andCenter:(CLLocationCoordinate2D)initCoord
            atZoomLevel:(unsigned int)zoomLevel;
+
+// setters
 - (void) addAnnotationForTradePost:(TradePost*)tradePost;
 - (void) addAnnotationForFlyer:(Flyer*)flyer;
 - (void) addAnnotation:(NSObject<MKAnnotation>*)annotation;
@@ -45,6 +48,7 @@ extern const NSUInteger kNoCalloutZoomLevel;
 - (void) startTrackingAnnotation:(NSObject<MKAnnotation>*)annotation;
 - (void) stopTrackingAnnotation;
 - (void) centerOnFlyer:(Flyer*)flyer animated:(BOOL)isAnimated;
+- (void) forceRefreshAnnotationForTradePost:(TradePost*)tradePost;
 
 // deselect given annotation if it is selected;
 - (void) deselectAnnotation:(NSObject<MKAnnotation>*)annotation animated:(BOOL)animated;

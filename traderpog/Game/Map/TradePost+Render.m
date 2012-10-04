@@ -40,7 +40,7 @@
         UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
                                                 fallbackNamed:@"b_flyerlab.png"];
         [annotationView.imageView setImage:image];
-        showItemBubble = NO;
+        showItemBubble = YES;
     }
     else if([self isMemberOfClass:[ForeignTradePost class]])
     {

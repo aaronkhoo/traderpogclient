@@ -341,6 +341,13 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
     }
 }
 
+- (void) forceRefreshAnnotationForTradePost:(TradePost *)tradePost
+{
+    // remove and re-add to force a redraw
+    // this seems to be the only reliable way that works
+    [self.view removeAnnotation:tradePost];
+    [self addAnnotationForTradePost:tradePost];
+}
 
 #pragma mark MKMapViewDelegate
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control

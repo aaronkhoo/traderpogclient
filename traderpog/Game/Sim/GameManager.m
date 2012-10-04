@@ -422,11 +422,9 @@ typedef enum {
 {
     // first check the view on the stack, if the top view is not LoadingScreen,
     // then push that onto the stack
-    NSLog(@"push 1");
     UIViewController* current = [nav visibleViewController];
     if(![current isMemberOfClass:[LoadingScreen class]])
     {
-        NSLog(@"push 2");
         LoadingTransition* transition = [[LoadingTransition alloc] initWithNibName:@"LoadingTransition" bundle:nil];
         [nav pushFadeInViewController:transition animated:YES];
         current = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
@@ -809,6 +807,14 @@ typedef enum {
     pthread_rwlock_unlock(&_browseEnforcedLock);
     
     return result;
+}
+
+- (void) reAddOnMapIfMyPost:(TradePost *)tradePost
+{
+    if([tradePost isMemberOfClass:[MyTradePost class]])
+    {
+        [self.gameViewController.mapControl forceRefreshAnnotationForTradePost:tradePost];
+    }
 }
 
 #pragma mark - HttpCallbackDelegate
