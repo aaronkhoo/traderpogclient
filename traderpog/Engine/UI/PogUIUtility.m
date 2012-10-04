@@ -385,7 +385,7 @@ static const float kFadeAlertHeight = 40.0f;
 {
 #if DEBUG
     // if running from xcode, show "github" as version label
-    return @"ngb2";
+    return @"c4526a0";
 #else
     // version string
     NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
