@@ -12,10 +12,14 @@
 #import "LeaderboardRow.h"
 #import "LeaderboardsScreen.h"
 #import "Player.h"
+#import "SingleLeaderboard.h"
 
 @implementation LeaderboardsScreen
 @synthesize spinner;
-@synthesize leaderboard;
+@synthesize bucksButton;
+@synthesize totalButton;
+@synthesize furthestButton;
+@synthesize postsVisitedButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,7 +46,9 @@
     }
     else
     {
-        [self updateLeaderboardUI];
+        [spinner stopAnimating];
+        spinner.hidden = TRUE;
+        [self enableButtons];
     }
 }
 
@@ -56,39 +62,44 @@
     [self.navigationController popToRightViewControllerAnimated:YES];
 }
 
+- (IBAction)didPressBucks:(id)sender
+{
+    SingleLeaderboard* leaderboard = [[SingleLeaderboard alloc] initWithNibNameAndIndex:@"SingleLeaderboard" bundle:nil index:0];
+    [self.navigationController pushFromRightViewController:leaderboard animated:YES];
+}
+
+- (IBAction)didPressTotalDistance:(id)sender
+{
+    SingleLeaderboard* leaderboard = [[SingleLeaderboard alloc] initWithNibNameAndIndex:@"SingleLeaderboard" bundle:nil index:1];
+    [self.navigationController pushFromRightViewController:leaderboard animated:YES];
+}
+
+- (IBAction)didPressFurthestDistance:(id)sender
+{
+    SingleLeaderboard* leaderboard = [[SingleLeaderboard alloc] initWithNibNameAndIndex:@"SingleLeaderboard" bundle:nil index:2];
+    [self.navigationController pushFromRightViewController:leaderboard animated:YES];
+}
+
+- (IBAction)didPressPostsVisited:(id)sender
+{
+    SingleLeaderboard* leaderboard = [[SingleLeaderboard alloc] initWithNibNameAndIndex:@"SingleLeaderboard" bundle:nil index:3];
+    [self.navigationController pushFromRightViewController:leaderboard animated:YES];
+}
+
 - (void)updateLeaderboardUI
 {
     [spinner stopAnimating];
     spinner.hidden = TRUE;
     
-    leaderboard.numberOfLines = 0;
-    
-    // Just display one leaderboard for now
-    Leaderboard* current_lb = [[[LeaderboardMgr getInstance] leaderboards] objectAtIndex:0];
-    
-    // Set up conversion of RFC 3339 time format
-    NSDateFormatter *dateformat = [[NSDateFormatter alloc] init];
-    NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
-    
-    [dateformat setLocale:enUSPOSIXLocale];
-    [dateformat setDateFormat:@"yyyy'-'MM'-'dd' GMT"];
-    [dateformat setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-    
-    // Convert the RFC 3339 date time string to an NSDate.
-    NSString* week_of_text = [dateformat stringFromDate:[current_lb week_of]];
-    
-    NSString* label_text = [NSString stringWithFormat:@"%@\rWeek of: %@\r",
-                            [current_lb lbName],
-                            week_of_text];
-    
-    NSUInteger index = 1;
-    for (LeaderboardRow* current_row in [current_lb lbRows])
-    {
-        NSString* row_in_text = [NSString stringWithFormat:@"%d. %@ %d\r", index, [current_row fbname], [current_row lbValue]];
-        label_text = [label_text stringByAppendingString:row_in_text];
-        index++;
-    }
-    leaderboard.text = label_text;
+    [self enableButtons];
+}
+
+- (void) enableButtons
+{
+    self.bucksButton.enabled = TRUE;
+    self.totalButton.enabled = TRUE;
+    self.furthestButton.enabled = TRUE;
+    self.postsVisitedButton.enabled = TRUE;
 }
 
 #pragma mark - HttpCallbackDelegate
@@ -102,7 +113,7 @@
     {
         [spinner stopAnimating];
         spinner.hidden = TRUE;
-        leaderboard.text = @"Leaderboards current unavailable";
+        //leaderboard.text = @"Leaderboards current unavailable";
     }
 }
 
