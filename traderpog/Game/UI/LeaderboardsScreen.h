@@ -11,6 +11,9 @@
 
 @interface LeaderboardsScreen : UIViewController<HttpCallbackDelegate>
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
-@property (weak, nonatomic) IBOutlet UILabel *leaderboard;
+@property (weak, nonatomic) IBOutlet UIButton *bucksButton;
+@property (weak, nonatomic) IBOutlet UIButton *totalButton;
+@property (weak, nonatomic) IBOutlet UIButton *furthestButton;
+@property (weak, nonatomic) IBOutlet UIButton *postsVisitedButton;
 
 @end

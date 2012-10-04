@@ -68,6 +68,7 @@ static const float kPostTribute = 0.02;
 @synthesize facebook = _facebook;
 @synthesize lastKnownLocationValid = _lastKnownLocationValid;
 @synthesize lastKnownLocation = _lastKnownLocation;
+@synthesize fbname = _fbname;
 
 - (id) init
 {

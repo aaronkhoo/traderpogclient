@@ -54,6 +54,7 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
 @property (nonatomic, retain) Facebook *facebook;
 @property (nonatomic) BOOL lastKnownLocationValid;
 @property (nonatomic) CLLocationCoordinate2D lastKnownLocation;
+@property (nonatomic,strong) NSString* fbname;
 
 - (void)initializeFacebook;
 - (void)authorizeFacebook;
