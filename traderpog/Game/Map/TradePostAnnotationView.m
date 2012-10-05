@@ -102,8 +102,8 @@ static const float kExclamationYOffset = -0.1f;
         float bubbleY = imageRect.origin.y + (kBubbleYOffset * imageRect.size.height);
         CGRect bubbleRect = CGRectMake(bubbleX, bubbleY, kBubbleSize, kBubbleSize);
         _itemBubble = [[ItemBubble alloc] initWithFrame:bubbleRect borderWidth:kBubbleBorderWidth
-                                                  color:[GameColors bubbleColorScanWithAlpha:1.0f]
-                                            borderColor:[GameColors borderColorPostsWithAlpha:1.0f]];
+                                                  color:[GameColors bubbleColorScanWithAlpha:0.8f]
+                                            borderColor:[GameColors bubbleColorPostsWithAlpha:1.0f]];
         [_itemBubble setHidden:YES];
         [contentView addSubview:_itemBubble];
         
@@ -222,7 +222,7 @@ static const float kExclamationYOffset = -0.1f;
 }
 
 #pragma mark - popup ui
-static const float kBuyViewYOffset = -80.0f;
+static const float kBuyViewYOffset = -94.0f;
 - (void) showBuyViewInMap:(MKMapView*)mapView forPost:(TradePost*)tradePost
 {
     GameViewController* controller = [[GameManager getInstance] gameViewController];
@@ -296,16 +296,31 @@ static const float kBuyViewYOffset = -80.0f;
 }
 
 #pragma mark - PogMapAnnotationViewProtocol
+static const float kBuyViewCenterYOffset = -10.0f;
+- (CLLocationCoordinate2D) buyViewCenterCoordForTradePost:(TradePost*)tradePost
+                                                inMapView:(MKMapView*)mapView
+{
+    CLLocationCoordinate2D result = [tradePost coord];
+    
+    UIView* modalView = [[[GameManager getInstance] gameViewController] view];
+    CGPoint resultPoint = [mapView convertCoordinate:result toPointToView:modalView];
+    resultPoint.y += kBuyViewCenterYOffset;
+    result = [mapView convertPoint:resultPoint toCoordinateFromView:modalView];
+    return result;
+}
+
 - (void)didSelectAnnotationViewInMap:(MKMapView*) mapView;
 {
     TradePost* tradePost = (TradePost*) [self annotation];
 
+    CLLocationCoordinate2D centerCoord = [mapView centerCoordinate];
     BOOL doZoomAdjustment = NO;
     // if map not in callout zoom-level or not zoomEnabled, address that by setting the map to the necessary zoom-level
     // so that player can select it more readily the next time they tap
     if((![[GameManager getInstance] mapIsInCalloutZoomLevelRange]) || (![[GameManager getInstance] mapIsZoomEnabled]))
     {
         doZoomAdjustment = YES;
+        centerCoord = [tradePost coord];
     }
     
     if(!_calloutAnnotation)
@@ -345,13 +360,10 @@ static const float kBuyViewYOffset = -80.0f;
             }
             else
             {
-                // otherwise, show tradepost callout
-                /*
-                TradePostCallout* callout = [[TradePostCallout alloc] initWithTradePost:tradePost];
-                callout.parentAnnotationView = self;
-                _calloutAnnotation = callout;
-                */
                 [self showBuyViewInMap:mapView forPost:tradePost];
+                [self.itemBubble setHidden:YES];
+                [self.imageView setTransform:CGAffineTransformMakeScale(2.0f, 2.0f)];
+                centerCoord = [self buyViewCenterCoordForTradePost:tradePost inMapView:mapView];
                 doZoomAdjustment = YES;
             }
             if(_calloutAnnotation)
@@ -367,7 +379,7 @@ static const float kBuyViewYOffset = -80.0f;
         
         if(doZoomAdjustment)
         {
-            [[[[GameManager getInstance] gameViewController] mapControl] defaultZoomCenterOn:[tradePost coord] animated:YES];
+            [[[[GameManager getInstance] gameViewController] mapControl] defaultZoomCenterOn:centerCoord animated:YES];
         }
         
     }
@@ -385,6 +397,9 @@ static const float kBuyViewYOffset = -80.0f;
 - (void)didDeselectAnnotationViewInMap:(MKMapView*) mapView;
 {
     [[[GameManager getInstance] gameViewController] hideModalViewAnimated:YES];
+    TradePost* post = (TradePost*)[self annotation];
+    [post refreshRenderForAnnotationView:self];
+
     if(_calloutAnnotation)
     {
         if([_calloutAnnotation isMemberOfClass:[PlayerPostCallout class]])

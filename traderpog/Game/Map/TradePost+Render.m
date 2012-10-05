@@ -49,6 +49,7 @@
         [annotationView.imageView setImage:image];
         showItemBubble = YES;
     }
+    [annotationView.imageView setTransform:CGAffineTransformIdentity];
     
     // flyer in front
     if([self flyerAtPost])

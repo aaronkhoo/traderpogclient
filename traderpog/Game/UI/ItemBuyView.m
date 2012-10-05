@@ -10,9 +10,11 @@
 #import "PogUIUtility.h"
 #import "GameColors.h"
 #import "GameAnim.h"
+#import "CircleButton.h"
 
 NSString* const kItemBuyViewReuseIdentifier = @"ItemBuyView";
-static const float kBorderWidth = 4.0f;
+static const float kBorderWidth = 6.0f;
+static const float kBuyCircleBorderWidth = 6.0f;
 static const float kBorderCornerRadius = 8.0f;
 
 @interface ItemBuyView ()
@@ -32,9 +34,12 @@ static const float kBorderCornerRadius = 8.0f;
                                 color:[GameColors borderColorPostsWithAlpha:1.0f]
                          cornerRadius:kBorderCornerRadius];
         [self.nibContentView setBackgroundColor:[GameColors bubbleColorScanWithAlpha:1.0f]];
+        [self.buyCircle setBorderWidth:kBuyCircleBorderWidth];
         [[GameAnim getInstance] refreshImageView:self.coinImageView withClipNamed:@"coin_shimmer"];
         [self.coinImageView startAnimating];
         [self addSubview:self.nibView];
+        [self setBackgroundColor:[UIColor clearColor]];
+        [self setClipsToBounds:NO];
     }
     return self;
 }
@@ -62,6 +67,45 @@ static const float kBorderCornerRadius = 8.0f;
     {
         NSLog(@"Error: ItemBuyView button target must respond to handleBuyClose:");
     }
+}
+
+static const float kTriangleWidth = 10.0f;
+static const float kTriangleHeight = 40.0f;
+- (void)drawRect:(CGRect)rect
+{
+    CGRect contentFrame = self.nibContentView.frame;
+    CGPoint contentMidBot = CGPointMake(contentFrame.origin.x + (0.5f * contentFrame.size.width),
+                                        contentFrame.origin.y + (0.9f * contentFrame.size.height));
+    UIColor* triColor = [GameColors borderColorPostsWithAlpha:1.0f];
+    
+    
+	CGMutablePathRef path = CGPathCreateMutable();
+    CGPathMoveToPoint(path, NULL, contentMidBot.x - kTriangleWidth, contentMidBot.y);
+    CGPathAddLineToPoint(path, NULL, contentMidBot.x, contentMidBot.y + kTriangleHeight);
+    CGPathAddLineToPoint(path, NULL, contentMidBot.x + kTriangleWidth, contentMidBot.y);
+    CGPathCloseSubpath(path);
+    
+	//CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
+	CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    
+/*
+    CGRect myRect = CGRectInset(rect, -5.0f, -5.0f);
+    CGPathMoveToPoint(path, NULL, myRect.origin.x, myRect.origin.y);
+	CGPathAddLineToPoint(path, NULL, myRect.origin.x + (0.5f * myRect.size.width), myRect.origin.y + myRect.size.height + 200.0f);
+    CGPathAddLineToPoint(path, NULL, myRect.origin.x + myRect.size.width, myRect.origin.y);
+    CGPathCloseSubpath(path);
+*/
+    
+    // draw triangle
+	[triColor setFill];
+	CGContextAddPath(context, path);
+	CGContextSaveGState(context);
+	CGContextFillPath(context);
+	CGContextRestoreGState(context);
+    
+    CGPathRelease(path);
+	//CGColorSpaceRelease(space);
 }
 
 #pragma mark - internal methods

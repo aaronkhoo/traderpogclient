@@ -8,6 +8,7 @@
 
 #import "CircleButton.h"
 #import "PogUIUtility.h"
+#import <QuartzCore/QuartzCore.h>
 
 static const float kImageInset = 2.0f;
 
@@ -37,6 +38,11 @@ static const float kImageInset = 2.0f;
     return self;
 }
 
+- (void) setBorderWidth:(float)borderWidth
+{
+    [[self layer] setBorderWidth:borderWidth];
+}
+
 #pragma mark - default values
 + (UIColor*) defaultBgColor
 {
@@ -52,7 +58,7 @@ static const float kImageInset = 2.0f;
 
 + (float) defaultBorderWidth
 {
-    return 3.0f;
+    return 2.0f;
 }
 
 #pragma mark - internal methods

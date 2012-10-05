@@ -14,5 +14,5 @@
 + (UIColor*) defaultBgColor;
 + (UIColor*) defaultBorderColor;
 + (float) defaultBorderWidth;
-
+- (void) setBorderWidth:(float)borderWidth;
 @end
