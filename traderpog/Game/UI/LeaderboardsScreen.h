@@ -9,11 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "HttpCallbackDelegate.h"
 
-@interface LeaderboardsScreen : UIViewController<HttpCallbackDelegate>
+@interface LeaderboardsScreen : UIViewController<HttpCallbackDelegate,UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
-@property (weak, nonatomic) IBOutlet UIButton *bucksButton;
-@property (weak, nonatomic) IBOutlet UIButton *totalButton;
-@property (weak, nonatomic) IBOutlet UIButton *furthestButton;
-@property (weak, nonatomic) IBOutlet UIButton *postsVisitedButton;
+@property (weak, nonatomic) IBOutlet UITableView *lbtable;
+@property (weak, nonatomic) IBOutlet UILabel *errorLabel;
 
 @end

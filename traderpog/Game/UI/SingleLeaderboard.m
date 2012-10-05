@@ -149,6 +149,8 @@ static CGFloat const kRowHeight = 30.0;
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     if (indexPath.row == 0)
     {
         UIColor* text_color = [UIColor colorWithRed:135.0/255.0 green:132.0/255.0 blue:132.0/255.0 alpha:1.0];
@@ -221,7 +223,7 @@ static CGFloat const kRowHeight = 30.0;
         
         UIColor* name_color = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
         UIFont* name_font = [UIFont fontWithName:@"American Typewriter" size:14.0f];
-        UILabel* middleLabel = [self customizeLabel:[NSString stringWithFormat:@"%@", [currentRow objectForKey:kKeyName]]
+        UILabel* middleLabel = [self customizeLabel:[NSString stringWithFormat:@" %@", [currentRow objectForKey:kKeyName]]
                                                font:name_font
                                               color:name_color
                                             bgcolor:background_color
@@ -245,12 +247,6 @@ static CGFloat const kRowHeight = 30.0;
                                              xval:cell.frame.size.width-5
                                              yval:0.0];
         [cell.contentView addSubview:rightLabel];
-        
-        /*
-        cell.leftLabel.text = [NSString stringWithFormat:@"#%d", [[currentRow objectForKey:kKeyIndex] unsignedIntegerValue]];
-        cell.middleLabel.text = [NSString stringWithFormat:@"%@", [currentRow objectForKey:kKeyName]];
-        cell.rightLabel.text = [NSString stringWithFormat:@"%d", [[currentRow objectForKey:kKeyValue] unsignedIntegerValue]];
-         */
     }
     
     return cell;
