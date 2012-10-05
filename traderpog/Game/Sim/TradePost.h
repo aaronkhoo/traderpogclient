@@ -53,7 +53,5 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 
 // helpers related to annotation view
 - (TradePostAnnotationView*) getAnnotationViewInstance:(MKMapView *)mapView;
-- (void) addFlyerAtPostObserver:(TradePostAnnotationView*)observerView;
-- (void) removeFlyerAtPostObserver:(TradePostAnnotationView*)observerView;
 
 @end

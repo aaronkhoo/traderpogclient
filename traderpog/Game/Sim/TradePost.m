@@ -13,13 +13,6 @@
 #import "GameNotes.h"
 #import "GameManager.h"
 
-@interface TradePost()
-{
-    __weak TradePostAnnotationView* _flyerAtPostObserver;
-}
-@property (nonatomic,weak) TradePostAnnotationView* flyerAtPostObserver;
-@end
-
 @implementation TradePost
 @synthesize postId = _postId;
 @synthesize itemId = _itemId;
@@ -29,7 +22,6 @@
 @synthesize beacontime = _beacontime;
 @synthesize delegate = _delegate;
 @synthesize creationDate = _creationDate;
-@synthesize flyerAtPostObserver = _flyerAtPostObserver;
 
 - (id) init
 {
@@ -38,17 +30,8 @@
     {
         _flyerAtPost = nil;
         _creationDate = [NSDate date];
-        _flyerAtPostObserver = nil;
     }
     return self;
-}
-
-- (void) dealloc
-{
-    if([self flyerAtPostObserver])
-    {
-        [self removeFlyerAtPostObserver:[self flyerAtPostObserver]];
-    }
 }
 
 // sort from low to high supply level
@@ -86,25 +69,6 @@
     return result;
 }
 
-- (void) addFlyerAtPostObserver:(TradePostAnnotationView*)observerView
-{
-    if([self flyerAtPostObserver])
-    {
-        [self removeFlyerAtPostObserver:[self flyerAtPostObserver]];
-    }
-    [self addObserver:observerView forKeyPath:kKeyFlyerAtPost options:0 context:nil];
-    self.flyerAtPostObserver = observerView;
-}
-
-- (void) removeFlyerAtPostObserver:(TradePostAnnotationView*)observerView
-{
-    if([self.flyerAtPostObserver isEqual:observerView])
-    {
-        [self removeObserver:observerView forKeyPath:kKeyFlyerAtPost];
-        self.flyerAtPostObserver = nil;
-    }
-}
-
 #pragma mark - trade
 - (void) deductNumItems:(unsigned int)num
 {
@@ -131,10 +95,8 @@
 - (void) setFlyerAtPost:(Flyer *)flyerAtPost
 {
     _flyerAtPost = flyerAtPost;
-    // HACK (force refresh MyTradePost; for some reason, MyTradePost
-    // fails to redraw regardless of any changes on its annotation-view unless forced)
-    [[GameManager getInstance] reAddOnMapIfMyPost:self];
-    // HACK
+    [[NSNotificationCenter defaultCenter] postNotificationName:kGameNotePostFlyerChanged
+                                                        object:self];
 }
 
 #pragma mark - MKAnnotation delegate
@@ -161,9 +123,6 @@
         annotationView = [[TradePostAnnotationView alloc] initWithAnnotation:self];
     }
     
-    // set myself up to observe flyerAtPost
-    [self addFlyerAtPostObserver:annotationView];
-
     return annotationView;
 }
 

@@ -70,7 +70,6 @@ typedef enum _BrowseEnforcedType
 - (BOOL) canProcessGameEventNotifications;
 - (BrowseEnforcedType) enforceBrowse:(BrowseEnforcedType)enforcedType;
 - (BrowseEnforcedType) currentBrowseEnforced;
-- (void) reAddOnMapIfMyPost:(TradePost*)tradePost;
 
 + (NSString*) documentsDirectory;
 

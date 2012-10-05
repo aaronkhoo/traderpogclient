@@ -41,6 +41,7 @@ static const float kExclamationYOffset = -0.1f;
 }
 - (void) handleFlyerStateChanged:(NSNotification*)note;
 - (void) handleFlyerLoadTimerChanged:(NSNotification*)note;
+- (void) handleFlyerAtPostChanged:(NSNotification*)note;
 - (void) handleBuyClose:(id)sender;
 - (void) handleBuyOk:(id)sender;
 @end
@@ -133,14 +134,14 @@ static const float kExclamationYOffset = -0.1f;
         // observe flyer-state-changed notifications
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleFlyerStateChanged:) name:kGameNoteFlyerStateChanged object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleFlyerLoadTimerChanged:) name:kGameNoteFlyerLoadTimerChanged object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleFlyerAtPostChanged:) name:kGameNotePostFlyerChanged object:nil];
     }
     return self;
 }
 
 - (void) dealloc
 {
-    TradePost* post = (TradePost*) [self annotation];
-    [post removeFlyerAtPostObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kGameNotePostFlyerChanged];
     [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kGameNoteFlyerStateChanged];
     [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kGameNoteFlyerLoadTimerChanged];
 }
@@ -177,7 +178,7 @@ static const float kExclamationYOffset = -0.1f;
         //NSLog(@"flyer-state-changed post %@", [post postId]);
         if([flyer isEqual:[post flyerAtPost]])
         {
-            NSLog(@"flyer-state-changed post %@ refreshRender", [post postId]);
+            //NSLog(@"flyer-state-changed post %@ refreshRender", [post postId]);
             [post refreshRenderForAnnotationView:self];
         }
     }
@@ -202,6 +203,17 @@ static const float kExclamationYOffset = -0.1f;
     }
 }
 
+- (void) handleFlyerAtPostChanged:(NSNotification *)note
+{
+    TradePost* post = (TradePost*)[note object];
+    TradePost* selfPost = (TradePost*)[self annotation];
+    if(post  && [selfPost isEqual:post])
+    {
+        // if this notification was sent by my annotation, refresh myself
+        [selfPost refreshRenderForAnnotationView:self];
+    }
+}
+
 #pragma mark - MKAnnotationView
 - (void)setAnnotation:(id<MKAnnotation>)annotation
 {
@@ -210,15 +222,6 @@ static const float kExclamationYOffset = -0.1f;
         [_calloutAnnotation setCoordinate:annotation.coordinate];
     }
     [super setAnnotation:annotation];
-}
-
-- (void) prepareForReuse
-{
-    TradePost* post = (TradePost*) [self annotation];
-    if(post)
-    {
-        [post removeFlyerAtPostObserver:self];
-    }
 }
 
 #pragma mark - popup ui

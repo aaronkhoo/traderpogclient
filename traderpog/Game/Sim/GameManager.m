@@ -809,14 +809,6 @@ typedef enum {
     return result;
 }
 
-- (void) reAddOnMapIfMyPost:(TradePost *)tradePost
-{
-    if([tradePost isMemberOfClass:[MyTradePost class]])
-    {
-        [self.gameViewController.mapControl forceRefreshAnnotationForTradePost:tradePost];
-    }
-}
-
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {
