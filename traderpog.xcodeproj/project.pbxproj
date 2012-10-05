@@ -26,8 +26,6 @@
 		38A31CE6161BECC6009FC64A /* PlayerSales.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A31CE5161BECC5009FC64A /* PlayerSales.m */; };
 		38A31CF1161CB7C0009FC64A /* SingleLeaderboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38A31CF0161CB7C0009FC64A /* SingleLeaderboard.xib */; };
 		38A31CF5161CDE1D009FC64A /* SingleLeaderboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A31CF4161CDE1C009FC64A /* SingleLeaderboard.m */; };
-		38A31CF7161CF578009FC64A /* LeaderboardRowCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38A31CF6161CF577009FC64A /* LeaderboardRowCell.xib */; };
-		38A31D03161D0A70009FC64A /* LeaderboardRowCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A31D02161D0A6E009FC64A /* LeaderboardRowCell.m */; };
 		38B6DAEF15C85A9D00F37BD9 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 38B6DAE215C85A9D00F37BD9 /* FBDialog.bundle */; };
 		38B6DAF015C85A9D00F37BD9 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38B6DAE815C85A9D00F37BD9 /* libfacebook_ios_sdk.a */; };
 		38BE3BD7160D3CF500758F27 /* LocalyticsDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BE3BD1160D3CF500758F27 /* LocalyticsDatabase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -251,9 +249,6 @@
 		38A31CF0161CB7C0009FC64A /* SingleLeaderboard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SingleLeaderboard.xib; path = Game/UI/SingleLeaderboard.xib; sourceTree = "<group>"; };
 		38A31CF3161CDE1B009FC64A /* SingleLeaderboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SingleLeaderboard.h; path = Game/UI/SingleLeaderboard.h; sourceTree = "<group>"; };
 		38A31CF4161CDE1C009FC64A /* SingleLeaderboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SingleLeaderboard.m; path = Game/UI/SingleLeaderboard.m; sourceTree = "<group>"; };
-		38A31CF6161CF577009FC64A /* LeaderboardRowCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LeaderboardRowCell.xib; path = Game/UI/LeaderboardRowCell.xib; sourceTree = "<group>"; };
-		38A31D01161D0A6C009FC64A /* LeaderboardRowCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeaderboardRowCell.h; path = Game/UI/LeaderboardRowCell.h; sourceTree = "<group>"; };
-		38A31D02161D0A6E009FC64A /* LeaderboardRowCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LeaderboardRowCell.m; path = Game/UI/LeaderboardRowCell.m; sourceTree = "<group>"; };
 		38B6DAE015C85A9D00F37BD9 /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
 		38B6DAE115C85A9D00F37BD9 /* FBConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBConnect.h; sourceTree = "<group>"; };
 		38B6DAE215C85A9D00F37BD9 /* FBDialog.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBDialog.bundle; sourceTree = "<group>"; };
@@ -1068,9 +1063,6 @@
 				38A31CF3161CDE1B009FC64A /* SingleLeaderboard.h */,
 				38A31CF4161CDE1C009FC64A /* SingleLeaderboard.m */,
 				38A31CF0161CB7C0009FC64A /* SingleLeaderboard.xib */,
-				38A31D01161D0A6C009FC64A /* LeaderboardRowCell.h */,
-				38A31D02161D0A6E009FC64A /* LeaderboardRowCell.m */,
-				38A31CF6161CF577009FC64A /* LeaderboardRowCell.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -1359,7 +1351,6 @@
 				42FEF1A1161CC5A900E7EB4E /* item_rice.png in Resources */,
 				42FEF1AB161CC5EC00E7EB4E /* ItemBuyView.xib in Resources */,
 				38A31CF1161CB7C0009FC64A /* SingleLeaderboard.xib in Resources */,
-				38A31CF7161CF578009FC64A /* LeaderboardRowCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1482,7 +1473,6 @@
 				42FEF1AA161CC5EC00E7EB4E /* ItemBuyView.m in Sources */,
 				42FEF1AE161CC60100E7EB4E /* ItemBubble.m in Sources */,
 				38A31CF5161CDE1D009FC64A /* SingleLeaderboard.m in Sources */,
-				38A31D03161D0A70009FC64A /* LeaderboardRowCell.m in Sources */,
 				4261EC8F161E1847000642B6 /* ViewReuseQueue.m in Sources */,
 				42B63918161E44E6006ADD62 /* MapGestureHandler.m in Sources */,
 			);

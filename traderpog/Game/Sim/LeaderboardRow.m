@@ -22,10 +22,12 @@ static NSString* const kKeyValue = @"value";
 
 @implementation LeaderboardRow
 @synthesize fbname = _fbname;
+@synthesize fbid = _fbid;
 @synthesize member = _member;
 @synthesize lbValue = _lbValue;
 
 - (id) initWithData:(NSString*)current_fbname
+       current_fbid:(NSString*)current_fbid
       current_value:(NSInteger)current_value
      current_member:(BOOL)current_member
 {
@@ -33,6 +35,7 @@ static NSString* const kKeyValue = @"value";
     if(self)
     {
         _fbname = current_fbname;
+        _fbid = current_fbid;
         _lbValue = current_value;
         _member = current_member;
     }

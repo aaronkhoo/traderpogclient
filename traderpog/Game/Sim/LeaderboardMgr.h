@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HttpCallbackDelegate.h"
+#import "UrlImage.h"
 
 typedef enum
 {
@@ -38,6 +39,9 @@ static NSString* const kLeaderboardMgr_ReceiveLeaderboards = @"LeaderboardMgr_Re
 
 - (BOOL) needsRefresh;
 - (void) retrieveLeaderboardFromServer;
+
+- (UrlImage*) getCachedImage:(NSString*)fbid;
+- (void) insertImageToCache:(NSString*)fbid image:(UrlImage*)image;
 
 // singleton
 +(LeaderboardMgr*) getInstance;

@@ -87,14 +87,12 @@ static NSString* const kKeyWeekOf = @"weekof";
 {
     [aCoder encodeObject:_createdVersion forKey:kKeyVersion];
     [aCoder encodeObject:_lbRows forKey:kKeyRows];
-    [aCoder encodeObject:_lbName forKey:kKeyName];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
     _createdVersion = [aDecoder decodeObjectForKey:kKeyVersion];
     _lbRows = [aDecoder decodeObjectForKey:kKeyRows];
-    _lbName = [aDecoder decodeObjectForKey:kKeyName];
     return self;
 }
 

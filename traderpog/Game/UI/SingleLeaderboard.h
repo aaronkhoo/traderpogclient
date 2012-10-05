@@ -13,8 +13,10 @@
     NSString* _currentName;
     NSString* _currentWeek;
     NSMutableArray* _currentRows;
+    CGFloat _nameStartPosition;
 }
-@property (weak, nonatomic) IBOutlet UILabel *leaderboardName;
+@property (weak, nonatomic) IBOutlet UILabel* leaderboardName;
+@property (weak, nonatomic) IBOutlet UITableView* leaderboardTable;
 
 - (id)initWithNibNameAndIndex:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil index:(NSUInteger)index;
 
