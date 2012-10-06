@@ -13,6 +13,9 @@
 static const float kImageInset = 2.0f;
 
 @interface CircleButton ()
+{
+    SEL _closeSelector;
+}
 - (void) setup;
 @end
 
@@ -38,6 +41,11 @@ static const float kImageInset = 2.0f;
     return self;
 }
 
+- (void) dealloc
+{
+    [self removeButtonTarget];
+}
+
 - (void) setBorderWidth:(float)borderWidth
 {
     [[self layer] setBorderWidth:borderWidth];
@@ -47,6 +55,25 @@ static const float kImageInset = 2.0f;
 {
     [[self layer] setBorderColor:[borderColor CGColor]];
 }
+
+- (void) setButtonTarget:(id)target action:(SEL)actionSelector
+{
+    [self removeButtonTarget];
+    [self.button addTarget:target action:actionSelector forControlEvents:UIControlEventTouchUpInside];
+    [self.button setEnabled:YES];
+    _closeSelector = actionSelector;
+}
+
+- (void) removeButtonTarget
+{
+    if([self.button isEnabled])
+    {
+        [self.button removeTarget:nil action:_closeSelector forControlEvents:UIControlEventTouchUpInside];
+        _closeSelector = nil;
+        [self.button setEnabled:NO];
+    }
+}
+
 
 #pragma mark - default values
 + (UIColor*) defaultBgColor
@@ -75,10 +102,12 @@ static const float kImageInset = 2.0f;
                        borderColor:[CircleButton defaultBorderColor]];
     [self setBackgroundColor:[CircleButton defaultBgColor]];
     
-    // add an imageView in the middle
-    CGRect imageRect = CGRectInset(self.bounds, kImageInset, kImageInset);
-    self.imageView = [[UIImageView alloc] initWithFrame:imageRect];
-    [self addSubview:self.imageView];
+    // add a button that covers the view completely
+    self.button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.button setFrame:self.bounds];
+    [self addSubview:self.button];
+    [self.button setEnabled:NO];
+    _closeSelector = nil;
 }
 
 @end

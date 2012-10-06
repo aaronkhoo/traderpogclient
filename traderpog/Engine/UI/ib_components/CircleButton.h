@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface CircleButton : UIView
-@property (nonatomic,strong) UIImageView* imageView;
+@property (nonatomic,strong) UIButton* button;
 
 + (UIColor*) defaultBgColor;
 + (UIColor*) defaultBorderColor;
 + (float) defaultBorderWidth;
 - (void) setBorderWidth:(float)borderWidth;
 - (void) setBorderColor:(UIColor*)borderColor;
+- (void) setButtonTarget:(id)target action:(SEL)actionSelector;
+- (void) removeButtonTarget;
 @end

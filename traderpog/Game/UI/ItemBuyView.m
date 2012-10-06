@@ -53,7 +53,7 @@ static const float kBorderCornerRadius = 8.0f;
 {
     if([target respondsToSelector:@selector(handleBuyOk:)])
     {
-        [self.buyButton addTarget:target action:@selector(handleBuyOk:) forControlEvents:UIControlEventTouchUpInside];
+        [self.buyCircle setButtonTarget:target action:@selector(handleBuyOk:)];
     }
     else
     {
@@ -61,7 +61,7 @@ static const float kBorderCornerRadius = 8.0f;
     }
     if([target respondsToSelector:@selector(handleBuyClose:)])
     {
-        [self.closeButton addTarget:target action:@selector(handleBuyClose:) forControlEvents:UIControlEventTouchUpInside];
+        [self.closeCircle setButtonTarget:target action:@selector(handleBuyClose:)];
     }
     else
     {
@@ -99,8 +99,8 @@ static const float kTriangleHeight = 40.0f;
 #pragma mark - internal methods
 - (void) removeButtonTargets
 {
-    [self.buyButton removeTarget:nil action:@selector(handleBuyOk:) forControlEvents:UIControlEventTouchUpInside];
-    [self.closeButton removeTarget:nil action:@selector(handleBuyClose:) forControlEvents:UIControlEventTouchUpInside];    
+    [self.buyCircle removeButtonTarget];
+    [self.closeCircle removeButtonTarget];
 }
 
 #pragma mark - ViewReuseDelegate

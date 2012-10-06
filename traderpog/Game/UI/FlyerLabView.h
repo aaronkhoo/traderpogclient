@@ -15,9 +15,9 @@ extern NSString* const kFlyerLabViewReuseIdentifier;
 @interface FlyerLabView : UIView<ViewReuseDelegate>
 @property (strong, nonatomic) IBOutlet UIView *nibView;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
-@property (weak, nonatomic) IBOutlet UIButton *closeButton;
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
 
 - (void) addButtonTarget:(id)target;
+- (IBAction)didPressCustomize:(id)sender;
 
 @end

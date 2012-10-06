@@ -10,6 +10,9 @@
 #import "PogUIUtility.h"
 #import "GameColors.h"
 #import "CircleButton.h"
+#import "FlyerCustomize.h"
+#import "AppDelegate.h"
+#import "UINavigationController+Pog.h"
 
 NSString* const kFlyerLabViewReuseIdentifier = @"FlyerLabView";
 static const float kBorderWidth = 6.0f;
@@ -38,14 +41,14 @@ static const float kBorderCornerRadius = 8.0f;
 
 - (void) dealloc
 {
-    [self removeButtonTargets];
+    [self.closeCircle removeButtonTarget];
 }
 
 - (void) addButtonTarget:(id)target
 {
     if([target respondsToSelector:@selector(handleFlyerLabClose:)])
     {
-        [self.closeButton addTarget:target action:@selector(handleFlyerLabClose:) forControlEvents:UIControlEventTouchUpInside];
+        [self.closeCircle setButtonTarget:target action:@selector(handleFlyerLabClose:)];
     }
     else
     {
@@ -53,11 +56,13 @@ static const float kBorderCornerRadius = 8.0f;
     }
 }
 
-#pragma mark - internal methods
-- (void) removeButtonTargets
+- (IBAction)didPressCustomize:(id)sender
 {
-    [self.closeButton removeTarget:nil action:@selector(handleFlyerLabClose:) forControlEvents:UIControlEventTouchUpInside];
+    FlyerCustomize* next = [[FlyerCustomize alloc] initWithNibName:@"FlyerCustomize" bundle:nil];
+    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    [appDelegate.navController pushFadeInViewController:next animated:YES];
 }
+
 
 #pragma mark - ViewReuseDelegate
 - (NSString*) reuseIdentifier
@@ -67,7 +72,7 @@ static const float kBorderCornerRadius = 8.0f;
 
 - (void) prepareForQueue
 {
-    [self removeButtonTargets];
+    [self.closeCircle removeButtonTarget];
 }
 
 @end

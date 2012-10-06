@@ -631,7 +631,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     {
         // if strict modal, insert a scrim to block all inputs
         _modalScrim = [[UIView alloc] initWithFrame:self.view.bounds];
-        [_modalScrim setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.8f]];
+        [_modalScrim setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.1f]];
         [self.view addSubview:_modalScrim];
     }
     _modalView = view;
