@@ -89,6 +89,8 @@
 		42B28E3215EA39620008901C /* b_homebase.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B28E3015EA39620008901C /* b_homebase.png */; };
 		42B28E3315EA39620008901C /* b_tradepost.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B28E3115EA39620008901C /* b_tradepost.png */; };
 		42B63918161E44E6006ADD62 /* MapGestureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B63917161E44E6006ADD62 /* MapGestureHandler.m */; };
+		42BF7B521620DC11000D926C /* FlyerUpgrade.m in Sources */ = {isa = PBXBuildFile; fileRef = 42BF7B501620DC11000D926C /* FlyerUpgrade.m */; };
+		42BF7B531620DC11000D926C /* FlyerUpgrade.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42BF7B511620DC11000D926C /* FlyerUpgrade.xib */; };
 		42C766B31607900900D21354 /* LoadingTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C766B11607900900D21354 /* LoadingTransition.m */; };
 		42C766B41607900900D21354 /* LoadingTransition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C766B21607900900D21354 /* LoadingTransition.xib */; };
 		42CEEC681603066400AED5ED /* flyer.png in Resources */ = {isa = PBXBuildFile; fileRef = 42CEEC671603066400AED5ED /* flyer.png */; };
@@ -386,6 +388,9 @@
 		42B28E3115EA39620008901C /* b_tradepost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = b_tradepost.png; path = assets/Map/b_tradepost.png; sourceTree = SOURCE_ROOT; };
 		42B63916161E44E6006ADD62 /* MapGestureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapGestureHandler.h; path = Game/Map/MapGestureHandler.h; sourceTree = "<group>"; };
 		42B63917161E44E6006ADD62 /* MapGestureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapGestureHandler.m; path = Game/Map/MapGestureHandler.m; sourceTree = "<group>"; };
+		42BF7B4F1620DC11000D926C /* FlyerUpgrade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerUpgrade.h; path = Game/UI/FlyerUpgrade.h; sourceTree = "<group>"; };
+		42BF7B501620DC11000D926C /* FlyerUpgrade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerUpgrade.m; path = Game/UI/FlyerUpgrade.m; sourceTree = "<group>"; };
+		42BF7B511620DC11000D926C /* FlyerUpgrade.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerUpgrade.xib; path = Game/UI/FlyerUpgrade.xib; sourceTree = "<group>"; };
 		42C766B01607900900D21354 /* LoadingTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingTransition.h; sourceTree = "<group>"; };
 		42C766B11607900900D21354 /* LoadingTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingTransition.m; sourceTree = "<group>"; };
 		42C766B21607900900D21354 /* LoadingTransition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingTransition.xib; sourceTree = "<group>"; };
@@ -1076,6 +1081,9 @@
 				4237D47F1620A40F009A29F1 /* FlyerCustomize.h */,
 				4237D4801620A40F009A29F1 /* FlyerCustomize.m */,
 				4237D4811620A40F009A29F1 /* FlyerCustomize.xib */,
+				42BF7B4F1620DC11000D926C /* FlyerUpgrade.h */,
+				42BF7B501620DC11000D926C /* FlyerUpgrade.m */,
+				42BF7B511620DC11000D926C /* FlyerUpgrade.xib */,
 				38A31CF3161CDE1B009FC64A /* SingleLeaderboard.h */,
 				38A31CF4161CDE1C009FC64A /* SingleLeaderboard.m */,
 				38A31CF0161CB7C0009FC64A /* SingleLeaderboard.xib */,
@@ -1369,6 +1377,7 @@
 				38A31CF1161CB7C0009FC64A /* SingleLeaderboard.xib in Resources */,
 				42EF2FA2161F82A40077C997 /* FlyerLabView.xib in Resources */,
 				4237D4831620A40F009A29F1 /* FlyerCustomize.xib in Resources */,
+				42BF7B531620DC11000D926C /* FlyerUpgrade.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1495,6 +1504,7 @@
 				42B63918161E44E6006ADD62 /* MapGestureHandler.m in Sources */,
 				42EF2FA0161F82860077C997 /* FlyerLabView.m in Sources */,
 				4237D4821620A40F009A29F1 /* FlyerCustomize.m in Sources */,
+				42BF7B521620DC11000D926C /* FlyerUpgrade.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

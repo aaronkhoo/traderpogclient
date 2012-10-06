@@ -19,5 +19,6 @@ extern NSString* const kFlyerLabViewReuseIdentifier;
 
 - (void) addButtonTarget:(id)target;
 - (IBAction)didPressCustomize:(id)sender;
+- (IBAction)didPressUpgrade:(id)sender;
 
 @end

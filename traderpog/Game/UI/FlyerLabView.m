@@ -11,6 +11,7 @@
 #import "GameColors.h"
 #import "CircleButton.h"
 #import "FlyerCustomize.h"
+#import "FlyerUpgrade.h"
 #import "AppDelegate.h"
 #import "UINavigationController+Pog.h"
 
@@ -59,6 +60,13 @@ static const float kBorderCornerRadius = 8.0f;
 - (IBAction)didPressCustomize:(id)sender
 {
     FlyerCustomize* next = [[FlyerCustomize alloc] initWithNibName:@"FlyerCustomize" bundle:nil];
+    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    [appDelegate.navController pushFadeInViewController:next animated:YES];
+}
+
+- (IBAction)didPressUpgrade:(id)sender
+{
+    FlyerUpgrade* next = [[FlyerUpgrade alloc] initWithNibName:@"FlyerUpgrade" bundle:nil];
     AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     [appDelegate.navController pushFadeInViewController:next animated:YES];
 }
