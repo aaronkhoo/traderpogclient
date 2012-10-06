@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CircleButton.h"
 
 @interface SingleLeaderboard : UIViewController<UITableViewDelegate, UITableViewDataSource>
 {
@@ -17,6 +18,7 @@
 }
 @property (weak, nonatomic) IBOutlet UILabel* leaderboardName;
 @property (weak, nonatomic) IBOutlet UITableView* leaderboardTable;
+@property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
 
 - (id)initWithNibNameAndIndex:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil index:(NSUInteger)index;
 

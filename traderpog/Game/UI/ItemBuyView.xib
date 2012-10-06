@@ -209,7 +209,6 @@
 						<string key="NSFrame">{{172, 0}, {30, 30}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<string key="NSHuggingPriority">{250, 250}</string>
 						<object class="NSColor" key="IBUIBackgroundColor" id="136814012">
@@ -256,7 +255,6 @@
 						<string key="NSFrame">{{142, 60}, {70, 70}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<string key="NSHuggingPriority">{250, 250}</string>
 						<reference key="IBUIBackgroundColor" ref="136814012"/>
@@ -483,9 +481,7 @@
 					<string key="className">ItemBuyView</string>
 					<string key="superclassName">UIView</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="buyButton">UIButton</string>
 						<string key="buyCircle">CircleButton</string>
-						<string key="closeButton">UIButton</string>
 						<string key="closeCircle">CircleButton</string>
 						<string key="coinImageView">UIImageView</string>
 						<string key="costLabel">UILabel</string>
@@ -496,17 +492,9 @@
 						<string key="numItemsLabel">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="buyButton">
-							<string key="name">buyButton</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="buyCircle">
 							<string key="name">buyCircle</string>
 							<string key="candidateClassName">CircleButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="closeButton">
-							<string key="name">closeButton</string>
-							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="closeCircle">
 							<string key="name">closeCircle</string>

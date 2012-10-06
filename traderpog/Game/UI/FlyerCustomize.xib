@@ -42,9 +42,10 @@
 							<object class="IBUIImageView" id="906567803">
 								<reference key="NSNextResponder" ref="1058991186"/>
 								<int key="NSvFlags">301</int>
-								<string key="NSFrame">{{10, 10}, {30, 30}}</string>
+								<string key="NSFrame">{{9, 9}, {30, 30}}</string>
 								<reference key="NSSuperview" ref="1058991186"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">3</int>
@@ -58,7 +59,7 @@
 								</object>
 							</object>
 						</array>
-						<string key="NSFrame">{{270, 0}, {50, 50}}</string>
+						<string key="NSFrame">{{270, 1}, {48, 48}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="906567803"/>
@@ -210,6 +211,10 @@
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
+		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
+			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaTouchPlugin.InterfaceBuilder3</string>
+			<real value="4500" key="NS.object.0"/>
+		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">

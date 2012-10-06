@@ -13,6 +13,7 @@
 #import "LeaderboardsScreen.h"
 #import "Player.h"
 #import "SingleLeaderboard.h"
+#import "GameColors.h"
 
 static CGFloat const kRowHeight = 45.0;
 static NSUInteger const kSkippedRows = 2;
@@ -40,7 +41,9 @@ static NSUInteger const kSkippedRows = 2;
     
     UIColor* separator_color = [UIColor colorWithRed:10.0/255.0 green:28.0/255.0 blue:148.0/255.0 alpha:1.0];
     [self.lbtable setSeparatorColor:separator_color];
-    
+    [self.closeCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
+    [self.closeCircle setButtonTarget:self action:@selector(didPressClose:)];
+
     spinner.hidden = FALSE;
     
     if ([[LeaderboardMgr getInstance] needsRefresh])
@@ -58,10 +61,11 @@ static NSUInteger const kSkippedRows = 2;
 
 - (void)viewDidUnload
 {
+    [self setCloseCircle:nil];
     [[LeaderboardMgr getInstance] setDelegate:nil];
 }
 
-- (IBAction)didPressClose:(id)sender
+- (void)didPressClose:(id)sender
 {
     [self.navigationController popToRightViewControllerAnimated:YES];
 }
