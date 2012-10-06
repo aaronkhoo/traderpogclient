@@ -13,6 +13,10 @@
 #import "PogUIUtility.h"
 #import "GameColors.h"
 #import "ImageManager.h"
+#import "GameManager.h"
+#import "GameViewController.h"
+#import "MapControl.h"
+#import "FlyerLabView.h"
 #import <QuartzCore/QuartzCore.h>
 
 NSString* const kPlayerPostCalloutViewReuseId = @"PlayerPostCalloutView";
@@ -100,6 +104,37 @@ static const float kCircleBorderWidth = 3.0f;
     [PogUIUtility setCircleShadowOnView:[self flyerLabBubble] shadowColor:[UIColor blackColor]];
 }
 
+- (void) handleFlyerLabClose:(id)sender
+{
+    NSLog(@"close");
+    
+    // explicitly close it
+    GameViewController* controller = [[GameManager getInstance] gameViewController];
+    [controller closeModalViewWithOptions:kGameViewModalFlag_Strict animated:YES];
+}
+
+static const float kFlyerLabYOffset = 0.0f;//-94.0f;
+- (void) showFlyerLabForPost:(MyTradePost*)tradePost
+{
+    GameViewController* controller = [[GameManager getInstance] gameViewController];
+    FlyerLabView* labView = (FlyerLabView*)[controller dequeueModalViewWithIdentifier:kFlyerLabViewReuseIdentifier];
+    if(!labView)
+    {
+        UIView* parent = [controller view];
+        labView = [[FlyerLabView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0.0f, 0.0f)];
+        CGRect labFrame = [PogUIUtility createCenterFrameWithSize:labView.contentView.bounds.size
+                                                          inFrame:parent.bounds
+                                                    withFrameSize:labView.nibView.bounds.size];
+        labFrame.origin.y += kFlyerLabYOffset;
+        [labView setFrame:labFrame];
+    }
+    
+    [labView addButtonTarget:self];
+    
+    // show it
+    [controller showModalView:labView options:kGameViewModalFlag_Strict animated:YES];
+}
+
 #pragma mark - button actions
 
 - (IBAction)didPressSetBeacon:(id)sender
@@ -125,6 +160,12 @@ static const float kCircleBorderWidth = 3.0f;
 
 - (IBAction)didPressFlyerLab:(id)sender
 {
-    NSLog(@"FlyerLab");
+    MyTradePost* thisPost = (MyTradePost*)[self.parentAnnotationView annotation];
+    if(thisPost)
+    {
+        NSLog(@"FlyerLab");
+        [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
+        [self showFlyerLabForPost:thisPost];
+    }
 }
 @end

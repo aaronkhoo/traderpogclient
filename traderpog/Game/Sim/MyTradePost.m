@@ -16,8 +16,10 @@
 #import "TradePostMgr.h"
 #import "TradePostAnnotationView.h"
 #import "TradePost+Render.h"
+#import "Flyer.h"
 
 @implementation MyTradePost
+@synthesize preFlyerLab = _preFlyerLab;
 
 #pragma mark - public functions
 - (id) initWithDictionary:(NSDictionary*)dict
@@ -26,6 +28,7 @@
     if (self)
     {
         _supplyLevel = [[dict valueForKeyPath:kKeyTradeSupply] integerValue];
+        _preFlyerLab = NO;
     }
     return self;
 }
@@ -40,6 +43,7 @@
         _coord = coordinate;
         _itemId = [itemType itemId];
         _beacontime = nil;
+        _preFlyerLab = NO;
     }
     return self;
 }
@@ -145,7 +149,35 @@
 {
     return (_beacontime && ([_beacontime timeIntervalSinceNow] > 0));
 }
-
+/*
+- (unsigned int) getMyTradePostState
+{
+    unsigned int state = kMyTradePostState_Idle;
+    
+    if([self flyerAtPost])
+    {
+        Flyer* flyer = [self flyerAtPost];
+        if(kFlyerStateWaitingToUnload == [flyer state])
+        {
+            state = kMyTradePostState_FlyerWaitingToUnload;
+        }
+        else if(kFlyerStateUnloading == [flyer state])
+        {
+            state = kMyTradePostState_FlyerUnloading;
+        }
+        else if([self preFlyerLab])
+        {
+            state = kMyTradePostState_PreFlyerLab;
+        }
+        else
+        {
+            state = kMyTradePostState_FlyerIdle;
+        }
+    }
+    
+    return state;
+}
+*/
 #pragma mark - MapAnnotationProtocol
 - (MKAnnotationView*) annotationViewInMap:(MKMapView *)mapView
 {

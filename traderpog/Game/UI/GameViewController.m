@@ -137,7 +137,7 @@ enum kKnobSlices
         _mapControl = nil;
         _trackedFlyer = nil;
         _reusableModals = [[ViewReuseQueue alloc] init];
-        
+
         [self storeOriginalYPositions];
     }
     return self;
@@ -195,6 +195,8 @@ enum kKnobSlices
                                                object:[Player getInstance]];
 
     _modalView = nil;
+    _modalScrim = nil;
+    _modalFlags = kGameViewModalFlag_None;
     [self startDisplayLink];
 }
 
@@ -210,6 +212,7 @@ enum kKnobSlices
     
     // unload game anim
     [GameAnim destroyInstance];
+    _modalScrim = nil;
     _modalView = nil;
     [_reusableModals clearQueue];
     
@@ -614,22 +617,45 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 
 - (void) showModalView:(UIView<ViewReuseDelegate>*)view animated:(BOOL)isAnimated
 {
-    _modalView = view;
-    [self.view addSubview:view];
-    [self dismissKnobAnimated:YES];
+    [self showModalView:view options:kGameViewModalFlag_None animated:isAnimated];
 }
 
 - (void) hideModalViewAnimated:(BOOL)isAnimated
 {
-    if(_modalView)
+    [self closeModalViewWithOptions:kGameViewModalFlag_None animated:isAnimated];
+}
+
+- (void) showModalView:(UIView *)view options:(unsigned int)options animated:(BOOL)isAnimated
+{
+    if(kGameViewModalFlag_Strict & options)
     {
+        // if strict modal, insert a scrim to block all inputs
+        _modalScrim = [[UIView alloc] initWithFrame:self.view.bounds];
+        [_modalScrim setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.8f]];
+        [self.view addSubview:_modalScrim];
+    }
+    _modalView = view;
+    _modalFlags = options;
+    [self.view addSubview:view];
+    [self dismissKnobAnimated:YES];    
+}
+
+- (void) closeModalViewWithOptions:(unsigned int)options animated:(BOOL)isAnimated
+{
+    if(_modalView && (options == _modalFlags))
+    {
+        if(_modalScrim)
+        {
+            [_modalScrim removeFromSuperview];
+            _modalScrim = nil;
+        }
         [_modalView removeFromSuperview];
         [self showKnobAnimated:YES delay:0.2f];
         
         UIView<ViewReuseDelegate>* cur = (UIView<ViewReuseDelegate>*)_modalView;
         [cur prepareForQueue];
         [_reusableModals queueView:cur];
-        _modalView = nil;
+        _modalView = nil;        
     }
 }
 

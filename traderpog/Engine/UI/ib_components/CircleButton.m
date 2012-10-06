@@ -43,6 +43,11 @@ static const float kImageInset = 2.0f;
     [[self layer] setBorderWidth:borderWidth];
 }
 
+- (void) setBorderColor:(UIColor *)borderColor
+{
+    [[self layer] setBorderColor:[borderColor CGColor]];
+}
+
 #pragma mark - default values
 + (UIColor*) defaultBgColor
 {

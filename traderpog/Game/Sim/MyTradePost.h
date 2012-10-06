@@ -9,7 +9,23 @@
 #import <Foundation/Foundation.h>
 #import "PlayerTradePost.h"
 
+/*
+enum kMyTradePostStates
+{
+    kMyTradePostState_Idle = 0,
+    kMyTradePostState_FlyerWaitingToUnload,
+    kMyTradePostState_FlyerUnloading,
+    kMyTradePostState_FlyerIdle,
+    kMyTradePostState_PreFlyerLab,
+    
+    kMyTradePostState_Num
+};
+*/
 @interface MyTradePost : PlayerTradePost
+{
+    BOOL _preFlyerLab;
+}
+@property (nonatomic) BOOL preFlyerLab;
 
 - (id) initWithCoordinates:(CLLocationCoordinate2D)coordinate
                   itemType:(TradeItemType *)itemType;

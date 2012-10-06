@@ -85,19 +85,8 @@ static const float kTriangleHeight = 40.0f;
     CGPathAddLineToPoint(path, NULL, contentMidBot.x + kTriangleWidth, contentMidBot.y);
     CGPathCloseSubpath(path);
     
-	//CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
-	CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    
-/*
-    CGRect myRect = CGRectInset(rect, -5.0f, -5.0f);
-    CGPathMoveToPoint(path, NULL, myRect.origin.x, myRect.origin.y);
-	CGPathAddLineToPoint(path, NULL, myRect.origin.x + (0.5f * myRect.size.width), myRect.origin.y + myRect.size.height + 200.0f);
-    CGPathAddLineToPoint(path, NULL, myRect.origin.x + myRect.size.width, myRect.origin.y);
-    CGPathCloseSubpath(path);
-*/
-    
     // draw triangle
+	CGContextRef context = UIGraphicsGetCurrentContext();
 	[triColor setFill];
 	CGContextAddPath(context, path);
 	CGContextSaveGState(context);
@@ -105,7 +94,6 @@ static const float kTriangleHeight = 40.0f;
 	CGContextRestoreGState(context);
     
     CGPathRelease(path);
-	//CGColorSpaceRelease(space);
 }
 
 #pragma mark - internal methods
@@ -125,4 +113,5 @@ static const float kTriangleHeight = 40.0f;
 {
     [self removeButtonTargets];
 }
+
 @end

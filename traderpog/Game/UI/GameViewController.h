@@ -12,6 +12,14 @@
 #import "GADBannerViewDelegate.h"
 #import "KnobProtocol.h"
 
+enum kGameViewModalFlags
+{
+    kGameViewModalFlag_None = 0,
+    kGameViewModalFlag_Strict = 1 << 0,
+    
+    kGameViewModalFlag_All = 0xffffffff
+};
+
 @class MKMapView;
 @class MapControl;
 @class ViewReuseQueue;
@@ -20,9 +28,11 @@
     MapControl* _mapControl;
     GADBannerView* _bannerView;
     
-    // game reusable views
+    // modal view
     ViewReuseQueue* _reusableModals;
     UIView* _modalView;
+    unsigned int _modalFlags;
+    UIView* _modalScrim;
 }
 @property (nonatomic, strong) MapControl* mapControl;
 @property (nonatomic) CLLocationCoordinate2D coord;
@@ -44,6 +54,8 @@
 
 // modal ui
 - (UIView*) dequeueModalViewWithIdentifier:(NSString*)identifier;
+- (void) showModalView:(UIView *)view options:(unsigned int)options animated:(BOOL)isAnimated;
+- (void) closeModalViewWithOptions:(unsigned int)options animated:(BOOL)isAnimated;
 - (void) showModalView:(UIView*)view animated:(BOOL)isAnimated;
 - (void) hideModalViewAnimated:(BOOL)isAnimated;
 
