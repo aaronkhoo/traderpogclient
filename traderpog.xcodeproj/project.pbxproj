@@ -75,6 +75,7 @@
 		4254BE0C161817AF008FD41D /* icon_alert_flyer.png in Resources */ = {isa = PBXBuildFile; fileRef = 4254BE09161817AE008FD41D /* icon_alert_flyer.png */; };
 		4254BE0D161817AF008FD41D /* icon_alert_post.png in Resources */ = {isa = PBXBuildFile; fileRef = 4254BE0A161817AE008FD41D /* icon_alert_post.png */; };
 		4254BE0E161817AF008FD41D /* x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4254BE0B161817AF008FD41D /* x.png */; };
+		425B09F11621E8E400E41463 /* flyerlab.plist in Resources */ = {isa = PBXBuildFile; fileRef = 425B09F01621E8E400E41463 /* flyerlab.plist */; };
 		4261EC8F161E1847000642B6 /* ViewReuseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261EC8E161E1847000642B6 /* ViewReuseQueue.m */; };
 		4277385215D3A5CE004DCC13 /* BeaconMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4277385115D3A5CE004DCC13 /* BeaconMgr.m */; };
 		4277D994160C5908008AD767 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4277D993160C5908008AD767 /* Default-568h@2x.png */; };
@@ -96,6 +97,7 @@
 		42BF7B5D1620E0DB000D926C /* FlyerColorPack.m in Sources */ = {isa = PBXBuildFile; fileRef = 42BF7B5C1620E0DA000D926C /* FlyerColorPack.m */; };
 		42C766B31607900900D21354 /* LoadingTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C766B11607900900D21354 /* LoadingTransition.m */; };
 		42C766B41607900900D21354 /* LoadingTransition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C766B21607900900D21354 /* LoadingTransition.xib */; };
+		42CBADDC1621DB3300BA7363 /* NSDictionary+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CBADDB1621DB3300BA7363 /* NSDictionary+Pog.m */; };
 		42CEEC681603066400AED5ED /* flyer.png in Resources */ = {isa = PBXBuildFile; fileRef = 42CEEC671603066400AED5ED /* flyer.png */; };
 		42CF832A160E57CA00561CA0 /* pogresting_001.png in Resources */ = {isa = PBXBuildFile; fileRef = 42CF8325160E57CA00561CA0 /* pogresting_001.png */; };
 		42CF832B160E57CA00561CA0 /* pogsesting_002.png in Resources */ = {isa = PBXBuildFile; fileRef = 42CF8326160E57CA00561CA0 /* pogsesting_002.png */; };
@@ -366,6 +368,7 @@
 		4254BE09161817AE008FD41D /* icon_alert_flyer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_alert_flyer.png; path = assets/UI/icon_alert_flyer.png; sourceTree = SOURCE_ROOT; };
 		4254BE0A161817AE008FD41D /* icon_alert_post.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_alert_post.png; path = assets/UI/icon_alert_post.png; sourceTree = SOURCE_ROOT; };
 		4254BE0B161817AF008FD41D /* x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = x.png; path = assets/UI/x.png; sourceTree = SOURCE_ROOT; };
+		425B09F01621E8E400E41463 /* flyerlab.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = flyerlab.plist; path = assets/game/flyerlab.plist; sourceTree = SOURCE_ROOT; };
 		4261EC8D161E1847000642B6 /* ViewReuseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewReuseQueue.h; sourceTree = "<group>"; };
 		4261EC8E161E1847000642B6 /* ViewReuseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewReuseQueue.m; sourceTree = "<group>"; };
 		4261EC90161E1855000642B6 /* ViewReuseDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewReuseDelegate.h; sourceTree = "<group>"; };
@@ -403,6 +406,8 @@
 		42C766B01607900900D21354 /* LoadingTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingTransition.h; sourceTree = "<group>"; };
 		42C766B11607900900D21354 /* LoadingTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingTransition.m; sourceTree = "<group>"; };
 		42C766B21607900900D21354 /* LoadingTransition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingTransition.xib; sourceTree = "<group>"; };
+		42CBADDA1621DB3300BA7363 /* NSDictionary+Pog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Pog.h"; sourceTree = "<group>"; };
+		42CBADDB1621DB3300BA7363 /* NSDictionary+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Pog.m"; sourceTree = "<group>"; };
 		42CEEC671603066400AED5ED /* flyer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer.png; path = assets/Map/flyer.png; sourceTree = SOURCE_ROOT; };
 		42CF8325160E57CA00561CA0 /* pogresting_001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pogresting_001.png; sourceTree = "<group>"; };
 		42CF8326160E57CA00561CA0 /* pogsesting_002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pogsesting_002.png; sourceTree = "<group>"; };
@@ -772,6 +777,14 @@
 			path = assets/anim;
 			sourceTree = SOURCE_ROOT;
 		};
+		42CBADDE1621E3B500BA7363 /* game */ = {
+			isa = PBXGroup;
+			children = (
+				425B09F01621E8E400E41463 /* flyerlab.plist */,
+			);
+			name = game;
+			sourceTree = "<group>";
+		};
 		42FEF18F161CC5A900E7EB4E /* items */ = {
 			isa = PBXGroup;
 			children = (
@@ -938,6 +951,8 @@
 			children = (
 				42B28E2D15E99E5A0008901C /* NSArray+Pog.h */,
 				42B28E2E15E99E5A0008901C /* NSArray+Pog.m */,
+				42CBADDA1621DB3300BA7363 /* NSDictionary+Pog.h */,
+				42CBADDB1621DB3300BA7363 /* NSDictionary+Pog.m */,
 				C4BBE45515BA741C00F582DE /* MathUtils.c */,
 				C4BBE45615BA741C00F582DE /* MathUtils.h */,
 				C4945B8915AC936600EEC0C0 /* HiAccuracyLocator.h */,
@@ -1014,6 +1029,7 @@
 			isa = PBXGroup;
 			children = (
 				42FA1A5915F55EBA00EB2433 /* checkerboard.png */,
+				42CBADDE1621E3B500BA7363 /* game */,
 				421564D515F6B2E400AAE851 /* anim */,
 				C4FA8F4E15B5401000E82A93 /* UI */,
 				C4D5DDEC15B3D05600D5A746 /* Map */,
@@ -1393,6 +1409,7 @@
 				42EF2FA2161F82A40077C997 /* FlyerLabView.xib in Resources */,
 				4237D4831620A40F009A29F1 /* FlyerCustomize.xib in Resources */,
 				42BF7B531620DC11000D926C /* FlyerUpgrade.xib in Resources */,
+				425B09F11621E8E400E41463 /* flyerlab.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1523,6 +1540,7 @@
 				42BF7B571620E033000D926C /* FlyerLabFactory.m in Sources */,
 				42BF7B5A1620E09F000D926C /* FlyerUpgradePack.m in Sources */,
 				42BF7B5D1620E0DB000D926C /* FlyerColorPack.m in Sources */,
+				42CBADDC1621DB3300BA7363 /* NSDictionary+Pog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

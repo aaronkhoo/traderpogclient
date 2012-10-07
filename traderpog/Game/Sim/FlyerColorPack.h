@@ -8,6 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-@interface FlyerColorPack : NSObject
+extern NSString* const kKeyColorRed;
+extern NSString* const kKeyColorGreen;
+extern NSString* const kKeyColorBlue;
+extern NSString* const kKeyColorAlpha;
 
+@interface FlyerColorPack : NSObject
+{
+    UIColor* _color;
+}
+@property (nonatomic,readonly) UIColor* color;
+
+- (id) initWithDictionary:(NSDictionary*)dict;
 @end

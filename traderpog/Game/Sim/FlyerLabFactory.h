@@ -9,7 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface FlyerLabFactory : NSObject
-
+{
+    NSMutableDictionary* _colorPacks;
+    NSMutableDictionary* _upgradePacks;
+}
 // singleton
 +(FlyerLabFactory*) getInstance;
 +(void) destroyInstance;

@@ -27,6 +27,7 @@
 #import "AnimMgr.h"
 #import "ImageManager.h"
 #import "GameAnim.h"
+#import "FlyerLabFactory.h"
 #import "DebugMenu.h"
 #import "UINavigationController+Pog.h"
 #import "GameEventView.h"
@@ -145,7 +146,8 @@ enum kKnobSlices
 
 - (void) dealloc
 {
-    // unload game anim
+    // unload game resources
+    [FlyerLabFactory destroyInstance];
     [GameAnim destroyInstance];
 }
 
@@ -156,8 +158,9 @@ enum kKnobSlices
     // version string
     [self.versionLabel setText:[PogUIUtility versionStringForCurConfig]];
     
-    // load game anim
+    // load game resources
     [GameAnim getInstance];
+    [FlyerLabFactory getInstance];
     
     // create main mapview
     self.mapControl = [[MapControl alloc] initWithMapView:[self mapView] andCenter:_initCoord];
@@ -210,7 +213,8 @@ enum kKnobSlices
     [self.mapControl stopTrackingAnnotation];
     self.mapControl = nil;
     
-    // unload game anim
+    // unload game resources
+    [FlyerLabFactory destroyInstance];
     [GameAnim destroyInstance];
     _modalScrim = nil;
     _modalView = nil;
