@@ -11,6 +11,10 @@
 #import "UINavigationController+Pog.h"
 #import "FlyerCustomize.h"
 #import "FlyerUpgrade.h"
+#import "PogUIUtility.h"
+
+static const float kContentBorderWidth = 6.0f;
+static const float kContentBorderCornerRadius = 8.0f;
 
 @interface FlyerLabViewController ()
 - (void) didPressClose:(id)sender;
@@ -36,6 +40,11 @@
 {
     [super viewDidLoad];
     self.view.alpha = 1.0f;
+    [PogUIUtility setBorderOnView:self.contentView
+                            width:kContentBorderWidth
+                            color:[GameColors borderColorScanWithAlpha:1.0f]
+                     cornerRadius:kContentBorderCornerRadius];
+
     [self.closeCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.closeCircle setButtonTarget:self action:@selector(didPressClose:)];
 }
@@ -48,6 +57,7 @@
 - (void)viewDidUnload
 {
     [self.closeCircle removeButtonTarget];
+    [self setContentView:nil];
     [self setCloseCircle:nil];
     [super viewDidUnload];
 }

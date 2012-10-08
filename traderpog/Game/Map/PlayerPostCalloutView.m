@@ -16,7 +16,6 @@
 #import "GameManager.h"
 #import "GameViewController.h"
 #import "MapControl.h"
-#import "FlyerLabView.h"
 #import "FlyerLabViewController.h"
 #import <QuartzCore/QuartzCore.h>
 

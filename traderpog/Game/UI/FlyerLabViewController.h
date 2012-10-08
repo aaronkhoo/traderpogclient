@@ -10,6 +10,7 @@
 #import "CircleButton.h"
 
 @interface FlyerLabViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
 
 - (IBAction)didPressCustomize:(id)sender;
