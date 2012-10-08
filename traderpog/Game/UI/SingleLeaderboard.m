@@ -14,6 +14,7 @@
 #import "SingleLeaderboard.h"
 #import "GameColors.h"
 #import "UrlImage.h"
+#import "UrlImageManager.h"
 
 static NSString* const kKeyIndex = @"index";
 static NSString* const kKeyName = @"name";
@@ -210,7 +211,7 @@ static CGFloat const kRowHeight = 30.0;
         [cell.contentView addSubview:leftLabel];
         
         UIImageView* playerImg = [[UIImageView alloc] initWithFrame:CGRectMake(MAX(_nameStartPosition, leftLabel.frame.size.width), 0.0, kRowHeight, kRowHeight)];
-        UrlImage* urlImage = [[LeaderboardMgr getInstance] getCachedImage:[currentRow objectForKey:kKeyFbid]];
+        UrlImage* urlImage = [[UrlImageManager getInstance] getCachedImage:[currentRow objectForKey:kKeyFbid]];
         if(urlImage)
         {
             [playerImg setImage:[urlImage image]];
@@ -220,7 +221,7 @@ static CGFloat const kRowHeight = 30.0;
             
             NSString* pictureUrlString = [NSString stringWithFormat:kFbPictureUrl, [currentRow objectForKey:kKeyFbid]];
             UrlImage* urlImage = [[UrlImage alloc] initWithUrl:pictureUrlString forImageView:playerImg];
-            [[LeaderboardMgr getInstance] insertImageToCache:[currentRow objectForKey:kKeyFbid] image:urlImage];
+            [[UrlImageManager getInstance] insertImageToCache:[currentRow objectForKey:kKeyFbid] image:urlImage];
         }
         [cell.contentView addSubview:playerImg];
         
