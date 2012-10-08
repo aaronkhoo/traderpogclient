@@ -35,6 +35,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.alpha = 1.0f;
     [self.closeCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.closeCircle setButtonTarget:self action:@selector(didPressClose:)];
 }
@@ -54,8 +55,15 @@
 #pragma mark - button actions
 - (void) didPressClose:(id)sender
 {
-    [self.navigationController popFadeOutViewControllerAnimated:YES];
+    [UIView animateWithDuration:0.2f
+                     animations:^(void){
+                         self.view.alpha = 0.0f;
+                     }
+                     completion:^(BOOL finished){
+                         [self.navigationController popViewControllerAnimated:NO];
+                     }];
 }
+
 - (IBAction)didPressCustomize:(id)sender
 {
     FlyerCustomize* next = [[FlyerCustomize alloc] initWithNibName:@"FlyerCustomize" bundle:nil];

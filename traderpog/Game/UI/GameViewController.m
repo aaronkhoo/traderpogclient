@@ -675,21 +675,10 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 - (void) showModalNavViewController:(UIViewController*)controller
                          completion:(ModalNavCompletionBlock)completion
 {
-    // if there's already a modal, dismiss it
-    [self dismissModal];
-    
-    // present the given view controller as a modal-nav
-//    ModalNavControl* modal = [[ModalNavControl alloc] init];
-//    [self.view addSubview:modal.view];
     ModalNavControl* modal = self.modalNav;
     [modal.view setHidden:NO];
     [modal.navController pushFadeInViewController:controller animated:YES];
     modal.delegate = self;
-//    modal.completionBlock = completion;
-    modal.completionBlock = ^(BOOL finished){
-        [self showKnobAnimated:YES delay:0.2f];
-    };
-//    self.modalNav = modal;
     
     [self dismissKnobAnimated:YES];
 }
@@ -697,16 +686,8 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 #pragma mark - ModalNavDelegate
 - (void) dismissModal
 {
-    /*
-    if([self modalNav])
-    {
-        [self.modalNav.view removeFromSuperview];
-        self.modalNav = nil;
-
-//        [self showKnobAnimated:YES delay:0.2f];
-    }
-     */
     [self.modalNav.view setHidden:YES];
+    [self showKnobAnimated:YES delay:0.0f];
 }
 
 

@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "AsyncHttpDelegate.h"
 #import "GameViewController.h"
-#import "ModalNavDelegate.h"
-#import "ModalNavControl.h"
 #import "HttpCallbackDelegate.h"
 
 enum kGameStates
@@ -42,7 +40,7 @@ typedef enum _BrowseEnforcedType
 @class Flyer;
 @class TradePost;
 @class WheelControl;
-@interface GameManager : NSObject<AsyncHttpDelegate,HttpCallbackDelegate,ModalNavDelegate>
+@interface GameManager : NSObject<AsyncHttpDelegate,HttpCallbackDelegate>
 {
     int _gameState;
 
@@ -71,9 +69,6 @@ typedef enum _BrowseEnforcedType
 - (BOOL) canProcessGameEventNotifications;
 - (BrowseEnforcedType) enforceBrowse:(BrowseEnforcedType)enforcedType;
 - (BrowseEnforcedType) currentBrowseEnforced;
-- (void) startModalNavControlInView:(UIView*)parentView
-                     withController:(UIViewController *)viewController
-                    completionBlock:(ModalNavCompletionBlock)completionBlock;
 
 + (NSString*) documentsDirectory;
 

@@ -90,7 +90,6 @@ typedef enum {
     pthread_rwlock_t _browseEnforcedLock;
 
 }
-@property (nonatomic,strong) ModalNavControl* modalNav;
 @property (nonatomic,strong) HiAccuracyLocator* playerLocator;
 
 - (void) getGameInfoModifiedDate;
@@ -104,7 +103,6 @@ typedef enum {
 @implementation GameManager
 @synthesize gameState = _gameState;
 @synthesize loadingScreen = _loadingScreen;
-@synthesize modalNav;
 @synthesize gameViewController = _gameViewController;
 @synthesize playerLocator = _playerLocator;
 
@@ -158,18 +156,6 @@ typedef enum {
     UINavigationController* nav = appDelegate.navController;
     [nav popFadeOutToRootViewControllerAnimated:NO];
     _gameViewController = nil;
-}
-
-- (void) startModalNavControlInView:(UIView*)parentView 
-                     withController:(UIViewController *)viewController
-                    completionBlock:(ModalNavCompletionBlock)completionBlock
-{
-    ModalNavControl* modal = [[ModalNavControl alloc] init];
-    [parentView addSubview:modal.view];
-    [modal.navController pushFadeInViewController:viewController animated:YES];
-    modal.delegate = self;
-    modal.completionBlock = completionBlock;
-    self.modalNav = modal;
 }
 
 #pragma mark - internal methods
@@ -387,16 +373,6 @@ typedef enum {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     return documentsDirectory;
-}
-
-#pragma mark - ModalNavDelegate
-- (void) dismissModal
-{
-    if([self modalNav])
-    {
-        [self.modalNav.view removeFromSuperview];
-        self.modalNav = nil;
-    }
 }
 
 #pragma mark - location notifications
