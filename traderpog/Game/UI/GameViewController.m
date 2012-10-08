@@ -34,6 +34,8 @@
 #import "GameEventMgr.h"
 #import "GameManager.h"
 #import "ViewReuseQueue.h"
+#import "PlayerSales.h"
+#import "PlayerSalesScreen.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -233,9 +235,27 @@ enum kKnobSlices
     [super viewDidUnload];
 }
 
+-(void) viewDidAppear:(BOOL)animated
+{
+    double delayInSeconds = 0.1;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self displayPlayerSalesIfNecessary];
+    });
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)displayPlayerSalesIfNecessary
+{
+    if ([[PlayerSales getInstance] hasSales])
+    {
+        PlayerSalesScreen* sales = [[PlayerSalesScreen alloc] initWithNibName:@"PlayerSalesScreen" bundle:nil];
+        [self.navigationController pushFromRightViewController:sales animated:YES];
+    }
 }
 
 #pragma mark - display link

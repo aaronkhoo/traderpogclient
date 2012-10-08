@@ -69,6 +69,7 @@ static const float kPostTribute = 0.02;
 @synthesize lastKnownLocationValid = _lastKnownLocationValid;
 @synthesize lastKnownLocation = _lastKnownLocation;
 @synthesize fbname = _fbname;
+@synthesize fbid = _facebookid;
 
 - (id) init
 {
@@ -259,6 +260,7 @@ static const float kPostTribute = 0.02;
     [aCoder encodeDouble:_lastKnownLocation.longitude forKey:kKeyLastKnownLongitude];
     [aCoder encodeObject:_currentWeekOf forKey:kKeyCurrentWeekOf];
     [aCoder encodeObject:_fbname forKey:kKeyFacebookName];
+    [aCoder encodeObject:_fbFriends forKey:kKeyFacebookFriends];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
@@ -284,6 +286,7 @@ static const float kPostTribute = 0.02;
     _lastKnownLocationValid = [aDecoder decodeBoolForKey:kKeyLastKnownLocationValid];
     _currentWeekOf = [aDecoder decodeObjectForKey:kKeyCurrentWeekOf];
     _fbname = [aDecoder decodeObjectForKey:kKeyFacebookName];
+    _fbFriends = [aDecoder decodeObjectForKey:kKeyFacebookFriends];
     return self;
 }
 

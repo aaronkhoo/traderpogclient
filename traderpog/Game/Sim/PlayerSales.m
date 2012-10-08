@@ -48,7 +48,7 @@ static NSString* const kPlayerSalesFilename = @"playersales.sav";
 
 - (BOOL) needsRefresh
 {
-    return (!_lastUpdate || ([_lastUpdate timeIntervalSinceNow] < refreshTime));
+    return (!_hasSales && (!_lastUpdate || ([_lastUpdate timeIntervalSinceNow] < refreshTime)));
 }
 
 - (void) retrieveSalesFromServer
@@ -88,9 +88,9 @@ static NSString* const kPlayerSalesFilename = @"playersales.sav";
     
     for (NSDictionary* sale in responseObject)
     {
-        _bucks = _bucks + [[responseObject valueForKeyPath:@"amount"] integerValue];
+        _bucks = _bucks + [[sale valueForKeyPath:@"amount"] integerValue];
         
-        id obj = [responseObject valueForKeyPath:@"fbid"];
+        id obj = [sale valueForKeyPath:@"fbid"];
         if ((NSNull *)obj == [NSNull null])
         {
             // Count the non-facebook account that traded with some post
