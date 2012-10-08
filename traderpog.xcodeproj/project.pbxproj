@@ -23,6 +23,9 @@
 		3889129815D5D8B6009CF624 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 3889129015D5D8B6009CF624 /* unzip.c */; };
 		3889129915D5D8B6009CF624 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 3889129215D5D8B6009CF624 /* zip.c */; };
 		3889129A15D5D8B6009CF624 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 3889129515D5D8B6009CF624 /* SSZipArchive.m */; };
+		388B6812161FC14A00AB74FC /* PlayerSalesScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 388B6811161FC14A00AB74FC /* PlayerSalesScreen.xib */; };
+		388B6816161FC1FC00AB74FC /* PlayerSalesScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 388B6815161FC1FC00AB74FC /* PlayerSalesScreen.m */; };
+		388B6819161FD91F00AB74FC /* UrlImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 388B6818161FD91F00AB74FC /* UrlImageManager.m */; };
 		38A31CE6161BECC6009FC64A /* PlayerSales.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A31CE5161BECC5009FC64A /* PlayerSales.m */; };
 		38A31CF1161CB7C0009FC64A /* SingleLeaderboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38A31CF0161CB7C0009FC64A /* SingleLeaderboard.xib */; };
 		38A31CF5161CDE1D009FC64A /* SingleLeaderboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A31CF4161CDE1C009FC64A /* SingleLeaderboard.m */; };
@@ -255,6 +258,11 @@
 		3889129315D5D8B6009CF624 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		3889129415D5D8B6009CF624 /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSZipArchive.h; sourceTree = "<group>"; };
 		3889129515D5D8B6009CF624 /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSZipArchive.m; sourceTree = "<group>"; };
+		388B6811161FC14A00AB74FC /* PlayerSalesScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlayerSalesScreen.xib; path = Game/UI/PlayerSalesScreen.xib; sourceTree = "<group>"; };
+		388B6814161FC1FC00AB74FC /* PlayerSalesScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerSalesScreen.h; path = Game/UI/PlayerSalesScreen.h; sourceTree = "<group>"; };
+		388B6815161FC1FC00AB74FC /* PlayerSalesScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerSalesScreen.m; path = Game/UI/PlayerSalesScreen.m; sourceTree = "<group>"; };
+		388B6817161FD91F00AB74FC /* UrlImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UrlImageManager.h; path = Resources/UrlImageManager.h; sourceTree = "<group>"; };
+		388B6818161FD91F00AB74FC /* UrlImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UrlImageManager.m; path = Resources/UrlImageManager.m; sourceTree = "<group>"; };
 		38A31CE4161BECC5009FC64A /* PlayerSales.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerSales.h; path = Game/Sim/PlayerSales.h; sourceTree = "<group>"; };
 		38A31CE5161BECC5009FC64A /* PlayerSales.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerSales.m; path = Game/Sim/PlayerSales.m; sourceTree = "<group>"; };
 		38A31CF0161CB7C0009FC64A /* SingleLeaderboard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SingleLeaderboard.xib; path = Game/UI/SingleLeaderboard.xib; sourceTree = "<group>"; };
@@ -635,6 +643,8 @@
 				4216381715F9A139002E6FD5 /* DownloadDelegate.h */,
 				4216381815F9A4E3002E6FD5 /* UrlImage.h */,
 				4216381915F9A4E3002E6FD5 /* UrlImage.m */,
+				388B6817161FD91F00AB74FC /* UrlImageManager.h */,
+				388B6818161FD91F00AB74FC /* UrlImageManager.m */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1112,6 +1122,9 @@
 				38A31CF3161CDE1B009FC64A /* SingleLeaderboard.h */,
 				38A31CF4161CDE1C009FC64A /* SingleLeaderboard.m */,
 				38A31CF0161CB7C0009FC64A /* SingleLeaderboard.xib */,
+				388B6814161FC1FC00AB74FC /* PlayerSalesScreen.h */,
+				388B6815161FC1FC00AB74FC /* PlayerSalesScreen.m */,
+				388B6811161FC14A00AB74FC /* PlayerSalesScreen.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -1410,6 +1423,7 @@
 				4237D4831620A40F009A29F1 /* FlyerCustomize.xib in Resources */,
 				42BF7B531620DC11000D926C /* FlyerUpgrade.xib in Resources */,
 				425B09F11621E8E400E41463 /* flyerlab.plist in Resources */,
+                388B6812161FC14A00AB74FC /* PlayerSalesScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1541,6 +1555,8 @@
 				42BF7B5A1620E09F000D926C /* FlyerUpgradePack.m in Sources */,
 				42BF7B5D1620E0DB000D926C /* FlyerColorPack.m in Sources */,
 				42CBADDC1621DB3300BA7363 /* NSDictionary+Pog.m in Sources */,
+				388B6816161FC1FC00AB74FC /* PlayerSalesScreen.m in Sources */,
+				388B6819161FD91F00AB74FC /* UrlImageManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -25,6 +25,7 @@
 #import "LeaderboardMgr.h"
 #import "GameEventMgr.h"
 #import "PlayerSales.h"
+#import "UrlImageManager.h"
 #import <RevMobAds/RevMobAds.h>
 
 static const float kAppScreenWidth = 320.0f;
@@ -162,6 +163,7 @@ static const float kAppScreenHeight = 480.0f;
     [LeaderboardMgr getInstance];
     [GameEventMgr getInstance];
     [PlayerSales getInstance];
+    [UrlImageManager getInstance];
     
     // Setting up the HTTP callback delegates
     [[Player getInstance] setDelegate:[GameManager getInstance]];
@@ -200,6 +202,10 @@ static const float kAppScreenHeight = 480.0f;
     [Player destroyInstance];
     [ImageManager destroyInstance];
     [ResourceManager destroyInstance];
+    [AsyncHttpCallMgr destroyInstance];
+    [LeaderboardMgr destroyInstance];
+    [PlayerSales destroyInstance];
+    [UrlImageManager destroyInstance];
 }
 
 - (void) setupNavigationController

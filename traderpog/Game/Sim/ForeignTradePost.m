@@ -10,6 +10,7 @@
 #import "ForeignTradePost.h"
 #import "ImageManager.h"
 #import "MathUtils.h"
+#import "Player.h"
 #import "TradeItemType.h"
 #import "TradeItemTypes.h"
 #import "TradePost+Render.h"
@@ -38,11 +39,14 @@
     NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 [NSNumber numberWithInteger:deductSupplies], kKeyTradeSupply,
                                 nil];
+    NSDictionary* headers = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [[Player getInstance] fbid], @"fbid",
+                                nil];
     NSString* msg = [[NSString alloc] initWithFormat:@"Updating Foreign Post with %d supply change failed", deductSupplies];
     
     [[AsyncHttpCallMgr getInstance] newAsyncHttpCall:path
                                       current_params:parameters
-                                     current_headers:nil
+                                     current_headers:headers
                                          current_msg:msg
                                         current_type:putType];
 }

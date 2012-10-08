@@ -32,6 +32,7 @@
 #import "ResourceManager.h"
 #import "GameNotes.h"
 #import "PlayerSales.h"
+#import "PlayerSalesScreen.h"
 #import <CoreLocation/CoreLocation.h>
 
 // List of Game UI screens that GameManager can kick off
@@ -179,13 +180,14 @@ typedef enum {
 
 - (void) startGame
 {
+    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    UINavigationController* nav = appDelegate.navController;
+    
     if (![self gameViewController])
     {
         _gameViewController = [[GameViewController alloc] initAtCoordinate:[[Player getInstance] lastKnownLocation]];
         
         // push the gameViewController onto the stack
-        AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-        UINavigationController* nav = appDelegate.navController;
         [nav pushFadeInViewController:self.gameViewController animated:YES];
     }
     
@@ -205,7 +207,6 @@ typedef enum {
             [self.gameViewController showKnobAnimated:YES delay:0.5f];
             
             [[Player getInstance] resetBucksIfNecessary];
-            
             break;
             
         default:
