@@ -13,4 +13,6 @@
 - (int) getIntForKey:(NSString*)varKey withDefault:(int)defaultValue;
 - (unsigned int) getUnsignedIntForKey:(NSString*)varKey withDefault:(unsigned int)defaultValue;
 - (BOOL) getBoolForKey:(NSString*)varKey;
+- (NSString* const) getStringForKey:(NSString*)key withDefault:(NSString* const)defaultString;
+
 @end

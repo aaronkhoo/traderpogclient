@@ -9,7 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "CircleButton.h"
 
+@class Flyer;
 @interface FlyerLabViewController : UIViewController
+{
+    Flyer *_flyer;
+}
+@property (nonatomic,strong) Flyer* flyer;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
 

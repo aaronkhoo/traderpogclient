@@ -113,31 +113,15 @@ static const float kCircleBorderWidth = 3.0f;
     [controller closeModalViewWithOptions:kGameViewModalFlag_Strict animated:YES];
 }
 
-static const float kFlyerLabYOffset = 0.0f;//-94.0f;
 - (void) showFlyerLabForPost:(MyTradePost*)tradePost
 {
-    GameViewController* game = [[GameManager getInstance] gameViewController];
-    FlyerLabViewController* next = [[FlyerLabViewController alloc] initWithNibName:@"FlyerLabViewController" bundle:nil];
-    [game showModalNavViewController:next completion:nil];
-    /*
-    
-    FlyerLabView* labView = (FlyerLabView*)[controller dequeueModalViewWithIdentifier:kFlyerLabViewReuseIdentifier];
-    if(!labView)
+    if([tradePost flyerAtPost])
     {
-        UIView* parent = [controller view];
-        labView = [[FlyerLabView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0.0f, 0.0f)];
-        CGRect labFrame = [PogUIUtility createCenterFrameWithSize:labView.contentView.bounds.size
-                                                          inFrame:parent.bounds
-                                                    withFrameSize:labView.nibView.bounds.size];
-        labFrame.origin.y += kFlyerLabYOffset;
-        [labView setFrame:labFrame];
+        GameViewController* game = [[GameManager getInstance] gameViewController];
+        FlyerLabViewController* next = [[FlyerLabViewController alloc] initWithNibName:@"FlyerLabViewController" bundle:nil];
+        next.flyer = [tradePost flyerAtPost];
+        [game showModalNavViewController:next completion:nil];
     }
-    
-    [labView addButtonTarget:self];
-    
-    // show it
-    [controller showModalView:labView options:kGameViewModalFlag_Strict animated:YES];
-     */
 }
 
 #pragma mark - button actions

@@ -11,6 +11,8 @@
 #import "Flyer.h"
 #import "FlyerType.h"
 #import "FlyerTypes.h"
+#import "FlyerLabFactory.h"
+#import "FlyerUpgradePack.h"
 #import "FlightPathOverlay.h"
 #import "FlyerAnnotationView.h"
 #import "GameManager.h"
@@ -25,8 +27,8 @@
 #import "GameNotes.h"
 #import "DebugOptions.h"
 #import "GameEventMgr.h"
+#import "NSDictionary+Pog.h"
 
-static const float kFlyerDefaultSpeedMetersPerSec = 10000.0f;
 static NSString* const kKeyUserFlyerId = @"id";
 static NSString* const kKeyFlyerId = @"flyer_info_id";
 static NSString* const kKeyFlyerTypeIndex = @"flyer_type_index";
@@ -35,6 +37,7 @@ static NSString* const kKeyInventory = @"inventory";
 static NSString* const kKeyPath = @"path";
 NSString* const kKeyFlyerState = @"state";
 static NSString* const kKeyStateBegin = @"stateBegin";
+static NSString* const kKeyCurUpgradeTier = @"curUpgradeTier";
 
 @interface Flyer ()
 {
@@ -89,6 +92,7 @@ static NSString* const kKeyStateBegin = @"stateBegin";
         
         _inventory = [[FlyerInventory alloc] init];
         _path = [[FlyerPath alloc] initWithPost:tradePost];
+        _curUpgradeTier = 0;
     }
     return self;
 }
@@ -131,6 +135,10 @@ static NSString* const kKeyStateBegin = @"stateBegin";
         
         // Initialize path
         _path = [[FlyerPath alloc] initWithDictionary:path_dict];
+
+        // HACK - need curUpgradeTier from dictionary
+        _curUpgradeTier = [dict getUnsignedIntForKey:kKeyCurUpgradeTier withDefault:0];
+        // HACK
         
         // init runtime transient vars
         _coord = _path.srcCoord;
@@ -155,6 +163,7 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     
     [aCoder encodeObject:_inventory forKey:kKeyInventory];
     [aCoder encodeObject:_path forKey:kKeyPath];
+    [aCoder encodeObject:[NSNumber numberWithUnsignedInt:_curUpgradeTier] forKey:kKeyCurUpgradeTier];
     
     [aCoder encodeObject:[NSNumber numberWithUnsignedInt:_state] forKey:kKeyFlyerState];
     [aCoder encodeObject:_stateBegin forKey:kKeyStateBegin];
@@ -167,7 +176,16 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     _userFlyerId = [aDecoder decodeObjectForKey:kKeyUserFlyerId];
     _inventory = [aDecoder decodeObjectForKey:kKeyInventory];
     _path = [aDecoder decodeObjectForKey:kKeyPath];
-
+    NSNumber* curUpgradeObj = [aDecoder decodeObjectForKey:kKeyCurUpgradeTier];
+    if(curUpgradeObj)
+    {
+        _curUpgradeTier = [curUpgradeObj unsignedIntValue];
+    }
+    else
+    {
+        _curUpgradeTier = 0;
+    }
+    
     NSNumber* stateObj = [aDecoder decodeObjectForKey:kKeyFlyerState];
     if(stateObj)
     {
@@ -192,19 +210,6 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     _isNewFlyer = NO;
     
     return self;
-}
-
-- (NSInteger) getFlyerSpeed
-{
-    FlyerType* current  = [[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex];
-    NSInteger speed = [current speed];
-    
-    if([[DebugOptions getInstance] speed100x])
-    {
-        speed *= 2000;
-    }
-    
-    return speed;
 }
 
 - (float) getFlyerLoadDuration
@@ -273,6 +278,34 @@ static NSString* const kKeyStateBegin = @"stateBegin";
     // add rendering
     [[[[GameManager getInstance] gameViewController] mapControl] showFlightPathForFlyer:self];
 }
+
+#pragma mark - flyer attributes
+- (void) applyUpgradeTier:(unsigned int)tier
+{
+    unsigned int newTier = MIN(tier, [[FlyerLabFactory getInstance] maxUpgradeTier]);
+    _curUpgradeTier = newTier;
+}
+
+- (NSInteger) getFlyerSpeed
+{
+    FlyerType* current  = [[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex];
+    NSInteger speed = [current speed];
+    
+    if(_curUpgradeTier)
+    {
+        FlyerUpgradePack* upgrade = [[FlyerLabFactory getInstance] upgradeForTier:_curUpgradeTier];
+        float fSpeed = ((float)speed) * [upgrade speedFactor];
+        speed = (unsigned int)fSpeed;
+    }
+    
+    if([[DebugOptions getInstance] speed100x])
+    {
+        speed *= 2000;
+    }
+    
+    return speed;
+}
+
 
 #pragma mark - flight public
 

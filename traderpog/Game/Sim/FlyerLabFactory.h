@@ -8,11 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+@class FlyerUpgradePack;
 @interface FlyerLabFactory : NSObject
 {
     NSMutableDictionary* _colorPacks;
-    NSMutableDictionary* _upgradePacks;
+    NSMutableArray* _upgradePacks;
 }
+
+- (unsigned int) maxUpgradeTier;
+- (FlyerUpgradePack*) upgradeForTier:(unsigned int)tier;
+
 // singleton
 +(FlyerLabFactory*) getInstance;
 +(void) destroyInstance;

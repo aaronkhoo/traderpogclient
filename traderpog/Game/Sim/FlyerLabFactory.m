@@ -32,16 +32,36 @@ static NSString* const kKeyUpgradePacks = @"upgrade_packs";
             [_colorPacks setObject:newPack forKey:curKey];
         }
         
-        NSDictionary* upgradePacks = [packs objectForKey:kKeyUpgradePacks];
-        _upgradePacks = [NSMutableDictionary dictionaryWithCapacity:10];
-        for(NSString* curKey in upgradePacks)
+        NSArray* upgradePacks = [packs objectForKey:kKeyUpgradePacks];
+        _upgradePacks = [NSMutableArray arrayWithCapacity:10];
+        for(NSDictionary* cur in upgradePacks)
         {
-            NSDictionary* cur = [upgradePacks objectForKey:curKey];
             FlyerUpgradePack* newPack = [[FlyerUpgradePack alloc] initWithDictionary:cur];
-            [_upgradePacks setObject:newPack forKey:curKey];
+            [_upgradePacks addObject:newPack];
         }
     }
     return self;
+}
+
+- (unsigned int) maxUpgradeTier
+{
+    unsigned int result = [_upgradePacks count];
+    return result;
+}
+
+- (FlyerUpgradePack*) upgradeForTier:(unsigned int)tier
+{
+    FlyerUpgradePack* result = nil;
+    if((0 < tier) && (tier <= [_upgradePacks count]))
+    {
+        result = [_upgradePacks objectAtIndex:tier-1];
+    }
+    else
+    {
+        // if query tier is out of range, just return the default pack, which is Identity
+        result = [[FlyerUpgradePack alloc] init];
+    }
+    return result;
 }
 
 #pragma mark - Singleton

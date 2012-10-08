@@ -37,6 +37,7 @@ enum _FlyerStates
 @class TradeItemType;
 @class FlyerAnnotationView;
 @class GameEvent;
+@class FlyerUpgradePack;
 @interface Flyer : NSObject<NSCoding, MKAnnotation, MapAnnotationProtocol>
 {
     BOOL _initializeFlyerOnMap;
@@ -54,6 +55,7 @@ enum _FlyerStates
     
     FlyerInventory* _inventory;
     FlyerPath* _path;
+    unsigned int _curUpgradeTier;   // starts at 0 (no upgrade)
     
     // transient variables (not saved; reconstructed after load)
     CLLocationCoordinate2D _coord;
@@ -88,6 +90,10 @@ enum _FlyerStates
 - (NSTimeInterval) timeTillDest;
 - (BOOL) gotoState:(unsigned int)newState;
 - (float) getFlyerLoadDuration;
+
+// flyer attributes
+- (void) applyUpgradeTier:(unsigned int)tier;
+- (NSInteger) getFlyerSpeed;
 
 // map
 - (void) refreshImageInAnnotationView:(FlyerAnnotationView*)annotationView;

@@ -55,4 +55,13 @@
     return result;
 }
 
+- (NSString* const) getStringForKey:(NSString*)key withDefault:(NSString* const)defaultString
+{
+    NSString* result = defaultString;
+    if([self objectForKey:key])
+    {
+        result = [self objectForKey:key];
+    }
+    return result;
+}
 @end

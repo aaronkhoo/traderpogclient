@@ -3,52 +3,48 @@
 <plist version="1.0">
 <dict>
 	<key>upgrade_packs</key>
-	<dict>
-		<key>tier1</key>
+	<array>
 		<dict>
 			<key>tier</key>
 			<integer>1</integer>
 			<key>capacity</key>
-			<real>1.2</real>
+			<integer>1</integer>
 			<key>speed</key>
-			<real>1.2</real>
+			<integer>2</integer>
 			<key>storm</key>
-			<real>1.2</real>
+			<integer>1</integer>
 		</dict>
-		<key>tier2</key>
 		<dict>
 			<key>tier</key>
 			<integer>2</integer>
 			<key>capacity</key>
-			<real>1.5</real>
+			<integer>1</integer>
 			<key>speed</key>
-			<real>1.5</real>
+			<integer>4</integer>
 			<key>storm</key>
-			<real>1.5</real>
+			<integer>2</integer>
 		</dict>
-		<key>tier3</key>
 		<dict>
 			<key>tier</key>
 			<integer>3</integer>
 			<key>capacity</key>
-			<integer>2</integer>
+			<integer>1</integer>
 			<key>speed</key>
-			<integer>2</integer>
+			<integer>8</integer>
 			<key>storm</key>
-			<integer>2</integer>
+			<integer>4</integer>
 		</dict>
-		<key>tier4</key>
 		<dict>
 			<key>tier</key>
 			<integer>4</integer>
 			<key>capacity</key>
-			<integer>3</integer>
+			<integer>1</integer>
 			<key>speed</key>
-			<integer>3</integer>
+			<integer>24</integer>
 			<key>storm</key>
-			<integer>3</integer>
+			<integer>4</integer>
 		</dict>
-	</dict>
+	</array>
 	<key>color_packs</key>
 	<dict>
 		<key>red</key>

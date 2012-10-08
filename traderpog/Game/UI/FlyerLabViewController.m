@@ -11,6 +11,7 @@
 #import "UINavigationController+Pog.h"
 #import "FlyerCustomize.h"
 #import "FlyerUpgrade.h"
+#import "Flyer.h"
 #import "PogUIUtility.h"
 
 static const float kContentBorderWidth = 6.0f;
@@ -21,12 +22,14 @@ static const float kContentBorderCornerRadius = 8.0f;
 @end
 
 @implementation FlyerLabViewController
+@synthesize flyer = _flyer;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self)
+    if(self)
     {
+        _flyer = nil;
     }
     return self;
 }
@@ -65,6 +68,7 @@ static const float kContentBorderCornerRadius = 8.0f;
 #pragma mark - button actions
 - (void) didPressClose:(id)sender
 {
+    self.flyer = nil;
     [UIView animateWithDuration:0.2f
                      animations:^(void){
                          self.view.alpha = 0.0f;
@@ -82,6 +86,12 @@ static const float kContentBorderCornerRadius = 8.0f;
 
 - (IBAction)didPressUpgrade:(id)sender
 {
+    /*
+    if([self flyer])
+    {
+        [self.flyer applyUpgradeTier:1];
+    }
+    */
     FlyerUpgrade* next = [[FlyerUpgrade alloc] initWithNibName:@"FlyerUpgrade" bundle:nil];
     [self.navigationController pushFromRightViewController:next animated:YES];
 }
