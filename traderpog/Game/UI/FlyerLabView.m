@@ -13,6 +13,7 @@
 #import "FlyerCustomize.h"
 #import "FlyerUpgrade.h"
 #import "AppDelegate.h"
+#import "GameManager.h"
 #import "UINavigationController+Pog.h"
 
 NSString* const kFlyerLabViewReuseIdentifier = @"FlyerLabView";
@@ -62,6 +63,9 @@ static const float kBorderCornerRadius = 8.0f;
     FlyerCustomize* next = [[FlyerCustomize alloc] initWithNibName:@"FlyerCustomize" bundle:nil];
     AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     [appDelegate.navController pushFadeInViewController:next animated:YES];
+    //[[GameManager getInstance] startModalNavControlInView:[[[GameManager getInstance] gameViewController] view]
+     //                                      withController:next
+     //                                     completionBlock:nil];
 }
 
 - (IBAction)didPressUpgrade:(id)sender

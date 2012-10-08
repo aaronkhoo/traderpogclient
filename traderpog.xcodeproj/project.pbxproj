@@ -83,6 +83,8 @@
 		4290AB0F15EF3D06001FAF0B /* BrowsePinch.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0E15EF3D06001FAF0B /* BrowsePinch.m */; };
 		429A31D415F041DF00069CC7 /* CalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 429A31D315F041DF00069CC7 /* CalloutView.m */; };
 		429B154815F5CFAF00107D5F /* bubble_postmark_g.png in Resources */ = {isa = PBXBuildFile; fileRef = 429B154715F5CFAF00107D5F /* bubble_postmark_g.png */; };
+		429FF00F16229D4700B14A24 /* FlyerLabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 429FF00D16229D4600B14A24 /* FlyerLabViewController.m */; };
+		429FF01016229D4700B14A24 /* FlyerLabViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 429FF00E16229D4600B14A24 /* FlyerLabViewController.xib */; };
 		42A0FA0C160E925200683B8A /* GameAnim.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A0FA0B160E925200683B8A /* GameAnim.m */; };
 		42A2989115B5F1E700384A52 /* KnobControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2988D15B5F1E700384A52 /* KnobControl.m */; };
 		42A2989215B5F1E700384A52 /* KnobSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2989015B5F1E700384A52 /* KnobSlice.m */; };
@@ -381,6 +383,9 @@
 		429A31D215F041DF00069CC7 /* CalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalloutView.h; path = Map/CalloutView.h; sourceTree = "<group>"; };
 		429A31D315F041DF00069CC7 /* CalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalloutView.m; path = Map/CalloutView.m; sourceTree = "<group>"; };
 		429B154715F5CFAF00107D5F /* bubble_postmark_g.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_postmark_g.png; path = assets/UI/bubble_postmark_g.png; sourceTree = SOURCE_ROOT; };
+		429FF00C16229D4600B14A24 /* FlyerLabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerLabViewController.h; path = Game/UI/FlyerLabViewController.h; sourceTree = "<group>"; };
+		429FF00D16229D4600B14A24 /* FlyerLabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerLabViewController.m; path = Game/UI/FlyerLabViewController.m; sourceTree = "<group>"; };
+		429FF00E16229D4600B14A24 /* FlyerLabViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerLabViewController.xib; path = Game/UI/FlyerLabViewController.xib; sourceTree = "<group>"; };
 		42A0FA0A160E925200683B8A /* GameAnim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameAnim.h; path = Game/Sim/GameAnim.h; sourceTree = "<group>"; };
 		42A0FA0B160E925200683B8A /* GameAnim.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameAnim.m; path = Game/Sim/GameAnim.m; sourceTree = "<group>"; };
 		42A2988C15B5F1E700384A52 /* KnobControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobControl.h; sourceTree = "<group>"; };
@@ -1103,6 +1108,9 @@
 				42EF2F9E161F82860077C997 /* FlyerLabView.h */,
 				42EF2F9F161F82860077C997 /* FlyerLabView.m */,
 				42EF2FA1161F82A40077C997 /* FlyerLabView.xib */,
+				429FF00C16229D4600B14A24 /* FlyerLabViewController.h */,
+				429FF00D16229D4600B14A24 /* FlyerLabViewController.m */,
+				429FF00E16229D4600B14A24 /* FlyerLabViewController.xib */,
 				4237D47F1620A40F009A29F1 /* FlyerCustomize.h */,
 				4237D4801620A40F009A29F1 /* FlyerCustomize.m */,
 				4237D4811620A40F009A29F1 /* FlyerCustomize.xib */,
@@ -1410,6 +1418,7 @@
 				4237D4831620A40F009A29F1 /* FlyerCustomize.xib in Resources */,
 				42BF7B531620DC11000D926C /* FlyerUpgrade.xib in Resources */,
 				425B09F11621E8E400E41463 /* flyerlab.plist in Resources */,
+				429FF01016229D4700B14A24 /* FlyerLabViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1541,6 +1550,7 @@
 				42BF7B5A1620E09F000D926C /* FlyerUpgradePack.m in Sources */,
 				42BF7B5D1620E0DB000D926C /* FlyerColorPack.m in Sources */,
 				42CBADDC1621DB3300BA7363 /* NSDictionary+Pog.m in Sources */,
+				429FF00F16229D4700B14A24 /* FlyerLabViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

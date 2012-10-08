@@ -17,6 +17,7 @@
 #import "GameViewController.h"
 #import "MapControl.h"
 #import "FlyerLabView.h"
+#import "FlyerLabViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 NSString* const kPlayerPostCalloutViewReuseId = @"PlayerPostCalloutView";
@@ -116,7 +117,11 @@ static const float kCircleBorderWidth = 3.0f;
 static const float kFlyerLabYOffset = 0.0f;//-94.0f;
 - (void) showFlyerLabForPost:(MyTradePost*)tradePost
 {
-    GameViewController* controller = [[GameManager getInstance] gameViewController];
+    GameViewController* game = [[GameManager getInstance] gameViewController];
+    FlyerLabViewController* next = [[FlyerLabViewController alloc] initWithNibName:@"FlyerLabViewController" bundle:nil];
+    [game showModalNavViewController:next completion:nil];
+    /*
+    
     FlyerLabView* labView = (FlyerLabView*)[controller dequeueModalViewWithIdentifier:kFlyerLabViewReuseIdentifier];
     if(!labView)
     {
@@ -133,6 +138,7 @@ static const float kFlyerLabYOffset = 0.0f;//-94.0f;
     
     // show it
     [controller showModalView:labView options:kGameViewModalFlag_Strict animated:YES];
+     */
 }
 
 #pragma mark - button actions

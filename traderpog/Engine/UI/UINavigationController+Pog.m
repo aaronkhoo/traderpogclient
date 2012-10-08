@@ -21,15 +21,14 @@
         transition = [CATransition animation];
         transition.type = kCATransitionFade;
         transition.subtype = nil;
-        transition.duration = 0.2;
+        transition.duration = 0.6;
         
         [CATransaction setValue:(id)kCFBooleanTrue
                          forKey:kCATransactionDisableActions];
-        
         [self pushViewController:controller animated:YES];
         [[[[self.view subviews] objectAtIndex:0] layer] addAnimation:transition forKey:nil];
         
-        [CATransaction commit];    
+        [CATransaction commit];
     }
     else
     {
@@ -54,7 +53,9 @@
         
         [[[[self.view subviews] objectAtIndex:0] layer] addAnimation:transition forKey:nil];
         
-        [self  popViewControllerAnimated:YES];
+        [CATransaction setCompletionBlock:^(void) {
+            [self popViewControllerAnimated:NO];
+        }];
         [CATransaction commit];   
     }
     else

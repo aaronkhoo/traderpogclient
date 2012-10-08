@@ -117,6 +117,7 @@ enum kKnobSlices
 @synthesize trackedFlyer = _trackedFlyer;
 @synthesize hud = _hud;
 @synthesize gameEventNote = _gameEventNote;
+@synthesize modalNav = _modalNav;
 
 - (id)init
 {
@@ -146,6 +147,8 @@ enum kKnobSlices
 
 - (void) dealloc
 {
+    _modalNav = nil;
+
     // unload game resources
     [FlyerLabFactory destroyInstance];
     [GameAnim destroyInstance];
@@ -200,6 +203,11 @@ enum kKnobSlices
     _modalView = nil;
     _modalScrim = nil;
     _modalFlags = kGameViewModalFlag_None;
+    
+    _modalNav = [[ModalNavControl alloc] init];
+    [self.view addSubview:_modalNav.view];
+    [_modalNav.view setHidden:YES];
+    //_modalNav = nil;
     [self startDisplayLink];
 }
 
@@ -214,6 +222,7 @@ enum kKnobSlices
     self.mapControl = nil;
     
     // unload game resources
+    [self dismissModal];
     [FlyerLabFactory destroyInstance];
     [GameAnim destroyInstance];
     _modalScrim = nil;
@@ -662,6 +671,44 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
         _modalView = nil;        
     }
 }
+
+- (void) showModalNavViewController:(UIViewController*)controller
+                         completion:(ModalNavCompletionBlock)completion
+{
+    // if there's already a modal, dismiss it
+    [self dismissModal];
+    
+    // present the given view controller as a modal-nav
+//    ModalNavControl* modal = [[ModalNavControl alloc] init];
+//    [self.view addSubview:modal.view];
+    ModalNavControl* modal = self.modalNav;
+    [modal.view setHidden:NO];
+    [modal.navController pushFadeInViewController:controller animated:YES];
+    modal.delegate = self;
+//    modal.completionBlock = completion;
+    modal.completionBlock = ^(BOOL finished){
+        [self showKnobAnimated:YES delay:0.2f];
+    };
+//    self.modalNav = modal;
+    
+    [self dismissKnobAnimated:YES];
+}
+
+#pragma mark - ModalNavDelegate
+- (void) dismissModal
+{
+    /*
+    if([self modalNav])
+    {
+        [self.modalNav.view removeFromSuperview];
+        self.modalNav = nil;
+
+//        [self showKnobAnimated:YES delay:0.2f];
+    }
+     */
+    [self.modalNav.view setHidden:YES];
+}
+
 
 #pragma mark - KnobProtocol
 - (unsigned int) numItemsInKnob:(KnobControl *)knob

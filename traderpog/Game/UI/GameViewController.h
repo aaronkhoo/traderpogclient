@@ -11,6 +11,8 @@
 #import "GADBannerView.h"
 #import "GADBannerViewDelegate.h"
 #import "KnobProtocol.h"
+#import "ModalNavDelegate.h"
+#import "ModalNavControl.h"
 
 enum kGameViewModalFlags
 {
@@ -23,7 +25,7 @@ enum kGameViewModalFlags
 @class MKMapView;
 @class MapControl;
 @class ViewReuseQueue;
-@interface GameViewController : UIViewController<KnobProtocol, GADBannerViewDelegate>
+@interface GameViewController : UIViewController<KnobProtocol, GADBannerViewDelegate, ModalNavDelegate>
 {
     MapControl* _mapControl;
     GADBannerView* _bannerView;
@@ -33,12 +35,14 @@ enum kGameViewModalFlags
     UIView* _modalView;
     unsigned int _modalFlags;
     UIView* _modalScrim;
+    ModalNavControl* _modalNav;
 }
 @property (nonatomic, strong) MapControl* mapControl;
 @property (nonatomic) CLLocationCoordinate2D coord;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
+@property (nonatomic,strong) ModalNavControl* modalNav;
 
 - (id) init;
 - (id) initAtCoordinate:(CLLocationCoordinate2D)coord;
@@ -58,6 +62,8 @@ enum kGameViewModalFlags
 - (void) closeModalViewWithOptions:(unsigned int)options animated:(BOOL)isAnimated;
 - (void) showModalView:(UIView*)view animated:(BOOL)isAnimated;
 - (void) hideModalViewAnimated:(BOOL)isAnimated;
+- (void) showModalNavViewController:(UIViewController*)controller
+                         completion:(ModalNavCompletionBlock)completion;
 
 // game-state driven display update
 - (BOOL) isHeldHudCoinsUpdate;

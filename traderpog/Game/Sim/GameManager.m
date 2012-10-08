@@ -21,7 +21,6 @@
 #import "LoadingScreen.h"
 #import "LoadingTransition.h"
 #import "UINavigationController+Pog.h"
-#import "ModalNavControl.h"
 #import "HiAccuracyLocator.h"
 #import "CLLocation+Pog.h"
 #import "MapControl.h"
@@ -97,9 +96,6 @@ typedef enum {
 - (void) getGameInfoModifiedDate;
 - (void) startGame;
 
-- (void) startModalNavControlInView:(UIView*)parentView 
-                     withController:(UIViewController *)viewController
-                    completionBlock:(ModalNavCompletionBlock)completionBlock;
 - (void) locateNewPlayer;
 - (void) registerAllNotificationHandlers;
 - (void) popLoadingScreenToRootIfNecessary:(UINavigationController*)nav;
@@ -164,18 +160,19 @@ typedef enum {
     _gameViewController = nil;
 }
 
-#pragma mark - internal methods
 - (void) startModalNavControlInView:(UIView*)parentView 
                      withController:(UIViewController *)viewController
                     completionBlock:(ModalNavCompletionBlock)completionBlock
 {
     ModalNavControl* modal = [[ModalNavControl alloc] init];
     [parentView addSubview:modal.view];
-    [modal.navController pushFadeInViewController:viewController animated:YES]; 
+    [modal.navController pushFadeInViewController:viewController animated:YES];
     modal.delegate = self;
     modal.completionBlock = completionBlock;
     self.modalNav = modal;
 }
+
+#pragma mark - internal methods
 
 - (void) startGame
 {

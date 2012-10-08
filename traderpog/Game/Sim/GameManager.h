@@ -10,6 +10,7 @@
 #import "AsyncHttpDelegate.h"
 #import "GameViewController.h"
 #import "ModalNavDelegate.h"
+#import "ModalNavControl.h"
 #import "HttpCallbackDelegate.h"
 
 enum kGameStates
@@ -70,6 +71,9 @@ typedef enum _BrowseEnforcedType
 - (BOOL) canProcessGameEventNotifications;
 - (BrowseEnforcedType) enforceBrowse:(BrowseEnforcedType)enforcedType;
 - (BrowseEnforcedType) currentBrowseEnforced;
+- (void) startModalNavControlInView:(UIView*)parentView
+                     withController:(UIViewController *)viewController
+                    completionBlock:(ModalNavCompletionBlock)completionBlock;
 
 + (NSString*) documentsDirectory;
 
