@@ -14,11 +14,13 @@
     NSString* _currentName;
     NSString* _currentWeek;
     NSMutableArray* _currentRows;
-    CGFloat _nameStartPosition;
+    UIImage* _lbImage;
+    NSUInteger _playerIndex;
 }
 @property (weak, nonatomic) IBOutlet UILabel* leaderboardName;
 @property (weak, nonatomic) IBOutlet UITableView* leaderboardTable;
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
+@property (weak, nonatomic) IBOutlet UIImageView *leaderboardImage;
 
 - (id)initWithNibNameAndIndex:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil index:(NSUInteger)index;
 
