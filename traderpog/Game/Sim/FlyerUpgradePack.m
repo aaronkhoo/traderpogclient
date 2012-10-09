@@ -14,6 +14,8 @@ NSString* const kKeyUpgradeCapacity = @"capacity";
 NSString* const kKeyUpgradeSpeed = @"speed";
 NSString* const kKeyUpgradeStorm = @"storm";
 NSString* const kKeyUpgradePrice = @"price";
+NSString* const kKeyImageName = @"img";
+NSString* const kKeySecondaryTitle = @"second_title";
 
 @implementation FlyerUpgradePack
 @synthesize tier = _tier;
@@ -21,6 +23,8 @@ NSString* const kKeyUpgradePrice = @"price";
 @synthesize speedFactor = _speedFactor;
 @synthesize stormFactor = _stormFactor;
 @synthesize price = _price;
+@synthesize img = _img;
+@synthesize secondTitle = _secondTitle;
 
 - (id) init
 {
@@ -38,6 +42,8 @@ NSString* const kKeyUpgradePrice = @"price";
         _speedFactor = [dict getFloatForKey:kKeyUpgradeSpeed withDefault:1.0f];
         _stormFactor = [dict getFloatForKey:kKeyUpgradeStorm withDefault:1.0f];
         _price = [dict getUnsignedIntForKey:kKeyUpgradePrice withDefault:200];
+        _img = [dict getStringForKey:kKeyImageName withDefault:@"flyer_landed.png"];
+        _secondTitle = [dict getStringForKey:kKeySecondaryTitle withDefault:@"AEROKIT"];
     }
     return self;
 }

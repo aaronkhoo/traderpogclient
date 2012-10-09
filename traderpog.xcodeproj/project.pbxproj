@@ -180,6 +180,8 @@
 		C462694F1603FF63002F1626 /* LoadingScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C462694D1603FF63002F1626 /* LoadingScreen.m */; };
 		C46269501603FF63002F1626 /* LoadingScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C462694E1603FF63002F1626 /* LoadingScreen.xib */; };
 		C476E529162408FA00B7D9F9 /* FlyerUpgradePack.m in Sources */ = {isa = PBXBuildFile; fileRef = C476E528162408FA00B7D9F9 /* FlyerUpgradePack.m */; };
+		C476E52C16240F9200B7D9F9 /* flyer_aerokit.png in Resources */ = {isa = PBXBuildFile; fileRef = C476E52A16240F9200B7D9F9 /* flyer_aerokit.png */; };
+		C476E52D16240F9200B7D9F9 /* flyer_booster.png in Resources */ = {isa = PBXBuildFile; fileRef = C476E52B16240F9200B7D9F9 /* flyer_booster.png */; };
 		C481145F15ACB927007FA214 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C481145D15ACB927007FA214 /* GameViewController.m */; };
 		C481146015ACB927007FA214 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C481145E15ACB927007FA214 /* GameViewController.xib */; };
 		C481146915ACBFED007FA214 /* MapControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146815ACBFED007FA214 /* MapControl.m */; };
@@ -534,6 +536,8 @@
 		C462694E1603FF63002F1626 /* LoadingScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LoadingScreen.xib; path = Game/UI/LoadingScreen.xib; sourceTree = "<group>"; };
 		C476E527162408FA00B7D9F9 /* FlyerUpgradePack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerUpgradePack.h; path = Game/Sim/FlyerUpgradePack.h; sourceTree = "<group>"; };
 		C476E528162408FA00B7D9F9 /* FlyerUpgradePack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerUpgradePack.m; path = Game/Sim/FlyerUpgradePack.m; sourceTree = "<group>"; };
+		C476E52A16240F9200B7D9F9 /* flyer_aerokit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer_aerokit.png; path = assets/Map/flyer_aerokit.png; sourceTree = SOURCE_ROOT; };
+		C476E52B16240F9200B7D9F9 /* flyer_booster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer_booster.png; path = assets/Map/flyer_booster.png; sourceTree = SOURCE_ROOT; };
 		C481145C15ACB927007FA214 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameViewController.h; path = Game/UI/GameViewController.h; sourceTree = "<group>"; };
 		C481145D15ACB927007FA214 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameViewController.m; path = Game/UI/GameViewController.m; sourceTree = "<group>"; };
 		C481145E15ACB927007FA214 /* GameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GameViewController.xib; path = Game/UI/GameViewController.xib; sourceTree = "<group>"; };
@@ -1055,6 +1059,8 @@
 			children = (
 				42CEEC671603066400AED5ED /* flyer.png */,
 				423F56C215F7C60900E42AC2 /* flyer_landed.png */,
+				C476E52A16240F9200B7D9F9 /* flyer_aerokit.png */,
+				C476E52B16240F9200B7D9F9 /* flyer_booster.png */,
 				429B154715F5CFAF00107D5F /* bubble_postmark_g.png */,
 				423F56BD15F72FA100E42AC2 /* bubble_flyer_g.png */,
 				423F56BE15F72FA100E42AC2 /* bubble_flyer.png */,
@@ -1428,6 +1434,8 @@
 				425B09F11621E8E400E41463 /* flyerlab.plist in Resources */,
 				388B6812161FC14A00AB74FC /* PlayerSalesScreen.xib in Resources */,
 				42B5DC96162354F90099DE6E /* FlyerLabViewController.xib in Resources */,
+				C476E52C16240F9200B7D9F9 /* flyer_aerokit.png in Resources */,
+				C476E52D16240F9200B7D9F9 /* flyer_booster.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -94,6 +94,7 @@ enum _FlyerStates
 // flyer attributes
 - (void) applyUpgradeTier:(unsigned int)tier;
 - (NSInteger) getFlyerSpeed;
+- (unsigned int) curUpgradeTier;
 - (unsigned int) nextUpgradeTier;
 
 // map

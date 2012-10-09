@@ -12,6 +12,7 @@
 #import "FlyerCustomize.h"
 #import "FlyerUpgrade.h"
 #import "Flyer.h"
+#import "FlyerLabFactory.h"
 #import "PogUIUtility.h"
 
 static const float kContentBorderWidth = 6.0f;
@@ -62,7 +63,20 @@ static const float kContentBorderCornerRadius = 8.0f;
     [self.closeCircle removeButtonTarget];
     [self setContentView:nil];
     [self setCloseCircle:nil];
+    [self setUpgradeButton:nil];
     [super viewDidUnload];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    if(([self flyer]) && ([[FlyerLabFactory getInstance] maxUpgradeTier] > [self.flyer curUpgradeTier]))
+    {
+        [self.upgradeButton setEnabled:YES];
+    }
+    else
+    {
+        [self.upgradeButton setEnabled:NO];
+    }
 }
 
 #pragma mark - button actions
@@ -88,8 +102,11 @@ static const float kContentBorderCornerRadius = 8.0f;
 {
     if([self flyer])
     {
-        FlyerUpgrade* next = [[FlyerUpgrade alloc] initWithFlyer:self.flyer];
-        [self.navigationController pushFadeInViewController:next animated:YES];
+        if([[FlyerLabFactory getInstance] maxUpgradeTier] > [self.flyer curUpgradeTier])
+        {
+            FlyerUpgrade* next = [[FlyerUpgrade alloc] initWithFlyer:self.flyer];
+            [self.navigationController pushFadeInViewController:next animated:YES];
+        }
     }
 }
 @end

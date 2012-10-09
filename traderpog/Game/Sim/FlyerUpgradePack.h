@@ -20,12 +20,16 @@ extern NSString* const kKeyUpgradeStorm;
     float           _speedFactor;
     float           _stormFactor;
     unsigned int    _price;
+    NSString*       _img;
+    NSString*       _secondTitle;
 }
 @property (nonatomic,readonly) unsigned int tier;
 @property (nonatomic,readonly) float capacityFactor;
 @property (nonatomic,readonly) float speedFactor;
 @property (nonatomic,readonly) float stormFactor;
 @property (nonatomic,readonly) unsigned int price;
+@property (nonatomic,readonly) NSString* img;
+@property (nonatomic,readonly) NSString* secondTitle;
 
 - (id) initWithDictionary:(NSDictionary*)dict;
 

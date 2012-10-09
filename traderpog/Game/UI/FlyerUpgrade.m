@@ -14,6 +14,7 @@
 #import "FlyerUpgradePack.h"
 #import "GameAnim.h"
 #import "PogUIUtility.h"
+#import "ImageManager.h"
 
 static const float kContentBorderWidth = 6.0f;
 static const float kContentBorderCornerRadius = 8.0f;
@@ -73,6 +74,7 @@ static const float kContentBorderCornerRadius = 8.0f;
     [self setBuyCircle:nil];
     [self setCoinImageView:nil];
     [self setPriceLabel:nil];
+    [self setImageView:nil];
     [super viewDidUnload];
 }
 
@@ -102,6 +104,9 @@ static const float kContentBorderCornerRadius = 8.0f;
     NSString* capacityText = [NSString stringWithFormat:@"%dx", (unsigned int)[pack capacityFactor]];
     [self.speedLevel setText:speedText];
     [self.capacityLevel setText:capacityText];
+    [self.secondaryTitleLabel setText:[pack secondTitle]];
+    UIImage* image = [[ImageManager getInstance] getImage:[pack img]];
+    [self.imageView setImage:image];
     
     // coin image and label
     [[GameAnim getInstance] refreshImageView:[self coinImageView] withClipNamed:@"coin_shimmer"];

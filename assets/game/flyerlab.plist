@@ -15,6 +15,10 @@
 			<integer>1</integer>
 			<key>price</key>
 			<integer>500</integer>
+			<key>img</key>
+			<string>flyer_aerokit.png</string>
+			<key>second_title</key>
+			<string>AEROKIT</string>
 		</dict>
 		<dict>
 			<key>tier</key>
@@ -27,6 +31,10 @@
 			<integer>1</integer>
 			<key>price</key>
 			<integer>700</integer>
+			<key>img</key>
+			<string>flyer_aerokit.png</string>
+			<key>second_title</key>
+			<string>CARGOKIT</string>
 		</dict>
 		<dict>
 			<key>tier</key>
@@ -39,6 +47,10 @@
 			<integer>1</integer>
 			<key>price</key>
 			<integer>1000</integer>
+			<key>img</key>
+			<string>flyer_booster.png</string>
+			<key>second_title</key>
+			<string>AEROBOOST</string>
 		</dict>
 		<dict>
 			<key>tier</key>
@@ -51,6 +63,10 @@
 			<integer>1</integer>
 			<key>price</key>
 			<integer>2000</integer>
+			<key>img</key>
+			<string>flyer_booster.png</string>
+			<key>second_title</key>
+			<string>CARGOBOOST</string>
 		</dict>
 		<dict>
 			<key>tier</key>
@@ -63,6 +79,10 @@
 			<integer>1</integer>
 			<key>price</key>
 			<integer>10000</integer>
+			<key>img</key>
+			<string>flyer_booster.png</string>
+			<key>second_title</key>
+			<string>AEROJET</string>
 		</dict>
 		<dict>
 			<key>tier</key>
@@ -75,6 +95,10 @@
 			<integer>1</integer>
 			<key>price</key>
 			<integer>20000</integer>
+			<key>img</key>
+			<string>flyer_booster.png</string>
+			<key>second_title</key>
+			<string>CARGOJET</string>
 		</dict>
 	</array>
 	<key>color_packs</key>

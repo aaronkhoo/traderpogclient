@@ -14,6 +14,7 @@
 {
     Flyer* _flyer;
 }
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
 @property (weak, nonatomic) IBOutlet CircleButton *buyCircle;
 @property (weak, nonatomic) IBOutlet UIView *contentView;

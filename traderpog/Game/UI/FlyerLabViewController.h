@@ -17,6 +17,7 @@
 @property (nonatomic,strong) Flyer* flyer;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
+@property (weak, nonatomic) IBOutlet UIButton *upgradeButton;
 
 - (IBAction)didPressCustomize:(id)sender;
 - (IBAction)didPressUpgrade:(id)sender;

@@ -307,6 +307,11 @@ static NSString* const kKeyCurUpgradeTier = @"curUpgradeTier";
     return speed;
 }
 
+- (unsigned int) curUpgradeTier
+{
+    return _curUpgradeTier;
+}
+
 - (unsigned int) nextUpgradeTier
 {
     unsigned int result = [[FlyerLabFactory getInstance] nextUpgradeTierForTier:_curUpgradeTier];
