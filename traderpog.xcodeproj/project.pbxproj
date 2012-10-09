@@ -29,6 +29,14 @@
 		38A31CE6161BECC6009FC64A /* PlayerSales.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A31CE5161BECC5009FC64A /* PlayerSales.m */; };
 		38A31CF1161CB7C0009FC64A /* SingleLeaderboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38A31CF0161CB7C0009FC64A /* SingleLeaderboard.xib */; };
 		38A31CF5161CDE1D009FC64A /* SingleLeaderboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A31CF4161CDE1C009FC64A /* SingleLeaderboard.m */; };
+		38AAEF13162379290056C9F2 /* icon_coin.png in Resources */ = {isa = PBXBuildFile; fileRef = 38AAEF0B162379290056C9F2 /* icon_coin.png */; };
+		38AAEF14162379290056C9F2 /* icon_contract_signed.png in Resources */ = {isa = PBXBuildFile; fileRef = 38AAEF0C162379290056C9F2 /* icon_contract_signed.png */; };
+		38AAEF15162379290056C9F2 /* icon_lboard_distance.png in Resources */ = {isa = PBXBuildFile; fileRef = 38AAEF0D162379290056C9F2 /* icon_lboard_distance.png */; };
+		38AAEF16162379290056C9F2 /* icon_lboard_helmet.png in Resources */ = {isa = PBXBuildFile; fileRef = 38AAEF0E162379290056C9F2 /* icon_lboard_helmet.png */; };
+		38AAEF17162379290056C9F2 /* icon_lboard_posts.png in Resources */ = {isa = PBXBuildFile; fileRef = 38AAEF0F162379290056C9F2 /* icon_lboard_posts.png */; };
+		38AAEF18162379290056C9F2 /* icon_lboard_safebox.png in Resources */ = {isa = PBXBuildFile; fileRef = 38AAEF10162379290056C9F2 /* icon_lboard_safebox.png */; };
+		38AAEF19162379290056C9F2 /* icon_lboard_travelled.png in Resources */ = {isa = PBXBuildFile; fileRef = 38AAEF11162379290056C9F2 /* icon_lboard_travelled.png */; };
+		38AAEF1A162379290056C9F2 /* tearoffpage.png in Resources */ = {isa = PBXBuildFile; fileRef = 38AAEF12162379290056C9F2 /* tearoffpage.png */; };
 		38B6DAEF15C85A9D00F37BD9 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 38B6DAE215C85A9D00F37BD9 /* FBDialog.bundle */; };
 		38B6DAF015C85A9D00F37BD9 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38B6DAE815C85A9D00F37BD9 /* libfacebook_ios_sdk.a */; };
 		38BE3BD7160D3CF500758F27 /* LocalyticsDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BE3BD1160D3CF500758F27 /* LocalyticsDatabase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -98,6 +106,7 @@
 		42BF7B521620DC11000D926C /* FlyerUpgrade.m in Sources */ = {isa = PBXBuildFile; fileRef = 42BF7B501620DC11000D926C /* FlyerUpgrade.m */; };
 		42BF7B531620DC11000D926C /* FlyerUpgrade.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42BF7B511620DC11000D926C /* FlyerUpgrade.xib */; };
 		42BF7B571620E033000D926C /* FlyerLabFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 42BF7B561620E033000D926C /* FlyerLabFactory.m */; };
+		42BF7B5A1620E09F000D926C /* FlyerUpgradePack.m in Sources */ = {isa = PBXBuildFile; fileRef = 42BF7B591620E09F000D926C /* FlyerUpgradePack.m */; };
 		42BF7B5D1620E0DB000D926C /* FlyerColorPack.m in Sources */ = {isa = PBXBuildFile; fileRef = 42BF7B5C1620E0DA000D926C /* FlyerColorPack.m */; };
 		42C766B31607900900D21354 /* LoadingTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C766B11607900900D21354 /* LoadingTransition.m */; };
 		42C766B41607900900D21354 /* LoadingTransition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C766B21607900900D21354 /* LoadingTransition.xib */; };
@@ -179,9 +188,6 @@
 		C462694A1603F876002F1626 /* LoadingCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C46269491603F876002F1626 /* LoadingCircle.m */; };
 		C462694F1603FF63002F1626 /* LoadingScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C462694D1603FF63002F1626 /* LoadingScreen.m */; };
 		C46269501603FF63002F1626 /* LoadingScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C462694E1603FF63002F1626 /* LoadingScreen.xib */; };
-		C476E529162408FA00B7D9F9 /* FlyerUpgradePack.m in Sources */ = {isa = PBXBuildFile; fileRef = C476E528162408FA00B7D9F9 /* FlyerUpgradePack.m */; };
-		C476E52C16240F9200B7D9F9 /* flyer_aerokit.png in Resources */ = {isa = PBXBuildFile; fileRef = C476E52A16240F9200B7D9F9 /* flyer_aerokit.png */; };
-		C476E52D16240F9200B7D9F9 /* flyer_booster.png in Resources */ = {isa = PBXBuildFile; fileRef = C476E52B16240F9200B7D9F9 /* flyer_booster.png */; };
 		C481145F15ACB927007FA214 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C481145D15ACB927007FA214 /* GameViewController.m */; };
 		C481146015ACB927007FA214 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C481145E15ACB927007FA214 /* GameViewController.xib */; };
 		C481146915ACBFED007FA214 /* MapControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146815ACBFED007FA214 /* MapControl.m */; };
@@ -270,6 +276,14 @@
 		38A31CF0161CB7C0009FC64A /* SingleLeaderboard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SingleLeaderboard.xib; path = Game/UI/SingleLeaderboard.xib; sourceTree = "<group>"; };
 		38A31CF3161CDE1B009FC64A /* SingleLeaderboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SingleLeaderboard.h; path = Game/UI/SingleLeaderboard.h; sourceTree = "<group>"; };
 		38A31CF4161CDE1C009FC64A /* SingleLeaderboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SingleLeaderboard.m; path = Game/UI/SingleLeaderboard.m; sourceTree = "<group>"; };
+		38AAEF0B162379290056C9F2 /* icon_coin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_coin.png; path = assets/UI/icon_coin.png; sourceTree = SOURCE_ROOT; };
+		38AAEF0C162379290056C9F2 /* icon_contract_signed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_contract_signed.png; path = assets/UI/icon_contract_signed.png; sourceTree = SOURCE_ROOT; };
+		38AAEF0D162379290056C9F2 /* icon_lboard_distance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_lboard_distance.png; path = assets/UI/icon_lboard_distance.png; sourceTree = SOURCE_ROOT; };
+		38AAEF0E162379290056C9F2 /* icon_lboard_helmet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_lboard_helmet.png; path = assets/UI/icon_lboard_helmet.png; sourceTree = SOURCE_ROOT; };
+		38AAEF0F162379290056C9F2 /* icon_lboard_posts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_lboard_posts.png; path = assets/UI/icon_lboard_posts.png; sourceTree = SOURCE_ROOT; };
+		38AAEF10162379290056C9F2 /* icon_lboard_safebox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_lboard_safebox.png; path = assets/UI/icon_lboard_safebox.png; sourceTree = SOURCE_ROOT; };
+		38AAEF11162379290056C9F2 /* icon_lboard_travelled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_lboard_travelled.png; path = assets/UI/icon_lboard_travelled.png; sourceTree = SOURCE_ROOT; };
+		38AAEF12162379290056C9F2 /* tearoffpage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tearoffpage.png; path = assets/UI/tearoffpage.png; sourceTree = SOURCE_ROOT; };
 		38B6DAE015C85A9D00F37BD9 /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
 		38B6DAE115C85A9D00F37BD9 /* FBConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBConnect.h; sourceTree = "<group>"; };
 		38B6DAE215C85A9D00F37BD9 /* FBDialog.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBDialog.bundle; sourceTree = "<group>"; };
@@ -404,6 +418,8 @@
 		42B28E3115EA39620008901C /* b_tradepost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = b_tradepost.png; path = assets/Map/b_tradepost.png; sourceTree = SOURCE_ROOT; };
 		42B5DC8B162354AE0099DE6E /* FlyerColorPack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerColorPack.h; path = Game/Sim/FlyerColorPack.h; sourceTree = "<group>"; };
 		42B5DC8C162354AE0099DE6E /* FlyerColorPack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerColorPack.m; path = Game/Sim/FlyerColorPack.m; sourceTree = "<group>"; };
+		42B5DC8D162354AE0099DE6E /* FlyerUpgradePack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerUpgradePack.h; path = Game/Sim/FlyerUpgradePack.h; sourceTree = "<group>"; };
+		42B5DC8E162354AE0099DE6E /* FlyerUpgradePack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerUpgradePack.m; path = Game/Sim/FlyerUpgradePack.m; sourceTree = "<group>"; };
 		42B5DC92162354F90099DE6E /* FlyerLabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerLabViewController.h; path = Game/UI/FlyerLabViewController.h; sourceTree = "<group>"; };
 		42B5DC93162354F90099DE6E /* FlyerLabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerLabViewController.m; path = Game/UI/FlyerLabViewController.m; sourceTree = "<group>"; };
 		42B5DC94162354F90099DE6E /* FlyerLabViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerLabViewController.xib; path = Game/UI/FlyerLabViewController.xib; sourceTree = "<group>"; };
@@ -414,6 +430,8 @@
 		42BF7B511620DC11000D926C /* FlyerUpgrade.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerUpgrade.xib; path = Game/UI/FlyerUpgrade.xib; sourceTree = "<group>"; };
 		42BF7B551620E033000D926C /* FlyerLabFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerLabFactory.h; path = Game/Sim/FlyerLabFactory.h; sourceTree = "<group>"; };
 		42BF7B561620E033000D926C /* FlyerLabFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerLabFactory.m; path = Game/Sim/FlyerLabFactory.m; sourceTree = "<group>"; };
+		42BF7B581620E09F000D926C /* FlyerUpgradePack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerUpgradePack.h; path = Game/Sim/FlyerUpgradePack.h; sourceTree = "<group>"; };
+		42BF7B591620E09F000D926C /* FlyerUpgradePack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerUpgradePack.m; path = Game/Sim/FlyerUpgradePack.m; sourceTree = "<group>"; };
 		42BF7B5B1620E0DA000D926C /* FlyerColorPack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerColorPack.h; path = Game/Sim/FlyerColorPack.h; sourceTree = "<group>"; };
 		42BF7B5C1620E0DA000D926C /* FlyerColorPack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerColorPack.m; path = Game/Sim/FlyerColorPack.m; sourceTree = "<group>"; };
 		42C766B01607900900D21354 /* LoadingTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingTransition.h; sourceTree = "<group>"; };
@@ -534,10 +552,6 @@
 		C462694C1603FF63002F1626 /* LoadingScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadingScreen.h; path = Game/UI/LoadingScreen.h; sourceTree = "<group>"; };
 		C462694D1603FF63002F1626 /* LoadingScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadingScreen.m; path = Game/UI/LoadingScreen.m; sourceTree = "<group>"; };
 		C462694E1603FF63002F1626 /* LoadingScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LoadingScreen.xib; path = Game/UI/LoadingScreen.xib; sourceTree = "<group>"; };
-		C476E527162408FA00B7D9F9 /* FlyerUpgradePack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerUpgradePack.h; path = Game/Sim/FlyerUpgradePack.h; sourceTree = "<group>"; };
-		C476E528162408FA00B7D9F9 /* FlyerUpgradePack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerUpgradePack.m; path = Game/Sim/FlyerUpgradePack.m; sourceTree = "<group>"; };
-		C476E52A16240F9200B7D9F9 /* flyer_aerokit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer_aerokit.png; path = assets/Map/flyer_aerokit.png; sourceTree = SOURCE_ROOT; };
-		C476E52B16240F9200B7D9F9 /* flyer_booster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer_booster.png; path = assets/Map/flyer_booster.png; sourceTree = SOURCE_ROOT; };
 		C481145C15ACB927007FA214 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameViewController.h; path = Game/UI/GameViewController.h; sourceTree = "<group>"; };
 		C481145D15ACB927007FA214 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameViewController.m; path = Game/UI/GameViewController.m; sourceTree = "<group>"; };
 		C481145E15ACB927007FA214 /* GameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GameViewController.xib; path = Game/UI/GameViewController.xib; sourceTree = "<group>"; };
@@ -1059,8 +1073,6 @@
 			children = (
 				42CEEC671603066400AED5ED /* flyer.png */,
 				423F56C215F7C60900E42AC2 /* flyer_landed.png */,
-				C476E52A16240F9200B7D9F9 /* flyer_aerokit.png */,
-				C476E52B16240F9200B7D9F9 /* flyer_booster.png */,
 				429B154715F5CFAF00107D5F /* bubble_postmark_g.png */,
 				423F56BD15F72FA100E42AC2 /* bubble_flyer_g.png */,
 				423F56BE15F72FA100E42AC2 /* bubble_flyer.png */,
@@ -1247,12 +1259,14 @@
 				4277385115D3A5CE004DCC13 /* BeaconMgr.m */,
 				42BF7B5B1620E0DA000D926C /* FlyerColorPack.h */,
 				42BF7B5C1620E0DA000D926C /* FlyerColorPack.m */,
+				42BF7B581620E09F000D926C /* FlyerUpgradePack.h */,
+				42BF7B591620E09F000D926C /* FlyerUpgradePack.m */,
 				42BF7B551620E033000D926C /* FlyerLabFactory.h */,
 				42BF7B561620E033000D926C /* FlyerLabFactory.m */,
 				42B5DC8B162354AE0099DE6E /* FlyerColorPack.h */,
 				42B5DC8C162354AE0099DE6E /* FlyerColorPack.m */,
-				C476E527162408FA00B7D9F9 /* FlyerUpgradePack.h */,
-				C476E528162408FA00B7D9F9 /* FlyerUpgradePack.m */,
+				42B5DC8D162354AE0099DE6E /* FlyerUpgradePack.h */,
+				42B5DC8E162354AE0099DE6E /* FlyerUpgradePack.m */,
 				C4BBE46C15BBDA2C00F582DE /* Flyer.h */,
 				C4BBE46D15BBDA2C00F582DE /* Flyer.m */,
 				C4BBE46F15BBEEFF00F582DE /* FlyerMgr.h */,
@@ -1302,6 +1316,14 @@
 				C4BBE44815B7E7C600F582DE /* SignupBackground.png */,
 				C4FA8F5915B54A7200E82A93 /* CreateAccount.png */,
 				C4FA8F5A15B54A7200E82A93 /* FBSignIn.png */,
+				38AAEF0B162379290056C9F2 /* icon_coin.png */,
+				38AAEF0C162379290056C9F2 /* icon_contract_signed.png */,
+				38AAEF0D162379290056C9F2 /* icon_lboard_distance.png */,
+				38AAEF0E162379290056C9F2 /* icon_lboard_helmet.png */,
+				38AAEF0F162379290056C9F2 /* icon_lboard_posts.png */,
+				38AAEF10162379290056C9F2 /* icon_lboard_safebox.png */,
+				38AAEF11162379290056C9F2 /* icon_lboard_travelled.png */,
+				38AAEF12162379290056C9F2 /* tearoffpage.png */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -1434,8 +1456,14 @@
 				425B09F11621E8E400E41463 /* flyerlab.plist in Resources */,
 				388B6812161FC14A00AB74FC /* PlayerSalesScreen.xib in Resources */,
 				42B5DC96162354F90099DE6E /* FlyerLabViewController.xib in Resources */,
-				C476E52C16240F9200B7D9F9 /* flyer_aerokit.png in Resources */,
-				C476E52D16240F9200B7D9F9 /* flyer_booster.png in Resources */,
+				38AAEF13162379290056C9F2 /* icon_coin.png in Resources */,
+				38AAEF14162379290056C9F2 /* icon_contract_signed.png in Resources */,
+				38AAEF15162379290056C9F2 /* icon_lboard_distance.png in Resources */,
+				38AAEF16162379290056C9F2 /* icon_lboard_helmet.png in Resources */,
+				38AAEF17162379290056C9F2 /* icon_lboard_posts.png in Resources */,
+				38AAEF18162379290056C9F2 /* icon_lboard_safebox.png in Resources */,
+				38AAEF19162379290056C9F2 /* icon_lboard_travelled.png in Resources */,
+				38AAEF1A162379290056C9F2 /* tearoffpage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1563,12 +1591,12 @@
 				4237D4821620A40F009A29F1 /* FlyerCustomize.m in Sources */,
 				42BF7B521620DC11000D926C /* FlyerUpgrade.m in Sources */,
 				42BF7B571620E033000D926C /* FlyerLabFactory.m in Sources */,
+				42BF7B5A1620E09F000D926C /* FlyerUpgradePack.m in Sources */,
 				42BF7B5D1620E0DB000D926C /* FlyerColorPack.m in Sources */,
 				42CBADDC1621DB3300BA7363 /* NSDictionary+Pog.m in Sources */,
 				388B6816161FC1FC00AB74FC /* PlayerSalesScreen.m in Sources */,
 				388B6819161FD91F00AB74FC /* UrlImageManager.m in Sources */,
 				42B5DC95162354F90099DE6E /* FlyerLabViewController.m in Sources */,
-				C476E529162408FA00B7D9F9 /* FlyerUpgradePack.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

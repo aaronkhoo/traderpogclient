@@ -7,10 +7,11 @@
 //
 
 #import "AFClientManager.h"
+#import "AFHTTPRequestOperation.h"
 #import "AsyncHttpCallMgr.h"
 #import "GameManager.h"
 
-static int const maxRetry = 10;
+static int const maxRetry = 3;
 static NSString* const kAsyncHttpCallMgrFilename = @"asynchttpcallmgr.sav";
 
 // encoding keys
@@ -178,10 +179,15 @@ static NSString* const kKeyCallArray = @"callarray";
                         failure:^(AFHTTPRequestOperation* operation, NSError* error){
                             NSLog(@"postPath call failed in AsyncHttpCallMgr");
                             NSLog(@"Custom error: %@", [nextCall failureMsg]);
-                            nextCall.numTries++;
-                            if ([nextCall numTries] >= maxRetry)
+                            // If the failure is a server failure, then auto-retry. Otherwise
+                            // cap the number of retries at 3. 
+                            if ([[operation response] statusCode] >=400 && [[operation response] statusCode] < 500)
                             {
-                                [self pop];
+                                nextCall.numTries++;
+                                if ([nextCall numTries] >= maxRetry)
+                                {
+                                    [self pop];
+                                }
                             }
                             [self callDelegates:FALSE];
                         }
@@ -200,10 +206,15 @@ static NSString* const kKeyCallArray = @"callarray";
                         failure:^(AFHTTPRequestOperation* operation, NSError* error){
                             NSLog(@"postPath call failed in AsyncHttpCallMgr");
                             NSLog(@"Custom error: %@", [nextCall failureMsg]);
-                            nextCall.numTries++;
-                            if ([nextCall numTries] >= maxRetry)
+                            // If the failure is a server failure, then auto-retry. Otherwise
+                            // cap the number of retries at 3.
+                            if ([[operation response] statusCode] >=400 && [[operation response] statusCode] < 500)
                             {
-                                [self pop];
+                                nextCall.numTries++;
+                                if ([nextCall numTries] >= maxRetry)
+                                {
+                                    [self pop];
+                                }
                             }
                             [self callDelegates:FALSE];
                         }

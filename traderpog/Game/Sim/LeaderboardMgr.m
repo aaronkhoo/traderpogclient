@@ -37,8 +37,6 @@ static NSString* const kKeyWeekOf = @"weekof";
 {
     // internal
     NSString* _createdVersion;
-    
-    NSMutableDictionary* _urlImages;
 }
 @end
 
@@ -55,7 +53,6 @@ static NSString* const kKeyWeekOf = @"weekof";
     {
         _lastUpdate = nil;
         _leaderboards = [[NSMutableArray alloc] initWithCapacity:kLBNum];
-        _urlImages = [[NSMutableDictionary alloc] initWithCapacity:11];
         
         for (NSUInteger index = 0; index < kLBNum; index++)
         {
@@ -136,16 +133,6 @@ static NSString* const kKeyWeekOf = @"weekof";
      ];
 }
 
-- (UrlImage*) getCachedImage:(NSString*)fbid
-{
-    return [_urlImages objectForKey:fbid];
-}
-
-- (void) insertImageToCache:(NSString*)fbid image:(UrlImage*)image
-{
-    [_urlImages setObject:image forKey:fbid];
-}
-
 #pragma mark - private functions
 
 + (NSString*) leaderboardmgrFilePath
@@ -167,7 +154,6 @@ static NSString* const kKeyWeekOf = @"weekof";
     _createdVersion = [aDecoder decodeObjectForKey:kKeyVersion];
     _leaderboards = [aDecoder decodeObjectForKey:kKeyLeaderboards];
     
-    _urlImages = [[NSMutableDictionary alloc] initWithCapacity:11];
     NSUInteger index = 0;
     for (Leaderboard* current_lb in _leaderboards)
     {
