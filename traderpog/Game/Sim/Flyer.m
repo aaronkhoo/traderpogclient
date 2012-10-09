@@ -284,6 +284,8 @@ static NSString* const kKeyCurUpgradeTier = @"curUpgradeTier";
 {
     unsigned int newTier = MIN(tier, [[FlyerLabFactory getInstance] maxUpgradeTier]);
     _curUpgradeTier = newTier;
+    [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteFlyerStateChanged object:self];
+
     NSLog(@"Flyer Upgraded to Tier %d", newTier);
 }
 
@@ -533,11 +535,15 @@ static NSString* const kKeyCurUpgradeTier = @"curUpgradeTier";
 - (UIImage*) imageForCurrentState
 {
     FlyerType* flyerType  = [[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex];
-    UIImage* image = [[ImageManager getInstance] getImage:[flyerType sideimg] fallbackNamed:@"checkboard.png"];
+    UIImage* image = [[ImageManager getInstance] getImage:[flyerType sideimg]];
     if(kFlyerStateEnroute == [self state])
     {
-        image = [[ImageManager getInstance] getImage:[flyerType topimg]
-                                                fallbackNamed:@"checkerboard.png"];
+        image = [[ImageManager getInstance] getImage:[flyerType topimg]];
+    }
+    else if([self curUpgradeTier])
+    {
+        FlyerUpgradePack* pack = [[FlyerLabFactory getInstance] upgradeForTier:[self curUpgradeTier]];
+        image = [[ImageManager getInstance] getImage:[pack img]];
     }
     return image;
 }

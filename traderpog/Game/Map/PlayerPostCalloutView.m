@@ -152,7 +152,6 @@ static const float kCircleBorderWidth = 3.0f;
     MyTradePost* thisPost = (MyTradePost*)[self.parentAnnotationView annotation];
     if(thisPost)
     {
-        NSLog(@"FlyerLab");
         [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
         [self showFlyerLabForPost:thisPost];
     }
