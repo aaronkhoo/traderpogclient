@@ -13,36 +13,68 @@
 			<integer>2</integer>
 			<key>storm</key>
 			<integer>1</integer>
+			<key>price</key>
+			<integer>500</integer>
 		</dict>
 		<dict>
 			<key>tier</key>
 			<integer>2</integer>
 			<key>capacity</key>
-			<integer>1</integer>
-			<key>speed</key>
-			<integer>4</integer>
-			<key>storm</key>
 			<integer>2</integer>
+			<key>speed</key>
+			<integer>2</integer>
+			<key>storm</key>
+			<integer>1</integer>
+			<key>price</key>
+			<integer>700</integer>
 		</dict>
 		<dict>
 			<key>tier</key>
 			<integer>3</integer>
 			<key>capacity</key>
-			<integer>1</integer>
+			<integer>2</integer>
 			<key>speed</key>
-			<integer>8</integer>
-			<key>storm</key>
 			<integer>4</integer>
+			<key>storm</key>
+			<integer>1</integer>
+			<key>price</key>
+			<integer>1000</integer>
 		</dict>
 		<dict>
 			<key>tier</key>
 			<integer>4</integer>
 			<key>capacity</key>
-			<integer>1</integer>
-			<key>speed</key>
-			<integer>24</integer>
-			<key>storm</key>
 			<integer>4</integer>
+			<key>speed</key>
+			<integer>4</integer>
+			<key>storm</key>
+			<integer>1</integer>
+			<key>price</key>
+			<integer>2000</integer>
+		</dict>
+		<dict>
+			<key>tier</key>
+			<integer>4</integer>
+			<key>capacity</key>
+			<integer>4</integer>
+			<key>speed</key>
+			<integer>10</integer>
+			<key>storm</key>
+			<integer>1</integer>
+			<key>price</key>
+			<integer>10000</integer>
+		</dict>
+		<dict>
+			<key>tier</key>
+			<integer>4</integer>
+			<key>capacity</key>
+			<integer>6</integer>
+			<key>speed</key>
+			<integer>10</integer>
+			<key>storm</key>
+			<integer>1</integer>
+			<key>price</key>
+			<integer>20000</integer>
 		</dict>
 	</array>
 	<key>color_packs</key>

@@ -14,6 +14,8 @@
 #import "LoadingScreen.h"
 #import "LoadingTransition.h"
 #import "LeaderboardsScreen.h"
+#import "Flyer.h"
+#import "FlyerMgr.h"
 
 @interface DebugMenu ()
 {
@@ -102,6 +104,14 @@
 {
     LeaderboardsScreen* leaderboards = [[LeaderboardsScreen alloc] initWithNibName:@"LeaderboardsScreen" bundle:nil];
     [self.navigationController pushFromRightViewController:leaderboards animated:YES];
+}
+
+- (IBAction)didPressFlyerUpgrade:(id)sender
+{
+    for(Flyer* cur in [[FlyerMgr getInstance] playerFlyers])
+    {
+        [cur applyUpgradeTier:0];
+    }
 }
 
 - (void) didPressPopButton:(id)sender

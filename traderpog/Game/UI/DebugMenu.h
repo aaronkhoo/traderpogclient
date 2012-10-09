@@ -18,4 +18,5 @@
 - (IBAction)didPressAdd200Coins:(id)sender;
 - (IBAction)didPressLoading:(id)sender;
 - (IBAction)didPressLeaderboards:(id)sender;
+- (IBAction)didPressFlyerUpgrade:(id)sender;
 @end

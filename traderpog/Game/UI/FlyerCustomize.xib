@@ -44,7 +44,6 @@
 								<int key="NSvFlags">301</int>
 								<string key="NSFrame">{{9, 9}, {30, 30}}</string>
 								<reference key="NSSuperview" ref="1058991186"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">3</int>
@@ -186,7 +185,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NS.key.0">x.png</string>
-			<string key="NS.object.0">{16, 16}</string>
+			<string key="NS.object.0">{50, 50}</string>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">1926</string>
 	</data>

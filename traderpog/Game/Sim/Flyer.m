@@ -284,6 +284,7 @@ static NSString* const kKeyCurUpgradeTier = @"curUpgradeTier";
 {
     unsigned int newTier = MIN(tier, [[FlyerLabFactory getInstance] maxUpgradeTier]);
     _curUpgradeTier = newTier;
+    NSLog(@"Flyer Upgraded to Tier %d", newTier);
 }
 
 - (NSInteger) getFlyerSpeed
@@ -306,7 +307,11 @@ static NSString* const kKeyCurUpgradeTier = @"curUpgradeTier";
     return speed;
 }
 
-
+- (unsigned int) nextUpgradeTier
+{
+    unsigned int result = [[FlyerLabFactory getInstance] nextUpgradeTierForTier:_curUpgradeTier];
+    return result;
+}
 #pragma mark - flight public
 
 // called for restored flyers when game reboots

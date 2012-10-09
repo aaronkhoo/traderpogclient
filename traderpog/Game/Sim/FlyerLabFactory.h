@@ -16,6 +16,7 @@
 }
 
 - (unsigned int) maxUpgradeTier;
+- (unsigned int) nextUpgradeTierForTier:(unsigned int)tier;
 - (FlyerUpgradePack*) upgradeForTier:(unsigned int)tier;
 
 // singleton

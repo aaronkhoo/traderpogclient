@@ -86,13 +86,10 @@ static const float kContentBorderCornerRadius = 8.0f;
 
 - (IBAction)didPressUpgrade:(id)sender
 {
-    /*
     if([self flyer])
     {
-        [self.flyer applyUpgradeTier:1];
+        FlyerUpgrade* next = [[FlyerUpgrade alloc] initWithFlyer:self.flyer];
+        [self.navigationController pushFadeInViewController:next animated:YES];
     }
-    */
-    FlyerUpgrade* next = [[FlyerUpgrade alloc] initWithNibName:@"FlyerUpgrade" bundle:nil];
-    [self.navigationController pushFromRightViewController:next animated:YES];
 }
 @end

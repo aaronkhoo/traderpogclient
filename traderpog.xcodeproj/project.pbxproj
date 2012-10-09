@@ -98,7 +98,6 @@
 		42BF7B521620DC11000D926C /* FlyerUpgrade.m in Sources */ = {isa = PBXBuildFile; fileRef = 42BF7B501620DC11000D926C /* FlyerUpgrade.m */; };
 		42BF7B531620DC11000D926C /* FlyerUpgrade.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42BF7B511620DC11000D926C /* FlyerUpgrade.xib */; };
 		42BF7B571620E033000D926C /* FlyerLabFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 42BF7B561620E033000D926C /* FlyerLabFactory.m */; };
-		42BF7B5A1620E09F000D926C /* FlyerUpgradePack.m in Sources */ = {isa = PBXBuildFile; fileRef = 42BF7B591620E09F000D926C /* FlyerUpgradePack.m */; };
 		42BF7B5D1620E0DB000D926C /* FlyerColorPack.m in Sources */ = {isa = PBXBuildFile; fileRef = 42BF7B5C1620E0DA000D926C /* FlyerColorPack.m */; };
 		42C766B31607900900D21354 /* LoadingTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C766B11607900900D21354 /* LoadingTransition.m */; };
 		42C766B41607900900D21354 /* LoadingTransition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C766B21607900900D21354 /* LoadingTransition.xib */; };
@@ -180,6 +179,7 @@
 		C462694A1603F876002F1626 /* LoadingCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C46269491603F876002F1626 /* LoadingCircle.m */; };
 		C462694F1603FF63002F1626 /* LoadingScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C462694D1603FF63002F1626 /* LoadingScreen.m */; };
 		C46269501603FF63002F1626 /* LoadingScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C462694E1603FF63002F1626 /* LoadingScreen.xib */; };
+		C476E529162408FA00B7D9F9 /* FlyerUpgradePack.m in Sources */ = {isa = PBXBuildFile; fileRef = C476E528162408FA00B7D9F9 /* FlyerUpgradePack.m */; };
 		C481145F15ACB927007FA214 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C481145D15ACB927007FA214 /* GameViewController.m */; };
 		C481146015ACB927007FA214 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C481145E15ACB927007FA214 /* GameViewController.xib */; };
 		C481146915ACBFED007FA214 /* MapControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C481146815ACBFED007FA214 /* MapControl.m */; };
@@ -402,8 +402,6 @@
 		42B28E3115EA39620008901C /* b_tradepost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = b_tradepost.png; path = assets/Map/b_tradepost.png; sourceTree = SOURCE_ROOT; };
 		42B5DC8B162354AE0099DE6E /* FlyerColorPack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerColorPack.h; path = Game/Sim/FlyerColorPack.h; sourceTree = "<group>"; };
 		42B5DC8C162354AE0099DE6E /* FlyerColorPack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerColorPack.m; path = Game/Sim/FlyerColorPack.m; sourceTree = "<group>"; };
-		42B5DC8D162354AE0099DE6E /* FlyerUpgradePack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerUpgradePack.h; path = Game/Sim/FlyerUpgradePack.h; sourceTree = "<group>"; };
-		42B5DC8E162354AE0099DE6E /* FlyerUpgradePack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerUpgradePack.m; path = Game/Sim/FlyerUpgradePack.m; sourceTree = "<group>"; };
 		42B5DC92162354F90099DE6E /* FlyerLabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerLabViewController.h; path = Game/UI/FlyerLabViewController.h; sourceTree = "<group>"; };
 		42B5DC93162354F90099DE6E /* FlyerLabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerLabViewController.m; path = Game/UI/FlyerLabViewController.m; sourceTree = "<group>"; };
 		42B5DC94162354F90099DE6E /* FlyerLabViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerLabViewController.xib; path = Game/UI/FlyerLabViewController.xib; sourceTree = "<group>"; };
@@ -414,8 +412,6 @@
 		42BF7B511620DC11000D926C /* FlyerUpgrade.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerUpgrade.xib; path = Game/UI/FlyerUpgrade.xib; sourceTree = "<group>"; };
 		42BF7B551620E033000D926C /* FlyerLabFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerLabFactory.h; path = Game/Sim/FlyerLabFactory.h; sourceTree = "<group>"; };
 		42BF7B561620E033000D926C /* FlyerLabFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerLabFactory.m; path = Game/Sim/FlyerLabFactory.m; sourceTree = "<group>"; };
-		42BF7B581620E09F000D926C /* FlyerUpgradePack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerUpgradePack.h; path = Game/Sim/FlyerUpgradePack.h; sourceTree = "<group>"; };
-		42BF7B591620E09F000D926C /* FlyerUpgradePack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerUpgradePack.m; path = Game/Sim/FlyerUpgradePack.m; sourceTree = "<group>"; };
 		42BF7B5B1620E0DA000D926C /* FlyerColorPack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerColorPack.h; path = Game/Sim/FlyerColorPack.h; sourceTree = "<group>"; };
 		42BF7B5C1620E0DA000D926C /* FlyerColorPack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerColorPack.m; path = Game/Sim/FlyerColorPack.m; sourceTree = "<group>"; };
 		42C766B01607900900D21354 /* LoadingTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingTransition.h; sourceTree = "<group>"; };
@@ -536,6 +532,8 @@
 		C462694C1603FF63002F1626 /* LoadingScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadingScreen.h; path = Game/UI/LoadingScreen.h; sourceTree = "<group>"; };
 		C462694D1603FF63002F1626 /* LoadingScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadingScreen.m; path = Game/UI/LoadingScreen.m; sourceTree = "<group>"; };
 		C462694E1603FF63002F1626 /* LoadingScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LoadingScreen.xib; path = Game/UI/LoadingScreen.xib; sourceTree = "<group>"; };
+		C476E527162408FA00B7D9F9 /* FlyerUpgradePack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerUpgradePack.h; path = Game/Sim/FlyerUpgradePack.h; sourceTree = "<group>"; };
+		C476E528162408FA00B7D9F9 /* FlyerUpgradePack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerUpgradePack.m; path = Game/Sim/FlyerUpgradePack.m; sourceTree = "<group>"; };
 		C481145C15ACB927007FA214 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameViewController.h; path = Game/UI/GameViewController.h; sourceTree = "<group>"; };
 		C481145D15ACB927007FA214 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameViewController.m; path = Game/UI/GameViewController.m; sourceTree = "<group>"; };
 		C481145E15ACB927007FA214 /* GameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GameViewController.xib; path = Game/UI/GameViewController.xib; sourceTree = "<group>"; };
@@ -1243,14 +1241,12 @@
 				4277385115D3A5CE004DCC13 /* BeaconMgr.m */,
 				42BF7B5B1620E0DA000D926C /* FlyerColorPack.h */,
 				42BF7B5C1620E0DA000D926C /* FlyerColorPack.m */,
-				42BF7B581620E09F000D926C /* FlyerUpgradePack.h */,
-				42BF7B591620E09F000D926C /* FlyerUpgradePack.m */,
 				42BF7B551620E033000D926C /* FlyerLabFactory.h */,
 				42BF7B561620E033000D926C /* FlyerLabFactory.m */,
 				42B5DC8B162354AE0099DE6E /* FlyerColorPack.h */,
 				42B5DC8C162354AE0099DE6E /* FlyerColorPack.m */,
-				42B5DC8D162354AE0099DE6E /* FlyerUpgradePack.h */,
-				42B5DC8E162354AE0099DE6E /* FlyerUpgradePack.m */,
+				C476E527162408FA00B7D9F9 /* FlyerUpgradePack.h */,
+				C476E528162408FA00B7D9F9 /* FlyerUpgradePack.m */,
 				C4BBE46C15BBDA2C00F582DE /* Flyer.h */,
 				C4BBE46D15BBDA2C00F582DE /* Flyer.m */,
 				C4BBE46F15BBEEFF00F582DE /* FlyerMgr.h */,
@@ -1559,12 +1555,12 @@
 				4237D4821620A40F009A29F1 /* FlyerCustomize.m in Sources */,
 				42BF7B521620DC11000D926C /* FlyerUpgrade.m in Sources */,
 				42BF7B571620E033000D926C /* FlyerLabFactory.m in Sources */,
-				42BF7B5A1620E09F000D926C /* FlyerUpgradePack.m in Sources */,
 				42BF7B5D1620E0DB000D926C /* FlyerColorPack.m in Sources */,
 				42CBADDC1621DB3300BA7363 /* NSDictionary+Pog.m in Sources */,
 				388B6816161FC1FC00AB74FC /* PlayerSalesScreen.m in Sources */,
 				388B6819161FD91F00AB74FC /* UrlImageManager.m in Sources */,
 				42B5DC95162354F90099DE6E /* FlyerLabViewController.m in Sources */,
+				C476E529162408FA00B7D9F9 /* FlyerUpgradePack.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

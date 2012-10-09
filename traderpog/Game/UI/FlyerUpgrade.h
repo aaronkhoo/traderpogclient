@@ -9,7 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "CircleButton.h"
 
+@class Flyer;
 @interface FlyerUpgrade : UIViewController
+{
+    Flyer* _flyer;
+}
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
+@property (weak, nonatomic) IBOutlet CircleButton *buyCircle;
+@property (weak, nonatomic) IBOutlet UIView *contentView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *secondaryTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *speedLevel;
+@property (weak, nonatomic) IBOutlet UILabel *capacityLevel;
+@property (weak, nonatomic) IBOutlet UIImageView *coinImageView;
+@property (weak, nonatomic) IBOutlet UILabel *priceLabel;
 
+
+- (id) initWithFlyer:(Flyer*)flyer;
 @end

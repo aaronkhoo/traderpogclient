@@ -49,6 +49,12 @@ static NSString* const kKeyUpgradePacks = @"upgrade_packs";
     return result;
 }
 
+- (unsigned int) nextUpgradeTierForTier:(unsigned int)tier
+{
+    unsigned int result = MIN(tier+1, [self maxUpgradeTier]);
+    return result;
+}
+
 - (FlyerUpgradePack*) upgradeForTier:(unsigned int)tier
 {
     FlyerUpgradePack* result = nil;
