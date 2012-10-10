@@ -20,4 +20,5 @@
 + (UIColor*) borderColorScanWithAlpha:(CGFloat)alpha;
 
 + (UIColor*) bubbleBgColorWithAlpha:(CGFloat)alpha;
++ (UIColor*) gliderWhiteWithAlpha:(CGFloat)alpha;
 @end

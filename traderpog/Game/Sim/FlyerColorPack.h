@@ -16,8 +16,10 @@ extern NSString* const kKeyColorAlpha;
 @interface FlyerColorPack : NSObject
 {
     UIColor* _color;
+    NSString* _name;
 }
 @property (nonatomic,readonly) UIColor* color;
+@property (nonatomic,readonly) NSString* name;
 
 - (id) initWithDictionary:(NSDictionary*)dict;
 @end

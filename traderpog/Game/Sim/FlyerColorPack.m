@@ -13,9 +13,11 @@ NSString* const kKeyColorRed = @"colorR";
 NSString* const kKeyColorGreen = @"colorG";
 NSString* const kKeyColorBlue = @"colorB";
 NSString* const kKeyColorAlpha = @"alpha";
+NSString* const kKeyName = @"name";
 
 @implementation FlyerColorPack
 @synthesize color = _color;
+@synthesize name = _name;
 
 - (id) init
 {
@@ -37,6 +39,7 @@ NSString* const kKeyColorAlpha = @"alpha";
                                  green:colorG/255.0f
                                   blue:colorB/255.0f
                                  alpha:alpha];
+        _name = [dict getStringForKey:kKeyName withDefault:@"orig"];
     }
     return self;
 }

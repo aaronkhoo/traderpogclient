@@ -66,4 +66,10 @@
                                        alpha:alpha];
     return bgColor;
 }
+
++ (UIColor*) gliderWhiteWithAlpha:(CGFloat)alpha
+{
+    UIColor* color = [UIColor colorWithRed:227.0f/255.0f green:231.0f/255.0f blue:221.0f/255.0f alpha:alpha];
+    return color;
+}
 @end
