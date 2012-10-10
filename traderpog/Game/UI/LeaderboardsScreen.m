@@ -11,6 +11,7 @@
 #import "LeaderboardMgr.h"
 #import "LeaderboardRow.h"
 #import "LeaderboardsScreen.h"
+#import "MBProgressHUD.h"
 #import "Player.h"
 #import "SingleLeaderboard.h"
 #import "GameColors.h"
@@ -19,7 +20,6 @@ static CGFloat const kRowHeight = 40.0;
 static CGFloat const kImageSize = 35.0;
 
 @implementation LeaderboardsScreen
-@synthesize spinner;
 @synthesize lbtable;
 @synthesize errorLabel;
 
@@ -43,18 +43,15 @@ static CGFloat const kImageSize = 35.0;
     [self.lbtable setSeparatorColor:separator_color];
     [self.closeCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.closeCircle setButtonTarget:self action:@selector(didPressClose:)];
-
-    spinner.hidden = FALSE;
     
     if ([[LeaderboardMgr getInstance] needsRefresh])
     {
-        [spinner startAnimating];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.labelText = @"Retrieving leaderboards";
         [[LeaderboardMgr getInstance] retrieveLeaderboardFromServer];
     }
     else
     {
-        [spinner stopAnimating];
-        spinner.hidden = TRUE;
         lbtable.hidden = FALSE;
     }
 }
@@ -72,8 +69,7 @@ static CGFloat const kImageSize = 35.0;
 
 - (void)updateLeaderboardUI
 {
-    [spinner stopAnimating];
-    spinner.hidden = TRUE;
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     lbtable.hidden = FALSE;
 }
 
@@ -214,8 +210,7 @@ static CGFloat const kImageSize = 35.0;
     }
     else
     {
-        [spinner stopAnimating];
-        spinner.hidden = TRUE;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         errorLabel.hidden = FALSE;
     }
 }

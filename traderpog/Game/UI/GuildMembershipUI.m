@@ -7,8 +7,9 @@
 //
 
 #import "UINavigationController+Pog.h"
-#import "ProductManager.h"
 #import "GuildMembershipUI.h"
+#import "MBProgressHUD.h"
+#import "ProductManager.h"
 
 @interface GuildMembershipUI ()
 
@@ -17,7 +18,6 @@
 @implementation GuildMembershipUI
 @synthesize testText;
 @synthesize buyButton;
-@synthesize spinner;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -58,6 +58,9 @@
                                                  name:kProductManagerTransactionCanceledNotification
                                                object:nil];
     
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"Retrieving products";
+    
     if ([[ProductManager getInstance] needsRefresh])
     {
         [[ProductManager getInstance] requestProductData];   
@@ -79,8 +82,8 @@
 {
     SKProduct* product = [[[ProductManager getInstance] productsArray] objectAtIndex:0];
     testText.text = [NSString stringWithFormat:@"%@\n%@\n%@", product.localizedTitle, product.localizedDescription, product.price];
-    [spinner stopAnimating];
     [buyButton setHidden:FALSE];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 #pragma mark - product manager

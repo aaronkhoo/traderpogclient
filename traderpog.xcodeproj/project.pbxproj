@@ -54,6 +54,7 @@
 		38C8B32C160A44F800AFD214 /* LeaderboardRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C8B32B160A44F800AFD214 /* LeaderboardRow.m */; };
 		38D7371E15ED7290001CD3AE /* AsyncHttpCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D7371D15ED7290001CD3AE /* AsyncHttpCall.m */; };
 		38D7372215ED7DC6001CD3AE /* AsyncHttpCallMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D7372115ED7DC6001CD3AE /* AsyncHttpCallMgr.m */; };
+		38F653B3162627F9006027F7 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F653B2162627F9006027F7 /* MBProgressHUD.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		38F6593915F8023100816517 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F6593815F8023100816517 /* Reachability.m */; };
 		38FCF6D41610D05A00540F34 /* LeaderboardsScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF6D31610D05A00540F34 /* LeaderboardsScreen.xib */; };
 		38FCF6D81610D0A400540F34 /* LeaderboardsScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FCF6D71610D0A400540F34 /* LeaderboardsScreen.m */; };
@@ -336,6 +337,8 @@
 		38D7372015ED7DC6001CD3AE /* AsyncHttpCallMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncHttpCallMgr.h; path = Game/ServerAPI/AsyncHttpCallMgr.h; sourceTree = "<group>"; };
 		38D7372115ED7DC6001CD3AE /* AsyncHttpCallMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncHttpCallMgr.m; path = Game/ServerAPI/AsyncHttpCallMgr.m; sourceTree = "<group>"; };
 		38D7372415EDEBF4001CD3AE /* AsyncHttpDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncHttpDelegate.h; path = Game/ServerAPI/AsyncHttpDelegate.h; sourceTree = "<group>"; };
+		38F653B1162627F9006027F7 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		38F653B2162627F9006027F7 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		38F6593715F8023100816517 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = Game/ServerAPI/Reachability.h; sourceTree = "<group>"; };
 		38F6593815F8023100816517 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Game/ServerAPI/Reachability.m; sourceTree = "<group>"; };
 		38FCF6D31610D05A00540F34 /* LeaderboardsScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LeaderboardsScreen.xib; path = Game/UI/LeaderboardsScreen.xib; sourceTree = "<group>"; };
@@ -764,6 +767,16 @@
 			name = Metrics;
 			sourceTree = "<group>";
 		};
+		38F653B0162627F9006027F7 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				38F653B1162627F9006027F7 /* MBProgressHUD.h */,
+				38F653B2162627F9006027F7 /* MBProgressHUD.m */,
+			);
+			name = MBProgressHUD;
+			path = External/MBProgressHUD;
+			sourceTree = "<group>";
+		};
 		38FCF6F0161522BB00540F34 /* GoogleAdMobAdsSdkiOS-6.2.0 */ = {
 			isa = PBXGroup;
 			children = (
@@ -884,6 +897,7 @@
 		C41E0C8015AC032E006662DF /* External */ = {
 			isa = PBXGroup;
 			children = (
+				38F653B0162627F9006027F7 /* MBProgressHUD */,
 				38FCF6F0161522BB00540F34 /* GoogleAdMobAdsSdkiOS-6.2.0 */,
 				38BE3BCF160D3CF500758F27 /* localytics */,
 				3889128915D5D8B6009CF624 /* ssziparchive */,
@@ -1653,6 +1667,7 @@
 				42B5DC95162354F90099DE6E /* FlyerLabViewController.m in Sources */,
 				38AAEF261624F3670056C9F2 /* ProductManager.m in Sources */,
 				38AAEF2E1625B6400056C9F2 /* GuildMembershipUI.m in Sources */,
+				38F653B3162627F9006027F7 /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

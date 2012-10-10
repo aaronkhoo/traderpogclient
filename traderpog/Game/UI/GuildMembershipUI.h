@@ -11,7 +11,6 @@
 @interface GuildMembershipUI : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel* testText;
 @property (weak, nonatomic) IBOutlet UIButton* buyButton;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
 - (IBAction)didPressClose:(id)sender;
 
