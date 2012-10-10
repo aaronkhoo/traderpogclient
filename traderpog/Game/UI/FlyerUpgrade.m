@@ -51,6 +51,12 @@ static const float kContentBorderCornerRadius = 8.0f;
                             color:[GameColors borderColorScanWithAlpha:1.0f]
                      cornerRadius:kContentBorderCornerRadius];
     [self.contentView setBackgroundColor:[GameColors bubbleColorFlyersWithAlpha:1.0f]];
+    [PogUIUtility setBorderOnView:self.contentSubView
+                            width:kContentBorderWidth * 0.5f
+                            color:[GameColors borderColorScanWithAlpha:1.0f]
+                     cornerRadius:0.5f];
+    [self.contentSubView setBackgroundColor:[GameColors gliderWhiteWithAlpha:1.0f]];
+    [self.titleView setBackgroundColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.closeCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.closeCircle setButtonTarget:self action:@selector(didPressClose:)];
     [self.buyCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
@@ -75,6 +81,8 @@ static const float kContentBorderCornerRadius = 8.0f;
     [self setCoinImageView:nil];
     [self setPriceLabel:nil];
     [self setImageView:nil];
+    [self setContentSubView:nil];
+    [self setTitleView:nil];
     [super viewDidUnload];
 }
 

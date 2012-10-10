@@ -20,6 +20,7 @@
 static const float kContentBorderWidth = 6.0f;
 static const float kContentBorderCornerRadius = 8.0f;
 static const float kOptionBorderWidth = 4.0f;
+static const float kOptionBotHeight = 0.2f;
 
 enum kColorOptions
 {
@@ -62,10 +63,18 @@ enum kColorOptions
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // colors and borders
     [PogUIUtility setBorderOnView:self.contentView
                             width:kContentBorderWidth
                             color:[GameColors borderColorScanWithAlpha:1.0f]
                      cornerRadius:kContentBorderCornerRadius];
+    [PogUIUtility setBorderOnView:self.contentSubView
+                            width:kContentBorderWidth * 0.5f
+                            color:[GameColors borderColorScanWithAlpha:1.0f]
+                     cornerRadius:0.5f];
+    [self.contentSubView setBackgroundColor:[GameColors gliderWhiteWithAlpha:1.0f]];
+    [self.titleView setBackgroundColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.contentView setBackgroundColor:[GameColors bubbleColorFlyersWithAlpha:1.0f]];
     [self.closeCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.closeCircle setButtonTarget:self action:@selector(didPressClose:)];
@@ -94,6 +103,12 @@ enum kColorOptions
                             color:[GameColors borderColorScanWithAlpha:1.0f]
                      cornerRadius:kContentBorderCornerRadius];
     
+    // bottom bar on each of the option boxes
+    [self.origBar setBackgroundColor:[GameColors borderColorScanWithAlpha:1.0f]];
+    [self.bar1 setBackgroundColor:[GameColors borderColorScanWithAlpha:1.0f]];
+    [self.bar2 setBackgroundColor:[GameColors borderColorScanWithAlpha:1.0f]];
+    [self.bar3 setBackgroundColor:[GameColors borderColorScanWithAlpha:1.0f]];
+    
     [self setupContent];
 }
 
@@ -104,6 +119,10 @@ enum kColorOptions
 
 - (void)viewDidUnload
 {
+    [self setOrigBar:nil];
+    [self setBar1:nil];
+    [self setBar2:nil];
+    [self setBar3:nil];
     [self setCloseCircle:nil];
     [self setContentView:nil];
     [self setBuyCircle:nil];
@@ -118,6 +137,8 @@ enum kColorOptions
     [self setStamp1:nil];
     [self setStamp2:nil];
     [self setStamp3:nil];
+    [self setTitleView:nil];
+    [self setContentSubView:nil];
     [super viewDidUnload];
 }
 
@@ -143,47 +164,13 @@ enum kColorOptions
 
 - (void) setCurSelection:(unsigned int)newSelection
 {
-    UIColor* highlight = [GameColors borderColorPostsWithAlpha:1.0f];
-    UIColor* normal = [GameColors borderColorScanWithAlpha:1.0f];
-    [self.optionOriginal.layer setBorderColor:normal.CGColor];
-    [self.option1.layer setBorderColor:normal.CGColor];
-    [self.option2.layer setBorderColor:normal.CGColor];
-    [self.option3.layer setBorderColor:normal.CGColor];
+    [self.origStamp setHidden:YES];
+    [self.stamp1 setHidden:YES];
+    [self.stamp2 setHidden:YES];
+    [self.stamp3 setHidden:YES];
     
-    // highlight selection
+    // stamp selection
     switch(newSelection)
-    {
-        case kColorOption1:
-            [self.option1.layer setBorderColor:highlight.CGColor];
-            break;
-            
-        case kColorOption2:
-            [self.option2.layer setBorderColor:highlight.CGColor];
-            break;
-            
-        case kColorOption3:
-            [self.option3.layer setBorderColor:highlight.CGColor];
-            break;
-            
-        case kColorOptionOriginal:
-        default:
-            [self.optionOriginal.layer setBorderColor:highlight.CGColor];
-            break;
-    }
-    
-    // image
-    NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:@"flyer_glider" tier:[_flyer curUpgradeTier] colorIndex:newSelection];
-    UIImage* image = [[ImageManager getInstance] getImage:imageName];
-    [self.imageView setImage:image];
-    
-    // update current selection
-    _curSelection = newSelection;
-}
-
-- (void) setupContent
-{
-    // selection
-    switch([_flyer curColor])
     {
         case kColorOption1:
             [self.stamp1 setHidden:NO];
@@ -202,6 +189,19 @@ enum kColorOptions
             [self.origStamp setHidden:NO];
             break;
     }
+    
+    // image
+    NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:@"flyer_glider" tier:[_flyer curUpgradeTier] colorIndex:newSelection];
+    UIImage* image = [[ImageManager getInstance] getImage:imageName];
+    [self.imageView setImage:image];
+    
+    // update current selection
+    _curSelection = newSelection;
+}
+
+- (void) setupContent
+{
+    // selection
     [self setCurSelection:[_flyer curColor]];
     
     // coin image and label

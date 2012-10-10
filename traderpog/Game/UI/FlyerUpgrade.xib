@@ -57,7 +57,7 @@
 							<object class="IBUIImageView" id="133910305">
 								<reference key="NSNextResponder" ref="927170386"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{66, 338}, {30, 30}}</string>
+								<string key="NSFrame">{{85, 334}, {30, 30}}</string>
 								<reference key="NSSuperview" ref="927170386"/>
 								<reference key="NSNextKeyView" ref="325320683"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -75,7 +75,7 @@
 											<object class="IBUILabel" id="1043736460">
 												<reference key="NSNextResponder" ref="64337919"/>
 												<int key="NSvFlags">292</int>
-												<string key="NSFrame">{{20, 0}, {200, 40}}</string>
+												<string key="NSFrame">{{20, 0}, {200, 32}}</string>
 												<reference key="NSSuperview" ref="64337919"/>
 												<reference key="NSNextKeyView" ref="497510754"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -107,7 +107,7 @@
 												</object>
 											</object>
 										</array>
-										<string key="NSFrameSize">{240, 40}</string>
+										<string key="NSFrameSize">{240, 32}</string>
 										<reference key="NSSuperview" ref="650364377"/>
 										<reference key="NSNextKeyView" ref="1043736460"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -251,7 +251,7 @@
 										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 									</object>
 								</array>
-								<string key="NSFrame">{{16, 195}, {240, 139}}</string>
+								<string key="NSFrame">{{16, 185}, {240, 139}}</string>
 								<reference key="NSSuperview" ref="927170386"/>
 								<reference key="NSNextKeyView" ref="64337919"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -267,7 +267,7 @@
 							<object class="IBUILabel" id="325320683">
 								<reference key="NSNextResponder" ref="927170386"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{103, 333}, {94, 40}}</string>
+								<string key="NSFrame">{{116, 329}, {94, 40}}</string>
 								<reference key="NSSuperview" ref="927170386"/>
 								<reference key="NSNextKeyView" ref="720335977"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -496,6 +496,22 @@
 					</object>
 					<int key="connectionID">31</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">contentSubView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="650364377"/>
+					</object>
+					<int key="connectionID">32</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">titleView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="64337919"/>
+					</object>
+					<int key="connectionID">33</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -665,7 +681,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">31</int>
+			<int key="maxID">33</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
