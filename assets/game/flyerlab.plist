@@ -1016,7 +1016,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>orig</string>
+				<string>color1</string>
 				<key>colorR</key>
 				<integer>255</integer>
 				<key>colorG</key>
@@ -1028,7 +1028,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>orig</string>
+				<string>color2</string>
 				<key>colorR</key>
 				<integer>255</integer>
 				<key>colorG</key>
@@ -1040,7 +1040,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>orig</string>
+				<string>color3</string>
 				<key>colorR</key>
 				<integer>255</integer>
 				<key>colorG</key>
@@ -1067,7 +1067,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>orig</string>
+				<string>color1</string>
 				<key>colorR</key>
 				<integer>255</integer>
 				<key>colorG</key>
@@ -1079,7 +1079,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>orig</string>
+				<string>color2</string>
 				<key>colorR</key>
 				<integer>255</integer>
 				<key>colorG</key>
@@ -1091,7 +1091,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>orig</string>
+				<string>color3</string>
 				<key>colorR</key>
 				<integer>255</integer>
 				<key>colorG</key>
@@ -1118,7 +1118,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>orig</string>
+				<string>color1</string>
 				<key>colorR</key>
 				<integer>255</integer>
 				<key>colorG</key>
@@ -1130,7 +1130,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>orig</string>
+				<string>color2</string>
 				<key>colorR</key>
 				<integer>255</integer>
 				<key>colorG</key>
@@ -1142,7 +1142,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>orig</string>
+				<string>color3</string>
 				<key>colorR</key>
 				<integer>255</integer>
 				<key>colorG</key>
@@ -1169,7 +1169,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>orig</string>
+				<string>color1</string>
 				<key>colorR</key>
 				<integer>255</integer>
 				<key>colorG</key>
@@ -1181,7 +1181,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>orig</string>
+				<string>color2</string>
 				<key>colorR</key>
 				<integer>255</integer>
 				<key>colorG</key>
@@ -1193,7 +1193,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>orig</string>
+				<string>color3</string>
 				<key>colorR</key>
 				<integer>255</integer>
 				<key>colorG</key>
@@ -1220,7 +1220,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>orig</string>
+				<string>color1</string>
 				<key>colorR</key>
 				<integer>255</integer>
 				<key>colorG</key>
@@ -1232,7 +1232,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>orig</string>
+				<string>color2</string>
 				<key>colorR</key>
 				<integer>255</integer>
 				<key>colorG</key>
@@ -1244,7 +1244,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>orig</string>
+				<string>color3</string>
 				<key>colorR</key>
 				<integer>255</integer>
 				<key>colorG</key>
@@ -1271,7 +1271,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>orig</string>
+				<string>color1</string>
 				<key>colorR</key>
 				<integer>255</integer>
 				<key>colorG</key>
@@ -1283,7 +1283,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>orig</string>
+				<string>color2</string>
 				<key>colorR</key>
 				<integer>255</integer>
 				<key>colorG</key>
@@ -1295,7 +1295,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>orig</string>
+				<string>color3</string>
 				<key>colorR</key>
 				<integer>255</integer>
 				<key>colorG</key>
@@ -1308,6 +1308,6 @@
 		</array>
 	</dict>
 	<key>color_price</key>
-	<integer>200</integer>
+	<integer>250</integer>
 </dict>
 </plist>

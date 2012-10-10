@@ -15,11 +15,27 @@
 #import "GameAnim.h"
 #import "PogUIUtility.h"
 #import "ImageManager.h"
+#import <QuartzCore/QuartzCore.h>
 
 static const float kContentBorderWidth = 6.0f;
 static const float kContentBorderCornerRadius = 8.0f;
+static const float kOptionBorderWidth = 4.0f;
+
+enum kColorOptions
+{
+    kColorOptionOriginal = 0,
+    kColorOption1,
+    kColorOption2,
+    kColorOption3,
+    
+    kColorOptionNum
+};
 
 @interface FlyerCustomize ()
+{
+    unsigned int _curSelection;
+}
+@property (nonatomic) unsigned int curSelection;
 - (void) setupContent;
 - (void) didPressBuy:(id)sender;
 - (void) didPressClose:(id)sender;
@@ -56,6 +72,28 @@ static const float kContentBorderCornerRadius = 8.0f;
     [self.buyCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.buyCircle setButtonTarget:self action:@selector(didPressBuy:)];
     
+    // setup stamps initial state
+    [self.origStamp setHidden:YES];
+    [self.stamp1 setHidden:YES];
+    [self.stamp2 setHidden:YES];
+    [self.stamp3 setHidden:YES];
+    [PogUIUtility setBorderOnView:self.optionOriginal
+                            width:kOptionBorderWidth
+                            color:[GameColors borderColorScanWithAlpha:1.0f]
+                     cornerRadius:kContentBorderCornerRadius];
+    [PogUIUtility setBorderOnView:self.option1
+                            width:kOptionBorderWidth
+                            color:[GameColors borderColorScanWithAlpha:1.0f]
+                     cornerRadius:kContentBorderCornerRadius];
+    [PogUIUtility setBorderOnView:self.option2
+                            width:kOptionBorderWidth
+                            color:[GameColors borderColorScanWithAlpha:1.0f]
+                     cornerRadius:kContentBorderCornerRadius];
+    [PogUIUtility setBorderOnView:self.option3
+                            width:kOptionBorderWidth
+                            color:[GameColors borderColorScanWithAlpha:1.0f]
+                     cornerRadius:kContentBorderCornerRadius];
+    
     [self setupContent];
 }
 
@@ -76,6 +114,10 @@ static const float kContentBorderCornerRadius = 8.0f;
     [self setPriceLabel:nil];
     [self setCoinImageView:nil];
     [self setImageView:nil];
+    [self setOrigStamp:nil];
+    [self setStamp1:nil];
+    [self setStamp2:nil];
+    [self setStamp3:nil];
     [super viewDidUnload];
 }
 
@@ -87,30 +129,81 @@ static const float kContentBorderCornerRadius = 8.0f;
 
 - (void) didPressBuy:(id)sender
 {
-    [self didPressClose:sender];    
+    if(_curSelection != [_flyer curColor])
+    {
+        [_flyer applyColor:_curSelection];
+    }
+    [self didPressClose:sender];
+}
+
+- (unsigned int) curSelection
+{
+    return _curSelection;
+}
+
+- (void) setCurSelection:(unsigned int)newSelection
+{
+    UIColor* highlight = [GameColors borderColorPostsWithAlpha:1.0f];
+    UIColor* normal = [GameColors borderColorScanWithAlpha:1.0f];
+    [self.optionOriginal.layer setBorderColor:normal.CGColor];
+    [self.option1.layer setBorderColor:normal.CGColor];
+    [self.option2.layer setBorderColor:normal.CGColor];
+    [self.option3.layer setBorderColor:normal.CGColor];
+    
+    // highlight selection
+    switch(newSelection)
+    {
+        case kColorOption1:
+            [self.option1.layer setBorderColor:highlight.CGColor];
+            break;
+            
+        case kColorOption2:
+            [self.option2.layer setBorderColor:highlight.CGColor];
+            break;
+            
+        case kColorOption3:
+            [self.option3.layer setBorderColor:highlight.CGColor];
+            break;
+            
+        case kColorOptionOriginal:
+        default:
+            [self.optionOriginal.layer setBorderColor:highlight.CGColor];
+            break;
+    }
+    
+    // image
+    NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:@"flyer_glider" tier:[_flyer curUpgradeTier] colorIndex:newSelection];
+    UIImage* image = [[ImageManager getInstance] getImage:imageName];
+    [self.imageView setImage:image];
+    
+    // update current selection
+    _curSelection = newSelection;
 }
 
 - (void) setupContent
 {
-    // pack info
-    //FlyerColorPack* pack = [[FlyerLabFactory getInstance] colorPackAtIndex:0 forFlyerTypeNamed:@"flyer_glider"];
-    /*
-    FlyerUpgradePack* pack = [[FlyerLabFactory getInstance] upgradeForTier:nextTier];
-    NSString* speedText = [NSString stringWithFormat:@"%dx", (unsigned int)[pack speedFactor]];
-    NSString* capacityText = [NSString stringWithFormat:@"%dx", (unsigned int)[pack capacityFactor]];
-    [self.speedLevel setText:speedText];
-    [self.capacityLevel setText:capacityText];
-    [self.secondaryTitleLabel setText:[pack secondTitle]];
-    UIImage* image = [[ImageManager getInstance] getImage:[pack img]];
-    [self.imageView setImage:image];
-    */
+    // selection
+    switch([_flyer curColor])
+    {
+        case kColorOption1:
+            [self.stamp1 setHidden:NO];
+            break;
+            
+        case kColorOption2:
+            [self.stamp2 setHidden:NO];
+            break;
+            
+        case kColorOption3:
+            [self.stamp3 setHidden:NO];
+            break;
+            
+        case kColorOptionOriginal:
+        default:
+            [self.origStamp setHidden:NO];
+            break;
+    }
+    [self setCurSelection:[_flyer curColor]];
     
-    // image
-    NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:@"flyer_glider" tier:[_flyer curUpgradeTier] colorIndex:[_flyer curColor]];
-    UIImage* image = [[ImageManager getInstance] getImage:imageName];
-    [self.imageView setImage:image];
-    
-
     // coin image and label
     [[GameAnim getInstance] refreshImageView:[self coinImageView] withClipNamed:@"coin_shimmer"];
     [self.coinImageView startAnimating];
@@ -120,4 +213,25 @@ static const float kContentBorderCornerRadius = 8.0f;
     [self.priceLabel setText:priceText];
 }
 
+
+- (IBAction)didPressOptionOriginal:(id)sender
+{
+    [self setCurSelection:0];
+}
+
+- (IBAction)didPressOption1:(id)sender
+{
+    [self setCurSelection:1];
+}
+
+
+- (IBAction)didPressOption2:(id)sender
+{
+    [self setCurSelection:2];
+}
+
+- (IBAction)didPressOption3:(id)sender
+{
+    [self setCurSelection:3];
+}
 @end

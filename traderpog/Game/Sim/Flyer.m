@@ -336,6 +336,7 @@ static NSString* const kKeyCurColorIndex = @"color_index";
 - (void) applyColor:(unsigned int)colorIndex
 {
     _curColor = MIN(colorIndex, [[FlyerLabFactory getInstance] maxColorIndex]);
+    [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteFlyerStateChanged object:self];
 }
 
 - (unsigned int) curColor
