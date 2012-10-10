@@ -16,6 +16,7 @@
 }
 @property (nonatomic,strong) Flyer* flyer;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
 @property (weak, nonatomic) IBOutlet UIButton *upgradeButton;
 

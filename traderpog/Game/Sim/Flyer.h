@@ -55,7 +55,10 @@ enum _FlyerStates
     
     FlyerInventory* _inventory;
     FlyerPath* _path;
+    
+    // FlyerLab beefs
     unsigned int _curUpgradeTier;   // starts at 0 (no upgrade)
+    unsigned int _curColor;         // starts at 0
     
     // transient variables (not saved; reconstructed after load)
     CLLocationCoordinate2D _coord;
@@ -96,6 +99,8 @@ enum _FlyerStates
 - (NSInteger) getFlyerSpeed;
 - (unsigned int) curUpgradeTier;
 - (unsigned int) nextUpgradeTier;
+- (void) applyColor:(unsigned int)colorIndex;
+- (unsigned int) curColor;
 
 // map
 - (void) refreshImageInAnnotationView:(FlyerAnnotationView*)annotationView;

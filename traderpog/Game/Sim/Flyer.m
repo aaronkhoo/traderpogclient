@@ -37,7 +37,8 @@ static NSString* const kKeyInventory = @"inventory";
 static NSString* const kKeyPath = @"path";
 NSString* const kKeyFlyerState = @"state";
 static NSString* const kKeyStateBegin = @"stateBegin";
-static NSString* const kKeyCurUpgradeTier = @"curUpgradeTier";
+static NSString* const kKeyCurUpgradeTier = @"upgrade_tier";
+static NSString* const kKeyCurColorIndex = @"color_index";
 
 @interface Flyer ()
 {
@@ -93,6 +94,7 @@ static NSString* const kKeyCurUpgradeTier = @"curUpgradeTier";
         _inventory = [[FlyerInventory alloc] init];
         _path = [[FlyerPath alloc] initWithPost:tradePost];
         _curUpgradeTier = 0;
+        _curColor = 0;
     }
     return self;
 }
@@ -138,6 +140,7 @@ static NSString* const kKeyCurUpgradeTier = @"curUpgradeTier";
 
         // HACK - need curUpgradeTier from dictionary
         _curUpgradeTier = [dict getUnsignedIntForKey:kKeyCurUpgradeTier withDefault:0];
+        _curColor = [dict getUnsignedIntForKey:kKeyCurColorIndex withDefault:0];
         // HACK
         
         // init runtime transient vars
@@ -164,6 +167,7 @@ static NSString* const kKeyCurUpgradeTier = @"curUpgradeTier";
     [aCoder encodeObject:_inventory forKey:kKeyInventory];
     [aCoder encodeObject:_path forKey:kKeyPath];
     [aCoder encodeObject:[NSNumber numberWithUnsignedInt:_curUpgradeTier] forKey:kKeyCurUpgradeTier];
+    [aCoder encodeObject:[NSNumber numberWithUnsignedInt:_curColor] forKey:kKeyCurColorIndex];
     
     [aCoder encodeObject:[NSNumber numberWithUnsignedInt:_state] forKey:kKeyFlyerState];
     [aCoder encodeObject:_stateBegin forKey:kKeyStateBegin];
@@ -184,6 +188,15 @@ static NSString* const kKeyCurUpgradeTier = @"curUpgradeTier";
     else
     {
         _curUpgradeTier = 0;
+    }
+    NSNumber* curColorObj = [aDecoder decodeObjectForKey:kKeyCurColorIndex];
+    if(curColorObj)
+    {
+        _curColor = [curColorObj unsignedIntValue];
+    }
+    else
+    {
+        _curColor = 0;
     }
     
     NSNumber* stateObj = [aDecoder decodeObjectForKey:kKeyFlyerState];
@@ -319,6 +332,17 @@ static NSString* const kKeyCurUpgradeTier = @"curUpgradeTier";
     unsigned int result = [[FlyerLabFactory getInstance] nextUpgradeTierForTier:_curUpgradeTier];
     return result;
 }
+
+- (void) applyColor:(unsigned int)colorIndex
+{
+    _curColor = MIN(colorIndex, [[FlyerLabFactory getInstance] maxColorIndex]);
+}
+
+- (unsigned int) curColor
+{
+    return _curColor;
+}
+
 #pragma mark - flight public
 
 // called for restored flyers when game reboots
@@ -540,10 +564,11 @@ static NSString* const kKeyCurUpgradeTier = @"curUpgradeTier";
     {
         image = [[ImageManager getInstance] getImage:[flyerType topimg]];
     }
-    else if([self curUpgradeTier])
+    else// if([self curUpgradeTier])
     {
-        FlyerUpgradePack* pack = [[FlyerLabFactory getInstance] upgradeForTier:[self curUpgradeTier]];
-        image = [[ImageManager getInstance] getImage:[pack img]];
+//        FlyerUpgradePack* pack = [[FlyerLabFactory getInstance] upgradeForTier:[self curUpgradeTier]];
+        NSString* name = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:@"flyer_glider" tier:[self curUpgradeTier] colorIndex:[self curColor]];
+        image = [[ImageManager getInstance] getImage:name];
     }
     return image;
 }

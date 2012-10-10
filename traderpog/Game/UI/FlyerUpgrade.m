@@ -105,7 +105,10 @@ static const float kContentBorderCornerRadius = 8.0f;
     [self.speedLevel setText:speedText];
     [self.capacityLevel setText:capacityText];
     [self.secondaryTitleLabel setText:[pack secondTitle]];
-    UIImage* image = [[ImageManager getInstance] getImage:[pack img]];
+    
+    // image
+    NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:@"flyer_glider" tier:nextTier colorIndex:[_flyer curColor]];
+    UIImage* image = [[ImageManager getInstance] getImage:imageName];
     [self.imageView setImage:image];
     
     // coin image and label

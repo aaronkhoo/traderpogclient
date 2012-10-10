@@ -14,11 +14,13 @@
 #import "Flyer.h"
 #import "FlyerLabFactory.h"
 #import "PogUIUtility.h"
+#import "ImageManager.h"
 
 static const float kContentBorderWidth = 6.0f;
 static const float kContentBorderCornerRadius = 8.0f;
 
 @interface FlyerLabViewController ()
+- (void) setupContent;
 - (void) didPressClose:(id)sender;
 @end
 
@@ -48,7 +50,7 @@ static const float kContentBorderCornerRadius = 8.0f;
                             width:kContentBorderWidth
                             color:[GameColors borderColorScanWithAlpha:1.0f]
                      cornerRadius:kContentBorderCornerRadius];
-
+    [self.contentView setBackgroundColor:[GameColors bubbleColorFlyersWithAlpha:1.0f]];
     [self.closeCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.closeCircle setButtonTarget:self action:@selector(didPressClose:)];
 }
@@ -64,6 +66,7 @@ static const float kContentBorderCornerRadius = 8.0f;
     [self setContentView:nil];
     [self setCloseCircle:nil];
     [self setUpgradeButton:nil];
+    [self setImageView:nil];
     [super viewDidUnload];
 }
 
@@ -76,6 +79,19 @@ static const float kContentBorderCornerRadius = 8.0f;
     else
     {
         [self.upgradeButton setEnabled:NO];
+    }
+    [self setupContent];
+}
+
+#pragma mark - internal methods
+- (void) setupContent
+{
+    if(_flyer)
+    {
+        // image
+        NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:@"flyer_glider" tier:[_flyer curUpgradeTier] colorIndex:[_flyer curColor]];
+        UIImage* image = [[ImageManager getInstance] getImage:imageName];
+        [self.imageView setImage:image];
     }
 }
 
@@ -94,8 +110,14 @@ static const float kContentBorderCornerRadius = 8.0f;
 
 - (IBAction)didPressCustomize:(id)sender
 {
-    FlyerCustomize* next = [[FlyerCustomize alloc] initWithNibName:@"FlyerCustomize" bundle:nil];
-    [self.navigationController pushFromRightViewController:next animated:YES];
+    if([self flyer])
+    {
+        if([[FlyerLabFactory getInstance] maxUpgradeTier] > [self.flyer curUpgradeTier])
+        {
+            FlyerCustomize* next = [[FlyerCustomize alloc] initWithFlyer:self.flyer];
+            [self.navigationController pushFadeInViewController:next animated:YES];
+        }
+    }
 }
 
 - (IBAction)didPressUpgrade:(id)sender
