@@ -39,6 +39,8 @@
 		38AAEF1A162379290056C9F2 /* tearoffpage.png in Resources */ = {isa = PBXBuildFile; fileRef = 38AAEF12162379290056C9F2 /* tearoffpage.png */; };
 		38AAEF261624F3670056C9F2 /* ProductManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38AAEF251624F3670056C9F2 /* ProductManager.m */; };
 		38AAEF291625189E0056C9F2 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38AAEF281625189E0056C9F2 /* StoreKit.framework */; };
+		38AAEF2B1625B5DE0056C9F2 /* GuildMembershipUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38AAEF2A1625B5DE0056C9F2 /* GuildMembershipUI.xib */; };
+		38AAEF2E1625B6400056C9F2 /* GuildMembershipUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 38AAEF2D1625B6400056C9F2 /* GuildMembershipUI.m */; };
 		38B6DAEF15C85A9D00F37BD9 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 38B6DAE215C85A9D00F37BD9 /* FBDialog.bundle */; };
 		38B6DAF015C85A9D00F37BD9 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38B6DAE815C85A9D00F37BD9 /* libfacebook_ios_sdk.a */; };
 		38BE3BD7160D3CF500758F27 /* LocalyticsDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BE3BD1160D3CF500758F27 /* LocalyticsDatabase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -291,6 +293,9 @@
 		38AAEF241624F3670056C9F2 /* ProductManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductManager.h; sourceTree = "<group>"; };
 		38AAEF251624F3670056C9F2 /* ProductManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductManager.m; sourceTree = "<group>"; };
 		38AAEF281625189E0056C9F2 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		38AAEF2A1625B5DE0056C9F2 /* GuildMembershipUI.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GuildMembershipUI.xib; path = Game/UI/GuildMembershipUI.xib; sourceTree = "<group>"; };
+		38AAEF2C1625B6400056C9F2 /* GuildMembershipUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GuildMembershipUI.h; path = Game/UI/GuildMembershipUI.h; sourceTree = "<group>"; };
+		38AAEF2D1625B6400056C9F2 /* GuildMembershipUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GuildMembershipUI.m; path = Game/UI/GuildMembershipUI.m; sourceTree = "<group>"; };
 		38B6DAE015C85A9D00F37BD9 /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
 		38B6DAE115C85A9D00F37BD9 /* FBConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBConnect.h; sourceTree = "<group>"; };
 		38B6DAE215C85A9D00F37BD9 /* FBDialog.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBDialog.bundle; sourceTree = "<group>"; };
@@ -1160,6 +1165,9 @@
 				388B6814161FC1FC00AB74FC /* PlayerSalesScreen.h */,
 				388B6815161FC1FC00AB74FC /* PlayerSalesScreen.m */,
 				388B6811161FC14A00AB74FC /* PlayerSalesScreen.xib */,
+				38AAEF2C1625B6400056C9F2 /* GuildMembershipUI.h */,
+				38AAEF2D1625B6400056C9F2 /* GuildMembershipUI.m */,
+				38AAEF2A1625B5DE0056C9F2 /* GuildMembershipUI.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -1481,6 +1489,7 @@
 				38AAEF1A162379290056C9F2 /* tearoffpage.png in Resources */,
 				C49C0C731624177A00C6EF2B /* flyer_aerokit.png in Resources */,
 				C49C0C741624177A00C6EF2B /* flyer_booster.png in Resources */,
+				38AAEF2B1625B5DE0056C9F2 /* GuildMembershipUI.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1615,6 +1624,7 @@
 				388B6819161FD91F00AB74FC /* UrlImageManager.m in Sources */,
 				42B5DC95162354F90099DE6E /* FlyerLabViewController.m in Sources */,
 				38AAEF261624F3670056C9F2 /* ProductManager.m in Sources */,
+				38AAEF2E1625B6400056C9F2 /* GuildMembershipUI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

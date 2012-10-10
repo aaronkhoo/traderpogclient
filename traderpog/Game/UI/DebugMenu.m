@@ -16,6 +16,7 @@
 #import "LeaderboardsScreen.h"
 #import "Flyer.h"
 #import "FlyerMgr.h"
+#import "GuildMembershipUI.h"
 
 @interface DebugMenu ()
 {
@@ -136,5 +137,11 @@
     [screen.view addSubview:_loadingPopButton];
     
     [self.navigationController pushFadeInViewController:screen animated:YES];
+}
+
+- (IBAction)didPressProducts:(id)sender
+{
+    GuildMembershipUI* guildmembership = [[GuildMembershipUI alloc] initWithNibName:@"GuildMembershipUI" bundle:nil];
+    [self.navigationController pushFromRightViewController:guildmembership animated:YES];
 }
 @end

@@ -26,6 +26,8 @@
 @property (nonatomic,retain) NSArray* productsArray;
 @property (nonatomic,retain) NSMutableDictionary* productLookup;
 
+- (BOOL) needsRefresh;
+
 // transaction methods
 - (BOOL)requestProductData;
 - (void) purchaseUpgradeByProductID:(NSString *)productID;
