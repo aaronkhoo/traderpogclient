@@ -11,7 +11,6 @@
 #import "CircleButton.h"
 
 @interface LeaderboardsScreen : UIViewController<HttpCallbackDelegate,UITableViewDelegate, UITableViewDataSource>
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 @property (weak, nonatomic) IBOutlet UITableView *lbtable;
 @property (weak, nonatomic) IBOutlet UILabel *errorLabel;
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;

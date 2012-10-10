@@ -40,6 +40,12 @@ NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
     self.productsArray = nil;
 }
 
+- (BOOL) needsRefresh
+{
+    // only request if no previous request succeeded and no ongoing request
+    return ((nil == _productsRequest) && (0 == [self getNumProducts]));
+}
+
 #pragma mark - transaction methods
 
 - (BOOL)requestProductData
@@ -54,18 +60,15 @@ NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
     
     if(isInternetReachable)
     {
-        // only request if no previous request succeeded and no ongoing request
-        if((nil == _productsRequest) && (0 == [self getNumProducts]))
-        {
-            NSSet *productIdentifiers = [NSSet setWithObjects:
-                                         GUILD_MEMBERSHIP,
-                                         nil];
-            _productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
-            _productsRequest.delegate = self;
-            [_productsRequest start];
-            
-            // we will release the request object in the delegate callback
-        }
+        NSSet *productIdentifiers = [NSSet setWithObjects:
+                                     GUILD_MEMBERSHIP,
+                                     nil];
+        _productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
+        _productsRequest.delegate = self;
+        [_productsRequest start];
+        NSLog(@"ProductManager: Requesting products");
+        
+        // we will release the request object in the delegate callback
     }
     
     return isInternetReachable;
@@ -224,7 +227,6 @@ NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
         ++numValidProducts;
     }
     
-    
 	// Log invalid IDs
     for (NSString *invalidProductId in response.invalidProductIdentifiers)
     {
@@ -245,6 +247,8 @@ NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
         // Tell anyone who cares that we're done loading
         [[NSNotificationCenter defaultCenter] postNotificationName:kProductManagerProductsFetchedNotification object:self];
     }
+    
+    NSLog(@"ProductManager: %d valid products received and %d invalid products received", numValidProducts, numInvalidProducts);
 }
 
 - (void) request:(SKRequest *)request didFailWithError:(NSError *)error

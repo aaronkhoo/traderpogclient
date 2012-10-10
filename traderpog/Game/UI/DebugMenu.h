@@ -19,4 +19,5 @@
 - (IBAction)didPressLoading:(id)sender;
 - (IBAction)didPressLeaderboards:(id)sender;
 - (IBAction)didPressFlyerUpgrade:(id)sender;
+- (IBAction)didPressProducts:(id)sender;
 @end
