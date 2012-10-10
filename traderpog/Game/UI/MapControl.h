@@ -25,6 +25,8 @@ extern const NSUInteger kNoCalloutZoomLevel;
 // queries
 - (NSUInteger) zoomLevel;
 - (BOOL) isZoomEnabled;
+- (CLLocation*) availabelLocationNearCoord:(CLLocationCoordinate2D)targetCoord;
+- (NSSet*) visiblePostAnnotationsNearCoord:(CLLocationCoordinate2D)queryCoord radius:(float)radiusMeters;
 
 // creation
 - (id) initWithMapView:(MKMapView*)mapView andCenter:(CLLocationCoordinate2D)initCoord;

@@ -70,6 +70,60 @@ static const float kBrowseAreaRadius = 500.0f;
     return [self.view isZoomEnabled];
 }
 
+static const float kNewPostNearMeters = 150.0f;
+static const float kNewPostOffsetMeters = 100.0f;
+- (CLLocation*) availabelLocationNearCoord:(CLLocationCoordinate2D)targetCoord
+{
+    CLLocation* result = nil;
+    NSSet* visibleSet = [self visiblePostAnnotationsNearCoord:targetCoord radius:kNewPostNearMeters];
+    if([visibleSet count])
+    {
+        NSMutableSet* locationsSet = [NSMutableSet setWithCapacity:[visibleSet count]];
+        for(NSObject<MKAnnotation>* cur in visibleSet)
+        {
+            CLLocation* loc = [[CLLocation alloc] initWithLatitude:cur.coordinate.latitude longitude:cur.coordinate.longitude];
+            [locationsSet addObject:loc];
+        }
+        CLLocation* center = [MKMapView centerOfLocationsInSet:locationsSet];
+        CLLocation* farthest = [MKMapView farthestLocInSet:locationsSet fromCoord:center.coordinate];
+        CLLocationDistance farDist = [center distanceFromLocation:farthest];
+        
+        // note: use new coordinate's latitude but original target coordinate's longitude
+        // so, we shift the original post to the right
+        CLLocationCoordinate2D srcCoord = CLLocationCoordinate2DMake(center.coordinate.latitude, center.coordinate.longitude);
+        MKMapPoint centerPoint = MKMapPointForCoordinate(srcCoord);
+        CLLocationDistance offsetDist = farDist + kNewPostOffsetMeters;
+        double offsetMapPoints = offsetDist * MKMapPointsPerMeterAtLatitude(center.coordinate.latitude);
+        MKMapPoint newPoint = MKMapPointMake(centerPoint.x + offsetMapPoints, centerPoint.y);
+        CLLocationCoordinate2D newCoord = MKCoordinateForMapPoint(newPoint);
+        
+        result = [[CLLocation alloc] initWithLatitude:newCoord.latitude longitude:newCoord.longitude];
+    }
+    
+    return result;
+}
+
+- (NSSet*) visiblePostAnnotationsNearCoord:(CLLocationCoordinate2D)queryCoord radius:(float)radiusMeters
+{
+    NSMutableSet* result = [NSMutableArray arrayWithCapacity:10];
+    CLLocation* queryLoc = [[CLLocation alloc] initWithLatitude:queryCoord.latitude longitude:queryCoord.longitude];
+    NSSet* visibleAnnotations = [self.view annotationsInMapRect:[self.view visibleMapRect]];
+    for(NSObject<MKAnnotation>* cur in visibleAnnotations)
+    {
+        if([cur isKindOfClass:[TradePost class]])
+        {
+            CLLocation* postLoc = [[CLLocation alloc] initWithLatitude:cur.coordinate.latitude longitude:cur.coordinate.longitude];
+            CLLocationDistance dist = [postLoc distanceFromLocation:queryLoc];
+            if(radiusMeters >= dist)
+            {
+                [result addObject:cur];
+            }
+        }
+    }
+    
+    return result;
+}
+
 #pragma mark - public methods
 
 - (void) internalInitWithMapView:(MKMapView *)mapView
@@ -134,6 +188,14 @@ static const float kBrowseAreaRadius = 500.0f;
     NSArray* existingAnnotations = [self.view annotations];
     if(![existingAnnotations containsObject:tradePost])
     {
+        CLLocation* newLoc = [self availabelLocationNearCoord:tradePost.coordinate];
+        if(newLoc)
+        {
+            NSLog(@"Post %@ shifted from (%f, %f) to (%f, %f)", [tradePost postId],
+              tradePost.coord.latitude, tradePost.coord.longitude,
+              newLoc.coordinate.latitude, newLoc.coordinate.longitude);
+            tradePost.coord = newLoc.coordinate;
+        }
         [self.view addAnnotation:tradePost];
     }
 }
