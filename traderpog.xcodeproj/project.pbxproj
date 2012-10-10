@@ -37,6 +37,8 @@
 		38AAEF18162379290056C9F2 /* icon_lboard_safebox.png in Resources */ = {isa = PBXBuildFile; fileRef = 38AAEF10162379290056C9F2 /* icon_lboard_safebox.png */; };
 		38AAEF19162379290056C9F2 /* icon_lboard_travelled.png in Resources */ = {isa = PBXBuildFile; fileRef = 38AAEF11162379290056C9F2 /* icon_lboard_travelled.png */; };
 		38AAEF1A162379290056C9F2 /* tearoffpage.png in Resources */ = {isa = PBXBuildFile; fileRef = 38AAEF12162379290056C9F2 /* tearoffpage.png */; };
+		38AAEF261624F3670056C9F2 /* ProductManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38AAEF251624F3670056C9F2 /* ProductManager.m */; };
+		38AAEF291625189E0056C9F2 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38AAEF281625189E0056C9F2 /* StoreKit.framework */; };
 		38B6DAEF15C85A9D00F37BD9 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 38B6DAE215C85A9D00F37BD9 /* FBDialog.bundle */; };
 		38B6DAF015C85A9D00F37BD9 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38B6DAE815C85A9D00F37BD9 /* libfacebook_ios_sdk.a */; };
 		38BE3BD7160D3CF500758F27 /* LocalyticsDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BE3BD1160D3CF500758F27 /* LocalyticsDatabase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -286,6 +288,9 @@
 		38AAEF10162379290056C9F2 /* icon_lboard_safebox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_lboard_safebox.png; path = assets/UI/icon_lboard_safebox.png; sourceTree = SOURCE_ROOT; };
 		38AAEF11162379290056C9F2 /* icon_lboard_travelled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_lboard_travelled.png; path = assets/UI/icon_lboard_travelled.png; sourceTree = SOURCE_ROOT; };
 		38AAEF12162379290056C9F2 /* tearoffpage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tearoffpage.png; path = assets/UI/tearoffpage.png; sourceTree = SOURCE_ROOT; };
+		38AAEF241624F3670056C9F2 /* ProductManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductManager.h; sourceTree = "<group>"; };
+		38AAEF251624F3670056C9F2 /* ProductManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductManager.m; sourceTree = "<group>"; };
+		38AAEF281625189E0056C9F2 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		38B6DAE015C85A9D00F37BD9 /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
 		38B6DAE115C85A9D00F37BD9 /* FBConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBConnect.h; sourceTree = "<group>"; };
 		38B6DAE215C85A9D00F37BD9 /* FBDialog.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBDialog.bundle; sourceTree = "<group>"; };
@@ -638,6 +643,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38AAEF291625189E0056C9F2 /* StoreKit.framework in Frameworks */,
 				38FCF70A1615236C00540F34 /* MessageUI.framework in Frameworks */,
 				38FCF7081615235900540F34 /* AudioToolbox.framework in Frameworks */,
 				38BE3BDE160D41D200758F27 /* AdSupport.framework in Frameworks */,
@@ -939,6 +945,7 @@
 		C41ED12B15A6B33E00995F53 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				38AAEF281625189E0056C9F2 /* StoreKit.framework */,
 				38FCF7091615236C00540F34 /* MessageUI.framework */,
 				38FCF7071615235900540F34 /* AudioToolbox.framework */,
 				38FCF6E11614100600540F34 /* RevMobAds.framework */,
@@ -997,6 +1004,8 @@
 				4216380715F97C4D002E6FD5 /* AnimMgr.h */,
 				4216380815F97C4D002E6FD5 /* AnimMgr.m */,
 				4216380A15F97CBB002E6FD5 /* AnimDelegate.h */,
+				38AAEF241624F3670056C9F2 /* ProductManager.h */,
+				38AAEF251624F3670056C9F2 /* ProductManager.m */,
 			);
 			path = Sim;
 			sourceTree = "<group>";
@@ -1605,6 +1614,7 @@
 				388B6816161FC1FC00AB74FC /* PlayerSalesScreen.m in Sources */,
 				388B6819161FD91F00AB74FC /* UrlImageManager.m in Sources */,
 				42B5DC95162354F90099DE6E /* FlyerLabViewController.m in Sources */,
+				38AAEF261624F3670056C9F2 /* ProductManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
