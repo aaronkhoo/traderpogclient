@@ -70,8 +70,8 @@ static const float kBrowseAreaRadius = 500.0f;
     return [self.view isZoomEnabled];
 }
 
-static const float kNewPostNearMeters = 150.0f;
-static const float kNewPostOffsetMeters = 100.0f;
+const float kNewPostNearMeters = 150.0f;
+const float kNewPostOffsetMeters = 100.0f;
 - (CLLocation*) availabelLocationNearCoord:(CLLocationCoordinate2D)targetCoord
 {
     CLLocation* result = nil;

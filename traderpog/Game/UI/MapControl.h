@@ -15,6 +15,8 @@
 
 extern const NSUInteger kDefaultZoomLevel;
 extern const NSUInteger kNoCalloutZoomLevel;
+extern const float kNewPostNearMeters;
+extern const float kNewPostOffsetMeters;
 
 @class TradePost;
 @class Flyer;

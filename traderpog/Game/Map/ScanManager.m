@@ -29,11 +29,14 @@ enum kScanStates
 
 static const NSUInteger kScanLocateZoomLevel = 15;
 static const float kScanRadius = 300.0f;    // meters
-static const float kScanRadiusMinFactor = 0.5f;
-static const unsigned int kScanNumPosts = 4;
+static const float kScanRadiusMinFactor = 0.25f;
+static const unsigned int kScanNumPosts = 2;
+static const unsigned int kMaxNumPosts = 4;
 static const NSTimeInterval kScanDurationMin = 2.0f;    // minimum amount of time for Scan
                                                         // so that the player has a chance to observe
                                                         // their own location
+static const unsigned int kNumOverlapTrials = 3;
+static const float kRetryAngleIncr = M_PI_2 * 0.5f;
 
 @interface ScanManager ()
 {
@@ -113,7 +116,6 @@ static const NSTimeInterval kScanDurationMin = 2.0f;    // minimum amount of tim
 
 - (void) startScanAtCoord:(CLLocationCoordinate2D)scanCoord
 {
-    // TODO: ask TradePostMgr to scan
     NSLog(@"scanning...");
     _state = kScanStateScanning;
     _scanBegin = [NSDate date];
@@ -135,67 +137,60 @@ static const NSTimeInterval kScanDurationMin = 2.0f;    // minimum amount of tim
     }
     
     // retrieve existing posts
-    NSMutableArray* posts = [[TradePostMgr getInstance] getTradePostsAtCoord:scanCoord radius:kScanRadius maxNum:kScanNumPosts];
+    NSMutableArray* posts = [[TradePostMgr getInstance] getTradePostsAtCoord:scanCoord radius:kScanRadius maxNum:kMaxNumPosts];
     
     // generate new locations if there isn't enough existing posts
-    if([posts count] < kScanNumPosts)
+    // first put one at scanCoord if there isn't a post there
+    unsigned int scanNumPosts = kScanNumPosts;
+    if([posts count] < kMaxNumPosts)
     {
-        float angleIncr = 2.0 * M_PI / ((float) kScanNumPosts);
-        float startAngle = RandomFrac() * 2.0f * M_PI;
-        if([posts count])
+        NSSet* scanLocPosts = [self.map visiblePostAnnotationsNearCoord:scanCoord radius:kNewPostNearMeters];
+        if(![scanLocPosts count])
         {
-            // start with the angle made with the first post (at least avoid placing over existing npc posts)
-            TradePost* startPost = [posts objectAtIndex:0];
-            MKMapPoint pointA = MKMapPointForCoordinate(scanCoord);
-            MKMapPoint pointB = MKMapPointForCoordinate([startPost coord]);
-            double dx = pointB.x - pointA.x;
-            double dy = pointB.y - pointA.y;
-            
-            float postAngle = 0.0;
-            if((dx >= 0.0) && (dy >= 0.0))
-            {
-                postAngle = atan2(dy,dx);
-                NSLog(@"postAngle 1 is %f", postAngle);
-            }
-            else if((dx < 0.0) && (dy >= 0.0))
-            {
-                postAngle = M_PI + atan2(dy,dx);
-                NSLog(@"postAngle 2 is %f", postAngle);
-            }
-            else if((dx < 0.0) && (dy < 0.0))
-            {
-                postAngle = M_PI + atan2(dy,dx);
-                NSLog(@"postAngle 3 is %f", postAngle);
-            }
-            else
-            {
-                postAngle = (2.0f * M_PI) + atan2(dy,dx);
-                NSLog(@"postAngle 4 is %f", postAngle);
-            }
-            startAngle = postAngle + (0.5f * angleIncr);
-            if(startAngle >= (2.0 * M_PI))
-            {
-                startAngle = startAngle - (2.0 * M_PI);
-            }
+            unsigned int playerBucks = [[Player getInstance] bucks];
+            NPCTradePost* newPost = [[TradePostMgr getInstance] newNPCTradePostAtCoord:scanCoord
+                                                                                 bucks:playerBucks];
+            [posts addObject:newPost];
+            --scanNumPosts;
         }
-        
-        unsigned int numPosts = kScanNumPosts - [posts count];
+    }
+    
+    // then fill in the rest around it
+    if([posts count] < kMaxNumPosts)
+    {
+        float angleIncr = 1.5 * M_PI / ((float) scanNumPosts);
+        float startAngle = RandomFrac() * 2.0f * M_PI;
+        NSLog(@"startAngle %f", startAngle);
+        unsigned int numPosts = MIN(scanNumPosts, (kMaxNumPosts - [posts count]));
         float curAngle = startAngle;
+        float randFrac = RandomFrac();
+        double minDistance = kScanRadius * kScanRadiusMinFactor;
         for(unsigned int i = 0; i < numPosts; ++i)
         {
-            float randFrac = RandomFrac();
-            double minDistance = kScanRadius * kScanRadiusMinFactor;
             double newDistance = minDistance + (randFrac * (kScanRadius - minDistance));
             
             MKMapPoint newPoint = [self createPointFromCenter:scanCoord atDistance:newDistance angle:curAngle];
             CLLocationCoordinate2D newCoord = MKCoordinateForMapPoint(newPoint);
+            
+            unsigned int numTrials = kNumOverlapTrials;
+            NSSet* overlaps = [self.map visiblePostAnnotationsNearCoord:newCoord radius:kNewPostNearMeters];
+            while(([overlaps count]) && numTrials)
+            {
+                curAngle = curAngle + (kRetryAngleIncr * (1.0f - (0.5f * RandomFrac())));
+                double tryDist = minDistance + (RandomFrac() * (kScanRadius - minDistance));
+                newPoint = [self createPointFromCenter:scanCoord atDistance:tryDist angle:curAngle];
+                newCoord = MKCoordinateForMapPoint(newPoint);
+                NSLog(@"retry %d: tryDist %f curAngle %f; newCoord (%f, %f)", numTrials, tryDist, curAngle, newCoord.latitude, newCoord.longitude);
+                overlaps = [self.map visiblePostAnnotationsNearCoord:newCoord radius:kNewPostNearMeters];
+                --numTrials;
+            }
             
             unsigned int playerBucks = [[Player getInstance] bucks];
             NPCTradePost* newPost = [[TradePostMgr getInstance] newNPCTradePostAtCoord:newCoord
                                                                                  bucks:playerBucks];
             [posts addObject:newPost];
             
-            curAngle = curAngle + angleIncr;
+            curAngle = curAngle + (angleIncr * (1.0f - (0.5f * RandomFrac())));
             if(curAngle >= (2.0 * M_PI))
             {
                 curAngle = curAngle - (2.0 * M_PI);
