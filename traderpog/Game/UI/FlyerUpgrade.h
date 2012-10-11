@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIView *titleView;
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
 @property (weak, nonatomic) IBOutlet CircleButton *buyCircle;
+@property (weak, nonatomic) IBOutlet UILabel *buyLabel;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *secondaryTitleLabel;

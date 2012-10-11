@@ -15,6 +15,8 @@
 #import "GameAnim.h"
 #import "PogUIUtility.h"
 #import "ImageManager.h"
+#import "Player.h"
+#import "Player+Shop.h"
 
 static const float kContentBorderWidth = 6.0f;
 static const float kContentBorderCornerRadius = 8.0f;
@@ -83,6 +85,7 @@ static const float kContentBorderCornerRadius = 8.0f;
     [self setImageView:nil];
     [self setContentSubView:nil];
     [self setTitleView:nil];
+    [self setBuyLabel:nil];
     [super viewDidUnload];
 }
 
@@ -95,14 +98,28 @@ static const float kContentBorderCornerRadius = 8.0f;
 - (void) didPressBuy:(id)sender
 {
     unsigned int nextTier = [_flyer nextUpgradeTier];
-    [_flyer applyUpgradeTier:nextTier];
-    [self didPressClose:sender];
+    if([[Player getInstance] canAffordFlyerUpgradeTier:nextTier])
+    {
+        [[Player getInstance] buyUpgradeTier:nextTier forFlyer:_flyer];
+        [self didPressClose:sender];
+    }
+    else
+    {
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Not enough coins"
+                                                          message:@"Go out there and trade some more"
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+        
+        [message show];
+    }
 }
 
 - (void) setupContent
 {
-    // title
     unsigned int nextTier = [_flyer nextUpgradeTier];
+
+    // title
     NSString* titleText = [NSString stringWithFormat:@"Tier %d Upgrade", nextTier];
     [self.titleLabel setText:titleText];
     
@@ -124,6 +141,18 @@ static const float kContentBorderCornerRadius = 8.0f;
     [self.coinImageView startAnimating];
     NSString* priceText = [PogUIUtility commaSeparatedStringFromUnsignedInt:pack.price];
     [self.priceLabel setText:priceText];
+
+    if([[Player getInstance] canAffordFlyerUpgradeTier:nextTier])
+    {
+        [self.buyLabel setTextColor:[UIColor whiteColor]];
+        [self.buyLabel setAlpha:1.0f];
+    }
+    else
+    {
+        // player can't afford to buy this upgrade
+        [self.buyLabel setTextColor:[UIColor lightGrayColor]];
+        [self.buyLabel setAlpha:0.4f];
+    }
 }
 
 @end

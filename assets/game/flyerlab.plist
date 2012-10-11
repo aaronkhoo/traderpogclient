@@ -927,7 +927,7 @@
 			<key>storm</key>
 			<integer>1</integer>
 			<key>price</key>
-			<integer>700</integer>
+			<integer>1000</integer>
 			<key>img</key>
 			<string>flyer_aerokit.png</string>
 			<key>second_title</key>
@@ -943,7 +943,7 @@
 			<key>storm</key>
 			<integer>1</integer>
 			<key>price</key>
-			<integer>1000</integer>
+			<integer>2000</integer>
 			<key>img</key>
 			<string>flyer_booster.png</string>
 			<key>second_title</key>
@@ -959,7 +959,7 @@
 			<key>storm</key>
 			<integer>1</integer>
 			<key>price</key>
-			<integer>2000</integer>
+			<integer>4000</integer>
 			<key>img</key>
 			<string>flyer_booster.png</string>
 			<key>second_title</key>

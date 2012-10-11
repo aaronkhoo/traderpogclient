@@ -116,6 +116,7 @@
 		42BF7B571620E033000D926C /* FlyerLabFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 42BF7B561620E033000D926C /* FlyerLabFactory.m */; };
 		42BF7B5A1620E09F000D926C /* FlyerUpgradePack.m in Sources */ = {isa = PBXBuildFile; fileRef = 42BF7B591620E09F000D926C /* FlyerUpgradePack.m */; };
 		42BF7B5D1620E0DB000D926C /* FlyerColorPack.m in Sources */ = {isa = PBXBuildFile; fileRef = 42BF7B5C1620E0DA000D926C /* FlyerColorPack.m */; };
+		42C3B4D316268F7800804A76 /* Player+Shop.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C3B4D216268F7700804A76 /* Player+Shop.m */; };
 		42C766B31607900900D21354 /* LoadingTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C766B11607900900D21354 /* LoadingTransition.m */; };
 		42C766B41607900900D21354 /* LoadingTransition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C766B21607900900D21354 /* LoadingTransition.xib */; };
 		42CBADDC1621DB3300BA7363 /* NSDictionary+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CBADDB1621DB3300BA7363 /* NSDictionary+Pog.m */; };
@@ -455,6 +456,8 @@
 		42BF7B591620E09F000D926C /* FlyerUpgradePack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerUpgradePack.m; path = Game/Sim/FlyerUpgradePack.m; sourceTree = "<group>"; };
 		42BF7B5B1620E0DA000D926C /* FlyerColorPack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerColorPack.h; path = Game/Sim/FlyerColorPack.h; sourceTree = "<group>"; };
 		42BF7B5C1620E0DA000D926C /* FlyerColorPack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerColorPack.m; path = Game/Sim/FlyerColorPack.m; sourceTree = "<group>"; };
+		42C3B4D116268F7700804A76 /* Player+Shop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Player+Shop.h"; path = "Game/Sim/Player+Shop.h"; sourceTree = "<group>"; };
+		42C3B4D216268F7700804A76 /* Player+Shop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Player+Shop.m"; path = "Game/Sim/Player+Shop.m"; sourceTree = "<group>"; };
 		42C766B01607900900D21354 /* LoadingTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingTransition.h; sourceTree = "<group>"; };
 		42C766B11607900900D21354 /* LoadingTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingTransition.m; sourceTree = "<group>"; };
 		42C766B21607900900D21354 /* LoadingTransition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingTransition.xib; sourceTree = "<group>"; };
@@ -1301,6 +1304,8 @@
 				4227882F15D74A9900852AC4 /* TradeManager.m */,
 				C41E0CB115AC0FB6006662DF /* Player.h */,
 				C41E0CB215AC0FB6006662DF /* Player.m */,
+				42C3B4D116268F7700804A76 /* Player+Shop.h */,
+				42C3B4D216268F7700804A76 /* Player+Shop.m */,
 				C481146A15AD024B007FA214 /* TradePost.h */,
 				C481146B15AD024C007FA214 /* TradePost.m */,
 				38821ED615F1910D004733E2 /* PlayerTradePost.h */,
@@ -1668,6 +1673,7 @@
 				38AAEF261624F3670056C9F2 /* ProductManager.m in Sources */,
 				38AAEF2E1625B6400056C9F2 /* GuildMembershipUI.m in Sources */,
 				38F653B3162627F9006027F7 /* MBProgressHUD.m in Sources */,
+				42C3B4D316268F7800804A76 /* Player+Shop.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
