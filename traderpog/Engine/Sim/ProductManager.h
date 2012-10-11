@@ -30,7 +30,7 @@
 
 // transaction methods
 - (BOOL)requestProductData;
-- (void) purchaseUpgradeByProductID:(NSString *)productID;
+- (void) purchaseMembershipByProductID:(NSString *)productID;
 
 // accessors
 - (BOOL) canMakePurchases;

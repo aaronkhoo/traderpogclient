@@ -74,7 +74,7 @@ NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
     return isInternetReachable;
 }
 
-- (void) purchaseUpgradeByProductID:(NSString *)productID
+- (void) purchaseMembershipByProductID:(NSString *)productID
 {
 	SKProduct* productCurrent = [_productLookup objectForKey:productID];
     if(productCurrent)
@@ -140,10 +140,7 @@ NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
 // called when the transaction was successful
 //
 - (void)completeTransaction:(SKPaymentTransaction *)transaction
-{
-    // TODO: record receipt
-    //[[PlayerInventory getInstance] recordReceiptForTransaction:transaction];
-    
+{    
     // deliver product to PlayerInventory
     NSString* productId = [[transaction payment] productIdentifier];
     [self deliverContentForProductIdentifier:productId];
@@ -157,8 +154,6 @@ NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
 //
 - (void)restoreTransaction:(SKPaymentTransaction *)transaction
 {
-    // TODO
-    //[[PlayerInventory getInstance] recordReceiptForTransaction:transaction.originalTransaction];
     NSString* productId = [[[transaction originalTransaction] payment] productIdentifier];
     [self deliverContentForProductIdentifier:productId];
     [self finishTransaction:transaction wasSuccessful:YES];

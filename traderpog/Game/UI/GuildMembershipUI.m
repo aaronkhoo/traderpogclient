@@ -76,6 +76,14 @@
     [self.navigationController popToRightViewControllerAnimated:YES];
 }
 
+- (IBAction)didPressBuy:(id)sender
+{
+    SKProduct* product = [[[ProductManager getInstance] productsArray] objectAtIndex:0];
+    [[ProductManager getInstance] purchaseMembershipByProductID:[product productIdentifier]];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"Purchasing membership";
+}
+
 #pragma mark - private functions
 
 - (void)displayProducts
@@ -95,10 +103,12 @@
 
 - (void) handleProductsFetchFailed:(NSNotification*) note
 {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 - (void) handleSKTransactionCanceled:(NSNotification *)note
 {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 - (void) handleSKTransactionFailed:(NSNotification *)note

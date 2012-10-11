@@ -13,5 +13,6 @@
 @property (weak, nonatomic) IBOutlet UIButton* buyButton;
 
 - (IBAction)didPressClose:(id)sender;
+- (IBAction)didPressBuy:(id)sender;
 
 @end
