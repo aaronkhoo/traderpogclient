@@ -560,8 +560,8 @@ static NSString* const SOUNDMANAGER_ENABLED_KEY = @"SoundManagerEnabled";
     // Background music/sounds
     [self addClip:@"background_default" fromFile:[mainBundle pathForResource:@"pog_moderate" ofType:@"mp3"]
     defaultVolume:0.15f isLooping:YES];
-//    [self addClip:@"Ambient1" fromFile:[mainBundle pathForResource:@"Ambient1" ofType:@"m4a"]
-//    defaultVolume:0.25f isLooping:YES];
+    [self addClip:@"ambient_wind" fromFile:[mainBundle pathForResource:@"ambient1" ofType:@"m4a"]
+    defaultVolume:0.25f isLooping:YES];
 //    [self addClip:@"ThunderStorm" fromFile:[mainBundle pathForResource:@"ThunderStorm" ofType:@"m4a"]
 //    defaultVolume:0.4f isLooping:YES];
 //    [self addClip:@"Seagulls" fromFile:[mainBundle pathForResource:@"Seagulls" ofType:@"m4a"] defaultVolume:0.25f isLooping:YES];

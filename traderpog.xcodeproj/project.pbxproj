@@ -107,6 +107,7 @@
 		42A2989215B5F1E700384A52 /* KnobSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2989015B5F1E700384A52 /* KnobSlice.m */; };
 		42A4B7FD1626A8E1009622D0 /* pog_moderate.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 42A4B7FB1626A8E1009622D0 /* pog_moderate.mp3 */; };
 		42A4B7FF1626A972009622D0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A4B7FE1626A972009622D0 /* AVFoundation.framework */; };
+		42A4B8011626AB25009622D0 /* ambient1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 42A4B8001626AB25009622D0 /* ambient1.m4a */; };
 		42B28E2F15E99E5A0008901C /* NSArray+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B28E2E15E99E5A0008901C /* NSArray+Pog.m */; };
 		42B28E3215EA39620008901C /* b_homebase.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B28E3015EA39620008901C /* b_homebase.png */; };
 		42B28E3315EA39620008901C /* b_tradepost.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B28E3115EA39620008901C /* b_tradepost.png */; };
@@ -440,6 +441,7 @@
 		42A2989015B5F1E700384A52 /* KnobSlice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KnobSlice.m; sourceTree = "<group>"; };
 		42A4B7FB1626A8E1009622D0 /* pog_moderate.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = pog_moderate.mp3; path = assets/audio/pog_moderate.mp3; sourceTree = SOURCE_ROOT; };
 		42A4B7FE1626A972009622D0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		42A4B8001626AB25009622D0 /* ambient1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = ambient1.m4a; path = assets/audio/ambient1.m4a; sourceTree = SOURCE_ROOT; };
 		42B28E2D15E99E5A0008901C /* NSArray+Pog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+Pog.h"; path = "traderpog/Engine/Sim/NSArray+Pog.h"; sourceTree = SOURCE_ROOT; };
 		42B28E2E15E99E5A0008901C /* NSArray+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Pog.m"; path = "traderpog/Engine/Sim/NSArray+Pog.m"; sourceTree = SOURCE_ROOT; };
 		42B28E3015EA39620008901C /* b_homebase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = b_homebase.png; path = assets/Map/b_homebase.png; sourceTree = SOURCE_ROOT; };
@@ -876,6 +878,7 @@
 		42A4B7F91626A882009622D0 /* audio */ = {
 			isa = PBXGroup;
 			children = (
+				42A4B8001626AB25009622D0 /* ambient1.m4a */,
 				42A4B7FB1626A8E1009622D0 /* pog_moderate.mp3 */,
 			);
 			name = audio;
@@ -1563,6 +1566,7 @@
 				429F9FAC1624D98900765580 /* flyer_landed_color2.png in Resources */,
 				429F9FAD1624D98900765580 /* flyer_landed_color3.png in Resources */,
 				42A4B7FD1626A8E1009622D0 /* pog_moderate.mp3 in Resources */,
+				42A4B8011626AB25009622D0 /* ambient1.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
