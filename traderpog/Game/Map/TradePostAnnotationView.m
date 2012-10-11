@@ -34,7 +34,7 @@ static const float kBubbleSize = 60.0f;
 static const float kBubbleYOffset = -0.2f;
 static const float kBubbleBorderWidth = 2.0f;
 static const float kExclamationSize = 40.0f;
-static const float kExclamationYOffset = -0.1f;
+static const float kExclamationYOffset = 0.0f;
 
 @interface TradePostAnnotationView ()
 {

@@ -23,6 +23,7 @@
 #import "ImageManager.h"
 #include "MathUtils.h"
 #import "MetricLogger.h"
+#import "GameAnim.h"
 #import <QuartzCore/QuartzCore.h>
 
 static NSString* const kKeyVersion = @"version";
@@ -540,13 +541,14 @@ static const float kBubbleBorderWidth = 1.5f;
         Flyer* flyer = [_playerFlyers objectAtIndex:index];
         if([flyer gameEvent])
         {
-            UIImage* excImage = [[ImageManager getInstance] getImage:@"icon_alert_flyer.png"];
-            [contentView.exclamationView setImage:excImage];
+            [[GameAnim getInstance] refreshImageView:contentView.exclamationView withClipNamed:@"alert_flyer"];
+            [contentView.exclamationView startAnimating];
             [contentView.exclamationView setHidden:NO];
         }
         else
         {
-            [contentView.exclamationView setImage:nil];
+            [contentView.exclamationView stopAnimating];
+            [contentView.exclamationView setAnimationImages:nil];
             [contentView.exclamationView setHidden:YES];
         }
     }

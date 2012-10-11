@@ -89,12 +89,14 @@
         
         if([flyer gameEvent])
         {
-            UIImage* iconImage = [[ImageManager getInstance] getImage:@"icon_alert_flyer.png"];
-            [annotationView.excImageView setImage:iconImage];
+            [[GameAnim getInstance] refreshImageView:annotationView.excImageView withClipNamed:@"alert_flyer"];
+            [annotationView.excImageView startAnimating];
             [annotationView.excImageView setHidden:NO];
         }
         else
         {
+            [annotationView.excImageView stopAnimating];
+            [annotationView.excImageView setAnimationImages:nil];
             [annotationView.excImageView setHidden:YES];
         }
         showItemBubble = NO;
