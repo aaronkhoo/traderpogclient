@@ -341,8 +341,13 @@ static const float kBuyViewCenterYOffset = -10.0f;
                     callout.parentAnnotationView = self;
                     _calloutAnnotation = callout;
                 }
-                else if((kFlyerStateWaitingToUnload == [flyer state]) ||
-                        (kFlyerStateUnloading == [flyer state]))
+                else if(kFlyerStateWaitingToUnload == [flyer state])
+                {
+                    // if in waiting state, proceed to next state without a callout
+                    [flyer gotoState:kFlyerStateUnloading];
+                    [mapView deselectAnnotation:[self annotation] animated:NO];
+                }
+                else if(kFlyerStateUnloading == [flyer state])
                 {
                     // show flyer callout if flyer is waiting to unload
                     FlyerCallout* callout = [[FlyerCallout alloc] initWithFlyer:flyer];
@@ -352,14 +357,23 @@ static const float kBuyViewCenterYOffset = -10.0f;
             }
             else if([tradePost flyerAtPost])
             {
-                // if not own post and there's a flyer at post, then show flyer callout instead
+                // if not own post and there's a flyer at post
                 Flyer* flyer = [tradePost flyerAtPost];
                 if(![[flyer path] isEnroute])
                 {
-                    // show Flyer Callout if not enroute
-                    FlyerCallout* callout = [[FlyerCallout alloc] initWithFlyer:flyer];
-                    callout.parentAnnotationView = self;
-                    _calloutAnnotation = callout;
+                    // if in a waiting state, proceed to next state right away without a callout
+                    if(kFlyerStateWaitingToLoad == [flyer state])
+                    {
+                        [flyer gotoState:kFlyerStateLoading];
+                        [mapView deselectAnnotation:[self annotation] animated:NO];
+                    }
+                    else
+                    {
+                        // show Flyer Callout if not enroute
+                        FlyerCallout* callout = [[FlyerCallout alloc] initWithFlyer:flyer];
+                        callout.parentAnnotationView = self;
+                        _calloutAnnotation = callout;
+                    }
                 }
             }
             else

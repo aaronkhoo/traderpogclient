@@ -316,8 +316,11 @@ enum kKnobSlices
     if([[GameManager getInstance] canProcessGameEventNotifications])
     {
         GameEvent* notify = [[GameEventMgr getInstance] dequeueEvent];
-        if(notify)
+        MKMapRect visibleRect = [self.mapControl.view visibleMapRect];
+        MKMapPoint notifyPoint = MKMapPointForCoordinate([notify coord]);
+        if(notify && !(MKMapRectContainsPoint(visibleRect, notifyPoint)))
         {
+            // show banner only if the event is not already visible
             [self showNotificationViewForGameEvent:notify animated:YES];
         }
     }
