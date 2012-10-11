@@ -179,11 +179,20 @@ enum kKnobSlices
     [[TradePostMgr getInstance] annotatePostsOnMap:[self mapControl]];
     [[BeaconMgr getInstance] addBeaconAnnotationsToMap:[self mapControl]];
     
-    //---
-    // HUD
-    // create knob
+    // knob and wheel
     [self initKnob];
     [self initWheels];
+    
+    // modal nav
+    _modalView = nil;
+    _modalScrim = nil;
+    _modalFlags = kGameViewModalFlag_None;
+    
+    _modalNav = [[ModalNavControl alloc] init];
+    [self.view addSubview:_modalNav.view];
+    [_modalNav.view setHidden:YES];
+
+    // game hud
     if ([[Player getInstance] isMember])
     {
         [self initHud:0];
@@ -202,14 +211,6 @@ enum kKnobSlices
                                                  name:kGameNoteCoinsChanged
                                                object:[Player getInstance]];
 
-    _modalView = nil;
-    _modalScrim = nil;
-    _modalFlags = kGameViewModalFlag_None;
-    
-    _modalNav = [[ModalNavControl alloc] init];
-    [self.view addSubview:_modalNav.view];
-    [_modalNav.view setHidden:YES];
-    //_modalNav = nil;
     [self startDisplayLink];
 }
 

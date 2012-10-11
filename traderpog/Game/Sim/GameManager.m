@@ -32,6 +32,7 @@
 #import "GameNotes.h"
 #import "PlayerSales.h"
 #import "PlayerSalesScreen.h"
+#import "SoundManager.h"
 #import <CoreLocation/CoreLocation.h>
 
 // List of Game UI screens that GameManager can kick off
@@ -41,6 +42,8 @@
 static double const timeTillReinitialize = -(60 * 30);
 static double const gameinfoRefreshTime = -(60 * 60 * 2);
 static NSString* const kKeyLastUpdated = @"lastupdated";
+static const NSTimeInterval kAmbientWindFlighttimeThreshold = 30.0;
+
 
 typedef enum {
     serverCallType_none = 0,
@@ -658,7 +661,13 @@ typedef enum {
     {
         // otherwise, center map on committed flyer
         [self.gameViewController.mapControl centerOnFlyer:flyer animated:YES];
-    }    
+        
+        // and if flighttime is sufficiently long, switch to ambient wind
+        if([flyer timeTillDest] > kAmbientWindFlighttimeThreshold)
+        {
+            [[SoundManager getInstance] playMusic:@"ambient_wind" doLoop:YES];
+        }
+    }
 }
 
 // call this when any in-game modal needs to cancel to pop the game-manager

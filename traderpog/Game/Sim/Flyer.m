@@ -28,6 +28,7 @@
 #import "DebugOptions.h"
 #import "GameEventMgr.h"
 #import "NSDictionary+Pog.h"
+#import "SoundManager.h"
 
 static NSString* const kKeyUserFlyerId = @"id";
 static NSString* const kKeyFlyerId = @"flyer_info_id";
@@ -473,6 +474,9 @@ static NSString* const kKeyCurColorIndex = @"color_index";
     self.flightPathRender = nil;
     [mapControl dismissAnnotationForFlyer:self];
     arrivalPost.flyerAtPost = self;
+    
+    // restore to background_default music
+    [[SoundManager getInstance] playMusic:@"background_default" doLoop:YES];
 }
 
 - (void) updateAtDate:(NSDate *)currentTime

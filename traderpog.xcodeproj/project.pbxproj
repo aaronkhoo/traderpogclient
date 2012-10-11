@@ -105,6 +105,9 @@
 		42A0FA0C160E925200683B8A /* GameAnim.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A0FA0B160E925200683B8A /* GameAnim.m */; };
 		42A2989115B5F1E700384A52 /* KnobControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2988D15B5F1E700384A52 /* KnobControl.m */; };
 		42A2989215B5F1E700384A52 /* KnobSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2989015B5F1E700384A52 /* KnobSlice.m */; };
+		42A4B7FD1626A8E1009622D0 /* pog_moderate.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 42A4B7FB1626A8E1009622D0 /* pog_moderate.mp3 */; };
+		42A4B7FF1626A972009622D0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A4B7FE1626A972009622D0 /* AVFoundation.framework */; };
+		42A4B8011626AB25009622D0 /* ambient1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 42A4B8001626AB25009622D0 /* ambient1.m4a */; };
 		42B28E2F15E99E5A0008901C /* NSArray+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B28E2E15E99E5A0008901C /* NSArray+Pog.m */; };
 		42B28E3215EA39620008901C /* b_homebase.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B28E3015EA39620008901C /* b_homebase.png */; };
 		42B28E3315EA39620008901C /* b_tradepost.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B28E3115EA39620008901C /* b_tradepost.png */; };
@@ -116,6 +119,9 @@
 		42BF7B571620E033000D926C /* FlyerLabFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 42BF7B561620E033000D926C /* FlyerLabFactory.m */; };
 		42BF7B5A1620E09F000D926C /* FlyerUpgradePack.m in Sources */ = {isa = PBXBuildFile; fileRef = 42BF7B591620E09F000D926C /* FlyerUpgradePack.m */; };
 		42BF7B5D1620E0DB000D926C /* FlyerColorPack.m in Sources */ = {isa = PBXBuildFile; fileRef = 42BF7B5C1620E0DA000D926C /* FlyerColorPack.m */; };
+		42C3B4D316268F7800804A76 /* Player+Shop.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C3B4D216268F7700804A76 /* Player+Shop.m */; };
+		42C3B4E11626A6E400804A76 /* SoundClip.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C3B4DF1626A6DB00804A76 /* SoundClip.m */; };
+		42C3B4E21626A6E400804A76 /* SoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C3B4E01626A6DE00804A76 /* SoundManager.m */; };
 		42C766B31607900900D21354 /* LoadingTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C766B11607900900D21354 /* LoadingTransition.m */; };
 		42C766B41607900900D21354 /* LoadingTransition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C766B21607900900D21354 /* LoadingTransition.xib */; };
 		42CBADDC1621DB3300BA7363 /* NSDictionary+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CBADDB1621DB3300BA7363 /* NSDictionary+Pog.m */; };
@@ -433,6 +439,9 @@
 		42A2988E15B5F1E700384A52 /* KnobProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobProtocol.h; sourceTree = "<group>"; };
 		42A2988F15B5F1E700384A52 /* KnobSlice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobSlice.h; sourceTree = "<group>"; };
 		42A2989015B5F1E700384A52 /* KnobSlice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KnobSlice.m; sourceTree = "<group>"; };
+		42A4B7FB1626A8E1009622D0 /* pog_moderate.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = pog_moderate.mp3; path = assets/audio/pog_moderate.mp3; sourceTree = SOURCE_ROOT; };
+		42A4B7FE1626A972009622D0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		42A4B8001626AB25009622D0 /* ambient1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = ambient1.m4a; path = assets/audio/ambient1.m4a; sourceTree = SOURCE_ROOT; };
 		42B28E2D15E99E5A0008901C /* NSArray+Pog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+Pog.h"; path = "traderpog/Engine/Sim/NSArray+Pog.h"; sourceTree = SOURCE_ROOT; };
 		42B28E2E15E99E5A0008901C /* NSArray+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Pog.m"; path = "traderpog/Engine/Sim/NSArray+Pog.m"; sourceTree = SOURCE_ROOT; };
 		42B28E3015EA39620008901C /* b_homebase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = b_homebase.png; path = assets/Map/b_homebase.png; sourceTree = SOURCE_ROOT; };
@@ -455,6 +464,12 @@
 		42BF7B591620E09F000D926C /* FlyerUpgradePack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerUpgradePack.m; path = Game/Sim/FlyerUpgradePack.m; sourceTree = "<group>"; };
 		42BF7B5B1620E0DA000D926C /* FlyerColorPack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerColorPack.h; path = Game/Sim/FlyerColorPack.h; sourceTree = "<group>"; };
 		42BF7B5C1620E0DA000D926C /* FlyerColorPack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerColorPack.m; path = Game/Sim/FlyerColorPack.m; sourceTree = "<group>"; };
+		42C3B4D116268F7700804A76 /* Player+Shop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Player+Shop.h"; path = "Game/Sim/Player+Shop.h"; sourceTree = "<group>"; };
+		42C3B4D216268F7700804A76 /* Player+Shop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Player+Shop.m"; path = "Game/Sim/Player+Shop.m"; sourceTree = "<group>"; };
+		42C3B4D91626A68200804A76 /* SoundClip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundClip.h; path = Game/Sim/SoundClip.h; sourceTree = "<group>"; };
+		42C3B4DB1626A68300804A76 /* SoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundManager.h; path = Game/Sim/SoundManager.h; sourceTree = "<group>"; };
+		42C3B4DF1626A6DB00804A76 /* SoundClip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SoundClip.m; path = Game/Sim/SoundClip.m; sourceTree = "<group>"; };
+		42C3B4E01626A6DE00804A76 /* SoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SoundManager.m; path = Game/Sim/SoundManager.m; sourceTree = "<group>"; };
 		42C766B01607900900D21354 /* LoadingTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingTransition.h; sourceTree = "<group>"; };
 		42C766B11607900900D21354 /* LoadingTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingTransition.m; sourceTree = "<group>"; };
 		42C766B21607900900D21354 /* LoadingTransition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingTransition.xib; sourceTree = "<group>"; };
@@ -657,6 +672,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42A4B7FF1626A972009622D0 /* AVFoundation.framework in Frameworks */,
 				38AAEF291625189E0056C9F2 /* StoreKit.framework in Frameworks */,
 				38FCF70A1615236C00540F34 /* MessageUI.framework in Frameworks */,
 				38FCF7081615235900540F34 /* AudioToolbox.framework in Frameworks */,
@@ -859,6 +875,15 @@
 			name = flyer_glider;
 			sourceTree = "<group>";
 		};
+		42A4B7F91626A882009622D0 /* audio */ = {
+			isa = PBXGroup;
+			children = (
+				42A4B8001626AB25009622D0 /* ambient1.m4a */,
+				42A4B7FB1626A8E1009622D0 /* pog_moderate.mp3 */,
+			);
+			name = audio;
+			sourceTree = "<group>";
+		};
 		42CBADDE1621E3B500BA7363 /* game */ = {
 			isa = PBXGroup;
 			children = (
@@ -989,6 +1014,7 @@
 		C41ED12B15A6B33E00995F53 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				42A4B7FE1626A972009622D0 /* AVFoundation.framework */,
 				38AAEF281625189E0056C9F2 /* StoreKit.framework */,
 				38FCF7091615236C00540F34 /* MessageUI.framework */,
 				38FCF7071615235900540F34 /* AudioToolbox.framework */,
@@ -1115,6 +1141,7 @@
 		C4D5DDEB15B3D04700D5A746 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				42A4B7F91626A882009622D0 /* audio */,
 				42FA1A5915F55EBA00EB2433 /* checkerboard.png */,
 				42CBADDE1621E3B500BA7363 /* game */,
 				421564D515F6B2E400AAE851 /* anim */,
@@ -1288,6 +1315,10 @@
 		C4E381BC15AABB0500924A86 /* Sim */ = {
 			isa = PBXGroup;
 			children = (
+				42C3B4D91626A68200804A76 /* SoundClip.h */,
+				42C3B4DF1626A6DB00804A76 /* SoundClip.m */,
+				42C3B4DB1626A68300804A76 /* SoundManager.h */,
+				42C3B4E01626A6DE00804A76 /* SoundManager.m */,
 				385972FD15C0BBD8003DBA04 /* TradeItemTypes.h */,
 				385972FE15C0BBD9003DBA04 /* TradeItemTypes.m */,
 				385972FC15C0BADB003DBA04 /* HttpCallbackDelegate.h */,
@@ -1301,6 +1332,8 @@
 				4227882F15D74A9900852AC4 /* TradeManager.m */,
 				C41E0CB115AC0FB6006662DF /* Player.h */,
 				C41E0CB215AC0FB6006662DF /* Player.m */,
+				42C3B4D116268F7700804A76 /* Player+Shop.h */,
+				42C3B4D216268F7700804A76 /* Player+Shop.m */,
 				C481146A15AD024B007FA214 /* TradePost.h */,
 				C481146B15AD024C007FA214 /* TradePost.m */,
 				38821ED615F1910D004733E2 /* PlayerTradePost.h */,
@@ -1532,6 +1565,8 @@
 				429F9FAB1624D98900765580 /* flyer_landed_color1.png in Resources */,
 				429F9FAC1624D98900765580 /* flyer_landed_color2.png in Resources */,
 				429F9FAD1624D98900765580 /* flyer_landed_color3.png in Resources */,
+				42A4B7FD1626A8E1009622D0 /* pog_moderate.mp3 in Resources */,
+				42A4B8011626AB25009622D0 /* ambient1.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1668,6 +1703,9 @@
 				38AAEF261624F3670056C9F2 /* ProductManager.m in Sources */,
 				38AAEF2E1625B6400056C9F2 /* GuildMembershipUI.m in Sources */,
 				38F653B3162627F9006027F7 /* MBProgressHUD.m in Sources */,
+				42C3B4D316268F7800804A76 /* Player+Shop.m in Sources */,
+				42C3B4E11626A6E400804A76 /* SoundClip.m in Sources */,
+				42C3B4E21626A6E400804A76 /* SoundManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

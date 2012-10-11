@@ -40,16 +40,16 @@ static const float kTradeDistanceFactor = 0.001f;
     
     // deduct num items from post
     [post deductNumItems:numToBuy];
-    NSLog(@"Trade: deduct %d items from post %@; post now has %d items", numToBuy, [post postId], [post supplyLevel]);
+    //NSLog(@"Trade: deduct %d items from post %@; post now has %d items", numToBuy, [post postId], [post supplyLevel]);
     
     // deduct player bucks
     unsigned int cost = MIN(numToBuy * [itemType price], bucks);
     [[Player getInstance] deductBucks:cost];
-    NSLog(@"Trade: deduct %d coins from player", cost);
+    //NSLog(@"Trade: deduct %d coins from player", cost);
 
     // place order in escrow
     [[flyer inventory] orderItemId:[post itemId] num:numToBuy price:[itemType price]];
-    NSLog(@"Trade: placed order for %d items of %@ at price %d", numToBuy, [post itemId], [itemType price]);
+    //NSLog(@"Trade: placed order for %d items of %@ at price %d", numToBuy, [post itemId], [itemType price]);
 }
 
 - (void) flyer:(Flyer *)flyer didArriveAtPost:(TradePost *)post

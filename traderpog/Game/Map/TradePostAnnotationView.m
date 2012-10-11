@@ -25,6 +25,7 @@
 #import "ItemBubble.h"
 #import "ItemBuyView.h"
 #import "PogUIUtility.h"
+#import "SoundManager.h"
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
 NSString* const kKeyFlyerAtPost = @"flyerAtPost";
@@ -383,8 +384,11 @@ static const float kBuyViewCenterYOffset = -10.0f;
         if(doZoomAdjustment)
         {
             [[[[GameManager getInstance] gameViewController] mapControl] defaultZoomCenterOn:centerCoord animated:YES];
+            
+            // also restore music to background_default (in case we were in a zoomed-out flyer view, which would
+            // have played the ambient_wind)
+            [[SoundManager getInstance] playMusic:@"background_default" doLoop:YES];
         }
-        
     }
 
     // remove game-event alert icon if one is being displayed on this post

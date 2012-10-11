@@ -15,6 +15,7 @@ extern NSString* const kItemBuyViewReuseIdentifier;
 @interface ItemBuyView : UIView<ViewReuseDelegate>
 @property (nonatomic,strong) IBOutlet UIView* nibView;
 @property (weak, nonatomic) IBOutlet UIView *nibContentView;
+@property (weak, nonatomic) IBOutlet UIView *nibZeroStockView;
 @property (weak, nonatomic) IBOutlet UIImageView *nibImageView;
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
 @property (weak, nonatomic) IBOutlet CircleButton *buyCircle;

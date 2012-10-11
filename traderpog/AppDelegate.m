@@ -26,6 +26,7 @@
 #import "GameEventMgr.h"
 #import "PlayerSales.h"
 #import "UrlImageManager.h"
+#import "SoundManager.h"
 #import <RevMobAds/RevMobAds.h>
 
 static const float kAppScreenWidth = 320.0f;
@@ -148,6 +149,7 @@ static const float kAppScreenHeight = 480.0f;
 #pragma mark - private methods
 - (void) appInit
 {
+    [SoundManager getInstance];
     [ImageManager getInstance];
     [Player getInstance];
     [TradeItemTypes getInstance];
@@ -206,6 +208,7 @@ static const float kAppScreenHeight = 480.0f;
     [LeaderboardMgr destroyInstance];
     [PlayerSales destroyInstance];
     [UrlImageManager destroyInstance];
+    [SoundManager destroyInstance];
 }
 
 - (void) setupNavigationController

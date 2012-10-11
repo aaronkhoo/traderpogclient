@@ -15,6 +15,8 @@
 #import "GameAnim.h"
 #import "PogUIUtility.h"
 #import "ImageManager.h"
+#import "Player.h"
+#import "Player+Shop.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const float kContentBorderWidth = 6.0f;
@@ -139,6 +141,7 @@ enum kColorOptions
     [self setStamp3:nil];
     [self setTitleView:nil];
     [self setContentSubView:nil];
+    [self setBuyLabel:nil];
     [super viewDidUnload];
 }
 
@@ -152,9 +155,22 @@ enum kColorOptions
 {
     if(_curSelection != [_flyer curColor])
     {
-        [_flyer applyColor:_curSelection];
+        if([[Player getInstance] canAffordFlyerColor])
+        {
+            [[Player getInstance] buyColorCustomization:_curSelection forFlyer:_flyer];
+            [self didPressClose:sender];
+        }
+        else
+        {
+            UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Not enough coins"
+                                                              message:@"Go out there and trade some more"
+                                                             delegate:nil
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles:nil];
+            
+            [message show];
+        }
     }
-    [self didPressClose:sender];
 }
 
 - (unsigned int) curSelection
@@ -211,6 +227,18 @@ enum kColorOptions
     // price
     NSString* priceText = [PogUIUtility commaSeparatedStringFromUnsignedInt:[[FlyerLabFactory getInstance] priceForColorCustomization]];
     [self.priceLabel setText:priceText];
+    
+    if([[Player getInstance] canAffordFlyerColor])
+    {
+        [self.buyLabel setTextColor:[UIColor whiteColor]];
+        [self.buyLabel setAlpha:1.0f];
+    }
+    else
+    {
+        // player can't afford to buy this upgrade
+        [self.buyLabel setTextColor:[UIColor lightGrayColor]];
+        [self.buyLabel setAlpha:0.4f];
+    }
 }
 
 
