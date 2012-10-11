@@ -12,6 +12,7 @@
 #import "UINavigationController+Pog.h"
 #import "GameManager.h"
 #import "PogUIUtility.h"
+#import "SoundManager.h"
 
 @interface StartScreen ()
 
@@ -44,6 +45,12 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [[SoundManager getInstance] playMusic:@"background_default" doLoop:YES];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
