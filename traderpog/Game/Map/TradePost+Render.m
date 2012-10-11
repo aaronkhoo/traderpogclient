@@ -21,6 +21,7 @@
 #import "ItemBuyView.h"
 #import "Player.h"
 #import "PogUIUtility.h"
+#import "CircleButton.h"
 
 @implementation TradePost (Render)
 - (void) refreshRenderForAnnotationView:(TradePostAnnotationView *)annotationView
@@ -141,19 +142,33 @@
         itemImagePath = [itemType imgPath];
         itemName = [itemType name];
     }
-    UIImage* itemImage = [[ImageManager getInstance] getImage:itemImagePath];
-    [buyView.nibImageView setImage:itemImage];
-    [buyView.itemNameLabel setText:itemName];
     
     // num player can buy
     unsigned int bucks = [[Player getInstance] bucks];
     unsigned int numAfford = bucks / [itemType price];
     unsigned int numCanBuy = MIN([self supplyLevel], numAfford);
-    [buyView.numItemsLabel setText:[PogUIUtility commaSeparatedStringFromUnsignedInt:numCanBuy]];
-    
-    // cost to player
-    unsigned int cost = MIN(numCanBuy * [itemType price], bucks);
-    [buyView.costLabel setText:[PogUIUtility commaSeparatedStringFromUnsignedInt:cost]];
+    if(numCanBuy)
+    {
+        [buyView.buyCircle setHidden:NO];
+        [buyView.nibZeroStockView setHidden:YES];
+        [buyView.nibContentView setHidden:NO];
+        [buyView.numItemsLabel setText:[PogUIUtility commaSeparatedStringFromUnsignedInt:numCanBuy]];
+
+        // item image
+        UIImage* itemImage = [[ImageManager getInstance] getImage:itemImagePath];
+        [buyView.nibImageView setImage:itemImage];
+        [buyView.itemNameLabel setText:itemName];
+        
+        // cost to player
+        unsigned int cost = MIN(numCanBuy * [itemType price], bucks);
+        [buyView.costLabel setText:[PogUIUtility commaSeparatedStringFromUnsignedInt:cost]];
+    }
+    else
+    {
+        [buyView.buyCircle setHidden:YES];
+        [buyView.nibZeroStockView setHidden:NO];
+        [buyView.nibContentView setHidden:YES];
+    }
 }
 
 @end

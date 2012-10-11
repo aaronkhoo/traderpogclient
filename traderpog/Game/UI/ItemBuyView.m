@@ -34,6 +34,11 @@ static const float kBorderCornerRadius = 8.0f;
                                 color:[GameColors borderColorPostsWithAlpha:1.0f]
                          cornerRadius:kBorderCornerRadius];
         [self.nibContentView setBackgroundColor:[GameColors bubbleColorScanWithAlpha:1.0f]];
+        [PogUIUtility setBorderOnView:self.nibZeroStockView
+                                width:kBorderWidth
+                                color:[GameColors borderColorPostsWithAlpha:1.0f]
+                         cornerRadius:kBorderCornerRadius];
+        [self.nibZeroStockView setBackgroundColor:[GameColors bubbleColorScanWithAlpha:1.0f]];
         [self.buyCircle setBorderWidth:kBuyCircleBorderWidth];
         [[GameAnim getInstance] refreshImageView:self.coinImageView withClipNamed:@"coin_shimmer"];
         [self.coinImageView startAnimating];
