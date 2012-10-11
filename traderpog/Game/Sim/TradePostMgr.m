@@ -232,7 +232,7 @@ static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total O
         }
         if(firstFreeSlot < [[self myPostSlots] count])
         {
-            [MetricLogger logCreateObject:@"Post" slot:firstFreeSlot member:[[Player getInstance] member]];
+            [MetricLogger logCreateObject:@"Post" slot:firstFreeSlot member:[[Player getInstance] isMember]];
             
             [self.myPostSlots replaceObjectAtIndex:firstFreeSlot withObject:_tempTradePost];
         }

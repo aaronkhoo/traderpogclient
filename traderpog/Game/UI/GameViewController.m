@@ -193,7 +193,7 @@ enum kKnobSlices
     [_modalNav.view setHidden:YES];
 
     // game hud
-    if ([[Player getInstance] member])
+    if ([[Player getInstance] isMember])
     {
         [self initHud:0];
     }

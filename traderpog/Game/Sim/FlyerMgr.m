@@ -184,7 +184,7 @@ static const float kBubbleBorderWidth = 1.5f;
         // The temp TradePost has been successfully uploaded to the server, so move it
         // to the active list.
         [_playerFlyers addObject:_tempFlyer];        
-        [MetricLogger logCreateObject:@"Flyer" slot:[_playerFlyers count] member:[[Player getInstance] member]];
+        [MetricLogger logCreateObject:@"Flyer" slot:[_playerFlyers count] member:[[Player getInstance] isMember]];
         _tempFlyer = nil;
     }
 }
