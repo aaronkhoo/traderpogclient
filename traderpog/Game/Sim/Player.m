@@ -30,7 +30,7 @@ static NSString* const kKeyFacebookFriends = @"fb_friends";
 static NSString* const kKeyFacebookName = @"fb_name";
 static NSString* const kKeyEmail = @"email";
 static NSString* const kKeyBucks = @"bucks";
-static NSString* const kKeyMember = @"member";
+static NSString* const kKeyMemberTime = @"membertime";
 static NSString* const kKeyFbAccessToken = @"fbaccesstoken";
 static NSString* const kKeyFbExpiration = @"fbexpiration";
 static NSString* const kKeyFbFriendsRefresh = @"fbfriendsrefresh";
@@ -63,7 +63,6 @@ static const float kPostTribute = 0.02;
 @implementation Player
 @synthesize delegate = _delegate;
 @synthesize playerId = _playerId;
-@synthesize member = _member;
 @synthesize dataRefreshed = _dataRefreshed;
 @synthesize facebook = _facebook;
 @synthesize lastKnownLocationValid = _lastKnownLocationValid;
@@ -80,7 +79,7 @@ static const float kPostTribute = 0.02;
         _playerId = 0;
         _facebookid = @"";
         _email = @"";
-        _member = FALSE;
+        _memberTime = nil;
         _bucks = kInitBucks;
         _fbAccessToken = nil;
         _fbExpiration = nil;
@@ -187,7 +186,7 @@ static const float kPostTribute = 0.02;
     
     NSString* membership;
     NSUInteger tribute;
-    if (_member)
+    if ([self isMember])
     {
         membership = @"member";
         tribute = 4;
@@ -223,7 +222,7 @@ static const float kPostTribute = 0.02;
             [alert show];
 
             // Deduct the tribute amount
-            if (_member)
+            if ([self isMember])
             {
                 _bucks = MAX(kInitBucks*2, _bucks * kPostTribute * 2);
             }
@@ -245,6 +244,11 @@ static const float kPostTribute = 0.02;
     }
 }
 
+- (BOOL)isMember
+{
+    return ((_memberTime != nil) && ([_memberTime timeIntervalSinceNow] > 0));
+}
+
 #pragma mark - NSCoding
 - (void) encodeWithCoder:(NSCoder *)aCoder
 {
@@ -261,6 +265,7 @@ static const float kPostTribute = 0.02;
     [aCoder encodeObject:_currentWeekOf forKey:kKeyCurrentWeekOf];
     [aCoder encodeObject:_fbname forKey:kKeyFacebookName];
     [aCoder encodeObject:_fbFriends forKey:kKeyFacebookFriends];
+    [aCoder encodeObject:_memberTime forKey:kKeyMemberTime];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
@@ -287,6 +292,7 @@ static const float kPostTribute = 0.02;
     _currentWeekOf = [aDecoder decodeObjectForKey:kKeyCurrentWeekOf];
     _fbname = [aDecoder decodeObjectForKey:kKeyFacebookName];
     _fbFriends = [aDecoder decodeObjectForKey:kKeyFacebookFriends];
+    _memberTime = [aDecoder decodeObjectForKey:kKeyMemberTime];
     return self;
 }
 
@@ -414,7 +420,19 @@ static const float kPostTribute = 0.02;
                         _secretkey = [responseObject valueForKeyPath:kKeySecretkey];
                         _bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
                         _email = [responseObject valueForKeyPath:kKeyEmail];
-                        _member = [[responseObject valueForKeyPath:kKeyMember] boolValue];
+                        
+                        id obj = [responseObject valueForKeyPath:kKeyMemberTime];
+                        if ((NSNull *)obj == [NSNull null])
+                        {
+                            // Not a member
+                            _memberTime = nil;
+                        }
+                        else
+                        {
+                            NSString* utcdate = [NSString stringWithFormat:@"%@", obj];
+                            _memberTime = [PogUIUtility convertUtcToNSDate:utcdate];
+                        }
+                        
                         _lastUpdate = [NSDate date];
                         [self savePlayerData];
                         [self.delegate didCompleteHttpCallback:kPlayer_GetPlayerDataWithFacebook, TRUE];
@@ -463,7 +481,19 @@ static const float kPostTribute = 0.02;
                      _bucks = [[responseObject valueForKeyPath:kKeyBucks] integerValue];
                      _email = [responseObject valueForKeyPath:kKeyEmail];
                      _facebookid = [responseObject valueForKeyPath:kKeyFacebookId];
-                     _member = [[responseObject valueForKeyPath:kKeyMember] boolValue];
+                     
+                     id obj = [responseObject valueForKeyPath:kKeyMemberTime];
+                     if ((NSNull *)obj == [NSNull null])
+                     {
+                         // Not a member
+                         _memberTime = nil;
+                     }
+                     else
+                     {
+                         NSString* utcdate = [NSString stringWithFormat:@"%@", obj];
+                         _memberTime = [PogUIUtility convertUtcToNSDate:utcdate];
+                     }
+                     
                      _lastUpdate = [NSDate date];
                      [self.delegate didCompleteHttpCallback:kPlayer_GetPlayerData, TRUE];
                  }

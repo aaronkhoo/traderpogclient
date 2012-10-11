@@ -184,7 +184,7 @@ enum kKnobSlices
     // create knob
     [self initKnob];
     [self initWheels];
-    if ([[Player getInstance] member])
+    if ([[Player getInstance] isMember])
     {
         [self initHud:0];
     }

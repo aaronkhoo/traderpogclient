@@ -141,7 +141,7 @@
         [self updatePost:parameters];
         
         // Beacons don't have "slots". Put 0 as a placeholder.
-        [MetricLogger logCreateObject:@"Beacon" slot:0 member:[[Player getInstance] member]];
+        [MetricLogger logCreateObject:@"Beacon" slot:0 member:[[Player getInstance] isMember]];
     }
 }
 
