@@ -24,8 +24,11 @@
 #import "MapControl.h"
 #import "ItemBubble.h"
 #import "ItemBuyView.h"
+#import "PostAccelView.h"
 #import "PogUIUtility.h"
 #import "SoundManager.h"
+#import "Player.h"
+#import "Player+Shop.h"
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
 NSString* const kKeyFlyerAtPost = @"flyerAtPost";
@@ -43,8 +46,8 @@ static const float kExclamationYOffset = 0.0f;
 - (void) handleFlyerStateChanged:(NSNotification*)note;
 - (void) handleFlyerLoadTimerChanged:(NSNotification*)note;
 - (void) handleFlyerAtPostChanged:(NSNotification*)note;
-- (void) handleBuyClose:(id)sender;
 - (void) handleBuyOk:(id)sender;
+- (void) handleAccelOk:(id)sender;
 @end
 
 @implementation TradePostAnnotationView
@@ -227,13 +230,14 @@ static const float kExclamationYOffset = 0.0f;
 
 #pragma mark - popup ui
 static const float kBuyViewYOffset = -94.0f;
-- (void) showBuyViewInMap:(MKMapView*)mapView forPost:(TradePost*)tradePost
+static const float kAccelViewYOffset = -94.0f;
+- (void) showBuyViewForPost:(TradePost*)tradePost
 {
     GameViewController* controller = [[GameManager getInstance] gameViewController];
     ItemBuyView* buyView = (ItemBuyView*)[controller dequeueModalViewWithIdentifier:kItemBuyViewReuseIdentifier];
     if(!buyView)
     {
-        UIView* parent = [mapView superview];
+        UIView* parent = [controller view];
         buyView = [[ItemBuyView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0.0f, 0.0f)];
         CGRect buyFrame = [PogUIUtility createCenterFrameWithSize:buyView.nibContentView.bounds.size
                                                           inFrame:parent.bounds
@@ -250,7 +254,34 @@ static const float kBuyViewYOffset = -94.0f;
     [controller showModalView:buyView animated:YES];
 }
 
-- (void) handleBuyClose:(id)sender
+- (void) showAccelViewForPost:(TradePost*)tradePost
+{
+    GameViewController* controller = [[GameManager getInstance] gameViewController];
+    PostAccelView* popup = (PostAccelView*)[controller dequeueModalViewWithIdentifier:kPostAccelViewReuseIdentifier];
+    if(!popup)
+    {
+        UIView* parent = [controller view];
+        popup = [[PostAccelView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0.0f, 0.0f)];
+        CGRect popFrame = [PogUIUtility createCenterFrameWithSize:popup.nibContentView.bounds.size
+                                                          inFrame:parent.bounds
+                                                    withFrameSize:popup.nibView.bounds.size];
+        popFrame.origin.y += kAccelViewYOffset;
+        [popup setFrame:popFrame];
+    }
+    [popup addButtonTarget:self];
+    
+    // refresh content
+    [popup refreshViewForFlyer:[tradePost flyerAtPost]];
+    
+    // show it
+    [controller showModalView:popup animated:YES];
+    
+    // adjust annotation view
+    [self.itemBubble setHidden:YES];
+    [self.imageView setTransform:CGAffineTransformMakeScale(2.0f, 2.0f)];
+}
+
+- (void) handleModalClose:(id)sender
 {
     [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
 }
@@ -266,6 +297,12 @@ static const float kBuyViewYOffset = -94.0f;
         }
         else
         {
+            /*
+            if([((UIButton*)sender).superview.superview.superview isMemberOfClass:[ItemBuyView class]])
+            {
+                NSLog(@"Ok from ItemBuyView");
+            }
+            */
             // other's post
             if(![[TradeManager getInstance] playerHasIdleFlyers])
             {
@@ -294,6 +331,47 @@ static const float kBuyViewYOffset = -94.0f;
                 [[GameManager getInstance] showFlyerSelectForBuyAtPost:destPost];
             }
             
+        }
+    }
+    [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
+}
+
+- (void) handleAccelOk:(id)sender
+{
+    TradePost* destPost = (TradePost*)[self annotation];
+    if(destPost && [destPost flyerAtPost])
+    {
+        Flyer* flyer = [destPost flyerAtPost];
+        if((kFlyerStateLoaded == [flyer state]) ||
+                (kFlyerStateIdle == [flyer state]))
+        {
+            [[GameManager getInstance] showHomeSelectForFlyer:flyer];
+        }
+        else
+        {
+            // extra help accelerated loading/unloading
+            if([[Player getInstance] canAffordExtraHelp])
+            {
+                [[Player getInstance] buyExtraHelp];
+                if(kFlyerStateLoading == [flyer state])
+                {
+                    [flyer gotoState:kFlyerStateLoaded];
+                }
+                else if(kFlyerStateUnloading == [flyer state])
+                {
+                    [flyer gotoState:kFlyerStateIdle];
+                }
+            }
+            else
+            {
+                // player can't afford the extra help
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not enough coins"
+                                                                message:@"Sorry, gotta do it yourself this time"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"Ok"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
         }
     }
     [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
@@ -350,10 +428,9 @@ static const float kBuyViewCenterYOffset = -10.0f;
                 }
                 else if(kFlyerStateUnloading == [flyer state])
                 {
-                    // show flyer callout if flyer is waiting to unload
-                    FlyerCallout* callout = [[FlyerCallout alloc] initWithFlyer:flyer];
-                    callout.parentAnnotationView = self;
-                    _calloutAnnotation = callout;
+                    [self showAccelViewForPost:tradePost];
+                    centerCoord = [self buyViewCenterCoordForTradePost:tradePost inMapView:mapView];
+                    doZoomAdjustment = YES;
                 }
             }
             else if([tradePost flyerAtPost])
@@ -370,16 +447,15 @@ static const float kBuyViewCenterYOffset = -10.0f;
                     }
                     else
                     {
-                        // show Flyer Callout if not enroute
-                        FlyerCallout* callout = [[FlyerCallout alloc] initWithFlyer:flyer];
-                        callout.parentAnnotationView = self;
-                        _calloutAnnotation = callout;
+                        [self showAccelViewForPost:tradePost];
+                        centerCoord = [self buyViewCenterCoordForTradePost:tradePost inMapView:mapView];
+                        doZoomAdjustment = YES;
                     }
                 }
             }
             else
             {
-                [self showBuyViewInMap:mapView forPost:tradePost];
+                [self showBuyViewForPost:tradePost];
                 [self.itemBubble setHidden:YES];
                 [self.imageView setTransform:CGAffineTransformMakeScale(2.0f, 2.0f)];
                 centerCoord = [self buyViewCenterCoordForTradePost:tradePost inMapView:mapView];

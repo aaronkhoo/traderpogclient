@@ -16,6 +16,8 @@
 #import "Flyer.h"
 
 @implementation Player (Shop)
+
+#pragma mark - flyer lab
 - (BOOL) canAffordFlyerUpgradeTier:(unsigned int)tier
 {
     BOOL result = NO;
@@ -50,5 +52,30 @@
     unsigned int price = [[FlyerLabFactory getInstance] priceForColorCustomization];
     [self deductBucks:price];
     [flyer applyColor:colorIndex];
+}
+
+#pragma mark - labor
+- (unsigned int) priceForExtraHelp
+{
+    // TODO: charge a percentage of the buying cost
+    return 50;
+}
+
+- (BOOL) canAffordExtraHelp
+{
+    BOOL result = NO;
+    unsigned int price = [self priceForExtraHelp];
+    if([self bucks] >= price)
+    {
+        result = YES;
+    }
+    
+    return result;
+}
+
+- (void) buyExtraHelp
+{
+    unsigned int price = [self priceForExtraHelp];
+    [self deductBucks:price];
 }
 @end

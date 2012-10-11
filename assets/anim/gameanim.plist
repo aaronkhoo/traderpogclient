@@ -73,5 +73,33 @@
 			<string>icon_alert_flyer_003.png</string>
 		</array>
 	</dict>
+	<key>resting</key>
+	<dict>
+		<key>loop</key>
+		<true/>
+		<key>fps</key>
+		<integer>4</integer>
+		<key>frames</key>
+		<array>
+			<string>pog_resting_001.png</string>
+			<string>pog_resting_002.png</string>
+			<string>pog_resting_001.png</string>
+			<string>pog_resting_001.png</string>
+		</array>
+	</dict>
+	<key>homebase_windy</key>
+	<dict>
+		<key>loop</key>
+		<true/>
+		<key>fps</key>
+		<integer>4</integer>
+		<key>frames</key>
+		<array>
+			<string>b_flyerlab_001.png</string>
+			<string>b_flyerlab_002.png</string>
+			<string>b_flyerlab_003.png</string>
+			<string>b_flyerlab_002.png</string>
+		</array>
+	</dict>
 </dict>
 </plist>
