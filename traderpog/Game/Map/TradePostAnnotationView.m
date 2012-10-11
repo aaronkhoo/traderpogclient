@@ -316,7 +316,8 @@ static const float kBuyViewCenterYOffset = -10.0f;
 - (void)didSelectAnnotationViewInMap:(MKMapView*) mapView;
 {
     TradePost* tradePost = (TradePost*) [self annotation];
-
+    BOOL dismissGameEvent = YES;
+    
     CLLocationCoordinate2D centerCoord = [mapView centerCoordinate];
     BOOL doZoomAdjustment = NO;
     // if map not in callout zoom-level or not zoomEnabled, address that by setting the map to the necessary zoom-level
@@ -393,25 +394,25 @@ static const float kBuyViewCenterYOffset = -10.0f;
         {
             // selection not allowed; deselect it
             [mapView deselectAnnotation:[self annotation] animated:NO];
+            dismissGameEvent = NO;
         }
         
         if(doZoomAdjustment)
         {
             [[[[GameManager getInstance] gameViewController] mapControl] defaultZoomCenterOn:centerCoord animated:YES];
-            
-            // also restore music to background_default (in case we were in a zoomed-out flyer view, which would
-            // have played the ambient_wind)
-            [[SoundManager getInstance] playMusic:@"background_default" doLoop:YES];
         }
     }
 
-    // remove game-event alert icon if one is being displayed on this post
-    TradePost* post = (TradePost*)[self annotation];
-    Flyer* flyer = [post flyerAtPost];
-    if(flyer && [flyer gameEvent])
+    if(dismissGameEvent)
     {
-        flyer.gameEvent = nil;
-        [post refreshRenderForAnnotationView:self];
+        // remove game-event alert icon if one is being displayed on this post
+        TradePost* post = (TradePost*)[self annotation];
+        Flyer* flyer = [post flyerAtPost];
+        if(flyer && [flyer gameEvent])
+        {
+            flyer.gameEvent = nil;
+            [post refreshRenderForAnnotationView:self];
+        }
     }
 }
 

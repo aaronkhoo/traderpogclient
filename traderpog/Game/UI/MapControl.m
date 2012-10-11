@@ -21,10 +21,12 @@
 #import "BrowsePinch.h"
 #import "MapGestureHandler.h"
 #import "PlayerPostCalloutView.h"
+#import "SoundManager.h"
 
 const NSUInteger kDefaultZoomLevel = 15;
 const NSUInteger kNoCalloutZoomLevel = kDefaultZoomLevel - 2;
 static NSString* const kKeyCoordinate = @"coordinate";
+static const NSTimeInterval kAmbientWindFlighttimeThreshold = 30.0;
 
 // TODO: Rationalize placement of these constants
 static const float kScanRadius = 300.0f;    // meters
@@ -40,6 +42,7 @@ static const float kBrowseAreaRadius = 500.0f;
     
     MapGestureHandler* _gestureHandler;
     UIPanGestureRecognizer* _panRecognizer;
+    BOOL _isViewingRoute;
 }
 @property (nonatomic,strong) BrowseArea* browseArea;
 @property (nonatomic) BOOL regionSetFromCode;
@@ -147,6 +150,7 @@ const float kNewPostOffsetMeters = 100.0f;
     [self.view addGestureRecognizer:_panRecognizer];
     
     self.trackedAnnotation = nil;
+    _isViewingRoute = NO;
 }
 
 - (id) initWithMapView:(MKMapView *)mapView andCenter:(CLLocationCoordinate2D)initCoord
@@ -315,7 +319,14 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
     [self.browseArea setCenterCoord:coord];
     [self.browseArea setRadius:kBrowseAreaRadius];
 
-    // enable zoom in case we previously viewed a non-zoomable mode
+    if(_isViewingRoute)
+    {
+        // if coming out of viewing route, change background music back to default
+        _isViewingRoute = NO;
+        [[SoundManager getInstance] playMusic:@"background_default" doLoop:YES];
+    }
+
+         // enable zoom in case we previously viewed a non-zoomable mode
     self.view.zoomEnabled = YES;
     self.pinchRecognizer.enabled = YES;
 }
@@ -343,6 +354,13 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
         CLLocationDistance heightMeters = MKMetersBetweenMapPoints(routeRect.origin, rectBL);
         [self.browseArea setRadius:heightMeters * 0.5f];
 
+        // start ambient wind when we're entering route view and there's more than 30 seconds of flighttime left
+        if([flyer timeTillDest] > kAmbientWindFlighttimeThreshold)
+        {
+            [[SoundManager getInstance] playMusic:@"ambient_wind" doLoop:YES];
+            _isViewingRoute = YES;
+        }
+        
         // disable zoom for enroute Flyer
         self.view.zoomEnabled = NO;
         self.pinchRecognizer.enabled = NO;
