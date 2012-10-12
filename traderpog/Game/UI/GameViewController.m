@@ -262,6 +262,9 @@ enum kKnobSlices
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [self displayPlayerSalesIfNecessary];
     });
+    
+    // make sure knob is shown (in case view had been unloaded by memory warning)
+    [self showKnobAnimated:NO delay:0.0f];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -420,49 +423,55 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 
 - (void) showKnobAnimated:(BOOL)isAnimated delay:(NSTimeInterval)delay
 {
-    CGAffineTransform showTransform = CGAffineTransformIdentity;
-    [self.knob setEnabled:YES];
-    if(isAnimated)
+    if(![self.knob isEnabled])
     {
-        [UIView animateWithDuration:kKnobAnimOutDuration 
-                              delay:delay 
-                            options:UIViewAnimationCurveEaseInOut 
-                         animations:^(void){
-                             [self.knob setTransform:showTransform];
-                         }
-                         completion:^(BOOL finished){
-                             //HACK
-                             [_labelScan setHidden:NO];
-                             //HACK
-                         }];
-    }
-    else 
-    {
-        [self.knob setTransform:showTransform];
-        //HACK
-        [_labelScan setHidden:NO];
-        //HACK
+        CGAffineTransform showTransform = CGAffineTransformIdentity;
+        [self.knob setEnabled:YES];
+        if(isAnimated)
+        {
+            [UIView animateWithDuration:kKnobAnimOutDuration
+                                  delay:delay
+                                options:UIViewAnimationCurveEaseInOut
+                             animations:^(void){
+                                 [self.knob setTransform:showTransform];
+                             }
+                             completion:^(BOOL finished){
+                                 //HACK
+                                 [_labelScan setHidden:NO];
+                                 //HACK
+                             }];
+        }
+        else
+        {
+            [self.knob setTransform:showTransform];
+            //HACK
+            [_labelScan setHidden:NO];
+            //HACK
+        }
     }
 }
 
 - (void) dismissKnobAnimated:(BOOL)isAnimated
 {
-    CGAffineTransform hiddenTransform = CGAffineTransformMakeTranslation(0.0f, 
-                                                                         kKnobHiddenYOffsetFrac * self.view.frame.size.width);
-    if(isAnimated)
+    if([self.knob isEnabled])
     {
-        [UIView animateWithDuration:kKnobAnimOutDuration 
-                         animations:^(void){
-                             [self.knob setTransform:hiddenTransform];
-                         }
-                         completion:^(BOOL finished){
-                             [self.knob setEnabled:NO];
-                         }];
-    }
-    else
-    {
-        [self.knob setTransform:hiddenTransform];
-        [self.knob setEnabled:NO];
+        CGAffineTransform hiddenTransform = CGAffineTransformMakeTranslation(0.0f,
+                                                                             kKnobHiddenYOffsetFrac * self.view.frame.size.width);
+        if(isAnimated)
+        {
+            [UIView animateWithDuration:kKnobAnimOutDuration
+                             animations:^(void){
+                                 [self.knob setTransform:hiddenTransform];
+                             }
+                             completion:^(BOOL finished){
+                                 [self.knob setEnabled:NO];
+                             }];
+        }
+        else
+        {
+            [self.knob setTransform:hiddenTransform];
+            [self.knob setEnabled:NO];
+        }
     }
 }
 
