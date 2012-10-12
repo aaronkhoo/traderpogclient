@@ -182,6 +182,12 @@ static const float kExclamationYOffset = 0.0f;
         //NSLog(@"flyer-state-changed post %@", [post postId]);
         if([flyer isEqual:[post flyerAtPost]])
         {
+            if(self.selected && (kFlyerStateLoaded == [flyer state]) && (kFlyerStateIdle == [flyer state]))
+            {
+                // if I am selected across a flyer state-change that put me into a done state, deselect it
+                [[GameManager getInstance].gameViewController.mapControl deselectAnnotation:self.annotation animated:NO];
+            }
+            
             //NSLog(@"flyer-state-changed post %@ refreshRender", [post postId]);
             [post refreshRenderForAnnotationView:self];
         }
