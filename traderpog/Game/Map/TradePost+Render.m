@@ -22,6 +22,7 @@
 #import "Player.h"
 #import "PogUIUtility.h"
 #import "CircleButton.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation TradePost (Render)
 - (void) refreshRenderForAnnotationView:(TradePostAnnotationView *)annotationView
@@ -51,6 +52,10 @@
         showItemBubble = YES;
     }
     [annotationView.imageView setTransform:CGAffineTransformIdentity];
+    annotationView.frontImageView.layer.anchorPoint = CGPointMake(0.35f, 0.5f);
+    annotationView.frontLeftView.layer.anchorPoint = CGPointMake(0.2f, 0.5f);
+    [annotationView.frontImageView setTransform:CGAffineTransformIdentity];
+    [annotationView.frontLeftView setTransform:CGAffineTransformIdentity];
     
     // flyer in front
     if([self flyerAtPost])

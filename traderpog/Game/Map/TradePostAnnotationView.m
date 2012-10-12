@@ -29,6 +29,7 @@
 #import "SoundManager.h"
 #import "Player.h"
 #import "Player+Shop.h"
+#import <QuartzCore/QuartzCore.h>
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
 NSString* const kKeyFlyerAtPost = @"flyerAtPost";
@@ -258,6 +259,10 @@ static const float kAccelViewYOffset = -94.0f;
 
     // show it
     [controller showModalView:buyView animated:YES];
+
+    // adjust annotation view
+    [self.itemBubble setHidden:YES];
+    [self.imageView setTransform:CGAffineTransformMakeScale(2.0f, 2.0f)];
 }
 
 - (void) showAccelViewForPost:(TradePost*)tradePost
@@ -284,7 +289,10 @@ static const float kAccelViewYOffset = -94.0f;
     
     // adjust annotation view
     [self.itemBubble setHidden:YES];
-    [self.imageView setTransform:CGAffineTransformMakeScale(2.0f, 2.0f)];
+    _frontImageView.layer.anchorPoint = CGPointMake(0.3f, 0.5f);
+    _frontLeftView.layer.anchorPoint = CGPointMake(0.7f, 0.5f);
+    [self.frontImageView setTransform:CGAffineTransformMakeScale(1.5f, 1.5f)];
+    [self.frontLeftView setTransform:CGAffineTransformMakeScale(1.5f, 1.5f)];
 }
 
 - (void) handleModalClose:(id)sender
@@ -303,12 +311,6 @@ static const float kAccelViewYOffset = -94.0f;
         }
         else
         {
-            /*
-            if([((UIButton*)sender).superview.superview.superview isMemberOfClass:[ItemBuyView class]])
-            {
-                NSLog(@"Ok from ItemBuyView");
-            }
-            */
             // other's post
             if(![[TradeManager getInstance] playerHasIdleFlyers])
             {
@@ -462,8 +464,6 @@ static const float kBuyViewCenterYOffset = -10.0f;
             else
             {
                 [self showBuyViewForPost:tradePost];
-                [self.itemBubble setHidden:YES];
-                [self.imageView setTransform:CGAffineTransformMakeScale(2.0f, 2.0f)];
                 centerCoord = [self buyViewCenterCoordForTradePost:tradePost inMapView:mapView];
                 doZoomAdjustment = YES;
             }
