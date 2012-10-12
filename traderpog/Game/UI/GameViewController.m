@@ -538,6 +538,12 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     [self.navigationController pushFromRightViewController:menu animated:YES];
 }
 
+- (IBAction)didPressPop:(id)sender
+{
+    [[GameManager getInstance] quitGame];
+}
+
+
 - (void) hudSetCoins:(unsigned int)newCoins
 {
     NSString* coinsString = [PogUIUtility currencyStringForAmount:newCoins];

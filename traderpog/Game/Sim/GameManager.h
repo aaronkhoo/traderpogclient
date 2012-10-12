@@ -52,6 +52,7 @@ typedef enum _BrowseEnforcedType
 
 // public methods
 - (void) resetGame;
+- (void) quitGame;
 - (void) validateConnectivity;
 - (void) selectNextGameUI;
 - (void) flyer:(Flyer*)flyer departForTradePost:(TradePost*)tradePost;

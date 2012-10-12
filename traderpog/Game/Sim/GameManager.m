@@ -161,6 +161,15 @@ typedef enum {
     _gameViewController = nil;
 }
 
+- (void) quitGame
+{
+    // abort all the way back to the start screen
+    _gameState = kGameStateNew;
+    UINavigationController* nav = [[self gameViewController] navigationController];
+    self.gameViewController = nil;
+    [nav popToRootViewControllerAnimated:NO];
+}
+
 #pragma mark - internal methods
 
 - (void) startGame

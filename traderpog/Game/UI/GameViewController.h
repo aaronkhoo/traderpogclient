@@ -68,4 +68,8 @@ enum kGameViewModalFlags
 // game-state driven display update
 - (BOOL) isHeldHudCoinsUpdate;
 - (void) setHoldHudCoinsUpdate:(BOOL)shouldHold;
+
+- (IBAction)didPressPop:(id)sender;
+
+
 @end

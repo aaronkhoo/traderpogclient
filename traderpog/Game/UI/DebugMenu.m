@@ -44,6 +44,11 @@
     return self;
 }
 
+- (void) dealloc
+{
+    NSLog(@"debug menu dealloc");
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
