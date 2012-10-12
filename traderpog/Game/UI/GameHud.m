@@ -55,7 +55,8 @@ static const float kHudCoinsIconX = 0.3f * kHudCoinsWidth;
                                                  textSize:kHudCoinsTextSize
                                             barHeightFrac:kHudCoinsBarHeightFrac
                                            hasRoundCorner:YES];
-        [self.coins setImage:[[ImageManager getInstance] getImage:@"icon_member.png" fallbackNamed:@"icon_member.png"]];        
+        [self.coins setImage:[[ImageManager getInstance] getImage:@"icon_member.png"]];
+        [self.coins.imageView setBackgroundColor:[GameColors bubbleBgColorWithAlpha:1.0f]];
         [self addSubview:[self coins]];
          
          // shiny coin in coins HUD
