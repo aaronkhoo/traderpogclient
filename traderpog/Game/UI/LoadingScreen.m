@@ -37,6 +37,11 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
     return self;
 }
 
+- (void) dealloc
+{
+    NSLog(@"LoadingScreen dealloc");
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

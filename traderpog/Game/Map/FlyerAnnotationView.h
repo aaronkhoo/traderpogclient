@@ -10,6 +10,9 @@
 #import "MapProtocols.h"
 
 extern NSString* const kFlyerAnnotationViewReuseId;
+extern NSString* const kFlyerAngleKey;
+extern NSString* const kKeyFlyerMetersToDest;
+
 @interface FlyerAnnotationView : MKAnnotationView<MapAnnotationViewProtocol>
 {
     UIImageView* _imageView;            // oriented image

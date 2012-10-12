@@ -33,6 +33,7 @@
 #import "PlayerSales.h"
 #import "PlayerSalesScreen.h"
 #import "SoundManager.h"
+#import "ScanManager.h"
 #import <CoreLocation/CoreLocation.h>
 
 // List of Game UI screens that GameManager can kick off
@@ -163,8 +164,16 @@ typedef enum {
 
 - (void) quitGame
 {
-    // abort all the way back to the start screen
     _gameState = kGameStateNew;
+
+    // clear game systems
+    [[ScanManager getInstance] clearForQuitGame];
+    [[FlyerMgr getInstance] clearForQuitGame];
+    [[TradePostMgr getInstance] clearForQuitGame];
+    [[BeaconMgr getInstance] clearForQuitGame];
+    
+    // teardown GameViewController
+    [self.gameViewController teardown];
     UINavigationController* nav = [[self gameViewController] navigationController];
     self.gameViewController = nil;
     [nav popToRootViewControllerAnimated:NO];

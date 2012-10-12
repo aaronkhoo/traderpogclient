@@ -122,6 +122,12 @@ static const float kBubbleBorderWidth = 1.5f;
     }
 }
 
+- (void) clearForQuitGame
+{
+    [self.previewMap removeAllAnnotations];
+    self.previewMap = nil;
+}
+
 #pragma mark - WheelDataSource
 - (unsigned int) numItemsInWheel:(WheelControl *)wheel
 {

@@ -70,6 +70,11 @@ static const float kKnobButtonFrac = 0.4f;
     return self;
 }
 
+- (void) dealloc
+{
+    NSLog(@"KnobControl dealloc");
+}
+
 #pragma mark - internal methods
 - (CGAffineTransform) renderTransformFromLogicalTransform:(CGAffineTransform)xform reverse:(BOOL)reverse
 {

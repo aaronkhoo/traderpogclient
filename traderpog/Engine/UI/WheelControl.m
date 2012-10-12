@@ -156,6 +156,11 @@ static const float kHiddenPreviewYFrac = 0.66f; // fraction of height of preview
     return self;
 }
 
+- (void) dealloc
+{
+    NSLog(@"WheelControl dealloc");
+}
+
 - (WheelBubble*) dequeueResuableBubble
 {
     WheelBubble* result = nil;

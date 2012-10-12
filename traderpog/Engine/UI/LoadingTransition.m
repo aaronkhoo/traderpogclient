@@ -23,6 +23,11 @@
     return self;
 }
 
+- (void) dealloc
+{
+    NSLog(@"LoadingTransition dealloc");
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

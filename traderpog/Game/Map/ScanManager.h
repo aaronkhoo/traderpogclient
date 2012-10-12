@@ -24,6 +24,7 @@ typedef void (^ScanCompletionBlock)(BOOL finished, NSArray* tradePosts, CLLocati
 @property (nonatomic,readonly) HiAccuracyLocator* locator;
 
 - (BOOL) locateAndScanInMap:(MapControl*)map completion:(ScanCompletionBlock)completion;
+- (void) clearForQuitGame;
 
 // singleton
 +(ScanManager*) getInstance;

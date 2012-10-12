@@ -33,6 +33,7 @@ static NSString* const kBeaconMgr_ReceiveBeacons = @"kBeaconMgr_ReceiveBeacons";
 - (void) resetRefresh;
 - (BOOL) needsRefresh;
 - (BOOL) isPostABeacon:(NSString*)postId;
+- (void) clearForQuitGame;
 
 // singleton
 +(BeaconMgr*) getInstance;

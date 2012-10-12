@@ -223,7 +223,12 @@ const float kNewPostOffsetMeters = 100.0f;
 }
 
 - (void) dismissAnnotationForFlyer:(Flyer *)flyer
-{
+{/*
+    FlyerAnnotationView* annotView = (FlyerAnnotationView*)[flyer annotationViewInMap:self.view];
+    [flyer removeObserver:annotView forKeyPath:kKeyFlyerState];
+    [flyer removeObserver:annotView forKeyPath:kKeyFlyerMetersToDest];
+    [flyer removeObserver:annotView forKeyPath:kFlyerAngleKey];
+*/
     [self.view removeAnnotation:flyer];
 }
 

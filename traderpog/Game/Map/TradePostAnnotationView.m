@@ -145,10 +145,12 @@ static const float kExclamationYOffset = 0.0f;
 }
 
 - (void) dealloc
-{
+{/*
     [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kGameNotePostFlyerChanged];
     [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kGameNoteFlyerStateChanged];
     [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kGameNoteFlyerLoadTimerChanged];
+  */
+    NSLog(@"TradePostAnnotationView dealloc");
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath

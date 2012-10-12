@@ -62,6 +62,7 @@ static NSString* const kTradePostMgr_ScanForPosts = @"TradePostMgr_ScanForPosts"
 - (BOOL) resolveDanglingPosts;
 - (void) flushForeignPosts;
 - (NSArray*) retireTradePostsWithExcludeSet:(NSSet *)excludeSet;
+- (void) clearForQuitGame;
 
 // singleton
 +(TradePostMgr*) getInstance;

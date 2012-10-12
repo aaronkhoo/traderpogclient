@@ -16,8 +16,8 @@
 #import "Clockface.h"
 
 NSString* const kFlyerAnnotationViewReuseId = @"FlyerAnnotationView";
-static NSString* const kFlyerAngleKey = @"angle";
-static NSString* const kKeyFlyerMetersToDest = @"metersToDest";
+NSString* const kFlyerAngleKey = @"angle";
+NSString* const kKeyFlyerMetersToDest = @"metersToDest";
 
 static const float kFlyerTimerOriginOffsetX = 44.0f;
 static const float kFlyerTimerOriginOffsetY = 0.0f;
@@ -87,22 +87,13 @@ static const float kFlyerAnnotContentSize = 85.0f;
         [self showCountdown:NO];
         
         _calloutAnnotation = nil;
-        
-        // observe flyer vars
-        Flyer* flyer = (Flyer*)annotation;
-        [flyer addObserver:self forKeyPath:kFlyerAngleKey options:0 context:nil];
-        [flyer addObserver:self forKeyPath:kKeyFlyerMetersToDest options:0 context:nil];
-        [flyer addObserver:self forKeyPath:kKeyFlyerState options:0 context:nil];
     }
     return self;
 }
 
 - (void) dealloc
 {
-    Flyer* flyer = (Flyer*)[self annotation];
-    [flyer removeObserver:self forKeyPath:kKeyFlyerState];
-    [flyer removeObserver:self forKeyPath:kKeyFlyerMetersToDest];
-    [flyer removeObserver:self forKeyPath:kFlyerAngleKey];
+    NSLog(@"FlyerAnnotationView dealloc");
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -225,12 +216,41 @@ static const float kFlyerCountdownHeight = 22.0f;
 #pragma mark - MKAnnotationView
 - (void)setAnnotation:(id<MKAnnotation>)annotation
 {
+    Flyer* oldAnnot = (Flyer*)[self annotation];
+    if(oldAnnot)
+    {
+        if(![oldAnnot isEqual:annotation])
+        {
+            // if we have an annotation that is different form the new one, remove observers
+            [oldAnnot removeObserver:self forKeyPath:kKeyFlyerState];
+            [oldAnnot removeObserver:self forKeyPath:kKeyFlyerMetersToDest];
+            [oldAnnot removeObserver:self forKeyPath:kFlyerAngleKey];
+            
+            if(annotation)
+            {
+                // if a new non-nil annotation, add observers
+                Flyer* newAnnotFlyer = (Flyer*)annotation;
+                [newAnnotFlyer addObserver:self forKeyPath:kFlyerAngleKey options:0 context:nil];
+                [newAnnotFlyer addObserver:self forKeyPath:kKeyFlyerMetersToDest options:0 context:nil];
+                [newAnnotFlyer addObserver:self forKeyPath:kKeyFlyerState options:0 context:nil];
+            }
+        }
+    }
+    else if(annotation)
+    {
+        // if previous annotation was nil and a non-nil new annotation was provided, add observers
+        Flyer* newAnnotFlyer = (Flyer*)annotation;
+        [newAnnotFlyer addObserver:self forKeyPath:kFlyerAngleKey options:0 context:nil];
+        [newAnnotFlyer addObserver:self forKeyPath:kKeyFlyerMetersToDest options:0 context:nil];
+        [newAnnotFlyer addObserver:self forKeyPath:kKeyFlyerState options:0 context:nil];
+    }
+
     if(_calloutAnnotation)
     {
         [_calloutAnnotation setCoordinate:annotation.coordinate];
     }
     [super setAnnotation:annotation];
-    //self.enabled = YES;
+    
 }
 
 #pragma mark - PogMapAnnotationViewProtocol

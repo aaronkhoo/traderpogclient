@@ -379,6 +379,12 @@ static const float kBubbleBorderWidth = 1.5f;
     }
 }
 
+- (void) clearForQuitGame
+{
+    [self.previewMap removeAllAnnotations];
+    self.previewMap = nil;
+}
+
 #pragma mark - queries
 
 // returns an array of ids for tradeposts that has a Flyer

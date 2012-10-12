@@ -49,6 +49,7 @@ enum kGameViewModalFlags
 
 - (id) init;
 - (id) initAtCoordinate:(CLLocationCoordinate2D)coord;
+- (void) teardown;
 
 // knob and wheel
 - (void) showKnobAnimated:(BOOL)isAnimated delay:(NSTimeInterval)delay;

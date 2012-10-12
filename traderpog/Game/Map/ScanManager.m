@@ -89,6 +89,13 @@ static const float kRetryAngleIncr = M_PI_2 * 0.5f;
     return success;
 }
 
+// called prior to quit-game to remove any retention on game objects
+- (void) clearForQuitGame
+{
+    _completion = nil;
+    self.map = nil;
+}
+
 - (MKMapPoint) createPointFromCenter:(CLLocationCoordinate2D)center atDistance:(double)meters angle:(float)radians
 {
     CGMutablePathRef path = CGPathCreateMutable();

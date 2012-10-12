@@ -84,6 +84,7 @@ enum kKnobSlices
 @property (nonatomic,strong) Flyer* trackedFlyer;
 @property (nonatomic,strong) GameEventView* gameEventNote;
 
+- (void) setup;
 - (void) startDisplayLink;
 - (void) stopDisplayLink;
 - (void) displayUpdate;
@@ -126,6 +127,11 @@ enum kKnobSlices
     {
         _reusableModals = [[ViewReuseQueue alloc] init];
         [self storeOriginalYPositions];
+
+        // load game resources
+        [GameAnim getInstance];
+        [FlyerLabFactory getInstance];
+        
     }
     return self;
 }
@@ -141,6 +147,10 @@ enum kKnobSlices
         _reusableModals = [[ViewReuseQueue alloc] init];
 
         [self storeOriginalYPositions];
+
+        // load game resources
+        [GameAnim getInstance];
+        [FlyerLabFactory getInstance];
     }
     return self;
 }
@@ -154,17 +164,9 @@ enum kKnobSlices
     [GameAnim destroyInstance];
 }
 
-- (void)viewDidLoad
+// setup all the sub-components of the game view
+- (void) setup
 {
-    [super viewDidLoad];
-
-    // version string
-    [self.versionLabel setText:[PogUIUtility versionStringForCurConfig]];
-    
-    // load game resources
-    [GameAnim getInstance];
-    [FlyerLabFactory getInstance];
-    
     // create main mapview
     self.mapControl = [[MapControl alloc] initWithMapView:[self mapView] andCenter:_initCoord];
     self.trackedFlyer = nil;
@@ -189,7 +191,7 @@ enum kKnobSlices
     _modalNav = [[ModalNavControl alloc] init];
     [self.view addSubview:_modalNav.view];
     [_modalNav.view setHidden:YES];
-
+    
     // game hud
     if ([[Player getInstance] isMember])
     {
@@ -203,27 +205,51 @@ enum kKnobSlices
         // Show banner ad
         [self displayBannerAd];
     }
-    [self hudSetCoins:[[Player getInstance] bucks]];
+
     [self startDisplayLink];
 }
 
-- (void)viewDidUnload
+// teardown all the sub-components of the game view
+// after this function, there should be no more retention on GameViewController
+- (void) teardown
 {
-    [self stopDisplayLink];
-    
+    [self dismissModal];
+    _modalScrim = nil;
+    _modalView = nil;
+    [_reusableModals clearQueue];
     [self shutdownHud];
     [self shutdownWheels];
     [self shutdownKnob];
     [self.mapControl stopTrackingAnnotation];
     self.mapControl = nil;
+
+    [self stopDisplayLink];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    // load game resources event though these have been preloaded in init
+    // there may have been a viewDidUnload prior to this due to memory warning, in which case,
+    // we need them reloaded
+    [GameAnim getInstance];
+    [FlyerLabFactory getInstance];
+
+    // version string
+    [self.versionLabel setText:[PogUIUtility versionStringForCurConfig]];
+    
+    [self setup];
+    [self hudSetCoins:[[Player getInstance] bucks]];
+}
+
+- (void)viewDidUnload
+{
+    [self teardown];
     
     // unload game resources
-    [self dismissModal];
     [FlyerLabFactory destroyInstance];
     [GameAnim destroyInstance];
-    _modalScrim = nil;
-    _modalView = nil;
-    [_reusableModals clearQueue];
     
     [self setVersionLabel:nil];
     [super viewDidUnload];
@@ -487,8 +513,11 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 
 - (void) shutdownWheels
 {
+    [self.flyerWheel removeFromSuperview];
     self.flyerWheel = nil;
+    [self.postWheel removeFromSuperview];
     self.postWheel = nil;
+    [self.beaconWheel removeFromSuperview];
     self.beaconWheel = nil;
 }
 

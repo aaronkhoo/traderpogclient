@@ -53,13 +53,10 @@ static GameAnim* singleton = nil;
 {
 	@synchronized(self)
 	{
-		if (!singleton)
-		{
-            if (!singleton)
-            {
-                singleton = [[GameAnim alloc] init];
-            }
-		}
+        if (!singleton)
+        {
+            singleton = [[GameAnim alloc] init];
+        }
 	}
 	return singleton;
 }

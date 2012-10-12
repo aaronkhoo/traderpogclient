@@ -162,13 +162,10 @@ static FlyerLabFactory* singleton = nil;
 {
 	@synchronized(self)
 	{
-		if (!singleton)
-		{
-            if (!singleton)
-            {
-                singleton = [[FlyerLabFactory alloc] init];
-            }
-		}
+        if (!singleton)
+        {
+            singleton = [[FlyerLabFactory alloc] init];
+        }
 	}
 	return singleton;
 }
@@ -177,7 +174,7 @@ static FlyerLabFactory* singleton = nil;
 {
 	@synchronized(self)
 	{
-		singleton = nil;
+        singleton = nil;
 	}
 }
 @end

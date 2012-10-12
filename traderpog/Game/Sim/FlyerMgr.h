@@ -39,6 +39,7 @@ static NSString* const kFlyerMgr_ReceiveFlyers = @"FlyerMgr_ReceiveFlyers";
 - (void) initFlyersOnMap;
 - (void) saveFlyerMgrData;
 - (void) removeFlyerMgrData;
+- (void) clearForQuitGame;
 
 // queries
 - (Flyer*) flyerAtPostId:(NSString*)postId;

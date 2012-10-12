@@ -465,6 +465,12 @@ static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total O
     return retiredPosts;
 }
 
+- (void) clearForQuitGame
+{
+    [self.previewMap removeAllAnnotations];
+    self.previewMap = nil;
+}
+
 #pragma mark - retrieve data from server
 - (void) createPostsArray:(id)responseObject
 {
