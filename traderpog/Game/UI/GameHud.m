@@ -87,13 +87,13 @@ static const float kHudCoinsIconX = 0.3f * kHudCoinsWidth;
     }
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+- (void) refreshCoinsFromPlayer:(Player*)player
 {
-    // Drawing code
+    if(![self holdNextCoinsUpdate])
+    {
+        NSString* coinsString = [PogUIUtility currencyStringForAmount:[player bucks]];
+        [self.coins.label setText:coinsString];
+    }
 }
-*/
 
 @end

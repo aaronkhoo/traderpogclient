@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class CircleBarView;
+@class Player;
 @interface GameHud : UIView
 {
     CircleBarView* _coins;
@@ -18,5 +19,5 @@
 @property (nonatomic) BOOL holdNextCoinsUpdate;
 
 - (void) shiftHudPosition:(CGFloat)delta;
-
+- (void) refreshCoinsFromPlayer:(Player*)player;
 @end

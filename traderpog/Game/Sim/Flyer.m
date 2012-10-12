@@ -546,17 +546,13 @@ static NSString* const kKeyCurColorIndex = @"color_index";
 
 - (void) refreshImageInAnnotationView:(FlyerAnnotationView *)annotationView
 {
-    FlyerType* flyerType  = [[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex];
+    UIImage* image = [self imageForCurrentState];
     if(kFlyerStateEnroute == [self state])
     {
-        UIImage* image = [[ImageManager getInstance] getImage:[flyerType topimg]
-                                                fallbackNamed:@"checkerboard.png"];
         [annotationView setOrientedImage:image];
     }
     else
     {
-        UIImage* image = [[ImageManager getInstance] getImage:[flyerType sideimg]
-                                                fallbackNamed:@"checkerboard.png"];
         [annotationView setImage:image];
     }
 }
@@ -569,9 +565,8 @@ static NSString* const kKeyCurColorIndex = @"color_index";
     {
         image = [[ImageManager getInstance] getImage:[flyerType topimg]];
     }
-    else// if([self curUpgradeTier])
+    else
     {
-//        FlyerUpgradePack* pack = [[FlyerLabFactory getInstance] upgradeForTier:[self curUpgradeTier]];
         NSString* name = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:@"flyer_glider" tier:[self curUpgradeTier] colorIndex:[self curColor]];
         image = [[ImageManager getInstance] getImage:name];
     }

@@ -10,7 +10,6 @@
 
 // notification labels
 extern NSString* const kGameNoteFlyerDidArrive;
-extern NSString* const kGameNoteCoinsChanged;
 extern NSString* const kGameNoteFlyerStateChanged;
 extern NSString* const kGameNoteFlyerLoadTimerChanged;
 extern NSString* const kGameNotePostFlyerChanged;

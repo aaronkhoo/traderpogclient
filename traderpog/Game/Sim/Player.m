@@ -20,6 +20,7 @@
 #import "Player.h"
 #import "PogUIUtility.h"
 #import "TradePostMgr.h"
+#import "GameHud.h"
 
 // encoding keys
 static NSString* const kKeyVersion = @"version";
@@ -120,9 +121,6 @@ static const float kPostTribute = 0.02;
     if(newBucks)
     {
         [self updatePlayerBucks];
-        
-        // broadcast coins changed
-        [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteCoinsChanged object:self];
     }
 }
 
@@ -135,9 +133,6 @@ static const float kPostTribute = 0.02;
     if(bucksToSub)
     {
         [self updatePlayerBucks];
-        
-        // broadcast coins changed
-        [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteCoinsChanged object:self];
     }
 }
 
@@ -146,9 +141,6 @@ static const float kPostTribute = 0.02;
     _bucks = newBucks;
     
     [self updatePlayerBucks];
-    
-    // broadcast coins changed
-    [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteCoinsChanged object:self];
 }
 
 - (NSUInteger) bucks
@@ -230,9 +222,6 @@ static const float kPostTribute = 0.02;
             {
                 _bucks = MAX(kInitBucks, _bucks * kPostTribute);
             }
-            
-            // broadcast coins changed
-            [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteCoinsChanged object:self];
             
             _currentWeekOf = currentMonday;
             [self updatePlayerBucks];
@@ -592,6 +581,10 @@ static const float kPostTribute = 0.02;
 
 - (void)updatePlayerBucks
 {
+    // tell hud
+    [[GameManager getInstance].gameViewController.hud refreshCoinsFromPlayer:self];
+    
+    // tell server
     NSString* path = [NSString stringWithFormat:@"users/%d.json", _playerId];
     NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 [NSNumber numberWithInteger:_bucks], kKeyBucks,

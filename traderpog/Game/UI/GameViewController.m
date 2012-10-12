@@ -65,7 +65,6 @@ enum kKnobSlices
     WheelControl* _beaconWheel;
     Flyer* _trackedFlyer;
     
-    GameHud* _hud;
     GameEventView *_gameEventNote;
     NSDate* _gameEventDisplayBegin;
     
@@ -83,7 +82,6 @@ enum kKnobSlices
 @property (nonatomic,strong) WheelControl* postWheel;
 @property (nonatomic,strong) WheelControl* beaconWheel;
 @property (nonatomic,strong) Flyer* trackedFlyer;
-@property (nonatomic,strong) GameHud* hud;
 @property (nonatomic,strong) GameEventView* gameEventNote;
 
 - (void) startDisplayLink;
@@ -206,11 +204,6 @@ enum kKnobSlices
         [self displayBannerAd];
     }
     [self hudSetCoins:[[Player getInstance] bucks]];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleCoinsChanged:)
-                                                 name:kGameNoteCoinsChanged
-                                               object:[Player getInstance]];
-
     [self startDisplayLink];
 }
 

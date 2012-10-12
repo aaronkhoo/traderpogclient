@@ -25,11 +25,13 @@ enum kGameViewModalFlags
 @class MKMapView;
 @class MapControl;
 @class ViewReuseQueue;
+@class GameHud;
 @interface GameViewController : UIViewController<KnobProtocol, GADBannerViewDelegate, ModalNavDelegate>
 {
     MapControl* _mapControl;
     GADBannerView* _bannerView;
-    
+    GameHud* _hud;
+
     // modal view
     ViewReuseQueue* _reusableModals;
     UIView* _modalView;
@@ -38,6 +40,7 @@ enum kGameViewModalFlags
     ModalNavControl* _modalNav;
 }
 @property (nonatomic, strong) MapControl* mapControl;
+@property (nonatomic,strong) GameHud* hud;
 @property (nonatomic) CLLocationCoordinate2D coord;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
