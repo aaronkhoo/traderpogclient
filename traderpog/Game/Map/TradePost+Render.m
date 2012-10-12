@@ -63,11 +63,14 @@
         [annotationView.imageView setImage:image];
         showItemBubble = YES;
     }
-    [annotationView.imageView setTransform:CGAffineTransformIdentity];
     annotationView.frontImageView.layer.anchorPoint = CGPointMake(0.35f, 0.5f);
     annotationView.frontLeftView.layer.anchorPoint = CGPointMake(0.2f, 0.5f);
-    [annotationView.frontImageView setTransform:CGAffineTransformIdentity];
-    [annotationView.frontLeftView setTransform:CGAffineTransformIdentity];
+
+    [UIView animateWithDuration:0.1f animations:^(void){
+        [annotationView.frontImageView setTransform:CGAffineTransformIdentity];
+        [annotationView.frontLeftView setTransform:CGAffineTransformIdentity];
+        [annotationView.imageView setTransform:CGAffineTransformIdentity];
+    }];
     
     // flyer in front
     if([self flyerAtPost])
@@ -81,7 +84,6 @@
                 [annotationView.frontLeftView startAnimating];
                 [annotationView.frontLeftView setHidden:NO];
             }
-            [annotationView.countdownLabel setText:[PogUIUtility stringFromTimeInterval:[flyer getFlyerLoadDuration]]];
             [annotationView.countdownView setHidden:NO];
             showItemBubbleFull = YES;
         }
@@ -93,7 +95,6 @@
                 [annotationView.frontLeftView startAnimating];
                 [annotationView.frontLeftView setHidden:NO];
             }
-            [annotationView.countdownLabel setText:[PogUIUtility stringFromTimeInterval:[flyer getFlyerLoadDuration]]];
             [annotationView.countdownView setHidden:NO];
             showItemBubbleFull = YES;
         }

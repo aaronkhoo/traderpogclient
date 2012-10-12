@@ -706,12 +706,23 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
         // if strict modal, insert a scrim to block all inputs
         _modalScrim = [[UIView alloc] initWithFrame:self.view.bounds];
         [_modalScrim setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.1f]];
-        [self.view addSubview:_modalScrim];
+        [self.view insertSubview:_modalScrim aboveSubview:self.modalNav.view];
     }
     _modalView = view;
     _modalFlags = options;
-    [self.view addSubview:view];
-    [self dismissKnobAnimated:YES];    
+    [self.view insertSubview:view aboveSubview:self.modalNav.view];
+    if(isAnimated)
+    {
+        [view setTransform:CGAffineTransformMakeScale(0.1f, 0.1f)];
+        [UIView animateWithDuration:0.1f animations:^(void){
+            [view setTransform:CGAffineTransformIdentity];
+        }];
+    }
+    else
+    {
+        [view setTransform:CGAffineTransformIdentity];
+    }
+    [self dismissKnobAnimated:YES];
 }
 
 - (void) closeModalViewWithOptions:(unsigned int)options animated:(BOOL)isAnimated
@@ -723,13 +734,33 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
             [_modalScrim removeFromSuperview];
             _modalScrim = nil;
         }
-        [_modalView removeFromSuperview];
-        [self showKnobAnimated:YES delay:0.2f];
         
-        UIView<ViewReuseDelegate>* cur = (UIView<ViewReuseDelegate>*)_modalView;
-        [cur prepareForQueue];
-        [_reusableModals queueView:cur];
-        _modalView = nil;        
+        UIView* outgoingModalView = _modalView;
+        [self showKnobAnimated:YES delay:0.2f];
+        _modalView = nil;
+        /*
+        if(isAnimated)
+        {
+            [UIView animateWithDuration:0.1f
+                             animations:^(void){
+                                 [outgoingModalView setTransform:CGAffineTransformIdentity];
+                             }
+                             completion:^(BOOL finished){
+                                 [outgoingModalView removeFromSuperview];
+                                 UIView<ViewReuseDelegate>* cur = (UIView<ViewReuseDelegate>*)outgoingModalView;
+                                 [cur prepareForQueue];
+                                 [_reusableModals queueView:cur];            
+                             }];
+        }
+        else
+         */
+        {
+            [outgoingModalView setTransform:CGAffineTransformIdentity];
+            [outgoingModalView removeFromSuperview];
+            UIView<ViewReuseDelegate>* cur = (UIView<ViewReuseDelegate>*)outgoingModalView;
+            [cur prepareForQueue];
+            [_reusableModals queueView:cur];            
+        }
     }
 }
 

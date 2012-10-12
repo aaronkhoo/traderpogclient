@@ -178,7 +178,7 @@ static const float kCountdownYOffset = 1.0f;
         if([selfPost isEqual:observedPost])
         {
             NSLog(@"refreshed view for observedPost %@", [observedPost postId]);
-            [observedPost refreshRenderForAnnotationView:self];
+            //[observedPost refreshRenderForAnnotationView:self];
         }
         else
         {
@@ -202,6 +202,12 @@ static const float kCountdownYOffset = 1.0f;
             {
                 // if I am selected across a flyer state-change that put me into a done state, deselect it
                 [[GameManager getInstance].gameViewController.mapControl deselectAnnotation:self.annotation animated:NO];
+            }
+            
+            if((kFlyerStateLoading == [flyer state]) || (kFlyerStateUnloading == [flyer state]))
+            {
+                // initialize countdown text for its appearance prior to the first timer callback
+                [self.countdownLabel setText:[PogUIUtility stringFromTimeInterval:[flyer getFlyerLoadDuration]]];
             }
             
             //NSLog(@"flyer-state-changed post %@ refreshRender", [post postId]);
@@ -277,7 +283,9 @@ static const float kAccelViewYOffset = -94.0f;
 
     // adjust annotation view
     [self.itemBubble setHidden:YES];
-    [self.imageView setTransform:CGAffineTransformMakeScale(2.0f, 2.0f)];
+    [UIView animateWithDuration:0.1f animations:^(void){
+        [self.imageView setTransform:CGAffineTransformMakeScale(2.0f, 2.0f)];
+    }];
 }
 
 - (void) showAccelViewForPost:(TradePost*)tradePost
@@ -306,8 +314,10 @@ static const float kAccelViewYOffset = -94.0f;
     [self.itemBubble setHidden:YES];
     _frontImageView.layer.anchorPoint = CGPointMake(0.3f, 0.5f);
     _frontLeftView.layer.anchorPoint = CGPointMake(0.5f, 0.5f);
-    [self.frontImageView setTransform:CGAffineTransformMakeScale(1.5f, 1.5f)];
-    [self.frontLeftView setTransform:CGAffineTransformMakeScale(1.5f, 1.5f)];
+    [UIView animateWithDuration:0.1f animations:^(void){
+        [self.frontImageView setTransform:CGAffineTransformMakeScale(1.5f, 1.5f)];
+        [self.frontLeftView setTransform:CGAffineTransformMakeScale(1.5f, 1.5f)];
+    }];
 }
 
 - (void) handleModalClose:(id)sender
