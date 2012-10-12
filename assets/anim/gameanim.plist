@@ -81,10 +81,10 @@
 		<integer>4</integer>
 		<key>frames</key>
 		<array>
-			<string>pog_resting_001.png</string>
-			<string>pog_resting_002.png</string>
-			<string>pog_resting_001.png</string>
-			<string>pog_resting_001.png</string>
+			<string>pogresting_001.png</string>
+			<string>pogresting_002.png</string>
+			<string>pogresting_001.png</string>
+			<string>pogresting_001.png</string>
 		</array>
 	</dict>
 	<key>homebase_windy</key>
