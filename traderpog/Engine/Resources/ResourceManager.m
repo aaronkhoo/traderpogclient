@@ -267,6 +267,15 @@ static NSString* const kResourcePackageURL = @"https://s3.amazonaws.com/traderpo
             // Write the downloaded zip file to disk
             [data writeToFile:[ResourceManager resourcePackageFilepath] atomically:YES];
             
+            // Remove old bundle
+            NSFileManager* fileManager = [NSFileManager defaultManager];
+            NSString* filepath = [ResourceManager resourceBundlePath];
+            NSError *error = nil;
+            if ([fileManager fileExistsAtPath:filepath])
+            {
+                [fileManager removeItemAtPath:filepath error:&error];
+            }
+            
             // Unzip the downloaded file into a bundle directory.
             [SSZipArchive unzipFileAtPath:[ResourceManager resourcePackageFilepath]
                             toDestination:[GameManager documentsDirectory]];

@@ -7,6 +7,7 @@
 //
 
 
+#import "PogUIUtility.h"
 #import "ProductManager.h"
 #import "Reachability.h"
 
@@ -140,8 +141,12 @@ NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
 // called when the transaction was successful
 //
 - (void)completeTransaction:(SKPaymentTransaction *)transaction
-{    
-    // deliver product to PlayerInventory
+{
+    // generate base64 encoded version of receipt
+    NSData* rawReceipt = [transaction transactionReceipt];
+    NSString* base64Receipt = [PogUIUtility base64forData:rawReceipt];
+    NSLog(@"Transaction receipt: %@", base64Receipt);
+    
     NSString* productId = [[transaction payment] productIdentifier];
     [self deliverContentForProductIdentifier:productId];
     
