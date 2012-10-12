@@ -81,6 +81,7 @@
                 [annotationView.frontLeftView startAnimating];
                 [annotationView.frontLeftView setHidden:NO];
             }
+            [annotationView.countdownLabel setText:[PogUIUtility stringFromTimeInterval:[flyer getFlyerLoadDuration]]];
             [annotationView.countdownView setHidden:NO];
             showItemBubbleFull = YES;
         }
@@ -92,6 +93,7 @@
                 [annotationView.frontLeftView startAnimating];
                 [annotationView.frontLeftView setHidden:NO];
             }
+            [annotationView.countdownLabel setText:[PogUIUtility stringFromTimeInterval:[flyer getFlyerLoadDuration]]];
             [annotationView.countdownView setHidden:NO];
             showItemBubbleFull = YES;
         }
