@@ -24,6 +24,7 @@ typedef void (^CompletionBlock)(BOOL finished);
 + (NSString*) currencyStringForAmount:(unsigned int)amount;
 + (NSString*) stringTrimAllWhitespaces:(NSString*)src;
 + (NSDate*) getMondayOfTheWeek;
++ (NSString*)base64forData:(NSData*)theData;
 
 + (void) followUsOnTwitter;
 
