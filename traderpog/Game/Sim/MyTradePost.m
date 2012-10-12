@@ -20,6 +20,7 @@
 
 @implementation MyTradePost
 @synthesize preFlyerLab = _preFlyerLab;
+@synthesize lastUnloadedItemId = _lastUnloadedItemId;
 
 #pragma mark - public functions
 - (id) initWithDictionary:(NSDictionary*)dict
@@ -29,6 +30,9 @@
     {
         _supplyLevel = [[dict valueForKeyPath:kKeyTradeSupply] integerValue];
         _preFlyerLab = NO;
+        
+        // transients
+        _lastUnloadedItemId = nil;
     }
     return self;
 }
@@ -44,6 +48,9 @@
         _itemId = [itemType itemId];
         _beacontime = nil;
         _preFlyerLab = NO;
+        
+        // transients
+        _lastUnloadedItemId = nil;
     }
     return self;
 }

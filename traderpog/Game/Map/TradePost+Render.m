@@ -17,6 +17,7 @@
 #import "Flyer.h"
 #import "ImageManager.h"
 #import "GameAnim.h"
+#import "GameColors.h"
 #import "ItemBubble.h"
 #import "ItemBuyView.h"
 #import "Player.h"
@@ -28,6 +29,8 @@
 - (void) refreshRenderForAnnotationView:(TradePostAnnotationView *)annotationView
 {
     BOOL showItemBubble = NO;
+    BOOL showItemBubbleFull = NO;
+    NSString* itemIdForBubble = [self itemId];
     
     // trade post
     if([self isMemberOfClass:[NPCTradePost class]])
@@ -42,7 +45,16 @@
         UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
                                                 fallbackNamed:@"b_flyerlab.png"];
         [annotationView.imageView setImage:image];
-        showItemBubble = YES;
+        showItemBubble = NO;
+        if([self flyerAtPost])
+        {
+            MyTradePost* myPost = (MyTradePost*)self;
+            itemIdForBubble = myPost.lastUnloadedItemId;
+        }
+        else
+        {
+            itemIdForBubble = nil;
+        }
     }
     else if([self isMemberOfClass:[ForeignTradePost class]])
     {
@@ -69,7 +81,8 @@
                 [annotationView.frontLeftView startAnimating];
                 [annotationView.frontLeftView setHidden:NO];
             }
-            [annotationView.smallLabel setHidden:NO];
+            [annotationView.countdownView setHidden:NO];
+            showItemBubbleFull = YES;
         }
         else if(kFlyerStateUnloading == [flyer state])
         {
@@ -79,14 +92,16 @@
                 [annotationView.frontLeftView startAnimating];
                 [annotationView.frontLeftView setHidden:NO];
             }
-            [annotationView.smallLabel setHidden:NO];
+            [annotationView.countdownView setHidden:NO];
+            showItemBubbleFull = YES;
         }
         else
         {
             [annotationView.frontLeftView stopAnimating];
             [annotationView.frontLeftView setAnimationImages:nil];
             [annotationView.frontLeftView setHidden:YES];
-            [annotationView.smallLabel setHidden:YES];
+            [annotationView.countdownView setHidden:YES];
+            showItemBubble = NO;
         }
         UIImage* image = [flyer imageForCurrentState];
         [annotationView.frontImageView setImage:image];
@@ -104,7 +119,6 @@
             [annotationView.excImageView setAnimationImages:nil];
             [annotationView.excImageView setHidden:YES];
         }
-        showItemBubble = NO;
     }
     else
     {
@@ -114,13 +128,13 @@
         [annotationView.frontLeftView setHidden:YES];
         [annotationView.excImageView setImage:nil];
         [annotationView.excImageView setHidden:YES];
-        [annotationView.smallLabel setHidden:YES];
+        [annotationView.countdownView setHidden:YES];
     }
     
-    if(showItemBubble && [self supplyLevel])
+    if(itemIdForBubble && (showItemBubbleFull || (showItemBubble && [self supplyLevel])))
     {
         NSString* itemImagePath = @"checkerboard.png";
-        TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:[self itemId]];
+        TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:itemIdForBubble];
         NSString* itemName = nil;
         if(itemType)
         {
@@ -130,7 +144,19 @@
         UIImage* itemImage = [[ImageManager getInstance] getImage:itemImagePath];
         [annotationView.itemBubble.imageView setImage:itemImage];
         [annotationView.itemBubble.itemLabel setText:itemName];
-        [annotationView.itemBubble setHidden:NO];        
+        [annotationView.itemBubble setHidden:NO];
+        if(showItemBubbleFull)
+        {
+            // full alpha
+            [annotationView.itemBubble.backgroundView setAlpha:1.0f];
+            [annotationView.itemBubble.layer setBorderColor:[GameColors borderColorPostsWithAlpha:1.0f].CGColor];
+        }
+        else
+        {
+            // semi-transparent
+            [annotationView.itemBubble.backgroundView setAlpha:0.7f];
+            [annotationView.itemBubble.layer setBorderColor:[GameColors bubbleColorPostsWithAlpha:0.8f].CGColor];
+        }
     }
     else
     {

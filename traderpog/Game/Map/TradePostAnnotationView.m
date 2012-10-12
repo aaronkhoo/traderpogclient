@@ -39,6 +39,11 @@ static const float kBubbleYOffset = -0.2f;
 static const float kBubbleBorderWidth = 2.0f;
 static const float kExclamationSize = 40.0f;
 static const float kExclamationYOffset = 0.0f;
+static const float kCountdownWidth = 60.0f;
+static const float kCountdownHeight = 25.0f;
+static const float kCountdownBorderWidth = 2.0f;
+static const float kCountdownCornerRadius = 8.0f;
+static const float kCountdownYOffset = 1.0f;
 
 @interface TradePostAnnotationView ()
 {
@@ -57,7 +62,7 @@ static const float kExclamationYOffset = 0.0f;
 @synthesize frontLeftView = _frontLeftView;
 @synthesize excImageView = _excImageView;
 @synthesize itemBubble = _itemBubble;
-@synthesize smallLabel = _smallLabel;
+@synthesize countdownView = _countdownView;
 
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation
 {
@@ -91,6 +96,39 @@ static const float kExclamationYOffset = 0.0f;
         _imageView = [[UIImageView alloc] initWithFrame:imageRect];
         [contentView addSubview:_imageView];
 
+        // item bubble
+        float bubbleX = (0.5f * (myFrame.size.width - kBubbleSize));
+        float bubbleY = imageRect.origin.y + (kBubbleYOffset * imageRect.size.height);
+        CGRect bubbleRect = CGRectMake(bubbleX, bubbleY, kBubbleSize, kBubbleSize);
+        _itemBubble = [[ItemBubble alloc] initWithFrame:bubbleRect borderWidth:kBubbleBorderWidth
+                                                  color:[GameColors bubbleColorScanWithAlpha:1.0f]
+                                            borderColor:[GameColors bubbleColorPostsWithAlpha:1.0f]];
+        [_itemBubble setHidden:YES];
+        [contentView addSubview:_itemBubble];
+        
+        // countdown view
+        float countdownX = (0.5f * (myFrame.size.width - kCountdownWidth));
+        float countdownY = bubbleY - kCountdownHeight + kCountdownYOffset;
+        CGRect countdownRect = CGRectMake(countdownX, countdownY, kCountdownWidth, kCountdownHeight);
+        _countdownView = [[UIView alloc] initWithFrame:countdownRect];
+        [_countdownView setBackgroundColor:[GameColors bubbleColorScanWithAlpha:1.0f]];
+        [PogUIUtility setBorderOnView:_countdownView
+                                width:kCountdownBorderWidth
+                                color:[GameColors borderColorPostsWithAlpha:1.0f]
+                         cornerRadius:kCountdownCornerRadius];
+        [_countdownView setHidden:YES];
+        [contentView addSubview:_countdownView];
+        
+        CGRect countdownLabelRect = CGRectInset(_countdownView.bounds, kCountdownBorderWidth, kCountdownBorderWidth);
+        _countdownLabel = [[UILabel alloc] initWithFrame:countdownLabelRect];
+        [_countdownLabel setAdjustsFontSizeToFitWidth:YES];
+        [_countdownLabel setFont:[UIFont fontWithName:@"Marker Felt" size:20.0f]];
+        [_countdownLabel setText:@"Hello"];
+        [_countdownLabel setTextColor:[GameColors gliderWhiteWithAlpha:1.0f]];
+        [_countdownLabel setTextAlignment:UITextAlignmentCenter];
+        [_countdownLabel setBackgroundColor:[UIColor clearColor]];
+        [_countdownView addSubview:_countdownLabel];
+        
         // create two front image views for rendering various anim states
         CGRect frRect = imageRect;
         frRect.origin = CGPointMake(frRect.origin.x + (0.5f * frRect.size.width), frRect.origin.y);
@@ -102,17 +140,7 @@ static const float kExclamationYOffset = 0.0f;
         _frontLeftView = [[UIImageView alloc] initWithFrame:flRect];
         [_frontLeftView setHidden:YES];
         [contentView addSubview:_frontLeftView];
-        
-        // item bubble
-        float bubbleX = (0.5f * (myFrame.size.width - kBubbleSize));
-        float bubbleY = imageRect.origin.y + (kBubbleYOffset * imageRect.size.height);
-        CGRect bubbleRect = CGRectMake(bubbleX, bubbleY, kBubbleSize, kBubbleSize);
-        _itemBubble = [[ItemBubble alloc] initWithFrame:bubbleRect borderWidth:kBubbleBorderWidth
-                                                  color:[GameColors bubbleColorScanWithAlpha:0.8f]
-                                            borderColor:[GameColors bubbleColorPostsWithAlpha:1.0f]];
-        [_itemBubble setHidden:YES];
-        [contentView addSubview:_itemBubble];
-        
+                
         // small-frame for top image view (for exclamation mark)
         float excX = (0.5f * (myFrame.size.width - kExclamationSize));
         float excY = imageRect.origin.y + (kExclamationYOffset * imageRect.size.height);
@@ -122,17 +150,6 @@ static const float kExclamationYOffset = 0.0f;
         [_excImageView setHidden:YES];
         [contentView addSubview:_excImageView];
         
-        // small text label at bottom
-        CGRect smallLabelRect = CGRectMake(imageRect.origin.x, imageRect.origin.y + imageRect.size.height,
-                                           imageRect.size.width, kSmallLabelHeight);
-        _smallLabel = [[UILabel alloc] initWithFrame:smallLabelRect];
-        [_smallLabel setAdjustsFontSizeToFitWidth:YES];
-        [_smallLabel setFont:[UIFont fontWithName:@"Marker Felt" size:20.0f]];
-        [_smallLabel setText:@"Hello"];
-        [_smallLabel setTextAlignment:UITextAlignmentCenter];
-        [_smallLabel setBackgroundColor:[UIColor clearColor]];
-        [_smallLabel setHidden:YES];
-        [contentView addSubview:_smallLabel];
         
         _calloutAnnotation = nil;
 
@@ -145,11 +162,7 @@ static const float kExclamationYOffset = 0.0f;
 }
 
 - (void) dealloc
-{/*
-    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kGameNotePostFlyerChanged];
-    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kGameNoteFlyerStateChanged];
-    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kGameNoteFlyerLoadTimerChanged];
-  */
+{
     NSLog(@"TradePostAnnotationView dealloc");
 }
 
@@ -185,7 +198,7 @@ static const float kExclamationYOffset = 0.0f;
         //NSLog(@"flyer-state-changed post %@", [post postId]);
         if([flyer isEqual:[post flyerAtPost]])
         {
-            if(self.selected && (kFlyerStateLoaded == [flyer state]) && (kFlyerStateIdle == [flyer state]))
+            if(self.selected && ((kFlyerStateLoaded == [flyer state]) || (kFlyerStateIdle == [flyer state])))
             {
                 // if I am selected across a flyer state-change that put me into a done state, deselect it
                 [[GameManager getInstance].gameViewController.mapControl deselectAnnotation:self.annotation animated:NO];
@@ -211,7 +224,7 @@ static const float kExclamationYOffset = 0.0f;
             {
                 remaining = 0.0f;
             }
-            [self.smallLabel setText:[PogUIUtility stringFromTimeInterval:remaining]];
+            [self.countdownLabel setText:[PogUIUtility stringFromTimeInterval:remaining]];
         }
     }
 }
@@ -292,7 +305,7 @@ static const float kAccelViewYOffset = -94.0f;
     // adjust annotation view
     [self.itemBubble setHidden:YES];
     _frontImageView.layer.anchorPoint = CGPointMake(0.3f, 0.5f);
-    _frontLeftView.layer.anchorPoint = CGPointMake(0.7f, 0.5f);
+    _frontLeftView.layer.anchorPoint = CGPointMake(0.5f, 0.5f);
     [self.frontImageView setTransform:CGAffineTransformMakeScale(1.5f, 1.5f)];
     [self.frontLeftView setTransform:CGAffineTransformMakeScale(1.5f, 1.5f)];
 }

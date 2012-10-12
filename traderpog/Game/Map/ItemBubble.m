@@ -27,6 +27,11 @@ static const float kItemLabelYOffset = 0.85f;
     self = [super initWithFrame:frame];
     if (self)
     {
+        // create a background view so that we can make it semi-transparent
+        self.backgroundView = [[UIView alloc] initWithFrame:self.bounds];
+        [self.backgroundView setBackgroundColor:color];
+        [self addSubview:self.backgroundView];
+        
         // place image in the center of the bubble
         float imageWidth = kItemBubbleImageSize * self.bounds.size.width;
         CGRect imageFrame = [PogUIUtility createCenterFrameWithSize:CGSizeMake(imageWidth, imageWidth)
@@ -47,7 +52,7 @@ static const float kItemLabelYOffset = 0.85f;
         [self addSubview:self.itemLabel];
         
         [PogUIUtility setCircleForView:self withBorderWidth:borderWidth borderColor:borderColor];
-        [self setBackgroundColor:color];
+        [self setBackgroundColor:[UIColor clearColor]];
     }
     return self;
 }

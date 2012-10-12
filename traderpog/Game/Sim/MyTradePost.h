@@ -24,8 +24,12 @@ enum kMyTradePostStates
 @interface MyTradePost : PlayerTradePost
 {
     BOOL _preFlyerLab;
+    
+    // transient
+    NSString* _lastUnloadedItemId;
 }
 @property (nonatomic) BOOL preFlyerLab;
+@property (nonatomic,strong) NSString* lastUnloadedItemId;
 
 - (id) initWithCoordinates:(CLLocationCoordinate2D)coordinate
                   itemType:(TradeItemType *)itemType;

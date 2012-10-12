@@ -118,6 +118,10 @@ static const float kTradeDistanceFactor = 0.001f;
 {
     NSAssert([post isMemberOfClass:[MyTradePost class]], @"flyer can only sell at own posts");
     
+    // store item id at post for ui purposes
+    MyTradePost* myPost = (MyTradePost*)post;
+    myPost.lastUnloadedItemId = [[flyer inventory] itemId];
+    
     TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:[[flyer inventory] itemId]];
     float tierPremiumTerm = [self premiumForItemTier:[itemType tier]] + 1.0f;
     float distanceTerm = MAX(METERS_TO_KM([[flyer inventory] metersTraveled]) * kTradeDistanceFactor, 1.0f);

@@ -22,14 +22,16 @@ extern NSString* const kKeyFlyerAtPost;
     UIImageView* _frontLeftView;
     UIImageView* _excImageView;
     ItemBubble*  _itemBubble;
-    UILabel*     _smallLabel;
+    UIView*      _countdownView;
+    UILabel*     _countdownLabel;
 }
 @property (nonatomic,strong) UIImageView* imageView;
 @property (nonatomic,strong) UIImageView* frontImageView;
 @property (nonatomic,strong) UIImageView* frontLeftView;
 @property (nonatomic,strong) UIImageView* excImageView;
 @property (nonatomic,strong) ItemBubble* itemBubble;
-@property (nonatomic,strong) UILabel* smallLabel;
+@property (nonatomic,strong) UIView* countdownView;
+@property (nonatomic,strong) UILabel* countdownLabel;
 
 - (id) initWithAnnotation:(NSObject<MKAnnotation>*)annotation;
 @end
