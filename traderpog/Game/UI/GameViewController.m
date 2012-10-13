@@ -36,6 +36,7 @@
 #import "ViewReuseQueue.h"
 #import "PlayerSales.h"
 #import "PlayerSalesScreen.h"
+#import "CircleButton.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -68,6 +69,8 @@ enum kKnobSlices
     GameEventView *_gameEventNote;
     NSDate* _gameEventDisplayBegin;
     
+    CircleButton* _infoCircle;
+    
     // Initial y positions
     CGFloat _debugmenu_y_origin;
     CGFloat _versionlabel_y_origin;
@@ -82,6 +85,7 @@ enum kKnobSlices
 @property (nonatomic,strong) WheelControl* postWheel;
 @property (nonatomic,strong) WheelControl* beaconWheel;
 @property (nonatomic,strong) Flyer* trackedFlyer;
+@property (nonatomic,strong) CircleButton* infoCircle;
 @property (nonatomic,strong) GameEventView* gameEventNote;
 
 - (void) setup;
@@ -104,7 +108,7 @@ enum kKnobSlices
 - (void) handleCoinsChanged:(NSNotification*)note;
 - (void) showNotificationViewForGameEvent:(GameEvent*)gameEvent animated:(BOOL)isAnimated;
 - (void) hideNotificationViewForGameEventAnimated:(BOOL)isAnimated;
-
+- (void) didPressInfo:(id)sender;
 @end
 
 @implementation GameViewController
@@ -116,6 +120,7 @@ enum kKnobSlices
 @synthesize beaconWheel = _beaconWheel;
 @synthesize coord = _initCoord;
 @synthesize trackedFlyer = _trackedFlyer;
+@synthesize infoCircle = _infoCircle;
 @synthesize hud = _hud;
 @synthesize gameEventNote = _gameEventNote;
 @synthesize modalNav = _modalNav;
@@ -199,11 +204,14 @@ enum kKnobSlices
     }
     else
     {
+        // added ad banner underneath the hud so that it doesn't intercept touches to
+        // elements above hud (like the Info button)
+        // TODO: change it so that the bannerView only gets added when there's an ad and the height is shifted;
+        // when ad is done, it should be removed
+        [self displayBannerAd];
+
         CGFloat heightChange = kGADAdSizeBanner.size.height;
         [self initHud:heightChange];
-        
-        // Show banner ad
-        [self displayBannerAd];
     }
 
     [self startDisplayLink];
@@ -574,6 +582,10 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     [[GameManager getInstance] quitGame];
 }
 
+- (void) didPressInfo:(id)sender
+{
+    NSLog(@"Info");
+}
 
 - (void) hudSetCoins:(unsigned int)newCoins
 {
@@ -593,12 +605,38 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     }
 }
 
+static const float kInfoSize = 60.0f;
+static const float kInfoXOffset = -5.0f;
+static const float kInfoYOffset = 10.0f;
+static const float kInfoBorderWidth = 4.0f;
 - (void) initHud:(CGFloat)heightChange
 {
+    CGRect parentRect = self.view.bounds;
+    
+    // hud
     self.hud = [[GameHud alloc] initWithFrame:[self.view bounds]];
     [self.view addSubview:[self hud]];
     
-    CGRect noteFrame = CGRectMake(0.0f, heightChange, self.view.bounds.size.width, self.view.bounds.size.height - heightChange);
+    // info
+    CGRect infoRect = CGRectMake(parentRect.size.width - kInfoSize + kInfoXOffset,
+                                 kInfoYOffset,
+                                 kInfoSize, kInfoSize);
+    self.infoCircle = [[CircleButton alloc] initWithFrame:infoRect];
+    [self.infoCircle setBackgroundColor:[GameColors bubbleColorScanWithAlpha:1.0f]];
+    [self.infoCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
+    [self.infoCircle setBorderWidth:kInfoBorderWidth];
+    [self.infoCircle setButtonTarget:self action:@selector(didPressInfo:)];
+    UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectInset(self.infoCircle.bounds, 1.0f, 1.0f)];
+    [infoLabel setTextAlignment:UITextAlignmentCenter];
+    [infoLabel setFont:[UIFont fontWithName:@"Marker Felt" size:24.0f]];
+    [infoLabel setText:@"info"];
+    [infoLabel setBackgroundColor:[UIColor clearColor]];
+    [infoLabel setTextColor:[GameColors gliderWhiteWithAlpha:1.0f]];
+    [self.infoCircle addSubview:infoLabel];
+    [self.view addSubview:[self infoCircle]];
+    
+    // game event notifications
+    CGRect noteFrame = CGRectMake(0.0f, heightChange, parentRect.size.width, parentRect.size.height - heightChange);
     self.gameEventNote = [[GameEventView alloc] initWithFrame:noteFrame];
     [self.gameEventNote setHidden:YES];
     [self.view addSubview:[self gameEventNote]];
@@ -610,6 +648,10 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     _gameEventDisplayBegin = nil;
     [self.gameEventNote removeFromSuperview];
     self.gameEventNote = nil;
+    
+    [self.infoCircle removeFromSuperview];
+    self.infoCircle = nil;
+    
     [self.hud removeFromSuperview];
     self.hud = nil;
 }
@@ -967,6 +1009,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 
 - (void) shiftUIElements:(CGFloat)delta
 {
+    /*
     CGFloat newDbgButtonPosition = _debugmenu_y_origin + delta;
     UIButton* dbgButton = [self debugButton];
     if (dbgButton.frame.origin.y != newDbgButtonPosition)
@@ -980,7 +1023,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     {
         versionLabel.frame = CGRectMake(versionLabel.frame.origin.x, newVersionLabelPosition, versionLabel.frame.size.width, versionLabel.frame.size.height);    
     }
-    
+    */
     [[self hud] shiftHudPosition:delta];
 }
 
