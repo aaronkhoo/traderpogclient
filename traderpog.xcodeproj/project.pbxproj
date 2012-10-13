@@ -89,6 +89,8 @@
 		421A070B1628596400D2FE9E /* flyer_landed.png in Resources */ = {isa = PBXBuildFile; fileRef = 421A06FF1628596400D2FE9E /* flyer_landed.png */; };
 		421A07101628632A00D2FE9E /* pogresting_001.png in Resources */ = {isa = PBXBuildFile; fileRef = 421A070E1628632A00D2FE9E /* pogresting_001.png */; };
 		421A07111628632A00D2FE9E /* pogresting_002.png in Resources */ = {isa = PBXBuildFile; fileRef = 421A070F1628632A00D2FE9E /* pogresting_002.png */; };
+		421A0715162A026100D2FE9E /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 421A0713162A025B00D2FE9E /* InfoViewController.m */; };
+		421A0716162A026100D2FE9E /* InfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 421A0714162A025F00D2FE9E /* InfoViewController.xib */; };
 		4221E4D115D9CB7B00781664 /* FlyerCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4221E4D015D9CB7B00781664 /* FlyerCallout.m */; };
 		4221E4D515D9D47E00781664 /* FlyerCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4221E4D415D9D47E00781664 /* FlyerCalloutView.m */; };
 		4221E4D715DA2A2200781664 /* FlyerCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4221E4D615DA2A2200781664 /* FlyerCalloutView.xib */; };
@@ -422,6 +424,9 @@
 		421A06FF1628596400D2FE9E /* flyer_landed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer_landed.png; path = assets/game/flyer_glider/flyer_landed.png; sourceTree = SOURCE_ROOT; };
 		421A070E1628632A00D2FE9E /* pogresting_001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pogresting_001.png; sourceTree = "<group>"; };
 		421A070F1628632A00D2FE9E /* pogresting_002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pogresting_002.png; sourceTree = "<group>"; };
+		421A0712162A025900D2FE9E /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InfoViewController.h; path = Game/UI/InfoViewController.h; sourceTree = "<group>"; };
+		421A0713162A025B00D2FE9E /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InfoViewController.m; path = Game/UI/InfoViewController.m; sourceTree = "<group>"; };
+		421A0714162A025F00D2FE9E /* InfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InfoViewController.xib; path = Game/UI/InfoViewController.xib; sourceTree = "<group>"; };
 		4221E4CF15D9CB7B00781664 /* FlyerCallout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCallout.h; path = Game/Map/FlyerCallout.h; sourceTree = "<group>"; };
 		4221E4D015D9CB7B00781664 /* FlyerCallout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerCallout.m; path = Game/Map/FlyerCallout.m; sourceTree = "<group>"; };
 		4221E4D315D9D47E00781664 /* FlyerCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCalloutView.h; path = Game/Map/FlyerCalloutView.h; sourceTree = "<group>"; };
@@ -1293,6 +1298,9 @@
 				38AAEF2C1625B6400056C9F2 /* GuildMembershipUI.h */,
 				38AAEF2D1625B6400056C9F2 /* GuildMembershipUI.m */,
 				38AAEF2A1625B5DE0056C9F2 /* GuildMembershipUI.xib */,
+				421A0712162A025900D2FE9E /* InfoViewController.h */,
+				421A0713162A025B00D2FE9E /* InfoViewController.m */,
+				421A0714162A025F00D2FE9E /* InfoViewController.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -1640,6 +1648,7 @@
 				421A070B1628596400D2FE9E /* flyer_landed.png in Resources */,
 				421A07101628632A00D2FE9E /* pogresting_001.png in Resources */,
 				421A07111628632A00D2FE9E /* pogresting_002.png in Resources */,
+				421A0716162A026100D2FE9E /* InfoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1780,6 +1789,7 @@
 				42C3B4E11626A6E400804A76 /* SoundClip.m in Sources */,
 				42C3B4E21626A6E400804A76 /* SoundManager.m in Sources */,
 				426CA1B116274358001BD905 /* PostAccelView.m in Sources */,
+				421A0715162A026100D2FE9E /* InfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
