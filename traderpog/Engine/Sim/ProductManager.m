@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
-
+#import "Player.h"
 #import "PogUIUtility.h"
 #import "ProductManager.h"
 #import "Reachability.h"
@@ -14,7 +14,7 @@
 NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
 
 @interface ProductManager (PrivateMethods)
-- (void) deliverContentForProductIdentifier:(NSString*)productId;
+- (void) deliverContentForProductIdentifier:(NSString*)productId receipt:(NSString*)receipt;
 @end
 
 @implementation ProductManager
@@ -31,6 +31,10 @@ NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
         
         _productsArray = nil;
         _productLookup = [NSMutableDictionary dictionary];
+        _currentTransaction = nil;
+        
+        // Setting up callback for membership update
+        [[Player getInstance] setMemberDelegate:self];
     }
     return self;
 }
@@ -75,21 +79,28 @@ NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
     return isInternetReachable;
 }
 
-- (void) purchaseMembershipByProductID:(NSString *)productID
+- (BOOL) purchaseMembershipByProductID:(NSString *)productID
 {
-	SKProduct* productCurrent = [_productLookup objectForKey:productID];
-    if(productCurrent)
+    BOOL success = FALSE;
+    // Don't launch another purchase if one is already in flight
+    if (!_currentTransaction)
     {
-        SKPayment *payment = [SKPayment paymentWithProduct:productCurrent];
-        [[SKPaymentQueue defaultQueue] addPayment:payment];
+     	SKProduct* productCurrent = [_productLookup objectForKey:productID];
+        if(productCurrent)
+        {
+            SKPayment *payment = [SKPayment paymentWithProduct:productCurrent];
+            [[SKPaymentQueue defaultQueue] addPayment:payment];
+            success = TRUE;
+        }
     }
+    return success;
 }
 
-- (void) deliverContentForProductIdentifier:(NSString *)productId
+- (void) deliverContentForProductIdentifier:(NSString *)productId receipt:(NSString*)receipt
 {
     if([productId isEqualToString:GUILD_MEMBERSHIP])
     {
-        //[[PlayerInventory getInstance] addPogcoins:POGCOINS_STARTERPACK_AMOUNT];
+        [[Player getInstance] updateMembershipInfo:receipt];
     }
 }
 
@@ -118,22 +129,25 @@ NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
 //
 // removes the transaction from the queue and posts a notification with the transaction result
 //
-- (void)finishTransaction:(SKPaymentTransaction *)transaction wasSuccessful:(BOOL)wasSuccessful
-{
-    // remove the transaction from the payment queue.
-    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+- (void)finishTransaction:(BOOL)wasSuccessful
+{    
+    if (_currentTransaction)
+    {
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:_currentTransaction, @"transaction" , nil];
+        if (wasSuccessful)
+        {
+            // send out a notification that we’ve finished the transaction
+            [[NSNotificationCenter defaultCenter] postNotificationName:kProductManagerTransactionSucceededNotification object:self userInfo:userInfo];
+        }
+        else
+        {
+            // send out a notification for the failed transaction
+            [[NSNotificationCenter defaultCenter] postNotificationName:kProductManagerTransactionFailedNotification object:self userInfo:userInfo];
+        }
+    }
     
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:transaction, @"transaction" , nil];
-    if (wasSuccessful)
-    {
-        // send out a notification that we’ve finished the transaction
-        [[NSNotificationCenter defaultCenter] postNotificationName:kProductManagerTransactionSucceededNotification object:self userInfo:userInfo];
-    }
-    else
-    {
-        // send out a notification for the failed transaction
-        [[NSNotificationCenter defaultCenter] postNotificationName:kProductManagerTransactionFailedNotification object:self userInfo:userInfo];
-    }
+    // Clear the current transaction
+    _currentTransaction = nil;
 }
 
 
@@ -145,13 +159,22 @@ NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
     // generate base64 encoded version of receipt
     NSData* rawReceipt = [transaction transactionReceipt];
     NSString* base64Receipt = [PogUIUtility base64forData:rawReceipt];
-    NSLog(@"Transaction receipt: %@", base64Receipt);
+    NSLog(@"Complete transaction receipt: %@", base64Receipt);
     
     NSString* productId = [[transaction payment] productIdentifier];
-    [self deliverContentForProductIdentifier:productId];
+    [self deliverContentForProductIdentifier:productId receipt:base64Receipt];
     
-    // finish the transaction
-    [self finishTransaction:transaction wasSuccessful:YES];
+    if (_currentTransaction)
+    {
+        NSLog(@"ERROR! Existing transaction is being overriden!");
+    }
+    else
+    {
+        _currentTransaction = transaction;
+    }
+    
+    // remove the transaction from the payment queue.
+    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
 }
 
 //
@@ -159,9 +182,25 @@ NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
 //
 - (void)restoreTransaction:(SKPaymentTransaction *)transaction
 {
+    // generate base64 encoded version of receipt
+    NSData* rawReceipt = [transaction transactionReceipt];
+    NSString* base64Receipt = [PogUIUtility base64forData:rawReceipt];
+    NSLog(@"Restore transaction receipt: %@", base64Receipt);
+    
     NSString* productId = [[[transaction originalTransaction] payment] productIdentifier];
-    [self deliverContentForProductIdentifier:productId];
-    [self finishTransaction:transaction wasSuccessful:YES];
+    [self deliverContentForProductIdentifier:productId receipt:base64Receipt];
+    
+    if (_currentTransaction)
+    {
+        NSLog(@"ERROR! Existing transaction is being overriden!");
+    }
+    else
+    {
+        _currentTransaction = transaction;
+    }
+    
+    // remove the transaction from the payment queue.
+    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
 }
 
 //
@@ -171,8 +210,20 @@ NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
 {
     if (transaction.error.code != SKErrorPaymentCancelled)
     {
+        if (_currentTransaction)
+        {
+            NSLog(@"ERROR! Existing transaction is being overriden!");
+        }
+        else
+        {
+            _currentTransaction = transaction;
+        }
+        
+        // remove the transaction from the payment queue.
+        [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+        
         // error!
-        [self finishTransaction:transaction wasSuccessful:NO];
+        [self finishTransaction:NO];
     }
     else
     {
@@ -197,13 +248,19 @@ NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
         switch (transaction.transactionState)
         {
             case SKPaymentTransactionStatePurchased:
+                NSLog(@"SKPaymentTransactionStatePurchased received");
                 [self completeTransaction:transaction];
                 break;
             case SKPaymentTransactionStateFailed:
+                NSLog(@"SKPaymentTransactionStateFailed received");
                 [self failedTransaction:transaction];
                 break;
             case SKPaymentTransactionStateRestored:
+                NSLog(@"SKPaymentTransactionStateRestored received");
                 [self restoreTransaction:transaction];
+                break;
+            case SKPaymentTransactionStatePurchasing:
+                NSLog(@"SKPaymentTransactionStatePurchasing received");
                 break;
             default:
                 // do nothing
@@ -257,6 +314,20 @@ NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
     _productsRequest = nil;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kProductManagerFetchFailedNotification object:self];
+}
+
+#pragma mark - HttpCallbackDelegate
+- (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
+{
+    if ([callName compare:kPlayer_UpdateMember] == NSOrderedSame)
+    {
+        // finish the transaction
+        [self finishTransaction:YES];
+    }
+    else
+    {
+        NSLog(@"Unknown callback to GuildMembershipUI occurred: %@", callName);
+    }
 }
 
 #pragma mark - Singleton

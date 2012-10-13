@@ -90,7 +90,14 @@
 {
     SKProduct* product = [[[ProductManager getInstance] productsArray] objectAtIndex:0];
     testText.text = [NSString stringWithFormat:@"%@\n%@\n%@", product.localizedTitle, product.localizedDescription, product.price];
-    [buyButton setHidden:FALSE];
+    if ([[ProductManager getInstance] canMakePurchases])
+    {
+        [buyButton setHidden:FALSE];
+    }
+    else
+    {
+        NSLog(@"Current account cannot make purchases");
+    }
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
@@ -119,6 +126,7 @@
                                           cancelButtonTitle:@"Ok"
                                           otherButtonTitles:nil];
     [alert show];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 - (void) handleSKTransactionSucceeded:(NSNotification *)note
@@ -129,6 +137,7 @@
                                           cancelButtonTitle:@"Ok"
                                           otherButtonTitles:nil];
     [alert show];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
