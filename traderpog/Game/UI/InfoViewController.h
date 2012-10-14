@@ -10,6 +10,10 @@
 #import "ModalNavDelegate.h"
 
 extern NSString* const kInfoViewModalId;
+extern NSString* const kInfoLeaderboardId;
+extern NSString* const kInfoMembershipId;
+extern NSString* const kInfoMoreId;
+extern NSString* const kInfoCloseId;
 
 @class CircleButton;
 @interface InfoViewController : UIViewController

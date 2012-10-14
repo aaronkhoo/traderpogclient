@@ -14,6 +14,11 @@
 #import <QuartzCore/QuartzCore.h>
 
 NSString* const kInfoViewModalId = @"InfoViewModal";
+NSString* const kInfoLeaderboardId = @"InfoLeaderboard";
+NSString* const kInfoMembershipId = @"InfoMembership";
+NSString* const kInfoMoreId = @"InfoMore";
+NSString* const kInfoCloseId = @"InfoClose";
+
 static const float kCircleDist = 47.5f;
 
 @interface InfoViewController ()
@@ -96,25 +101,22 @@ static const float kCircleDist = 47.5f;
 #pragma mark - button actions
 - (void) didPressClose:(id)sender
 {
-    [_delegate dismissModalView:self.view withModalId:kInfoViewModalId];
+    [_delegate dismissModalView:self.view withModalId:kInfoCloseId];
 }
 
 - (void) didPressLeaderboard:(id)sender
 {
-    NSLog(@"leaderboard");
-    [_delegate dismissModalView:self.view withModalId:kInfoViewModalId];
+    [_delegate dismissModalView:self.view withModalId:kInfoLeaderboardId];
 }
 
 - (void) didPressMember:(id)sender
 {
-    NSLog(@"member");
-    [_delegate dismissModalView:self.view withModalId:kInfoViewModalId];
+    [_delegate dismissModalView:self.view withModalId:kInfoMembershipId];
 }
 
 - (void) didPressMore:(id)sender
 {
-    NSLog(@"more");
-    [_delegate dismissModalView:self.view withModalId:kInfoViewModalId];
+    [_delegate dismissModalView:self.view withModalId:kInfoMoreId];
 }
 
 @end

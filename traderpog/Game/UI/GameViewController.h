@@ -68,6 +68,7 @@ enum kGameViewModalFlags
 - (void) hideModalViewAnimated:(BOOL)isAnimated;
 - (void) showModalNavViewController:(UIViewController*)controller
                          completion:(ModalNavCompletionBlock)completion;
+- (void) dismissInfo;
 
 // game-state driven display update
 - (BOOL) isHeldHudCoinsUpdate;

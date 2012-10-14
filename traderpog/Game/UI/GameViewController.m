@@ -38,6 +38,8 @@
 #import "PlayerSalesScreen.h"
 #import "CircleButton.h"
 #import "InfoViewController.h"
+#import "LeaderboardsScreen.h"
+#import "GuildMembershipUI.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -588,8 +590,17 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 
 - (void) didPressInfo:(id)sender
 {
+    [self.mapControl deselectAllAnnotations];
     [self.view addSubview:self.info.view];
     [self.infoCircle setHidden:YES];
+}
+
+- (void) dismissInfo
+{
+    if([self.infoCircle isHidden])
+    {
+        [self dismissModalView:self.info.view withModalId:kInfoCloseId];
+    }
 }
 
 - (void) hudSetCoins:(unsigned int)newCoins
@@ -655,6 +666,7 @@ static const float kInfoBorderWidth = 4.0f;
     [self.gameEventNote removeFromSuperview];
     self.gameEventNote = nil;
     
+    [self dismissInfo];
     self.info = nil;
     [self.infoCircle removeFromSuperview];
     self.infoCircle = nil;
@@ -835,7 +847,23 @@ static const float kInfoBorderWidth = 4.0f;
 {
     [viewToDismiss removeFromSuperview];
     
-    if([modalId isEqualToString:kInfoViewModalId])
+    if([modalId isEqualToString:kInfoCloseId])
+    {
+        [self.infoCircle setHidden:NO];
+    }
+    else if([modalId isEqualToString:kInfoLeaderboardId])
+    {
+        [self.infoCircle setHidden:NO];
+        LeaderboardsScreen* leaderboards = [[LeaderboardsScreen alloc] initWithNibName:@"LeaderboardsScreen" bundle:nil];
+        [self.navigationController pushFromRightViewController:leaderboards animated:YES];
+    }
+    else if([modalId isEqualToString:kInfoMembershipId])
+    {
+        [self.infoCircle setHidden:NO];
+        GuildMembershipUI* guildmembership = [[GuildMembershipUI alloc] initWithNibName:@"GuildMembershipUI" bundle:nil];
+        [self.navigationController pushFromRightViewController:guildmembership animated:YES];
+    }
+    else if([modalId isEqualToString:kInfoMoreId])
     {
         [self.infoCircle setHidden:NO];
     }
