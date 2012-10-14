@@ -19,7 +19,8 @@
     {
         [self setBackgroundColor:[UIColor clearColor]];
         
-        _imageView = [[UIImageView alloc] initWithFrame:[self bounds]];
+        CGRect imageFrame = CGRectInset(self.bounds, -2.0f, -2.0f);
+        _imageView = [[UIImageView alloc] initWithFrame:imageFrame];
         [_imageView setBackgroundColor:[UIColor clearColor]];
         [self addSubview:_imageView];
         

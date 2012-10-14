@@ -108,6 +108,17 @@ static NSString* const kKeySide = @"side";
     return result;
 }
 
+- (unsigned int) numColorsForFlyerTypeNamed:(NSString*)name
+{
+    unsigned int result = 0;
+    NSArray* packsArray = [_colorPacks objectForKey:name];
+    if(packsArray)
+    {
+        result = [packsArray count];
+    }
+    return result;
+}
+
 - (unsigned int) maxColorIndex
 {
     return 3;
@@ -134,6 +145,30 @@ static NSString* const kKeySide = @"side";
                }
            }
        }
+    }
+    return result;
+}
+
+- (NSString*) topImageForFlyerTypeNamed:(NSString *)name
+                                    tier:(unsigned int)tier
+                              colorIndex:(unsigned int)colorIndex
+{
+    NSString* result = nil;
+    NSArray* curArray = [_topImages objectForKey:name];
+    if(curArray)
+    {
+        if(tier < [curArray count])
+        {
+            NSDictionary* reg = [curArray objectAtIndex:tier];
+            if(reg)
+            {
+                FlyerColorPack* colorPack = [self colorPackAtIndex:colorIndex forFlyerTypeNamed:name];
+                if(colorPack)
+                {
+                    result = [reg objectForKey:[colorPack name]];
+                }
+            }
+        }
     }
     return result;
 }

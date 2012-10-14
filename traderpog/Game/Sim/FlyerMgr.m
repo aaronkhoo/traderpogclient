@@ -24,6 +24,7 @@
 #include "MathUtils.h"
 #import "MetricLogger.h"
 #import "GameAnim.h"
+#import "FlyerLabFactory.h"
 #import <QuartzCore/QuartzCore.h>
 
 static NSString* const kKeyVersion = @"version";
@@ -538,10 +539,12 @@ static const float kBubbleBorderWidth = 1.5f;
     [PogUIUtility setCircleForView:contentView.imageView
                    withBorderWidth:kBubbleBorderWidth
                        borderColor:borderColor
-                    rasterizeScale:1.5f];
+                    rasterizeScale:2.0f];
     if(index < [_playerFlyers count])
     {
-        UIImage* image = [[ImageManager getInstance] getImage:@"bubble_flyer.png" fallbackNamed:@"bubble_flyer.png"];
+        Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
+        NSString* imageName = [[FlyerLabFactory getInstance] topImageForFlyerTypeNamed:@"flyer_glider" tier:[curFlyer curUpgradeTier] colorIndex:[curFlyer curColor]];
+        UIImage* image = [[ImageManager getInstance] getImage:imageName];
         [contentView.imageView setImage:image];
         
         Flyer* flyer = [_playerFlyers objectAtIndex:index];
