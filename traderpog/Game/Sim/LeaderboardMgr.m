@@ -12,6 +12,7 @@
 #import "LeaderboardMgr.h"
 #import "LeaderboardRow.h"
 #import "Player.h"
+#import "PogUIUtility.h"
 
 static NSString *leaderboard_names[kLBNum] = {
     @"Bucks Earned This Week",
@@ -28,7 +29,7 @@ static NSString* const kKeyVersion = @"version";
 static NSString* const kKeyLeaderboards = @"leaderboards";
 static NSString* const kKeyFbid = @"fbid";
 static NSString* const kKeyFbname = @"fb_name";
-static NSString* const kKeyMember = @"member";
+static NSString* const kKeyMemberTime = @"membertime";
 static NSString* const kKeyType = @"lbtype";
 static NSString* const kKeyValue = @"lbvalue";
 static NSString* const kKeyWeekOf = @"weekof";
@@ -76,7 +77,14 @@ static NSString* const kKeyWeekOf = @"weekof";
         NSString* current_fbid = [NSString stringWithFormat:@"%@", [lbRow valueForKeyPath:kKeyFbid]];
         NSInteger current_value = [[lbRow valueForKey:kKeyValue] integerValue];
         NSUInteger current_type = [[lbRow valueForKey:kKeyType] integerValue];
-        BOOL current_member = [[lbRow valueForKey:kKeyMember] boolValue];
+        BOOL current_member = FALSE;
+        id obj = [lbRow valueForKeyPath:kKeyMemberTime];
+        if ((NSNull *)obj != [NSNull null])
+        {
+            NSString* utcdate = [NSString stringWithFormat:@"%@", obj];
+            NSDate* membertime = [PogUIUtility convertUtcToNSDate:utcdate];
+            current_member = ([membertime timeIntervalSinceNow] > 0);
+        }
         
         LeaderboardRow* new_row = [[LeaderboardRow alloc] initWithData:current_fbname current_fbid:current_fbid current_value:current_value current_member:current_member];
         Leaderboard* current_leaderboard = [_leaderboards objectAtIndex:(current_type - 1)];
