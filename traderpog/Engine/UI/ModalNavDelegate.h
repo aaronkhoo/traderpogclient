@@ -10,4 +10,5 @@
 
 @protocol ModalNavDelegate <NSObject>
 - (void) dismissModal;
+- (void) dismissModalView:(UIView*)viewToDismiss withModalId:(NSString* const)modalId;
 @end

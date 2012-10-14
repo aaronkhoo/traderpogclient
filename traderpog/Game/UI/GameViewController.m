@@ -37,6 +37,7 @@
 #import "PlayerSales.h"
 #import "PlayerSalesScreen.h"
 #import "CircleButton.h"
+#import "InfoViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -70,6 +71,7 @@ enum kKnobSlices
     NSDate* _gameEventDisplayBegin;
     
     CircleButton* _infoCircle;
+    InfoViewController* _info;
     
     // Initial y positions
     CGFloat _debugmenu_y_origin;
@@ -86,6 +88,7 @@ enum kKnobSlices
 @property (nonatomic,strong) WheelControl* beaconWheel;
 @property (nonatomic,strong) Flyer* trackedFlyer;
 @property (nonatomic,strong) CircleButton* infoCircle;
+@property (nonatomic,strong) InfoViewController* info;
 @property (nonatomic,strong) GameEventView* gameEventNote;
 
 - (void) setup;
@@ -121,6 +124,7 @@ enum kKnobSlices
 @synthesize coord = _initCoord;
 @synthesize trackedFlyer = _trackedFlyer;
 @synthesize infoCircle = _infoCircle;
+@synthesize info = _info;
 @synthesize hud = _hud;
 @synthesize gameEventNote = _gameEventNote;
 @synthesize modalNav = _modalNav;
@@ -584,7 +588,8 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 
 - (void) didPressInfo:(id)sender
 {
-    NSLog(@"Info");
+    [self.view addSubview:self.info.view];
+    [self.infoCircle setHidden:YES];
 }
 
 - (void) hudSetCoins:(unsigned int)newCoins
@@ -618,10 +623,10 @@ static const float kInfoBorderWidth = 4.0f;
     [self.view addSubview:[self hud]];
     
     // info
-    CGRect infoRect = CGRectMake(parentRect.size.width - kInfoSize + kInfoXOffset,
-                                 kInfoYOffset,
-                                 kInfoSize, kInfoSize);
-    self.infoCircle = [[CircleButton alloc] initWithFrame:infoRect];
+    CGRect infoCircleRect = CGRectMake(parentRect.size.width - kInfoSize + kInfoXOffset,
+                                       kInfoYOffset,
+                                       kInfoSize, kInfoSize);
+    self.infoCircle = [[CircleButton alloc] initWithFrame:infoCircleRect];
     [self.infoCircle setBackgroundColor:[GameColors bubbleColorScanWithAlpha:1.0f]];
     [self.infoCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.infoCircle setBorderWidth:kInfoBorderWidth];
@@ -634,6 +639,7 @@ static const float kInfoBorderWidth = 4.0f;
     [infoLabel setTextColor:[GameColors gliderWhiteWithAlpha:1.0f]];
     [self.infoCircle addSubview:infoLabel];
     [self.view addSubview:[self infoCircle]];
+    self.info = [[InfoViewController alloc] initWithCenterFrame:infoCircleRect delegate:self];
     
     // game event notifications
     CGRect noteFrame = CGRectMake(0.0f, heightChange, parentRect.size.width, parentRect.size.height - heightChange);
@@ -649,6 +655,7 @@ static const float kInfoBorderWidth = 4.0f;
     [self.gameEventNote removeFromSuperview];
     self.gameEventNote = nil;
     
+    self.info = nil;
     [self.infoCircle removeFromSuperview];
     self.infoCircle = nil;
     
@@ -824,6 +831,15 @@ static const float kInfoBorderWidth = 4.0f;
     [self showKnobAnimated:YES delay:0.0f];
 }
 
+- (void) dismissModalView:(UIView *)viewToDismiss withModalId:(NSString *const)modalId
+{
+    [viewToDismiss removeFromSuperview];
+    
+    if([modalId isEqualToString:kInfoViewModalId])
+    {
+        [self.infoCircle setHidden:NO];
+    }
+}
 
 #pragma mark - KnobProtocol
 - (unsigned int) numItemsInKnob:(KnobControl *)knob
