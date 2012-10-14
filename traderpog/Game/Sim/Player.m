@@ -40,6 +40,7 @@ static NSString* const kKeyLastKnownLatitude = @"lastlat";
 static NSString* const kKeyLastKnownLongitude = @"lastlong";
 static NSString* const kKeyLastKnownLocationValid = @"lastknownvalid";
 static NSString* const kKeyCurrentWeekOf = @"currentweekof";
+static NSString* const kKeyReceipt = @"receipt";
 static NSString* const kPlayerFilename = @"player.sav";
 
 // Player ranking based on bucks
@@ -63,6 +64,7 @@ static const float kPostTribute = 0.02;
 
 @implementation Player
 @synthesize delegate = _delegate;
+@synthesize memberDelegate = _memberDelegate;
 @synthesize playerId = _playerId;
 @synthesize dataRefreshed = _dataRefreshed;
 @synthesize facebook = _facebook;
@@ -538,6 +540,36 @@ static const float kPostTribute = 0.02;
                      [message show];
                      [self.delegate didCompleteHttpCallback:kPlayer_CreateNewUser, FALSE];
                  }
+     ];
+}
+
+- (void)updateMembershipInfo:(NSString*)receipt
+{
+    AFHTTPClient* httpClient = [[AFClientManager sharedInstance] traderPog];
+    NSString* path = [NSString stringWithFormat:@"users/%d/updatemember", _playerId];
+    NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                receipt, kKeyReceipt,
+                                nil];
+    [httpClient putPath:path
+             parameters:parameters
+                success:^(AFHTTPRequestOperation *operation, id responseObject){
+                    id obj = [responseObject valueForKeyPath:kKeyMemberTime];
+                    if ((NSNull *)obj == [NSNull null])
+                    {
+                        NSLog(@"Membership time was nil. Nothing changed");
+                    }
+                    else
+                    {
+                        NSLog(@"Membership info updated");
+                        NSString* utcdate = [NSString stringWithFormat:@"%@", obj];
+                        _memberTime = [PogUIUtility convertUtcToNSDate:utcdate];
+                    }
+                    [self.memberDelegate didCompleteHttpCallback:kPlayer_UpdateMember, TRUE];
+                }
+                failure:^(AFHTTPRequestOperation* operation, NSError* error){
+                    NSLog(@"Error from membership update");
+                    [self.memberDelegate didCompleteHttpCallback:kPlayer_UpdateMember, FALSE];
+                }
      ];
 }
 

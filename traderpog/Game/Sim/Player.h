@@ -13,6 +13,7 @@
 
 static NSString* const kPlayer_CreateNewUser = @"CreateNewUser";
 static NSString* const kPlayer_SavePlayerData = @"SavePlayerData";
+static NSString* const kPlayer_UpdateMember = @"UpdateMember";
 static NSString* const kPlayer_GetPlayerData = @"GetPlayerData";
 static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFacebook";
 
@@ -45,11 +46,15 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
     
+    // Delegate for callbacks to inform interested parties of member upgrade completion
+    __weak NSObject<HttpCallbackDelegate>* _memberDelegate;
+    
     Facebook* _facebook;
 }
 @property (nonatomic) NSInteger playerId;
 @property (nonatomic) BOOL dataRefreshed;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
+@property (nonatomic,weak) NSObject<HttpCallbackDelegate>* memberDelegate;
 @property (nonatomic, retain) Facebook *facebook;
 @property (nonatomic) BOOL lastKnownLocationValid;
 @property (nonatomic) CLLocationCoordinate2D lastKnownLocation;
@@ -62,6 +67,7 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
 - (BOOL)needsRefresh;
 - (void)createNewPlayerOnServer;
 - (void)getPlayerDataFromServer;
+- (void)updateMembershipInfo:(NSString*)receipt;
 - (BOOL)facebookSessionValid;
 - (void)getFacebookFriendsList;
 - (void)updateFacebookFeed:(NSString*)message;

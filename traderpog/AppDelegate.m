@@ -27,6 +27,7 @@
 #import "PlayerSales.h"
 #import "UrlImageManager.h"
 #import "SoundManager.h"
+#import "ProductManager.h"
 #import <RevMobAds/RevMobAds.h>
 
 static const float kAppScreenWidth = 320.0f;
@@ -166,6 +167,7 @@ static const float kAppScreenHeight = 480.0f;
     [GameEventMgr getInstance];
     [PlayerSales getInstance];
     [UrlImageManager getInstance];
+    [ProductManager getInstance];
     
     // Setting up the HTTP callback delegates
     [[Player getInstance] setDelegate:[GameManager getInstance]];
