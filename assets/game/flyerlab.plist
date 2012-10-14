@@ -12,71 +12,71 @@
 					<key>orig</key>
 					<string>flyer.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_aero.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_aero_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_aero_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_aero_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_aero.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_aero_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_aero_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_aero_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_boost.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_boost_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_boost.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_boost_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_boost.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_boost_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_boost.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_boost_c3.png</string>
 				</dict>
 			</array>
 			<key>side</key>
@@ -1006,11 +1006,11 @@
 				<key>name</key>
 				<string>orig</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>158</integer>
 				<key>colorG</key>
-				<integer>255</integer>
+				<integer>18</integer>
 				<key>colorB</key>
-				<integer>255</integer>
+				<integer>16</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>
@@ -1018,11 +1018,11 @@
 				<key>name</key>
 				<string>color1</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>20</integer>
 				<key>colorG</key>
-				<integer>0</integer>
+				<integer>39</integer>
 				<key>colorB</key>
-				<integer>0</integer>
+				<integer>122</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>
@@ -1030,11 +1030,11 @@
 				<key>name</key>
 				<string>color2</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>40</integer>
 				<key>colorG</key>
-				<integer>0</integer>
+				<integer>155</integer>
 				<key>colorB</key>
-				<integer>0</integer>
+				<integer>55</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>
@@ -1042,11 +1042,11 @@
 				<key>name</key>
 				<string>color3</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>122</integer>
 				<key>colorG</key>
-				<integer>0</integer>
+				<integer>37</integer>
 				<key>colorB</key>
-				<integer>0</integer>
+				<integer>148</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>
@@ -1057,11 +1057,11 @@
 				<key>name</key>
 				<string>orig</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>81</integer>
 				<key>colorG</key>
-				<integer>255</integer>
+				<integer>187</integer>
 				<key>colorB</key>
-				<integer>255</integer>
+				<integer>239</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>
@@ -1069,9 +1069,9 @@
 				<key>name</key>
 				<string>color1</string>
 				<key>colorR</key>
-				<integer>255</integer>
-				<key>colorG</key>
 				<integer>0</integer>
+				<key>colorG</key>
+				<integer>204</integer>
 				<key>colorB</key>
 				<integer>0</integer>
 				<key>alpha</key>
@@ -1081,11 +1081,11 @@
 				<key>name</key>
 				<string>color2</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>216</integer>
 				<key>colorG</key>
-				<integer>0</integer>
+				<integer>134</integer>
 				<key>colorB</key>
-				<integer>0</integer>
+				<integer>53</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>
@@ -1093,11 +1093,11 @@
 				<key>name</key>
 				<string>color3</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>145</integer>
 				<key>colorG</key>
-				<integer>0</integer>
+				<integer>16</integer>
 				<key>colorB</key>
-				<integer>0</integer>
+				<integer>176</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>
@@ -1108,11 +1108,11 @@
 				<key>name</key>
 				<string>orig</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>225</integer>
 				<key>colorG</key>
-				<integer>255</integer>
+				<integer>45</integer>
 				<key>colorB</key>
-				<integer>255</integer>
+				<integer>7</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>
@@ -1120,11 +1120,11 @@
 				<key>name</key>
 				<string>color1</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>45</integer>
 				<key>colorG</key>
-				<integer>0</integer>
+				<integer>187</integer>
 				<key>colorB</key>
-				<integer>0</integer>
+				<integer>8</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>
@@ -1132,11 +1132,11 @@
 				<key>name</key>
 				<string>color2</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>43</integer>
 				<key>colorG</key>
-				<integer>0</integer>
+				<integer>67</integer>
 				<key>colorB</key>
-				<integer>0</integer>
+				<integer>150</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>
@@ -1144,11 +1144,11 @@
 				<key>name</key>
 				<string>color3</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>242</integer>
 				<key>colorG</key>
-				<integer>0</integer>
+				<integer>229</integer>
 				<key>colorB</key>
-				<integer>0</integer>
+				<integer>8</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>
@@ -1159,11 +1159,11 @@
 				<key>name</key>
 				<string>orig</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>234</integer>
 				<key>colorG</key>
-				<integer>255</integer>
+				<integer>188</integer>
 				<key>colorB</key>
-				<integer>255</integer>
+				<integer>22</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>
@@ -1171,11 +1171,11 @@
 				<key>name</key>
 				<string>color1</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>181</integer>
 				<key>colorG</key>
-				<integer>0</integer>
+				<integer>184</integer>
 				<key>colorB</key>
-				<integer>0</integer>
+				<integer>193</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>
@@ -1183,11 +1183,11 @@
 				<key>name</key>
 				<string>color2</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>159</integer>
 				<key>colorG</key>
-				<integer>0</integer>
+				<integer>226</integer>
 				<key>colorB</key>
-				<integer>0</integer>
+				<integer>29</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>
@@ -1195,11 +1195,11 @@
 				<key>name</key>
 				<string>color3</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>248</integer>
 				<key>colorG</key>
-				<integer>0</integer>
+				<integer>212</integer>
 				<key>colorB</key>
-				<integer>0</integer>
+				<integer>180</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>
@@ -1210,11 +1210,11 @@
 				<key>name</key>
 				<string>orig</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>189</integer>
 				<key>colorG</key>
-				<integer>255</integer>
+				<integer>223</integer>
 				<key>colorB</key>
-				<integer>255</integer>
+				<integer>114</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>
@@ -1222,11 +1222,11 @@
 				<key>name</key>
 				<string>color1</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>196</integer>
 				<key>colorG</key>
-				<integer>0</integer>
+				<integer>62</integer>
 				<key>colorB</key>
-				<integer>0</integer>
+				<integer>62</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>
@@ -1234,11 +1234,11 @@
 				<key>name</key>
 				<string>color2</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>51</integer>
 				<key>colorG</key>
-				<integer>0</integer>
+				<integer>209</integer>
 				<key>colorB</key>
-				<integer>0</integer>
+				<integer>166</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>
@@ -1246,11 +1246,11 @@
 				<key>name</key>
 				<string>color3</string>
 				<key>colorR</key>
-				<integer>255</integer>
+				<integer>157</integer>
 				<key>colorG</key>
-				<integer>0</integer>
+				<integer>209</integer>
 				<key>colorB</key>
-				<integer>0</integer>
+				<integer>211</integer>
 				<key>alpha</key>
 				<integer>255</integer>
 			</dict>

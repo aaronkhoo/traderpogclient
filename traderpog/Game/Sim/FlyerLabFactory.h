@@ -27,10 +27,14 @@
 // colors
 - (unsigned int) priceForColorCustomization;
 - (FlyerColorPack*) colorPackAtIndex:(unsigned int)index forFlyerTypeNamed:(NSString*)name;
+- (unsigned int) numColorsForFlyerTypeNamed:(NSString*)name;
 - (unsigned int) maxColorIndex;
 
 // images
 - (NSString*) sideImageForFlyerTypeNamed:(NSString*)name
+                                    tier:(unsigned int)tier
+                              colorIndex:(unsigned int)colorIndex;
+- (NSString*) topImageForFlyerTypeNamed:(NSString*)name
                                     tier:(unsigned int)tier
                               colorIndex:(unsigned int)colorIndex;
 

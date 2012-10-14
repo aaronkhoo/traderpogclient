@@ -11,7 +11,7 @@
 #import "UINavigationController+Pog.h"
 #import "Flyer.h"
 #import "FlyerLabFactory.h"
-#import "FlyerUpgradePack.h"
+#import "FlyerColorPack.h"
 #import "GameAnim.h"
 #import "PogUIUtility.h"
 #import "ImageManager.h"
@@ -239,6 +239,17 @@ enum kColorOptions
         [self.buyLabel setTextColor:[UIColor lightGrayColor]];
         [self.buyLabel setAlpha:0.4f];
     }
+    
+    // color for each option
+    NSString* const flyerName = @"flyer_glider";
+    FlyerColorPack* origPack = [[FlyerLabFactory getInstance] colorPackAtIndex:kColorOptionOriginal forFlyerTypeNamed:flyerName];
+    [self.optionOriginal setBackgroundColor:[origPack color]];
+    FlyerColorPack* c1Pack = [[FlyerLabFactory getInstance] colorPackAtIndex:kColorOption1 forFlyerTypeNamed:flyerName];
+    [self.option1 setBackgroundColor:[c1Pack color]];
+    FlyerColorPack* c2Pack = [[FlyerLabFactory getInstance] colorPackAtIndex:kColorOption2 forFlyerTypeNamed:flyerName];
+    [self.option2 setBackgroundColor:[c2Pack color]];
+    FlyerColorPack* c3Pack = [[FlyerLabFactory getInstance] colorPackAtIndex:kColorOption3 forFlyerTypeNamed:flyerName];
+    [self.option3 setBackgroundColor:[c3Pack color]];
 }
 
 

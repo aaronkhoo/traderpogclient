@@ -559,17 +559,32 @@ static NSString* const kKeyCurColorIndex = @"color_index";
 
 - (UIImage*) imageForCurrentState
 {
-    FlyerType* flyerType  = [[[FlyerTypes getInstance] flyerTypes] objectAtIndex:_flyerTypeIndex];
-    UIImage* image = [[ImageManager getInstance] getImage:[flyerType sideimg]];
+    NSString* imageName = @"flyer.png";
     if(kFlyerStateEnroute == [self state])
     {
-        image = [[ImageManager getInstance] getImage:[flyerType topimg]];
+        NSString* name = [[FlyerLabFactory getInstance] topImageForFlyerTypeNamed:@"flyer_glider" tier:[self curUpgradeTier] colorIndex:[self curColor]];
+        if(name)
+        {
+            imageName = name;
+        }
+        else
+        {
+            imageName = @"flyer.png";
+        }
     }
     else
     {
         NSString* name = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:@"flyer_glider" tier:[self curUpgradeTier] colorIndex:[self curColor]];
-        image = [[ImageManager getInstance] getImage:name];
+        if(name)
+        {
+            imageName = name;
+        }
+        else
+        {
+            imageName = @"flyer_landed.png";
+        }
     }
+    UIImage* image = [[ImageManager getInstance] getImage:imageName];
     return image;
 }
 
