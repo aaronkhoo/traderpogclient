@@ -1038,6 +1038,7 @@ static const float kInfoBorderWidth = 4.0f;
     
     // dismiss any callout
     [self.mapControl deselectAllAnnotations];
+    [self dismissInfo];
     
     // reset map scroll in case one of the pan/pinch gesture recognizers left it in
     // a disabled state

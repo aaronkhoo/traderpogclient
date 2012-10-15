@@ -104,6 +104,7 @@ static const float kAppScreenHeight = 480.0f;
     [[AsyncHttpCallMgr getInstance] applicationDidEnterBackground];
     [[FlyerMgr getInstance] saveFlyerMgrData];
     [[Player getInstance] appDidEnterBackground];
+    [[GameManager getInstance] applicationDidEnterBackground];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

@@ -22,6 +22,8 @@
 #import "MapGestureHandler.h"
 #import "PlayerPostCalloutView.h"
 #import "SoundManager.h"
+#import "GameManager.h"
+#import "GameViewController.h"
 
 const NSUInteger kDefaultZoomLevel = 15;
 const NSUInteger kNoCalloutZoomLevel = kDefaultZoomLevel - 2;
@@ -464,6 +466,7 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
 {
     if([annotationView conformsToProtocol:@protocol(MapAnnotationViewProtocol)])
     {
+        [[[GameManager getInstance] gameViewController] dismissInfo];
         [((NSObject<MapAnnotationViewProtocol>*)annotationView) didSelectAnnotationViewInMap:mapView];
     }
 }

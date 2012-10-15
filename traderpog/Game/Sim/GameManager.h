@@ -75,6 +75,7 @@ typedef enum _BrowseEnforcedType
 
 // system
 - (void) applicationWillEnterForeground;
+- (void) applicationDidEnterBackground;
 - (void) clearCache;
 
 // singleton

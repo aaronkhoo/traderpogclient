@@ -411,7 +411,7 @@ typedef enum {
 
 - (void) handleNewPlayerLocationDenied:(NSNotification *)note 
 {
-    [self resetGame];
+    [self quitGame];
 }
 
 - (void) pushLoadingScreenIfNecessary:(UINavigationController*)nav message:(NSString*)message
@@ -449,6 +449,19 @@ typedef enum {
         // if we are resuming the app after timeTillReinitialize has expired, just pop back to the
         // start screen for the player to press start again
         [self quitGame];
+    }
+}
+
+- (void) applicationDidEnterBackground
+{
+    if([self gameViewController])
+    {
+        [self.gameViewController.mapControl deselectAllAnnotations];
+        [self.gameViewController dismissInfo];
+        if((kGameStateHomeSelect != [self gameState]) && (kGameStateFlyerSelect != [self gameState]))
+        {
+            [self.gameViewController dismissActiveWheelAnimated:NO];
+        }
     }
 }
 
