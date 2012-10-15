@@ -39,8 +39,10 @@
 // List of Game UI screens that GameManager can kick off
 #import "SignupScreen.h"
 
-// How often to check if the gameinfo has been updated (2 hours)
+// how often to reinitialize game since last server operations
 static double const timeTillReinitialize = -(60 * 30);
+
+// How often to check if the gameinfo has been updated (2 hours)
 static double const gameinfoRefreshTime = -(60 * 60 * 2);
 static NSString* const kKeyLastUpdated = @"lastupdated";
 
@@ -442,16 +444,11 @@ typedef enum {
 
 - (void) applicationWillEnterForeground
 {
-    // Reset
     if (_gameState != kGameStateNew && ([_lastGameStateInitializeTime timeIntervalSinceNow] < timeTillReinitialize))
     {
-        [self resetGame];
-        _currentServerCall = serverCallType_none;
-        _gameStateRefreshedFromServer = FALSE;
-        _asyncHttpCallsCompleted = TRUE;
-        _danglingPostsResolved = FALSE;
-        [[TradePostMgr getInstance] flushForeignPosts];
-        [self validateConnectivity];
+        // if we are resuming the app after timeTillReinitialize has expired, just pop back to the
+        // start screen for the player to press start again
+        [self quitGame];
     }
 }
 
