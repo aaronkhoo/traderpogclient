@@ -17,6 +17,15 @@
 		38821EDF15F45670004733E2 /* FlyerInventory.m in Sources */ = {isa = PBXBuildFile; fileRef = 38821EDE15F45670004733E2 /* FlyerInventory.m */; };
 		38821EE315F45685004733E2 /* FlyerPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 38821EE215F45685004733E2 /* FlyerPath.m */; };
 		3887ACC415D4CB9700B4E0FA /* ResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3887ACC315D4CB9700B4E0FA /* ResourceManager.m */; };
+		38887AF3162C4DDF0057D22B /* Pog_SFX_ArriveHome.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38887AEA162C4DDF0057D22B /* Pog_SFX_ArriveHome.mp3 */; };
+		38887AF4162C4DDF0057D22B /* Pog_SFX_LoadingReady.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38887AEB162C4DDF0057D22B /* Pog_SFX_LoadingReady.mp3 */; };
+		38887AF5162C4DDF0057D22B /* Pog_SFX_Nav_Scroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38887AEC162C4DDF0057D22B /* Pog_SFX_Nav_Scroll.mp3 */; };
+		38887AF6162C4DDF0057D22B /* Pog_SFX_Nav_UP_Longer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38887AED162C4DDF0057D22B /* Pog_SFX_Nav_UP_Longer.mp3 */; };
+		38887AF7162C4DDF0057D22B /* Pog_SFX_Nav_up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38887AEE162C4DDF0057D22B /* Pog_SFX_Nav_up.mp3 */; };
+		38887AF8162C4DDF0057D22B /* Pog_SFX_PopUP_Level1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38887AEF162C4DDF0057D22B /* Pog_SFX_PopUP_Level1.mp3 */; };
+		38887AF9162C4DDF0057D22B /* Pog_SFX_PopUP_Level2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38887AF0162C4DDF0057D22B /* Pog_SFX_PopUP_Level2.mp3 */; };
+		38887AFA162C4DDF0057D22B /* Pog_SFX_Scanner.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38887AF1162C4DDF0057D22B /* Pog_SFX_Scanner.mp3 */; };
+		38887AFB162C4DDF0057D22B /* Pog_SFX_Select.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38887AF2162C4DDF0057D22B /* Pog_SFX_Select.mp3 */; };
 		3889127415D5BA8E009CF624 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3889127315D5BA8E009CF624 /* libz.1.2.5.dylib */; };
 		3889129615D5D8B6009CF624 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 3889128C15D5D8B6009CF624 /* ioapi.c */; };
 		3889129715D5D8B6009CF624 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 3889128E15D5D8B6009CF624 /* mztools.c */; };
@@ -367,6 +376,15 @@
 		38821EE215F45685004733E2 /* FlyerPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerPath.m; path = Game/Sim/FlyerPath.m; sourceTree = "<group>"; };
 		3887ACC215D4CB9700B4E0FA /* ResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResourceManager.h; path = Resources/ResourceManager.h; sourceTree = "<group>"; };
 		3887ACC315D4CB9700B4E0FA /* ResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResourceManager.m; path = Resources/ResourceManager.m; sourceTree = "<group>"; };
+		38887AEA162C4DDF0057D22B /* Pog_SFX_ArriveHome.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Pog_SFX_ArriveHome.mp3; path = assets/audio/Pog_SFX_ArriveHome.mp3; sourceTree = SOURCE_ROOT; };
+		38887AEB162C4DDF0057D22B /* Pog_SFX_LoadingReady.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Pog_SFX_LoadingReady.mp3; path = assets/audio/Pog_SFX_LoadingReady.mp3; sourceTree = SOURCE_ROOT; };
+		38887AEC162C4DDF0057D22B /* Pog_SFX_Nav_Scroll.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Pog_SFX_Nav_Scroll.mp3; path = assets/audio/Pog_SFX_Nav_Scroll.mp3; sourceTree = SOURCE_ROOT; };
+		38887AED162C4DDF0057D22B /* Pog_SFX_Nav_UP_Longer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Pog_SFX_Nav_UP_Longer.mp3; path = assets/audio/Pog_SFX_Nav_UP_Longer.mp3; sourceTree = SOURCE_ROOT; };
+		38887AEE162C4DDF0057D22B /* Pog_SFX_Nav_up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Pog_SFX_Nav_up.mp3; path = assets/audio/Pog_SFX_Nav_up.mp3; sourceTree = SOURCE_ROOT; };
+		38887AEF162C4DDF0057D22B /* Pog_SFX_PopUP_Level1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Pog_SFX_PopUP_Level1.mp3; path = assets/audio/Pog_SFX_PopUP_Level1.mp3; sourceTree = SOURCE_ROOT; };
+		38887AF0162C4DDF0057D22B /* Pog_SFX_PopUP_Level2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Pog_SFX_PopUP_Level2.mp3; path = assets/audio/Pog_SFX_PopUP_Level2.mp3; sourceTree = SOURCE_ROOT; };
+		38887AF1162C4DDF0057D22B /* Pog_SFX_Scanner.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Pog_SFX_Scanner.mp3; path = assets/audio/Pog_SFX_Scanner.mp3; sourceTree = SOURCE_ROOT; };
+		38887AF2162C4DDF0057D22B /* Pog_SFX_Select.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Pog_SFX_Select.mp3; path = assets/audio/Pog_SFX_Select.mp3; sourceTree = SOURCE_ROOT; };
 		3889127315D5BA8E009CF624 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		3889128B15D5D8B6009CF624 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
 		3889128C15D5D8B6009CF624 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
@@ -1215,6 +1233,15 @@
 		42A4B7F91626A882009622D0 /* audio */ = {
 			isa = PBXGroup;
 			children = (
+				38887AEA162C4DDF0057D22B /* Pog_SFX_ArriveHome.mp3 */,
+				38887AEB162C4DDF0057D22B /* Pog_SFX_LoadingReady.mp3 */,
+				38887AEC162C4DDF0057D22B /* Pog_SFX_Nav_Scroll.mp3 */,
+				38887AED162C4DDF0057D22B /* Pog_SFX_Nav_UP_Longer.mp3 */,
+				38887AEE162C4DDF0057D22B /* Pog_SFX_Nav_up.mp3 */,
+				38887AEF162C4DDF0057D22B /* Pog_SFX_PopUP_Level1.mp3 */,
+				38887AF0162C4DDF0057D22B /* Pog_SFX_PopUP_Level2.mp3 */,
+				38887AF1162C4DDF0057D22B /* Pog_SFX_Scanner.mp3 */,
+				38887AF2162C4DDF0057D22B /* Pog_SFX_Select.mp3 */,
 				42A4B8001626AB25009622D0 /* ambient1.m4a */,
 				42A4B7FB1626A8E1009622D0 /* pog_moderate.mp3 */,
 			);
@@ -2001,6 +2028,15 @@
 				42A20C41162BF54F00C4B593 /* flyer_hornet_landed_c1.png in Resources */,
 				42A20C42162BF54F00C4B593 /* flyer_hornet_landed_c2.png in Resources */,
 				42A20C43162BF54F00C4B593 /* flyer_hornet_landed_c3.png in Resources */,
+				38887AF3162C4DDF0057D22B /* Pog_SFX_ArriveHome.mp3 in Resources */,
+				38887AF4162C4DDF0057D22B /* Pog_SFX_LoadingReady.mp3 in Resources */,
+				38887AF5162C4DDF0057D22B /* Pog_SFX_Nav_Scroll.mp3 in Resources */,
+				38887AF6162C4DDF0057D22B /* Pog_SFX_Nav_UP_Longer.mp3 in Resources */,
+				38887AF7162C4DDF0057D22B /* Pog_SFX_Nav_up.mp3 in Resources */,
+				38887AF8162C4DDF0057D22B /* Pog_SFX_PopUP_Level1.mp3 in Resources */,
+				38887AF9162C4DDF0057D22B /* Pog_SFX_PopUP_Level2.mp3 in Resources */,
+				38887AFA162C4DDF0057D22B /* Pog_SFX_Scanner.mp3 in Resources */,
+				38887AFB162C4DDF0057D22B /* Pog_SFX_Select.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
