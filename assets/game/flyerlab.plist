@@ -391,23 +391,23 @@
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_rang_aero.png</string>
+					<string>flyer_rang_aerokit.png</string>
 					<key>color1</key>
-					<string>flyer_rang_aero_c1.png</string>
+					<string>flyer_rang_aerokit_c1.png</string>
 					<key>color2</key>
-					<string>flyer_rang_aero_c2.png</string>
+					<string>flyer_rang_aerokit_c2.png</string>
 					<key>color3</key>
-					<string>flyer_rang_aero_c3.png</string>
+					<string>flyer_rang_aerokit_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_rang_aero.png</string>
+					<string>flyer_rang_aerokit.png</string>
 					<key>color1</key>
-					<string>flyer_rang_aero_c1.png</string>
+					<string>flyer_rang_aerokit_c1.png</string>
 					<key>color2</key>
-					<string>flyer_rang_aero_c2.png</string>
+					<string>flyer_rang_aerokit_c2.png</string>
 					<key>color3</key>
-					<string>flyer_rang_aero_c3.png</string>
+					<string>flyer_rang_aerokit_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
