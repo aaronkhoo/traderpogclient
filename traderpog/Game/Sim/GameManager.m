@@ -650,6 +650,8 @@ typedef enum {
         _gameState = kGameStateHomeSelect;
         _contextFlyer = flyer;
         [self.gameViewController showPostWheelAnimated:YES];
+        
+        [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
     }
 }
 
@@ -660,6 +662,8 @@ typedef enum {
         _gameState = kGameStateFlyerSelect;
         _contextPost = post;
         [self.gameViewController showFlyerWheelAnimated:YES];
+        
+        [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
     }
 }
 

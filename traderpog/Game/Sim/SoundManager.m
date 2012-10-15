@@ -530,36 +530,21 @@ static NSString* const SOUNDMANAGER_ENABLED_KEY = @"SoundManagerEnabled";
 - (void) initGlobalClips
 {
 	NSBundle* mainBundle = [NSBundle mainBundle];
-	
+    
     // One-shot MenuSounds
-    /*
-    [self addOneShotClip:@"ButtonPressed" fromFile:[mainBundle pathForResource:@"ButtonPressed" ofType:@"m4a"] defaultVolume:0.6f numAVPlayers:1];
-	[self addOneShotClip:@"BackForwardButton" fromFile:[mainBundle pathForResource:@"BackForwardButton" ofType:@"m4a"] defaultVolume:0.6f numAVPlayers:2];
-    [self addOneShotClip:@"PigSnore" fromFile:[mainBundle pathForResource:@"PigSnore" ofType:@"m4a"] defaultVolume:1.0f numAVPlayers:1];
-    
-    // One-shot GameSounds
-    [self addOneShotClip:@"BoarSoloHit" fromFile:[mainBundle pathForResource:@"BoarSoloHit" ofType:@"m4a"] defaultVolume:0.4f numAVPlayers:4];
-    [self addOneShotClip:@"TurretHit" fromFile:[mainBundle pathForResource:@"TurretHit" ofType:@"m4a"] defaultVolume:0.4f numAVPlayers:4];
-    [self addOneShotClip:@"CargoCollected" fromFile:[mainBundle pathForResource:@"CargoCollected" ofType:@"m4a"] defaultVolume:0.4f numAVPlayers:1];
-    [self addOneShotClip:@"KillBullets" fromFile:[mainBundle pathForResource:@"KillBullets" ofType:@"m4a"] defaultVolume:0.6f numAVPlayers:1];
-    [self addOneShotClip:@"SpeedoExplosion" fromFile:[mainBundle pathForResource:@"SpeedoExplosion" ofType:@"m4a"] defaultVolume:0.3f numAVPlayers:4];
-    [self addOneShotClip:@"BoarFighterExplosion" fromFile:[mainBundle pathForResource:@"BoarFighterExplosion" ofType:@"m4a"] defaultVolume:0.4f numAVPlayers:4];
-    [self addOneShotClip:@"PeterExplosion" fromFile:[mainBundle pathForResource:@"PeterExplosion" ofType:@"m4a"] defaultVolume:0.4f numAVPlayers:1];
-    [self addOneShotClip:@"BlimpExplosion" fromFile:[mainBundle pathForResource:@"BlimpExplosion" ofType:@"m4a"] defaultVolume:0.7f numAVPlayers:1];
-    [self addOneShotClip:@"MissileHiss" fromFile:[mainBundle pathForResource:@"MissileHiss" ofType:@"m4a"] defaultVolume:0.1f numAVPlayers:4];
-    [self addOneShotClip:@"MissileExplodes" fromFile:[mainBundle pathForResource:@"MissileExplodes" ofType:@"m4a"] defaultVolume:0.1f numAVPlayers:4];
-    [self addOneShotClip:@"SubEmerging" fromFile:[mainBundle pathForResource:@"SubEmerging" ofType:@"m4a"] defaultVolume:0.4f numAVPlayers:1];
-    [self addOneShotClip:@"SubmarineExplosion" fromFile:[mainBundle pathForResource:@"SubmarineExplosion" ofType:@"m4a"] defaultVolume:0.7f numAVPlayers:1];
-    
-    // Looping GameSounds
-    [self addClip:@"FlyerBasicWeapon" fromFile:[mainBundle pathForResource:@"FlyerBasicWeapon" ofType:@"m4a"] 
-    defaultVolume:4.0f isLooping:YES];
-    [self addClip:@"LargeBlimpHum" fromFile:[mainBundle pathForResource:@"BlimpLargeLoop1" ofType:@"m4a"] 
-    defaultVolume:0.25f isLooping:YES];
-*/
+    [self addOneShotClip:@"Pog_SFX_ArriveHome" fromFile:[mainBundle pathForResource:@"Pog_SFX_ArriveHome" ofType:@"mp3"] defaultVolume:0.6f numAVPlayers:1];
+    [self addOneShotClip:@"Pog_SFX_LoadingReady" fromFile:[mainBundle pathForResource:@"Pog_SFX_LoadingReady" ofType:@"mp3"] defaultVolume:0.6f numAVPlayers:1];
+    [self addOneShotClip:@"Pog_SFX_Nav_Scroll" fromFile:[mainBundle pathForResource:@"Pog_SFX_Nav_Scroll" ofType:@"mp3"] defaultVolume:0.6f numAVPlayers:1];
+    [self addOneShotClip:@"Pog_SFX_Nav_up" fromFile:[mainBundle pathForResource:@"Pog_SFX_Nav_up" ofType:@"mp3"] defaultVolume:0.6f numAVPlayers:1];
+    [self addOneShotClip:@"Pog_SFX_Nav_UP_Longer" fromFile:[mainBundle pathForResource:@"Pog_SFX_Nav_UP_Longer" ofType:@"mp3"] defaultVolume:0.6f numAVPlayers:1];
+    [self addOneShotClip:@"Pog_SFX_PopUP_Level1" fromFile:[mainBundle pathForResource:@"Pog_SFX_PopUP_Level1" ofType:@"mp3"] defaultVolume:0.6f numAVPlayers:1];
+    [self addOneShotClip:@"Pog_SFX_PopUP_Level2" fromFile:[mainBundle pathForResource:@"Pog_SFX_PopUP_Level2" ofType:@"mp3"] defaultVolume:0.6f numAVPlayers:1];
+    [self addOneShotClip:@"Pog_SFX_Scanner" fromFile:[mainBundle pathForResource:@"Pog_SFX_Scanner" ofType:@"mp3"] defaultVolume:0.6f numAVPlayers:1];
+    [self addOneShotClip:@"Pog_SFX_Select" fromFile:[mainBundle pathForResource:@"Pog_SFX_Select" ofType:@"mp3"] defaultVolume:0.6f numAVPlayers:1];
+	
     // Background music/sounds
     [self addClip:@"background_default" fromFile:[mainBundle pathForResource:@"pog_moderate" ofType:@"mp3"]
-    defaultVolume:0.15f isLooping:YES];
+    defaultVolume:0.10f isLooping:YES];
     [self addClip:@"ambient_wind" fromFile:[mainBundle pathForResource:@"ambient1" ofType:@"m4a"]
     defaultVolume:0.25f isLooping:YES];
 //    [self addClip:@"ThunderStorm" fromFile:[mainBundle pathForResource:@"ThunderStorm" ofType:@"m4a"]

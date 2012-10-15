@@ -11,7 +11,9 @@
 @class StartScreen;
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
-    UINavigationController *_navController;	
+    UINavigationController *_navController;
+    
+    NSTimer*	soundLoopTimer;
 }
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UINavigationController *navController;

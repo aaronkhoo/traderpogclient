@@ -32,6 +32,7 @@
 
 static const float kAppScreenWidth = 320.0f;
 static const float kAppScreenHeight = 480.0f;
+static const CGFloat SOUNDLOOP_INTERVAL_SECS = 1.0f / 30.0f;
 
 @interface AppDelegate()
 {
@@ -42,6 +43,7 @@ static const float kAppScreenHeight = 480.0f;
 - (void) appShutdown;
 - (void) setupNavigationController;
 - (void) teardownNavigationController;
+- (void) soundLoop;
 @end
 
 @implementation AppDelegate
@@ -50,6 +52,12 @@ static const float kAppScreenHeight = 480.0f;
 @synthesize rootController = _rootController;
 @synthesize navController = _navController;
 @synthesize lastEnteredBackgroundDate = _lastEnteredBackgroundDate;
+
+- (void) soundLoop
+{
+    // pump sound manager
+    [[SoundManager getInstance] update];
+}
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     return [[[Player getInstance] facebook] handleOpenURL:url];
@@ -91,6 +99,14 @@ static const float kAppScreenHeight = 480.0f;
     
     [[LocalyticsSession sharedLocalyticsSession] close];
     [[LocalyticsSession sharedLocalyticsSession] upload];
+    
+    // resign sound
+    [[SoundManager getInstance] resignActive];
+    if(soundLoopTimer)
+    {
+        [soundLoopTimer invalidate];
+        soundLoopTimer = nil;
+    }
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -123,6 +139,17 @@ static const float kAppScreenHeight = 480.0f;
     
     [[LocalyticsSession sharedLocalyticsSession] resume];
     [[LocalyticsSession sharedLocalyticsSession] upload];
+    
+    // unresign sound
+    if(!soundLoopTimer)
+    {
+        soundLoopTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) SOUNDLOOP_INTERVAL_SECS
+                                                          target:self
+                                                        selector:@selector(soundLoop)
+                                                        userInfo:nil
+                                                         repeats:YES];
+        [[SoundManager getInstance] restoreActive];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -151,7 +178,6 @@ static const float kAppScreenHeight = 480.0f;
 #pragma mark - private methods
 - (void) appInit
 {
-    [SoundManager getInstance];
     [ImageManager getInstance];
     [Player getInstance];
     [TradeItemTypes getInstance];
@@ -169,6 +195,13 @@ static const float kAppScreenHeight = 480.0f;
     [PlayerSales getInstance];
     [UrlImageManager getInstance];
     [ProductManager getInstance];
+    
+    [SoundManager getInstance];
+    soundLoopTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) SOUNDLOOP_INTERVAL_SECS
+                                                      target:self
+                                                    selector:@selector(soundLoop)
+                                                    userInfo:nil
+                                                     repeats:YES];
     
     // Setting up the HTTP callback delegates
     [[Player getInstance] setDelegate:[GameManager getInstance]];
