@@ -166,19 +166,28 @@ typedef enum {
 
 - (void) quitGame
 {
-    _gameState = kGameStateNew;
-
-    // clear game systems
-    [[ScanManager getInstance] clearForQuitGame];
-    [[FlyerMgr getInstance] clearForQuitGame];
-    [[TradePostMgr getInstance] clearForQuitGame];
-    [[BeaconMgr getInstance] clearForQuitGame];
-    
-    // teardown GameViewController
-    [self.gameViewController teardown];
-    UINavigationController* nav = [[self gameViewController] navigationController];
-    self.gameViewController = nil;
-    [nav popToRootViewControllerAnimated:NO];
+    if([self gameViewController])
+    {
+        _gameState = kGameStateNew;
+        
+        // clear game systems
+        [[ScanManager getInstance] clearForQuitGame];
+        [[FlyerMgr getInstance] clearForQuitGame];
+        [[TradePostMgr getInstance] clearForQuitGame];
+        [[BeaconMgr getInstance] clearForQuitGame];
+        
+        // teardown GameViewController
+        [self.gameViewController teardown];
+        UINavigationController* nav = [[self gameViewController] navigationController];
+        self.gameViewController = nil;
+        [nav popToRootViewControllerAnimated:NO];
+    }
+    else
+    {
+        AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        UINavigationController* nav = appDelegate.navController;
+        [nav popFadeOutToRootViewControllerAnimated:NO];
+    }
 }
 
 #pragma mark - internal methods
