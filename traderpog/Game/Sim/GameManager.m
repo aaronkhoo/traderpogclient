@@ -154,14 +154,12 @@ typedef enum {
     pthread_rwlock_destroy(&_browseEnforcedLock);
 }
 
-- (void) resetGame
+- (void) resetData
 {
-    // abort all the way back to the start screen
-    _gameState = kGameStateNew;
-    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    UINavigationController* nav = appDelegate.navController;
-    [nav popFadeOutToRootViewControllerAnimated:NO];
-    _gameViewController = nil;
+    _currentServerCall = serverCallType_none;
+    _gameStateRefreshedFromServer = FALSE;
+    _asyncHttpCallsCompleted = TRUE;
+    _danglingPostsResolved = FALSE;
 }
 
 - (void) quitGame
@@ -820,21 +818,36 @@ typedef enum {
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {
-    if ([callName compare:kPlayer_SavePlayerData] == NSOrderedSame)
+    if ([callName compare:kPlayer_GetPlayerDataWithFacebook] == NSOrderedSame)
     {
-        NSLog(@"Done associating current account with server.");
-        [self.gameViewController setBeaconWheelText:@"Invite Friends"];
+        if (success)
+        {
+            NSLog(@"Done associating current account with server.");
+            [self.gameViewController setBeaconWheelText:@"Invite Friends"];
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Linked with Facebook!"
+                                                            message:@"The current account has now been linked with Facebook"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            
+            [alert show];
+        }
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Linked with Facebook!"
-                                                        message:@"The current account has now been linked with Facebook"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
+        //_gameStateRefreshedFromServer = TRUE;
+        //[self selectNextGameUI];
         
-        [alert show];
-        
-        _gameStateRefreshedFromServer = TRUE;
-        [self selectNextGameUI];
+        // Pop the loading screen
+        AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        UINavigationController* nav = appDelegate.navController;
+        UIViewController* current = [nav visibleViewController];
+        if([current isMemberOfClass:[LoadingScreen class]])
+        {
+            LoadingScreen* loadingScreen = (LoadingScreen*)current;
+            [loadingScreen dismissWithCompletion:^(void){
+                [nav popFadeOutViewControllerAnimated:NO];
+            }];
+        }
     }
     else if ([callName compare:kTradeItemTypes_ReceiveItems] == NSOrderedSame ||
         [callName compare:kFlyerTypes_ReceiveFlyers] == NSOrderedSame ||
