@@ -57,4 +57,5 @@
 - (void) showWheelAnimated:(BOOL)isAnimated withDelay:(float)delay;
 - (void) hideWheelAnimated:(BOOL)isAnimated withDelay:(float)delay;
 - (BOOL) isWheelStateHidden;
+- (void) resetWheelToSliceIndex:(unsigned int)resetIndex;
 @end
