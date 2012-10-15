@@ -162,6 +162,21 @@ static const float kHiddenPreviewYFrac = 0.66f; // fraction of height of preview
     NSLog(@"WheelControl dealloc");
 }
 
+- (void) resetWheelToSliceIndex:(unsigned int)resetIndex
+{
+    unsigned numItems = [self.dataSource numItemsInWheel:self];
+    if(resetIndex >= numItems)
+    {
+        resetIndex = 0;
+    }
+    _springEngaged = NO;
+    _pushedWheelTransform = CGAffineTransformIdentity;
+    self.selectedSlice = resetIndex;
+    _absAngle = [self midAngleAtItemIndex:resetIndex forNumItems:numItems];
+    _selectedBeacon = resetIndex;
+    [self.delegate wheel:self didMoveTo:resetIndex];
+}
+
 - (WheelBubble*) dequeueResuableBubble
 {
     WheelBubble* result = nil;
@@ -601,6 +616,7 @@ static const float kSelectedOffset = -6.5f;
 - (void) showWheelAnimated:(BOOL)isAnimated withDelay:(float)delay
 {
     [self.delegate wheel:self willShowAtIndex:_selectedBeacon];
+    [self resetWheelToSliceIndex:0];
     if(isAnimated)
     {
         [self setHidden:NO];
@@ -608,17 +624,19 @@ static const float kSelectedOffset = -6.5f;
         
         // show the bubbles first
         CGAffineTransform inStep = CGAffineTransformRotate(_logicalTransform, -M_PI + (kWheelRenderOffsetFactor * [self sliceWidth]));
+        unsigned int numItems = [self.dataSource numItemsInWheel:self];
+        unsigned int beaconSlot = [self itemIndexAtAngle:_absAngle forNumItems:numItems];
         [UIView animateWithDuration:0.2f
                               delay:delay
                             options:UIViewAnimationCurveEaseInOut
                          animations:^(void){
                              self.container.transform = [self renderTransformFromLogicalTransform:inStep];
+                             [self levelContentViewsWithItem:beaconSlot numItems:numItems];
                              self.container.alpha = 1.0f;
                          }
                          completion:^(BOOL finished){
                              
                              // refresh the bubbles
-                             unsigned int beaconSlot = [self itemIndexAtAngle:_absAngle forNumItems:[self.dataSource numItemsInWheel:self]];
                              [self refreshBeaconSlotsWithSelectedBeacon:beaconSlot selectedSlice:self.selectedSlice];
 
                              [UIView animateWithDuration:0.1f
@@ -626,6 +644,7 @@ static const float kSelectedOffset = -6.5f;
                                                  options:UIViewAnimationCurveEaseInOut
                                               animations:^(void){
                                                   self.container.transform = [self renderTransformFromLogicalTransform:_pushedWheelTransform];
+                                                  [self levelContentViewsWithItem:beaconSlot numItems:numItems];
                                               }
                                               completion:^(BOOL finished){
                                                   _logicalTransform = _pushedWheelTransform;
@@ -657,7 +676,8 @@ static const float kSelectedOffset = -6.5f;
 
 - (void) hideWheelAnimated:(BOOL)isAnimated withDelay:(float)delay
 {
-    CGAffineTransform outTransform = CGAffineTransformRotate(_logicalTransform, M_PI - (kWheelRenderOffsetFactor * [self sliceWidth]));
+//    CGAffineTransform outTransform = CGAffineTransformRotate(_logicalTransform, M_PI - (kWheelRenderOffsetFactor * [self sliceWidth]));
+    CGAffineTransform outTransform = CGAffineTransformRotate(CGAffineTransformIdentity, M_PI - (kWheelRenderOffsetFactor * [self sliceWidth]));
     
     _pushedWheelTransform = _logicalTransform;
     [self.delegate wheel:self willHideAtIndex:_selectedBeacon];
@@ -734,7 +754,7 @@ static const float kSelectedOffset = -6.5f;
         float dy = touchPoint.y - self.container.center.y;
         
         // angle at start
-        _deltaAngle = atan2(dy,dx); 
+        _deltaAngle = atan2(dy,dx);
         _prevAngle = _deltaAngle;
         _prevIndex = self.selectedSlice;
 
@@ -757,6 +777,7 @@ static const float kSelectedOffset = -6.5f;
     NSLog(@"TRACKING CANCELED!!");
 }
 
+static const float kMaxAngleIncrPerTracking = M_PI_4 * 0.75f;
 - (BOOL)continueTrackingWithTouch:(UITouch*)touch withEvent:(UIEvent*)event
 {
     BOOL shouldEndTracking = NO;
@@ -765,6 +786,24 @@ static const float kSelectedOffset = -6.5f;
     float dy = pt.y  - self.container.center.y;
     float ang = atan2(dy,dx);
     float angleDifference = _deltaAngle - ang;
+
+    // cap the new angleDifference by max angle increment
+    float angleIncr = _prevAngle - ang;
+    _prevAngle = ang;
+    if(angleIncr > kMaxAngleIncrPerTracking)
+    {
+        ang = _prevAngle;
+        shouldEndTracking = YES;
+        angleDifference = _prevAngle - ang;
+        NSLog(@"big diff! %f", angleIncr);
+    }
+    else if (angleIncr < -kMaxAngleIncrPerTracking)
+    {
+        ang = _prevAngle;
+        shouldEndTracking = YES;
+        angleDifference = _prevAngle - ang;
+        NSLog(@"big negative diff! %f", angleIncr);
+    }
     CGAffineTransform newTransform = CGAffineTransformRotate(_startTransform, -angleDifference);
         
     unsigned int numItems = [self.dataSource numItemsInWheel:self];
@@ -835,8 +874,7 @@ static const float kSelectedOffset = -6.5f;
     self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform];
     _prevIndex = self.selectedSlice;
     self.selectedSlice = newSelectedSlice;
-    _prevAngle = ang;
-        
+    
     if(shouldEndTracking && _springEngaged)
     {
         beaconSlot = _springBeaconSlot;
