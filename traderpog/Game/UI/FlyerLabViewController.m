@@ -112,11 +112,8 @@ static const float kContentBorderCornerRadius = 8.0f;
 {
     if([self flyer])
     {
-        if([[FlyerLabFactory getInstance] maxUpgradeTier] > [self.flyer curUpgradeTier])
-        {
-            FlyerCustomize* next = [[FlyerCustomize alloc] initWithFlyer:self.flyer];
-            [self.navigationController pushFadeInViewController:next animated:YES];
-        }
+        FlyerCustomize* next = [[FlyerCustomize alloc] initWithFlyer:self.flyer];
+        [self.navigationController pushFadeInViewController:next animated:YES];
     }
 }
 
