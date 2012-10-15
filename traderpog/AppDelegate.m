@@ -120,6 +120,7 @@ static const CGFloat SOUNDLOOP_INTERVAL_SECS = 1.0f / 30.0f;
     [[AsyncHttpCallMgr getInstance] applicationDidEnterBackground];
     [[FlyerMgr getInstance] saveFlyerMgrData];
     [[Player getInstance] appDidEnterBackground];
+    [[GameManager getInstance] applicationDidEnterBackground];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
