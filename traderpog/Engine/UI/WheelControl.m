@@ -18,6 +18,7 @@
 #import "PogUIUtility.h"
 #import "WheelBubble.h"
 #import "LabelCircle.h"
+#import "SoundManager.h"
 #import <QuartzCore/QuartzCore.h>
 
 enum kWheelStates
@@ -706,12 +707,17 @@ static const float kSelectedOffset = -6.5f;
 {
     [self hideWheelAnimated:YES withDelay:0.0f];
     [self.delegate wheel:self didPressOkOnIndex:[self selectedSlice]];
+    
+    [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_UP_Longer"];
 }
 
 - (void) didCloseInPreview:(id)sender
 {
     [self hideWheelAnimated:YES withDelay:0.0f];
     [self.delegate wheel:self didPressCloseOnIndex:[self selectedSlice]];
+    
+    [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_up"];
+
 }
 
 #pragma mark - UIControl

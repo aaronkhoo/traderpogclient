@@ -1009,14 +1009,17 @@ static const float kInfoBorderWidth = 4.0f;
     switch(index)
     {
         case kKnobSliceFlyer:
+            [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level1"];
             [self.flyerWheel showWheelAnimated:YES withDelay:0.0f];
             break;
                   
         case kKnobSliceBeacon:
+            [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level1"];
             [self.beaconWheel showWheelAnimated:YES withDelay:0.0f];
             break;
             
         case kKnobSlicePost:
+            [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level1"];
             [self.postWheel showWheelAnimated:YES withDelay:0.0f];
             break;
             

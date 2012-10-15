@@ -10,6 +10,7 @@
 #import "KnobSlice.h"
 #import "PogUIUtility.h"
 #import "CircleView.h"
+#import "SoundManager.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const float kRenderOffsetFactor = 1.0f; // offset angle is this factor multiplied with sliceWidth 
@@ -394,12 +395,19 @@ static const float kKnobButtonFrac = 0.4f;
                     newVal = M_PI + radians;
                 }
                 self.selectedSlice = index;
+                
+                // Play sound
+                [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_Scroll"];
+                break;
             }
         }
         else if ((radians > cur.minAngle) && (radians < cur.maxAngle)) 
         {
             newVal = radians - cur.midAngle;
             self.selectedSlice = index;
+            
+            // Play sound
+            [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_Scroll"];
 			break;
         }
         ++index;
