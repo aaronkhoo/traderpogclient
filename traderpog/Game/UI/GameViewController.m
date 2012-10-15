@@ -591,8 +591,8 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 - (void) didPressInfo:(id)sender
 {
     [self.mapControl deselectAllAnnotations];
-    [self.view addSubview:self.info.view];
-    [self.infoCircle setHidden:YES];
+    [self.info presentInView:self.view belowSubview:self.infoCircle animated:YES];
+    [self hideInfoCircleAnimated:YES];
 }
 
 - (void) dismissInfo
@@ -600,6 +600,49 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     if([self.infoCircle isHidden])
     {
         [self dismissModalView:self.info.view withModalId:kInfoCloseId];
+    }
+}
+
+- (void) hideInfoCircleAnimated:(BOOL)isAnimated
+{
+    if(![self.infoCircle isHidden])
+    {
+        if(isAnimated)
+        {
+            [UIView animateWithDuration:0.1f
+                             animations:^(void){
+                                 [self.infoCircle setTransform:CGAffineTransformMakeScale(0.1f, 0.1f)];
+                             }
+                             completion:^(BOOL finished){
+                                 [self.infoCircle setHidden:YES];
+                             }];
+        }
+        else
+        {
+            [self.infoCircle setHidden:YES];
+        }
+    }
+}
+
+- (void) showInfoCircleAnimated:(BOOL)isAnimated
+{
+    if([self.infoCircle isHidden])
+    {
+        if(isAnimated)
+        {
+            [self.infoCircle setHidden:NO];
+            [self.infoCircle setTransform:CGAffineTransformMakeScale(0.1f, 0.1f)];
+            [UIView animateWithDuration:0.2f
+                             animations:^(void){
+                                 [self.infoCircle setTransform:CGAffineTransformMakeScale(1.0f, 1.0f)];
+                             }
+                             completion:nil];
+        }
+        else
+        {
+            [self.infoCircle setTransform:CGAffineTransformMakeScale(1.0f, 1.0f)];
+            [self.infoCircle setHidden:NO];
+        }        
     }
 }
 
@@ -622,8 +665,8 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 }
 
 static const float kInfoSize = 60.0f;
-static const float kInfoXOffset = -5.0f;
-static const float kInfoYOffset = 10.0f;
+static const float kInfoXOffset = -8.0f;
+static const float kInfoYOffset = 9.0f;
 static const float kInfoBorderWidth = 4.0f;
 - (void) initHud:(CGFloat)heightChange
 {
@@ -845,27 +888,33 @@ static const float kInfoBorderWidth = 4.0f;
 
 - (void) dismissModalView:(UIView *)viewToDismiss withModalId:(NSString *const)modalId
 {
-    [viewToDismiss removeFromSuperview];
-    
     if([modalId isEqualToString:kInfoCloseId])
     {
-        [self.infoCircle setHidden:NO];
+        [self.info dismissAnimated:YES];
+        [self showInfoCircleAnimated:YES];
     }
     else if([modalId isEqualToString:kInfoLeaderboardId])
     {
-        [self.infoCircle setHidden:NO];
+        [self.info dismissAnimated:YES];
+        [self showInfoCircleAnimated:YES];
         LeaderboardsScreen* leaderboards = [[LeaderboardsScreen alloc] initWithNibName:@"LeaderboardsScreen" bundle:nil];
         [self.navigationController pushFromRightViewController:leaderboards animated:YES];
     }
     else if([modalId isEqualToString:kInfoMembershipId])
     {
-        [self.infoCircle setHidden:NO];
+        [self.info dismissAnimated:YES];
+        [self showInfoCircleAnimated:YES];
         GuildMembershipUI* guildmembership = [[GuildMembershipUI alloc] initWithNibName:@"GuildMembershipUI" bundle:nil];
         [self.navigationController pushFromRightViewController:guildmembership animated:YES];
     }
     else if([modalId isEqualToString:kInfoMoreId])
     {
-        [self.infoCircle setHidden:NO];
+        [self.info dismissAnimated:YES];
+        [self showInfoCircleAnimated:YES];
+    }
+    else
+    {
+        [viewToDismiss removeFromSuperview];
     }
 }
 

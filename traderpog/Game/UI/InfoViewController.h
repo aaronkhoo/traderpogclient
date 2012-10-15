@@ -23,4 +23,7 @@ extern NSString* const kInfoCloseId;
 @property (weak, nonatomic) IBOutlet CircleButton *moreCircle;
 
 - (id) initWithCenterFrame:(CGRect)centerFrame delegate:(NSObject<ModalNavDelegate>*)delegate;
+
+- (void) presentInView:(UIView*)parentView belowSubview:(UIView*)subview animated:(BOOL)isAnimated;
+- (void) dismissAnimated:(BOOL)isAnimated;
 @end

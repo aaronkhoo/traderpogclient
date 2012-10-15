@@ -11,6 +11,7 @@
 #import "CircleButton.h"
 #import "LeaderboardsScreen.h"
 #import "GuildMembershipUI.h"
+#import "GameColors.h"
 #import <QuartzCore/QuartzCore.h>
 
 NSString* const kInfoViewModalId = @"InfoViewModal";
@@ -19,7 +20,9 @@ NSString* const kInfoMembershipId = @"InfoMembership";
 NSString* const kInfoMoreId = @"InfoMore";
 NSString* const kInfoCloseId = @"InfoClose";
 
-static const float kCircleDist = 47.5f;
+static const float kCircleDist = 72.0f;
+static const float kCloseBorderWidth = 4.0f;
+static const float kBorderWidth = 5.0f;
 
 @interface InfoViewController ()
 {
@@ -64,20 +67,19 @@ static const float kCircleDist = 47.5f;
     [self.moreCircle setButtonTarget:self action:@selector(didPressMore:)];
     
     // distribute sub-circles equidistance from center
-    [self.leaderboardsCircle setFrame:self.closeCircle.frame];
-    [self.memberCircle setFrame:self.closeCircle.frame];
-    [self.moreCircle setFrame:self.closeCircle.frame];
+    CGRect subCircleFrame = [PogUIUtility createCenterFrameWithSize:self.leaderboardsCircle.frame.size inFrame:self.closeCircle.frame];
+    [self.leaderboardsCircle setFrame:subCircleFrame];
+    [self.memberCircle setFrame:subCircleFrame];
+    [self.moreCircle setFrame:subCircleFrame];
     
-    CGPoint downVec = CGPointMake(0.0f, kCircleDist);
-    CGAffineTransform leaderTransform = CGAffineTransformMakeRotation(2.2f * M_PI_4);
-    CGAffineTransform memberTransform = CGAffineTransformMakeRotation(M_PI_4);
-    CGAffineTransform moreTransform = CGAffineTransformMakeRotation(-0.2f * M_PI_4);
-    CGPoint leaderVec = CGPointApplyAffineTransform(downVec, leaderTransform);
-    [self.leaderboardsCircle setTransform:CGAffineTransformMakeTranslation(leaderVec.x, leaderVec.y)];
-    CGPoint memberVec = CGPointApplyAffineTransform(downVec, memberTransform);
-    [self.memberCircle setTransform:CGAffineTransformMakeTranslation(memberVec.x, memberVec.y)];
-    CGPoint moreVec = CGPointApplyAffineTransform(downVec, moreTransform);
-    [self.moreCircle setTransform:CGAffineTransformMakeTranslation(moreVec.x, moreVec.y)];
+    [self.closeCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
+    [self.closeCircle setBorderWidth:kCloseBorderWidth];
+    [self.leaderboardsCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
+    [self.leaderboardsCircle setBorderWidth:kBorderWidth];
+    [self.memberCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
+    [self.memberCircle setBorderWidth:kBorderWidth];
+    [self.moreCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
+    [self.moreCircle setBorderWidth:kBorderWidth];
 }
 
 - (void)didReceiveMemoryWarning
@@ -96,6 +98,221 @@ static const float kCircleDist = 47.5f;
     [self setMemberCircle:nil];
     [self setMoreCircle:nil];
     [super viewDidUnload];
+}
+
+- (void) presentInView:(UIView *)parentView belowSubview:(UIView*)subview animated:(BOOL)isAnimated
+{
+    if(subview)
+    {
+        [parentView insertSubview:self.view belowSubview:subview];
+    }
+    else
+    {
+        [parentView addSubview:self.view];
+    }
+
+    CGPoint downVec = CGPointMake(0.0f, kCircleDist * 1.1f);
+    CGPoint downVec2 = CGPointMake(0.0f, kCircleDist);
+    CGAffineTransform leaderTransform = CGAffineTransformMakeRotation(2.15f * M_PI_4);
+    CGAffineTransform memberTransform = CGAffineTransformMakeRotation(M_PI_4);
+    CGAffineTransform moreTransform = CGAffineTransformMakeRotation(-0.15f * M_PI_4);
+    CGPoint leaderVec = CGPointApplyAffineTransform(downVec, leaderTransform);
+    CGPoint leaderVec2 = CGPointApplyAffineTransform(downVec2, leaderTransform);
+    CGPoint memberVec = CGPointApplyAffineTransform(downVec, memberTransform);
+    CGPoint memberVec2 = CGPointApplyAffineTransform(downVec2, memberTransform);
+    CGPoint moreVec = CGPointApplyAffineTransform(downVec, moreTransform);
+    CGPoint moreVec2 = CGPointApplyAffineTransform(downVec2, moreTransform);
+    
+    if(isAnimated)
+    {
+        static const float kOutwardDur = 0.1f;
+        static const float kBounceDur = 0.05f;
+        static const float kSpacingDur = 0.02f;
+        
+        [self.closeCircle setTransform:CGAffineTransformMakeScale(0.1f, 0.1f)];
+        [UIView animateWithDuration:0.2f
+                         animations:^(void){
+                             [self.closeCircle setTransform:CGAffineTransformMakeScale(1.0f, 1.0f)];
+                         }
+                         completion:nil];
+        
+        [self.leaderboardsCircle setTransform:CGAffineTransformMakeScale(0.1f, 0.1f)];
+        [UIView animateWithDuration:kOutwardDur
+                              delay:0.0f
+                            options:UIViewAnimationCurveEaseIn
+                         animations:^(void){
+                             CGAffineTransform s = CGAffineTransformMakeScale(1.8f, 1.8f);
+                             CGAffineTransform t = CGAffineTransformTranslate(s, leaderVec.x, leaderVec.y);
+                             [self.leaderboardsCircle setTransform:t];
+                         }
+                         completion:^(BOOL finished){
+                             if(finished)
+                             {
+                                 [UIView animateWithDuration:kBounceDur
+                                                       delay:0.0f
+                                                     options:UIViewAnimationCurveEaseIn
+                                                  animations:^(void){
+                                                      CGAffineTransform s = CGAffineTransformMakeScale(1.0f, 1.0f);
+                                                      CGAffineTransform t = CGAffineTransformTranslate(s, leaderVec2.x, leaderVec2.y);
+                                                      [self.leaderboardsCircle setTransform:t];
+                                                  }
+                                                  completion:nil];
+                             }
+                         }];
+        
+        [self.memberCircle setTransform:CGAffineTransformMakeScale(0.1f, 0.1f)];
+        [UIView animateWithDuration:kOutwardDur
+                              delay:kSpacingDur
+                            options:UIViewAnimationCurveEaseIn
+                         animations:^(void){
+                             CGAffineTransform s = CGAffineTransformMakeScale(1.8f, 1.8f);
+                             CGAffineTransform t = CGAffineTransformTranslate(s, memberVec.x, memberVec.y);
+                             [self.memberCircle setTransform:t];
+                         }
+                         completion:^(BOOL finished){
+                             if(finished)
+                             {
+                                 [UIView animateWithDuration:kBounceDur
+                                                       delay:0.0f
+                                                     options:UIViewAnimationCurveEaseIn
+                                                  animations:^(void){
+                                                      CGAffineTransform s = CGAffineTransformMakeScale(1.0f, 1.0f);
+                                                      CGAffineTransform t = CGAffineTransformTranslate(s, memberVec2.x, memberVec2.y);
+                                                      [self.memberCircle setTransform:t];
+                                                  }
+                                                  completion:nil];
+                             }
+                         }];
+        
+        [self.moreCircle setTransform:CGAffineTransformMakeScale(0.1f, 0.1f)];
+        [UIView animateWithDuration:kOutwardDur
+                              delay:kSpacingDur * 2.0f
+                            options:UIViewAnimationCurveEaseIn
+                         animations:^(void){
+                             CGAffineTransform s = CGAffineTransformMakeScale(1.8f, 1.8f);
+                             CGAffineTransform t = CGAffineTransformTranslate(s, moreVec.x, moreVec.y);
+                             [self.moreCircle setTransform:t];
+                         }
+                         completion:^(BOOL finished){
+                             if(finished)
+                             {
+                                 [UIView animateWithDuration:kBounceDur
+                                                       delay:0.0f
+                                                     options:UIViewAnimationCurveEaseIn
+                                                  animations:^(void){
+                                                      CGAffineTransform s = CGAffineTransformMakeScale(1.0f, 1.0f);
+                                                      CGAffineTransform t = CGAffineTransformTranslate(s, moreVec2.x, moreVec2.y);
+                                                      [self.moreCircle setTransform:t];
+                                                  }
+                                                  completion:nil];
+                             }
+                         }];
+    }
+    else
+    {
+        [self.closeCircle setTransform:CGAffineTransformMakeScale(1.0f, 1.0f)];
+
+        CGAffineTransform s = CGAffineTransformMakeScale(1.0f, 1.0f);
+        [self.leaderboardsCircle setTransform:CGAffineTransformTranslate(s, leaderVec2.x, leaderVec2.y)];
+        [self.memberCircle setTransform:CGAffineTransformTranslate(s, memberVec2.x, memberVec2.y)];
+        [self.moreCircle setTransform:CGAffineTransformTranslate(s, moreVec2.x, moreVec2.y)];
+    }
+}
+
+- (void) dismissAnimated:(BOOL)isAnimated
+{
+    CGPoint downVec = CGPointMake(0.0f, kCircleDist * 1.1f);
+    CGAffineTransform leaderTransform = CGAffineTransformMakeRotation(2.15f * M_PI_4);
+    CGAffineTransform memberTransform = CGAffineTransformMakeRotation(M_PI_4);
+    CGAffineTransform moreTransform = CGAffineTransformMakeRotation(-0.15f * M_PI_4);
+    CGPoint leaderVec = CGPointApplyAffineTransform(downVec, leaderTransform);
+    CGPoint memberVec = CGPointApplyAffineTransform(downVec, memberTransform);
+    CGPoint moreVec = CGPointApplyAffineTransform(downVec, moreTransform);
+    
+    if(isAnimated)
+    {
+        static const float kOutwardDur = 0.1f;
+        static const float kBounceDur = 0.05f;
+        static const float kSpacingDur = 0.02f;
+        
+        [UIView animateWithDuration:0.3f
+                         animations:^(void){
+                             [self.closeCircle setTransform:CGAffineTransformMakeScale(0.1f, 0.1f)];
+                         }
+                         completion:^(BOOL finished){
+                             [self.view removeFromSuperview];
+                         }];
+        
+        [UIView animateWithDuration:kBounceDur
+                              delay:0.0f
+                            options:UIViewAnimationCurveEaseIn
+                         animations:^(void){
+                             CGAffineTransform s = CGAffineTransformMakeScale(1.8f, 1.8f);
+                             CGAffineTransform t = CGAffineTransformTranslate(s, leaderVec.x, leaderVec.y);
+                             [self.leaderboardsCircle setTransform:t];
+                         }
+                         completion:^(BOOL finished){
+                             if(finished)
+                             {
+                                 [UIView animateWithDuration:kOutwardDur
+                                                       delay:0.0f
+                                                     options:UIViewAnimationCurveEaseIn
+                                                  animations:^(void){
+                                                      CGAffineTransform s = CGAffineTransformMakeScale(0.1f, 0.1f);
+                                                      [self.leaderboardsCircle setTransform:s];
+                                                  }
+                                                  completion:nil];
+                             }
+                         }];
+        
+        [UIView animateWithDuration:kBounceDur
+                              delay:kSpacingDur
+                            options:UIViewAnimationCurveEaseIn
+                         animations:^(void){
+                             CGAffineTransform s = CGAffineTransformMakeScale(1.8f, 1.8f);
+                             CGAffineTransform t = CGAffineTransformTranslate(s, memberVec.x, memberVec.y);
+                             [self.memberCircle setTransform:t];
+                         }
+                         completion:^(BOOL finished){
+                             if(finished)
+                             {
+                                 [UIView animateWithDuration:kOutwardDur
+                                                       delay:0.0f
+                                                     options:UIViewAnimationCurveEaseIn
+                                                  animations:^(void){
+                                                      CGAffineTransform s = CGAffineTransformMakeScale(0.1f, 0.1f);
+                                                      [self.memberCircle setTransform:s];
+                                                  }
+                                                  completion:nil];
+                             }
+                         }];
+        
+        [UIView animateWithDuration:kBounceDur
+                              delay:kSpacingDur * 2.0f
+                            options:UIViewAnimationCurveEaseIn
+                         animations:^(void){
+                             CGAffineTransform s = CGAffineTransformMakeScale(1.8f, 1.8f);
+                             CGAffineTransform t = CGAffineTransformTranslate(s, moreVec.x, moreVec.y);
+                             [self.moreCircle setTransform:t];
+                         }
+                         completion:^(BOOL finished){
+                             if(finished)
+                             {
+                                 [UIView animateWithDuration:kOutwardDur
+                                                       delay:0.0f
+                                                     options:UIViewAnimationCurveEaseIn
+                                                  animations:^(void){
+                                                      CGAffineTransform s = CGAffineTransformMakeScale(0.1f, 0.1f);
+                                                      [self.moreCircle setTransform:s];
+                                                  }
+                                                  completion:nil];
+                             }
+                         }];
+    }
+    else
+    {
+        [self.view removeFromSuperview];
+    }
 }
 
 #pragma mark - button actions
