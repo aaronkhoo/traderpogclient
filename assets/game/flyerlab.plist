@@ -159,146 +159,146 @@
 			<array>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_boost.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_boost_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_boost.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_boost_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_boost.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_boost_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_boost.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_pwing_boost_c3.png</string>
 				</dict>
 			</array>
 			<key>side</key>
 			<array>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_wing_landed.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_wing_landed_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_wing_landed_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_wing_landed_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_wing_aerokit.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_wing_aerokit_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_wing_aerokit_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_wing_aerokit_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_wing_aerokit.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_wing_aerokit_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_wing_aerokit_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_wing_aerokit_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_wing_booster.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_wing_booster_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_wing_booster_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_wing_booster_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_wing_booster.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_wing_booster_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_wing_booster_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_wing_booster_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_wing_booster.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_wing_booster_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_wing_booster_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_wing_booster_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_wing_booster.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_wing_booster_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_wing_booster_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_wing_booster_c3.png</string>
 				</dict>
 			</array>
 		</dict>
@@ -308,146 +308,146 @@
 			<array>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_rang.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_aero.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_aero_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_aero_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_aero_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_aero.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_aero_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_aero_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_aero_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_boost.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_boost_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_boost.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_boost_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_boost.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_boost_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_boost.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_rang_boost_c3.png</string>
 				</dict>
 			</array>
 			<key>side</key>
 			<array>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_rang_landed.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_rang_landed_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_rang_landed_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_rang_landed_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_rang_aero.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_rang_aero_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_rang_aero_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_rang_aero_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_rang_aero.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_rang_aero_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_rang_aero_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_rang_aero_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_rang_booster.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_rang_booster_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_rang_booster_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_rang_booster_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_rang_booster.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_rang_booster_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_rang_booster_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_rang_booster_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_rang_booster.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_rang_booster_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_rang_booster_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_rang_booster_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_rang_booster.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_rang_booster_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_rang_booster_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_rang_booster_c3.png</string>
 				</dict>
 			</array>
 		</dict>
@@ -530,73 +530,73 @@
 			<array>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_hornet_landed.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_hornet_landed_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_hornet_landed_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_hornet_landed_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_hornet_aerokit.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_hornet_aerokit_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_hornet_aerokit_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_hornet_aerokit_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_hornet_aerokit.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_hornet_aerokit_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_hornet_aerokit_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_hornet_aerokit_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_hornet_booster.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_hornet_booster_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_hornet_booster_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_hornet_booster_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_hornet_booster.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_hornet_booster_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_hornet_booster_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_hornet_booster_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_hornet_booster.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_hornet_booster_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_hornet_booster_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_hornet_booster_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_hornet_booster.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_hornet_booster_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_hornet_booster_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_hornet_booster_c3.png</string>
 				</dict>
 			</array>
 		</dict>
@@ -679,73 +679,73 @@
 			<array>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_frog.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_frog_landed_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_frog_landed_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_frog_landed_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_frog_aerokit.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_frog_aerokit_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_frog_aerokit_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_frog_aerokit_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_frog_aerokit.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_frog_aerokit_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_frog_aerokit_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_frog_aerokit_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_frog_booster.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_frog_booster_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_frog_booster_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_frog_booster_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_frog_booster.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_frog_booster_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_frog_booster_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_frog_booster_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_frog_booster.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_frog_booster_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_frog_booster_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_frog_booster_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_landed.png</string>
+					<string>flyer_frog_booster.png</string>
 					<key>color1</key>
-					<string>flyer_landed_color1.png</string>
+					<string>flyer_frog_booster_c1.png</string>
 					<key>color2</key>
-					<string>flyer_landed_color2.png</string>
+					<string>flyer_frog_booster_c2.png</string>
 					<key>color3</key>
-					<string>flyer_landed_color3.png</string>
+					<string>flyer_frog_booster_c3.png</string>
 				</dict>
 			</array>
 		</dict>
