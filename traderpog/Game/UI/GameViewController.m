@@ -40,6 +40,7 @@
 #import "InfoViewController.h"
 #import "LeaderboardsScreen.h"
 #import "GuildMembershipUI.h"
+#import "SoundManager.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -1021,6 +1022,9 @@ static const float kInfoBorderWidth = 4.0f;
             
         default:
         case kKnobSliceScan:
+            // play sound
+            [[SoundManager getInstance] playClip:@"Pog_SFX_Scanner"];
+            
             // TODO: make the visuals nicer?
             [_scanActivity setHidden:NO];
             [_scanActivity startAnimating];
