@@ -378,7 +378,11 @@ static const float kAccelViewYOffset = -94.0f;
         if((kFlyerStateLoaded == [flyer state]) ||
                 (kFlyerStateIdle == [flyer state]))
         {
-            [[GameManager getInstance] showHomeSelectForFlyer:flyer];
+            // TODO: Commented out from now since there's only one post for this release. Just send the
+            //       flyer straight to that single post.
+            // [[GameManager getInstance] showHomeSelectForFlyer:flyer];
+            
+            [[GameManager getInstance] sendFlyerHome:flyer];
         }
         else
         {

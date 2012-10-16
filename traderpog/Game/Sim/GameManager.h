@@ -56,6 +56,7 @@ typedef enum _BrowseEnforcedType
 - (void) validateConnectivity;
 - (void) selectNextGameUI;
 - (void) flyer:(Flyer*)flyer departForTradePost:(TradePost*)tradePost;
+- (void) sendFlyerHome:(Flyer *)flyer;
 
 // in-game UI
 - (void) showHomeSelectForFlyer:(Flyer*)flyer;

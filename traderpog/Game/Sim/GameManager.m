@@ -640,6 +640,12 @@ typedef enum {
     }
 }
 
+- (void) sendFlyerHome:(Flyer *)flyer
+{
+    [self flyer:flyer departForTradePost:[[TradePostMgr getInstance] getFirstMyTradePost]];
+    _gameState = kGameStateGameLoop;
+}
+
 #pragma mark - in-game UI
 - (void) showHomeSelectForFlyer:(Flyer *)flyer
 {

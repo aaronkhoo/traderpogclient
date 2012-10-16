@@ -32,9 +32,13 @@ NSString* const kFlyerCalloutViewReuseId = @"FlyerCalloutView";
 }
 
 - (IBAction)didPressHome:(id)sender
-{
+{    
     FlyerCallout* annot = (FlyerCallout*) [self annotation];
-    [[GameManager getInstance] showHomeSelectForFlyer:[annot flyer]];
+    [[GameManager getInstance] sendFlyerHome:[annot flyer]];
+    
+    // TODO: Commented out from now since there's only one post for this release. Just send the
+    //       flyer straight to that single post. 
+    //[[GameManager getInstance] showHomeSelectForFlyer:[annot flyer]];
 
     // halt all other callouts for a second so that we don't get touch-through callouts popping up when
     // player presses Go
