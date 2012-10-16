@@ -843,20 +843,7 @@ typedef enum {
             [alert show];
         }
         
-        //_gameStateRefreshedFromServer = TRUE;
-        //[self selectNextGameUI];
-        
-        // Pop the loading screen
-        AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-        UINavigationController* nav = appDelegate.navController;
-        UIViewController* current = [nav visibleViewController];
-        if([current isMemberOfClass:[LoadingScreen class]])
-        {
-            LoadingScreen* loadingScreen = (LoadingScreen*)current;
-            [loadingScreen dismissWithCompletion:^(void){
-                [nav popFadeOutViewControllerAnimated:NO];
-            }];
-        }
+        [self selectNextGameUI];
     }
     else if ([callName compare:kTradeItemTypes_ReceiveItems] == NSOrderedSame ||
         [callName compare:kFlyerTypes_ReceiveFlyers] == NSOrderedSame ||
