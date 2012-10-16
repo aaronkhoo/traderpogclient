@@ -1023,7 +1023,12 @@ static const float kInfoBorderWidth = 4.0f;
             
         case kKnobSlicePost:
             [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level1"];
-            [self.postWheel showWheelAnimated:YES withDelay:0.0f];
+            
+            // TODO: Disable wheel for posts. Just zoom straight to the single post owned by the player
+            // instead. Leave this in place for possible future enhancement.
+            //[self.postWheel showWheelAnimated:YES withDelay:0.0f];
+            
+            [[self mapControl] defaultZoomCenterOn:[[[TradePostMgr getInstance] getFirstMyTradePost] coord] animated:YES];
             break;
             
         default:
