@@ -352,7 +352,8 @@ static const float kPostTribute = 0.02;
         [[FlyerMgr getInstance] resetRefresh];
         [[BeaconMgr getInstance] resetRefresh];
         [[FlyerMgr getInstance] clearAllFlyers];
-        [[GameManager getInstance] resetGame];
+        [[GameManager getInstance] resetData];
+        [[GameManager getInstance] quitGame];
         [self getPlayerDataFromServerUsingFacebookId:FALSE];
     }
     else
