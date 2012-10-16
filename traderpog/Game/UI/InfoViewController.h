@@ -17,6 +17,10 @@ extern NSString* const kInfoCloseId;
 
 @class CircleButton;
 @interface InfoViewController : UIViewController
+{
+    CGRect _centerFrame;
+}
+@property (nonatomic) CGRect centerFrame;
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
 @property (weak, nonatomic) IBOutlet CircleButton *leaderboardsCircle;
 @property (weak, nonatomic) IBOutlet CircleButton *memberCircle;

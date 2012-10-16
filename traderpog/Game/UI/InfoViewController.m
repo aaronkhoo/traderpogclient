@@ -23,10 +23,11 @@ NSString* const kInfoCloseId = @"InfoClose";
 static const float kCircleDist = 72.0f;
 static const float kCloseBorderWidth = 4.0f;
 static const float kBorderWidth = 5.0f;
+static const float kBubbleOutScale = 1.4f;
+static const float kBubbleInitScale = 0.1f;
 
 @interface InfoViewController ()
 {
-    CGRect _centerFrame;
     __weak NSObject<ModalNavDelegate>* _delegate;
 }
 - (void) didPressLeaderboard:(id)sender;
@@ -35,7 +36,7 @@ static const float kBorderWidth = 5.0f;
 @end
 
 @implementation InfoViewController
-
+@synthesize centerFrame = _centerFrame;
 - (id)initWithCenterFrame:(CGRect)centerFrame delegate:(NSObject<ModalNavDelegate> *)delegate
 {
     self = [super initWithNibName:@"InfoViewController" bundle:nil];
@@ -129,19 +130,19 @@ static const float kBorderWidth = 5.0f;
         static const float kBounceDur = 0.05f;
         static const float kSpacingDur = 0.02f;
         
-        [self.closeCircle setTransform:CGAffineTransformMakeScale(0.1f, 0.1f)];
+        [self.closeCircle setTransform:CGAffineTransformMakeScale(kBubbleInitScale, kBubbleInitScale)];
         [UIView animateWithDuration:0.2f
                          animations:^(void){
                              [self.closeCircle setTransform:CGAffineTransformMakeScale(1.0f, 1.0f)];
                          }
                          completion:nil];
         
-        [self.leaderboardsCircle setTransform:CGAffineTransformMakeScale(0.1f, 0.1f)];
+        [self.leaderboardsCircle setTransform:CGAffineTransformMakeScale(kBubbleInitScale, kBubbleInitScale)];
         [UIView animateWithDuration:kOutwardDur
                               delay:0.0f
                             options:UIViewAnimationCurveEaseIn
                          animations:^(void){
-                             CGAffineTransform s = CGAffineTransformMakeScale(1.8f, 1.8f);
+                             CGAffineTransform s = CGAffineTransformMakeScale(kBubbleOutScale, kBubbleOutScale);
                              CGAffineTransform t = CGAffineTransformTranslate(s, leaderVec.x, leaderVec.y);
                              [self.leaderboardsCircle setTransform:t];
                          }
@@ -160,12 +161,12 @@ static const float kBorderWidth = 5.0f;
                              }
                          }];
         
-        [self.memberCircle setTransform:CGAffineTransformMakeScale(0.1f, 0.1f)];
+        [self.memberCircle setTransform:CGAffineTransformMakeScale(kBubbleInitScale, kBubbleInitScale)];
         [UIView animateWithDuration:kOutwardDur
                               delay:kSpacingDur
                             options:UIViewAnimationCurveEaseIn
                          animations:^(void){
-                             CGAffineTransform s = CGAffineTransformMakeScale(1.8f, 1.8f);
+                             CGAffineTransform s = CGAffineTransformMakeScale(kBubbleOutScale, kBubbleOutScale);
                              CGAffineTransform t = CGAffineTransformTranslate(s, memberVec.x, memberVec.y);
                              [self.memberCircle setTransform:t];
                          }
@@ -184,12 +185,12 @@ static const float kBorderWidth = 5.0f;
                              }
                          }];
         
-        [self.moreCircle setTransform:CGAffineTransformMakeScale(0.1f, 0.1f)];
+        [self.moreCircle setTransform:CGAffineTransformMakeScale(kBubbleInitScale, kBubbleInitScale)];
         [UIView animateWithDuration:kOutwardDur
                               delay:kSpacingDur * 2.0f
                             options:UIViewAnimationCurveEaseIn
                          animations:^(void){
-                             CGAffineTransform s = CGAffineTransformMakeScale(1.8f, 1.8f);
+                             CGAffineTransform s = CGAffineTransformMakeScale(kBubbleOutScale, kBubbleOutScale);
                              CGAffineTransform t = CGAffineTransformTranslate(s, moreVec.x, moreVec.y);
                              [self.moreCircle setTransform:t];
                          }

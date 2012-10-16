@@ -73,6 +73,7 @@ enum kKnobSlices
     GameEventView *_gameEventNote;
     NSDate* _gameEventDisplayBegin;
     
+    CGRect _infoRect;
     CircleButton* _infoCircle;
     InfoViewController* _info;
     
@@ -678,10 +679,10 @@ static const float kInfoBorderWidth = 4.0f;
     [self.view addSubview:[self hud]];
     
     // info
-    CGRect infoCircleRect = CGRectMake(parentRect.size.width - kInfoSize + kInfoXOffset,
-                                       kInfoYOffset,
-                                       kInfoSize, kInfoSize);
-    self.infoCircle = [[CircleButton alloc] initWithFrame:infoCircleRect];
+    _infoRect = CGRectMake(parentRect.size.width - kInfoSize + kInfoXOffset,
+                           kInfoYOffset,
+                           kInfoSize, kInfoSize);
+    self.infoCircle = [[CircleButton alloc] initWithFrame:_infoRect];
     [self.infoCircle setBackgroundColor:[GameColors bubbleColorScanWithAlpha:1.0f]];
     [self.infoCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.infoCircle setBorderWidth:kInfoBorderWidth];
@@ -694,7 +695,7 @@ static const float kInfoBorderWidth = 4.0f;
     [infoLabel setTextColor:[GameColors gliderWhiteWithAlpha:1.0f]];
     [self.infoCircle addSubview:infoLabel];
     [self.view addSubview:[self infoCircle]];
-    self.info = [[InfoViewController alloc] initWithCenterFrame:infoCircleRect delegate:self];
+    self.info = [[InfoViewController alloc] initWithCenterFrame:_infoRect delegate:self];
     
     // game event notifications
     CGRect noteFrame = CGRectMake(0.0f, heightChange, parentRect.size.width, parentRect.size.height - heightChange);
@@ -878,6 +879,7 @@ static const float kInfoBorderWidth = 4.0f;
     modal.delegate = self;
     
     [self dismissKnobAnimated:YES];
+    [self hideInfoCircleAnimated:YES];
 }
 
 #pragma mark - ModalNavDelegate
@@ -885,6 +887,7 @@ static const float kInfoBorderWidth = 4.0f;
 {
     [self.modalNav.view setHidden:YES];
     [self showKnobAnimated:YES delay:0.0f];
+    [self showInfoCircleAnimated:YES];
 }
 
 - (void) dismissModalView:(UIView *)viewToDismiss withModalId:(NSString *const)modalId
@@ -1099,33 +1102,15 @@ static const float kInfoBorderWidth = 4.0f;
 #pragma mark - Functions for shifting positions of the UI elements
 - (void) storeOriginalYPositions
 {
-    // Store the original position of the debug button
-    UIButton* dbgButton = [self debugButton];
-    _debugmenu_y_origin = dbgButton.frame.origin.y;
-    
-    // Store original position of versionlabel
-    UILabel* versionLabel = [self versionLabel];
-    _versionlabel_y_origin = versionLabel.frame.origin.y;
 }
 
 - (void) shiftUIElements:(CGFloat)delta
 {
-    /*
-    CGFloat newDbgButtonPosition = _debugmenu_y_origin + delta;
-    UIButton* dbgButton = [self debugButton];
-    if (dbgButton.frame.origin.y != newDbgButtonPosition)
-    {
-        dbgButton.frame = CGRectMake(dbgButton.frame.origin.x, newDbgButtonPosition, dbgButton.frame.size.width, dbgButton.frame.size.height);
-    }
-    
-    CGFloat newVersionLabelPosition = _versionlabel_y_origin + delta;
-    UILabel* versionLabel = [self versionLabel];
-    if (versionLabel.frame.origin.y != newVersionLabelPosition)
-    {
-        versionLabel.frame = CGRectMake(versionLabel.frame.origin.x, newVersionLabelPosition, versionLabel.frame.size.width, versionLabel.frame.size.height);    
-    }
-    */
     [[self hud] shiftHudPosition:delta];
+    CGRect shiftedInfoRect = CGRectMake(_infoRect.origin.x, _infoRect.origin.y + delta,
+                                        _infoRect.size.width, _infoRect.size.height);
+    [self.infoCircle setFrame:shiftedInfoRect];
+    [self.info setCenterFrame:shiftedInfoRect];
 }
 
 @end
