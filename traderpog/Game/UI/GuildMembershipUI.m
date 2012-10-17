@@ -10,9 +10,13 @@
 #import "GuildMembershipUI.h"
 #import "MBProgressHUD.h"
 #import "ProductManager.h"
+#import "CircleButton.h"
+#import "GameColors.h"
+#import "PogUIUtility.h"
+#import "Player.h"
 
 @interface GuildMembershipUI ()
-
+- (void)didPressClose:(id)sender;
 @end
 
 @implementation GuildMembershipUI
@@ -22,16 +26,23 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if (self)
+    {
     }
     return self;
+}
+
+- (void) dealloc
+{
+    NSLog(@"GuildMembershipUI dealloc");
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    [self.closeCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
+    [self.closeCircle setButtonTarget:self action:@selector(didPressClose:)];
+    [self.productContainer setHidden:YES];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -71,7 +82,7 @@
     }
 }
 
-- (IBAction)didPressClose:(id)sender
+- (void)didPressClose:(id)sender
 {
     [self.navigationController popToRightViewControllerAnimated:YES];
 }
@@ -86,17 +97,49 @@
 
 #pragma mark - private functions
 
+- (void)refreshForMember
+{
+    if([[Player getInstance] isMember])
+    {
+        // already a member
+        NSString* joinedTxt = @"JOINED";
+        [self.priceLabel1 setText:joinedTxt];
+        [self.priceLabelLimited setText:joinedTxt];
+        [self.purchaseButtonImageView setImage:[UIImage imageNamed:@"icon_member_joined.png"]];
+        [self.buyButton setHidden:YES];
+        [self.limitedOfferView setHidden:YES];
+    }
+}
 - (void)displayProducts
 {
     SKProduct* product = [[[ProductManager getInstance] productsArray] objectAtIndex:0];
-    testText.text = [NSString stringWithFormat:@"%@\n%@\n%@", product.localizedTitle, product.localizedDescription, product.price];
-    if ([[ProductManager getInstance] canMakePurchases])
+    [self.productLabel1 setText:product.localizedTitle];
+    [self.productContainer setHidden:NO];
+
+    if([[Player getInstance] isMember])
     {
-        [buyButton setHidden:FALSE];
+        // already a member
+        [self refreshForMember];
     }
     else
     {
-        NSLog(@"Current account cannot make purchases");
+        NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+        [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+        [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+        [numberFormatter setLocale:product.priceLocale];
+        NSString *formattedString = [numberFormatter stringFromNumber:product.price];
+        [self.priceLabel1 setText:formattedString];
+        [self.priceLabelLimited setText:formattedString];
+        [self.purchaseButtonImageView setImage:[UIImage imageNamed:@"icon_member_join_frame.png"]];
+        if ([[ProductManager getInstance] canMakePurchases])
+        {
+            [buyButton setHidden:FALSE];
+            [self.limitedOfferView setHidden:NO];
+        }
+        else
+        {
+            NSLog(@"Current account cannot make purchases");
+        }        
     }
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
@@ -137,6 +180,7 @@
                                           cancelButtonTitle:@"Ok"
                                           otherButtonTitles:nil];
     [alert show];
+    [self refreshForMember];
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
@@ -146,4 +190,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidUnload {
+    [self setCloseCircle:nil];
+    [self setProductLabel1:nil];
+    [self setProductContainer:nil];
+    [self setPriceLabel1:nil];
+    [self setPriceLabelLimited:nil];
+    [self setPurchaseButtonImageView:nil];
+    [self setLimitedOfferView:nil];
+    [super viewDidUnload];
+}
 @end

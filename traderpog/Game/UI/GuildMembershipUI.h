@@ -8,11 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@class CircleButton;
 @interface GuildMembershipUI : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel* testText;
 @property (weak, nonatomic) IBOutlet UIButton* buyButton;
+@property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
+@property (weak, nonatomic) IBOutlet UILabel *productLabel1;
+@property (weak, nonatomic) IBOutlet UILabel *priceLabel1;
+@property (weak, nonatomic) IBOutlet UIView *productContainer;
+@property (weak, nonatomic) IBOutlet UILabel *priceLabelLimited;
+@property (weak, nonatomic) IBOutlet UIImageView *purchaseButtonImageView;
+@property (weak, nonatomic) IBOutlet UIView *limitedOfferView;
 
-- (IBAction)didPressClose:(id)sender;
 - (IBAction)didPressBuy:(id)sender;
 
 @end

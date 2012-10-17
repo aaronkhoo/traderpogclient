@@ -33,6 +33,7 @@ static const float kBubbleInitScale = 0.1f;
 - (void) didPressLeaderboard:(id)sender;
 - (void) didPressMember:(id)sender;
 - (void) didPressMore:(id)sender;
+- (void) refreshSubframesWithFrame:(CGRect)targetFrame;
 @end
 
 @implementation InfoViewController
@@ -59,8 +60,8 @@ static const float kBubbleInitScale = 0.1f;
     [super viewDidLoad];
     
     // set up the frame so that it places right where the info button is
-    CGRect infoRect = [PogUIUtility createCenterFrameWithSize:self.view.bounds.size inFrame:_centerFrame];
-    self.view.frame = infoRect;
+    //CGRect infoRect = [PogUIUtility createCenterFrameWithSize:self.view.bounds.size inFrame:_centerFrame];
+    //self.view.frame = infoRect;
     
     [self.closeCircle setButtonTarget:self action:@selector(didPressClose:)];
     [self.leaderboardsCircle setButtonTarget:self action:@selector(didPressLeaderboard:)];
@@ -68,10 +69,13 @@ static const float kBubbleInitScale = 0.1f;
     [self.moreCircle setButtonTarget:self action:@selector(didPressMore:)];
     
     // distribute sub-circles equidistance from center
+    /*
     CGRect subCircleFrame = [PogUIUtility createCenterFrameWithSize:self.leaderboardsCircle.frame.size inFrame:self.closeCircle.frame];
     [self.leaderboardsCircle setFrame:subCircleFrame];
     [self.memberCircle setFrame:subCircleFrame];
     [self.moreCircle setFrame:subCircleFrame];
+    */
+    [self refreshSubframesWithFrame:_centerFrame];
     
     [self.closeCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.closeCircle setBorderWidth:kCloseBorderWidth];
@@ -111,6 +115,7 @@ static const float kBubbleInitScale = 0.1f;
     {
         [parentView addSubview:self.view];
     }
+    [self refreshSubframesWithFrame:_centerFrame];
 
     CGPoint downVec = CGPointMake(0.0f, kCircleDist * 1.1f);
     CGPoint downVec2 = CGPointMake(0.0f, kCircleDist);
@@ -312,8 +317,27 @@ static const float kBubbleInitScale = 0.1f;
     }
     else
     {
+        CGAffineTransform s = CGAffineTransformMakeScale(0.1f, 0.1f);
+        [self.leaderboardsCircle setTransform:s];
+        [self.memberCircle setTransform:s];
+        [self.moreCircle setTransform:s];
+
         [self.view removeFromSuperview];
     }
+}
+
+- (void) refreshSubframesWithFrame:(CGRect)targetFrame
+{
+    // set up the frame so that it places right where the info button is
+    CGRect infoRect = [PogUIUtility createCenterFrameWithSize:self.view.bounds.size inFrame:targetFrame];
+    self.view.frame = infoRect;
+
+    // distribute sub-circles equidistance from center
+    CGRect subCircleFrame = [PogUIUtility createCenterFrameWithSize:self.leaderboardsCircle.frame.size inFrame:self.closeCircle.frame];
+    [self.leaderboardsCircle setFrame:subCircleFrame];
+    [self.leaderboardsCircle setTransform:CGAffineTransformIdentity];
+    [self.memberCircle setFrame:subCircleFrame];
+    [self.moreCircle setFrame:subCircleFrame];
 }
 
 #pragma mark - button actions

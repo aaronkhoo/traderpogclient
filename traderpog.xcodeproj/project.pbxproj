@@ -75,6 +75,9 @@
 		42094DB615C9B236001FA77D /* WheelBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB015C9B235001FA77D /* WheelBubble.m */; };
 		42094DB715C9B236001FA77D /* WheelControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB215C9B236001FA77D /* WheelControl.m */; };
 		42094DB815C9B236001FA77D /* WheelSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB515C9B236001FA77D /* WheelSlice.m */; };
+		4213B03D162E80070014DDFB /* icon_member_blue_shop.png in Resources */ = {isa = PBXBuildFile; fileRef = 4213B03C162E80070014DDFB /* icon_member_blue_shop.png */; };
+		4213B041162E86F90014DDFB /* icon_member_join_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 4213B03F162E86F90014DDFB /* icon_member_join_frame.png */; };
+		4213B042162E86F90014DDFB /* icon_member_joined.png in Resources */ = {isa = PBXBuildFile; fileRef = 4213B040162E86F90014DDFB /* icon_member_joined.png */; };
 		421564D115F6A1AB00AAE851 /* LabelCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 421564D015F6A1AB00AAE851 /* LabelCircle.m */; };
 		421564D415F6B1C000AAE851 /* icon_none_member.png in Resources */ = {isa = PBXBuildFile; fileRef = 421564D315F6B1C000AAE851 /* icon_none_member.png */; };
 		421564DA15F6B2E400AAE851 /* pogbuilding_001.png in Resources */ = {isa = PBXBuildFile; fileRef = 421564D615F6B2E400AAE851 /* pogbuilding_001.png */; };
@@ -492,6 +495,9 @@
 		42094DB315C9B236001FA77D /* WheelProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WheelProtocol.h; sourceTree = "<group>"; };
 		42094DB415C9B236001FA77D /* WheelSlice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WheelSlice.h; sourceTree = "<group>"; };
 		42094DB515C9B236001FA77D /* WheelSlice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WheelSlice.m; sourceTree = "<group>"; };
+		4213B03C162E80070014DDFB /* icon_member_blue_shop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_member_blue_shop.png; path = assets/UI/icon_member_blue_shop.png; sourceTree = SOURCE_ROOT; };
+		4213B03F162E86F90014DDFB /* icon_member_join_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_member_join_frame.png; path = assets/UI/icon_member_join_frame.png; sourceTree = SOURCE_ROOT; };
+		4213B040162E86F90014DDFB /* icon_member_joined.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_member_joined.png; path = assets/UI/icon_member_joined.png; sourceTree = SOURCE_ROOT; };
 		421564CF15F6A1AB00AAE851 /* LabelCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabelCircle.h; sourceTree = "<group>"; };
 		421564D015F6A1AB00AAE851 /* LabelCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LabelCircle.m; sourceTree = "<group>"; };
 		421564D315F6B1C000AAE851 /* icon_none_member.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_none_member.png; path = assets/UI/icon_none_member.png; sourceTree = SOURCE_ROOT; };
@@ -1785,6 +1791,9 @@
 				38AAEF10162379290056C9F2 /* icon_lboard_safebox.png */,
 				38AAEF11162379290056C9F2 /* icon_lboard_travelled.png */,
 				38AAEF12162379290056C9F2 /* tearoffpage.png */,
+				4213B03C162E80070014DDFB /* icon_member_blue_shop.png */,
+				4213B03F162E86F90014DDFB /* icon_member_join_frame.png */,
+				4213B040162E86F90014DDFB /* icon_member_joined.png */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -2037,6 +2046,9 @@
 				38887AF9162C4DDF0057D22B /* Pog_SFX_PopUP_Level2.mp3 in Resources */,
 				38887AFA162C4DDF0057D22B /* Pog_SFX_Scanner.mp3 in Resources */,
 				38887AFB162C4DDF0057D22B /* Pog_SFX_Select.mp3 in Resources */,
+				4213B03D162E80070014DDFB /* icon_member_blue_shop.png in Resources */,
+				4213B041162E86F90014DDFB /* icon_member_join_frame.png in Resources */,
+				4213B042162E86F90014DDFB /* icon_member_joined.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
