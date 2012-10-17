@@ -37,14 +37,15 @@
     {
         UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
                                                 fallbackNamed:@"b_tradepost.png"];
+        [annotationView.imageView stopAnimating];
         [annotationView.imageView setImage:image];
         showItemBubble = YES;
     }
     else if([self isMemberOfClass:[MyTradePost class]])
     {
-        UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
-                                                fallbackNamed:@"b_flyerlab.png"];
-        [annotationView.imageView setImage:image];
+        [[GameAnim getInstance] refreshImageView:annotationView.imageView withClipNamed:@"homebase_windy"];
+        [annotationView.imageView startAnimating];
+        
         showItemBubble = NO;
         if([self flyerAtPost])
         {
@@ -67,6 +68,7 @@
     {
         UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
                                                 fallbackNamed:@"b_homebase.png"];
+        [annotationView.imageView stopAnimating];
         [annotationView.imageView setImage:image];
         showItemBubble = YES;
     }
