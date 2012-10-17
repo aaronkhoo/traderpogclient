@@ -899,14 +899,14 @@ static const float kInfoBorderWidth = 4.0f;
     }
     else if([modalId isEqualToString:kInfoLeaderboardId])
     {
-        [self.info dismissAnimated:YES];
+        [self.info dismissAnimated:NO];
         [self showInfoCircleAnimated:YES];
         LeaderboardsScreen* leaderboards = [[LeaderboardsScreen alloc] initWithNibName:@"LeaderboardsScreen" bundle:nil];
         [self.navigationController pushFromRightViewController:leaderboards animated:YES];
     }
     else if([modalId isEqualToString:kInfoMembershipId])
     {
-        [self.info dismissAnimated:YES];
+        [self.info dismissAnimated:NO];
         [self showInfoCircleAnimated:YES];
         GuildMembershipUI* guildmembership = [[GuildMembershipUI alloc] initWithNibName:@"GuildMembershipUI" bundle:nil];
         [self.navigationController pushFromRightViewController:guildmembership animated:YES];

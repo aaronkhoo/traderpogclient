@@ -16,6 +16,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *productLabel1;
 @property (weak, nonatomic) IBOutlet UILabel *priceLabel1;
 @property (weak, nonatomic) IBOutlet UIView *productContainer;
+@property (weak, nonatomic) IBOutlet UILabel *priceLabelLimited;
+@property (weak, nonatomic) IBOutlet UIImageView *purchaseButtonImageView;
+@property (weak, nonatomic) IBOutlet UIView *limitedOfferView;
 
 - (IBAction)didPressBuy:(id)sender;
 

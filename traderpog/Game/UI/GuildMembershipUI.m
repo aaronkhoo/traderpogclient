@@ -13,6 +13,7 @@
 #import "CircleButton.h"
 #import "GameColors.h"
 #import "PogUIUtility.h"
+#import "Player.h"
 
 @interface GuildMembershipUI ()
 - (void)didPressClose:(id)sender;
@@ -29,6 +30,11 @@
     {
     }
     return self;
+}
+
+- (void) dealloc
+{
+    NSLog(@"GuildMembershipUI dealloc");
 }
 
 - (void)viewDidLoad
@@ -91,24 +97,49 @@
 
 #pragma mark - private functions
 
+- (void)refreshForMember
+{
+    if([[Player getInstance] isMember])
+    {
+        // already a member
+        NSString* joinedTxt = @"JOINED";
+        [self.priceLabel1 setText:joinedTxt];
+        [self.priceLabelLimited setText:joinedTxt];
+        [self.purchaseButtonImageView setImage:[UIImage imageNamed:@"icon_member_joined.png"]];
+        [self.buyButton setHidden:YES];
+        [self.limitedOfferView setHidden:YES];
+    }
+}
 - (void)displayProducts
 {
     SKProduct* product = [[[ProductManager getInstance] productsArray] objectAtIndex:0];
     [self.productLabel1 setText:product.localizedTitle];
-    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-    [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
-    [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-    [numberFormatter setLocale:product.priceLocale];
-    NSString *formattedString = [numberFormatter stringFromNumber:product.price];
-    [self.priceLabel1 setText:formattedString];
     [self.productContainer setHidden:NO];
-    if ([[ProductManager getInstance] canMakePurchases])
+
+    if([[Player getInstance] isMember])
     {
-        [buyButton setHidden:FALSE];
+        // already a member
+        [self refreshForMember];
     }
     else
     {
-        NSLog(@"Current account cannot make purchases");
+        NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+        [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+        [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+        [numberFormatter setLocale:product.priceLocale];
+        NSString *formattedString = [numberFormatter stringFromNumber:product.price];
+        [self.priceLabel1 setText:formattedString];
+        [self.priceLabelLimited setText:formattedString];
+        [self.purchaseButtonImageView setImage:[UIImage imageNamed:@"icon_member_join_frame.png"]];
+        if ([[ProductManager getInstance] canMakePurchases])
+        {
+            [buyButton setHidden:FALSE];
+            [self.limitedOfferView setHidden:NO];
+        }
+        else
+        {
+            NSLog(@"Current account cannot make purchases");
+        }        
     }
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
@@ -149,6 +180,7 @@
                                           cancelButtonTitle:@"Ok"
                                           otherButtonTitles:nil];
     [alert show];
+    [self refreshForMember];
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
@@ -163,6 +195,9 @@
     [self setProductLabel1:nil];
     [self setProductContainer:nil];
     [self setPriceLabel1:nil];
+    [self setPriceLabelLimited:nil];
+    [self setPurchaseButtonImageView:nil];
+    [self setLimitedOfferView:nil];
     [super viewDidUnload];
 }
 @end
