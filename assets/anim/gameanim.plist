@@ -73,6 +73,21 @@
 			<string>icon_alert_flyer_003.png</string>
 		</array>
 	</dict>
+	<key>alert_post</key>
+	<dict>
+		<key>loop</key>
+		<true/>
+		<key>fps</key>
+		<integer>8</integer>
+		<key>frames</key>
+		<array>
+			<string>icon_alert_post_001.png</string>
+			<string>icon_alert_post_002.png</string>
+			<string>icon_alert_post_001.png</string>
+			<string>icon_alert_post_003.png</string>
+			<string>icon_alert_post_003.png</string>
+		</array>
+	</dict>
 	<key>resting</key>
 	<dict>
 		<key>loop</key>

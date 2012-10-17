@@ -58,7 +58,7 @@
         
         if ([self gameEvent])
         {
-            [[GameAnim getInstance] refreshImageView:annotationView.excImageView withClipNamed:@"alert_flyer"];
+            [[GameAnim getInstance] refreshImageView:annotationView.excImageView withClipNamed:@"alert_post"];
             [annotationView.excImageView startAnimating];
             [annotationView.excImageView setHidden:NO];
         }
