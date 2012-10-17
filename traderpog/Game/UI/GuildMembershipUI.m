@@ -10,9 +10,12 @@
 #import "GuildMembershipUI.h"
 #import "MBProgressHUD.h"
 #import "ProductManager.h"
+#import "CircleButton.h"
+#import "GameColors.h"
+#import "PogUIUtility.h"
 
 @interface GuildMembershipUI ()
-
+- (void)didPressClose:(id)sender;
 @end
 
 @implementation GuildMembershipUI
@@ -22,8 +25,8 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if (self)
+    {
     }
     return self;
 }
@@ -31,7 +34,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    [self.closeCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
+    [self.closeCircle setButtonTarget:self action:@selector(didPressClose:)];
+    [self.productContainer setHidden:YES];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -71,7 +76,7 @@
     }
 }
 
-- (IBAction)didPressClose:(id)sender
+- (void)didPressClose:(id)sender
 {
     [self.navigationController popToRightViewControllerAnimated:YES];
 }
@@ -89,7 +94,14 @@
 - (void)displayProducts
 {
     SKProduct* product = [[[ProductManager getInstance] productsArray] objectAtIndex:0];
-    testText.text = [NSString stringWithFormat:@"%@\n%@\n%@", product.localizedTitle, product.localizedDescription, product.price];
+    [self.productLabel1 setText:product.localizedTitle];
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+    [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+    [numberFormatter setLocale:product.priceLocale];
+    NSString *formattedString = [numberFormatter stringFromNumber:product.price];
+    [self.priceLabel1 setText:formattedString];
+    [self.productContainer setHidden:NO];
     if ([[ProductManager getInstance] canMakePurchases])
     {
         [buyButton setHidden:FALSE];
@@ -146,4 +158,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidUnload {
+    [self setCloseCircle:nil];
+    [self setProductLabel1:nil];
+    [self setProductContainer:nil];
+    [self setPriceLabel1:nil];
+    [super viewDidUnload];
+}
 @end
