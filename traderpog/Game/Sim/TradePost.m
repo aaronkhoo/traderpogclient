@@ -22,6 +22,7 @@
 @synthesize beacontime = _beacontime;
 @synthesize delegate = _delegate;
 @synthesize creationDate = _creationDate;
+@synthesize gameEvent = _gameEvent;
 
 - (id) init
 {
@@ -30,6 +31,7 @@
     {
         _flyerAtPost = nil;
         _creationDate = [NSDate date];
+        _gameEvent = nil;
     }
     return self;
 }

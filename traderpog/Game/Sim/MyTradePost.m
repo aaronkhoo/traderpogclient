@@ -7,6 +7,10 @@
 //
 
 #import "AFClientManager.h"
+#import "Flyer.h"
+#import "GameEvent.h"
+#import "GameEventMgr.h"
+#import "GameNotes.h"
 #import "ImageManager.h"
 #import "MetricLogger.h"
 #import "MyTradePost.h"
@@ -16,7 +20,6 @@
 #import "TradePostMgr.h"
 #import "TradePostAnnotationView.h"
 #import "TradePost+Render.h"
-#import "Flyer.h"
 
 @implementation MyTradePost
 @synthesize preFlyerLab = _preFlyerLab;
@@ -53,6 +56,15 @@
         _lastUnloadedItemId = nil;
     }
     return self;
+}
+
+- (void) raiseEmptySupplyAtPostIfNecessary
+{
+    // Pop an event when the supply level is zero
+    if (_supplyLevel == 0)
+    {
+        self.gameEvent = [[GameEventMgr getInstance] queueEventWithType:kGameEvent_PostNeedsRestocking atCoord:[self coord]];
+    }
 }
 
 #pragma mark - server calls

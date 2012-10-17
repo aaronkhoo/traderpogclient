@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MKAnnotation.h>
+#import "GameEvent.h"
 #import "HttpCallbackDelegate.h"
 #import "MapProtocols.h"
 #import "TradePostAnnotationView.h"
@@ -30,6 +31,7 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
     unsigned int _supplyLevel;
     __weak Flyer*      _flyerAtPost;
     NSDate* _creationDate;
+    GameEvent* _gameEvent;
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
@@ -44,6 +46,7 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 @property (nonatomic,weak) Flyer* flyerAtPost;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 @property (nonatomic,readonly) NSDate* creationDate;
+@property (nonatomic) GameEvent* gameEvent;
 
 // sort comparison functions
 - (NSComparisonResult) compareSupplyThenDate:(TradePost*)theOtherPost;

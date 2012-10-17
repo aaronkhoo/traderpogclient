@@ -55,6 +55,13 @@
         {
             itemIdForBubble = nil;
         }
+        
+        if ([self gameEvent])
+        {
+            [[GameAnim getInstance] refreshImageView:annotationView.excImageView withClipNamed:@"alert_flyer"];
+            [annotationView.excImageView startAnimating];
+            [annotationView.excImageView setHidden:NO];
+        }
     }
     else if([self isMemberOfClass:[ForeignTradePost class]])
     {
@@ -116,7 +123,7 @@
             [annotationView.excImageView startAnimating];
             [annotationView.excImageView setHidden:NO];
         }
-        else
+        else 
         {
             [annotationView.excImageView stopAnimating];
             [annotationView.excImageView setAnimationImages:nil];

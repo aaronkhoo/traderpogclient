@@ -8,6 +8,7 @@
 
 #import "GameEventMgr.h"
 #import "GameEvent.h"
+#import "SoundManager.h"
 
 @implementation GameEventMgr
 
@@ -36,6 +37,9 @@
     {
         result = [_eventQueue objectAtIndex:0];
         [_eventQueue removeObjectAtIndex:0];
+        
+        // An event to notify the user. Play the appropriate sound
+        [[SoundManager getInstance] playClip:@"Pog_SFX_LoadingReady"];
     }
     
     return result;

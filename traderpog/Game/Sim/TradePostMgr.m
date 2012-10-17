@@ -155,6 +155,12 @@ static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total O
 - (void) annotatePostsOnMap:(MapControl*)map
 {
     [self addAllPostsToMap:map];
+    
+    // Cycle through my own trade posts raising an alert if the posts are supply empty
+    for (MyTradePost* post in [_activePosts allValues])
+    {
+        [post raiseEmptySupplyAtPostIfNecessary];
+    }
 }
 
 - (void) addAllMyPostsToMap:(MapControl*)map

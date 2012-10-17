@@ -9,18 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "PlayerTradePost.h"
 
-/*
-enum kMyTradePostStates
-{
-    kMyTradePostState_Idle = 0,
-    kMyTradePostState_FlyerWaitingToUnload,
-    kMyTradePostState_FlyerUnloading,
-    kMyTradePostState_FlyerIdle,
-    kMyTradePostState_PreFlyerLab,
-    
-    kMyTradePostState_Num
-};
-*/
 @interface MyTradePost : PlayerTradePost
 {
     BOOL _preFlyerLab;
@@ -36,5 +24,6 @@ enum kMyTradePostStates
 - (void) createNewPostOnServer;
 - (void) setBeacon;
 - (bool) beaconActive;
+- (void) raiseEmptySupplyAtPostIfNecessary;
 
 @end

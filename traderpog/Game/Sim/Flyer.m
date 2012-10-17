@@ -475,9 +475,6 @@ static NSString* const kKeyCurColorIndex = @"color_index";
     [mapControl dismissAnnotationForFlyer:self];
     arrivalPost.flyerAtPost = self;
     
-    // play sound
-    [[SoundManager getInstance] playClip:@"Pog_SFX_ArriveHome"];
-    
     // restore to background_default music
     [[SoundManager getInstance] playMusic:@"background_default" doLoop:YES];
 }
@@ -718,10 +715,7 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
         {
             NSLog(@"FlyerState Changed: %@ to %@", [self nameOfFlyerState:[self state]], [self nameOfFlyerState:newState]);
             if(([self state] == kFlyerStateUnloading) && (newState == kFlyerStateIdle))
-            {
-                // play sound
-                [[SoundManager getInstance] playClip:@"Pog_SFX_LoadingReady"];
-                
+            {                
                 // flyer finished unloading, release hold on hud coins
                 [[[GameManager getInstance] gameViewController] setHoldHudCoinsUpdate:NO];
             }
@@ -733,10 +727,7 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
             
             // game events
             if(kFlyerStateLoaded == newState)
-            {
-                // play sound
-                [[SoundManager getInstance] playClip:@"Pog_SFX_LoadingReady"];
-                
+            {                
                 self.gameEvent = [[GameEventMgr getInstance] queueEventWithType:kGameEvent_LoadingCompleted atCoord:[self coord]];
             }
             else if((kFlyerStateIdle == newState) && (kFlyerStateUnloading == [self state]))

@@ -524,6 +524,11 @@ static const float kBuyViewCenterYOffset = -10.0f;
             flyer.gameEvent = nil;
             [post refreshRenderForAnnotationView:self];
         }
+        else if ([tradePost gameEvent])
+        {
+            tradePost.gameEvent = nil;
+            [post refreshRenderForAnnotationView:self];
+        }
     }
 }
 
