@@ -18,6 +18,7 @@
 
 static const float kContentBorderWidth = 6.0f;
 static const float kContentBorderCornerRadius = 8.0f;
+static const float kButtonViewBorderWidth = 4.0f;
 
 @interface FlyerLabViewController ()
 - (void) setupContent;
@@ -53,6 +54,16 @@ static const float kContentBorderCornerRadius = 8.0f;
     [self.contentView setBackgroundColor:[GameColors bubbleColorFlyersWithAlpha:1.0f]];
     [self.closeCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.closeCircle setButtonTarget:self action:@selector(didPressClose:)];
+    [PogUIUtility setBorderOnView:self.upgradeView
+                            width:kButtonViewBorderWidth
+                            color:[GameColors borderColorScanWithAlpha:1.0f]
+                     cornerRadius:kContentBorderCornerRadius];
+    [self.upgradeView setBackgroundColor:[GameColors bubbleColorScanWithAlpha:1.0f]];
+    [PogUIUtility setBorderOnView:self.customizeView
+                            width:kButtonViewBorderWidth
+                            color:[GameColors borderColorScanWithAlpha:1.0f]
+                     cornerRadius:kContentBorderCornerRadius];
+    [self.customizeView setBackgroundColor:[GameColors bubbleColorScanWithAlpha:1.0f]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -67,6 +78,10 @@ static const float kContentBorderCornerRadius = 8.0f;
     [self setCloseCircle:nil];
     [self setUpgradeButton:nil];
     [self setImageView:nil];
+    [self setContentSubview:nil];
+    [self setTitleView:nil];
+    [self setUpgradeView:nil];
+    [self setCustomizeView:nil];
     [super viewDidUnload];
 }
 

@@ -496,7 +496,7 @@ typedef enum {
         if (retries < 3)
         {
             retries++;
-            sleep(3);
+            usleep(300);
         }
         else
         {

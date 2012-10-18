@@ -55,7 +55,7 @@
 									<string key="NSResourceName">b_tradepost.png</string>
 								</object>
 							</object>
-							<object class="IBUIImageView" id="952395207">
+							<object class="IBUIImageView" id="873520290">
 								<reference key="NSNextResponder" ref="723070415"/>
 								<int key="NSvFlags">274</int>
 								<string key="NSFrame">{{173, 192}, {43, 42}}</string>
@@ -109,7 +109,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{29, 207}, {208, 21}}</string>
 								<reference key="NSSuperview" ref="723070415"/>
-								<reference key="NSNextKeyView" ref="952395207"/>
+								<reference key="NSNextKeyView" ref="873520290"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -136,7 +136,7 @@
 								</object>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>
-							<object class="IBUIImageView" id="449950422">
+							<object class="IBUIImageView" id="207881914">
 								<reference key="NSNextResponder" ref="723070415"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{6, 65}, {142, 109}}</string>
@@ -170,7 +170,7 @@
 								<string key="NSFrame">{{3, 3}, {24, 24}}</string>
 								<reference key="NSSuperview" ref="779246307"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<object class="NSColor" key="IBUIBackgroundColor" id="190964724">
+								<object class="NSColor" key="IBUIBackgroundColor" id="604509399">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MCAwAA</bytes>
 								</object>
@@ -197,7 +197,7 @@
 				<string key="NSFrame">{{0, 20}, {320, 548}}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="723070415"/>
-				<reference key="IBUIBackgroundColor" ref="190964724"/>
+				<reference key="IBUIBackgroundColor" ref="604509399"/>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 				<object class="IBUIScreenMetrics" key="IBUISimulatedDestinationMetrics">
 					<string key="IBUISimulatedSizeMetricsClass">IBUIScreenMetrics</string>
@@ -313,8 +313,8 @@
 							<reference ref="604263052"/>
 							<reference ref="814474628"/>
 							<reference ref="417615722"/>
-							<reference ref="449950422"/>
-							<reference ref="952395207"/>
+							<reference ref="207881914"/>
+							<reference ref="873520290"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 						<string key="objectName">contentView</string>
@@ -339,13 +339,13 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">90</int>
-						<reference key="object" ref="952395207"/>
+						<reference key="object" ref="873520290"/>
 						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="723070415"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">175</int>
-						<reference key="object" ref="449950422"/>
+						<reference key="object" ref="207881914"/>
 						<reference key="parent" ref="723070415"/>
 					</object>
 				</array>
@@ -378,10 +378,10 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="b_tradepost.png">{512, 512}</string>
-			<string key="coin_004.png">{64, 64}</string>
-			<string key="pogstacking_003.png">{512, 512}</string>
-			<string key="x.png">{50, 50}</string>
+			<string key="b_tradepost.png">{16, 16}</string>
+			<string key="coin_004.png">{16, 16}</string>
+			<string key="pogstacking_003.png">{16, 16}</string>
+			<string key="x.png">{16, 16}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1929</string>
 	</data>

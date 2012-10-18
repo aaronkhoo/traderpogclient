@@ -31,20 +31,22 @@
     BOOL showItemBubble = NO;
     BOOL showItemBubbleFull = NO;
     NSString* itemIdForBubble = [self itemId];
+    GameEvent* curGameEvent = nil;
     
     // trade post
     if([self isMemberOfClass:[NPCTradePost class]])
     {
         UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
                                                 fallbackNamed:@"b_tradepost.png"];
+        [annotationView.imageView stopAnimating];
         [annotationView.imageView setImage:image];
         showItemBubble = YES;
     }
     else if([self isMemberOfClass:[MyTradePost class]])
     {
-        UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
-                                                fallbackNamed:@"b_flyerlab.png"];
-        [annotationView.imageView setImage:image];
+        [[GameAnim getInstance] refreshImageView:annotationView.imageView withClipNamed:@"homebase_windy"];
+        [annotationView.imageView startAnimating];
+        
         showItemBubble = NO;
         if([self flyerAtPost])
         {
@@ -56,17 +58,14 @@
             itemIdForBubble = nil;
         }
         
-        if ([self gameEvent])
-        {
-            [[GameAnim getInstance] refreshImageView:annotationView.excImageView withClipNamed:@"alert_flyer"];
-            [annotationView.excImageView startAnimating];
-            [annotationView.excImageView setHidden:NO];
-        }
+        // note game-event for enabling exclamation icon further below
+        curGameEvent = [self gameEvent];
     }
     else if([self isMemberOfClass:[ForeignTradePost class]])
     {
         UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
                                                 fallbackNamed:@"b_homebase.png"];
+        [annotationView.imageView stopAnimating];
         [annotationView.imageView setImage:image];
         showItemBubble = YES;
     }
@@ -119,15 +118,9 @@
         
         if([flyer gameEvent])
         {
-            [[GameAnim getInstance] refreshImageView:annotationView.excImageView withClipNamed:@"alert_flyer"];
-            [annotationView.excImageView startAnimating];
-            [annotationView.excImageView setHidden:NO];
-        }
-        else 
-        {
-            [annotationView.excImageView stopAnimating];
-            [annotationView.excImageView setAnimationImages:nil];
-            [annotationView.excImageView setHidden:YES];
+            // flyer game-event always override post game-event
+            // (post game-event potentially added earlier for MyTradePost)
+            curGameEvent = [flyer gameEvent];
         }
     }
     else
@@ -136,9 +129,28 @@
         [annotationView.frontImageView setHidden:YES];
         [annotationView.frontLeftView setImage:nil];
         [annotationView.frontLeftView setHidden:YES];
-        [annotationView.excImageView setImage:nil];
-        [annotationView.excImageView setHidden:YES];
         [annotationView.countdownView setHidden:YES];
+    }
+    
+    // exclamation alert icon
+    if(curGameEvent)
+    {
+        if(kGameEvent_PostNeedsRestocking == [curGameEvent eventType])
+        {
+            [[GameAnim getInstance] refreshImageView:annotationView.excImageView withClipNamed:@"alert_post"];            
+        }
+        else
+        {
+            [[GameAnim getInstance] refreshImageView:annotationView.excImageView withClipNamed:@"alert_flyer"];
+        }
+        [annotationView.excImageView startAnimating];
+        [annotationView.excImageView setHidden:NO];
+    }
+    else
+    {
+        [annotationView.excImageView stopAnimating];
+        [annotationView.excImageView setAnimationImages:nil];
+        [annotationView.excImageView setHidden:YES];
     }
     
     if(itemIdForBubble && (showItemBubbleFull || (showItemBubble && [self supplyLevel])))

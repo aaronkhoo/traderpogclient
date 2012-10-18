@@ -21,7 +21,7 @@
 
 static const float kContentBorderWidth = 6.0f;
 static const float kContentBorderCornerRadius = 8.0f;
-static const float kOptionBorderWidth = 4.0f;
+static const float kOptionBorderWidth = 6.0f;
 static const float kOptionBotHeight = 0.2f;
 
 enum kColorOptions
@@ -83,11 +83,6 @@ enum kColorOptions
     [self.buyCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.buyCircle setButtonTarget:self action:@selector(didPressBuy:)];
     
-    // setup stamps initial state
-    [self.origStamp setHidden:YES];
-    [self.stamp1 setHidden:YES];
-    [self.stamp2 setHidden:YES];
-    [self.stamp3 setHidden:YES];
     [PogUIUtility setBorderOnView:self.optionOriginal
                             width:kOptionBorderWidth
                             color:[GameColors borderColorScanWithAlpha:1.0f]
@@ -110,7 +105,7 @@ enum kColorOptions
     [self.bar1 setBackgroundColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.bar2 setBackgroundColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.bar3 setBackgroundColor:[GameColors borderColorScanWithAlpha:1.0f]];
-    
+
     [self setupContent];
 }
 
@@ -135,10 +130,6 @@ enum kColorOptions
     [self setPriceLabel:nil];
     [self setCoinImageView:nil];
     [self setImageView:nil];
-    [self setOrigStamp:nil];
-    [self setStamp1:nil];
-    [self setStamp2:nil];
-    [self setStamp3:nil];
     [self setTitleView:nil];
     [self setContentSubView:nil];
     [self setBuyLabel:nil];
@@ -180,29 +171,46 @@ enum kColorOptions
 
 - (void) setCurSelection:(unsigned int)newSelection
 {
-    [self.origStamp setHidden:YES];
-    [self.stamp1 setHidden:YES];
-    [self.stamp2 setHidden:YES];
-    [self.stamp3 setHidden:YES];
+    [self.origBar setHidden:NO];
+    [self.bar1 setHidden:NO];
+    [self.bar2 setHidden:NO];
+    [self.bar3 setHidden:NO];
+    self.optionOriginal.layer.borderWidth = kOptionBorderWidth;
+    self.option1.layer.borderWidth = kOptionBorderWidth;
+    self.option2.layer.borderWidth = kOptionBorderWidth;
+    self.option3.layer.borderWidth = kOptionBorderWidth;
+    [self.optionOriginal setTransform:CGAffineTransformIdentity];
+    [self.option1 setTransform:CGAffineTransformIdentity];
+    [self.option2 setTransform:CGAffineTransformIdentity];
+    [self.option3 setTransform:CGAffineTransformIdentity];
+
     
     // stamp selection
     switch(newSelection)
     {
         case kColorOption1:
-            [self.stamp1 setHidden:NO];
+            [self.option1 setTransform:CGAffineTransformMakeScale(1.15f, 1.2f)];
+            self.option1.layer.borderWidth = kOptionBorderWidth * 0.5f;
+            [self.bar1 setHidden:YES];
             break;
             
         case kColorOption2:
-            [self.stamp2 setHidden:NO];
+            [self.option2 setTransform:CGAffineTransformMakeScale(1.15f, 1.2f)];
+            self.option2.layer.borderWidth = kOptionBorderWidth * 0.5f;
+            [self.bar2 setHidden:YES];
             break;
             
         case kColorOption3:
-            [self.stamp3 setHidden:NO];
+            [self.option3 setTransform:CGAffineTransformMakeScale(1.15f, 1.2f)];
+            self.option3.layer.borderWidth = kOptionBorderWidth * 0.5f;
+            [self.bar3 setHidden:YES];
             break;
             
         case kColorOptionOriginal:
         default:
-            [self.origStamp setHidden:NO];
+            [self.optionOriginal setTransform:CGAffineTransformMakeScale(1.15f, 1.2f)];
+            self.optionOriginal.layer.borderWidth = kOptionBorderWidth * 0.5f;
+            [self.origBar setHidden:YES];
             break;
     }
     
