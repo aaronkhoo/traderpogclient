@@ -678,15 +678,15 @@ static const float kPostTribute = 0.02;
     }
 }
 
-- (void)updateFacebookFeed:(NSString*)message
+- (void)updateFacebookFeed:(NSString*)message useTimer:(BOOL)useTimer
 {
-    if ([self canUpdateFacebookFeed])
+    if (!useTimer || [self canUpdateFacebookFeed])
     {
         NSMutableDictionary* params1 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                         //appId, @"api_key",
                                         message, @"message",
-                                        //@"https://www.mybantu.com", @"link",
-                                        //@"https:/www.mybantu.com/myphoto.png", @"picture",
+                                        @"http://www.traderpog.com", @"link",
+                                        @"https://s3.amazonaws.com/traderpog/traderpog.png", @"picture",
                                         @"TraderPog", @"name",
                                         @"Pogs Can Fly", @"description",
                                         //    @"100001309042820", @"target_id",
