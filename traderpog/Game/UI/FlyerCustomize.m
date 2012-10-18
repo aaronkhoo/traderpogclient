@@ -17,6 +17,7 @@
 #import "ImageManager.h"
 #import "Player.h"
 #import "Player+Shop.h"
+#import "FlyerTypes.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const float kContentBorderWidth = 6.0f;
@@ -215,7 +216,8 @@ enum kColorOptions
     }
     
     // image
-    NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:@"flyer_glider" tier:[_flyer curUpgradeTier] colorIndex:newSelection];
+    NSString* flyerTypeName = [[FlyerTypes getInstance] getFlyerLabNameForFlyerTypeIndex:[_flyer flyerTypeIndex]];
+    NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:flyerTypeName tier:[_flyer curUpgradeTier] colorIndex:newSelection];
     UIImage* image = [[ImageManager getInstance] getImage:imageName];
     [self.imageView setImage:image];
     
@@ -249,14 +251,14 @@ enum kColorOptions
     }
     
     // color for each option
-    NSString* const flyerName = @"flyer_glider";
-    FlyerColorPack* origPack = [[FlyerLabFactory getInstance] colorPackAtIndex:kColorOptionOriginal forFlyerTypeNamed:flyerName];
+    NSString* flyerTypeName = [[FlyerTypes getInstance] getFlyerLabNameForFlyerTypeIndex:[_flyer flyerTypeIndex]];
+    FlyerColorPack* origPack = [[FlyerLabFactory getInstance] colorPackAtIndex:kColorOptionOriginal forFlyerTypeNamed:flyerTypeName];
     [self.optionOriginal setBackgroundColor:[origPack color]];
-    FlyerColorPack* c1Pack = [[FlyerLabFactory getInstance] colorPackAtIndex:kColorOption1 forFlyerTypeNamed:flyerName];
+    FlyerColorPack* c1Pack = [[FlyerLabFactory getInstance] colorPackAtIndex:kColorOption1 forFlyerTypeNamed:flyerTypeName];
     [self.option1 setBackgroundColor:[c1Pack color]];
-    FlyerColorPack* c2Pack = [[FlyerLabFactory getInstance] colorPackAtIndex:kColorOption2 forFlyerTypeNamed:flyerName];
+    FlyerColorPack* c2Pack = [[FlyerLabFactory getInstance] colorPackAtIndex:kColorOption2 forFlyerTypeNamed:flyerTypeName];
     [self.option2 setBackgroundColor:[c2Pack color]];
-    FlyerColorPack* c3Pack = [[FlyerLabFactory getInstance] colorPackAtIndex:kColorOption3 forFlyerTypeNamed:flyerName];
+    FlyerColorPack* c3Pack = [[FlyerLabFactory getInstance] colorPackAtIndex:kColorOption3 forFlyerTypeNamed:flyerTypeName];
     [self.option3 setBackgroundColor:[c3Pack color]];
 }
 

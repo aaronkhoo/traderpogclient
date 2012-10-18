@@ -102,4 +102,40 @@ static const float kFlyerDefaultLoadTime = 90.0f;   // seconds
     return self;
 }
 
+// flyerlab uses more readable names than the numeric flyerId
+// for easier maintenance of the flyerlab.plist file
+enum kFlyerIdNumeric
+{
+    kFlyerId_Numeric_basic = 1,
+    kFlyerId_Numeric_wing,
+    kFlyerId_Numeric_rang,
+    kFlyerId_Numeric_frog,
+    kFlyerId_Numeric_hornet,
+    kFlyerId_Numeric_blimp,
+    
+    kFlyerId_Numeric_Num
+};
+- (NSString*) getNameForFlyerLab
+{
+    NSString* result = @"flyer_glider";
+    NSString* names[kFlyerId_Numeric_Num] =
+    {
+        @"flyer_glider",
+        @"flyer_glider",
+        @"flyer_wing",
+        @"flyer_rang",
+        @"flyer_frog",
+        @"flyer_hornet",
+        @"flyer_blimp"
+    };
+    
+    int flyerIdNum = [_flyerId intValue];
+    if((0 > flyerIdNum) || (kFlyerId_Numeric_Num <= flyerIdNum))
+    {
+        flyerIdNum = 0;
+    }
+    result = names[flyerIdNum];
+    return result;
+}
+
 @end

@@ -15,6 +15,8 @@
 #import "FlyerLabFactory.h"
 #import "PogUIUtility.h"
 #import "ImageManager.h"
+#import "FlyerTypes.h"
+#import "FlyerType.h"
 
 static const float kContentBorderWidth = 6.0f;
 static const float kContentBorderCornerRadius = 8.0f;
@@ -104,7 +106,8 @@ static const float kButtonViewBorderWidth = 4.0f;
     if(_flyer)
     {
         // image
-        NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:@"flyer_glider" tier:[_flyer curUpgradeTier] colorIndex:[_flyer curColor]];
+        NSString* flyerTypeName = [[FlyerTypes getInstance] getFlyerLabNameForFlyerTypeIndex:[_flyer flyerTypeIndex]];
+        NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:flyerTypeName tier:[_flyer curUpgradeTier] colorIndex:[_flyer curColor]];
         UIImage* image = [[ImageManager getInstance] getImage:imageName];
         [self.imageView setImage:image];
     }

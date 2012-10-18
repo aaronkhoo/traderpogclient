@@ -30,6 +30,9 @@ static NSString* const kFlyerTypes_ReceiveFlyers = @"FlyerTypes_ReceiveFlyers";
 // Returns an array of FlyerType
 - (NSArray*) getFlyersForTier:(unsigned int)tier;
 
+// returns a type-name that can be used to lookup flyer info from flyerlab.plist
+- (NSString*) getFlyerLabNameForFlyerTypeIndex:(NSInteger)flyerTypeIndex;
+
 // singleton
 +(FlyerTypes*) getInstance;
 +(void) destroyInstance;

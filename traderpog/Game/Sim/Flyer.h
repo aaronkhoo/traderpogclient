@@ -69,6 +69,7 @@ enum _FlyerStates
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
 }
+@property (nonatomic,readonly) NSInteger flyerTypeIndex;
 @property (nonatomic,readonly) NSString* userFlyerId;
 @property (nonatomic,strong) FlightPathOverlay* flightPathRender;
 @property (nonatomic) CLLocationCoordinate2D coord;

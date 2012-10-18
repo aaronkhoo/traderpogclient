@@ -209,6 +209,21 @@ static NSString* const kTradeItemTypesFilename = @"flyertypes.sav";
     return (NSArray*)flyerArray;
 }
 
+- (NSString*) getFlyerLabNameForFlyerTypeIndex:(NSInteger)flyerTypeIndex
+{
+    NSString* result = @"flyer_glider";
+    if((0 > flyerTypeIndex) || ([self.flyerTypes count] <= flyerTypeIndex))
+    {
+        flyerTypeIndex = 0;
+    }
+    FlyerType* flyerType = [self.flyerTypes objectAtIndex:flyerTypeIndex];
+    if(flyerType)
+    {
+        result = [flyerType getNameForFlyerLab];
+    }
+    return result;
+}
+
 #pragma mark - Singleton
 static FlyerTypes* singleton = nil;
 + (FlyerTypes*) getInstance

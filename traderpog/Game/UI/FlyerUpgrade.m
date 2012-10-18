@@ -17,6 +17,8 @@
 #import "ImageManager.h"
 #import "Player.h"
 #import "Player+Shop.h"
+#import "FlyerType.h"
+#import "FlyerTypes.h"
 
 static const float kContentBorderWidth = 6.0f;
 static const float kContentBorderCornerRadius = 8.0f;
@@ -132,7 +134,8 @@ static const float kContentBorderCornerRadius = 8.0f;
     [self.secondaryTitleLabel setText:[pack secondTitle]];
     
     // image
-    NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:@"flyer_glider" tier:nextTier colorIndex:[_flyer curColor]];
+    NSString* flyerTypeName = [[FlyerTypes getInstance] getFlyerLabNameForFlyerTypeIndex:[_flyer flyerTypeIndex]];
+    NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:flyerTypeName tier:nextTier colorIndex:[_flyer curColor]];
     UIImage* image = [[ImageManager getInstance] getImage:imageName];
     [self.imageView setImage:image];
     

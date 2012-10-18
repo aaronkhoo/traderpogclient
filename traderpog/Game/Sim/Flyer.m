@@ -55,6 +55,7 @@ static NSString* const kKeyCurColorIndex = @"color_index";
 @end
 
 @implementation Flyer
+@synthesize flyerTypeIndex = _flyerTypeIndex;
 @synthesize userFlyerId = _userFlyerId;
 @synthesize flightPathRender = _flightPathRender;
 @synthesize coord = _coord;
@@ -559,10 +560,11 @@ static NSString* const kKeyCurColorIndex = @"color_index";
 
 - (UIImage*) imageForCurrentState
 {
+    NSString* flyerTypeName = [[FlyerTypes getInstance] getFlyerLabNameForFlyerTypeIndex:[self flyerTypeIndex]];
     NSString* imageName = @"flyer.png";
     if(kFlyerStateEnroute == [self state])
     {
-        NSString* name = [[FlyerLabFactory getInstance] topImageForFlyerTypeNamed:@"flyer_glider" tier:[self curUpgradeTier] colorIndex:[self curColor]];
+        NSString* name = [[FlyerLabFactory getInstance] topImageForFlyerTypeNamed:flyerTypeName tier:[self curUpgradeTier] colorIndex:[self curColor]];
         if(name)
         {
             imageName = name;
@@ -574,7 +576,7 @@ static NSString* const kKeyCurColorIndex = @"color_index";
     }
     else
     {
-        NSString* name = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:@"flyer_glider" tier:[self curUpgradeTier] colorIndex:[self curColor]];
+        NSString* name = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:flyerTypeName tier:[self curUpgradeTier] colorIndex:[self curColor]];
         if(name)
         {
             imageName = name;

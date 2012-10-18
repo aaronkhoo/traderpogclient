@@ -39,4 +39,6 @@
 
 - (id) initWithDictionary:(NSDictionary*)dict;
 
+// returns a type-name that can be used to lookup info from the flyerlab registry
+- (NSString*) getNameForFlyerLab;
 @end

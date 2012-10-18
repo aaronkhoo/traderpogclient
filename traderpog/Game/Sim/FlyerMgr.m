@@ -25,6 +25,8 @@
 #import "MetricLogger.h"
 #import "GameAnim.h"
 #import "FlyerLabFactory.h"
+#import "FlyerTypes.h"
+#import "FlyerType.h"
 #import <QuartzCore/QuartzCore.h>
 
 static NSString* const kKeyVersion = @"version";
@@ -543,7 +545,8 @@ static const float kBubbleBorderWidth = 1.5f;
     if(index < [_playerFlyers count])
     {
         Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
-        NSString* imageName = [[FlyerLabFactory getInstance] topImageForFlyerTypeNamed:@"flyer_glider" tier:[curFlyer curUpgradeTier] colorIndex:[curFlyer curColor]];
+        NSString* flyerTypeName = [[FlyerTypes getInstance] getFlyerLabNameForFlyerTypeIndex:[curFlyer flyerTypeIndex]];
+        NSString* imageName = [[FlyerLabFactory getInstance] topImageForFlyerTypeNamed:flyerTypeName tier:[curFlyer curUpgradeTier] colorIndex:[curFlyer curColor]];
         UIImage* image = [[ImageManager getInstance] getImage:imageName];
         [contentView.imageView setImage:image];
         
