@@ -89,6 +89,7 @@
 		4216380515F95D00002E6FD5 /* Clockface.m in Sources */ = {isa = PBXBuildFile; fileRef = 4216380415F95D00002E6FD5 /* Clockface.m */; };
 		4216380915F97C4E002E6FD5 /* AnimMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4216380815F97C4D002E6FD5 /* AnimMgr.m */; };
 		4216381A15F9A4E3002E6FD5 /* UrlImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4216381915F9A4E3002E6FD5 /* UrlImage.m */; };
+		42172FEC1630C3E900652009 /* flyer_hornet.png in Resources */ = {isa = PBXBuildFile; fileRef = 42172FEB1630C3E900652009 /* flyer_hornet.png */; };
 		421A07001628596400D2FE9E /* flyer_aerokit_c1.png in Resources */ = {isa = PBXBuildFile; fileRef = 421A06F41628596400D2FE9E /* flyer_aerokit_c1.png */; };
 		421A07011628596400D2FE9E /* flyer_aerokit_c2.png in Resources */ = {isa = PBXBuildFile; fileRef = 421A06F51628596400D2FE9E /* flyer_aerokit_c2.png */; };
 		421A07021628596400D2FE9E /* flyer_aerokit_c3.png in Resources */ = {isa = PBXBuildFile; fileRef = 421A06F61628596400D2FE9E /* flyer_aerokit_c3.png */; };
@@ -521,6 +522,7 @@
 		4216381715F9A139002E6FD5 /* DownloadDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DownloadDelegate.h; path = Resources/DownloadDelegate.h; sourceTree = "<group>"; };
 		4216381815F9A4E3002E6FD5 /* UrlImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UrlImage.h; path = Resources/UrlImage.h; sourceTree = "<group>"; };
 		4216381915F9A4E3002E6FD5 /* UrlImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UrlImage.m; path = Resources/UrlImage.m; sourceTree = "<group>"; };
+		42172FEB1630C3E900652009 /* flyer_hornet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_hornet.png; sourceTree = "<group>"; };
 		421A06F41628596400D2FE9E /* flyer_aerokit_c1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer_aerokit_c1.png; path = assets/game/flyer_glider/flyer_aerokit_c1.png; sourceTree = SOURCE_ROOT; };
 		421A06F51628596400D2FE9E /* flyer_aerokit_c2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer_aerokit_c2.png; path = assets/game/flyer_glider/flyer_aerokit_c2.png; sourceTree = SOURCE_ROOT; };
 		421A06F61628596400D2FE9E /* flyer_aerokit_c3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer_aerokit_c3.png; path = assets/game/flyer_glider/flyer_aerokit_c3.png; sourceTree = SOURCE_ROOT; };
@@ -1245,6 +1247,7 @@
 				42A20C29162BF54F00C4B593 /* flyer_hornet_landed_c1.png */,
 				42A20C2A162BF54F00C4B593 /* flyer_hornet_landed_c2.png */,
 				42A20C2B162BF54F00C4B593 /* flyer_hornet_landed_c3.png */,
+				42172FEB1630C3E900652009 /* flyer_hornet.png */,
 			);
 			name = flyer_hornet;
 			path = assets/game/flyer_hornet;
@@ -2070,6 +2073,7 @@
 				42717437162F86D1003C1163 /* icon_shop_customize.png in Resources */,
 				42717438162F86D1003C1163 /* icon_shop_upgrade.png in Resources */,
 				4271743B163048E9003C1163 /* flyertypes.plist in Resources */,
+				42172FEC1630C3E900652009 /* flyer_hornet.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
