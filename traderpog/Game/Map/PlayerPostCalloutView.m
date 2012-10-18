@@ -11,6 +11,7 @@
 #import "PostRestockConfirmScreen.h"
 #import "BeaconMgr.h"
 #import "MyTradePost.h"
+#import "TradeManager.h"
 #import "PogUIUtility.h"
 #import "GameColors.h"
 #import "ImageManager.h"
@@ -36,6 +37,7 @@ static const float kCircleBorderWidth = 3.0f;
 @synthesize restockLabelContainer;
 @synthesize destroyLabelContainer;
 @synthesize flyerLabLabelContainer;
+@synthesize flyerLabLabel;
 
 - (id) initWithAnnotation:(id<MKAnnotation>)annotation
 {
@@ -123,11 +125,42 @@ static const float kCircleBorderWidth = 3.0f;
         next.flyer = [tradePost flyerAtPost];
         [game showModalNavViewController:next completion:nil];
     }
+    else
+    {
+        if([[TradeManager getInstance] playerHasIdleFlyers])
+        {
+            // player can order
+            [[[[GameManager getInstance] gameViewController] mapControl] defaultZoomCenterOn:[tradePost coord] animated:YES];
+            [[GameManager getInstance] showFlyerSelectForBuyAtPost:tradePost];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Flyers busy"
+                                                            message:@"Flyers must be idle before they can be called back"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+    }
 }
 
 - (void)setHiddenOnRestock:(BOOL)hide
 {
     [self.restockBubble setHidden:hide];
+}
+
+- (void)changeFlyerLabLabelIfNecessary
+{
+    MyTradePost* thisPost = (MyTradePost*)[self.parentAnnotationView annotation];
+    if([thisPost flyerAtPost])
+    {
+        [flyerLabLabel setText:@"Flyer Lab"];
+    }
+    else
+    {
+        [flyerLabLabel setText:@"Call Home"];
+    }
 }
 
 #pragma mark - button actions

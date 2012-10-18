@@ -89,6 +89,7 @@
         {
             BOOL hideRestock = ([_tradePost supplyLevel] > 0);
             [annotationView setHiddenOnRestock:hideRestock];
+            [annotationView changeFlyerLabLabelIfNecessary];
         }
         
         annotationView.parentAnnotationView = self.parentAnnotationView;

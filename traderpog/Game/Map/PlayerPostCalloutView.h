@@ -20,10 +20,12 @@ extern NSString* const kPlayerPostCalloutViewReuseId;
 @property (weak, nonatomic) IBOutlet UIView *restockLabelContainer;
 @property (weak, nonatomic) IBOutlet UIView *destroyLabelContainer;
 @property (weak, nonatomic) IBOutlet UIView *flyerLabLabelContainer;
+@property (weak, nonatomic) IBOutlet UILabel *flyerLabLabel;
 - (IBAction)didPressSetBeacon:(id)sender;
 - (IBAction)didPressRestock:(id)sender;
 - (IBAction)didPressDestroy:(id)sender;
 - (IBAction)didPressFlyerLab:(id)sender;
 - (void)setHiddenOnRestock:(BOOL)hide;
+- (void)changeFlyerLabLabelIfNecessary;
 
 @end
