@@ -610,7 +610,12 @@ static const float kBubbleBorderWidth = 1.5f;
     }
     else
     {
-        UIImage* image = [[ImageManager getInstance] getImage:@"bubble_flyer_g.png" fallbackNamed:@"bubble_flyer_g.png"];
+        // index+1 because flyerTypeId is 1 based
+        NSString* flyerTypeId = [NSString stringWithFormat:@"%d", index+1];
+        FlyerType* flyerType = [[FlyerTypes getInstance] getFlyerTypeById:flyerTypeId];
+        NSString* flyerTypeName = [flyerType topimg];
+        NSString* imageName = [[FlyerLabFactory getInstance] topImageForFlyerTypeNamed:flyerTypeName tier:1 colorIndex:0];
+        UIImage* image = [[ImageManager getInstance] getGrayscaleImage:imageName fallbackNamed:imageName];
         [contentView.imageView setImage:image];
     }
 

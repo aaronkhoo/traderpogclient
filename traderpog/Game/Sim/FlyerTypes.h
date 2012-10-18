@@ -30,6 +30,7 @@ static NSString* const kFlyerTypes_ReceiveFlyers = @"FlyerTypes_ReceiveFlyers";
 - (void) retrieveFlyersFromServer;
 - (NSInteger) numFlyerTypes;
 
+- (FlyerType*) getFlyerTypeById:(NSString*)flyerId;
 - (NSInteger) getFlyerIndexById:(NSString*)flyerId;
 - (FlyerType*) getFlyerTypeAtIndex:(NSInteger)index;
 - (NSString*) sideImgForFlyerTypeAtIndex:(NSInteger)index;

@@ -17,6 +17,7 @@
 - (UIImage*) getImage:(NSString*)name;
 - (UIImage*) getImage:(NSString*)name fallbackNamed:(NSString*)fallback;
 - (UIImage*) getImage:(NSString *)name fallbackNamed:(NSString *)fallback withColor:(UIColor*)color;
+- (UIImage *) getGrayscaleImage:(NSString*)name fallbackNamed:(NSString*)fallback;
 
 // singleton
 +(ImageManager*) getInstance;

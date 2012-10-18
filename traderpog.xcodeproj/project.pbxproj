@@ -114,8 +114,6 @@
 		4227883015D74A9A00852AC4 /* TradeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227882F15D74A9900852AC4 /* TradeManager.m */; };
 		4237D4821620A40F009A29F1 /* FlyerCustomize.m in Sources */ = {isa = PBXBuildFile; fileRef = 4237D4801620A40F009A29F1 /* FlyerCustomize.m */; };
 		4237D4831620A40F009A29F1 /* FlyerCustomize.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4237D4811620A40F009A29F1 /* FlyerCustomize.xib */; };
-		423F56BF15F72FA100E42AC2 /* bubble_flyer_g.png in Resources */ = {isa = PBXBuildFile; fileRef = 423F56BD15F72FA100E42AC2 /* bubble_flyer_g.png */; };
-		423F56C015F72FA100E42AC2 /* bubble_flyer.png in Resources */ = {isa = PBXBuildFile; fileRef = 423F56BE15F72FA100E42AC2 /* bubble_flyer.png */; };
 		4245A07B16005C9600AB14EB /* TradePost+Render.m in Sources */ = {isa = PBXBuildFile; fileRef = 4245A07A16005C9600AB14EB /* TradePost+Render.m */; };
 		4254BDF31616C527008FD41D /* GameEventMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4254BDF21616C527008FD41D /* GameEventMgr.m */; };
 		4254BDF71616CE77008FD41D /* GameEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4254BDF61616CE77008FD41D /* GameEvent.m */; };
@@ -553,8 +551,6 @@
 		4237D47F1620A40F009A29F1 /* FlyerCustomize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCustomize.h; path = Game/UI/FlyerCustomize.h; sourceTree = "<group>"; };
 		4237D4801620A40F009A29F1 /* FlyerCustomize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerCustomize.m; path = Game/UI/FlyerCustomize.m; sourceTree = "<group>"; };
 		4237D4811620A40F009A29F1 /* FlyerCustomize.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerCustomize.xib; path = Game/UI/FlyerCustomize.xib; sourceTree = "<group>"; };
-		423F56BD15F72FA100E42AC2 /* bubble_flyer_g.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_flyer_g.png; path = assets/UI/bubble_flyer_g.png; sourceTree = SOURCE_ROOT; };
-		423F56BE15F72FA100E42AC2 /* bubble_flyer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_flyer.png; path = assets/UI/bubble_flyer.png; sourceTree = SOURCE_ROOT; };
 		4245A07916005C9600AB14EB /* TradePost+Render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TradePost+Render.h"; path = "Game/Map/TradePost+Render.h"; sourceTree = "<group>"; };
 		4245A07A16005C9600AB14EB /* TradePost+Render.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "TradePost+Render.m"; path = "Game/Map/TradePost+Render.m"; sourceTree = "<group>"; };
 		4254BDF11616C527008FD41D /* GameEventMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameEventMgr.h; path = Game/Sim/GameEventMgr.h; sourceTree = "<group>"; };
@@ -1546,8 +1542,6 @@
 			children = (
 				42CEEC671603066400AED5ED /* flyer.png */,
 				429B154715F5CFAF00107D5F /* bubble_postmark_g.png */,
-				423F56BD15F72FA100E42AC2 /* bubble_flyer_g.png */,
-				423F56BE15F72FA100E42AC2 /* bubble_flyer.png */,
 				42B28E3015EA39620008901C /* b_homebase.png */,
 				42B28E3115EA39620008901C /* b_tradepost.png */,
 				C4D9B07215E3DE160096448E /* b_flyerlab.png */,
@@ -1906,8 +1900,6 @@
 				421564DB15F6B2E400AAE851 /* pogbuilding_002.png in Resources */,
 				421564DC15F6B2E400AAE851 /* pogbuilding_003.png in Resources */,
 				421564DD15F6B2E400AAE851 /* pogbuilding_004.png in Resources */,
-				423F56BF15F72FA100E42AC2 /* bubble_flyer_g.png in Resources */,
-				423F56C015F72FA100E42AC2 /* bubble_flyer.png in Resources */,
 				42D909F415F7D33800BBE992 /* bubble_beacon_fb.png in Resources */,
 				42D909F515F7D33800BBE992 /* bubble_beacon_g_001.png in Resources */,
 				42D909FB15F8195E00BBE992 /* icon_member.png in Resources */,

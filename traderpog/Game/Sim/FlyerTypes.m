@@ -199,6 +199,23 @@ static NSString* const kDefaultFlyerTypeTopImg = @"flyer_glider";
     return [_flyerTypes count];
 }
 
+// returns a FlyerType given its id
+- (FlyerType*) getFlyerTypeById:(NSString *)flyerId
+{
+    FlyerType* result = nil;
+    for (FlyerType* flyer in _flyerTypes)
+    {
+        if ([[flyer flyerId] compare:flyerId] == NSOrderedSame)
+        {
+            result = flyer;
+            break;
+        }
+    }
+    return result;
+}
+
+// returns the FlyerType's index in the internal array given its id
+// this is used for higher-level caching to quickly lookup a FlyerType
 - (NSInteger) getFlyerIndexById:(NSString*)flyerId
 {
     BOOL found = false;
@@ -220,6 +237,9 @@ static NSString* const kDefaultFlyerTypeTopImg = @"flyer_glider";
     return current;
 }
 
+// returns a FlyerType given its index in the internal array
+// (this is NOT the same as the flyerId in the FlyerType)
+// should only use this with the flyerTypeIndex field from Flyer
 - (FlyerType*) getFlyerTypeAtIndex:(NSInteger)index
 {
     FlyerType* result = [_flyerTypes objectAtIndex:index];
