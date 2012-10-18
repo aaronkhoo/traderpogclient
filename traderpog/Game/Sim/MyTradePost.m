@@ -7,6 +7,7 @@
 //
 
 #import "AFClientManager.h"
+#import "AsyncHttpCallMgr.h"
 #import "Flyer.h"
 #import "GameEvent.h"
 #import "GameEventMgr.h"
@@ -162,6 +163,28 @@
         // Beacons don't have "slots". Put 0 as a placeholder.
         [MetricLogger logCreateObject:@"Beacon" slot:0 member:[[Player getInstance] isMember]];
     }
+}
+
+- (void)restockPostSupply
+{
+    // Restocking to some amount.
+    // Actual amount doesn't matter. The server determines the actual reset amount. 
+    _supplyLevel = 100;
+    
+    NSString *path = [NSString stringWithFormat:@"posts/%@", _postId];
+    NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [NSNumber numberWithInteger:_supplyLevel], kKeyTradeSupply,
+                                nil];
+    NSString* msg = [[NSString alloc] initWithFormat:@"Restocking Post id %@ failed", _postId];
+    
+    [[AsyncHttpCallMgr getInstance] newAsyncHttpCall:path
+                                      current_params:parameters
+                                     current_headers:nil
+                                         current_msg:msg
+                                        current_type:putType];
+    
+    // Subtract the cost from the player
+    [[Player getInstance] deductBucks:100];
 }
 
 - (bool) beaconActive

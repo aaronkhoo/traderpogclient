@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
+#import "MyTradePost.h"
 #import "PlayerPostCallout.h"
 #import "PlayerPostCalloutView.h"
 #import "TradePost.h"
@@ -83,6 +84,13 @@
         {
             annotationView.annotation = self;
         }
+        
+        if([_tradePost isMemberOfClass:[MyTradePost class]])
+        {
+            BOOL hideRestock = ([_tradePost supplyLevel] > 0);
+            [annotationView setHiddenOnRestock:hideRestock];
+        }
+        
         annotationView.parentAnnotationView = self.parentAnnotationView;
         annotationView.mapView = mapView;
         _calloutView = annotationView;

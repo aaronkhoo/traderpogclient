@@ -24,5 +24,6 @@ extern NSString* const kPlayerPostCalloutViewReuseId;
 - (IBAction)didPressRestock:(id)sender;
 - (IBAction)didPressDestroy:(id)sender;
 - (IBAction)didPressFlyerLab:(id)sender;
+- (void)setHiddenOnRestock:(BOOL)hide;
 
 @end

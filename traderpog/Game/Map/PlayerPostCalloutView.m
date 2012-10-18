@@ -8,6 +8,7 @@
 
 #import "PlayerPostCalloutView.h"
 #import "PlayerPostCallout.h"
+#import "PostRestockConfirmScreen.h"
 #import "BeaconMgr.h"
 #import "MyTradePost.h"
 #import "PogUIUtility.h"
@@ -124,6 +125,11 @@ static const float kCircleBorderWidth = 3.0f;
     }
 }
 
+- (void)setHiddenOnRestock:(BOOL)hide
+{
+    [self.restockBubble setHidden:hide];
+}
+
 #pragma mark - button actions
 
 - (IBAction)didPressSetBeacon:(id)sender
@@ -139,7 +145,15 @@ static const float kCircleBorderWidth = 3.0f;
 
 - (IBAction)didPressRestock:(id)sender
 {
-    NSLog(@"Restock");
+    MyTradePost* thisPost = (MyTradePost*)[self.parentAnnotationView annotation];
+    if(thisPost)
+    {        
+        [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
+        GameViewController* game = [[GameManager getInstance] gameViewController];
+        PostRestockConfirmScreen* next = [[PostRestockConfirmScreen alloc] initWithNibName:@"PostRestockConfirmScreen" bundle:nil];
+        next.post = thisPost;
+        [game showModalNavViewController:next completion:nil];
+    }
 }
 
 - (IBAction)didPressDestroy:(id)sender
