@@ -25,5 +25,6 @@
 - (void) setBeacon;
 - (bool) beaconActive;
 - (void) raiseEmptySupplyAtPostIfNecessary;
+- (void)restockPostSupply;
 
 @end

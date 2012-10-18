@@ -287,6 +287,7 @@ static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
         if([[Player getInstance] isFacebookConnected])
         {
             NSLog(@"Invite Friends!");
+            [[Player getInstance] updateFacebookFeed:@"I'm playing Traderpog! Won't you come join me?" useTimer:FALSE];
         }
         else
         {

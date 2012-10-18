@@ -26,6 +26,8 @@
 		38887AF9162C4DDF0057D22B /* Pog_SFX_PopUP_Level2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38887AF0162C4DDF0057D22B /* Pog_SFX_PopUP_Level2.mp3 */; };
 		38887AFA162C4DDF0057D22B /* Pog_SFX_Scanner.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38887AF1162C4DDF0057D22B /* Pog_SFX_Scanner.mp3 */; };
 		38887AFB162C4DDF0057D22B /* Pog_SFX_Select.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38887AF2162C4DDF0057D22B /* Pog_SFX_Select.mp3 */; };
+		38887B02162F5D640057D22B /* PostRestockConfirmScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38887B01162F5D640057D22B /* PostRestockConfirmScreen.xib */; };
+		38887B06162F5D900057D22B /* PostRestockConfirmScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 38887B05162F5D900057D22B /* PostRestockConfirmScreen.m */; };
 		3889127415D5BA8E009CF624 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3889127315D5BA8E009CF624 /* libz.1.2.5.dylib */; };
 		3889129615D5D8B6009CF624 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 3889128C15D5D8B6009CF624 /* ioapi.c */; };
 		3889129715D5D8B6009CF624 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 3889128E15D5D8B6009CF624 /* mztools.c */; };
@@ -393,6 +395,9 @@
 		38887AF0162C4DDF0057D22B /* Pog_SFX_PopUP_Level2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Pog_SFX_PopUP_Level2.mp3; path = assets/audio/Pog_SFX_PopUP_Level2.mp3; sourceTree = SOURCE_ROOT; };
 		38887AF1162C4DDF0057D22B /* Pog_SFX_Scanner.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Pog_SFX_Scanner.mp3; path = assets/audio/Pog_SFX_Scanner.mp3; sourceTree = SOURCE_ROOT; };
 		38887AF2162C4DDF0057D22B /* Pog_SFX_Select.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Pog_SFX_Select.mp3; path = assets/audio/Pog_SFX_Select.mp3; sourceTree = SOURCE_ROOT; };
+		38887B01162F5D640057D22B /* PostRestockConfirmScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PostRestockConfirmScreen.xib; path = Game/UI/PostRestockConfirmScreen.xib; sourceTree = "<group>"; };
+		38887B04162F5D8F0057D22B /* PostRestockConfirmScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostRestockConfirmScreen.h; path = Game/UI/PostRestockConfirmScreen.h; sourceTree = "<group>"; };
+		38887B05162F5D900057D22B /* PostRestockConfirmScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostRestockConfirmScreen.m; path = Game/UI/PostRestockConfirmScreen.m; sourceTree = "<group>"; };
 		3889127315D5BA8E009CF624 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		3889128B15D5D8B6009CF624 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
 		3889128C15D5D8B6009CF624 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
@@ -1621,6 +1626,9 @@
 				421A0712162A025900D2FE9E /* InfoViewController.h */,
 				421A0713162A025B00D2FE9E /* InfoViewController.m */,
 				421A0714162A025F00D2FE9E /* InfoViewController.xib */,
+				38887B04162F5D8F0057D22B /* PostRestockConfirmScreen.h */,
+				38887B05162F5D900057D22B /* PostRestockConfirmScreen.m */,
+				38887B01162F5D640057D22B /* PostRestockConfirmScreen.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -2063,6 +2071,7 @@
 				4213B03D162E80070014DDFB /* icon_member_blue_shop.png in Resources */,
 				4213B041162E86F90014DDFB /* icon_member_join_frame.png in Resources */,
 				4213B042162E86F90014DDFB /* icon_member_joined.png in Resources */,
+				38887B02162F5D640057D22B /* PostRestockConfirmScreen.xib in Resources */,
 				42211C92162F70400019EDBB /* icon_alert_post_001.png in Resources */,
 				42211C93162F70400019EDBB /* icon_alert_post_002.png in Resources */,
 				42211C94162F70400019EDBB /* icon_alert_post_003.png in Resources */,
@@ -2210,6 +2219,7 @@
 				42C3B4E21626A6E400804A76 /* SoundManager.m in Sources */,
 				426CA1B116274358001BD905 /* PostAccelView.m in Sources */,
 				421A0715162A026100D2FE9E /* InfoViewController.m in Sources */,
+				38887B06162F5D900057D22B /* PostRestockConfirmScreen.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

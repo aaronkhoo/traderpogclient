@@ -70,7 +70,7 @@ static NSString* const kPlayer_GetPlayerDataWithFacebook = @"GetPlayerDataWithFa
 - (void)updateMembershipInfo:(NSString*)receipt;
 - (BOOL)facebookSessionValid;
 - (void)getFacebookFriendsList;
-- (void)updateFacebookFeed:(NSString*)message;
+- (void)updateFacebookFeed:(NSString*)message useTimer:(BOOL)useTimer;
 - (BOOL)isFacebookConnected;
 - (NSString*)getFacebookNameByFbid:(NSString*)fbid;
 - (BOOL)isMember;

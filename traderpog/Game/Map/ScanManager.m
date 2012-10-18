@@ -9,7 +9,6 @@
 #import "ScanManager.h"
 #import "HiAccuracyLocator.h"
 #import "MKMapView+ZoomLevel.h"
-#import "NPCTradePost.h"
 #import "TradePostMgr.h"
 #import "TradeItemTypes.h"
 #import "TradeItemType.h"
@@ -121,6 +120,33 @@ static const float kRetryAngleIncr = M_PI_2 * 0.5f;
     _state = kScanStateLocating;
 }
 
+- (NPCTradePost*) generateSinglePostAtCoordAndAngle:(CLLocationCoordinate2D)scanCoord curAngle:(float)curAngle randFrac:(float)randFrac
+{
+    double minDistance = kScanRadius * kScanRadiusMinFactor;
+    double newDistance = minDistance + (randFrac * (kScanRadius - minDistance));
+    
+    MKMapPoint newPoint = [self createPointFromCenter:scanCoord atDistance:newDistance angle:curAngle];
+    CLLocationCoordinate2D newCoord = MKCoordinateForMapPoint(newPoint);
+    
+    unsigned int numTrials = kNumOverlapTrials;
+    NSSet* overlaps = [self.map visiblePostAnnotationsNearCoord:newCoord radius:kNewPostNearMeters];
+    while(([overlaps count]) && numTrials)
+    {
+        curAngle = curAngle + (kRetryAngleIncr * (1.0f - (0.5f * RandomFrac())));
+        double tryDist = minDistance + (RandomFrac() * (kScanRadius - minDistance));
+        newPoint = [self createPointFromCenter:scanCoord atDistance:tryDist angle:curAngle];
+        newCoord = MKCoordinateForMapPoint(newPoint);
+        NSLog(@"retry %d: tryDist %f curAngle %f; newCoord (%f, %f)", numTrials, tryDist, curAngle, newCoord.latitude, newCoord.longitude);
+        overlaps = [self.map visiblePostAnnotationsNearCoord:newCoord radius:kNewPostNearMeters];
+        --numTrials;
+    }
+    
+    unsigned int playerBucks = [[Player getInstance] bucks];
+    NPCTradePost* newPost = [[TradePostMgr getInstance] newNPCTradePostAtCoord:newCoord
+                                                                         bucks:playerBucks];
+    return newPost;
+}
+
 - (void) startScanAtCoord:(CLLocationCoordinate2D)scanCoord
 {
     NSLog(@"scanning...");
@@ -171,30 +197,9 @@ static const float kRetryAngleIncr = M_PI_2 * 0.5f;
         unsigned int numPosts = MIN(scanNumPosts, (kMaxNumPosts - [posts count]));
         float curAngle = startAngle;
         float randFrac = RandomFrac();
-        double minDistance = kScanRadius * kScanRadiusMinFactor;
         for(unsigned int i = 0; i < numPosts; ++i)
         {
-            double newDistance = minDistance + (randFrac * (kScanRadius - minDistance));
-            
-            MKMapPoint newPoint = [self createPointFromCenter:scanCoord atDistance:newDistance angle:curAngle];
-            CLLocationCoordinate2D newCoord = MKCoordinateForMapPoint(newPoint);
-            
-            unsigned int numTrials = kNumOverlapTrials;
-            NSSet* overlaps = [self.map visiblePostAnnotationsNearCoord:newCoord radius:kNewPostNearMeters];
-            while(([overlaps count]) && numTrials)
-            {
-                curAngle = curAngle + (kRetryAngleIncr * (1.0f - (0.5f * RandomFrac())));
-                double tryDist = minDistance + (RandomFrac() * (kScanRadius - minDistance));
-                newPoint = [self createPointFromCenter:scanCoord atDistance:tryDist angle:curAngle];
-                newCoord = MKCoordinateForMapPoint(newPoint);
-                NSLog(@"retry %d: tryDist %f curAngle %f; newCoord (%f, %f)", numTrials, tryDist, curAngle, newCoord.latitude, newCoord.longitude);
-                overlaps = [self.map visiblePostAnnotationsNearCoord:newCoord radius:kNewPostNearMeters];
-                --numTrials;
-            }
-            
-            unsigned int playerBucks = [[Player getInstance] bucks];
-            NPCTradePost* newPost = [[TradePostMgr getInstance] newNPCTradePostAtCoord:newCoord
-                                                                                 bucks:playerBucks];
+            NPCTradePost* newPost = [self generateSinglePostAtCoordAndAngle:scanCoord curAngle:curAngle randFrac:randFrac];
             [posts addObject:newPost];
             
             curAngle = curAngle + (angleIncr * (1.0f - (0.5f * RandomFrac())));
