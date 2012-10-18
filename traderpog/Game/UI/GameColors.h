@@ -21,4 +21,5 @@
 
 + (UIColor*) bubbleBgColorWithAlpha:(CGFloat)alpha;
 + (UIColor*) gliderWhiteWithAlpha:(CGFloat)alpha;
++ (UIColor*) membershipCliponColorWithAlpha:(CGFloat)alpha;
 @end
