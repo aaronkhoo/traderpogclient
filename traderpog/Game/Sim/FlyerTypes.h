@@ -10,6 +10,11 @@
 #import <Foundation/Foundation.h>
 #import "HttpCallbackDelegate.h"
 
+// HACK (dev only; DO NOT SHIP)
+// uncomment this to use local fallback flyer types
+//#define USE_FALLBACKS (1)
+// HACK
+
 static NSString* const kFlyerTypes_ReceiveFlyers = @"FlyerTypes_ReceiveFlyers";
 
 @interface FlyerTypes : NSObject<NSCoding>
@@ -23,15 +28,15 @@ static NSString* const kFlyerTypes_ReceiveFlyers = @"FlyerTypes_ReceiveFlyers";
 // Public methods
 - (BOOL) needsRefresh:(NSDate*) lastModifiedDate;
 - (void) retrieveFlyersFromServer;
+- (NSInteger) numFlyerTypes;
 
-- (FlyerType*) getFlyerTypeById:(NSString*)flyerId;
 - (NSInteger) getFlyerIndexById:(NSString*)flyerId;
+- (FlyerType*) getFlyerTypeAtIndex:(NSInteger)index;
+- (NSString*) sideImgForFlyerTypeAtIndex:(NSInteger)index;
+- (NSString*) topImgForFlyerTypeAtIndex:(NSInteger)index;
 
 // Returns an array of FlyerType
 - (NSArray*) getFlyersForTier:(unsigned int)tier;
-
-// returns a type-name that can be used to lookup flyer info from flyerlab.plist
-- (NSString*) getFlyerLabNameForFlyerTypeIndex:(NSInteger)flyerTypeIndex;
 
 // singleton
 +(FlyerTypes*) getInstance;

@@ -216,7 +216,7 @@ enum kColorOptions
     }
     
     // image
-    NSString* flyerTypeName = [[FlyerTypes getInstance] getFlyerLabNameForFlyerTypeIndex:[_flyer flyerTypeIndex]];
+    NSString* flyerTypeName = [[FlyerTypes getInstance] sideImgForFlyerTypeAtIndex:[_flyer flyerTypeIndex]];
     NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:flyerTypeName tier:[_flyer curUpgradeTier] colorIndex:newSelection];
     UIImage* image = [[ImageManager getInstance] getImage:imageName];
     [self.imageView setImage:image];
@@ -251,7 +251,7 @@ enum kColorOptions
     }
     
     // color for each option
-    NSString* flyerTypeName = [[FlyerTypes getInstance] getFlyerLabNameForFlyerTypeIndex:[_flyer flyerTypeIndex]];
+    NSString* flyerTypeName = [[FlyerTypes getInstance] sideImgForFlyerTypeAtIndex:[_flyer flyerTypeIndex]];
     FlyerColorPack* origPack = [[FlyerLabFactory getInstance] colorPackAtIndex:kColorOptionOriginal forFlyerTypeNamed:flyerTypeName];
     [self.optionOriginal setBackgroundColor:[origPack color]];
     FlyerColorPack* c1Pack = [[FlyerLabFactory getInstance] colorPackAtIndex:kColorOption1 forFlyerTypeNamed:flyerTypeName];

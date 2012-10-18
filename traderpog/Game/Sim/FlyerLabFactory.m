@@ -10,6 +10,7 @@
 #import "FlyerColorPack.h"
 #import "FlyerUpgradePack.h"
 #import "NSDictionary+Pog.h"
+#import "FlyerType.h"
 
 static NSString* const kKeyColorPacks = @"color_packs";
 static NSString* const kKeyUpgradePacks = @"upgrade_packs";
@@ -18,8 +19,12 @@ static NSString* const kKeyFlyerImages = @"flyer_images";
 static NSString* const kKeyTop = @"top";
 static NSString* const kKeySide = @"side";
 
+static NSString* const kDefaultFlyerLabSideImg = @"flyer_landed.png";
+static NSString* const kDefaultFlyerLabTopImg = @"flyer.png";
+
 @interface FlyerLabFactory ()
 - (void) initColorPacksWithDictionary:(NSDictionary*)dict;
+- (void) loadFallbackFlyerTypes;
 @end
 
 @implementation FlyerLabFactory
@@ -57,9 +62,14 @@ static NSString* const kKeySide = @"side";
             [_topImages setObject:top forKey:curKey];
             [_sideImages setObject:side forKey:curKey];
         }
+        
+        // fallback flyer-types (currently only used for dev purposes in case we reset server
+        // and forget to populate flyer_infos with all types)
+        [self loadFallbackFlyerTypes];
     }
     return self;
 }
+
 
 #pragma mark - upgrades
 
@@ -129,7 +139,7 @@ static NSString* const kKeySide = @"side";
                                     tier:(unsigned int)tier
                               colorIndex:(unsigned int)colorIndex
 {
-    NSString* result = nil;
+    NSString* result = kDefaultFlyerLabSideImg;
     NSArray* curArray = [_sideImages objectForKey:name];
     if(curArray)
     {
@@ -153,7 +163,7 @@ static NSString* const kKeySide = @"side";
                                     tier:(unsigned int)tier
                               colorIndex:(unsigned int)colorIndex
 {
-    NSString* result = nil;
+    NSString* result = kDefaultFlyerLabTopImg;
     NSArray* curArray = [_topImages objectForKey:name];
     if(curArray)
     {
@@ -173,6 +183,31 @@ static NSString* const kKeySide = @"side";
     return result;
 }
 
+- (FlyerType*) fallbackFlyerTypeForFlyerTypeId:(NSInteger)typeId
+{
+    FlyerType* result = [_fallbackFlyerTypesArray objectAtIndex:0];
+    for(FlyerType* cur in _fallbackFlyerTypesArray)
+    {
+        NSInteger idValue = [[cur flyerId] integerValue];
+        if(idValue == typeId)
+        {
+            result = cur;
+        }
+    }
+    return result;
+}
+
+- (FlyerType*) fallbackFlyerTypeAtIndex:(NSInteger)index
+{
+    FlyerType* result = [_fallbackFlyerTypesArray objectAtIndex:index];
+    return result;
+}
+
+- (NSInteger) numFallbackFlyerTypes
+{
+    return [_fallbackFlyerTypesArray count];
+}
+
 #pragma mark - internal methods
 - (void) initColorPacksWithDictionary:(NSDictionary *)dict
 {
@@ -189,6 +224,18 @@ static NSString* const kKeySide = @"side";
         [_colorPacks setObject:flyerPacks forKey:curKey];
     }
 
+}
+
+- (void) loadFallbackFlyerTypes
+{
+    NSString* filepath = [[NSBundle mainBundle] pathForResource:@"flyertypes" ofType:@"plist"];
+    NSArray* loadedArray = [NSArray arrayWithContentsOfFile:filepath];
+    _fallbackFlyerTypesArray = [NSMutableArray arrayWithCapacity:[loadedArray count]];
+    for(NSDictionary* cur in loadedArray)
+    {
+        FlyerType* newFlyerType = [[FlyerType alloc] initWithDictionary:cur];
+        [_fallbackFlyerTypesArray addObject:newFlyerType];
+    }
 }
 
 #pragma mark - Singleton

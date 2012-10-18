@@ -134,7 +134,7 @@ static const float kContentBorderCornerRadius = 8.0f;
     [self.secondaryTitleLabel setText:[pack secondTitle]];
     
     // image
-    NSString* flyerTypeName = [[FlyerTypes getInstance] getFlyerLabNameForFlyerTypeIndex:[_flyer flyerTypeIndex]];
+    NSString* flyerTypeName = [[FlyerTypes getInstance] sideImgForFlyerTypeAtIndex:[_flyer flyerTypeIndex]];
     NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:flyerTypeName tier:nextTier colorIndex:[_flyer curColor]];
     UIImage* image = [[ImageManager getInstance] getImage:imageName];
     [self.imageView setImage:image];

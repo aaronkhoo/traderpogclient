@@ -106,7 +106,7 @@ static const float kButtonViewBorderWidth = 4.0f;
     if(_flyer)
     {
         // image
-        NSString* flyerTypeName = [[FlyerTypes getInstance] getFlyerLabNameForFlyerTypeIndex:[_flyer flyerTypeIndex]];
+        NSString* flyerTypeName = [[FlyerTypes getInstance] sideImgForFlyerTypeAtIndex:[_flyer flyerTypeIndex]];
         NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:flyerTypeName tier:[_flyer curUpgradeTier] colorIndex:[_flyer curColor]];
         UIImage* image = [[ImageManager getInstance] getImage:imageName];
         [self.imageView setImage:image];

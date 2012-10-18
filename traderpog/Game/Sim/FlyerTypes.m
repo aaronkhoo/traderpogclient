@@ -9,11 +9,15 @@
 #import "AFClientManager.h"
 #import "FlyerTypes.h"
 #import "GameManager.h"
+#import "FlyerLabFactory.h"
 
 static NSString* const kKeyVersion = @"version";
 static NSString* const kKeyLastUpdate = @"lastUpdate";
 static NSString* const kKeyFlyerTypes = @"flyerTypes";
 static NSString* const kTradeItemTypesFilename = @"flyertypes.sav";
+
+static NSString* const kDefaultFlyerTypeSideImg = @"flyer_glider";
+static NSString* const kDefaultFlyerTypeTopImg = @"flyer_glider";
 
 @interface FlyerTypes ()
 {
@@ -23,6 +27,10 @@ static NSString* const kTradeItemTypesFilename = @"flyertypes.sav";
     NSMutableArray* _flyerTypes;
     NSDate* _lastUpdate;
 }
+
+#if defined(USE_FALLBACKS)
+- (void) fillMissingFlyerTypesFromFallback;
+#endif
 @end
 
 @implementation FlyerTypes
@@ -54,6 +62,10 @@ static NSString* const kTradeItemTypesFilename = @"flyertypes.sav";
     _createdVersion = [aDecoder decodeObjectForKey:kKeyVersion];
     _lastUpdate = [aDecoder decodeObjectForKey:kKeyLastUpdate];
     _flyerTypes = [aDecoder decodeObjectForKey:kKeyFlyerTypes];
+    
+#if defined(USE_FALLBACKS)
+    [self fillMissingFlyerTypesFromFallback];
+#endif
     return self;
 }
 
@@ -65,6 +77,22 @@ static NSString* const kTradeItemTypesFilename = @"flyertypes.sav";
     NSString* filepath = [docsDir stringByAppendingPathComponent:kTradeItemTypesFilename];
     return filepath;
 }
+
+#if defined(USE_FALLBACKS)
+- (void) fillMissingFlyerTypesFromFallback
+{
+    NSInteger numFallbacks = [[FlyerLabFactory getInstance] numFallbackFlyerTypes];
+    for(NSInteger index = 0; index < numFallbacks; ++index)
+    {
+        FlyerType* cur = [[FlyerLabFactory getInstance] fallbackFlyerTypeAtIndex:index];
+        if(0 > [self getFlyerIndexById:[cur flyerId]])
+        {
+            // fill in
+            [_flyerTypes addObject:cur];
+        }
+    }
+}
+#endif
 
 #pragma mark - saved game data loading and unloading
 + (FlyerTypes*) loadFlyerTypesData
@@ -124,6 +152,10 @@ static NSString* const kTradeItemTypesFilename = @"flyertypes.sav";
         FlyerType* current = [[FlyerType alloc] initWithDictionary:flyer];
         [_flyerTypes addObject:current];
     }
+    
+#if defined(USE_FALLBACKS)
+    [self fillMissingFlyerTypesFromFallback];
+#endif
 }
 
 - (void) retrieveFlyersFromServer
@@ -162,17 +194,9 @@ static NSString* const kTradeItemTypesFilename = @"flyertypes.sav";
      ];
 }
 
-- (FlyerType*) getFlyerTypeById:(NSString*)flyerId
+- (NSInteger) numFlyerTypes
 {
-    FlyerType* current = nil;
-    for (FlyerType* flyer in _flyerTypes)
-    {
-        if ([[flyer flyerId] compare:flyerId] == NSOrderedSame)
-        {
-            current = flyer;
-        }
-    }
-    return current;
+    return [_flyerTypes count];
 }
 
 - (NSInteger) getFlyerIndexById:(NSString*)flyerId
@@ -196,6 +220,34 @@ static NSString* const kTradeItemTypesFilename = @"flyertypes.sav";
     return current;
 }
 
+- (FlyerType*) getFlyerTypeAtIndex:(NSInteger)index
+{
+    FlyerType* result = [_flyerTypes objectAtIndex:index];
+    return result;
+}
+
+- (NSString*) sideImgForFlyerTypeAtIndex:(NSInteger)index
+{
+    NSString* result = kDefaultFlyerTypeSideImg;
+    FlyerType* cur = [self getFlyerTypeAtIndex:index];
+    if(cur)
+    {
+        result = [cur sideimg];
+    }
+    return result;
+}
+
+- (NSString*) topImgForFlyerTypeAtIndex:(NSInteger)index
+{
+    NSString* result = kDefaultFlyerTypeTopImg;
+    FlyerType* cur = [self getFlyerTypeAtIndex:index];
+    if(cur)
+    {
+        result = [cur topimg];
+    }
+    return result;
+}
+
 - (NSArray*) getFlyersForTier:(unsigned int)tier
 {
     NSMutableArray* flyerArray = [[NSMutableArray alloc] init];
@@ -207,21 +259,6 @@ static NSString* const kTradeItemTypesFilename = @"flyertypes.sav";
         }
     }
     return (NSArray*)flyerArray;
-}
-
-- (NSString*) getFlyerLabNameForFlyerTypeIndex:(NSInteger)flyerTypeIndex
-{
-    NSString* result = @"flyer_glider";
-    if((0 > flyerTypeIndex) || ([self.flyerTypes count] <= flyerTypeIndex))
-    {
-        flyerTypeIndex = 0;
-    }
-    FlyerType* flyerType = [self.flyerTypes objectAtIndex:flyerTypeIndex];
-    if(flyerType)
-    {
-        result = [flyerType getNameForFlyerLab];
-    }
-    return result;
 }
 
 #pragma mark - Singleton

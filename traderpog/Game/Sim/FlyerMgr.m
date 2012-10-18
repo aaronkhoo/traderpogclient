@@ -524,7 +524,7 @@ static const float kBubbleBorderWidth = 1.5f;
 #pragma mark - WheelDataSource
 - (unsigned int) numItemsInWheel:(WheelControl *)wheel
 {
-    unsigned int num = kFlyerNum;
+    unsigned int num = [[FlyerTypes getInstance] numFlyerTypes];
     return num;
 }
 
@@ -545,7 +545,7 @@ static const float kBubbleBorderWidth = 1.5f;
     if(index < [_playerFlyers count])
     {
         Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
-        NSString* flyerTypeName = [[FlyerTypes getInstance] getFlyerLabNameForFlyerTypeIndex:[curFlyer flyerTypeIndex]];
+        NSString* flyerTypeName = [[FlyerTypes getInstance] topImgForFlyerTypeAtIndex:[curFlyer flyerTypeIndex]];
         NSString* imageName = [[FlyerLabFactory getInstance] topImageForFlyerTypeNamed:flyerTypeName tier:[curFlyer curUpgradeTier] colorIndex:[curFlyer curColor]];
         UIImage* image = [[ImageManager getInstance] getImage:imageName];
         [contentView.imageView setImage:image];
