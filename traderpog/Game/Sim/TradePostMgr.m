@@ -154,13 +154,13 @@ static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total O
 // specifically, it adds all the loaded posts as annotations in the game map
 - (void) annotatePostsOnMap:(MapControl*)map
 {
-    [self addAllPostsToMap:map];
-    
     // Cycle through my own trade posts raising an alert if the posts are supply empty
     for (MyTradePost* post in [_activePosts allValues])
     {
         [post raiseEmptySupplyAtPostIfNecessary];
     }
+
+    [self addAllPostsToMap:map];
 }
 
 - (void) addAllMyPostsToMap:(MapControl*)map
