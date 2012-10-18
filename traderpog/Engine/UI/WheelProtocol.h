@@ -28,4 +28,5 @@
 - (UIColor*) previewBorderColorForWheel:(WheelControl*)wheel;
 - (UIColor*) previewButtonColorForWheel:(WheelControl*)wheel;
 - (UIColor*) previewButtonBorderColorForWheel:(WheelControl*)wheel;
+- (CGRect) previewImageFrameForWheel:(WheelControl*)wheel inParentFrame:(CGRect)parentCircleFrame;
 @end

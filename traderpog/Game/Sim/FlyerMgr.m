@@ -540,6 +540,8 @@ static const float kBubbleBorderWidth = 1.5f;
         // image
         [wheel.previewImageView setImage:nil];
         [wheel.previewImageView setHidden:YES];
+
+        [_previewMap.view setHidden:NO];
     }
     else
     {
@@ -547,10 +549,16 @@ static const float kBubbleBorderWidth = 1.5f;
         [wheel.previewLabel setNumberOfLines:1];
         [wheel.previewLabel setText:@"Buy Flyer!"];
         [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
-        UIImage* bgImage = [[ImageManager getInstance] getImage:@"flyer_landed.png" fallbackNamed:@"flyer_landed.png"];
+        
+        NSString* flyerTypeId = [NSString stringWithFormat:@"%d", index+1];
+        FlyerType* flyerType = [[FlyerTypes getInstance] getFlyerTypeById:flyerTypeId];
+        NSString* flyerTypeName = [flyerType sideimg];
+        NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:flyerTypeName tier:1 colorIndex:0];
+        UIImage* bgImage = [[ImageManager getInstance] getImage:imageName];
         [wheel.previewImageView setImage:bgImage];
         [wheel.previewImageView setHidden:NO];
-        [wheel.previewImageView setBackgroundColor:[GameColors bubbleBgColorWithAlpha:1.0f]];
+        
+        [_previewMap.view setHidden:YES];
     }
 }
 
@@ -670,6 +678,15 @@ static const float kBubbleBorderWidth = 1.5f;
     return result;
 }
 
+static const float kPreviewImageInset = 25.0f;
+static const float kPreviewImageYOffset = -0.25f;
+- (CGRect) previewImageFrameForWheel:(WheelControl*)wheel inParentFrame:(CGRect)parentCircleFrame
+{
+    CGRect imageFrame = CGRectInset(parentCircleFrame, kPreviewImageInset, kPreviewImageInset);
+    float yOffset = kPreviewImageYOffset * imageFrame.size.height;
+    imageFrame.origin = CGPointMake(imageFrame.origin.x, imageFrame.origin.y + yOffset);
+    return imageFrame;
+}
 
 #pragma mark - WheelProtocol
 - (void) wheel:(WheelControl*)wheel didMoveTo:(unsigned int)index

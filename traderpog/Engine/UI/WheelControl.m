@@ -321,6 +321,7 @@ static const float kPreviewCancelImageInset = 6.0f;
     if([self.dataSource respondsToSelector:@selector(previewColorForWheel:)])
     {
         bgColor = [self.dataSource previewColorForWheel:self];
+        [_previewCircle setBackgroundColor:bgColor];
     }
     UIColor* borderColor = [UIColor darkGrayColor];
     if([self.dataSource respondsToSelector:@selector(previewBorderColorForWheel:)])
@@ -338,7 +339,13 @@ static const float kPreviewCancelImageInset = 6.0f;
         buttonBorderColor = [self.dataSource previewButtonBorderColorForWheel:self];
     }
     // previewImageView that can optionally cover up the content
-    _previewImageView = [[UIImageView alloc] initWithFrame:[_previewView bounds]];
+    
+    CGRect imageFrame = [_previewView bounds];
+    if([self.dataSource respondsToSelector:@selector(previewImageFrameForWheel:inParentFrame:)])
+    {
+        imageFrame = [self.dataSource previewImageFrameForWheel:self inParentFrame:[_previewView bounds]];
+    }
+    _previewImageView = [[UIImageView alloc] initWithFrame:imageFrame];
     _previewImageView.backgroundColor = [UIColor clearColor];
     [_previewCircle addSubview:_previewImageView];
 
