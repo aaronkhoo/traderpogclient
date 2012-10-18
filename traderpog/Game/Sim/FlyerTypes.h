@@ -12,7 +12,7 @@
 
 // HACK (dev only; DO NOT SHIP)
 // uncomment this to use local fallback flyer types
-#define USE_FALLBACKS (1)
+//#define USE_FALLBACKS (1)
 // HACK
 
 static NSString* const kFlyerTypes_ReceiveFlyers = @"FlyerTypes_ReceiveFlyers";
