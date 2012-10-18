@@ -879,6 +879,14 @@ typedef enum {
             [self popLoadingScreenToRootIfNecessary:nav];
         }
     }
+    else if ([callName compare:kTradePostMgr_ReceiveSinglePost] == NSOrderedSame)
+    {
+        // Dangling posts resolved (or should be)
+        // If we don't set this to true, and there's an error resolving the dangling posts
+        // selectNextGameUI will go into an infinite loop.
+        _danglingPostsResolved = TRUE;
+        [self selectNextGameUI];
+    }
     else
     {
         NSLog(@"Http callback received from call: %@. Calling selectNextGameUI.", callName);

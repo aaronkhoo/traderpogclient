@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "HiAccuracyLocatorDelegate.h"
 #import "HttpCallbackDelegate.h"
+#import "NPCTradePost.h"
 #import <CoreLocation/CoreLocation.h>
 
 typedef void (^ScanCompletionBlock)(BOOL finished, NSArray* tradePosts, CLLocation* loc);
@@ -25,6 +26,9 @@ typedef void (^ScanCompletionBlock)(BOOL finished, NSArray* tradePosts, CLLocati
 
 - (BOOL) locateAndScanInMap:(MapControl*)map completion:(ScanCompletionBlock)completion;
 - (void) clearForQuitGame;
+- (NPCTradePost*) generateSinglePostAtCoordAndAngle:(CLLocationCoordinate2D)scanCoord
+                                           curAngle:(float)curAngle
+                                           randFrac:(float)randFrac;
 
 // singleton
 +(ScanManager*) getInstance;

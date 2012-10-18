@@ -24,6 +24,7 @@
 #include "MathUtils.h"
 #import "MetricLogger.h"
 #import "GameAnim.h"
+#import "ScanManager.h"
 #import "FlyerLabFactory.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -363,6 +364,28 @@ static const float kBubbleBorderWidth = 1.5f;
                 }
                 cur.path.curPostId = [post postId];
             }
+            else
+            {
+                // Else if there's a dangling post that couldn't be resolved. 
+                TradePost* post = [[TradePostMgr getInstance] getTradePostWithId:[[cur path] curPostId]];
+                if (!post)
+                {
+                    NSLog(@"Could not resolve current post! Replacing with NPC post.");
+                    
+                    // Create a random NPC post first
+                    float curAngle = RandomFrac() * 2.0f * M_PI;
+                    float randFrac = RandomFrac();
+                    NPCTradePost* newPost = [[ScanManager getInstance] generateSinglePostAtCoordAndAngle:[[[TradePostMgr getInstance] getFirstMyTradePost] coord]
+                                                                                                curAngle:curAngle
+                                                                                                randFrac:randFrac];
+                    [patchPosts addObject:newPost];
+                    
+                    // Set the current path to use it
+                    cur.path.curPostId = nil;
+                    cur.path.srcCoord = newPost.coord;
+                }
+            }                
+                
             if(![[cur path] nextPostId] && ![[cur path] doneWithCurrentPath])
             {
                 // only patch nextPost if not doneWithCurrentPath
@@ -375,6 +398,27 @@ static const float kBubbleBorderWidth = 1.5f;
                     [patchPosts addObject:post];
                 }
                 cur.path.nextPostId = [post postId];
+            }
+            else if(![[cur path] doneWithCurrentPath])
+            {
+                // Else if there's a dangling post that couldn't be resolved.
+                TradePost* post = [[TradePostMgr getInstance] getTradePostWithId:[[cur path] nextPostId]];
+                if (!post)
+                {
+                    NSLog(@"Could not resolve next post! Replacing with NPC post.");
+                    
+                    // Create a random NPC post first
+                    float curAngle = RandomFrac() * 2.0f * M_PI;
+                    float randFrac = RandomFrac();
+                    NPCTradePost* newPost = [[ScanManager getInstance] generateSinglePostAtCoordAndAngle:[[[TradePostMgr getInstance] getFirstMyTradePost] coord]
+                                                                                                curAngle:curAngle
+                                                                                                randFrac:randFrac];
+                    [patchPosts addObject:newPost];
+                    
+                    // Set the current path to use it
+                    cur.path.nextPostId = nil;
+                    cur.path.destCoord = newPost.coord;
+                }
             }
         }
     }
