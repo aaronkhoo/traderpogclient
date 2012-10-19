@@ -12,11 +12,14 @@
 extern NSString* const kMyPostMenuCloseId;
 
 @class CircleButton;
+@class MyTradePost;
 @interface PlayerPostViewController : UIViewController
 {
     CGRect _centerFrame;
+    __weak MyTradePost* _myPost;
 }
 @property (nonatomic) CGRect centerFrame;
+@property (nonatomic,weak) MyTradePost* myPost;
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
 @property (weak, nonatomic) IBOutlet CircleButton *beaconCircle;
 @property (weak, nonatomic) IBOutlet CircleButton *flyerCircle;
@@ -26,7 +29,8 @@ extern NSString* const kMyPostMenuCloseId;
 @property (weak, nonatomic) IBOutlet UIView *restockBar;
 @property (weak, nonatomic) IBOutlet UILabel *flyerLabel;
 
-- (id) initWithCenterFrame:(CGRect)centerFrame delegate:(NSObject<ModalNavDelegate>*)delegate;
+- (id) initWithCenterFrame:(CGRect)centerFrame
+                  delegate:(NSObject<ModalNavDelegate>*)delegate;
 
 - (void) presentInView:(UIView*)parentView belowSubview:(UIView*)subview animated:(BOOL)isAnimated;
 - (void) dismissAnimated:(BOOL)isAnimated;

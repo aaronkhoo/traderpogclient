@@ -456,7 +456,8 @@ static const float kBuyViewCenterYOffset = -10.0f;
                     //PlayerPostCallout* callout = [[PlayerPostCallout alloc] initWithTradePost:tradePost];
                     //callout.parentAnnotationView = self;
                     //_calloutAnnotation = callout;
-                    [[GameManager getInstance].gameViewController showMyPostMenu];
+                    MyTradePost* myPost = (MyTradePost*)tradePost;
+                    [[GameManager getInstance].gameViewController showMyPostMenuForPost:myPost];
                     centerCoord = [tradePost coord];
                     doZoomAdjustment = YES;
                 }

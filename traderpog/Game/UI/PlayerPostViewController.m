@@ -11,6 +11,14 @@
 #import "GameColors.h"
 #import "PogUIUtility.h"
 #import "GameManager.h"
+#import "MyTradePost.h"
+#import "FlyerLabViewController.h"
+#import "TradeManager.h"
+#import "GameManager.h"
+#import "GameViewController.h"
+#import "MapControl.h"
+#import "PostRestockConfirmScreen.h"
+#import "TradePostMgr.h"
 
 NSString* const kMyPostMenuCloseId = @"MyPostMenuClose";
 
@@ -19,6 +27,7 @@ static const float kCloseBorderWidth = 4.0f;
 static const float kBorderWidth = 3.0f;
 static const float kBubbleOutScale = 1.4f;
 static const float kBubbleInitScale = 0.1f;
+static const float kBubbleDisabledAlpha = 0.6f;
 
 @interface PlayerPostViewController ()
 {
@@ -34,13 +43,16 @@ static const float kBubbleInitScale = 0.1f;
 
 @implementation PlayerPostViewController
 @synthesize centerFrame = _centerFrame;
-- (id)initWithCenterFrame:(CGRect)centerFrame delegate:(NSObject<ModalNavDelegate> *)delegate
+@synthesize myPost = _myPost;
+- (id)initWithCenterFrame:(CGRect)centerFrame
+                 delegate:(NSObject<ModalNavDelegate> *)delegate
 {
     self = [super initWithNibName:@"PlayerPostViewController" bundle:nil];
     if(self)
     {
         _centerFrame = centerFrame;
         _delegate = delegate;
+        _myPost = nil;
     }
     return self;
 }
@@ -65,6 +77,11 @@ static const float kBubbleInitScale = 0.1f;
     [self refreshSubframesWithFrame:_centerFrame];
     [self setupContent];
     
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [self setupContent];
 }
 
 - (void)didReceiveMemoryWarning
@@ -350,22 +367,123 @@ static const float kBubbleInitScale = 0.1f;
     [self.restockCircle setBorderColor:[GameColors borderColorPostsWithAlpha:1.0f]];
     [self.restockCircle setBorderWidth:kBorderWidth];
     [self.restockBar setBackgroundColor:[GameColors borderColorPostsWithAlpha:1.0f]];
+    
+    // label
+    [self changeFlyerLabLabelIfNecessary];
+    
+    // semi-transparent restock and beacon if necessary
+    if([self myPost])
+    {
+        // restock
+        if([self.myPost supplyLevel] > 0)
+        {
+            [self.restockCircle setAlpha:kBubbleDisabledAlpha];
+        }
+        else
+        {
+            [self.restockCircle setAlpha:1.0f];
+        }
+        
+        // beacon
+        if ([[TradePostMgr getInstance] isBeaconActive])
+        {
+            [self.beaconCircle setAlpha:kBubbleDisabledAlpha];
+        }
+        else
+        {
+            [self.beaconCircle setAlpha:1.0f];
+        }
+    }
+
 }
+
+- (void) showFlyerLabForPost:(MyTradePost*)tradePost
+{
+    if([tradePost flyerAtPost])
+    {
+        GameViewController* game = [[GameManager getInstance] gameViewController];
+        FlyerLabViewController* next = [[FlyerLabViewController alloc] initWithNibName:@"FlyerLabViewController" bundle:nil];
+        next.flyer = [tradePost flyerAtPost];
+        [game showModalNavViewController:next completion:nil];
+    }
+    else
+    {
+        if([[TradeManager getInstance] playerHasIdleFlyers])
+        {
+            // player can order
+            [[[[GameManager getInstance] gameViewController] mapControl] defaultZoomCenterOn:[tradePost coord] animated:YES];
+            [[GameManager getInstance] showFlyerSelectForBuyAtPost:tradePost];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Flyers busy"
+                                                            message:@"Flyers must be idle before they can be called back"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+    }
+}
+
+- (void)changeFlyerLabLabelIfNecessary
+{
+    if([self myPost])
+    {
+        if([self.myPost flyerAtPost])
+        {
+            [self.flyerLabel setText:@"Flyer Lab"];
+        }
+        else
+        {
+            [self.flyerLabel setText:@"Call Flyer"];
+        }
+    }
+}
+
 
 #pragma mark - button actions
 - (void) didPressBeacon:(id)sender
 {
+    // this will deselect the post, which will cause this view-controller to be dismissed
+    [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
     
+    if (![[TradePostMgr getInstance] isBeaconActive])
+    {
+        if([self myPost])
+        {
+            NSLog(@"Set Beacon for PostId %@", [self.myPost postId]);
+            [self.myPost setBeacon];
+        }
+    }
 }
 
 - (void) didPressFlyer:(id)sender
 {
-    
+    // this will deselect the post, which will cause this view-controller to be dismissed
+    [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
+
+    if([self myPost])
+    {
+        [self showFlyerLabForPost:[self myPost]];
+    }
 }
 
 - (void) didPressRestock:(id)sender
 {
-    
+    // this will deselect the post, which will cause this view-controller to be dismissed
+    [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
+
+    if([self myPost])
+    {
+        if(0 >= [self.myPost supplyLevel])
+        {
+            GameViewController* game = [[GameManager getInstance] gameViewController];
+            PostRestockConfirmScreen* next = [[PostRestockConfirmScreen alloc] initWithNibName:@"PostRestockConfirmScreen" bundle:nil];
+            next.post = [self myPost];
+            [game showModalNavViewController:next completion:nil];
+        }
+    }
 }
 
 - (void) didPressClose:(id)sender

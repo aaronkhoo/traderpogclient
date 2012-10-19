@@ -610,8 +610,9 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     }
 }
 
-- (void) showMyPostMenu
+- (void) showMyPostMenuForPost:(MyTradePost *)myPost
 {
+    self.myPostMenu.myPost = myPost;
     [self.myPostMenu presentInView:self.view belowSubview:nil animated:YES];
 }
 
