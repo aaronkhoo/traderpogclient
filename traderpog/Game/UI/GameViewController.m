@@ -384,7 +384,7 @@ enum kKnobSlices
     // add annotations
     for(TradePost* cur in tradePosts)
     {
-        [self.mapControl addAnnotationForTradePost:cur];
+        [self.mapControl addAnnotationForTradePost:cur isScan:YES];
     }
     
     if(loc)

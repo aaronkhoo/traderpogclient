@@ -167,7 +167,7 @@ static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total O
 {
     for (MyTradePost* post in [_activePosts allValues])
     {
-        [map addAnnotationForTradePost:post];
+        [map addAnnotationForTradePost:post isScan:NO];
     }
 }
 
@@ -176,12 +176,12 @@ static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total O
     [self addAllMyPostsToMap:map];
     for (NPCTradePost* post in [self.npcPosts allValues])
     {
-        [map addAnnotationForTradePost:post];
+        [map addAnnotationForTradePost:post isScan:NO];
     }
     
     for (ForeignTradePost* post in [self.foundPosts allValues])
     {
-        [map addAnnotationForTradePost:post];
+        [map addAnnotationForTradePost:post isScan:NO];
     }
 }
 
@@ -253,7 +253,7 @@ static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total O
         // for more details. 
         if ([[GameManager getInstance] gameViewController].mapControl)
         {
-            [[[GameManager getInstance] gameViewController].mapControl addAnnotationForTradePost:_tempTradePost];   
+            [[[GameManager getInstance] gameViewController].mapControl addAnnotationForTradePost:_tempTradePost isScan:NO];
         }
         else 
         {

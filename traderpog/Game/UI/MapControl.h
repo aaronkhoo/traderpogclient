@@ -27,7 +27,7 @@ extern const float kNewPostOffsetMeters;
 // queries
 - (NSUInteger) zoomLevel;
 - (BOOL) isZoomEnabled;
-- (CLLocation*) availabelLocationNearCoord:(CLLocationCoordinate2D)targetCoord;
+- (CLLocation*) availableLocationNearCoord:(CLLocationCoordinate2D)targetCoord visibleOnly:(BOOL)visibleOnly;
 - (NSSet*) visiblePostAnnotationsNearCoord:(CLLocationCoordinate2D)queryCoord radius:(float)radiusMeters;
 
 // creation
@@ -37,9 +37,8 @@ extern const float kNewPostOffsetMeters;
            atZoomLevel:(unsigned int)zoomLevel;
 
 // setters
-- (void) addAnnotationForTradePost:(TradePost*)tradePost;
+- (void) addAnnotationForTradePost:(TradePost*)tradePost isScan:(BOOL)isScan;
 - (void) addAnnotationForFlyer:(Flyer*)flyer;
-- (void) addAnnotation:(NSObject<MKAnnotation>*)annotation;
 - (void) dismissAnnotationForFlyer:(Flyer*)flyer;
 - (void) dismissFlightPathForFlyer:(Flyer*)flyer;
 - (void) dismissAllFlightPaths;

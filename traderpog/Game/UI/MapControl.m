@@ -77,10 +77,10 @@ static const float kBrowseAreaRadius = 500.0f;
 
 const float kNewPostNearMeters = 150.0f;
 const float kNewPostOffsetMeters = 100.0f;
-- (CLLocation*) availabelLocationNearCoord:(CLLocationCoordinate2D)targetCoord
+- (CLLocation*) availableLocationNearCoord:(CLLocationCoordinate2D)targetCoord visibleOnly:(BOOL)visibleOnly
 {
     CLLocation* result = nil;
-    NSSet* visibleSet = [self visiblePostAnnotationsNearCoord:targetCoord radius:kNewPostNearMeters];
+    NSSet* visibleSet = [self postAnnotationsNearCoord:targetCoord radius:kNewPostNearMeters visibleOnly:visibleOnly];
     if([visibleSet count])
     {
         NSMutableSet* locationsSet = [NSMutableSet setWithCapacity:[visibleSet count]];
@@ -110,10 +110,23 @@ const float kNewPostOffsetMeters = 100.0f;
 
 - (NSSet*) visiblePostAnnotationsNearCoord:(CLLocationCoordinate2D)queryCoord radius:(float)radiusMeters
 {
+    return [self postAnnotationsNearCoord:queryCoord radius:radiusMeters visibleOnly:YES];
+}
+
+- (NSSet*) postAnnotationsNearCoord:(CLLocationCoordinate2D)queryCoord radius:(float)radiusMeters visibleOnly:(BOOL)visibleOnly
+{
     NSMutableSet* result = [NSMutableArray arrayWithCapacity:10];
     CLLocation* queryLoc = [[CLLocation alloc] initWithLatitude:queryCoord.latitude longitude:queryCoord.longitude];
-    NSSet* visibleAnnotations = [self.view annotationsInMapRect:[self.view visibleMapRect]];
-    for(NSObject<MKAnnotation>* cur in visibleAnnotations)
+    NSSet* domainAnnotations = nil;
+    if(visibleOnly)
+    {
+        domainAnnotations = [self.view annotationsInMapRect:[self.view visibleMapRect]];
+    }
+    else
+    {
+        domainAnnotations = [NSSet setWithArray:[self.view annotations]];
+    }
+    for(NSObject<MKAnnotation>* cur in domainAnnotations)
     {
         if([cur isKindOfClass:[TradePost class]])
         {
@@ -189,12 +202,18 @@ const float kNewPostOffsetMeters = 100.0f;
     [self.view removeGestureRecognizer:_panRecognizer];
 }
 
-- (void) addAnnotationForTradePost:(TradePost *)tradePost
+- (void) addAnnotationForTradePost:(TradePost *)tradePost isScan:(BOOL)isScan
 {
     NSArray* existingAnnotations = [self.view annotations];
     if(![existingAnnotations containsObject:tradePost])
     {
-        CLLocation* newLoc = [self availabelLocationNearCoord:tradePost.coordinate];
+        BOOL visibleOnly = NO;
+        if(isScan)
+        {
+            // if tradepost added from a scan, then need to check against visible posts only
+            visibleOnly = YES;
+        }
+        CLLocation* newLoc = [self availableLocationNearCoord:tradePost.coordinate visibleOnly:visibleOnly];
         if(newLoc)
         {
             NSLog(@"Post %@ shifted from (%f, %f) to (%f, %f)", [tradePost postId],
@@ -215,22 +234,9 @@ const float kNewPostOffsetMeters = 100.0f;
     }
 }
 
-- (void) addAnnotation:(NSObject<MKAnnotation> *)annotation
-{
-    NSArray* existingAnnotations = [self.view annotations];
-    if(![existingAnnotations containsObject:annotation])
-    {
-        [self.view addAnnotation:annotation];
-    }
-}
 
 - (void) dismissAnnotationForFlyer:(Flyer *)flyer
-{/*
-    FlyerAnnotationView* annotView = (FlyerAnnotationView*)[flyer annotationViewInMap:self.view];
-    [flyer removeObserver:annotView forKeyPath:kKeyFlyerState];
-    [flyer removeObserver:annotView forKeyPath:kKeyFlyerMetersToDest];
-    [flyer removeObserver:annotView forKeyPath:kFlyerAngleKey];
-*/
+{
     [self.view removeAnnotation:flyer];
 }
 
@@ -438,14 +444,6 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
     }
 }
 
-- (void) forceRefreshAnnotationForTradePost:(TradePost *)tradePost
-{
-    // remove and re-add to force a redraw
-    // this seems to be the only reliable way that works
-    [self.view removeAnnotation:tradePost];
-    [self addAnnotationForTradePost:tradePost];
-}
-
 #pragma mark MKMapViewDelegate
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
@@ -495,6 +493,14 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
                 ([cur isKindOfClass:[PlayerPostCalloutView class]]))
         {
             [[cur superview] bringSubviewToFront:cur];
+        }
+        else if(([[cur annotation] isMemberOfClass:[MyTradePost class]]))
+        {
+            [[cur superview] bringSubviewToFront:cur];            
+        }
+        else if(([[cur annotation] isKindOfClass:[TradePost class]]))
+        {
+            [[cur superview] sendSubviewToBack:cur];
         }
     }
 }
