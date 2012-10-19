@@ -6,15 +6,20 @@
 //  Copyright (c) 2012 GeoloPigs. All rights reserved.
 //
 
+#import "UINavigationController+Pog.h"
 #import "FlyerBuyConfirmScreen.h"
-#import "PogUIUtility.h"
-#import "GameColors.h"
-#import "FlyerType.h"
-#import "ImageManager.h"
 #import "FlyerLabFactory.h"
+#import "FlyerType.h"
+#import "GameManager.h"
+#import "GuildMembershipUI.h"
+#import "GameColors.h"
+#import "ImageManager.h"
+#import "Player.h"
+#import "PogUIUtility.h"
 
 static const float kContentBorderWidth = 6.0f;
 static const float kContentBorderCornerRadius = 8.0f;
+static const NSUInteger kMembershipTier = 4;
 
 @interface FlyerBuyConfirmScreen ()
 {
@@ -90,8 +95,25 @@ static const float kContentBorderCornerRadius = 8.0f;
     // flyer name
     [self.flyerNameLabel setText:[_flyerType name]];
     
-    // flyer descriptions
-    [self.flyerDescLabel setText:[_flyerType desc]];
+    if ([_flyerType tier] >= kMembershipTier && ![[Player getInstance] isMember])
+    {
+        // flyer descriptions
+        NSString* flyerDesc = [NSString stringWithFormat:@"%@\n\n%@", [_flyerType desc], @"Trader Guild members only!"];
+        [self.flyerDescLabel setText:flyerDesc];
+        [self.flyerDescLabel setAdjustsFontSizeToFitWidth:TRUE];
+        
+        [self.titleView setBackgroundColor:[GameColors flyerBuyTier2ColorScanWithAlpha:1.0]];
+        [self.buyButtonLabel setText:@"JOIN"];
+        [self.membershipLabel setHidden:FALSE];
+    }
+    else
+    {
+        // flyer descriptions
+        [self.flyerDescLabel setText:[_flyerType desc]];
+        
+        [self.titleView setBackgroundColor:[GameColors flyerBuyTier1ColorScanWithAlpha:1.0]];
+        [self.buyButtonLabel setText:@"BUY"];
+    }
 }
 
 #pragma mark - button actions
@@ -108,7 +130,22 @@ static const float kContentBorderCornerRadius = 8.0f;
 
 - (void) didPressBuy:(id)sender
 {
-    [self didPressClose:sender];
+    if ([_flyerType tier] >= kMembershipTier && ![[Player getInstance] isMember])
+    {
+        NSLog(@"Purchase membership experience");
+        
+        // Pop the modal flyerbuyconfirmation screen
+        [self.navigationController popToRootViewControllerAnimated:NO];
+     
+        // Push the guildmembershipui screen onto the stack
+        GuildMembershipUI* guildmembership = [[GuildMembershipUI alloc] initWithNibName:@"GuildMembershipUI" bundle:nil];
+        GameViewController* game = [[GameManager getInstance] gameViewController];
+        [game.navigationController pushFromRightViewController:guildmembership animated:YES];
+    }
+    else
+    {
+        NSLog(@"Purchase flyer experience");
+    }
 }
 
 @end
