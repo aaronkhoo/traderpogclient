@@ -257,7 +257,7 @@ static const float kBubbleDisabledAlpha = 0.6f;
                                   delay:0.0f
                                 options:UIViewAnimationCurveEaseIn
                              animations:^(void){
-                                 CGAffineTransform s = CGAffineTransformMakeScale(1.8f, 1.8f);
+                                 CGAffineTransform s = CGAffineTransformMakeScale(kBubbleOutScale, kBubbleOutScale);
                                  CGAffineTransform t = CGAffineTransformTranslate(s, leaderVec.x, leaderVec.y);
                                  [self.beaconCircle setTransform:t];
                              }
@@ -279,7 +279,7 @@ static const float kBubbleDisabledAlpha = 0.6f;
                                   delay:kSpacingDur
                                 options:UIViewAnimationCurveEaseIn
                              animations:^(void){
-                                 CGAffineTransform s = CGAffineTransformMakeScale(1.8f, 1.8f);
+                                 CGAffineTransform s = CGAffineTransformMakeScale(kBubbleOutScale, kBubbleOutScale);
                                  CGAffineTransform t = CGAffineTransformTranslate(s, memberVec.x, memberVec.y);
                                  [self.flyerCircle setTransform:t];
                              }
@@ -301,7 +301,7 @@ static const float kBubbleDisabledAlpha = 0.6f;
                                   delay:kSpacingDur * 2.0f
                                 options:UIViewAnimationCurveEaseIn
                              animations:^(void){
-                                 CGAffineTransform s = CGAffineTransformMakeScale(1.8f, 1.8f);
+                                 CGAffineTransform s = CGAffineTransformMakeScale(kBubbleOutScale, kBubbleOutScale);
                                  CGAffineTransform t = CGAffineTransformTranslate(s, moreVec.x, moreVec.y);
                                  [self.restockCircle setTransform:t];
                              }
