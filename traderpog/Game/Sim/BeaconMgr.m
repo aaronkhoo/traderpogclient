@@ -113,7 +113,7 @@ static const float kBubbleBorderWidth = 1.5f;
 {
     for(ForeignTradePost* cur in [_activeBeacons allValues])
     {
-        [map addAnnotation:cur];
+        [map addAnnotationForTradePost:cur isScan:NO];
         Flyer* flyerAtPost = [[FlyerMgr getInstance] flyerAtPostId:[cur postId]];
         if(flyerAtPost)
         {

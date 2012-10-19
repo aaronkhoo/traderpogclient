@@ -26,6 +26,7 @@ enum kGameViewModalFlags
 @class MapControl;
 @class ViewReuseQueue;
 @class GameHud;
+@class MyTradePost;
 @interface GameViewController : UIViewController<KnobProtocol, GADBannerViewDelegate, ModalNavDelegate>
 {
     MapControl* _mapControl;
@@ -69,6 +70,9 @@ enum kGameViewModalFlags
 - (void) showModalNavViewController:(UIViewController*)controller
                          completion:(ModalNavCompletionBlock)completion;
 - (void) dismissInfo;
+- (void) showMyPostMenuForPost:(MyTradePost*)myPost;
+- (void) dismissMyPostMenuAnimated:(BOOL)isAnimated;
+
 
 // game-state driven display update
 - (BOOL) isHeldHudCoinsUpdate;

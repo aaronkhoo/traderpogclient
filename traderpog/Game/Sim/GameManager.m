@@ -465,6 +465,7 @@ typedef enum {
     {
         [self.gameViewController.mapControl deselectAllAnnotations];
         [self.gameViewController dismissInfo];
+        [self.gameViewController dismissMyPostMenuAnimated:NO];
         if((kGameStateHomeSelect != [self gameState]) && (kGameStateFlyerSelect != [self gameState]))
         {
             [self.gameViewController dismissActiveWheelAnimated:NO];

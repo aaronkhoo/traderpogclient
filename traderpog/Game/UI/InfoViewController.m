@@ -253,7 +253,7 @@ static const float kBubbleInitScale = 0.1f;
                               delay:0.0f
                             options:UIViewAnimationCurveEaseIn
                          animations:^(void){
-                             CGAffineTransform s = CGAffineTransformMakeScale(1.8f, 1.8f);
+                             CGAffineTransform s = CGAffineTransformMakeScale(kBubbleOutScale, kBubbleOutScale);
                              CGAffineTransform t = CGAffineTransformTranslate(s, leaderVec.x, leaderVec.y);
                              [self.leaderboardsCircle setTransform:t];
                          }
@@ -275,7 +275,7 @@ static const float kBubbleInitScale = 0.1f;
                               delay:kSpacingDur
                             options:UIViewAnimationCurveEaseIn
                          animations:^(void){
-                             CGAffineTransform s = CGAffineTransformMakeScale(1.8f, 1.8f);
+                             CGAffineTransform s = CGAffineTransformMakeScale(kBubbleOutScale, kBubbleOutScale);
                              CGAffineTransform t = CGAffineTransformTranslate(s, memberVec.x, memberVec.y);
                              [self.memberCircle setTransform:t];
                          }
@@ -297,7 +297,7 @@ static const float kBubbleInitScale = 0.1f;
                               delay:kSpacingDur * 2.0f
                             options:UIViewAnimationCurveEaseIn
                          animations:^(void){
-                             CGAffineTransform s = CGAffineTransformMakeScale(1.8f, 1.8f);
+                             CGAffineTransform s = CGAffineTransformMakeScale(kBubbleOutScale, kBubbleOutScale);
                              CGAffineTransform t = CGAffineTransformTranslate(s, moreVec.x, moreVec.y);
                              [self.moreCircle setTransform:t];
                          }

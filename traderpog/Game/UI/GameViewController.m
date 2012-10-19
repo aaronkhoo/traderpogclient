@@ -41,6 +41,7 @@
 #import "LeaderboardsScreen.h"
 #import "GuildMembershipUI.h"
 #import "SoundManager.h"
+#import "PlayerPostViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -76,6 +77,8 @@ enum kKnobSlices
     CGRect _infoRect;
     CircleButton* _infoCircle;
     InfoViewController* _info;
+    CGRect _myPostMenuRect;
+    PlayerPostViewController* _myPostMenu;
     
     // Initial y positions
     CGFloat _debugmenu_y_origin;
@@ -93,6 +96,7 @@ enum kKnobSlices
 @property (nonatomic,strong) Flyer* trackedFlyer;
 @property (nonatomic,strong) CircleButton* infoCircle;
 @property (nonatomic,strong) InfoViewController* info;
+@property (nonatomic,strong) PlayerPostViewController* myPostMenu;
 @property (nonatomic,strong) GameEventView* gameEventNote;
 
 - (void) setup;
@@ -129,6 +133,7 @@ enum kKnobSlices
 @synthesize trackedFlyer = _trackedFlyer;
 @synthesize infoCircle = _infoCircle;
 @synthesize info = _info;
+@synthesize myPostMenu = _myPostMenu;
 @synthesize hud = _hud;
 @synthesize gameEventNote = _gameEventNote;
 @synthesize modalNav = _modalNav;
@@ -384,7 +389,7 @@ enum kKnobSlices
     // add annotations
     for(TradePost* cur in tradePosts)
     {
-        [self.mapControl addAnnotationForTradePost:cur];
+        [self.mapControl addAnnotationForTradePost:cur isScan:YES];
     }
     
     if(loc)
@@ -605,6 +610,17 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     }
 }
 
+- (void) showMyPostMenuForPost:(MyTradePost *)myPost
+{
+    self.myPostMenu.myPost = myPost;
+    [self.myPostMenu presentInView:self.view belowSubview:nil animated:YES];
+}
+
+- (void) dismissMyPostMenuAnimated:(BOOL)isAnimated
+{
+    [self.myPostMenu dismissAnimated:isAnimated];
+}
+
 - (void) hideInfoCircleAnimated:(BOOL)isAnimated
 {
     if(![self.infoCircle isHidden])
@@ -670,6 +686,7 @@ static const float kInfoSize = 60.0f;
 static const float kInfoXOffset = -8.0f;
 static const float kInfoYOffset = 9.0f;
 static const float kInfoBorderWidth = 4.0f;
+static const float kMyPostMenuSize = 60.0f;
 - (void) initHud:(CGFloat)heightChange
 {
     CGRect parentRect = self.view.bounds;
@@ -697,6 +714,13 @@ static const float kInfoBorderWidth = 4.0f;
     [self.view addSubview:[self infoCircle]];
     self.info = [[InfoViewController alloc] initWithCenterFrame:_infoRect delegate:self];
     
+    // my post menu
+    _myPostMenuRect = CGRectMake((parentRect.size.width * 0.5f) - (kMyPostMenuSize * 0.5f),
+                                 (parentRect.size.height * 0.5f) - (kMyPostMenuSize * 0.5f),
+                                 kMyPostMenuSize, kMyPostMenuSize);
+    self.myPostMenu = [[PlayerPostViewController alloc] initWithCenterFrame:_myPostMenuRect delegate:self];
+    
+    
     // game event notifications
     CGRect noteFrame = CGRectMake(0.0f, heightChange, parentRect.size.width, parentRect.size.height - heightChange);
     self.gameEventNote = [[GameEventView alloc] initWithFrame:noteFrame];
@@ -711,6 +735,7 @@ static const float kInfoBorderWidth = 4.0f;
     [self.gameEventNote removeFromSuperview];
     self.gameEventNote = nil;
     
+    self.myPostMenu = nil;
     [self dismissInfo];
     self.info = nil;
     [self.infoCircle removeFromSuperview];
@@ -915,6 +940,10 @@ static const float kInfoBorderWidth = 4.0f;
     {
         [self.info dismissAnimated:YES];
         [self showInfoCircleAnimated:YES];
+    }
+    else if([modalId isEqualToString:kMyPostMenuCloseId])
+    {
+        [self.myPostMenu dismissAnimated:YES];
     }
     else
     {

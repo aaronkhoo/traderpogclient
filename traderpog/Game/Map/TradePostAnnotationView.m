@@ -453,9 +453,13 @@ static const float kBuyViewCenterYOffset = -10.0f;
                 if(!flyer || (kFlyerStateIdle == [flyer state]))
                 {
                     // show player-post callout if own post and flyer is idle
-                    PlayerPostCallout* callout = [[PlayerPostCallout alloc] initWithTradePost:tradePost];
-                    callout.parentAnnotationView = self;
-                    _calloutAnnotation = callout;
+                    //PlayerPostCallout* callout = [[PlayerPostCallout alloc] initWithTradePost:tradePost];
+                    //callout.parentAnnotationView = self;
+                    //_calloutAnnotation = callout;
+                    MyTradePost* myPost = (MyTradePost*)tradePost;
+                    [[GameManager getInstance].gameViewController showMyPostMenuForPost:myPost];
+                    centerCoord = [tradePost coord];
+                    doZoomAdjustment = YES;
                 }
                 else if(kFlyerStateWaitingToUnload == [flyer state])
                 {
@@ -538,6 +542,11 @@ static const float kBuyViewCenterYOffset = -10.0f;
     TradePost* post = (TradePost*)[self annotation];
     [post refreshRenderForAnnotationView:self];
 
+    if([post isMemberOfClass:[MyTradePost class]])
+    {
+        [[GameManager getInstance].gameViewController dismissMyPostMenuAnimated:YES];
+    }
+    
     if(_calloutAnnotation)
     {
         if([_calloutAnnotation isMemberOfClass:[PlayerPostCallout class]])
