@@ -85,9 +85,19 @@ static NSString* const kDefaultFlyerTypeTopImg = @"flyer_glider";
     for(NSInteger index = 0; index < numFallbacks; ++index)
     {
         FlyerType* cur = [[FlyerLabFactory getInstance] fallbackFlyerTypeAtIndex:index];
-        if(0 > [self getFlyerIndexById:[cur flyerId]])
+        BOOL found = NO;
+        for(FlyerType* curInArray in _flyerTypes)
         {
-            // fill in
+            if([curInArray tier] == [cur tier])
+            {
+                found = YES;
+                break;
+            }
+        }
+        
+        if(!found)
+        {
+            // fill in missing tier
             [_flyerTypes addObject:cur];
         }
     }
@@ -279,6 +289,20 @@ static NSString* const kDefaultFlyerTypeTopImg = @"flyer_glider";
         }
     }
     return (NSArray*)flyerArray;
+}
+
+- (FlyerType*) getAnyFlyerTypeForTier:(unsigned int)tier
+{
+    FlyerType* result = nil;
+    for (FlyerType* flyer in _flyerTypes)
+    {
+        if ([flyer tier] == tier)
+        {
+            result = flyer;
+            break;
+        }
+    }
+    return result;
 }
 
 #pragma mark - Singleton

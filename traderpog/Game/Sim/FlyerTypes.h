@@ -38,6 +38,7 @@ static NSString* const kFlyerTypes_ReceiveFlyers = @"FlyerTypes_ReceiveFlyers";
 
 // Returns an array of FlyerType
 - (NSArray*) getFlyersForTier:(unsigned int)tier;
+- (FlyerType*) getAnyFlyerTypeForTier:(unsigned int)tier;
 
 // singleton
 +(FlyerTypes*) getInstance;

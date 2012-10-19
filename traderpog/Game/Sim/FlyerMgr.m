@@ -28,6 +28,7 @@
 #import "FlyerLabFactory.h"
 #import "FlyerTypes.h"
 #import "FlyerType.h"
+#import "FlyerBuyConfirmScreen.h"
 #import <QuartzCore/QuartzCore.h>
 
 static NSString* const kKeyVersion = @"version";
@@ -550,8 +551,8 @@ static const float kBubbleBorderWidth = 1.5f;
         [wheel.previewLabel setText:@"Buy Flyer!"];
         [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
         
-        NSString* flyerTypeId = [NSString stringWithFormat:@"%d", index+1];
-        FlyerType* flyerType = [[FlyerTypes getInstance] getFlyerTypeById:flyerTypeId];
+        unsigned int tier = index + 1;  // tier is 1-based
+        FlyerType* flyerType = [[FlyerTypes getInstance] getAnyFlyerTypeForTier:tier];
         NSString* flyerTypeName = [flyerType sideimg];
         NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:flyerTypeName tier:1 colorIndex:0];
         UIImage* bgImage = [[ImageManager getInstance] getImage:imageName];
@@ -618,9 +619,8 @@ static const float kBubbleBorderWidth = 1.5f;
     }
     else
     {
-        // index+1 because flyerTypeId is 1 based
-        NSString* flyerTypeId = [NSString stringWithFormat:@"%d", index+1];
-        FlyerType* flyerType = [[FlyerTypes getInstance] getFlyerTypeById:flyerTypeId];
+        unsigned int tier = index + 1;  // tier is 1-based
+        FlyerType* flyerType = [[FlyerTypes getInstance] getAnyFlyerTypeForTier:tier];
         NSString* flyerTypeName = [flyerType topimg];
         NSString* imageName = [[FlyerLabFactory getInstance] topImageForFlyerTypeNamed:flyerTypeName tier:1 colorIndex:0];
         UIImage* image = [[ImageManager getInstance] getGrayscaleImage:imageName fallbackNamed:imageName];
@@ -711,7 +711,10 @@ static const float kPreviewImageYOffset = -0.25f;
     }
     else
     {
-        NSLog(@"Buy New Flyer");
+        unsigned int tier = index + 1;  // tier is 1-based
+        FlyerType* flyerType = [[FlyerTypes getInstance] getAnyFlyerTypeForTier:tier];
+        FlyerBuyConfirmScreen* next = [[FlyerBuyConfirmScreen alloc] initWithFlyerType:flyerType];
+        [[GameManager getInstance].gameViewController showModalNavViewController:next completion:nil];
     }
 }
 

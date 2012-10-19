@@ -6,7 +6,7 @@
 		<key>id</key>
 		<integer>1</integer>
 		<key>localized_name</key>
-		<string>PogFlyer</string>
+		<string>Pog Flyer</string>
 		<key>localized_desc</key>
 		<string>Default Pog Flyer</string>
 		<key>price</key>
@@ -32,7 +32,7 @@
 		<key>id</key>
 		<integer>2</integer>
 		<key>localized_name</key>
-		<string>FlyerWing</string>
+		<string>Flyer Wing</string>
 		<key>localized_desc</key>
 		<string>Peter&apos;s blue laser flyer</string>
 		<key>price</key>
@@ -46,7 +46,7 @@
 		<key>stormresist</key>
 		<integer>10</integer>
 		<key>tier</key>
-		<integer>1</integer>
+		<integer>2</integer>
 		<key>topimg</key>
 		<string>flyer_wing</string>
 		<key>sideimg</key>
@@ -58,7 +58,7 @@
 		<key>id</key>
 		<integer>3</integer>
 		<key>localized_name</key>
-		<string>FlyerRang</string>
+		<string>Flyer Rang</string>
 		<key>localized_desc</key>
 		<string>Peter&apos;s boomerang flyer</string>
 		<key>price</key>
@@ -72,7 +72,7 @@
 		<key>stormresist</key>
 		<integer>10</integer>
 		<key>tier</key>
-		<integer>1</integer>
+		<integer>3</integer>
 		<key>topimg</key>
 		<string>flyer_rang</string>
 		<key>sideimg</key>
@@ -84,7 +84,7 @@
 		<key>id</key>
 		<integer>4</integer>
 		<key>localized_name</key>
-		<string>FlyerFrog</string>
+		<string>Flyer Frog</string>
 		<key>localized_desc</key>
 		<string>Froggy cargo carrier</string>
 		<key>price</key>
@@ -98,7 +98,7 @@
 		<key>stormresist</key>
 		<integer>10</integer>
 		<key>tier</key>
-		<integer>1</integer>
+		<integer>4</integer>
 		<key>topimg</key>
 		<string>flyer_frog</string>
 		<key>sideimg</key>
@@ -110,7 +110,7 @@
 		<key>id</key>
 		<integer>5</integer>
 		<key>localized_name</key>
-		<string>FlyerHornet</string>
+		<string>Flyer Hornet</string>
 		<key>localized_desc</key>
 		<string>None will mess with you in this Stinger</string>
 		<key>price</key>
@@ -124,7 +124,7 @@
 		<key>stormresist</key>
 		<integer>10</integer>
 		<key>tier</key>
-		<integer>1</integer>
+		<integer>5</integer>
 		<key>topimg</key>
 		<string>flyer_hornet</string>
 		<key>sideimg</key>
@@ -136,7 +136,7 @@
 		<key>id</key>
 		<integer>6</integer>
 		<key>localized_name</key>
-		<string>FlyerBlimp</string>
+		<string>Flyer Blimp</string>
 		<key>localized_desc</key>
 		<string>Trade in massive volumes</string>
 		<key>price</key>
@@ -150,7 +150,7 @@
 		<key>stormresist</key>
 		<integer>10</integer>
 		<key>tier</key>
-		<integer>1</integer>
+		<integer>6</integer>
 		<key>topimg</key>
 		<string>flyer_blimp</string>
 		<key>sideimg</key>
