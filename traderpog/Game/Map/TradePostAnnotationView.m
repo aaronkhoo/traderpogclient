@@ -544,7 +544,7 @@ static const float kBuyViewCenterYOffset = -10.0f;
 
     if([post isMemberOfClass:[MyTradePost class]])
     {
-        [[GameManager getInstance].gameViewController dismissMyPostMenu];
+        [[GameManager getInstance].gameViewController dismissMyPostMenuAnimated:YES];
     }
     
     if(_calloutAnnotation)

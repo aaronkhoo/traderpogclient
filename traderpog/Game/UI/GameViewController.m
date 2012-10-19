@@ -616,9 +616,9 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     [self.myPostMenu presentInView:self.view belowSubview:nil animated:YES];
 }
 
-- (void) dismissMyPostMenu
+- (void) dismissMyPostMenuAnimated:(BOOL)isAnimated
 {
-    [self dismissModalView:self.myPostMenu.view withModalId:kMyPostMenuCloseId];
+    [self.myPostMenu dismissAnimated:isAnimated];
 }
 
 - (void) hideInfoCircleAnimated:(BOOL)isAnimated

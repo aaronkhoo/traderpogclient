@@ -71,7 +71,8 @@ enum kGameViewModalFlags
                          completion:(ModalNavCompletionBlock)completion;
 - (void) dismissInfo;
 - (void) showMyPostMenuForPost:(MyTradePost*)myPost;
-- (void) dismissMyPostMenu;
+- (void) dismissMyPostMenuAnimated:(BOOL)isAnimated;
+
 
 // game-state driven display update
 - (BOOL) isHeldHudCoinsUpdate;
