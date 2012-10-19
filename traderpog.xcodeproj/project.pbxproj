@@ -92,6 +92,8 @@
 		42172FEC1630C3E900652009 /* flyer_hornet.png in Resources */ = {isa = PBXBuildFile; fileRef = 42172FEB1630C3E900652009 /* flyer_hornet.png */; };
 		42172FF41630D09C00652009 /* FlyerBuyConfirmScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 42172FF21630D09C00652009 /* FlyerBuyConfirmScreen.m */; };
 		42172FF51630D09C00652009 /* FlyerBuyConfirmScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42172FF31630D09C00652009 /* FlyerBuyConfirmScreen.xib */; };
+		42172FFA1631DDB700652009 /* PlayerPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42172FF81631DDB500652009 /* PlayerPostViewController.m */; };
+		42172FFB1631DDB700652009 /* PlayerPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42172FF91631DDB600652009 /* PlayerPostViewController.xib */; };
 		421A07001628596400D2FE9E /* flyer_aerokit_c1.png in Resources */ = {isa = PBXBuildFile; fileRef = 421A06F41628596400D2FE9E /* flyer_aerokit_c1.png */; };
 		421A07011628596400D2FE9E /* flyer_aerokit_c2.png in Resources */ = {isa = PBXBuildFile; fileRef = 421A06F51628596400D2FE9E /* flyer_aerokit_c2.png */; };
 		421A07021628596400D2FE9E /* flyer_aerokit_c3.png in Resources */ = {isa = PBXBuildFile; fileRef = 421A06F61628596400D2FE9E /* flyer_aerokit_c3.png */; };
@@ -528,6 +530,9 @@
 		42172FF11630D09C00652009 /* FlyerBuyConfirmScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerBuyConfirmScreen.h; path = Game/UI/FlyerBuyConfirmScreen.h; sourceTree = "<group>"; };
 		42172FF21630D09C00652009 /* FlyerBuyConfirmScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerBuyConfirmScreen.m; path = Game/UI/FlyerBuyConfirmScreen.m; sourceTree = "<group>"; };
 		42172FF31630D09C00652009 /* FlyerBuyConfirmScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerBuyConfirmScreen.xib; path = Game/UI/FlyerBuyConfirmScreen.xib; sourceTree = "<group>"; };
+		42172FF71631DDB300652009 /* PlayerPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerPostViewController.h; path = Game/UI/PlayerPostViewController.h; sourceTree = "<group>"; };
+		42172FF81631DDB500652009 /* PlayerPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerPostViewController.m; path = Game/UI/PlayerPostViewController.m; sourceTree = "<group>"; };
+		42172FF91631DDB600652009 /* PlayerPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlayerPostViewController.xib; path = Game/UI/PlayerPostViewController.xib; sourceTree = "<group>"; };
 		421A06F41628596400D2FE9E /* flyer_aerokit_c1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer_aerokit_c1.png; path = assets/game/flyer_glider/flyer_aerokit_c1.png; sourceTree = SOURCE_ROOT; };
 		421A06F51628596400D2FE9E /* flyer_aerokit_c2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer_aerokit_c2.png; path = assets/game/flyer_glider/flyer_aerokit_c2.png; sourceTree = SOURCE_ROOT; };
 		421A06F61628596400D2FE9E /* flyer_aerokit_c3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer_aerokit_c3.png; path = assets/game/flyer_glider/flyer_aerokit_c3.png; sourceTree = SOURCE_ROOT; };
@@ -1631,6 +1636,9 @@
 				421A0712162A025900D2FE9E /* InfoViewController.h */,
 				421A0713162A025B00D2FE9E /* InfoViewController.m */,
 				421A0714162A025F00D2FE9E /* InfoViewController.xib */,
+				42172FF71631DDB300652009 /* PlayerPostViewController.h */,
+				42172FF81631DDB500652009 /* PlayerPostViewController.m */,
+				42172FF91631DDB600652009 /* PlayerPostViewController.xib */,
 				38887B04162F5D8F0057D22B /* PostRestockConfirmScreen.h */,
 				38887B05162F5D900057D22B /* PostRestockConfirmScreen.m */,
 				38887B01162F5D640057D22B /* PostRestockConfirmScreen.xib */,
@@ -2083,6 +2091,7 @@
 				4271743B163048E9003C1163 /* flyertypes.plist in Resources */,
 				42172FEC1630C3E900652009 /* flyer_hornet.png in Resources */,
 				42172FF51630D09C00652009 /* FlyerBuyConfirmScreen.xib in Resources */,
+				42172FFB1631DDB700652009 /* PlayerPostViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2226,6 +2235,7 @@
 				421A0715162A026100D2FE9E /* InfoViewController.m in Sources */,
 				38887B06162F5D900057D22B /* PostRestockConfirmScreen.m in Sources */,
 				42172FF41630D09C00652009 /* FlyerBuyConfirmScreen.m in Sources */,
+				42172FFA1631DDB700652009 /* PlayerPostViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
