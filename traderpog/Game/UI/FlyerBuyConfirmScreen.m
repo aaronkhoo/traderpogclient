@@ -188,26 +188,10 @@ static const NSUInteger kMembershipTier = 4;
         [self.navigationController popToRootViewControllerAnimated:NO];
 
         GameViewController* game = [[GameManager getInstance] gameViewController];
-        TradePost* newFlyerPost = [[TradePostMgr getInstance] getFirstMyTradePost];
-        if([newFlyerPost flyerAtPost])
-        {
-            // there's already a flyer at home, generate an npc post nearby
-            CLLocationCoordinate2D newCoord = [newFlyerPost coord];
-            CLLocation* newLoc = [game.mapControl availableLocationNearCoord:newCoord visibleOnly:YES];
-            if(newLoc)
-            {
-                newCoord = [newLoc coordinate];
-            }
-            
-            newFlyerPost = [[TradePostMgr getInstance] newNPCTradePostAtCoord:newCoord bucks:0];
-            [game.mapControl addAnnotationForTradePost:newFlyerPost isScan:YES];
-        }
-
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:game.view animated:YES];
         hud.labelText = @"Purchasing Flyer";
-     
-        NSInteger flyerTypeIndex = [[FlyerTypes getInstance] getFlyerIndexById:[_flyerType flyerId]];
-        [[FlyerMgr getInstance] newPlayerFlyerAtTradePost:newFlyerPost purchasedFlyerTypeIndex:flyerTypeIndex];
+        
+        [[Player getInstance] buyFlyerType:_flyerType];
     }
 }
 

@@ -18,6 +18,7 @@
 - (BOOL) canAffordFlyerColor;
 - (void) buyColorCustomization:(unsigned int)colorIndex forFlyer:(Flyer*)flyer;
 - (BOOL) canAffordFlyerType:(FlyerType*)flyerType;
+- (void) buyFlyerType:(FlyerType*)flyerType;
 
 // labor
 - (unsigned int) priceForExtraHelp;
