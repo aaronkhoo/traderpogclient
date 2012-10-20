@@ -18,6 +18,9 @@
 #import "Player.h"
 #import "Player+Shop.h"
 #import "FlyerTypes.h"
+#import "GameManager.h"
+#import "GuildMembershipUI.h"
+#import "GameViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const float kContentBorderWidth = 6.0f;
@@ -147,20 +150,36 @@ enum kColorOptions
 {
     if(_curSelection != [_flyer curColor])
     {
-        if([[Player getInstance] canAffordFlyerColor])
+        // 3rd and 4th color selection are members only
+        if (![[Player getInstance] isMember] && _curSelection >= kColorOption2)
         {
-            [[Player getInstance] buyColorCustomization:_curSelection forFlyer:_flyer];
-            [self didPressClose:sender];
+            NSLog(@"Purchase membership experience");
+            
+            // Pop the modal flyerbuyconfirmation screen
+            [self.navigationController popToRootViewControllerAnimated:NO];
+            
+            // Push the guildmembershipui screen onto the stack
+            GuildMembershipUI* guildmembership = [[GuildMembershipUI alloc] initWithNibName:@"GuildMembershipUI" bundle:nil];
+            GameViewController* game = [[GameManager getInstance] gameViewController];
+            [game.navigationController pushFromRightViewController:guildmembership animated:YES];
         }
         else
         {
-            UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Not enough coins"
-                                                              message:@"Go out there and trade some more"
-                                                             delegate:nil
-                                                    cancelButtonTitle:@"OK"
-                                                    otherButtonTitles:nil];
-            
-            [message show];
+            if([[Player getInstance] canAffordFlyerColor])
+            {
+                [[Player getInstance] buyColorCustomization:_curSelection forFlyer:_flyer];
+                [self didPressClose:sender];
+            }
+            else
+            {
+                UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Not enough coins"
+                                                                  message:@"Go out there and trade some more"
+                                                                 delegate:nil
+                                                        cancelButtonTitle:@"OK"
+                                                        otherButtonTitles:nil];
+                
+                [message show];
+            }
         }
     }
 }
@@ -262,25 +281,41 @@ enum kColorOptions
     [self.option3 setBackgroundColor:[c3Pack color]];
 }
 
+- (void)setBuyButtonText:(BOOL)membersOnly
+{
+    // If the player is a member, or if the selection is not members only
+    if ([[Player getInstance] isMember] || !membersOnly)
+    {
+        [self.buyLabel setText:@"BUY"];
+    }
+    // If player is not a member, and the selection is members only
+    else
+    {
+        [self.buyLabel setText:@"JOIN"];
+    }
+}
 
 - (IBAction)didPressOptionOriginal:(id)sender
 {
     [self setCurSelection:0];
+    [self setBuyButtonText:FALSE];
 }
 
 - (IBAction)didPressOption1:(id)sender
 {
     [self setCurSelection:1];
+    [self setBuyButtonText:FALSE];
 }
-
 
 - (IBAction)didPressOption2:(id)sender
 {
     [self setCurSelection:2];
+    [self setBuyButtonText:TRUE];
 }
 
 - (IBAction)didPressOption3:(id)sender
 {
     [self setCurSelection:3];
+    [self setBuyButtonText:TRUE];
 }
 @end
