@@ -113,9 +113,6 @@
 		42211C92162F70400019EDBB /* icon_alert_post_001.png in Resources */ = {isa = PBXBuildFile; fileRef = 42211C8F162F70400019EDBB /* icon_alert_post_001.png */; };
 		42211C93162F70400019EDBB /* icon_alert_post_002.png in Resources */ = {isa = PBXBuildFile; fileRef = 42211C90162F70400019EDBB /* icon_alert_post_002.png */; };
 		42211C94162F70400019EDBB /* icon_alert_post_003.png in Resources */ = {isa = PBXBuildFile; fileRef = 42211C91162F70400019EDBB /* icon_alert_post_003.png */; };
-		4221E4D115D9CB7B00781664 /* FlyerCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4221E4D015D9CB7B00781664 /* FlyerCallout.m */; };
-		4221E4D515D9D47E00781664 /* FlyerCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4221E4D415D9D47E00781664 /* FlyerCalloutView.m */; };
-		4221E4D715DA2A2200781664 /* FlyerCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4221E4D615DA2A2200781664 /* FlyerCalloutView.xib */; };
 		4227883015D74A9A00852AC4 /* TradeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227882F15D74A9900852AC4 /* TradeManager.m */; };
 		4237D4821620A40F009A29F1 /* FlyerCustomize.m in Sources */ = {isa = PBXBuildFile; fileRef = 4237D4801620A40F009A29F1 /* FlyerCustomize.m */; };
 		4237D4831620A40F009A29F1 /* FlyerCustomize.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4237D4811620A40F009A29F1 /* FlyerCustomize.xib */; };
@@ -263,9 +260,6 @@
 		42D90A0515F81A3800BBE992 /* coin_005.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D90A0015F81A3800BBE992 /* coin_005.png */; };
 		42E92B0A15D0E7AD0054686F /* startButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 42E92B0915D0E7AD0054686F /* startButton.png */; };
 		42E92B0D15D0E8E00054686F /* UIImage+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E92B0C15D0E8E00054686F /* UIImage+Pog.m */; };
-		42EF841F15DE2ED100A8469B /* PlayerPostCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EF841E15DE2ED100A8469B /* PlayerPostCalloutView.m */; };
-		42EF842315DE2F0400A8469B /* PlayerPostCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EF842215DE2F0400A8469B /* PlayerPostCallout.m */; };
-		42EF842515DE32F000A8469B /* PlayerPostCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42EF842415DE32F000A8469B /* PlayerPostCalloutView.xib */; };
 		42F52A1B16135A000077ED37 /* AnimClip.m in Sources */ = {isa = PBXBuildFile; fileRef = 42F52A1A16135A000077ED37 /* AnimClip.m */; };
 		42F52A1D16135D5A0077ED37 /* gameanim.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42F52A1C16135D5A0077ED37 /* gameanim.plist */; };
 		42F692C815F1D4D20002B1B2 /* GameColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 42F692C715F1D4D20002B1B2 /* GameColors.m */; };
@@ -335,9 +329,6 @@
 		C4BBE44915B7E7C600F582DE /* SignupBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = C4BBE44815B7E7C600F582DE /* SignupBackground.png */; };
 		C4BBE45115B92B7600F582DE /* ScanManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE45015B92B7600F582DE /* ScanManager.m */; };
 		C4BBE45715BA741C00F582DE /* MathUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE45515BA741C00F582DE /* MathUtils.c */; };
-		C4BBE45A15BA93B800F582DE /* TradePostCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE45915BA93B800F582DE /* TradePostCallout.m */; };
-		C4BBE45E15BA99B500F582DE /* TradePostCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE45C15BA99B500F582DE /* TradePostCalloutView.m */; };
-		C4BBE45F15BA99B500F582DE /* TradePostCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4BBE45D15BA99B500F582DE /* TradePostCalloutView.xib */; };
 		C4BBE46215BA9A8600F582DE /* CalloutAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE46115BA9A8600F582DE /* CalloutAnnotationView.m */; };
 		C4BBE46715BBBFF200F582DE /* FlightPathOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE46415BBBFF100F582DE /* FlightPathOverlay.m */; };
 		C4BBE46815BBBFF200F582DE /* FlightPathView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE46615BBBFF100F582DE /* FlightPathView.m */; };
@@ -553,11 +544,6 @@
 		42211C8F162F70400019EDBB /* icon_alert_post_001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_alert_post_001.png; sourceTree = "<group>"; };
 		42211C90162F70400019EDBB /* icon_alert_post_002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_alert_post_002.png; sourceTree = "<group>"; };
 		42211C91162F70400019EDBB /* icon_alert_post_003.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_alert_post_003.png; sourceTree = "<group>"; };
-		4221E4CF15D9CB7B00781664 /* FlyerCallout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCallout.h; path = Game/Map/FlyerCallout.h; sourceTree = "<group>"; };
-		4221E4D015D9CB7B00781664 /* FlyerCallout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerCallout.m; path = Game/Map/FlyerCallout.m; sourceTree = "<group>"; };
-		4221E4D315D9D47E00781664 /* FlyerCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCalloutView.h; path = Game/Map/FlyerCalloutView.h; sourceTree = "<group>"; };
-		4221E4D415D9D47E00781664 /* FlyerCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerCalloutView.m; path = Game/Map/FlyerCalloutView.m; sourceTree = "<group>"; };
-		4221E4D615DA2A2200781664 /* FlyerCalloutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerCalloutView.xib; path = Game/Map/FlyerCalloutView.xib; sourceTree = "<group>"; };
 		4227882E15D74A9800852AC4 /* TradeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradeManager.h; path = Game/Sim/TradeManager.h; sourceTree = "<group>"; };
 		4227882F15D74A9900852AC4 /* TradeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradeManager.m; path = Game/Sim/TradeManager.m; sourceTree = "<group>"; };
 		4237D47F1620A40F009A29F1 /* FlyerCustomize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCustomize.h; path = Game/UI/FlyerCustomize.h; sourceTree = "<group>"; };
@@ -739,11 +725,6 @@
 		42E92B0915D0E7AD0054686F /* startButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = startButton.png; path = assets/UI/startButton.png; sourceTree = SOURCE_ROOT; };
 		42E92B0B15D0E8E00054686F /* UIImage+Pog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Pog.h"; sourceTree = "<group>"; };
 		42E92B0C15D0E8E00054686F /* UIImage+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Pog.m"; sourceTree = "<group>"; };
-		42EF841D15DE2ED100A8469B /* PlayerPostCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerPostCalloutView.h; path = Game/Map/PlayerPostCalloutView.h; sourceTree = "<group>"; };
-		42EF841E15DE2ED100A8469B /* PlayerPostCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerPostCalloutView.m; path = Game/Map/PlayerPostCalloutView.m; sourceTree = "<group>"; };
-		42EF842115DE2F0400A8469B /* PlayerPostCallout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerPostCallout.h; path = Game/Map/PlayerPostCallout.h; sourceTree = "<group>"; };
-		42EF842215DE2F0400A8469B /* PlayerPostCallout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerPostCallout.m; path = Game/Map/PlayerPostCallout.m; sourceTree = "<group>"; };
-		42EF842415DE32F000A8469B /* PlayerPostCalloutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlayerPostCalloutView.xib; path = Game/Map/PlayerPostCalloutView.xib; sourceTree = "<group>"; };
 		42F52A1916135A000077ED37 /* AnimClip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimClip.h; sourceTree = "<group>"; };
 		42F52A1A16135A000077ED37 /* AnimClip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimClip.m; sourceTree = "<group>"; };
 		42F52A1C16135D5A0077ED37 /* gameanim.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gameanim.plist; sourceTree = "<group>"; };
@@ -855,11 +836,6 @@
 		C4BBE45415B9A9EF00F582DE /* HiAccuracyLocatorDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HiAccuracyLocatorDelegate.h; sourceTree = "<group>"; };
 		C4BBE45515BA741C00F582DE /* MathUtils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MathUtils.c; sourceTree = "<group>"; };
 		C4BBE45615BA741C00F582DE /* MathUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathUtils.h; sourceTree = "<group>"; };
-		C4BBE45815BA93B800F582DE /* TradePostCallout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradePostCallout.h; path = Game/Map/TradePostCallout.h; sourceTree = "<group>"; };
-		C4BBE45915BA93B800F582DE /* TradePostCallout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradePostCallout.m; path = Game/Map/TradePostCallout.m; sourceTree = "<group>"; };
-		C4BBE45B15BA99B500F582DE /* TradePostCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradePostCalloutView.h; path = Game/Map/TradePostCalloutView.h; sourceTree = "<group>"; };
-		C4BBE45C15BA99B500F582DE /* TradePostCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradePostCalloutView.m; path = Game/Map/TradePostCalloutView.m; sourceTree = "<group>"; };
-		C4BBE45D15BA99B500F582DE /* TradePostCalloutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TradePostCalloutView.xib; path = Game/Map/TradePostCalloutView.xib; sourceTree = "<group>"; };
 		C4BBE46015BA9A8600F582DE /* CalloutAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalloutAnnotationView.h; path = Map/CalloutAnnotationView.h; sourceTree = "<group>"; };
 		C4BBE46115BA9A8600F582DE /* CalloutAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalloutAnnotationView.m; path = Map/CalloutAnnotationView.m; sourceTree = "<group>"; };
 		C4BBE46315BBBFF000F582DE /* FlightPathOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlightPathOverlay.h; path = Game/Map/FlightPathOverlay.h; sourceTree = "<group>"; };
@@ -1495,21 +1471,6 @@
 				C4BBE47615BC5F5000F582DE /* FlyerAnnotationView.m */,
 				C4BBE44F15B92B7600F582DE /* ScanManager.h */,
 				C4BBE45015B92B7600F582DE /* ScanManager.m */,
-				4221E4CF15D9CB7B00781664 /* FlyerCallout.h */,
-				4221E4D015D9CB7B00781664 /* FlyerCallout.m */,
-				4221E4D315D9D47E00781664 /* FlyerCalloutView.h */,
-				4221E4D415D9D47E00781664 /* FlyerCalloutView.m */,
-				4221E4D615DA2A2200781664 /* FlyerCalloutView.xib */,
-				42EF842115DE2F0400A8469B /* PlayerPostCallout.h */,
-				42EF842215DE2F0400A8469B /* PlayerPostCallout.m */,
-				42EF841D15DE2ED100A8469B /* PlayerPostCalloutView.h */,
-				42EF841E15DE2ED100A8469B /* PlayerPostCalloutView.m */,
-				42EF842415DE32F000A8469B /* PlayerPostCalloutView.xib */,
-				C4BBE45815BA93B800F582DE /* TradePostCallout.h */,
-				C4BBE45915BA93B800F582DE /* TradePostCallout.m */,
-				C4BBE45B15BA99B500F582DE /* TradePostCalloutView.h */,
-				C4BBE45C15BA99B500F582DE /* TradePostCalloutView.m */,
-				C4BBE45D15BA99B500F582DE /* TradePostCalloutView.xib */,
 				C4BBE46315BBBFF000F582DE /* FlightPathOverlay.h */,
 				C4BBE46415BBBFF100F582DE /* FlightPathOverlay.m */,
 				C4BBE46515BBBFF100F582DE /* FlightPathView.h */,
@@ -1901,11 +1862,8 @@
 				C4FA8F5B15B54A7200E82A93 /* CreateAccount.png in Resources */,
 				C4FA8F5C15B54A7200E82A93 /* FBSignIn.png in Resources */,
 				C4BBE44915B7E7C600F582DE /* SignupBackground.png in Resources */,
-				C4BBE45F15BA99B500F582DE /* TradePostCalloutView.xib in Resources */,
 				38B6DAEF15C85A9D00F37BD9 /* FBDialog.bundle in Resources */,
 				42E92B0A15D0E7AD0054686F /* startButton.png in Resources */,
-				4221E4D715DA2A2200781664 /* FlyerCalloutView.xib in Resources */,
-				42EF842515DE32F000A8469B /* PlayerPostCalloutView.xib in Resources */,
 				C4D9B07315E3DE160096448E /* b_flyerlab.png in Resources */,
 				42B28E3215EA39620008901C /* b_homebase.png in Resources */,
 				42B28E3315EA39620008901C /* b_tradepost.png in Resources */,
@@ -2141,8 +2099,6 @@
 				42A2989215B5F1E700384A52 /* KnobSlice.m in Sources */,
 				C4BBE45115B92B7600F582DE /* ScanManager.m in Sources */,
 				C4BBE45715BA741C00F582DE /* MathUtils.c in Sources */,
-				C4BBE45A15BA93B800F582DE /* TradePostCallout.m in Sources */,
-				C4BBE45E15BA99B500F582DE /* TradePostCalloutView.m in Sources */,
 				C4BBE46215BA9A8600F582DE /* CalloutAnnotationView.m in Sources */,
 				C4BBE46715BBBFF200F582DE /* FlightPathOverlay.m in Sources */,
 				C4BBE46815BBBFF200F582DE /* FlightPathView.m in Sources */,
@@ -2167,11 +2123,7 @@
 				3889129915D5D8B6009CF624 /* zip.c in Sources */,
 				3889129A15D5D8B6009CF624 /* SSZipArchive.m in Sources */,
 				4227883015D74A9A00852AC4 /* TradeManager.m in Sources */,
-				4221E4D115D9CB7B00781664 /* FlyerCallout.m in Sources */,
-				4221E4D515D9D47E00781664 /* FlyerCalloutView.m in Sources */,
 				C436AEB215DB325800B22E8A /* GameNotes.m in Sources */,
-				42EF841F15DE2ED100A8469B /* PlayerPostCalloutView.m in Sources */,
-				42EF842315DE2F0400A8469B /* PlayerPostCallout.m in Sources */,
 				42B28E2F15E99E5A0008901C /* NSArray+Pog.m in Sources */,
 				38D7371E15ED7290001CD3AE /* AsyncHttpCall.m in Sources */,
 				38D7372215ED7DC6001CD3AE /* AsyncHttpCallMgr.m in Sources */,

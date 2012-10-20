@@ -8,7 +8,6 @@
 
 #import "FlyerAnnotationView.h"
 #import "Flyer.h"
-#import "FlyerCallout.h"
 #import "FlyerPath.h"
 #import "GameManager.h"
 #import "PogUIUtility.h"
@@ -26,7 +25,6 @@ static const float kFlyerAnnotContentSize = 85.0f;
 
 @interface FlyerAnnotationView ()
 {
-    FlyerCallout* _calloutAnnotation;
     UIView* _contentView;
     CircleBarView* _countdown;
     Clockface* _countdownClock;
@@ -85,8 +83,6 @@ static const float kFlyerAnnotContentSize = 85.0f;
         // countdown (start out hidden)
         [self createCountdown];
         [self showCountdown:NO];
-        
-        _calloutAnnotation = nil;
     }
     return self;
 }
@@ -244,46 +240,25 @@ static const float kFlyerCountdownHeight = 22.0f;
         [newAnnotFlyer addObserver:self forKeyPath:kKeyFlyerMetersToDest options:0 context:nil];
         [newAnnotFlyer addObserver:self forKeyPath:kKeyFlyerState options:0 context:nil];
     }
-
-    if(_calloutAnnotation)
-    {
-        [_calloutAnnotation setCoordinate:annotation.coordinate];
-    }
     [super setAnnotation:annotation];
     
 }
 
 #pragma mark - PogMapAnnotationViewProtocol
 - (void)didSelectAnnotationViewInMap:(MKMapView*) mapView;
-{   
-    if(!_calloutAnnotation)
+{
+    if([[GameManager getInstance] canShowMapAnnotationCallout])
     {
-        if([[GameManager getInstance] canShowMapAnnotationCallout])
-        {
-            Flyer* flyer = (Flyer*) [self annotation];
-            if(![[flyer path] isEnroute])
-            {
-                // show Flyer Callout if not enroute
-                _calloutAnnotation = [[FlyerCallout alloc] initWithFlyer:flyer];
-                _calloutAnnotation.parentAnnotationView = self;
-                [mapView addAnnotation:_calloutAnnotation];
-            }
-        }
-        else
-        {
-            // disallow callout
-            [mapView deselectAnnotation:[self annotation] animated:NO];
-        }
+    }
+    else
+    {
+        // disallow callout
+        [mapView deselectAnnotation:[self annotation] animated:NO];
     }
 }
 
 - (void)didDeselectAnnotationViewInMap:(MKMapView*) mapView;
 {
-    if(_calloutAnnotation)
-    {
-        [mapView removeAnnotation:_calloutAnnotation];
-        _calloutAnnotation = nil;
-    }
 }
 
 
