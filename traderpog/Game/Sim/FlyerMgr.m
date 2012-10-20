@@ -407,7 +407,7 @@ static const float kBubbleBorderWidth = 1.5f;
                     [patchPosts addObject:newPost];
                     
                     // Set the current path to use it
-                    cur.path.curPostId = nil;
+                    cur.path.curPostId = [newPost postId];
                     cur.path.srcCoord = newPost.coord;
                 }
             }                
