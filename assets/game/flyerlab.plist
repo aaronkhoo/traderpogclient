@@ -679,7 +679,7 @@
 			<array>
 				<dict>
 					<key>orig</key>
-					<string>flyer_frog.png</string>
+					<string>flyer_frog_landed.png</string>
 					<key>color1</key>
 					<string>flyer_frog_landed_c1.png</string>
 					<key>color2</key>

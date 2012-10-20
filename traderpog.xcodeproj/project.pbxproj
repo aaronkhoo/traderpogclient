@@ -113,6 +113,7 @@
 		42211C92162F70400019EDBB /* icon_alert_post_001.png in Resources */ = {isa = PBXBuildFile; fileRef = 42211C8F162F70400019EDBB /* icon_alert_post_001.png */; };
 		42211C93162F70400019EDBB /* icon_alert_post_002.png in Resources */ = {isa = PBXBuildFile; fileRef = 42211C90162F70400019EDBB /* icon_alert_post_002.png */; };
 		42211C94162F70400019EDBB /* icon_alert_post_003.png in Resources */ = {isa = PBXBuildFile; fileRef = 42211C91162F70400019EDBB /* icon_alert_post_003.png */; };
+		422258211632F6C400BE9AD4 /* flyer_frog_landed.png in Resources */ = {isa = PBXBuildFile; fileRef = 422258201632F6C400BE9AD4 /* flyer_frog_landed.png */; };
 		4227883015D74A9A00852AC4 /* TradeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227882F15D74A9900852AC4 /* TradeManager.m */; };
 		4237D4821620A40F009A29F1 /* FlyerCustomize.m in Sources */ = {isa = PBXBuildFile; fileRef = 4237D4801620A40F009A29F1 /* FlyerCustomize.m */; };
 		4237D4831620A40F009A29F1 /* FlyerCustomize.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4237D4811620A40F009A29F1 /* FlyerCustomize.xib */; };
@@ -185,7 +186,6 @@
 		42A20C0E162BF53800C4B593 /* flyer_wing_landed_c1.png in Resources */ = {isa = PBXBuildFile; fileRef = 42A20BE2162BF53800C4B593 /* flyer_wing_landed_c1.png */; };
 		42A20C0F162BF53800C4B593 /* flyer_wing_landed_c2.png in Resources */ = {isa = PBXBuildFile; fileRef = 42A20BE3162BF53800C4B593 /* flyer_wing_landed_c2.png */; };
 		42A20C10162BF53800C4B593 /* flyer_wing_landed_c3.png in Resources */ = {isa = PBXBuildFile; fileRef = 42A20BE4162BF53800C4B593 /* flyer_wing_landed_c3.png */; };
-		42A20C2C162BF54F00C4B593 /* flyer_frog.png in Resources */ = {isa = PBXBuildFile; fileRef = 42A20C13162BF54F00C4B593 /* flyer_frog.png */; };
 		42A20C2D162BF54F00C4B593 /* flyer_frog_aerokit.png in Resources */ = {isa = PBXBuildFile; fileRef = 42A20C14162BF54F00C4B593 /* flyer_frog_aerokit.png */; };
 		42A20C2E162BF54F00C4B593 /* flyer_frog_aerokit_c1.png in Resources */ = {isa = PBXBuildFile; fileRef = 42A20C15162BF54F00C4B593 /* flyer_frog_aerokit_c1.png */; };
 		42A20C2F162BF54F00C4B593 /* flyer_frog_aerokit_c2.png in Resources */ = {isa = PBXBuildFile; fileRef = 42A20C16162BF54F00C4B593 /* flyer_frog_aerokit_c2.png */; };
@@ -544,6 +544,7 @@
 		42211C8F162F70400019EDBB /* icon_alert_post_001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_alert_post_001.png; sourceTree = "<group>"; };
 		42211C90162F70400019EDBB /* icon_alert_post_002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_alert_post_002.png; sourceTree = "<group>"; };
 		42211C91162F70400019EDBB /* icon_alert_post_003.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_alert_post_003.png; sourceTree = "<group>"; };
+		422258201632F6C400BE9AD4 /* flyer_frog_landed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_frog_landed.png; sourceTree = "<group>"; };
 		4227882E15D74A9800852AC4 /* TradeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradeManager.h; path = Game/Sim/TradeManager.h; sourceTree = "<group>"; };
 		4227882F15D74A9900852AC4 /* TradeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradeManager.m; path = Game/Sim/TradeManager.m; sourceTree = "<group>"; };
 		4237D47F1620A40F009A29F1 /* FlyerCustomize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCustomize.h; path = Game/UI/FlyerCustomize.h; sourceTree = "<group>"; };
@@ -629,7 +630,6 @@
 		42A20BE2162BF53800C4B593 /* flyer_wing_landed_c1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_wing_landed_c1.png; sourceTree = "<group>"; };
 		42A20BE3162BF53800C4B593 /* flyer_wing_landed_c2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_wing_landed_c2.png; sourceTree = "<group>"; };
 		42A20BE4162BF53800C4B593 /* flyer_wing_landed_c3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_wing_landed_c3.png; sourceTree = "<group>"; };
-		42A20C13162BF54F00C4B593 /* flyer_frog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_frog.png; sourceTree = "<group>"; };
 		42A20C14162BF54F00C4B593 /* flyer_frog_aerokit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_frog_aerokit.png; sourceTree = "<group>"; };
 		42A20C15162BF54F00C4B593 /* flyer_frog_aerokit_c1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_frog_aerokit_c1.png; sourceTree = "<group>"; };
 		42A20C16162BF54F00C4B593 /* flyer_frog_aerokit_c2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_frog_aerokit_c2.png; sourceTree = "<group>"; };
@@ -1201,7 +1201,6 @@
 		42A20C12162BF54F00C4B593 /* flyer_frog */ = {
 			isa = PBXGroup;
 			children = (
-				42A20C13162BF54F00C4B593 /* flyer_frog.png */,
 				42A20C14162BF54F00C4B593 /* flyer_frog_aerokit.png */,
 				42A20C15162BF54F00C4B593 /* flyer_frog_aerokit_c1.png */,
 				42A20C16162BF54F00C4B593 /* flyer_frog_aerokit_c2.png */,
@@ -1210,6 +1209,7 @@
 				42A20C19162BF54F00C4B593 /* flyer_frog_booster_c1.png */,
 				42A20C1A162BF54F00C4B593 /* flyer_frog_booster_c2.png */,
 				42A20C1B162BF54F00C4B593 /* flyer_frog_booster_c3.png */,
+				422258201632F6C400BE9AD4 /* flyer_frog_landed.png */,
 				42A20C1C162BF54F00C4B593 /* flyer_frog_landed_c1.png */,
 				42A20C1D162BF54F00C4B593 /* flyer_frog_landed_c2.png */,
 				42A20C1E162BF54F00C4B593 /* flyer_frog_landed_c3.png */,
@@ -2004,7 +2004,6 @@
 				42A20C0E162BF53800C4B593 /* flyer_wing_landed_c1.png in Resources */,
 				42A20C0F162BF53800C4B593 /* flyer_wing_landed_c2.png in Resources */,
 				42A20C10162BF53800C4B593 /* flyer_wing_landed_c3.png in Resources */,
-				42A20C2C162BF54F00C4B593 /* flyer_frog.png in Resources */,
 				42A20C2D162BF54F00C4B593 /* flyer_frog_aerokit.png in Resources */,
 				42A20C2E162BF54F00C4B593 /* flyer_frog_aerokit_c1.png in Resources */,
 				42A20C2F162BF54F00C4B593 /* flyer_frog_aerokit_c2.png in Resources */,
@@ -2050,6 +2049,7 @@
 				42172FEC1630C3E900652009 /* flyer_hornet.png in Resources */,
 				42172FF51630D09C00652009 /* FlyerBuyConfirmScreen.xib in Resources */,
 				42172FFB1631DDB700652009 /* PlayerPostViewController.xib in Resources */,
+				422258211632F6C400BE9AD4 /* flyer_frog_landed.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
