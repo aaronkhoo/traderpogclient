@@ -805,7 +805,7 @@ static const float kPreviewImageYOffset = -0.25f;
         Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
         [[GameManager getInstance] wheel:wheel commitOnFlyer:curFlyer];
     }
-    else
+    else if(kGameStateGameLoop == [[GameManager getInstance] gameState])
     {
         NSArray* purchaseables = [self getPurchaseableFlyerTypeIndices];
         unsigned int lookupIndex = index - [_playerFlyers count];
@@ -820,6 +820,10 @@ static const float kPreviewImageYOffset = -0.25f;
         {
             [[GameManager getInstance] popGameStateToLoop];
         }
+    }
+    else
+    {
+        [[GameManager getInstance] popGameStateToLoop];        
     }
 }
 
