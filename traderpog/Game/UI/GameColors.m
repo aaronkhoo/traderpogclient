@@ -58,13 +58,13 @@
     return result;
 }
 
-+ (UIColor*) flyerBuyTier1ColorScanWithAlpha:(CGFloat)alpha
++ (UIColor*) flyerBuyTier1ColorWithAlpha:(CGFloat)alpha
 {
     UIColor* result = [UIColor colorWithRed:48.0f/255.0f green:80.0f/255.0f blue:107.0f/255.0f alpha:1.0f];
     return result;
 }
 
-+ (UIColor*) flyerBuyTier2ColorScanWithAlpha:(CGFloat)alpha
++ (UIColor*) flyerBuyTier2ColorWithAlpha:(CGFloat)alpha
 {
     UIColor* result = [UIColor colorWithRed:168.0/255.0f green:20.0f/255.0f blue:29.0f/255.0f alpha:1.0f];
     return result;

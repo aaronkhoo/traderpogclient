@@ -20,6 +20,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *flyerDescLabel;
 @property (weak, nonatomic) IBOutlet UILabel *buyButtonLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *membershipLabel;
+@property (weak, nonatomic) IBOutlet UILabel *membershipTextLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *coinImageView;
+@property (weak, nonatomic) IBOutlet UILabel *priceLabel;
+@property (weak, nonatomic) IBOutlet UIView *priceCover;
 
 - (id) initWithFlyerType:(FlyerType*)flyerType;
 @end
