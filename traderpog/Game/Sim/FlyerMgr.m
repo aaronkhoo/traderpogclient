@@ -51,6 +51,9 @@ static const float kBubbleBorderWidth = 1.5f;
     
     // User flyer in the midst of being generated
     Flyer* _tempFlyer;
+    
+    // cached purchaseable flyer-type-indices
+    NSArray* _cachedPurchaseables;
 }
 - (TradePost*) tradePosts:(NSArray*)tradePosts withinMeters:(CLLocationDistance)meters fromCoord:(CLLocationCoordinate2D)coord;
 - (void) reconstructFlightPaths;
@@ -69,6 +72,7 @@ static const float kBubbleBorderWidth = 1.5f;
         _playerFlyers = [NSMutableArray arrayWithCapacity:10];
         _lastUpdate = nil;
         _previewMap = nil;
+        _cachedPurchaseables = nil;
     }
     return self;
 }
@@ -87,6 +91,7 @@ static const float kBubbleBorderWidth = 1.5f;
     _playerFlyers = [aDecoder decodeObjectForKey:kKeyFlyerArray];
     _lastUpdate = [aDecoder decodeObjectForKey:kKeyLastUpdated];
     _previewMap = nil;
+    _cachedPurchaseables = nil;
     
     return self;
 }
@@ -569,14 +574,18 @@ static const float kBubbleBorderWidth = 1.5f;
         [wheel.previewLabel setText:@"Buy Flyer!"];
         [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
         
-        unsigned int tier = index + 1;  // tier is 1-based
-        FlyerType* flyerType = [[FlyerTypes getInstance] getAnyFlyerTypeForTier:tier];
-        NSString* flyerTypeName = [flyerType sideimg];
-        NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:flyerTypeName tier:1 colorIndex:0];
-        UIImage* bgImage = [[ImageManager getInstance] getImage:imageName];
-        [wheel.previewImageView setImage:bgImage];
-        [wheel.previewImageView setHidden:NO];
-        
+        NSArray* purchaseables = [self getPurchaseableFlyerTypeIndices];
+        unsigned int lookupIndex = index - [_playerFlyers count];
+        if(lookupIndex < [purchaseables count])
+        {
+            unsigned int flyerTypeIndex = [[purchaseables objectAtIndex:lookupIndex] unsignedIntValue];
+            FlyerType* flyerType = [[FlyerTypes getInstance] getFlyerTypeAtIndex:flyerTypeIndex];
+            NSString* flyerTypeName = [flyerType sideimg];
+            NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:flyerTypeName tier:1 colorIndex:0];
+            UIImage* bgImage = [[ImageManager getInstance] getImage:imageName];
+            [wheel.previewImageView setImage:bgImage];
+            [wheel.previewImageView setHidden:NO];
+        }
         [_previewMap.view setHidden:YES];
     }
 }
@@ -612,6 +621,37 @@ static const float kBubbleBorderWidth = 1.5f;
     return result;
 }
 
+
+// the player is only allowed one flyer per type
+// so, purchaseable flyers are the remaining flyer-types that the player doesn't have
+- (NSArray*) getPurchaseableFlyerTypeIndices
+{
+    if(!_cachedPurchaseables)
+    {
+        NSMutableArray* result = [NSMutableArray arrayWithCapacity:6];
+        for(unsigned int index = 0; index < [[FlyerTypes getInstance] numFlyerTypes]; ++index)
+        {
+            unsigned int numFlyers = [_playerFlyers count];
+            for(Flyer* cur in _playerFlyers)
+            {
+                if(index == [cur flyerTypeIndex])
+                {
+                    break;
+                }
+                --numFlyers;
+            }
+            
+            if(!numFlyers)
+            {
+                NSNumber* purchaseableIndexNum = [NSNumber numberWithUnsignedInt:index];
+                [result addObject:purchaseableIndexNum];
+            }
+        }
+        _cachedPurchaseables = result;
+    }
+    return _cachedPurchaseables;
+}
+
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {
@@ -637,6 +677,7 @@ static const float kBubbleBorderWidth = 1.5f;
 
 - (WheelBubble*) wheel:(WheelControl *)wheel bubbleAtIndex:(unsigned int)index
 {
+    NSArray* purchaseables = [self getPurchaseableFlyerTypeIndices];
     WheelBubble* contentView = [wheel dequeueResuableBubble];
     if(nil == contentView)
     {
@@ -673,12 +714,16 @@ static const float kBubbleBorderWidth = 1.5f;
     }
     else
     {
-        unsigned int tier = index + 1;  // tier is 1-based
-        FlyerType* flyerType = [[FlyerTypes getInstance] getAnyFlyerTypeForTier:tier];
-        NSString* flyerTypeName = [flyerType topimg];
-        NSString* imageName = [[FlyerLabFactory getInstance] topImageForFlyerTypeNamed:flyerTypeName tier:1 colorIndex:0];
-        UIImage* image = [[ImageManager getInstance] getGrayscaleImage:imageName fallbackNamed:imageName];
-        [contentView.imageView setImage:image];
+        unsigned int lookupIndex = index - [_playerFlyers count];
+        if(lookupIndex < [purchaseables count])
+        {
+            unsigned int flyerTypeIndex = [[purchaseables objectAtIndex:lookupIndex] unsignedIntValue];
+            FlyerType* flyerType = [[FlyerTypes getInstance] getFlyerTypeAtIndex:flyerTypeIndex];
+            NSString* flyerTypeName = [flyerType topimg];
+            NSString* imageName = [[FlyerLabFactory getInstance] topImageForFlyerTypeNamed:flyerTypeName tier:1 colorIndex:0];
+            UIImage* image = [[ImageManager getInstance] getGrayscaleImage:imageName fallbackNamed:imageName];
+            [contentView.imageView setImage:image];
+        }
     }
 
     return contentView;
@@ -762,10 +807,19 @@ static const float kPreviewImageYOffset = -0.25f;
     }
     else
     {
-        unsigned int tier = index + 1;  // tier is 1-based
-        FlyerType* flyerType = [[FlyerTypes getInstance] getAnyFlyerTypeForTier:tier];
-        FlyerBuyConfirmScreen* next = [[FlyerBuyConfirmScreen alloc] initWithFlyerType:flyerType];
-        [[GameManager getInstance].gameViewController showModalNavViewController:next completion:nil];
+        NSArray* purchaseables = [self getPurchaseableFlyerTypeIndices];
+        unsigned int lookupIndex = index - [_playerFlyers count];
+        if(lookupIndex < [purchaseables count])
+        {
+            unsigned int flyerTypeIndex = [[purchaseables objectAtIndex:lookupIndex] unsignedIntValue];
+            FlyerType* flyerType = [[FlyerTypes getInstance] getFlyerTypeAtIndex:flyerTypeIndex];
+            FlyerBuyConfirmScreen* next = [[FlyerBuyConfirmScreen alloc] initWithFlyerType:flyerType];
+            [[GameManager getInstance].gameViewController showModalNavViewController:next completion:nil];
+        }
+        else
+        {
+            [[GameManager getInstance] popGameStateToLoop];
+        }
     }
 }
 
@@ -777,6 +831,9 @@ static const float kPreviewImageYOffset = -0.25f;
 
 - (void) wheel:(WheelControl*)wheel willShowAtIndex:(unsigned int)index
 {
+    // clear cache
+    _cachedPurchaseables = nil;
+    
     [self wheel:wheel didMoveTo:index];
 
     // refresh previewMap

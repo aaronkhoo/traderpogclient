@@ -291,20 +291,6 @@ static NSString* const kDefaultFlyerTypeTopImg = @"flyer_glider";
     return (NSArray*)flyerArray;
 }
 
-- (FlyerType*) getAnyFlyerTypeForTier:(unsigned int)tier
-{
-    FlyerType* result = nil;
-    for (FlyerType* flyer in _flyerTypes)
-    {
-        if ([flyer tier] == tier)
-        {
-            result = flyer;
-            break;
-        }
-    }
-    return result;
-}
-
 #pragma mark - Singleton
 static FlyerTypes* singleton = nil;
 + (FlyerTypes*) getInstance
