@@ -581,6 +581,37 @@ static const float kBubbleBorderWidth = 1.5f;
     }
 }
 
+- (Flyer*) homeOrHomeboundFlyer
+{
+    Flyer* result = nil;
+    for(Flyer* cur in _playerFlyers)
+    {
+        TradePost* curPost = nil;
+        if(kFlyerStateEnroute == [cur state])
+        {
+            // if enroute, check nextpost
+            if([cur.path nextPostId])
+            {
+                curPost = [[TradePostMgr getInstance] getTradePostWithId:[cur.path nextPostId]];
+            }
+        }
+        else if([cur.path curPostId])
+        {
+            // if not, check curpost
+            curPost = [[TradePostMgr getInstance] getTradePostWithId:[cur.path curPostId]];
+        }
+        
+        // if post is MyPost, then I am home or homebound
+        if(curPost && [curPost isMemberOfClass:[MyTradePost class]])
+        {
+            result = cur;
+            break;
+        }
+    }
+    
+    return result;
+}
+
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {

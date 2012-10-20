@@ -372,6 +372,7 @@ static const float kAccelViewYOffset = -94.0f;
 - (void) handleAccelOk:(id)sender
 {
     TradePost* destPost = (TradePost*)[self annotation];
+    [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
     if(destPost && [destPost flyerAtPost])
     {
         Flyer* flyer = [destPost flyerAtPost];
@@ -382,7 +383,16 @@ static const float kAccelViewYOffset = -94.0f;
             //       flyer straight to that single post.
             // [[GameManager getInstance] showHomeSelectForFlyer:flyer];
             
-            [[GameManager getInstance] sendFlyerHome:flyer];
+            BOOL goingHome = [[GameManager getInstance] sendFlyerHome:flyer];
+            if(!goingHome)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Home Occupied"
+                                                                message:@"Another Flyer is home or homebound. Send it somewhere else first."
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"Ok"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
         }
         else
         {
@@ -411,7 +421,6 @@ static const float kAccelViewYOffset = -94.0f;
             }
         }
     }
-    [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
 }
 
 #pragma mark - PogMapAnnotationViewProtocol

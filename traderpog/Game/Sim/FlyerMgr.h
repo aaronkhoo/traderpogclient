@@ -48,6 +48,7 @@ static NSString* const kFlyerMgr_ReceiveFlyers = @"FlyerMgr_ReceiveFlyers";
 - (NSArray*) tradePostIdsWithFlyers;
 - (NSMutableArray*) unknownTradePostsFromFlyers;
 - (NSArray*) tradePostIdsInFlightpaths;
+- (Flyer*) homeOrHomeboundFlyer;
 
 // singleton
 +(FlyerMgr*) getInstance;

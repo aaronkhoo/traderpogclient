@@ -30,7 +30,7 @@ static const NSUInteger kScanLocateZoomLevel = 15;
 static const float kScanRadius = 300.0f;    // meters
 static const float kScanRadiusMinFactor = 0.25f;
 static const unsigned int kScanNumPosts = 2;
-static const unsigned int kMaxNumPosts = 4;
+static const unsigned int kMaxNumPosts = 6;
 static const NSTimeInterval kScanDurationMin = 2.0f;    // minimum amount of time for Scan
                                                         // so that the player has a chance to observe
                                                         // their own location

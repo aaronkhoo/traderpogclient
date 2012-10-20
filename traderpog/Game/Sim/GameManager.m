@@ -641,10 +641,19 @@ typedef enum {
     }
 }
 
-- (void) sendFlyerHome:(Flyer *)flyer
+// returns TRUE if flyer successfully departed
+// returns FALSE if it can't go home
+- (BOOL) sendFlyerHome:(Flyer *)flyer
 {
-    [self flyer:flyer departForTradePost:[[TradePostMgr getInstance] getFirstMyTradePost]];
+    BOOL goingHome = NO;
+    if(![[FlyerMgr getInstance] homeOrHomeboundFlyer])
+    {
+        [self flyer:flyer departForTradePost:[[TradePostMgr getInstance] getFirstMyTradePost]];
+        goingHome = YES;
+    }
     _gameState = kGameStateGameLoop;
+    
+    return goingHome;
 }
 
 #pragma mark - in-game UI
