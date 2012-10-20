@@ -446,6 +446,27 @@ static const float kBubbleBorderWidth = 1.5f;
                     cur.path.destCoord = newPost.coord;
                 }
             }
+            else if([[cur path] nextPostId])
+            {
+                // also check for dangling post if there is a nextPostId and we are done with path
+                TradePost* post = [[TradePostMgr getInstance] getTradePostWithId:[[cur path] nextPostId]];
+                if (!post)
+                {
+                    NSLog(@"Could not resolve next post! Replacing with NPC post.");
+                    
+                    // Create a random NPC post first
+                    float curAngle = RandomFrac() * 2.0f * M_PI;
+                    float randFrac = RandomFrac();
+                    NPCTradePost* newPost = [[ScanManager getInstance] generateSinglePostAtCoordAndAngle:[[[TradePostMgr getInstance] getFirstMyTradePost] coord]
+                                                                                                curAngle:curAngle
+                                                                                                randFrac:randFrac];
+                    [patchPosts addObject:newPost];
+                    
+                    // Set the current path to use it
+                    cur.path.nextPostId = [newPost postId];
+                    cur.path.destCoord = newPost.coord;
+                }
+            }
         }
     }
 }
