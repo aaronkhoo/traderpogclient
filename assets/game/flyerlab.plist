@@ -459,71 +459,71 @@
 					<key>orig</key>
 					<string>flyer_hornet.png</string>
 					<key>color1</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_c1.png</string>
 					<key>color2</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_c2.png</string>
 					<key>color3</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_aero.png</string>
 					<key>color1</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_aero_c1.png</string>
 					<key>color2</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_aero_c2.png</string>
 					<key>color3</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_aero_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_aero.png</string>
 					<key>color1</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_aero_c1.png</string>
 					<key>color2</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_aero_c2.png</string>
 					<key>color3</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_aero_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_boost.png</string>
 					<key>color1</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_boost_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_boost.png</string>
 					<key>color1</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_boost_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_boost.png</string>
 					<key>color1</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_boost_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_boost.png</string>
 					<key>color1</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer_hornet.png</string>
+					<string>flyer_hornet_boost_c3.png</string>
 				</dict>
 			</array>
 			<key>side</key>
