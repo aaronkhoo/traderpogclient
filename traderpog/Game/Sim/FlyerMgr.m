@@ -42,9 +42,6 @@ static double const refreshTime = -(60 * 15);
 static NSUInteger kFlyerPreviewZoomLevel = 8;
 static const CLLocationDistance kSimilarCoordThresholdMeters = 25.0;
 
-static const unsigned int kFlyerFreeNum = 3;
-static const unsigned int kFlyerMemberNum = 3;
-static const unsigned int kFlyerNum = kFlyerFreeNum + kFlyerMemberNum;
 static const float kBubbleBorderWidth = 1.5f;
 
 @interface FlyerMgr ()
@@ -717,7 +714,6 @@ static const float kPreviewImageYOffset = -0.25f;
 #pragma mark - WheelProtocol
 - (void) wheel:(WheelControl*)wheel didMoveTo:(unsigned int)index
 {
-    index = MIN(index, kFlyerNum - 1);
     [self refreshPreviewForWheel:wheel atIndex:index];
 }
 
@@ -728,10 +724,8 @@ static const float kPreviewImageYOffset = -0.25f;
 
 - (void) wheel:(WheelControl*)wheel didPressOkOnIndex:(unsigned int)index
 {
-    index = MIN(index, kFlyerNum - 1);
     if([_playerFlyers count] > index)
     {
-        index = MIN(index, [_playerFlyers count]-1);
         Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
         [[GameManager getInstance] wheel:wheel commitOnFlyer:curFlyer];
     }

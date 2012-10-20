@@ -423,7 +423,18 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
     }
     else
     {
-        [self defaultZoomCenterOn:[flyer coordinate] animated:isAnimated];
+        CLLocationCoordinate2D centerCoord = [flyer coordinate];
+        if([flyer.path curPostId])
+        {
+            // if flyer is at a post, use the post's coord because it may have been
+            // shifted by mapControl to resolve overlaps
+            TradePost* post = [[TradePostMgr getInstance] getTradePostWithId:flyer.path.curPostId];
+            if(post)
+            {
+                centerCoord = [post coord];
+            }
+        }
+        [self defaultZoomCenterOn:centerCoord animated:isAnimated];
     }
 }
 
