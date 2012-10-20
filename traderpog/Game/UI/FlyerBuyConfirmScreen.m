@@ -15,7 +15,14 @@
 #import "GameColors.h"
 #import "ImageManager.h"
 #import "Player.h"
+#import "Player+Shop.h"
 #import "PogUIUtility.h"
+#import "TradePostMgr.h"
+#import "TradePost.h"
+#import "Flyer.h"
+#import "FlyerMgr.h"
+#import "FlyerTypes.h"
+#import "MBProgressHUD.h"
 
 static const float kContentBorderWidth = 6.0f;
 static const float kContentBorderCornerRadius = 8.0f;
@@ -63,6 +70,11 @@ static const NSUInteger kMembershipTier = 4;
     [self.closeCircle setButtonTarget:self action:@selector(didPressClose:)];
     [self.buyCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.buyCircle setButtonTarget:self action:@selector(didPressBuy:)];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
     [self setupContent];
 }
@@ -110,9 +122,20 @@ static const NSUInteger kMembershipTier = 4;
     {
         // flyer descriptions
         [self.flyerDescLabel setText:[_flyerType desc]];
-        
         [self.titleView setBackgroundColor:[GameColors flyerBuyTier1ColorScanWithAlpha:1.0]];
         [self.buyButtonLabel setText:@"BUY"];
+        
+        if([[Player getInstance] canAffordFlyerType:_flyerType])
+        {
+            [self.buyButtonLabel setTextColor:[UIColor whiteColor]];
+            [self.buyButtonLabel setAlpha:1.0f];
+        }
+        else
+        {
+            // player can't afford to buy this upgrade
+            [self.buyButtonLabel setTextColor:[UIColor lightGrayColor]];
+            [self.buyButtonLabel setAlpha:0.4f];
+        }
     }
 }
 
@@ -142,9 +165,34 @@ static const NSUInteger kMembershipTier = 4;
         GameViewController* game = [[GameManager getInstance] gameViewController];
         [game.navigationController pushFromRightViewController:guildmembership animated:YES];
     }
-    else
+    else if([[Player getInstance] canAffordFlyerType:_flyerType])
     {
         NSLog(@"Purchase flyer experience");
+
+        // Pop the modal flyerbuyconfirmation screen
+        [self.navigationController popToRootViewControllerAnimated:NO];
+
+        GameViewController* game = [[GameManager getInstance] gameViewController];
+        TradePost* newFlyerPost = [[TradePostMgr getInstance] getFirstMyTradePost];
+        if([newFlyerPost flyerAtPost])
+        {
+            // there's already a flyer at home, generate an npc post nearby
+            CLLocationCoordinate2D newCoord = [newFlyerPost coord];
+            CLLocation* newLoc = [game.mapControl availableLocationNearCoord:newCoord visibleOnly:YES];
+            if(newLoc)
+            {
+                newCoord = [newLoc coordinate];
+            }
+            
+            newFlyerPost = [[TradePostMgr getInstance] newNPCTradePostAtCoord:newCoord bucks:0];
+            [game.mapControl addAnnotationForTradePost:newFlyerPost isScan:YES];
+        }
+
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:game.view animated:YES];
+        hud.labelText = @"Purchasing Flyer";
+     
+        NSInteger flyerTypeIndex = [[FlyerTypes getInstance] getFlyerIndexById:[_flyerType flyerId]];
+        [[FlyerMgr getInstance] newPlayerFlyerAtTradePost:newFlyerPost purchasedFlyerTypeIndex:flyerTypeIndex];
     }
 }
 

@@ -30,6 +30,7 @@ static const float kFlyerDefaultLoadTime = 90.0f;   // seconds
 @synthesize flyerId = _flyerId;
 @synthesize name = _name;
 @synthesize desc = _desc;
+@synthesize price = _price;
 @synthesize tier = _tier;
 @synthesize speed = _speed;
 @synthesize topimg = _topimg;

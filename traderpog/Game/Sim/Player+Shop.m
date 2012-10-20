@@ -14,6 +14,7 @@
 #import "FlyerColorPack.h"
 #import "FlyerLabFactory.h"
 #import "Flyer.h"
+#import "FlyerType.h"
 
 @implementation Player (Shop)
 
@@ -52,6 +53,17 @@
     unsigned int price = [[FlyerLabFactory getInstance] priceForColorCustomization];
     [self deductBucks:price];
     [flyer applyColor:colorIndex];
+}
+
+- (BOOL) canAffordFlyerType:(FlyerType *)flyerType
+{
+    BOOL result = NO;
+    unsigned int price = [flyerType price];
+    if([self bucks] >= price)
+    {
+        result = YES;
+    }
+    return result;
 }
 
 #pragma mark - labor

@@ -60,6 +60,7 @@ static NSString* const kKeyCurColorIndex = @"color_index";
 @synthesize flightPathRender = _flightPathRender;
 @synthesize coord = _coord;
 @synthesize isNewFlyer = _isNewFlyer;
+@synthesize isNewlyPurchased = _isNewlyPurchased;
 @synthesize state = _state;
 @synthesize stateBegin = _stateBegin;
 @synthesize delegate = _delegate;
@@ -70,33 +71,49 @@ static NSString* const kKeyCurColorIndex = @"color_index";
 @synthesize gameEvent = _gameEvent;
 @synthesize angle = _angle;
 
+- (void) internalInitAtPost:(TradePost*)tradePost flyerTypeIndex:(NSInteger)flyerTypeIndex isNewPurchase:(BOOL)isNewPurchase
+{
+    _initializeFlyerOnMap = FALSE;
+    
+    _flyerTypeIndex = flyerTypeIndex;
+    
+    _metersToDest = 0.0;
+    
+    // init transient variables
+    _coord = [tradePost coord];
+    _flightPathRender = nil;
+    _gameEvent = nil;
+    _angle = 0.0f;
+    
+    // this flyer is newly created (see Flyer.h for more details)
+    _isNewFlyer = YES;
+    _isNewlyPurchased = isNewPurchase;
+    
+    _state = kFlyerStateInvalid;
+    _stateBegin = nil;
+    
+    _inventory = [[FlyerInventory alloc] init];
+    _path = [[FlyerPath alloc] initWithPost:tradePost];
+    _curUpgradeTier = 0;
+    _curColor = 0;
+}
+
+- (id) initWithPost:(TradePost *)tradePost flyerTypeIndex:(NSInteger)flyerTypeIndex isNewPurchase:(BOOL)isNewPurchase
+{
+    self = [super init];
+    if(self)
+    {
+        [self internalInitAtPost:tradePost flyerTypeIndex:flyerTypeIndex isNewPurchase:isNewPurchase];
+    }
+    return self;
+}
+
 - (id) initWithPostAndFlyer:(TradePost*)tradePost, NSInteger flyerTypeIndex
 {
     self = [super init];
     if(self)
     {
-        _initializeFlyerOnMap = FALSE;
-        
-        _flyerTypeIndex = flyerTypeIndex;
-        
-        _metersToDest = 0.0;
-
-        // init transient variables
-        _coord = [tradePost coord];
-        _flightPathRender = nil;
-        _gameEvent = nil;
-        _angle = 0.0f;
-
-        // this flyer is newly created (see Flyer.h for more details)
-        _isNewFlyer = YES;
-        
-        _state = kFlyerStateInvalid;
-        _stateBegin = nil;
-        
-        _inventory = [[FlyerInventory alloc] init];
-        _path = [[FlyerPath alloc] initWithPost:tradePost];
-        _curUpgradeTier = 0;
-        _curColor = 0;
+        [self internalInitAtPost:tradePost flyerTypeIndex:flyerTypeIndex isNewPurchase:NO];
     }
     return self;
 }
@@ -153,6 +170,7 @@ static NSString* const kKeyCurColorIndex = @"color_index";
         
         // this flyer is loaded (see Flyer.h for more details)
         _isNewFlyer = NO;
+        _isNewlyPurchased = NO;
         
         _metersToDest = 0.0;
     }
@@ -223,6 +241,7 @@ static NSString* const kKeyCurColorIndex = @"color_index";
     
     // this flyer is loaded (see Flyer.h for more details)
     _isNewFlyer = NO;
+    _isNewlyPurchased = NO;
     
     return self;
 }
@@ -374,8 +393,16 @@ static NSString* const kKeyCurColorIndex = @"color_index";
                 }
                 else
                 {
-                    // if foreign post, make player go through the loading motion again to make it interesting for them (we can go either way here at this point)
-                    [self gotoState:kFlyerStateWaitingToLoad];
+                    if(_isNewlyPurchased)
+                    {
+                        // new flyer, make it ready to go
+                        [self gotoState:kFlyerStateLoaded];
+                    }
+                    else
+                    {
+                        // if restored flyer at foreign post, make player go through the loading motion again to make it interesting for them (we can go either way here at this point)
+                        [self gotoState:kFlyerStateWaitingToLoad];
+                    }
                 }
             }
             
@@ -391,6 +418,12 @@ static NSString* const kKeyCurColorIndex = @"color_index";
             [[[GameManager getInstance] gameViewController].mapControl addAnnotationForFlyer:self];
         }
         self.initializeFlyerOnMap = TRUE;
+    }
+    
+    // if newly purchased, unset it because after this, the flyer is ready for primetime
+    if(_isNewlyPurchased)
+    {
+        _isNewlyPurchased = NO;
     }
 }
 

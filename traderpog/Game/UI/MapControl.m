@@ -25,12 +25,20 @@
 #import "GameManager.h"
 #import "GameViewController.h"
 
+enum kMapAvailCoordShift
+{
+    kMapAvailCoordShiftRight = 0,
+    kMapAvailCoordShiftLeft,
+    kMapAvailCoordShiftDown,
+    
+    kMapAvailCoordShiftNum
+};
+
 const NSUInteger kDefaultZoomLevel = 15;
 const NSUInteger kNoCalloutZoomLevel = kDefaultZoomLevel - 2;
 static NSString* const kKeyCoordinate = @"coordinate";
 static const NSTimeInterval kAmbientWindFlighttimeThreshold = 30.0;
 
-// TODO: Rationalize placement of these constants
 static const float kScanRadius = 300.0f;    // meters
 static const unsigned int kScanNumPosts = 3;
 static const float kBrowseAreaRadius = 500.0f;
@@ -45,6 +53,10 @@ static const float kBrowseAreaRadius = 500.0f;
     MapGestureHandler* _gestureHandler;
     UIPanGestureRecognizer* _panRecognizer;
     BOOL _isViewingRoute;
+    
+    // this number just cycles through so that every time we return an avail coord
+    // it's shifted in a different direction; just to delay clogging up one direction
+    unsigned int _availCoordShiftDir;
 }
 @property (nonatomic,strong) BrowseArea* browseArea;
 @property (nonatomic) BOOL regionSetFromCode;
@@ -55,6 +67,7 @@ static const float kBrowseAreaRadius = 500.0f;
                           center:(CLLocationCoordinate2D)initCoord
                        zoomLevel:(unsigned int)zoomLevel;
 - (void) zoom:(NSUInteger) zoomLevel centerOn:(CLLocationCoordinate2D)coord modifyMap:(BOOL)modifyMap animated:(BOOL)isAnimated;
+- (CGPoint) getShiftDir;
 @end
 
 @implementation MapControl
@@ -73,6 +86,32 @@ static const float kBrowseAreaRadius = 500.0f;
 - (BOOL) isZoomEnabled
 {
     return [self.view isZoomEnabled];
+}
+
+- (CGPoint) getShiftDir
+{
+    CGPoint result = CGPointMake(1.0f, 0.0f);
+    switch(_availCoordShiftDir)
+    {
+        case kMapAvailCoordShiftLeft:
+            result = CGPointMake(-1.0f, 0.0f);
+            break;
+            
+        case kMapAvailCoordShiftDown:
+            result = CGPointMake(0.0f, 1.0f);
+            break;
+            
+        default:
+        case kMapAvailCoordShiftRight:
+            // do nothing; default;
+            break;
+    }
+    ++_availCoordShiftDir;
+    if(kMapAvailCoordShiftNum <= _availCoordShiftDir)
+    {
+        _availCoordShiftDir = 0;
+    }
+    return result;
 }
 
 const float kNewPostNearMeters = 150.0f;
@@ -99,7 +138,9 @@ const float kNewPostOffsetMeters = 100.0f;
         MKMapPoint centerPoint = MKMapPointForCoordinate(srcCoord);
         CLLocationDistance offsetDist = farDist + kNewPostOffsetMeters;
         double offsetMapPoints = offsetDist * MKMapPointsPerMeterAtLatitude(center.coordinate.latitude);
-        MKMapPoint newPoint = MKMapPointMake(centerPoint.x + offsetMapPoints, centerPoint.y);
+        CGPoint shiftDir = [self getShiftDir];
+        CGPoint shiftVec = CGPointMake(shiftDir.x * offsetMapPoints, shiftDir.y * offsetMapPoints);
+        MKMapPoint newPoint = MKMapPointMake(centerPoint.x + shiftVec.x, centerPoint.y + shiftVec.y);
         CLLocationCoordinate2D newCoord = MKCoordinateForMapPoint(newPoint);
         
         result = [[CLLocation alloc] initWithLatitude:newCoord.latitude longitude:newCoord.longitude];
@@ -166,6 +207,8 @@ const float kNewPostOffsetMeters = 100.0f;
     
     self.trackedAnnotation = nil;
     _isViewingRoute = NO;
+    
+    _availCoordShiftDir = kMapAvailCoordShiftRight;
 }
 
 - (id) initWithMapView:(MKMapView *)mapView andCenter:(CLLocationCoordinate2D)initCoord

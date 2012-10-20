@@ -29,6 +29,7 @@
 #import "FlyerTypes.h"
 #import "FlyerType.h"
 #import "FlyerBuyConfirmScreen.h"
+#import "MBProgressHUD.h"
 #import <QuartzCore/QuartzCore.h>
 
 static NSString* const kKeyVersion = @"version";
@@ -166,9 +167,21 @@ static const float kBubbleBorderWidth = 1.5f;
 
 - (BOOL) newPlayerFlyerAtTradePost:(TradePost*)tradePost firstFlyer:(NSInteger)flyerTypeIndex
 {
+    BOOL result = [self newPlayerFlyerAtTradePost:tradePost flyerTypeIndex:flyerTypeIndex isNewPurchase:NO];
+    return result;
+}
+
+- (BOOL) newPlayerFlyerAtTradePost:(TradePost*)tradePost purchasedFlyerTypeIndex:(NSInteger)flyerTypeIndex
+{
+    BOOL result = [self newPlayerFlyerAtTradePost:tradePost flyerTypeIndex:flyerTypeIndex isNewPurchase:YES];
+    return result;
+}
+
+- (BOOL) newPlayerFlyerAtTradePost:(TradePost*)tradePost flyerTypeIndex:(NSInteger)flyerTypeIndex isNewPurchase:(BOOL)isNewPurchase
+{
     if (_tempFlyer == nil)
     {
-        Flyer* newFlyer = [[Flyer alloc] initWithPostAndFlyer:tradePost, flyerTypeIndex];
+        Flyer* newFlyer = [[Flyer alloc] initWithPost:tradePost flyerTypeIndex:flyerTypeIndex isNewPurchase:isNewPurchase];
         [newFlyer setDelegate:[FlyerMgr getInstance]];
         
         // lande new flyer at post that creates it
@@ -178,9 +191,10 @@ static const float kBubbleBorderWidth = 1.5f;
         _tempFlyer = newFlyer;
         [_tempFlyer createNewUserFlyerOnServer];
         return TRUE;
-    }    
+    }
     return FALSE;
 }
+
 
 - (void) setTempFlyerToActive
 {
@@ -188,7 +202,14 @@ static const float kBubbleBorderWidth = 1.5f;
     {
         // The temp TradePost has been successfully uploaded to the server, so move it
         // to the active list.
-        [_playerFlyers addObject:_tempFlyer];        
+        [_playerFlyers addObject:_tempFlyer];
+        
+        if([_tempFlyer isNewlyPurchased])
+        {
+            // if newly purchased, need to init it on map
+            [_tempFlyer initFlyerOnMap];
+        }
+        
         [MetricLogger logCreateObject:@"Flyer" slot:[_playerFlyers count] member:[[Player getInstance] isMember]];
         _tempFlyer = nil;
     }
@@ -568,6 +589,11 @@ static const float kBubbleBorderWidth = 1.5f;
 {
     if (success)
     {
+        GameViewController* game = [[GameManager getInstance] gameViewController];
+        if(game)
+        {
+            [MBProgressHUD hideHUDForView:game.view animated:NO];
+        }
         [self setTempFlyerToActive];
         [self saveFlyerMgrData];
     }

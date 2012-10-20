@@ -48,6 +48,9 @@ enum _FlyerStates
     // this is only ever TRUE when this flyer has just been newly created
     // in all other cases (including when it is initWithDictionary, it is FALSE)
     BOOL _isNewFlyer;
+
+    // this is only ever TRUE when this flyer is created from FlyerBuy in the game
+    BOOL _isNewlyPurchased;
     
     // flyer sim state
     unsigned int _state;
@@ -75,6 +78,7 @@ enum _FlyerStates
 @property (nonatomic) CLLocationCoordinate2D coord;
 @property (nonatomic) BOOL initializeFlyerOnMap;
 @property (nonatomic,readonly) BOOL isNewFlyer;
+@property (nonatomic,readonly) BOOL isNewlyPurchased;
 @property (nonatomic) unsigned int state;
 @property (nonatomic,strong) NSDate* stateBegin;
 @property (nonatomic) CLLocationDistance metersToDest;
@@ -85,6 +89,7 @@ enum _FlyerStates
 @property (nonatomic) float angle;
 
 - (id) initWithPostAndFlyer:(TradePost*)tradePost, NSInteger flyerTypeIndex;
+- (id) initWithPost:(TradePost *)tradePost flyerTypeIndex:(NSInteger)flyerTypeIndex isNewPurchase:(BOOL)isNewPurchase;
 - (void) createNewUserFlyerOnServer;
 - (id) initWithDictionary:(NSDictionary*)dict;
 - (void) createFlightPathRenderingForFlyer;

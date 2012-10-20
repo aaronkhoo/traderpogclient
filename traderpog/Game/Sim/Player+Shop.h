@@ -9,6 +9,7 @@
 #import "Player.h"
 
 @class Flyer;
+@class FlyerType;
 @interface Player (Shop)
 
 // flyer lab
@@ -16,6 +17,7 @@
 - (void) buyUpgradeTier:(unsigned int)tier forFlyer:(Flyer*)flyer;
 - (BOOL) canAffordFlyerColor;
 - (void) buyColorCustomization:(unsigned int)colorIndex forFlyer:(Flyer*)flyer;
+- (BOOL) canAffordFlyerType:(FlyerType*)flyerType;
 
 // labor
 - (unsigned int) priceForExtraHelp;

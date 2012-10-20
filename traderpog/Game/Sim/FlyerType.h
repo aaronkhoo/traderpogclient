@@ -31,6 +31,7 @@
 @property (nonatomic,strong) NSString* flyerId;
 @property (nonatomic,strong) NSString* name;
 @property (nonatomic,strong) NSString* desc;
+@property (nonatomic) NSInteger price;
 @property (nonatomic) NSInteger tier;
 @property (nonatomic) NSInteger speed;
 @property (nonatomic,strong) NSString* topimg;
