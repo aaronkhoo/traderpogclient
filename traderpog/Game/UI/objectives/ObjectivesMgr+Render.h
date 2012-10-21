@@ -8,6 +8,7 @@
 
 #import "ObjectivesMgr.h"
 
+@class GameViewController;
 @interface ObjectivesMgr (Render)
-- (UIViewController*) update;
+- (BOOL) updateGameViewController:(GameViewController*)game;
 @end

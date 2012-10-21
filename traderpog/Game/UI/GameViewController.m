@@ -364,12 +364,8 @@ enum kKnobSlices
         if([self.modalNav.view isHidden])
         {
             // process objectives first
-            UIViewController* objectiveView = [[ObjectivesMgr getInstance] update];
-            if(objectiveView)
-            {
-                [self showModalNavViewController:objectiveView completion:nil];
-            }
-            else
+            BOOL objectivePresented = [[ObjectivesMgr getInstance] updateGameViewController:self];
+            if(!objectivePresented)
             {
                 // then game event notifications
                 GameEvent* notify = [[GameEventMgr getInstance] dequeueEvent];
@@ -620,7 +616,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 
 - (void) dismissInfo
 {
-    if([self.infoCircle isHidden])
+    if([self.infoCircle isHidden] && [self.info.view superview])
     {
         [self dismissModalView:self.info.view withModalId:kInfoCloseId];
     }

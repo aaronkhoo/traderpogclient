@@ -9,11 +9,12 @@
 #import "ObjectivesMgr+Render.h"
 #import "ObjectivesMgr.h"
 #import "BasicObjectiveUI.h"
+#import "GameViewController.h"
 
 @implementation ObjectivesMgr (Render)
-- (UIViewController*) update
+- (BOOL) updateGameViewController:(GameViewController *)game
 {
-    UIViewController* result = nil;
+    BOOL addedNew = NO;
     
     GameObjective* next = [self getNextObjective];
     if(next)
@@ -21,16 +22,19 @@
         switch ([next type])
         {
             case kGameObjectiveType_Scan:
-                result = [self controllerForScan:next];
                 break;
                 
             default:
             case kGameObjectiveType_Basic:
-                result = [self controllerForBasic:next];
+            {
+                UIViewController* basicUI = [self controllerForBasic:next];
+                [game showModalNavViewController:basicUI completion:nil];
+                addedNew = YES;
+            }
                 break;
         }
     }
-    return result;
+    return addedNew;
 }
 
 #pragma mark - internals
