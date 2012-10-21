@@ -46,13 +46,28 @@
 								<string key="NSFrame">{{5, 5}, {50, 50}}</string>
 								<reference key="NSSuperview" ref="407106499"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="878382915"/>
+								<reference key="NSNextKeyView" ref="654123302"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">checkerboard.png</string>
+								</object>
+							</object>
+							<object class="IBUIImageView" id="654123302">
+								<reference key="NSNextResponder" ref="407106499"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrameSize">{60, 60}</string>
+								<reference key="NSSuperview" ref="407106499"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="878382915"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">icon_leaderboard.png</string>
 								</object>
 							</object>
 						</array>
@@ -108,6 +123,7 @@
 								<string key="NSFrame">{{0, 8}, {60, 40}}</string>
 								<reference key="NSSuperview" ref="10110020"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -300,6 +316,7 @@
 						<reference key="object" ref="407106499"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="734132608"/>
+							<reference ref="654123302"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -318,6 +335,11 @@
 						<reference key="object" ref="692257128"/>
 						<reference key="parent" ref="10110020"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">28</int>
+						<reference key="object" ref="654123302"/>
+						<reference key="parent" ref="407106499"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -332,6 +354,7 @@
 				<string key="21.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="22.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="24.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="28.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.CustomClassName">CircleButton</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="6.CustomClassName">CircleButton</string>
@@ -343,7 +366,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">27</int>
+			<int key="maxID">28</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -395,6 +418,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="checkerboard.png">{128, 128}</string>
+			<string key="icon_leaderboard.png">{256, 256}</string>
 			<string key="icon_member.png">{512, 512}</string>
 			<string key="x.png">{50, 50}</string>
 		</dictionary>
