@@ -149,6 +149,8 @@
 		4222586616330D8200BE9AD4 /* flyer_blimp_landed_c1.png in Resources */ = {isa = PBXBuildFile; fileRef = 4222585A16330D8200BE9AD4 /* flyer_blimp_landed_c1.png */; };
 		4222586716330D8200BE9AD4 /* flyer_blimp_landed_c2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4222585B16330D8200BE9AD4 /* flyer_blimp_landed_c2.png */; };
 		4222586816330D8200BE9AD4 /* flyer_blimp_landed_c3.png in Resources */ = {isa = PBXBuildFile; fileRef = 4222585C16330D8200BE9AD4 /* flyer_blimp_landed_c3.png */; };
+		4222586B1634503E00BE9AD4 /* ObjectivesMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4222586A1634503E00BE9AD4 /* ObjectivesMgr.m */; };
+		4222586E1634510000BE9AD4 /* GameObjective.m in Sources */ = {isa = PBXBuildFile; fileRef = 4222586D163450FF00BE9AD4 /* GameObjective.m */; };
 		4227883015D74A9A00852AC4 /* TradeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227882F15D74A9900852AC4 /* TradeManager.m */; };
 		4237D4821620A40F009A29F1 /* FlyerCustomize.m in Sources */ = {isa = PBXBuildFile; fileRef = 4237D4801620A40F009A29F1 /* FlyerCustomize.m */; };
 		4237D4831620A40F009A29F1 /* FlyerCustomize.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4237D4811620A40F009A29F1 /* FlyerCustomize.xib */; };
@@ -612,6 +614,10 @@
 		4222585A16330D8200BE9AD4 /* flyer_blimp_landed_c1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_blimp_landed_c1.png; sourceTree = "<group>"; };
 		4222585B16330D8200BE9AD4 /* flyer_blimp_landed_c2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_blimp_landed_c2.png; sourceTree = "<group>"; };
 		4222585C16330D8200BE9AD4 /* flyer_blimp_landed_c3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_blimp_landed_c3.png; sourceTree = "<group>"; };
+		422258691634503D00BE9AD4 /* ObjectivesMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectivesMgr.h; path = Game/Sim/ObjectivesMgr.h; sourceTree = "<group>"; };
+		4222586A1634503E00BE9AD4 /* ObjectivesMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjectivesMgr.m; path = Game/Sim/ObjectivesMgr.m; sourceTree = "<group>"; };
+		4222586C163450FF00BE9AD4 /* GameObjective.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameObjective.h; path = Game/Sim/GameObjective.h; sourceTree = "<group>"; };
+		4222586D163450FF00BE9AD4 /* GameObjective.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameObjective.m; path = Game/Sim/GameObjective.m; sourceTree = "<group>"; };
 		4227882E15D74A9800852AC4 /* TradeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradeManager.h; path = Game/Sim/TradeManager.h; sourceTree = "<group>"; };
 		4227882F15D74A9900852AC4 /* TradeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradeManager.m; path = Game/Sim/TradeManager.m; sourceTree = "<group>"; };
 		4237D47F1620A40F009A29F1 /* FlyerCustomize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCustomize.h; path = Game/UI/FlyerCustomize.h; sourceTree = "<group>"; };
@@ -1860,6 +1866,10 @@
 				4254BDF21616C527008FD41D /* GameEventMgr.m */,
 				38A31CE4161BECC5009FC64A /* PlayerSales.h */,
 				38A31CE5161BECC5009FC64A /* PlayerSales.m */,
+				4222586C163450FF00BE9AD4 /* GameObjective.h */,
+				4222586D163450FF00BE9AD4 /* GameObjective.m */,
+				422258691634503D00BE9AD4 /* ObjectivesMgr.h */,
+				4222586A1634503E00BE9AD4 /* ObjectivesMgr.m */,
 			);
 			name = Sim;
 			sourceTree = "<group>";
@@ -2323,6 +2333,8 @@
 				38887B06162F5D900057D22B /* PostRestockConfirmScreen.m in Sources */,
 				42172FF41630D09C00652009 /* FlyerBuyConfirmScreen.m in Sources */,
 				42172FFA1631DDB700652009 /* PlayerPostViewController.m in Sources */,
+				4222586B1634503E00BE9AD4 /* ObjectivesMgr.m in Sources */,
+				4222586E1634510000BE9AD4 /* GameObjective.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
