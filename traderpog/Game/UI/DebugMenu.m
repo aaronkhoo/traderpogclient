@@ -154,5 +154,7 @@
 - (IBAction)didPressResetObjectives:(id)sender
 {
     [[ObjectivesMgr getInstance] removeObjectivesData];
+    [ObjectivesMgr destroyInstance];
+    [ObjectivesMgr getInstance];
 }
 @end
