@@ -10,6 +10,8 @@
 #import "ObjectivesMgr.h"
 #import "BasicObjectiveUI.h"
 #import "GameViewController.h"
+#import "PointObjective.h"
+#import "PogUIUtility.h"
 
 @implementation ObjectivesMgr (Render)
 - (BOOL) updateGameViewController:(GameViewController *)game
@@ -17,11 +19,14 @@
     BOOL addedNew = NO;
     
     GameObjective* next = [self getNextObjective];
-    if(next)
+    if(next && ![self outObjective])
     {
         switch ([next type])
         {
             case kGameObjectiveType_Scan:
+                //[self showScanObjective:next inGame:game];
+                self.outObjective = next;
+                addedNew = YES;
                 break;
                 
             default:
@@ -34,6 +39,10 @@
                 break;
         }
     }
+    else if([self outObjective])
+    {
+        addedNew = YES;
+    }
     return addedNew;
 }
 
@@ -45,9 +54,22 @@
     return screen;
 }
 
-- (UIViewController*) controllerForScan:(GameObjective*)objective
+- (void) showScanObjective:(GameObjective*)objective inGame:(GameViewController*)game
 {
-    return nil;
+    PointObjective* popup = (PointObjective*)[game dequeueModalViewWithIdentifier:kPointObjectiveViewReuseIdentifier];
+    if(!popup)
+    {
+        UIView* parent = [game view];
+        popup = [[PointObjective alloc] initWithGameObjective:objective];
+        CGRect popFrame = [PogUIUtility createCenterFrameWithSize:popup.nibContentView.bounds.size
+                                                          inFrame:parent.bounds
+                                                    withFrameSize:popup.nibView.bounds.size];
+        //popFrame.origin.y += kAccelViewYOffset;
+        [popup setFrame:popFrame];
+    }
+    
+    // show it
+    [game showModalView:popup animated:NO];
 }
 
 @end

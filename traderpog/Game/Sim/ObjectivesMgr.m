@@ -20,6 +20,7 @@ static NSString* const kKeyObjectives = @"objectives";
 @end
 
 @implementation ObjectivesMgr
+@synthesize outObjective = _outObjective;
 
 - (id) init
 {
@@ -37,6 +38,7 @@ static NSString* const kKeyObjectives = @"objectives";
         }
         
         _nextIndex = 0;
+        _outObjective = nil;
     }
     return self;
 }
@@ -90,7 +92,8 @@ static NSString* const kKeyObjectives = @"objectives";
 {
     _objectives = [aDecoder decodeObjectForKey:kKeyObjectives];
     [self updateNextIndex];
-    
+    _outObjective = nil;
+
     return self;
 }
 

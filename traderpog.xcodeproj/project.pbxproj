@@ -156,6 +156,8 @@
 		4222587C163476BB00BE9AD4 /* BasicObjectiveUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4222587A163476BB00BE9AD4 /* BasicObjectiveUI.m */; };
 		4222587D163476BB00BE9AD4 /* BasicObjectiveUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4222587B163476BB00BE9AD4 /* BasicObjectiveUI.xib */; };
 		42225880163476E000BE9AD4 /* ObjectivesMgr+Render.m in Sources */ = {isa = PBXBuildFile; fileRef = 4222587F163476E000BE9AD4 /* ObjectivesMgr+Render.m */; };
+		422258831634AC3C00BE9AD4 /* PointObjective.m in Sources */ = {isa = PBXBuildFile; fileRef = 422258821634AC3C00BE9AD4 /* PointObjective.m */; };
+		422258851634AC5600BE9AD4 /* PointObjective.xib in Resources */ = {isa = PBXBuildFile; fileRef = 422258841634AC5600BE9AD4 /* PointObjective.xib */; };
 		4227883015D74A9A00852AC4 /* TradeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227882F15D74A9900852AC4 /* TradeManager.m */; };
 		4237D4821620A40F009A29F1 /* FlyerCustomize.m in Sources */ = {isa = PBXBuildFile; fileRef = 4237D4801620A40F009A29F1 /* FlyerCustomize.m */; };
 		4237D4831620A40F009A29F1 /* FlyerCustomize.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4237D4811620A40F009A29F1 /* FlyerCustomize.xib */; };
@@ -630,6 +632,9 @@
 		4222587B163476BB00BE9AD4 /* BasicObjectiveUI.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BasicObjectiveUI.xib; path = Game/UI/objectives/BasicObjectiveUI.xib; sourceTree = "<group>"; };
 		4222587E163476E000BE9AD4 /* ObjectivesMgr+Render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ObjectivesMgr+Render.h"; path = "Game/UI/objectives/ObjectivesMgr+Render.h"; sourceTree = "<group>"; };
 		4222587F163476E000BE9AD4 /* ObjectivesMgr+Render.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ObjectivesMgr+Render.m"; path = "Game/UI/objectives/ObjectivesMgr+Render.m"; sourceTree = "<group>"; };
+		422258811634AC3C00BE9AD4 /* PointObjective.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PointObjective.h; path = Game/UI/objectives/PointObjective.h; sourceTree = "<group>"; };
+		422258821634AC3C00BE9AD4 /* PointObjective.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PointObjective.m; path = Game/UI/objectives/PointObjective.m; sourceTree = "<group>"; };
+		422258841634AC5600BE9AD4 /* PointObjective.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PointObjective.xib; path = Game/UI/objectives/PointObjective.xib; sourceTree = "<group>"; };
 		4227882E15D74A9800852AC4 /* TradeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradeManager.h; path = Game/Sim/TradeManager.h; sourceTree = "<group>"; };
 		4227882F15D74A9900852AC4 /* TradeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradeManager.m; path = Game/Sim/TradeManager.m; sourceTree = "<group>"; };
 		4237D47F1620A40F009A29F1 /* FlyerCustomize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCustomize.h; path = Game/UI/FlyerCustomize.h; sourceTree = "<group>"; };
@@ -1202,6 +1207,9 @@
 				42225879163476BB00BE9AD4 /* BasicObjectiveUI.h */,
 				4222587A163476BB00BE9AD4 /* BasicObjectiveUI.m */,
 				4222587B163476BB00BE9AD4 /* BasicObjectiveUI.xib */,
+				422258811634AC3C00BE9AD4 /* PointObjective.h */,
+				422258821634AC3C00BE9AD4 /* PointObjective.m */,
+				422258841634AC5600BE9AD4 /* PointObjective.xib */,
 				4222587E163476E000BE9AD4 /* ObjectivesMgr+Render.h */,
 				4222587F163476E000BE9AD4 /* ObjectivesMgr+Render.m */,
 			);
@@ -2226,6 +2234,7 @@
 				4222587016345D0200BE9AD4 /* gameobjectives.plist in Resources */,
 				4222587816346C5500BE9AD4 /* icon_leaderboard.png in Resources */,
 				4222587D163476BB00BE9AD4 /* BasicObjectiveUI.xib in Resources */,
+				422258851634AC5600BE9AD4 /* PointObjective.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2367,6 +2376,7 @@
 				4222586E1634510000BE9AD4 /* GameObjective.m in Sources */,
 				4222587C163476BB00BE9AD4 /* BasicObjectiveUI.m in Sources */,
 				42225880163476E000BE9AD4 /* ObjectivesMgr+Render.m in Sources */,
+				422258831634AC3C00BE9AD4 /* PointObjective.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

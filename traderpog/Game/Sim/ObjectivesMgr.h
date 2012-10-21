@@ -15,7 +15,11 @@
 @interface ObjectivesMgr : NSObject<NSCoding>
 {
     NSMutableArray* _objectives;
+    
+    // current outstanding objective
+    GameObjective* _outObjective;
 }
+@property (nonatomic,strong) GameObjective* outObjective;
 
 - (void) saveObjectivesData;
 - (void) removeObjectivesData;
