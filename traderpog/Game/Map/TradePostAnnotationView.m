@@ -7,18 +7,14 @@
 //
 
 #import "TradePostAnnotationView.h"
-#import "TradePostCallout.h"
 #import "ImageManager.h"
 #import "MyTradePost.h"
 #import "TradePost.h"
 #import "TradePost+Render.h"
-#import "PlayerPostCallout.h"
-#import "PlayerPostCalloutView.h"
 #import "GameManager.h"
 #import "TradeManager.h"
 #import "Flyer.h"
 #import "FlyerPath.h"
-#import "FlyerCallout.h"
 #import "GameNotes.h"
 #import "GameColors.h"
 #import "MapControl.h"
@@ -46,9 +42,6 @@ static const float kCountdownCornerRadius = 8.0f;
 static const float kCountdownYOffset = 1.0f;
 
 @interface TradePostAnnotationView ()
-{
-    NSObject<MKAnnotation,MapAnnotationProtocol>* _calloutAnnotation;
-}
 - (void) handleFlyerStateChanged:(NSNotification*)note;
 - (void) handleFlyerLoadTimerChanged:(NSNotification*)note;
 - (void) handleFlyerAtPostChanged:(NSNotification*)note;
@@ -150,9 +143,6 @@ static const float kCountdownYOffset = 1.0f;
         [_excImageView setHidden:YES];
         [contentView addSubview:_excImageView];
         
-        
-        _calloutAnnotation = nil;
-
         // observe flyer-state-changed notifications
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleFlyerStateChanged:) name:kGameNoteFlyerStateChanged object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleFlyerLoadTimerChanged:) name:kGameNoteFlyerLoadTimerChanged object:nil];
@@ -249,10 +239,6 @@ static const float kCountdownYOffset = 1.0f;
 #pragma mark - MKAnnotationView
 - (void)setAnnotation:(id<MKAnnotation>)annotation
 {
-    if(_calloutAnnotation) 
-    {
-        [_calloutAnnotation setCoordinate:annotation.coordinate];
-    }
     [super setAnnotation:annotation];
 }
 
@@ -452,79 +438,68 @@ static const float kBuyViewCenterYOffset = -10.0f;
         centerCoord = [tradePost coord];
     }
     
-    if(!_calloutAnnotation)
+    if([[GameManager getInstance] canShowMapAnnotationCallout])
     {
-        if([[GameManager getInstance] canShowMapAnnotationCallout])
+        if([tradePost isMemberOfClass:[MyTradePost class]])
         {
-            if([tradePost isMemberOfClass:[MyTradePost class]])
+            Flyer* flyer = [tradePost flyerAtPost];
+            if(!flyer || (kFlyerStateIdle == [flyer state]))
             {
-                Flyer* flyer = [tradePost flyerAtPost];
-                if(!flyer || (kFlyerStateIdle == [flyer state]))
+                MyTradePost* myPost = (MyTradePost*)tradePost;
+                [[GameManager getInstance].gameViewController showMyPostMenuForPost:myPost];
+                centerCoord = [tradePost coord];
+                doZoomAdjustment = YES;
+            }
+            else if(kFlyerStateWaitingToUnload == [flyer state])
+            {
+                // if in waiting state, proceed to next state without a callout
+                [flyer gotoState:kFlyerStateUnloading];
+                [mapView deselectAnnotation:[self annotation] animated:NO];
+            }
+            else if(kFlyerStateUnloading == [flyer state])
+            {
+                [self showAccelViewForPost:tradePost];
+                centerCoord = [self buyViewCenterCoordForTradePost:tradePost inMapView:mapView];
+                doZoomAdjustment = YES;
+            }
+        }
+        else if([tradePost flyerAtPost])
+        {
+            // if not own post and there's a flyer at post
+            Flyer* flyer = [tradePost flyerAtPost];
+            if(![[flyer path] isEnroute])
+            {
+                // if in a waiting state, proceed to next state right away without a callout
+                if(kFlyerStateWaitingToLoad == [flyer state])
                 {
-                    // show player-post callout if own post and flyer is idle
-                    //PlayerPostCallout* callout = [[PlayerPostCallout alloc] initWithTradePost:tradePost];
-                    //callout.parentAnnotationView = self;
-                    //_calloutAnnotation = callout;
-                    MyTradePost* myPost = (MyTradePost*)tradePost;
-                    [[GameManager getInstance].gameViewController showMyPostMenuForPost:myPost];
-                    centerCoord = [tradePost coord];
-                    doZoomAdjustment = YES;
-                }
-                else if(kFlyerStateWaitingToUnload == [flyer state])
-                {
-                    // if in waiting state, proceed to next state without a callout
-                    [flyer gotoState:kFlyerStateUnloading];
+                    [flyer gotoState:kFlyerStateLoading];
                     [mapView deselectAnnotation:[self annotation] animated:NO];
                 }
-                else if(kFlyerStateUnloading == [flyer state])
+                else
                 {
                     [self showAccelViewForPost:tradePost];
                     centerCoord = [self buyViewCenterCoordForTradePost:tradePost inMapView:mapView];
                     doZoomAdjustment = YES;
                 }
             }
-            else if([tradePost flyerAtPost])
-            {
-                // if not own post and there's a flyer at post
-                Flyer* flyer = [tradePost flyerAtPost];
-                if(![[flyer path] isEnroute])
-                {
-                    // if in a waiting state, proceed to next state right away without a callout
-                    if(kFlyerStateWaitingToLoad == [flyer state])
-                    {
-                        [flyer gotoState:kFlyerStateLoading];
-                        [mapView deselectAnnotation:[self annotation] animated:NO];
-                    }
-                    else
-                    {
-                        [self showAccelViewForPost:tradePost];
-                        centerCoord = [self buyViewCenterCoordForTradePost:tradePost inMapView:mapView];
-                        doZoomAdjustment = YES;
-                    }
-                }
-            }
-            else
-            {
-                [self showBuyViewForPost:tradePost];
-                centerCoord = [self buyViewCenterCoordForTradePost:tradePost inMapView:mapView];
-                doZoomAdjustment = YES;
-            }
-            if(_calloutAnnotation)
-            {
-                [mapView addAnnotation:_calloutAnnotation];
-            }
         }
         else
         {
-            // selection not allowed; deselect it
-            [mapView deselectAnnotation:[self annotation] animated:NO];
-            dismissGameEvent = NO;
+            [self showBuyViewForPost:tradePost];
+            centerCoord = [self buyViewCenterCoordForTradePost:tradePost inMapView:mapView];
+            doZoomAdjustment = YES;
         }
-        
-        if(doZoomAdjustment)
-        {
-            [[[[GameManager getInstance] gameViewController] mapControl] defaultZoomCenterOn:centerCoord animated:YES];
-        }
+    }
+    else
+    {
+        // selection not allowed; deselect it
+        [mapView deselectAnnotation:[self annotation] animated:NO];
+        dismissGameEvent = NO;
+    }
+    
+    if(doZoomAdjustment)
+    {
+        [[[[GameManager getInstance] gameViewController] mapControl] defaultZoomCenterOn:centerCoord animated:YES];
     }
 
     if(dismissGameEvent)
@@ -554,20 +529,6 @@ static const float kBuyViewCenterYOffset = -10.0f;
     if([post isMemberOfClass:[MyTradePost class]])
     {
         [[GameManager getInstance].gameViewController dismissMyPostMenuAnimated:YES];
-    }
-    
-    if(_calloutAnnotation)
-    {
-        if([_calloutAnnotation isMemberOfClass:[PlayerPostCallout class]])
-        {
-            PlayerPostCalloutView* calloutView = (PlayerPostCalloutView*) [mapView viewForAnnotation:_calloutAnnotation];
-            [calloutView animateOut];
-        }
-        else
-        {
-            [mapView removeAnnotation:_calloutAnnotation];
-        }
-        _calloutAnnotation = nil;
     }
 }
 

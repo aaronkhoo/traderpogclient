@@ -23,6 +23,7 @@
 #import "FlyerMgr.h"
 #import "FlyerTypes.h"
 #import "MBProgressHUD.h"
+#import "GameAnim.h"
 
 static const float kContentBorderWidth = 6.0f;
 static const float kContentBorderCornerRadius = 8.0f;
@@ -92,13 +93,17 @@ static const NSUInteger kMembershipTier = 4;
     [self setImageView:nil];
     [self setFlyerNameLabel:nil];
     [self setFlyerDescLabel:nil];
+    [self setCoinImageView:nil];
+    [self setPriceLabel:nil];
+    [self setPriceCover:nil];
+    [self setMembershipTextLabel:nil];
     [super viewDidUnload];
 }
 
 #pragma mark - internals
 - (void) setupContent
 {
-    // image
+    // flyer image
     NSString* flyerTypeName = [_flyerType sideimg];
     NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:flyerTypeName tier:1 colorIndex:0];
     UIImage* flyerImage = [[ImageManager getInstance] getImage:imageName];
@@ -107,23 +112,27 @@ static const NSUInteger kMembershipTier = 4;
     // flyer name
     [self.flyerNameLabel setText:[_flyerType name]];
     
+    // flyer descriptions
+    [self.flyerDescLabel setText:[_flyerType desc]];
+
     if ([_flyerType tier] >= kMembershipTier && ![[Player getInstance] isMember])
     {
         // flyer descriptions
-        NSString* flyerDesc = [NSString stringWithFormat:@"%@\n\n%@", [_flyerType desc], @"Trader Guild members only!"];
-        [self.flyerDescLabel setText:flyerDesc];
-        [self.flyerDescLabel setAdjustsFontSizeToFitWidth:TRUE];
+        [self.membershipTextLabel setText:@"Trader Guild\nmembers only!"];
+        [self.membershipTextLabel setHidden:NO];
+        [self.priceCover setHidden:NO];
         
-        [self.titleView setBackgroundColor:[GameColors flyerBuyTier2ColorScanWithAlpha:1.0]];
+        [self.titleView setBackgroundColor:[GameColors flyerBuyTier2ColorWithAlpha:1.0]];
         [self.buyButtonLabel setText:@"JOIN"];
         [self.membershipLabel setHidden:FALSE];
     }
     else
     {
-        // flyer descriptions
-        [self.flyerDescLabel setText:[_flyerType desc]];
-        [self.titleView setBackgroundColor:[GameColors flyerBuyTier1ColorScanWithAlpha:1.0]];
+        [self.titleView setBackgroundColor:[GameColors flyerBuyTier1ColorWithAlpha:1.0]];
         [self.buyButtonLabel setText:@"BUY"];
+        [self.membershipTextLabel setHidden:YES];
+        [self.priceCover setHidden:YES];
+        [self.membershipLabel setHidden:YES];
         
         if([[Player getInstance] canAffordFlyerType:_flyerType])
         {
@@ -136,7 +145,13 @@ static const NSUInteger kMembershipTier = 4;
             [self.buyButtonLabel setTextColor:[UIColor lightGrayColor]];
             [self.buyButtonLabel setAlpha:0.4f];
         }
+        
     }
+    
+    // coin and price
+    [[GameAnim getInstance] refreshImageView:self.coinImageView withClipNamed:@"coin_shimmer"];
+    [self.coinImageView startAnimating];
+    [self.priceLabel setText:[PogUIUtility commaSeparatedStringFromUnsignedInt:[_flyerType price]]];
 }
 
 #pragma mark - button actions
@@ -173,26 +188,10 @@ static const NSUInteger kMembershipTier = 4;
         [self.navigationController popToRootViewControllerAnimated:NO];
 
         GameViewController* game = [[GameManager getInstance] gameViewController];
-        TradePost* newFlyerPost = [[TradePostMgr getInstance] getFirstMyTradePost];
-        if([newFlyerPost flyerAtPost])
-        {
-            // there's already a flyer at home, generate an npc post nearby
-            CLLocationCoordinate2D newCoord = [newFlyerPost coord];
-            CLLocation* newLoc = [game.mapControl availableLocationNearCoord:newCoord visibleOnly:YES];
-            if(newLoc)
-            {
-                newCoord = [newLoc coordinate];
-            }
-            
-            newFlyerPost = [[TradePostMgr getInstance] newNPCTradePostAtCoord:newCoord bucks:0];
-            [game.mapControl addAnnotationForTradePost:newFlyerPost isScan:YES];
-        }
-
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:game.view animated:YES];
         hud.labelText = @"Purchasing Flyer";
-     
-        NSInteger flyerTypeIndex = [[FlyerTypes getInstance] getFlyerIndexById:[_flyerType flyerId]];
-        [[FlyerMgr getInstance] newPlayerFlyerAtTradePost:newFlyerPost purchasedFlyerTypeIndex:flyerTypeIndex];
+        
+        [[Player getInstance] buyFlyerType:_flyerType];
     }
 }
 

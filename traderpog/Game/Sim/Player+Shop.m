@@ -15,6 +15,10 @@
 #import "FlyerLabFactory.h"
 #import "Flyer.h"
 #import "FlyerType.h"
+#import "FlyerTypes.h"
+#import "FlyerMgr.h"
+#import "TradePostMgr.h"
+#import "GameManager.h"
 
 @implementation Player (Shop)
 
@@ -64,6 +68,33 @@
         result = YES;
     }
     return result;
+}
+
+- (void) buyFlyerType:(FlyerType *)flyerType
+{
+    // pay money
+    unsigned int price = [flyerType price];
+    [self deductBucks:price];
+    
+    // get flyer
+    GameViewController* game = [[GameManager getInstance] gameViewController];
+    TradePost* newFlyerPost = [[TradePostMgr getInstance] getFirstMyTradePost];
+    if([newFlyerPost flyerAtPost])
+    {
+        // there's already a flyer at home, generate an npc post nearby
+        CLLocationCoordinate2D newCoord = [newFlyerPost coord];
+        CLLocation* newLoc = [game.mapControl availableLocationNearCoord:newCoord visibleOnly:YES];
+        if(newLoc)
+        {
+            newCoord = [newLoc coordinate];
+        }
+        
+        newFlyerPost = [[TradePostMgr getInstance] newNPCTradePostAtCoord:newCoord bucks:0];
+        [game.mapControl addAnnotationForTradePost:newFlyerPost isScan:YES];
+    }
+    
+    NSInteger flyerTypeIndex = [[FlyerTypes getInstance] getFlyerIndexById:[flyerType flyerId]];
+    [[FlyerMgr getInstance] newPlayerFlyerAtTradePost:newFlyerPost purchasedFlyerTypeIndex:flyerTypeIndex];
 }
 
 #pragma mark - labor

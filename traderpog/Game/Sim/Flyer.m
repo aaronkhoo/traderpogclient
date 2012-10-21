@@ -748,7 +748,8 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
                 break;
                 
             case kFlyerStateLoaded:
-                if(kFlyerStateLoading == [self state])
+                if((kFlyerStateLoading == [self state]) ||
+                   (kFlyerStateInvalid == [self state]))
                 {
                     canChange = YES;
                 }

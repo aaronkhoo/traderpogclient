@@ -703,11 +703,20 @@ typedef enum {
 {
     if(kGameStateFlyerSelect == _gameState)
     {
-        // Flyer Select
-        // send committed flyer to the given post that triggered the FlyerSelect state
-        NSAssert(_contextPost, @"FlyerSelect needs a current post");
-        [[TradeManager getInstance] flyer:flyer buyFromPost:_contextPost numItems:[_contextPost supplyLevel]];
-        [self flyer:flyer departForTradePost:_contextPost];
+        if((kFlyerStateIdle == [flyer state]) || (kFlyerStateLoaded == [flyer state]))
+        {
+            // Flyer Select
+            // send committed flyer to the given post that triggered the FlyerSelect state
+            NSAssert(_contextPost, @"FlyerSelect needs a current post");
+            [[TradeManager getInstance] flyer:flyer buyFromPost:_contextPost numItems:[_contextPost supplyLevel]];
+            [self flyer:flyer departForTradePost:_contextPost];
+        }
+        else
+        {
+            // if flyer is busy, center map on committed flyer
+            [self.gameViewController.mapControl centerOnFlyer:flyer animated:YES];
+        }
+        
         _contextPost = nil;
         _gameState = kGameStateGameLoop;
     }

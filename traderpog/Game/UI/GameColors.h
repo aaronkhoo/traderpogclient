@@ -23,6 +23,6 @@
 + (UIColor*) gliderWhiteWithAlpha:(CGFloat)alpha;
 + (UIColor*) membershipCliponColorWithAlpha:(CGFloat)alpha;
 
-+ (UIColor*) flyerBuyTier1ColorScanWithAlpha:(CGFloat)alpha;
-+ (UIColor*) flyerBuyTier2ColorScanWithAlpha:(CGFloat)alpha;
++ (UIColor*) flyerBuyTier1ColorWithAlpha:(CGFloat)alpha;
++ (UIColor*) flyerBuyTier2ColorWithAlpha:(CGFloat)alpha;
 @end

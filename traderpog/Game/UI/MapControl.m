@@ -20,7 +20,6 @@
 #import "MKMapView+Pog.h"
 #import "BrowsePinch.h"
 #import "MapGestureHandler.h"
-#import "PlayerPostCalloutView.h"
 #import "SoundManager.h"
 #import "GameManager.h"
 #import "GameViewController.h"
@@ -542,11 +541,6 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
             Flyer* flyer = (Flyer*)[cur annotation];
             FlyerAnnotationView* flyerAnnotView = (FlyerAnnotationView*)cur;
             [flyerAnnotView setRenderTransformWithAngle:[flyer angle]];
-        }
-        else if(([cur isKindOfClass:[CalloutAnnotationView class]]) ||
-                ([cur isKindOfClass:[PlayerPostCalloutView class]]))
-        {
-            [[cur superview] bringSubviewToFront:cur];
         }
         else if(([[cur annotation] isMemberOfClass:[MyTradePost class]]))
         {
