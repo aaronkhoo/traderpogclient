@@ -32,6 +32,7 @@ enum kGameObjectiveTypes {
     CGPoint     _screenPoint;
     MKMapPoint  _mapPoint;
     BOOL        _isCompleted;
+    NSString*   _imageName;
 }
 @property (nonatomic,strong) NSString* desc;
 @property (nonatomic) NSUInteger type;
@@ -39,6 +40,7 @@ enum kGameObjectiveTypes {
 @property (nonatomic) CGPoint screenPoint;
 @property (nonatomic) MKMapPoint mapPoint;
 @property (nonatomic,readonly) BOOL isCompleted;
+@property (nonatomic,readonly) NSString* imageName;
 
 - (id) initWithDictionary:(NSDictionary*)dict;
 

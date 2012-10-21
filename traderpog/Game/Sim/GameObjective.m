@@ -11,6 +11,7 @@
 
 NSString* const kKeyGameObjDesc = @"desc";
 NSString* const kKeyGameObjType = @"type";
+NSString* const kKeyGameObjImage = @"image";
 NSString* const kKeyGameObjCompleted = @"completed";
 
 NSString* const kNameGameObjTypeBasic = @"basic";
@@ -28,6 +29,7 @@ NSString* const kNameGameObjTypeScan = @"scan";
 @synthesize screenPoint = _screenPoint;
 @synthesize mapPoint = _mapPoint;
 @synthesize isCompleted = _isCompleted;
+@synthesize imageName = _imageName;
 
 - (void) setInitVars
 {
@@ -37,6 +39,7 @@ NSString* const kNameGameObjTypeScan = @"scan";
     _screenPoint = CGPointMake(0.5f, 0.8f);
     _mapPoint = MKMapPointForCoordinate([[CLLocation penang] coordinate]);
     _isCompleted = NO;
+    _imageName = nil;
 }
 
 - (unsigned int) typeFromName:(NSString*)name
@@ -78,6 +81,8 @@ NSString* const kNameGameObjTypeScan = @"scan";
         _desc = [dict objectForKey:kKeyGameObjDesc];
         NSString* typeName = [dict objectForKey:kKeyGameObjType];
         _type = [self typeFromName:typeName];
+        
+        _imageName = [dict objectForKey:kKeyGameObjImage];
     }
     return self;
 }
@@ -93,6 +98,10 @@ NSString* const kNameGameObjTypeScan = @"scan";
     [aCoder encodeObject:_desc forKey:kKeyGameObjDesc];
     [aCoder encodeInteger:_type forKey:kKeyGameObjType];
     [aCoder encodeBool:_isCompleted forKey:kKeyGameObjCompleted];
+    if(_imageName)
+    {
+        [aCoder encodeObject:_imageName forKey:kKeyGameObjImage];
+    }
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
@@ -100,6 +109,7 @@ NSString* const kNameGameObjTypeScan = @"scan";
     _desc = [aDecoder decodeObjectForKey:kKeyGameObjDesc];
     _type = [aDecoder decodeIntegerForKey:kKeyGameObjType];
     _isCompleted = [aDecoder decodeBoolForKey:kKeyGameObjCompleted];
+    _imageName = [aDecoder decodeObjectForKey:kKeyGameObjImage];
     return self;
 }
 

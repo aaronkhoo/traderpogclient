@@ -4,9 +4,27 @@
 <array>
 	<dict>
 		<key>desc</key>
-		<string>Welcome! As a Trader, your goal is to maximize your coins through trades with trade-posts on the map.</string>
+		<string>Welcome!\n\nAs a Trader, your goal is to maximize your coins through trades with trade-posts on the map.</string>
 		<key>type</key>
 		<string>basic</string>
+		<key>image</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>desc</key>
+		<string>This is your Flyer.\n\nSend it to Trade Posts on the Map to buy goods.</string>
+		<key>type</key>
+		<string>basic</string>
+		<key>image</key>
+		<string>flyer_landed.png</string>
+	</dict>
+	<dict>
+		<key>desc</key>
+		<string>After that, go home to make money.\n\nThis is your Home.</string>
+		<key>type</key>
+		<string>basic</string>
+		<key>image</key>
+		<string>homebase_windy</string>
 	</dict>
 	<dict>
 		<key>desc</key>

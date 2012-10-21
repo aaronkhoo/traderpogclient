@@ -11,6 +11,8 @@
 #import "GameColors.h"
 #import "UINavigationController+Pog.h"
 #import "ObjectivesMgr.h"
+#import "ImageManager.h"
+#import "GameAnim.h"
 
 static const float kContentBorderWidth = 6.0f;
 static const float kContentBorderCornerRadius = 8.0f;
@@ -44,6 +46,11 @@ static const float kBorderCornerRadius = 8.0f;
     return self;
 }
 
+- (void) dealloc
+{
+    NSLog(@"dealloc BasicObjectiveUI");
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -69,21 +76,43 @@ static const float kBorderCornerRadius = 8.0f;
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)viewDidUnload {
     [self setDescLabel:nil];
     [self setContentView:nil];
     [self setOkCircle:nil];
+    [self setImageView:nil];
     [super viewDidUnload];
 }
 
 #pragma mark - internals
 - (void) setupContent
 {
-    [self.descLabel setText:@"Hello Trader. This is a long long long long sentence with lots and lots of text"];
+    NSString* myNewLineStr = @"\n";
+    NSString* newDesc = [[_gameObjective desc] stringByReplacingOccurrencesOfString:@"\\n" withString:myNewLineStr];    
+    [self.descLabel setText:newDesc];
     [self.descLabel sizeToFit];
+    
+    NSString* imageName = [_gameObjective imageName];
+    if(imageName)
+    {
+        // check animated images first
+        BOOL hasAnim = [[GameAnim getInstance] refreshImageView:[self imageView] withClipNamed:imageName];
+        if(hasAnim)
+        {
+            [self.imageView startAnimating];
+        }
+        else
+        {
+            // if no anim, look in ImageManager
+            UIImage* image = [[ImageManager getInstance] getImage:imageName];
+            if(image)
+            {
+                [self.imageView setImage:image];
+            }
+        }
+    }
 }
 
 #pragma mark - button actions

@@ -18,9 +18,32 @@
     GameObjective* next = [self getNextObjective];
     if(next)
     {
-        BasicObjectiveUI* screen = [[BasicObjectiveUI alloc] initWithGameObjective:next];
-        result = screen;
+        switch ([next type])
+        {
+            case kGameObjectiveType_Scan:
+                result = [self controllerForScan:next];
+                break;
+                
+            default:
+            case kGameObjectiveType_Basic:
+                result = [self controllerForBasic:next];
+                break;
+        }
     }
     return result;
 }
+
+#pragma mark - internals
+- (UIViewController*) controllerForBasic:(GameObjective *)objective
+{
+    BasicObjectiveUI* screen = [[BasicObjectiveUI alloc] initWithGameObjective:objective];
+    
+    return screen;
+}
+
+- (UIViewController*) controllerForScan:(GameObjective*)objective
+{
+    return nil;
+}
+
 @end

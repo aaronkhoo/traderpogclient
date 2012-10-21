@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *descLabel;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet CircleButton *okCircle;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 - (id) initWithGameObjective:(GameObjective*)gameObjective;
 
