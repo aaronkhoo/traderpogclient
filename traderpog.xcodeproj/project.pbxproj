@@ -343,7 +343,6 @@
 		C41ED14B15A6B41700995F53 /* AppIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C41ED14A15A6B41700995F53 /* AppIcon@2x.png */; };
 		C41ED14D15A6B42200995F53 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = C41ED14C15A6B42200995F53 /* Default.png */; };
 		C41ED14F15A6B42600995F53 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C41ED14E15A6B42600995F53 /* Default@2x.png */; };
-		C42FC48C15B10116006D29A3 /* NewHomeSelectItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = C42FC48A15B10116006D29A3 /* NewHomeSelectItem.xib */; };
 		C42FC49015B13293006D29A3 /* ModalNavControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C42FC48E15B13293006D29A3 /* ModalNavControl.m */; };
 		C42FC49115B13293006D29A3 /* ModalNavControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = C42FC48F15B13293006D29A3 /* ModalNavControl.xib */; };
 		C42FC49615B141A3006D29A3 /* ModalNavRoot.m in Sources */ = {isa = PBXBuildFile; fileRef = C42FC49415B141A3006D29A3 /* ModalNavRoot.m */; };
@@ -372,8 +371,6 @@
 		C4BBE47115BBEF0000F582DE /* FlyerMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE47015BBEEFF00F582DE /* FlyerMgr.m */; };
 		C4BBE47715BC5F5100F582DE /* FlyerAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE47615BC5F5000F582DE /* FlyerAnnotationView.m */; };
 		C4BFC9C715CFC7EE009B7122 /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BFC9C615CFC7EE009B7122 /* CircleView.m */; };
-		C4D5DDD515B2718100D5A746 /* ConfirmNewPost.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */; };
-		C4D5DDD615B2718100D5A746 /* ConfirmNewPost.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */; };
 		C4D5DDDA15B3155B00D5A746 /* TradeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD915B3155B00D5A746 /* TradeItem.m */; };
 		C4D5DDDD15B3168100D5A746 /* TradeItemType.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDDC15B3168100D5A746 /* TradeItemType.m */; };
 		C4D5DDEA15B3CF0800D5A746 /* TradePostAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDE915B3CF0800D5A746 /* TradePostAnnotationView.m */; };
@@ -869,7 +866,6 @@
 		C41ED14A15A6B41700995F53 /* AppIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@2x.png"; sourceTree = "<group>"; };
 		C41ED14C15A6B42200995F53 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		C41ED14E15A6B42600995F53 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		C42FC48A15B10116006D29A3 /* NewHomeSelectItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NewHomeSelectItem.xib; path = Game/UI/NewHomeSelectItem.xib; sourceTree = "<group>"; };
 		C42FC48D15B13293006D29A3 /* ModalNavControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalNavControl.h; sourceTree = "<group>"; };
 		C42FC48E15B13293006D29A3 /* ModalNavControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModalNavControl.m; sourceTree = "<group>"; };
 		C42FC48F15B13293006D29A3 /* ModalNavControl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModalNavControl.xib; sourceTree = "<group>"; };
@@ -923,9 +919,6 @@
 		C4BBE47C15BC955000F582DE /* traderpog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = traderpog.entitlements; sourceTree = "<group>"; };
 		C4BFC9C515CFC7EE009B7122 /* CircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleView.h; sourceTree = "<group>"; };
 		C4BFC9C615CFC7EE009B7122 /* CircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleView.m; sourceTree = "<group>"; };
-		C4D5DDD215B2718100D5A746 /* ConfirmNewPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmNewPost.h; path = Game/UI/ConfirmNewPost.h; sourceTree = "<group>"; };
-		C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfirmNewPost.m; path = Game/UI/ConfirmNewPost.m; sourceTree = "<group>"; };
-		C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConfirmNewPost.xib; path = Game/UI/ConfirmNewPost.xib; sourceTree = "<group>"; };
 		C4D5DDD815B3155B00D5A746 /* TradeItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradeItem.h; path = Game/Sim/TradeItem.h; sourceTree = "<group>"; };
 		C4D5DDD915B3155B00D5A746 /* TradeItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradeItem.m; path = Game/Sim/TradeItem.m; sourceTree = "<group>"; };
 		C4D5DDDB15B3168000D5A746 /* TradeItemType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradeItemType.h; path = Game/Sim/TradeItemType.h; sourceTree = "<group>"; };
@@ -1668,10 +1661,6 @@
 				C481145E15ACB927007FA214 /* GameViewController.xib */,
 				C481146715ACBFED007FA214 /* MapControl.h */,
 				C481146815ACBFED007FA214 /* MapControl.m */,
-				C42FC48A15B10116006D29A3 /* NewHomeSelectItem.xib */,
-				C4D5DDD215B2718100D5A746 /* ConfirmNewPost.h */,
-				C4D5DDD315B2718100D5A746 /* ConfirmNewPost.m */,
-				C4D5DDD415B2718100D5A746 /* ConfirmNewPost.xib */,
 				42F692C615F1D4D20002B1B2 /* GameColors.h */,
 				42F692C715F1D4D20002B1B2 /* GameColors.m */,
 				42D909F715F801E700BBE992 /* GameHud.h */,
@@ -1969,10 +1958,8 @@
 				C4E381B515AA39DA00924A86 /* DebugMenu.xib in Resources */,
 				C4E381C715AABC7400924A86 /* SignupScreen.xib in Resources */,
 				C481146015ACB927007FA214 /* GameViewController.xib in Resources */,
-				C42FC48C15B10116006D29A3 /* NewHomeSelectItem.xib in Resources */,
 				C42FC49115B13293006D29A3 /* ModalNavControl.xib in Resources */,
 				C42FC49715B141A3006D29A3 /* ModalNavRoot.xib in Resources */,
-				C4D5DDD615B2718100D5A746 /* ConfirmNewPost.xib in Resources */,
 				C4FA8F5B15B54A7200E82A93 /* CreateAccount.png in Resources */,
 				C4FA8F5C15B54A7200E82A93 /* FBSignIn.png in Resources */,
 				C4BBE44915B7E7C600F582DE /* SignupBackground.png in Resources */,
@@ -2240,7 +2227,6 @@
 				C481147615B07D96007FA214 /* TradePostMgr.m in Sources */,
 				C42FC49015B13293006D29A3 /* ModalNavControl.m in Sources */,
 				C42FC49615B141A3006D29A3 /* ModalNavRoot.m in Sources */,
-				C4D5DDD515B2718100D5A746 /* ConfirmNewPost.m in Sources */,
 				C4D5DDDA15B3155B00D5A746 /* TradeItem.m in Sources */,
 				C4D5DDDD15B3168100D5A746 /* TradeItemType.m in Sources */,
 				C4D5DDEA15B3CF0800D5A746 /* TradePostAnnotationView.m in Sources */,
