@@ -89,7 +89,7 @@ static NSString* const kKeyObjectives = @"objectives";
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
     _objectives = [aDecoder decodeObjectForKey:kKeyObjectives];
-    
+    [self updateNextIndex];
     
     return self;
 }

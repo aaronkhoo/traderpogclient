@@ -11,6 +11,7 @@
 
 NSString* const kKeyGameObjDesc = @"desc";
 NSString* const kKeyGameObjType = @"type";
+NSString* const kKeyGameObjCompleted = @"completed";
 
 NSString* const kNameGameObjTypeBasic = @"basic";
 NSString* const kNameGameObjTypeScan = @"scan";
@@ -91,12 +92,14 @@ NSString* const kNameGameObjTypeScan = @"scan";
 {
     [aCoder encodeObject:_desc forKey:kKeyGameObjDesc];
     [aCoder encodeInteger:_type forKey:kKeyGameObjType];
+    [aCoder encodeBool:_isCompleted forKey:kKeyGameObjCompleted];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
     _desc = [aDecoder decodeObjectForKey:kKeyGameObjDesc];
     _type = [aDecoder decodeIntegerForKey:kKeyGameObjType];
+    _isCompleted = [aDecoder decodeBoolForKey:kKeyGameObjCompleted];
     return self;
 }
 
