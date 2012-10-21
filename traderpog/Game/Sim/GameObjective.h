@@ -18,7 +18,7 @@ enum kGameObjectiveFlag {
     };
 
 enum kGameObjectiveTypes {
-    kGameObjectiveType_Close = 0,
+    kGameObjectiveType_Basic = 0,
     kGameObjectiveType_Scan,
     
     kGameObjectiveType_Num
@@ -41,5 +41,8 @@ enum kGameObjectiveTypes {
 @property (nonatomic,readonly) BOOL isCompleted;
 
 - (id) initWithDictionary:(NSDictionary*)dict;
+
+// do NOT call this directly!
+// call [ObjectiveMgr setCompletedForObjective:] instead
 - (void) setCompleted;
 @end

@@ -7,11 +7,17 @@
 //
 
 #import "ObjectivesMgr.h"
-#import "GameObjective.h"
 #import "GameManager.h"
 
 static NSString* const kObjectivesMgrFilename = @"objectives.sav";
 static NSString* const kKeyObjectives = @"objectives";
+
+@interface ObjectivesMgr ()
+{
+    NSUInteger _nextIndex;
+}
+- (void) updateNextIndex;
+@end
 
 @implementation ObjectivesMgr
 
@@ -29,9 +35,50 @@ static NSString* const kKeyObjectives = @"objectives";
             GameObjective* newObjective = [[GameObjective alloc] initWithDictionary:cur];
             [_objectives addObject:newObjective];
         }
+        
+        _nextIndex = 0;
     }
     return self;
 }
+
+#pragma mark - next objective
+
+- (GameObjective*) getNextObjective
+{
+    GameObjective* result = nil;
+    
+    if(_nextIndex < [_objectives count])
+    {
+        result = [_objectives objectAtIndex:_nextIndex];
+    }
+    
+    return result;
+}
+
+- (void) setCompletedForObjective:(GameObjective *)objective
+{
+    [objective setCompleted];
+    [self updateNextIndex];
+}
+
+#pragma mark - internal
+
+// update the _nextIndex to point to the next incomplete objective
+// internally called when objective completion is set
+- (void) updateNextIndex
+{
+    NSUInteger index = 0;
+    for(GameObjective* cur in _objectives)
+    {
+        if(![cur isCompleted])
+        {
+            break;
+        }
+        ++index;
+    }
+    _nextIndex = index;    
+}
+
 
 #pragma mark - NSCoding
 - (void) encodeWithCoder:(NSCoder *)aCoder
@@ -42,6 +89,8 @@ static NSString* const kKeyObjectives = @"objectives";
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
     _objectives = [aDecoder decodeObjectForKey:kKeyObjectives];
+    
+    
     return self;
 }
 

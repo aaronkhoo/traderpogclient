@@ -10,6 +10,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GameObjective.h"
 
 @interface ObjectivesMgr : NSObject<NSCoding>
 {
@@ -18,6 +19,9 @@
 
 - (void) saveObjectivesData;
 - (void) removeObjectivesData;
+
+- (GameObjective*) getNextObjective;
+- (void) setCompletedForObjective:(GameObjective*)objective;
 
 // singleton
 +(ObjectivesMgr*) getInstance;

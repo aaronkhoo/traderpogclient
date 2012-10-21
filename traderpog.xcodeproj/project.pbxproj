@@ -152,6 +152,10 @@
 		4222586B1634503E00BE9AD4 /* ObjectivesMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4222586A1634503E00BE9AD4 /* ObjectivesMgr.m */; };
 		4222586E1634510000BE9AD4 /* GameObjective.m in Sources */ = {isa = PBXBuildFile; fileRef = 4222586D163450FF00BE9AD4 /* GameObjective.m */; };
 		4222587016345D0200BE9AD4 /* gameobjectives.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4222586F16345D0200BE9AD4 /* gameobjectives.plist */; };
+		4222587816346C5500BE9AD4 /* icon_leaderboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 4222587716346C5500BE9AD4 /* icon_leaderboard.png */; };
+		4222587C163476BB00BE9AD4 /* BasicObjectiveUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4222587A163476BB00BE9AD4 /* BasicObjectiveUI.m */; };
+		4222587D163476BB00BE9AD4 /* BasicObjectiveUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4222587B163476BB00BE9AD4 /* BasicObjectiveUI.xib */; };
+		42225880163476E000BE9AD4 /* ObjectivesMgr+Render.m in Sources */ = {isa = PBXBuildFile; fileRef = 4222587F163476E000BE9AD4 /* ObjectivesMgr+Render.m */; };
 		4227883015D74A9A00852AC4 /* TradeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227882F15D74A9900852AC4 /* TradeManager.m */; };
 		4237D4821620A40F009A29F1 /* FlyerCustomize.m in Sources */ = {isa = PBXBuildFile; fileRef = 4237D4801620A40F009A29F1 /* FlyerCustomize.m */; };
 		4237D4831620A40F009A29F1 /* FlyerCustomize.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4237D4811620A40F009A29F1 /* FlyerCustomize.xib */; };
@@ -620,6 +624,12 @@
 		4222586C163450FF00BE9AD4 /* GameObjective.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameObjective.h; path = Game/Sim/GameObjective.h; sourceTree = "<group>"; };
 		4222586D163450FF00BE9AD4 /* GameObjective.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameObjective.m; path = Game/Sim/GameObjective.m; sourceTree = "<group>"; };
 		4222586F16345D0200BE9AD4 /* gameobjectives.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = gameobjectives.plist; path = assets/game/gameobjectives.plist; sourceTree = SOURCE_ROOT; };
+		4222587716346C5500BE9AD4 /* icon_leaderboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_leaderboard.png; path = assets/UI/icon_leaderboard.png; sourceTree = SOURCE_ROOT; };
+		42225879163476BB00BE9AD4 /* BasicObjectiveUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BasicObjectiveUI.h; path = Game/UI/objectives/BasicObjectiveUI.h; sourceTree = "<group>"; };
+		4222587A163476BB00BE9AD4 /* BasicObjectiveUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BasicObjectiveUI.m; path = Game/UI/objectives/BasicObjectiveUI.m; sourceTree = "<group>"; };
+		4222587B163476BB00BE9AD4 /* BasicObjectiveUI.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BasicObjectiveUI.xib; path = Game/UI/objectives/BasicObjectiveUI.xib; sourceTree = "<group>"; };
+		4222587E163476E000BE9AD4 /* ObjectivesMgr+Render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ObjectivesMgr+Render.h"; path = "Game/UI/objectives/ObjectivesMgr+Render.h"; sourceTree = "<group>"; };
+		4222587F163476E000BE9AD4 /* ObjectivesMgr+Render.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ObjectivesMgr+Render.m"; path = "Game/UI/objectives/ObjectivesMgr+Render.m"; sourceTree = "<group>"; };
 		4227882E15D74A9800852AC4 /* TradeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradeManager.h; path = Game/Sim/TradeManager.h; sourceTree = "<group>"; };
 		4227882F15D74A9900852AC4 /* TradeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradeManager.m; path = Game/Sim/TradeManager.m; sourceTree = "<group>"; };
 		4237D47F1620A40F009A29F1 /* FlyerCustomize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCustomize.h; path = Game/UI/FlyerCustomize.h; sourceTree = "<group>"; };
@@ -1186,6 +1196,18 @@
 			path = assets/game/flyer_blimp;
 			sourceTree = SOURCE_ROOT;
 		};
+		42225871163469AF00BE9AD4 /* objectives */ = {
+			isa = PBXGroup;
+			children = (
+				42225879163476BB00BE9AD4 /* BasicObjectiveUI.h */,
+				4222587A163476BB00BE9AD4 /* BasicObjectiveUI.m */,
+				4222587B163476BB00BE9AD4 /* BasicObjectiveUI.xib */,
+				4222587E163476E000BE9AD4 /* ObjectivesMgr+Render.h */,
+				4222587F163476E000BE9AD4 /* ObjectivesMgr+Render.m */,
+			);
+			name = objectives;
+			sourceTree = "<group>";
+		};
 		429F9FA51624D96600765580 /* flyers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1653,6 +1675,7 @@
 		C4E3819915AA0BF400924A86 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				42225871163469AF00BE9AD4 /* objectives */,
 				C462694C1603FF63002F1626 /* LoadingScreen.h */,
 				C462694D1603FF63002F1626 /* LoadingScreen.m */,
 				C462694E1603FF63002F1626 /* LoadingScreen.xib */,
@@ -1885,6 +1908,7 @@
 				42E92B0915D0E7AD0054686F /* startButton.png */,
 				42F692CE15F1E1B60002B1B2 /* bubble_restock.png */,
 				42F692CF15F1E1B60002B1B2 /* bubble_set_beacon.png */,
+				4222587716346C5500BE9AD4 /* icon_leaderboard.png */,
 				42F692D015F1E1B60002B1B2 /* icon_removepost.png */,
 				42D909FA15F8195E00BBE992 /* icon_member.png */,
 				421564D315F6B1C000AAE851 /* icon_none_member.png */,
@@ -2200,6 +2224,8 @@
 				4222586716330D8200BE9AD4 /* flyer_blimp_landed_c2.png in Resources */,
 				4222586816330D8200BE9AD4 /* flyer_blimp_landed_c3.png in Resources */,
 				4222587016345D0200BE9AD4 /* gameobjectives.plist in Resources */,
+				4222587816346C5500BE9AD4 /* icon_leaderboard.png in Resources */,
+				4222587D163476BB00BE9AD4 /* BasicObjectiveUI.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2339,6 +2365,8 @@
 				42172FFA1631DDB700652009 /* PlayerPostViewController.m in Sources */,
 				4222586B1634503E00BE9AD4 /* ObjectivesMgr.m in Sources */,
 				4222586E1634510000BE9AD4 /* GameObjective.m in Sources */,
+				4222587C163476BB00BE9AD4 /* BasicObjectiveUI.m in Sources */,
+				42225880163476E000BE9AD4 /* ObjectivesMgr+Render.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

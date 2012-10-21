@@ -12,7 +12,7 @@
 NSString* const kKeyGameObjDesc = @"desc";
 NSString* const kKeyGameObjType = @"type";
 
-NSString* const kNameGameObjTypeClose = @"close";
+NSString* const kNameGameObjTypeBasic = @"basic";
 NSString* const kNameGameObjTypeScan = @"scan";
 
 @interface GameObjective ()
@@ -31,7 +31,7 @@ NSString* const kNameGameObjTypeScan = @"scan";
 - (void) setInitVars
 {
     _desc = @"";
-    _type = kGameObjectiveType_Close;
+    _type = kGameObjectiveType_Basic;
     _flags = kGameObjectiveFlag_None;
     _screenPoint = CGPointMake(0.5f, 0.8f);
     _mapPoint = MKMapPointForCoordinate([[CLLocation penang] coordinate]);
@@ -42,10 +42,10 @@ NSString* const kNameGameObjTypeScan = @"scan";
 {
     NSString* lut[kGameObjectiveType_Num] =
     {
-        kNameGameObjTypeClose,
+        kNameGameObjTypeBasic,
         kNameGameObjTypeScan
     };
-    unsigned int type = kGameObjectiveType_Close;
+    unsigned int type = kGameObjectiveType_Basic;
     for(unsigned int i = 0; i < kGameObjectiveType_Num; ++i)
     {
         if([name isEqualToString:lut[i]])

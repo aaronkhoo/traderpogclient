@@ -6,7 +6,7 @@
 		<key>desc</key>
 		<string>Welcome! As a Trader, your goal is to maximize your coins through trades with trade-posts on the map.</string>
 		<key>type</key>
-		<string>close</string>
+		<string>basic</string>
 	</dict>
 	<dict>
 		<key>desc</key>
