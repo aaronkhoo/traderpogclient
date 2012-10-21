@@ -151,6 +151,7 @@
 		4222586816330D8200BE9AD4 /* flyer_blimp_landed_c3.png in Resources */ = {isa = PBXBuildFile; fileRef = 4222585C16330D8200BE9AD4 /* flyer_blimp_landed_c3.png */; };
 		4222586B1634503E00BE9AD4 /* ObjectivesMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4222586A1634503E00BE9AD4 /* ObjectivesMgr.m */; };
 		4222586E1634510000BE9AD4 /* GameObjective.m in Sources */ = {isa = PBXBuildFile; fileRef = 4222586D163450FF00BE9AD4 /* GameObjective.m */; };
+		4222587016345D0200BE9AD4 /* gameobjectives.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4222586F16345D0200BE9AD4 /* gameobjectives.plist */; };
 		4227883015D74A9A00852AC4 /* TradeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227882F15D74A9900852AC4 /* TradeManager.m */; };
 		4237D4821620A40F009A29F1 /* FlyerCustomize.m in Sources */ = {isa = PBXBuildFile; fileRef = 4237D4801620A40F009A29F1 /* FlyerCustomize.m */; };
 		4237D4831620A40F009A29F1 /* FlyerCustomize.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4237D4811620A40F009A29F1 /* FlyerCustomize.xib */; };
@@ -618,6 +619,7 @@
 		4222586A1634503E00BE9AD4 /* ObjectivesMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjectivesMgr.m; path = Game/Sim/ObjectivesMgr.m; sourceTree = "<group>"; };
 		4222586C163450FF00BE9AD4 /* GameObjective.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameObjective.h; path = Game/Sim/GameObjective.h; sourceTree = "<group>"; };
 		4222586D163450FF00BE9AD4 /* GameObjective.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameObjective.m; path = Game/Sim/GameObjective.m; sourceTree = "<group>"; };
+		4222586F16345D0200BE9AD4 /* gameobjectives.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = gameobjectives.plist; path = assets/game/gameobjectives.plist; sourceTree = SOURCE_ROOT; };
 		4227882E15D74A9800852AC4 /* TradeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradeManager.h; path = Game/Sim/TradeManager.h; sourceTree = "<group>"; };
 		4227882F15D74A9900852AC4 /* TradeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradeManager.m; path = Game/Sim/TradeManager.m; sourceTree = "<group>"; };
 		4237D47F1620A40F009A29F1 /* FlyerCustomize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCustomize.h; path = Game/UI/FlyerCustomize.h; sourceTree = "<group>"; };
@@ -1376,6 +1378,7 @@
 				429F9FA51624D96600765580 /* flyers */,
 				425B09F01621E8E400E41463 /* flyerlab.plist */,
 				4271743A163048E9003C1163 /* flyertypes.plist */,
+				4222586F16345D0200BE9AD4 /* gameobjectives.plist */,
 			);
 			name = game;
 			sourceTree = "<group>";
@@ -2196,6 +2199,7 @@
 				4222586616330D8200BE9AD4 /* flyer_blimp_landed_c1.png in Resources */,
 				4222586716330D8200BE9AD4 /* flyer_blimp_landed_c2.png in Resources */,
 				4222586816330D8200BE9AD4 /* flyer_blimp_landed_c3.png in Resources */,
+				4222587016345D0200BE9AD4 /* gameobjectives.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

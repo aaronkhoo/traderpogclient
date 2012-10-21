@@ -20,4 +20,5 @@
 - (IBAction)didPressLeaderboards:(id)sender;
 - (IBAction)didPressFlyerUpgrade:(id)sender;
 - (IBAction)didPressProducts:(id)sender;
+- (IBAction)didPressResetObjectives:(id)sender;
 @end

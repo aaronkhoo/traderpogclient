@@ -11,7 +11,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ObjectivesMgr : NSObject
+@interface ObjectivesMgr : NSObject<NSCoding>
+{
+    NSMutableArray* _objectives;
+}
+
+- (void) saveObjectivesData;
+- (void) removeObjectivesData;
 
 // singleton
 +(ObjectivesMgr*) getInstance;
