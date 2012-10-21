@@ -7,6 +7,7 @@
 //
 
 #import "AFClientManager.h"
+#import "AsyncHttpCallMgr.h"
 #import "BeaconMgr.h"
 #import "Flyer.h"
 #import "FlyerType.h"
@@ -38,8 +39,8 @@ static NSString* const kKeyInventory = @"inventory";
 static NSString* const kKeyPath = @"path";
 NSString* const kKeyFlyerState = @"state";
 static NSString* const kKeyStateBegin = @"stateBegin";
-static NSString* const kKeyCurUpgradeTier = @"upgrade_tier";
-static NSString* const kKeyCurColorIndex = @"color_index";
+static NSString* const kKeyCurUpgradeTier = @"level";
+static NSString* const kKeyCurColorIndex = @"colorindex";
 
 @interface Flyer ()
 {
@@ -157,10 +158,24 @@ static NSString* const kKeyCurColorIndex = @"color_index";
         // Initialize path
         _path = [[FlyerPath alloc] initWithDictionary:path_dict];
 
-        // HACK - need curUpgradeTier from dictionary
-        _curUpgradeTier = [dict getUnsignedIntForKey:kKeyCurUpgradeTier withDefault:0];
-        _curColor = [dict getUnsignedIntForKey:kKeyCurColorIndex withDefault:0];
-        // HACK
+        id obj = [dict valueForKeyPath:kKeyCurUpgradeTier];
+        if(([NSNull null] == obj) || (!obj))
+        {
+            _curUpgradeTier = 0;
+        }
+        else
+        {
+            _curUpgradeTier = [obj unsignedIntValue];
+        }
+        obj = [dict valueForKeyPath:kKeyCurColorIndex];
+        if(([NSNull null] == obj) || (!obj))
+        {
+            _curColor = 0;
+        }
+        else
+        {
+            _curColor = [obj unsignedIntValue];
+        }
         
         // init runtime transient vars
         _coord = _path.srcCoord;
@@ -252,6 +267,32 @@ static NSString* const kKeyCurColorIndex = @"color_index";
     return (float)([current loadtime]);
 }
 
+- (void) updateUserFlyer:(NSDictionary*)parameters
+{
+    NSString *setdoneUrl = [NSString stringWithFormat:@"users/%d/user_flyers/%@", [[Player getInstance] playerId], _userFlyerId];
+    NSString* msg = [[NSString alloc] initWithFormat:@"Updating user flyer %@ failed", _userFlyerId];
+    [[AsyncHttpCallMgr getInstance] newAsyncHttpCall:setdoneUrl
+                                      current_params:parameters
+                                     current_headers:nil
+                                         current_msg:msg
+                                        current_type:putType];
+}
+
+
+- (void)updateUserFlyerUpgradeTier
+{
+    NSMutableDictionary* parameters = [NSMutableDictionary dictionaryWithCapacity:1];
+    [parameters setValue:[NSNumber numberWithUnsignedInt:_curUpgradeTier] forKey:kKeyCurUpgradeTier];
+    [self updateUserFlyer:parameters];
+}
+
+- (void)updateUserFlyerColorindex
+{
+    NSMutableDictionary* parameters = [NSMutableDictionary dictionaryWithCapacity:1];
+    [parameters setValue:[NSNumber numberWithUnsignedInt:_curColor] forKey:kKeyCurColorIndex];
+    [self updateUserFlyer:parameters];
+}
+
 - (void) createNewUserFlyerOnServer
 {
     // post parameters
@@ -318,6 +359,7 @@ static NSString* const kKeyCurColorIndex = @"color_index";
 {
     unsigned int newTier = MIN(tier, [[FlyerLabFactory getInstance] maxUpgradeTier]);
     _curUpgradeTier = newTier;
+    [self updateUserFlyerUpgradeTier];
     [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteFlyerStateChanged object:self];
 
     NSLog(@"Flyer Upgraded to Tier %d", newTier);
@@ -357,6 +399,7 @@ static NSString* const kKeyCurColorIndex = @"color_index";
 - (void) applyColor:(unsigned int)colorIndex
 {
     _curColor = MIN(colorIndex, [[FlyerLabFactory getInstance] maxColorIndex]);
+    [self updateUserFlyerColorindex];
     [[NSNotificationCenter defaultCenter] postNotificationName:kGameNoteFlyerStateChanged object:self];
 }
 
