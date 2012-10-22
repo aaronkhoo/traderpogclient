@@ -42,16 +42,17 @@
 							<object class="IBUILabel" id="286169017">
 								<reference key="NSNextResponder" ref="125475312"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrameSize">{190, 97}</string>
+								<string key="NSFrameSize">{210, 134}</string>
 								<reference key="NSSuperview" ref="125475312"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">Press Scan to discover Trade Posts</string>
+								<string key="IBUIText">desc</string>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MSAxIDEAA</bytes>
@@ -75,10 +76,10 @@
 									<double key="NSSize">23</double>
 									<int key="NSfFlags">16</int>
 								</object>
-								<double key="preferredMaxLayoutWidth">190</double>
+								<double key="preferredMaxLayoutWidth">210</double>
 							</object>
 						</array>
-						<string key="NSFrame">{{10, 19}, {190, 97}}</string>
+						<string key="NSFrameSize">{210, 134}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="286169017"/>

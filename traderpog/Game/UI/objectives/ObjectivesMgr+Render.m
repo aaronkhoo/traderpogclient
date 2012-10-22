@@ -73,6 +73,15 @@
     return screen;
 }
 
+
+- (void) setupPointObjective:(PointObjective*)view forGameObjective:(GameObjective*)objective
+{
+    NSString* myNewLineStr = @"\n";
+    NSString* newDesc = [[self descForObjective:objective] stringByReplacingOccurrencesOfString:@"\\n" withString:myNewLineStr];
+    [view.descLabel setText:newDesc];
+    [view.descLabel sizeToFit];
+}
+
 - (void) showScanObjective:(GameObjective*)objective inGame:(GameViewController*)game
 {
     PointObjective* popup = (PointObjective*)[game dequeueModalViewWithIdentifier:kPointObjectiveViewReuseIdentifier];
@@ -86,6 +95,9 @@
         //popFrame.origin.y += kAccelViewYOffset;
         [popup setFrame:popFrame];
     }
+    
+    // setup the content of the view
+    [self setupPointObjective:popup forGameObjective:objective];
     
     // show it
     [game showModalView:popup
