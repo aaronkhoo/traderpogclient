@@ -7,6 +7,7 @@
 //
 
 #import "ObjectivesMgr.h"
+#import "ObjectivesMgr+Render.h"
 #import "GameManager.h"
 
 static NSString* const kObjectivesMgrFilename = @"objectives.sav";
@@ -59,9 +60,32 @@ static NSString* const kKeyObjectives = @"objectives";
 
 - (void) setCompletedForObjective:(GameObjective *)objective
 {
+    // dismiss any objective view
+    [self dismissOutObjectiveView];
+
+    // mark objective as completed
     [objective setCompleted];
+    
+    // clear outstanding objective field
+    self.outObjective = nil;
+    
+    // update the next index
     [self updateNextIndex];
 }
+
+#pragma mark - user events or actions
+- (void) playerDidPerformScan
+{
+    if([self outObjective])
+    {
+        if([self.outObjective type] == kGameObjectiveType_Scan)
+        {
+            // mark this objective as completed
+            [self setCompletedForObjective:[self outObjective]];
+        }
+    }
+}
+
 
 #pragma mark - internal
 

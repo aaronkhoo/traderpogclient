@@ -50,6 +50,9 @@
 static const NSInteger kDisplayLinkFrameInterval = 1;
 static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
 
+// by default, modal view keeps the Info button
+static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepInfoCircle;
+
 enum kKnobSlices
 {
     kKnobSliceScan = 0,
@@ -832,7 +835,7 @@ static const float kMyPostMenuSize = 60.0f;
 
 - (void) showModalView:(UIView<ViewReuseDelegate>*)view animated:(BOOL)isAnimated
 {
-    [self showModalView:view options:kGameViewModalFlag_None animated:isAnimated];
+    [self showModalView:view options:kGameViewModalFlag_Default animated:isAnimated];
 }
 
 - (void) showModalView:(UIView *)view options:(unsigned int)options animated:(BOOL)isAnimated
@@ -851,14 +854,25 @@ static const float kMyPostMenuSize = 60.0f;
     {
         [view setTransform:CGAffineTransformIdentity];
     }
-    [self dismissKnobAnimated:YES];
+    
+    if(!(kGameViewModalFlag_KeepKnob & _modalFlags))
+    {
+        [self dismissKnobAnimated:isAnimated];
+    }
+    
+    if(!(kGameViewModalFlag_KeepInfoCircle & _modalFlags))
+    {
+        [self hideInfoCircleAnimated:isAnimated];
+    }
 }
 
 - (void) closeModalViewAnimated:(BOOL)isAnimated
 {
     UIView* outgoingModalView = _modalView;
-    [self showKnobAnimated:YES delay:0.2f];
+    [self showKnobAnimated:isAnimated delay:0.2f];
+    [self showInfoCircleAnimated:isAnimated];
     _modalView = nil;
+    _modalFlags = kGameViewModalFlag_None;
     
     if(isAnimated)
     {
@@ -1062,6 +1076,7 @@ static const float kMyPostMenuSize = 60.0f;
                                                    {
                                                        [self handleScanResultTradePosts:tradePosts atLoc:loc];
                                                    }
+                                                   [[ObjectivesMgr getInstance] playerDidPerformScan];
                                                    [_scanActivity stopAnimating];
                                                    [_scanActivity setHidden:YES];
                                                }];

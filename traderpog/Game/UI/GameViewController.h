@@ -16,7 +16,11 @@
 
 enum kGameViewModalFlags
 {
-    kGameViewModalFlag_None = 0
+    kGameViewModalFlag_None = 0,
+    kGameViewModalFlag_KeepKnob = (1 << 0),         // don't dismiss the knob
+    kGameViewModalFlag_KeepInfoCircle = (1 << 1),   // don't hide Info button
+    kGameViewModalFlag_NoGameEvent = (1 << 2),      // don't dequeue game-event when modal is up
+    kGameViewModalFlag_Objective = (1 << 3)         // this is an objective message
 };
 
 @class MKMapView;
@@ -42,6 +46,7 @@ enum kGameViewModalFlags
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
+@property (nonatomic,readonly) unsigned int modalFlags;
 @property (nonatomic,strong) ModalNavControl* modalNav;
 
 - (id) init;

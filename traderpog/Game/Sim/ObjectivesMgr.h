@@ -27,6 +27,9 @@
 - (GameObjective*) getNextObjective;
 - (void) setCompletedForObjective:(GameObjective*)objective;
 
+// the game calls these to inform the manager of events user has performed
+- (void) playerDidPerformScan;
+
 // singleton
 +(ObjectivesMgr*) getInstance;
 +(void) destroyInstance;
