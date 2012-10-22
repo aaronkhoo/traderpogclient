@@ -206,7 +206,6 @@ enum kKnobSlices
     
     // modal nav
     _modalView = nil;
-    _modalScrim = nil;
     _modalFlags = kGameViewModalFlag_None;
     
     _modalNav = [[ModalNavControl alloc] init];
@@ -238,7 +237,6 @@ enum kKnobSlices
 - (void) teardown
 {
     [self dismissModal];
-    _modalScrim = nil;
     _modalView = nil;
     [_reusableModals clearQueue];
     [self shutdownHud];
@@ -837,20 +835,8 @@ static const float kMyPostMenuSize = 60.0f;
     [self showModalView:view options:kGameViewModalFlag_None animated:isAnimated];
 }
 
-- (void) hideModalViewAnimated:(BOOL)isAnimated
-{
-    [self closeModalViewWithOptions:kGameViewModalFlag_None animated:isAnimated];
-}
-
 - (void) showModalView:(UIView *)view options:(unsigned int)options animated:(BOOL)isAnimated
 {
-    if(kGameViewModalFlag_Strict & options)
-    {
-        // if strict modal, insert a scrim to block all inputs
-        _modalScrim = [[UIView alloc] initWithFrame:self.view.bounds];
-        [_modalScrim setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.1f]];
-        [self.view insertSubview:_modalScrim aboveSubview:self.modalNav.view];
-    }
     _modalView = view;
     _modalFlags = options;
     [self.view insertSubview:view aboveSubview:self.modalNav.view];
@@ -868,42 +854,32 @@ static const float kMyPostMenuSize = 60.0f;
     [self dismissKnobAnimated:YES];
 }
 
-- (void) closeModalViewWithOptions:(unsigned int)options animated:(BOOL)isAnimated
+- (void) closeModalViewAnimated:(BOOL)isAnimated
 {
-    if(_modalView && (options == _modalFlags))
+    UIView* outgoingModalView = _modalView;
+    [self showKnobAnimated:YES delay:0.2f];
+    _modalView = nil;
+    
+    if(isAnimated)
     {
-        if(_modalScrim)
-        {
-            [_modalScrim removeFromSuperview];
-            _modalScrim = nil;
-        }
-        
-        UIView* outgoingModalView = _modalView;
-        [self showKnobAnimated:YES delay:0.2f];
-        _modalView = nil;
-        /*
-        if(isAnimated)
-        {
-            [UIView animateWithDuration:0.1f
-                             animations:^(void){
-                                 [outgoingModalView setTransform:CGAffineTransformIdentity];
-                             }
-                             completion:^(BOOL finished){
-                                 [outgoingModalView removeFromSuperview];
-                                 UIView<ViewReuseDelegate>* cur = (UIView<ViewReuseDelegate>*)outgoingModalView;
-                                 [cur prepareForQueue];
-                                 [_reusableModals queueView:cur];            
-                             }];
-        }
-        else
-         */
-        {
-            [outgoingModalView setTransform:CGAffineTransformIdentity];
-            [outgoingModalView removeFromSuperview];
-            UIView<ViewReuseDelegate>* cur = (UIView<ViewReuseDelegate>*)outgoingModalView;
-            [cur prepareForQueue];
-            [_reusableModals queueView:cur];            
-        }
+        [UIView animateWithDuration:0.1f
+                         animations:^(void){
+                             [outgoingModalView setTransform:CGAffineTransformIdentity];
+                         }
+                         completion:^(BOOL finished){
+                             [outgoingModalView removeFromSuperview];
+                             UIView<ViewReuseDelegate>* cur = (UIView<ViewReuseDelegate>*)outgoingModalView;
+                             [cur prepareForQueue];
+                             [_reusableModals queueView:cur];
+                         }];
+    }
+    else
+    {
+        [outgoingModalView setTransform:CGAffineTransformIdentity];
+        [outgoingModalView removeFromSuperview];
+        UIView<ViewReuseDelegate>* cur = (UIView<ViewReuseDelegate>*)outgoingModalView;
+        [cur prepareForQueue];
+        [_reusableModals queueView:cur];
     }
 }
 

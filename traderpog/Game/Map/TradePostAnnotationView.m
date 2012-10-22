@@ -522,7 +522,7 @@ static const float kBuyViewCenterYOffset = -10.0f;
 
 - (void)didDeselectAnnotationViewInMap:(MKMapView*) mapView;
 {
-    [[[GameManager getInstance] gameViewController] hideModalViewAnimated:YES];
+    [[[GameManager getInstance] gameViewController] closeModalViewAnimated:NO];
     TradePost* post = (TradePost*)[self annotation];
     [post refreshRenderForAnnotationView:self];
 

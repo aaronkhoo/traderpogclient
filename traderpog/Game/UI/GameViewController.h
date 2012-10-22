@@ -16,10 +16,7 @@
 
 enum kGameViewModalFlags
 {
-    kGameViewModalFlag_None = 0,
-    kGameViewModalFlag_Strict = 1 << 0,
-    
-    kGameViewModalFlag_All = 0xffffffff
+    kGameViewModalFlag_None = 0
 };
 
 @class MKMapView;
@@ -37,7 +34,6 @@ enum kGameViewModalFlags
     ViewReuseQueue* _reusableModals;
     UIView* _modalView;
     unsigned int _modalFlags;
-    UIView* _modalScrim;
     ModalNavControl* _modalNav;
 }
 @property (nonatomic, strong) MapControl* mapControl;
@@ -64,9 +60,8 @@ enum kGameViewModalFlags
 // modal ui
 - (UIView*) dequeueModalViewWithIdentifier:(NSString*)identifier;
 - (void) showModalView:(UIView *)view options:(unsigned int)options animated:(BOOL)isAnimated;
-- (void) closeModalViewWithOptions:(unsigned int)options animated:(BOOL)isAnimated;
 - (void) showModalView:(UIView*)view animated:(BOOL)isAnimated;
-- (void) hideModalViewAnimated:(BOOL)isAnimated;
+- (void) closeModalViewAnimated:(BOOL)isAnimated;
 - (void) showModalNavViewController:(UIViewController*)controller
                          completion:(ModalNavCompletionBlock)completion;
 - (void) dismissInfo;
