@@ -117,12 +117,19 @@ static const float kContentBorderCornerRadius = 8.0f;
     }
 }
 
+- (BOOL)maxUpgradeReached
+{
+    return ([_flyer curUpgradeTier] == [[FlyerLabFactory getInstance] maxUpgradeTier]);
+}
+
 - (void) setupContent
 {
     unsigned int nextTier = [_flyer nextUpgradeTier];
-
-    // title
-    NSString* titleText = [NSString stringWithFormat:@"Tier %d Upgrade", nextTier];
+    NSString* titleText = @"Max upgrade reached!";
+    if (![self maxUpgradeReached])
+    {
+        titleText = [NSString stringWithFormat:@"Tier %d Upgrade", nextTier];
+    }
     [self.titleLabel setText:titleText];
     
     // pack info

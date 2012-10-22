@@ -89,13 +89,9 @@ static const float kButtonViewBorderWidth = 4.0f;
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    if(([self flyer]) && ([[FlyerLabFactory getInstance] maxUpgradeTier] > [self.flyer curUpgradeTier]))
+    if([self flyer])
     {
         [self.upgradeButton setEnabled:YES];
-    }
-    else
-    {
-        [self.upgradeButton setEnabled:NO];
     }
     [self setupContent];
 }
@@ -139,11 +135,8 @@ static const float kButtonViewBorderWidth = 4.0f;
 {
     if([self flyer])
     {
-        if([[FlyerLabFactory getInstance] maxUpgradeTier] > [self.flyer curUpgradeTier])
-        {
-            FlyerUpgrade* next = [[FlyerUpgrade alloc] initWithFlyer:self.flyer];
-            [self.navigationController pushFadeInViewController:next animated:YES];
-        }
+        FlyerUpgrade* next = [[FlyerUpgrade alloc] initWithFlyer:self.flyer];
+        [self.navigationController pushFadeInViewController:next animated:YES];
     }
 }
 @end
