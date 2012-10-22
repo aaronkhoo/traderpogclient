@@ -17,9 +17,11 @@ extern NSString* const kKeyColorAlpha;
 {
     UIColor* _color;
     NSString* _name;
+    NSString* _iconName;
 }
 @property (nonatomic,readonly) UIColor* color;
 @property (nonatomic,readonly) NSString* name;
+@property (nonatomic,readonly) NSString* iconName;
 
 - (id) initWithDictionary:(NSDictionary*)dict;
 @end

@@ -32,6 +32,12 @@
 @property (weak, nonatomic) IBOutlet UIView *bar2;
 @property (weak, nonatomic) IBOutlet UIView *option3;
 @property (weak, nonatomic) IBOutlet UIView *bar3;
+@property (weak, nonatomic) IBOutlet UIImageView *origImage;
+@property (weak, nonatomic) IBOutlet UIImageView *image1;
+@property (weak, nonatomic) IBOutlet UIImageView *image2;
+@property (weak, nonatomic) IBOutlet UIImageView *image3;
+@property (weak, nonatomic) IBOutlet UIImageView *membershipImage2;
+@property (weak, nonatomic) IBOutlet UIImageView *membershipImage3;
 
 - (id) initWithFlyer:(Flyer*)flyer;
 - (IBAction)didPressOptionOriginal:(id)sender;

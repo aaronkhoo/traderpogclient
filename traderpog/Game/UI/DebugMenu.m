@@ -17,6 +17,7 @@
 #import "Flyer.h"
 #import "FlyerMgr.h"
 #import "GuildMembershipUI.h"
+#import "ObjectivesMgr.h"
 
 @interface DebugMenu ()
 {
@@ -148,5 +149,12 @@
 {
     GuildMembershipUI* guildmembership = [[GuildMembershipUI alloc] initWithNibName:@"GuildMembershipUI" bundle:nil];
     [self.navigationController pushFromRightViewController:guildmembership animated:YES];
+}
+
+- (IBAction)didPressResetObjectives:(id)sender
+{
+    [[ObjectivesMgr getInstance] removeObjectivesData];
+    [ObjectivesMgr destroyInstance];
+    [ObjectivesMgr getInstance];
 }
 @end

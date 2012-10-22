@@ -755,73 +755,73 @@
 			<array>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_aero.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_aero_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_aero_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_aero_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_aero.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_aero_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_aero_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_aero_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_boost.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_boost_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_boost.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_boost_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_boost.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_boost_c3.png</string>
 				</dict>
 				<dict>
 					<key>orig</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_boost.png</string>
 					<key>color1</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_boost_c1.png</string>
 					<key>color2</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_boost_c2.png</string>
 					<key>color3</key>
-					<string>flyer.png</string>
+					<string>flyer_blimp_boost_c3.png</string>
 				</dict>
 			</array>
 			<key>side</key>
@@ -1267,7 +1267,9 @@
 				<key>colorB</key>
 				<integer>255</integer>
 				<key>alpha</key>
-				<integer>255</integer>
+				<integer>0</integer>
+				<key>icon</key>
+				<string>icon_blimp.png</string>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -1279,7 +1281,9 @@
 				<key>colorB</key>
 				<integer>0</integer>
 				<key>alpha</key>
-				<integer>255</integer>
+				<integer>0</integer>
+				<key>icon</key>
+				<string>icon_blimp_c1.png</string>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -1291,7 +1295,9 @@
 				<key>colorB</key>
 				<integer>0</integer>
 				<key>alpha</key>
-				<integer>255</integer>
+				<integer>0</integer>
+				<key>icon</key>
+				<string>icon_blimp_c2.png</string>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -1303,7 +1309,9 @@
 				<key>colorB</key>
 				<integer>0</integer>
 				<key>alpha</key>
-				<integer>255</integer>
+				<integer>0</integer>
+				<key>icon</key>
+				<string>icon_blimp_c3.png</string>
 			</dict>
 		</array>
 	</dict>

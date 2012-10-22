@@ -28,6 +28,7 @@
 #import "UrlImageManager.h"
 #import "SoundManager.h"
 #import "ProductManager.h"
+#import "ObjectivesMgr.h"
 #import <RevMobAds/RevMobAds.h>
 
 static const float kAppScreenWidth = 320.0f;
@@ -117,6 +118,7 @@ static const CGFloat SOUNDLOOP_INTERVAL_SECS = 1.0f / 30.0f;
     [[LocalyticsSession sharedLocalyticsSession] close];
     [[LocalyticsSession sharedLocalyticsSession] upload];
     
+    [[ObjectivesMgr getInstance] saveObjectivesData];
     [[AsyncHttpCallMgr getInstance] applicationDidEnterBackground];
     [[FlyerMgr getInstance] saveFlyerMgrData];
     [[Player getInstance] appDidEnterBackground];
@@ -195,6 +197,7 @@ static const CGFloat SOUNDLOOP_INTERVAL_SECS = 1.0f / 30.0f;
     [PlayerSales getInstance];
     [UrlImageManager getInstance];
     [ProductManager getInstance];
+    [ObjectivesMgr getInstance];
     
     [SoundManager getInstance];
     soundLoopTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) SOUNDLOOP_INTERVAL_SECS
@@ -229,6 +232,7 @@ static const CGFloat SOUNDLOOP_INTERVAL_SECS = 1.0f / 30.0f;
 
 - (void) appShutdown
 {
+    [ObjectivesMgr destroyInstance];
     [GameEventMgr destroyInstance];
     [AnimMgr destroyInstance];
     [ScanManager destroyInstance];

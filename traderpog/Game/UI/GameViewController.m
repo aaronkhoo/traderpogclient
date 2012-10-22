@@ -42,6 +42,9 @@
 #import "GuildMembershipUI.h"
 #import "SoundManager.h"
 #import "PlayerPostViewController.h"
+#import "ObjectivesMgr.h"
+#import "ObjectivesMgr+Render.h"
+#import "GameObjective.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -358,13 +361,22 @@ enum kKnobSlices
     
     if([[GameManager getInstance] canProcessGameEventNotifications])
     {
-        GameEvent* notify = [[GameEventMgr getInstance] dequeueEvent];
-        MKMapRect visibleRect = [self.mapControl.view visibleMapRect];
-        MKMapPoint notifyPoint = MKMapPointForCoordinate([notify coord]);
-        if(notify && !(MKMapRectContainsPoint(visibleRect, notifyPoint)))
+        if([self.modalNav.view isHidden])
         {
-            // show banner only if the event is not already visible
-            [self showNotificationViewForGameEvent:notify animated:YES];
+            // process objectives first
+            BOOL objectivePresented = [[ObjectivesMgr getInstance] updateGameViewController:self];
+            if(!objectivePresented)
+            {
+                // then game event notifications
+                GameEvent* notify = [[GameEventMgr getInstance] dequeueEvent];
+                MKMapRect visibleRect = [self.mapControl.view visibleMapRect];
+                MKMapPoint notifyPoint = MKMapPointForCoordinate([notify coord]);
+                if(notify && !(MKMapRectContainsPoint(visibleRect, notifyPoint)))
+                {
+                    // show banner only if the event is not already visible
+                    [self showNotificationViewForGameEvent:notify animated:YES];
+                }
+            }
         }
     }
 }
@@ -604,7 +616,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 
 - (void) dismissInfo
 {
-    if([self.infoCircle isHidden])
+    if([self.infoCircle isHidden] && [self.info.view superview])
     {
         [self dismissModalView:self.info.view withModalId:kInfoCloseId];
     }
@@ -904,7 +916,7 @@ static const float kMyPostMenuSize = 60.0f;
     modal.delegate = self;
     
     [self dismissKnobAnimated:YES];
-    [self hideInfoCircleAnimated:YES];
+    [self hideInfoCircleAnimated:NO];
 }
 
 #pragma mark - ModalNavDelegate
@@ -912,7 +924,7 @@ static const float kMyPostMenuSize = 60.0f;
 {
     [self.modalNav.view setHidden:YES];
     [self showKnobAnimated:YES delay:0.0f];
-    [self showInfoCircleAnimated:YES];
+    [self showInfoCircleAnimated:NO];
 }
 
 - (void) dismissModalView:(UIView *)viewToDismiss withModalId:(NSString *const)modalId
