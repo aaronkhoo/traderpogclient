@@ -158,6 +158,18 @@
 		42225880163476E000BE9AD4 /* ObjectivesMgr+Render.m in Sources */ = {isa = PBXBuildFile; fileRef = 4222587F163476E000BE9AD4 /* ObjectivesMgr+Render.m */; };
 		422258831634AC3C00BE9AD4 /* PointObjective.m in Sources */ = {isa = PBXBuildFile; fileRef = 422258821634AC3C00BE9AD4 /* PointObjective.m */; };
 		422258851634AC5600BE9AD4 /* PointObjective.xib in Resources */ = {isa = PBXBuildFile; fileRef = 422258841634AC5600BE9AD4 /* PointObjective.xib */; };
+		422258921634C09E00BE9AD4 /* flyer_blimp_aero_c1.png in Resources */ = {isa = PBXBuildFile; fileRef = 422258861634C09C00BE9AD4 /* flyer_blimp_aero_c1.png */; };
+		422258931634C09E00BE9AD4 /* flyer_blimp_aero_c2.png in Resources */ = {isa = PBXBuildFile; fileRef = 422258871634C09C00BE9AD4 /* flyer_blimp_aero_c2.png */; };
+		422258941634C09E00BE9AD4 /* flyer_blimp_aero_c3.png in Resources */ = {isa = PBXBuildFile; fileRef = 422258881634C09C00BE9AD4 /* flyer_blimp_aero_c3.png */; };
+		422258951634C09E00BE9AD4 /* flyer_blimp_aero.png in Resources */ = {isa = PBXBuildFile; fileRef = 422258891634C09C00BE9AD4 /* flyer_blimp_aero.png */; };
+		422258961634C09E00BE9AD4 /* flyer_blimp_boost_c1.png in Resources */ = {isa = PBXBuildFile; fileRef = 4222588A1634C09D00BE9AD4 /* flyer_blimp_boost_c1.png */; };
+		422258971634C09E00BE9AD4 /* flyer_blimp_boost_c2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4222588B1634C09D00BE9AD4 /* flyer_blimp_boost_c2.png */; };
+		422258981634C09E00BE9AD4 /* flyer_blimp_boost_c3.png in Resources */ = {isa = PBXBuildFile; fileRef = 4222588C1634C09D00BE9AD4 /* flyer_blimp_boost_c3.png */; };
+		422258991634C09E00BE9AD4 /* flyer_blimp_boost.png in Resources */ = {isa = PBXBuildFile; fileRef = 4222588D1634C09D00BE9AD4 /* flyer_blimp_boost.png */; };
+		4222589A1634C09E00BE9AD4 /* flyer_blimp_c1.png in Resources */ = {isa = PBXBuildFile; fileRef = 4222588E1634C09D00BE9AD4 /* flyer_blimp_c1.png */; };
+		4222589B1634C09E00BE9AD4 /* flyer_blimp_c2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4222588F1634C09D00BE9AD4 /* flyer_blimp_c2.png */; };
+		4222589C1634C09E00BE9AD4 /* flyer_blimp_c3.png in Resources */ = {isa = PBXBuildFile; fileRef = 422258901634C09E00BE9AD4 /* flyer_blimp_c3.png */; };
+		4222589D1634C09E00BE9AD4 /* flyer_blimp.png in Resources */ = {isa = PBXBuildFile; fileRef = 422258911634C09E00BE9AD4 /* flyer_blimp.png */; };
 		4227883015D74A9A00852AC4 /* TradeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227882F15D74A9900852AC4 /* TradeManager.m */; };
 		4237D4821620A40F009A29F1 /* FlyerCustomize.m in Sources */ = {isa = PBXBuildFile; fileRef = 4237D4801620A40F009A29F1 /* FlyerCustomize.m */; };
 		4237D4831620A40F009A29F1 /* FlyerCustomize.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4237D4811620A40F009A29F1 /* FlyerCustomize.xib */; };
@@ -635,6 +647,18 @@
 		422258811634AC3C00BE9AD4 /* PointObjective.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PointObjective.h; path = Game/UI/objectives/PointObjective.h; sourceTree = "<group>"; };
 		422258821634AC3C00BE9AD4 /* PointObjective.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PointObjective.m; path = Game/UI/objectives/PointObjective.m; sourceTree = "<group>"; };
 		422258841634AC5600BE9AD4 /* PointObjective.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PointObjective.xib; path = Game/UI/objectives/PointObjective.xib; sourceTree = "<group>"; };
+		422258861634C09C00BE9AD4 /* flyer_blimp_aero_c1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_blimp_aero_c1.png; sourceTree = "<group>"; };
+		422258871634C09C00BE9AD4 /* flyer_blimp_aero_c2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_blimp_aero_c2.png; sourceTree = "<group>"; };
+		422258881634C09C00BE9AD4 /* flyer_blimp_aero_c3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_blimp_aero_c3.png; sourceTree = "<group>"; };
+		422258891634C09C00BE9AD4 /* flyer_blimp_aero.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_blimp_aero.png; sourceTree = "<group>"; };
+		4222588A1634C09D00BE9AD4 /* flyer_blimp_boost_c1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_blimp_boost_c1.png; sourceTree = "<group>"; };
+		4222588B1634C09D00BE9AD4 /* flyer_blimp_boost_c2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_blimp_boost_c2.png; sourceTree = "<group>"; };
+		4222588C1634C09D00BE9AD4 /* flyer_blimp_boost_c3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_blimp_boost_c3.png; sourceTree = "<group>"; };
+		4222588D1634C09D00BE9AD4 /* flyer_blimp_boost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_blimp_boost.png; sourceTree = "<group>"; };
+		4222588E1634C09D00BE9AD4 /* flyer_blimp_c1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_blimp_c1.png; sourceTree = "<group>"; };
+		4222588F1634C09D00BE9AD4 /* flyer_blimp_c2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_blimp_c2.png; sourceTree = "<group>"; };
+		422258901634C09E00BE9AD4 /* flyer_blimp_c3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_blimp_c3.png; sourceTree = "<group>"; };
+		422258911634C09E00BE9AD4 /* flyer_blimp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_blimp.png; sourceTree = "<group>"; };
 		4227882E15D74A9800852AC4 /* TradeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradeManager.h; path = Game/Sim/TradeManager.h; sourceTree = "<group>"; };
 		4227882F15D74A9900852AC4 /* TradeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradeManager.m; path = Game/Sim/TradeManager.m; sourceTree = "<group>"; };
 		4237D47F1620A40F009A29F1 /* FlyerCustomize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerCustomize.h; path = Game/UI/FlyerCustomize.h; sourceTree = "<group>"; };
@@ -1196,6 +1220,18 @@
 				4222585A16330D8200BE9AD4 /* flyer_blimp_landed_c1.png */,
 				4222585B16330D8200BE9AD4 /* flyer_blimp_landed_c2.png */,
 				4222585C16330D8200BE9AD4 /* flyer_blimp_landed_c3.png */,
+				422258861634C09C00BE9AD4 /* flyer_blimp_aero_c1.png */,
+				422258871634C09C00BE9AD4 /* flyer_blimp_aero_c2.png */,
+				422258881634C09C00BE9AD4 /* flyer_blimp_aero_c3.png */,
+				422258891634C09C00BE9AD4 /* flyer_blimp_aero.png */,
+				4222588A1634C09D00BE9AD4 /* flyer_blimp_boost_c1.png */,
+				4222588B1634C09D00BE9AD4 /* flyer_blimp_boost_c2.png */,
+				4222588C1634C09D00BE9AD4 /* flyer_blimp_boost_c3.png */,
+				4222588D1634C09D00BE9AD4 /* flyer_blimp_boost.png */,
+				4222588E1634C09D00BE9AD4 /* flyer_blimp_c1.png */,
+				4222588F1634C09D00BE9AD4 /* flyer_blimp_c2.png */,
+				422258901634C09E00BE9AD4 /* flyer_blimp_c3.png */,
+				422258911634C09E00BE9AD4 /* flyer_blimp.png */,
 			);
 			name = flyer_blimp;
 			path = assets/game/flyer_blimp;
@@ -2235,6 +2271,18 @@
 				4222587816346C5500BE9AD4 /* icon_leaderboard.png in Resources */,
 				4222587D163476BB00BE9AD4 /* BasicObjectiveUI.xib in Resources */,
 				422258851634AC5600BE9AD4 /* PointObjective.xib in Resources */,
+				422258921634C09E00BE9AD4 /* flyer_blimp_aero_c1.png in Resources */,
+				422258931634C09E00BE9AD4 /* flyer_blimp_aero_c2.png in Resources */,
+				422258941634C09E00BE9AD4 /* flyer_blimp_aero_c3.png in Resources */,
+				422258951634C09E00BE9AD4 /* flyer_blimp_aero.png in Resources */,
+				422258961634C09E00BE9AD4 /* flyer_blimp_boost_c1.png in Resources */,
+				422258971634C09E00BE9AD4 /* flyer_blimp_boost_c2.png in Resources */,
+				422258981634C09E00BE9AD4 /* flyer_blimp_boost_c3.png in Resources */,
+				422258991634C09E00BE9AD4 /* flyer_blimp_boost.png in Resources */,
+				4222589A1634C09E00BE9AD4 /* flyer_blimp_c1.png in Resources */,
+				4222589B1634C09E00BE9AD4 /* flyer_blimp_c2.png in Resources */,
+				4222589C1634C09E00BE9AD4 /* flyer_blimp_c3.png in Resources */,
+				4222589D1634C09E00BE9AD4 /* flyer_blimp.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
