@@ -298,6 +298,10 @@
 		42C3B4D316268F7800804A76 /* Player+Shop.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C3B4D216268F7700804A76 /* Player+Shop.m */; };
 		42C3B4E11626A6E400804A76 /* SoundClip.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C3B4DF1626A6DB00804A76 /* SoundClip.m */; };
 		42C3B4E21626A6E400804A76 /* SoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C3B4E01626A6DE00804A76 /* SoundManager.m */; };
+		42C4DF5F1635949C004B3F12 /* icon_blimp_c1.png in Resources */ = {isa = PBXBuildFile; fileRef = 42C4DF5B1635949C004B3F12 /* icon_blimp_c1.png */; };
+		42C4DF601635949C004B3F12 /* icon_blimp_c2.png in Resources */ = {isa = PBXBuildFile; fileRef = 42C4DF5C1635949C004B3F12 /* icon_blimp_c2.png */; };
+		42C4DF611635949C004B3F12 /* icon_blimp_c3.png in Resources */ = {isa = PBXBuildFile; fileRef = 42C4DF5D1635949C004B3F12 /* icon_blimp_c3.png */; };
+		42C4DF621635949C004B3F12 /* icon_blimp.png in Resources */ = {isa = PBXBuildFile; fileRef = 42C4DF5E1635949C004B3F12 /* icon_blimp.png */; };
 		42C766B31607900900D21354 /* LoadingTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C766B11607900900D21354 /* LoadingTransition.m */; };
 		42C766B41607900900D21354 /* LoadingTransition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C766B21607900900D21354 /* LoadingTransition.xib */; };
 		42CBADDC1621DB3300BA7363 /* NSDictionary+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CBADDB1621DB3300BA7363 /* NSDictionary+Pog.m */; };
@@ -817,6 +821,10 @@
 		42C3B4DB1626A68300804A76 /* SoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundManager.h; path = Game/Sim/SoundManager.h; sourceTree = "<group>"; };
 		42C3B4DF1626A6DB00804A76 /* SoundClip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SoundClip.m; path = Game/Sim/SoundClip.m; sourceTree = "<group>"; };
 		42C3B4E01626A6DE00804A76 /* SoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SoundManager.m; path = Game/Sim/SoundManager.m; sourceTree = "<group>"; };
+		42C4DF5B1635949C004B3F12 /* icon_blimp_c1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_blimp_c1.png; sourceTree = "<group>"; };
+		42C4DF5C1635949C004B3F12 /* icon_blimp_c2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_blimp_c2.png; sourceTree = "<group>"; };
+		42C4DF5D1635949C004B3F12 /* icon_blimp_c3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_blimp_c3.png; sourceTree = "<group>"; };
+		42C4DF5E1635949C004B3F12 /* icon_blimp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_blimp.png; sourceTree = "<group>"; };
 		42C766B01607900900D21354 /* LoadingTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingTransition.h; sourceTree = "<group>"; };
 		42C766B11607900900D21354 /* LoadingTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingTransition.m; sourceTree = "<group>"; };
 		42C766B21607900900D21354 /* LoadingTransition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingTransition.xib; sourceTree = "<group>"; };
@@ -1232,6 +1240,10 @@
 				4222588F1634C09D00BE9AD4 /* flyer_blimp_c2.png */,
 				422258901634C09E00BE9AD4 /* flyer_blimp_c3.png */,
 				422258911634C09E00BE9AD4 /* flyer_blimp.png */,
+				42C4DF5B1635949C004B3F12 /* icon_blimp_c1.png */,
+				42C4DF5C1635949C004B3F12 /* icon_blimp_c2.png */,
+				42C4DF5D1635949C004B3F12 /* icon_blimp_c3.png */,
+				42C4DF5E1635949C004B3F12 /* icon_blimp.png */,
 			);
 			name = flyer_blimp;
 			path = assets/game/flyer_blimp;
@@ -2283,6 +2295,10 @@
 				4222589B1634C09E00BE9AD4 /* flyer_blimp_c2.png in Resources */,
 				4222589C1634C09E00BE9AD4 /* flyer_blimp_c3.png in Resources */,
 				4222589D1634C09E00BE9AD4 /* flyer_blimp.png in Resources */,
+				42C4DF5F1635949C004B3F12 /* icon_blimp_c1.png in Resources */,
+				42C4DF601635949C004B3F12 /* icon_blimp_c2.png in Resources */,
+				42C4DF611635949C004B3F12 /* icon_blimp_c3.png in Resources */,
+				42C4DF621635949C004B3F12 /* icon_blimp.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

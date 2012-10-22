@@ -1267,7 +1267,9 @@
 				<key>colorB</key>
 				<integer>255</integer>
 				<key>alpha</key>
-				<integer>255</integer>
+				<integer>0</integer>
+				<key>icon</key>
+				<string>icon_blimp.png</string>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -1279,7 +1281,9 @@
 				<key>colorB</key>
 				<integer>0</integer>
 				<key>alpha</key>
-				<integer>255</integer>
+				<integer>0</integer>
+				<key>icon</key>
+				<string>icon_blimp_c1.png</string>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -1291,7 +1295,9 @@
 				<key>colorB</key>
 				<integer>0</integer>
 				<key>alpha</key>
-				<integer>255</integer>
+				<integer>0</integer>
+				<key>icon</key>
+				<string>icon_blimp_c2.png</string>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -1303,7 +1309,9 @@
 				<key>colorB</key>
 				<integer>0</integer>
 				<key>alpha</key>
-				<integer>255</integer>
+				<integer>0</integer>
+				<key>icon</key>
+				<string>icon_blimp_c3.png</string>
 			</dict>
 		</array>
 	</dict>

@@ -137,6 +137,12 @@ enum kColorOptions
     [self setTitleView:nil];
     [self setContentSubView:nil];
     [self setBuyLabel:nil];
+    [self setOrigImage:nil];
+    [self setImage1:nil];
+    [self setImage2:nil];
+    [self setImage3:nil];
+    [self setMembershipImage2:nil];
+    [self setMembershipImage3:nil];
     [super viewDidUnload];
 }
 
@@ -279,6 +285,60 @@ enum kColorOptions
     [self.option2 setBackgroundColor:[c2Pack color]];
     FlyerColorPack* c3Pack = [[FlyerLabFactory getInstance] colorPackAtIndex:kColorOption3 forFlyerTypeNamed:flyerTypeName];
     [self.option3 setBackgroundColor:[c3Pack color]];
+    
+    // icon for each option if any provided
+    if([origPack iconName])
+    {
+        [self.origImage setImage:[[ImageManager getInstance] getImage:[origPack iconName]]];
+        [self.origImage setHidden:NO];
+    }
+    else
+    {
+        [self.origImage setImage:nil];
+        [self.origImage setHidden:YES];
+    }
+    if([c1Pack iconName])
+    {
+        [self.image1 setImage:[[ImageManager getInstance] getImage:[c1Pack iconName]]];
+        [self.image1 setHidden:NO];
+    }
+    else
+    {
+        [self.image1 setImage:nil];
+        [self.image1 setHidden:YES];
+    }
+    if([c2Pack iconName])
+    {
+        [self.image2 setImage:[[ImageManager getInstance] getImage:[c2Pack iconName]]];
+        [self.image2 setHidden:NO];
+    }
+    else
+    {
+        [self.image2 setImage:nil];
+        [self.image2 setHidden:YES];
+    }
+    if([c3Pack iconName])
+    {
+        [self.image3 setImage:[[ImageManager getInstance] getImage:[c3Pack iconName]]];
+        [self.image3 setHidden:NO];
+    }
+    else
+    {
+        [self.image3 setImage:nil];
+        [self.image3 setHidden:YES];
+    }
+    
+    // turn off the membership stamps if member
+    if([[Player getInstance] isMember])
+    {
+        [self.membershipImage2 setHidden:YES];
+        [self.membershipImage3 setHidden:YES];
+    }
+    else
+    {
+        [self.membershipImage2 setHidden:NO];
+        [self.membershipImage3 setHidden:NO];
+    }
 }
 
 - (void)setBuyButtonText:(BOOL)membersOnly
