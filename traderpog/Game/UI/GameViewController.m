@@ -876,31 +876,34 @@ static const float kMyPostMenuSize = 60.0f;
 - (void) closeModalViewAnimated:(BOOL)isAnimated
 {
     UIView* outgoingModalView = _modalView;
-    [self showKnobAnimated:isAnimated delay:0.2f];
-    [self showInfoCircleAnimated:isAnimated];
-    _modalView = nil;
-    _modalFlags = kGameViewModalFlag_None;
-    
-    if(isAnimated)
+    if(outgoingModalView)
     {
-        [UIView animateWithDuration:0.1f
-                         animations:^(void){
-                             [outgoingModalView setTransform:CGAffineTransformIdentity];
-                         }
-                         completion:^(BOOL finished){
-                             [outgoingModalView removeFromSuperview];
-                             UIView<ViewReuseDelegate>* cur = (UIView<ViewReuseDelegate>*)outgoingModalView;
-                             [cur prepareForQueue];
-                             [_reusableModals queueView:cur];
-                         }];
-    }
-    else
-    {
-        [outgoingModalView setTransform:CGAffineTransformIdentity];
-        [outgoingModalView removeFromSuperview];
-        UIView<ViewReuseDelegate>* cur = (UIView<ViewReuseDelegate>*)outgoingModalView;
-        [cur prepareForQueue];
-        [_reusableModals queueView:cur];
+        [self showKnobAnimated:isAnimated delay:0.2f];
+        [self showInfoCircleAnimated:isAnimated];
+        _modalView = nil;
+        _modalFlags = kGameViewModalFlag_None;
+        
+        if(isAnimated)
+        {
+            [UIView animateWithDuration:0.1f
+                             animations:^(void){
+                                 [outgoingModalView setTransform:CGAffineTransformIdentity];
+                             }
+                             completion:^(BOOL finished){
+                                 [outgoingModalView removeFromSuperview];
+                                 UIView<ViewReuseDelegate>* cur = (UIView<ViewReuseDelegate>*)outgoingModalView;
+                                 [cur prepareForQueue];
+                                 [_reusableModals queueView:cur];
+                             }];
+        }
+        else
+        {
+            [outgoingModalView setTransform:CGAffineTransformIdentity];
+            [outgoingModalView removeFromSuperview];
+            UIView<ViewReuseDelegate>* cur = (UIView<ViewReuseDelegate>*)outgoingModalView;
+            [cur prepareForQueue];
+            [_reusableModals queueView:cur];
+        }
     }
 }
 
