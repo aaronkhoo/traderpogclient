@@ -20,7 +20,9 @@ static const float kKnobBorderWidth = 5.0f;
 // units in fraction of KnobControl width
 static const float kKnobRenderFrac = 0.7f;
 static const float kKnobDragFrac = kKnobRenderFrac - 0.3f;
-static const float kKnobButtonFrac = 0.4f;
+static const float kKnobRotateBeginX = 0.26f;
+static const float kKnobButtonWidth = 0.43f;
+static const float kKnobButtonHeight = 0.7f;
 
 @interface KnobControl ()
 {
@@ -60,6 +62,7 @@ static const float kKnobButtonFrac = 0.4f;
         _numSlices = [self.delegate numItemsInKnob:self];
         _logicalTransform = CGAffineTransformIdentity;
         _selectedSlice = 0;
+        _isLocked = NO;
         
         [self createWheelRender];
         [self createCenterButton];
@@ -194,12 +197,11 @@ static const float kKnobButtonFrac = 0.4f;
 - (void) createCenterButton
 {
     self.centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    float containerRadius = _container.bounds.size.width * 0.5f;
-    float centerSize = self.bounds.size.width * kKnobButtonFrac;
-    float centerWidth = centerSize;
-    float centerHeight = centerSize;
-    CGRect centerRect = CGRectMake(_container.frame.origin.x + ((_container.bounds.size.width - centerWidth) * 0.5f),
-                                   _container.frame.origin.y + ((_container.bounds.size.height - centerHeight) * 0.5f),
+    float parentWidth = self.bounds.size.width;
+    float centerWidth = parentWidth * kKnobButtonWidth;
+    float parentHeight = self.bounds.size.height;
+    float centerHeight = parentHeight * kKnobButtonHeight;
+    CGRect centerRect = CGRectMake(0.5f * (parentWidth - centerWidth), 0.5f * (parentHeight - centerHeight),
                                    centerWidth, centerHeight);
     [self.centerButton setFrame:centerRect];
     [self.centerButton setBackgroundColor:[UIColor clearColor]];
@@ -297,31 +299,62 @@ static const float kKnobButtonFrac = 0.4f;
 }
 
 #pragma mark - UIControl
+
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event 
 {
-    BOOL beginTracking = YES;
-    CGPoint touchPoint = [touch locationInView:self];
-    float dist = [self distFromCenter:touchPoint];
-    float minDist = self.bounds.size.width * 0.5f * kKnobDragFrac;
-    float maxDist = self.bounds.size.width * 0.5f;
-    if((minDist <= dist) && (dist <= maxDist))
+    BOOL beginTracking = NO;
+    
+    if(![self isLocked])
     {
-        float dx = touchPoint.x - self.container.center.x;
-        float dy = touchPoint.y - self.container.center.y;
+        CGPoint touchPoint = [touch locationInView:self];
+        //NSLog(@"touchPoint x %f (%f)", touchPoint.x, touchPoint.x / self.bounds.size.width);
         
-        // angle at start
-        _deltaAngle = atan2(dy,dx); 
-        
-        // transform at start
-        _startTransform = _logicalTransform;
-        beginTracking = YES;
-        
-        [self refreshSliceViewDidBeginTouch];
-    }
-    else 
-    {
-        // ignore if user taps too close to the center of the wheel
-        beginTracking = NO;
+        // only allow Knob rotation to begin when user touches left or right side of the Knob
+        float leftx = self.bounds.size.width * kKnobRotateBeginX;
+        float rightx = self.bounds.size.width * (1.0f - kKnobRotateBeginX);
+        if((touchPoint.x <= leftx) || (touchPoint.x >= rightx))
+        {
+            unsigned int beginIndex = self.selectedSlice;
+            if(touchPoint.x <= leftx)
+            {
+                // start one slot on the left
+                if(0 == beginIndex)
+                {
+                    beginIndex = self.numSlices - 1;
+                }
+                else
+                {
+                    beginIndex -= 1;
+                }
+            }
+            else
+            {
+                // one slot on the right
+                beginIndex++;
+                if([self numSlices] <= beginIndex)
+                {
+                    beginIndex = 0;
+                }
+            }
+            [self beginWithSliceIndex:beginIndex animated:YES];
+            float dist = [self distFromCenter:touchPoint];
+            float minDist = self.bounds.size.width * 0.5f * kKnobDragFrac;
+            float maxDist = self.bounds.size.width * 0.5f;
+            if((minDist <= dist) && (dist <= maxDist))
+            {
+                float dx = touchPoint.x - self.container.center.x;
+                float dy = touchPoint.y - self.container.center.y;
+                
+                // angle at start
+                _deltaAngle = atan2(dy,dx);
+                
+                // transform at start
+                _startTransform = _logicalTransform;
+                beginTracking = YES;
+                
+                [self refreshSliceViewDidBeginTouch];
+            }
+        }
     }
     return beginTracking;
 }
@@ -426,24 +459,76 @@ static const float kKnobButtonFrac = 0.4f;
     [self refreshSliceViewDidSelectWithDelay:0.0f];
 }
 
-- (void) gotoSliceIndex:(unsigned int)index
+- (void) gotoSliceIndex:(unsigned int)index animated:(BOOL)isAnimated
 {
     if(index < [self.slices count])
     {
-        [self refreshSliceViewDidBeginTouch];
-
+        if(isAnimated)
+        {
+            [self refreshSliceViewDidBeginTouch];
+        }
         KnobSlice* cur = [self.slices objectAtIndex:index];
         self.selectedSlice = index;
         CGFloat radians = atan2f(_logicalTransform.b, _logicalTransform.a);
         CGFloat rot = radians - cur.midAngle;
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:0.2];
-        CGAffineTransform t = CGAffineTransformRotate(_logicalTransform, -rot);
-        _logicalTransform = t;
-        self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform reverse:NO];
-        [UIView commitAnimations];
-        [self refreshSliceViewDidSelectWithDelay:0.2f];
+        
+        if(isAnimated)
+        {
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:0.2];
+            CGAffineTransform t = CGAffineTransformRotate(_logicalTransform, -rot);
+            _logicalTransform = t;
+            self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform reverse:NO];
+            [UIView commitAnimations];
+            [self refreshSliceViewDidSelectWithDelay:0.2f];
+        }
+        else
+        {
+            CGAffineTransform t = CGAffineTransformRotate(_logicalTransform, -rot);
+            _logicalTransform = t;
+            self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform reverse:NO];
+            [self refreshSliceViewDidSelectWithDelay:0.0f];
+        }
     }
+}
+
+- (void) beginWithSliceIndex:(unsigned int)index animated:(BOOL)animated
+{
+    if(index < [self.slices count])
+    {
+        [self refreshSliceViewDidBeginTouch];
+        
+        KnobSlice* cur = [self.slices objectAtIndex:index];
+        self.selectedSlice = index;
+        CGFloat radians = atan2f(_logicalTransform.b, _logicalTransform.a);
+        CGFloat rot = radians - cur.midAngle;
+        
+        if(animated)
+        {
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:0.2];
+            CGAffineTransform t = CGAffineTransformRotate(_logicalTransform, -rot);
+            _logicalTransform = t;
+            self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform reverse:NO];
+            [UIView commitAnimations];
+        }
+        else
+        {
+            CGAffineTransform t = CGAffineTransformRotate(_logicalTransform, -rot);
+            _logicalTransform = t;
+            self.container.transform = [self renderTransformFromLogicalTransform:_logicalTransform reverse:NO];
+        }
+    }
+}
+
+- (void) setLocked:(BOOL)locked
+{
+    _isLocked = locked;
+}
+
+- (BOOL) isLocked
+{
+    return _isLocked;
 }
 
 #pragma mark - button actions

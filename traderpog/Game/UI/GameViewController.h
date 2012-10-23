@@ -23,6 +23,16 @@ enum kGameViewModalFlags
     kGameViewModalFlag_Objective = (1 << 3)         // this is an objective message
 };
 
+enum kKnobSlices
+{
+    kKnobSliceScan = 0,
+    kKnobSliceFlyer,
+    kKnobSliceBeacon,
+    kKnobSlicePost,
+    
+    kKnobSliceNum
+};
+
 @class MKMapView;
 @class MapControl;
 @class ViewReuseQueue;
@@ -61,6 +71,8 @@ enum kGameViewModalFlags
 - (void) setBeaconWheelText:(NSString*)new_text;
 - (IBAction)didPressDebug:(id)sender;
 - (void) dismissActiveWheelAnimated:(BOOL)isAnimated;
+- (void) lockKnobAtSlice:(unsigned int)sliceIndex;
+- (void) unlockKnob;
 
 // modal ui
 - (UIView*) dequeueModalViewWithIdentifier:(NSString*)identifier;

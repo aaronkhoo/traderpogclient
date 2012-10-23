@@ -115,6 +115,8 @@
     [game showModalView:popup
                 options:(kGameViewModalFlag_KeepKnob|kGameViewModalFlag_Objective)
                animated:NO];
+    
+    [game lockKnobAtSlice:kKnobSliceScan];
 }
 
 - (void) dismissScanObjective:(GameObjective*)objective inGame:(GameViewController*)game
@@ -123,6 +125,7 @@
     {
         [game closeModalViewAnimated:NO];        
     }
+    [game unlockKnob];
 }
 
 @end

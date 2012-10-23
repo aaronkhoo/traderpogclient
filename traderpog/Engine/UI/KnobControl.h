@@ -15,6 +15,7 @@
     unsigned int _numSlices;
     NSMutableArray* _slices;
     unsigned int _selectedSlice;
+    BOOL         _isLocked;
 }
 
 @property (nonatomic,strong) UIView* container;
@@ -25,5 +26,8 @@
 @property (nonatomic,weak) NSObject<KnobProtocol>* delegate;
 
 - (id)initWithFrame:(CGRect)frame delegate:(NSObject<KnobProtocol>*)delegate;
-- (void) gotoSliceIndex:(unsigned int)index;
+- (void) gotoSliceIndex:(unsigned int)index animated:(BOOL)isAnimated;
+
+- (void)setLocked:(BOOL)locked;
+- (BOOL)isLocked;
 @end

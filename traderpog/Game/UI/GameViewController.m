@@ -53,15 +53,6 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
 // by default, modal view keeps the Info button
 static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepInfoCircle;
 
-enum kKnobSlices
-{
-    kKnobSliceScan = 0,
-    kKnobSliceFlyer,
-    kKnobSliceBeacon,
-    kKnobSlicePost,
-    
-    kKnobSliceNum
-};
 
 @interface GameViewController ()
 {
@@ -457,6 +448,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 
 - (void) showKnobAnimated:(BOOL)isAnimated delay:(NSTimeInterval)delay
 {
+    [self.knob setLocked:NO];
     if(![self.knob isEnabled])
     {
         CGAffineTransform showTransform = CGAffineTransformIdentity;
@@ -567,13 +559,13 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 - (void) showPostWheelAnimated:(BOOL)isAnimated
 {
     [self.postWheel showWheelAnimated:YES withDelay:0.0f];
-    [self.knob gotoSliceIndex:kKnobSlicePost];
+    [self.knob gotoSliceIndex:kKnobSlicePost animated:YES];
 }
 
 - (void) showFlyerWheelAnimated:(BOOL)isAnimated
 {
     [self.flyerWheel showWheelAnimated:YES withDelay:0.0f];
-    [self.knob gotoSliceIndex:kKnobSliceFlyer];
+    [self.knob gotoSliceIndex:kKnobSliceFlyer animated:NO];
 }
 
 - (void) setBeaconWheelText:(NSString*)new_text
@@ -595,6 +587,17 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     {
         [self.beaconWheel hideWheelAnimated:isAnimated withDelay:0.0f];
     }
+}
+
+- (void) lockKnobAtSlice:(unsigned int)sliceIndex
+{
+    [self.knob gotoSliceIndex:sliceIndex animated:NO];
+    [self.knob setLocked:YES];
+}
+
+- (void) unlockKnob
+{
+    [self.knob setLocked:NO];
 }
 
 - (IBAction)didPressDebug:(id)sender
