@@ -153,7 +153,9 @@
                 options:(kGameViewModalFlag_KeepKnob|kGameViewModalFlag_Objective)
                animated:NO];
     
+    // restrict game-view
     [game lockKnobAtSlice:kKnobSliceScan];
+    [game disableMap];
 }
 
 - (void) dismissScanObjective:(GameObjective*)objective inGame:(GameViewController*)game
@@ -163,6 +165,7 @@
         [game closeModalViewAnimated:NO];
     }
     [game unlockKnob];
+    [game enableMap];
 }
 
 - (void) showKnobLeftRightObjective:(GameObjective*)objective inGame:(GameViewController*)game
@@ -189,6 +192,7 @@
     
     // disable knob button; user is only allowed to rotate on knob under this objective;
     [game disableKnobButton];
+    [game disableMap];
 }
 
 - (void) dismissKnobLeftRightObjective:(GameObjective*)objective inGame:(GameViewController*)game
@@ -198,7 +202,10 @@
         [game closeModalViewAnimated:NO];        
     }
     [game enableKnobButton];
+    [game enableMap];
 }
+
+#pragma mark - conditions
 
 - (BOOL) shouldTriggerKnobObjective
 {

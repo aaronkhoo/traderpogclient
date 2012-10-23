@@ -297,6 +297,22 @@ static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepIn
     }
 }
 
+- (void) disableMap
+{
+    if([self.mapControl.view isUserInteractionEnabled])
+    {
+        [self.mapControl.view setUserInteractionEnabled:NO];
+    }
+}
+
+- (void) enableMap
+{
+    if(![self.mapControl.view isUserInteractionEnabled])
+    {
+        [self.mapControl.view setUserInteractionEnabled:YES];
+    }
+}
+
 #pragma mark - display link
 - (void) startDisplayLink
 {
@@ -451,6 +467,8 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     [self.knob setLocked:NO];
     if(![self.knob isEnabled])
     {
+        // always switch back to Scan when we show a dismissed knob
+        [self.knob gotoSliceIndex:kKnobSliceScan animated:NO];
         CGAffineTransform showTransform = CGAffineTransformIdentity;
         [self.knob setEnabled:YES];
         if(isAnimated)

@@ -34,6 +34,7 @@
 #import "PlayerSalesScreen.h"
 #import "SoundManager.h"
 #import "ScanManager.h"
+#import "ObjectivesMgr.h"
 #import <CoreLocation/CoreLocation.h>
 
 // List of Game UI screens that GameManager can kick off
@@ -173,6 +174,7 @@ typedef enum {
         [[FlyerMgr getInstance] clearForQuitGame];
         [[TradePostMgr getInstance] clearForQuitGame];
         [[BeaconMgr getInstance] clearForQuitGame];
+        [[ObjectivesMgr getInstance] clearForQuitGame];
         
         // teardown GameViewController
         [self.gameViewController teardown];

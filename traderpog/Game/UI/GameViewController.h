@@ -61,6 +61,8 @@ enum kKnobSlices
 - (id) init;
 - (id) initAtCoordinate:(CLLocationCoordinate2D)coord;
 - (void) teardown;
+- (void) disableMap;
+- (void) enableMap;
 
 // knob and wheel
 - (void) showKnobAnimated:(BOOL)isAnimated delay:(NSTimeInterval)delay;

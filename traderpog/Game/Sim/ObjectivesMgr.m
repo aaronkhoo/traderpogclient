@@ -306,6 +306,10 @@ static const float kHomeNotVisibleDistMeters = 500.0f;
     }
 }
 
+- (void) clearForQuitGame
+{
+    self.outObjective = nil;
+}
 
 
 #pragma mark - Singleton

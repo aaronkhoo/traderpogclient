@@ -33,6 +33,7 @@
 
 - (void) saveObjectivesData;
 - (void) removeObjectivesData;
+- (void) clearForQuitGame;
 
 // objective operations
 - (GameObjective*) getNextObjective;
