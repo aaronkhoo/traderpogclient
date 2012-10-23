@@ -31,6 +31,7 @@
 - (void) setCompletedForObjective:(GameObjective*)objective;
 - (NSString* const) descForObjective:(GameObjective*)objective;
 - (NSString* const) imageNameForObjective:(GameObjective*)objective;
+- (CGPoint) pointForObjective:(GameObjective*)objective;
 
 // the game calls these to inform the manager of events user has performed
 - (void) playerDidPerformScan;

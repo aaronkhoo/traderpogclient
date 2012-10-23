@@ -16,6 +16,8 @@ extern NSString* const kKeyGameObjType;
 extern NSString* const kKeyGameObjImage;
 extern NSString* const kKeyGameObjId;
 extern NSString* const kKeyGameObjCompleted;
+extern NSString* const kKeyGameObjPointX;
+extern NSString* const kKeyGameObjPointY;
 
 enum kGameObjectiveFlag {
     kGameObjectiveFlag_None = 0,

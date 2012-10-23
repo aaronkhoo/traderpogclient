@@ -39,6 +39,10 @@
 		<string>Press the Scan button to discover Trade Posts around you. </string>
 		<key>type</key>
 		<string>scan</string>
+		<key>pointX</key>
+		<real>0.5</real>
+		<key>pointY</key>
+		<real>0.9</real>
 	</dict>
 </array>
 </plist>

@@ -36,6 +36,9 @@ static const float kBorderCornerRadius = 8.0f;
                                 color:[GameColors borderColorPostsWithAlpha:1.0f]
                          cornerRadius:kBorderCornerRadius];
         [self.nibContentView setBackgroundColor:[GameColors bubbleColorScanWithAlpha:1.0f]];
+        
+        _screenPoint = CGPointMake(0.5f, 0.5f);
+        [self setBackgroundColor:[UIColor clearColor]];
     }
     return self;
 }
@@ -45,15 +48,60 @@ static const float kBorderCornerRadius = 8.0f;
     NSLog(@"dealloc PointObjective");
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
+static const float kTriangleWidth = 10.0f;
+static const float kTriangleHeight = 80.0f;
 - (void)drawRect:(CGRect)rect
 {
-    // Drawing code
+    NSLog(@"rect is (%f, %f, %f, %f)", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+    CGRect contentFrame = self.nibContentView.frame;
+    CGPoint contentMidBot = CGPointMake(contentFrame.origin.x + (0.5f * contentFrame.size.width),
+                                        contentFrame.origin.y + (1.0f * contentFrame.size.height));
+    UIColor* triColor = [GameColors borderColorPostsWithAlpha:1.0f];
+    
+    
+	CGMutablePathRef path = CGPathCreateMutable();
+    CGPathMoveToPoint(path, NULL, contentMidBot.x - kTriangleWidth, contentMidBot.y);
+    CGPathAddLineToPoint(path, NULL, _screenPoint.x, _screenPoint.y);
+    CGPathAddLineToPoint(path, NULL, contentMidBot.x + kTriangleWidth, contentMidBot.y);
+    CGPathCloseSubpath(path);
+    
+    // draw triangle
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	[triColor setFill];
+	CGContextAddPath(context, path);
+	CGContextSaveGState(context);
+	CGContextFillPath(context);
+	CGContextRestoreGState(context);
+    
+    CGPathRelease(path);
 }
-*/
 
+#pragma mark - getters/setters
+- (CGPoint) screenPoint
+{
+    return _screenPoint;
+}
+
+- (void) setScreenPoint:(CGPoint)screenPoint
+{
+    CGRect myFrame = self.frame;
+    _screenPoint = CGPointMake(screenPoint.x - myFrame.origin.x,
+                               screenPoint.y - myFrame.origin.y);
+    
+    // adjust my frame's height sufficiently to fit screenPoint inside it
+    CGRect newFrame = self.frame;
+    float ydiff = _screenPoint.y;
+    if(ydiff <= newFrame.size.height)
+    {
+        // do nothing
+    }
+    else
+    {
+        // expand the frame by the amount y is outside by
+        newFrame.size = CGSizeMake(newFrame.size.width, ydiff);
+        [self setFrame:newFrame];
+    }
+}
 
 #pragma mark - ViewReuseDelegate
 - (NSString*) reuseIdentifier

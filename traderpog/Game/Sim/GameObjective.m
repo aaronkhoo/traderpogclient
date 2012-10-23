@@ -14,6 +14,8 @@ NSString* const kKeyGameObjType = @"type";
 NSString* const kKeyGameObjImage = @"image";
 NSString* const kKeyGameObjId = @"id";
 NSString* const kKeyGameObjCompleted = @"completed";
+NSString* const kKeyGameObjPointX = @"pointX";
+NSString* const kKeyGameObjPointY = @"pointY";
 
 NSString* const kNameGameObjTypeBasic = @"basic";
 NSString* const kNameGameObjTypeScan = @"scan";

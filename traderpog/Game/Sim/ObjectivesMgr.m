@@ -9,6 +9,7 @@
 #import "ObjectivesMgr.h"
 #import "ObjectivesMgr+Render.h"
 #import "GameManager.h"
+#import "NSDictionary+Pog.h"
 
 static NSString* const kObjectivesMgrFilename = @"objectives.sav";
 static NSString* const kKeyObjectives = @"objectives";
@@ -96,6 +97,14 @@ static NSString* const kObjectivesMgrFileVersion = @"0.1";
     NSDictionary* lookup = [_registry objectForKey:[objective objectiveId]];
     NSString* result = [lookup objectForKey:kKeyGameObjImage];
     return result;    
+}
+
+- (CGPoint) pointForObjective:(GameObjective *)objective
+{
+    NSDictionary* lookup = [_registry objectForKey:[objective objectiveId]];
+    float pointX = [lookup getFloatForKey:kKeyGameObjPointX withDefault:0.5f];
+    float pointY = [lookup getFloatForKey:kKeyGameObjPointY withDefault:0.5f];
+    return CGPointMake(pointX, pointY);
 }
 
 #pragma mark - user events or actions

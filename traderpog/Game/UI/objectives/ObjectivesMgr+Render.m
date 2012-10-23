@@ -74,12 +74,24 @@
 }
 
 
-- (void) setupPointObjective:(PointObjective*)view forGameObjective:(GameObjective*)objective
+- (void) setupPointObjective:(PointObjective*)view
+            forGameObjective:(GameObjective*)objective
+                      inGame:(GameViewController*)game
 {
+    // desc
     NSString* myNewLineStr = @"\n";
     NSString* newDesc = [[self descForObjective:objective] stringByReplacingOccurrencesOfString:@"\\n" withString:myNewLineStr];
     [view.descLabel setText:newDesc];
     [view.descLabel sizeToFit];
+    
+    // point
+    CGPoint frac = [self pointForObjective:objective];
+    CGSize screenSize = game.view.bounds.size;
+    view.screenPoint = CGPointMake(frac.x * screenSize.width, frac.y * screenSize.height);
+    
+    // disable user interaction on point-objective views so that the player can
+    // click through it onto buttons that they need to click to proceed (like the Scan button)
+    [view setUserInteractionEnabled:NO];
 }
 
 - (void) showScanObjective:(GameObjective*)objective inGame:(GameViewController*)game
@@ -89,7 +101,7 @@
     {
         UIView* parent = [game view];
         popup = [[PointObjective alloc] initWithGameObjective:objective];
-        CGRect popFrame = [PogUIUtility createCenterFrameWithSize:popup.nibContentView.bounds.size
+        CGRect popFrame = [PogUIUtility createCenterFrameWithSize:popup.nibView.bounds.size
                                                           inFrame:parent.bounds
                                                     withFrameSize:popup.nibView.bounds.size];
         //popFrame.origin.y += kAccelViewYOffset;
@@ -97,7 +109,7 @@
     }
     
     // setup the content of the view
-    [self setupPointObjective:popup forGameObjective:objective];
+    [self setupPointObjective:popup forGameObjective:objective inGame:game];
     
     // show it
     [game showModalView:popup
