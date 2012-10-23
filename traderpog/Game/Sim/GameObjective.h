@@ -11,6 +11,14 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
+extern NSString* const kKeyGameObjDesc;
+extern NSString* const kKeyGameObjType;
+extern NSString* const kKeyGameObjImage;
+extern NSString* const kKeyGameObjId;
+extern NSString* const kKeyGameObjCompleted;
+extern NSString* const kKeyGameObjPointX;
+extern NSString* const kKeyGameObjPointY;
+
 enum kGameObjectiveFlag {
     kGameObjectiveFlag_None = 0,
     kGameObjectiveFlag_ScreenPoint = (1 << 0),
@@ -26,21 +34,19 @@ enum kGameObjectiveTypes {
 
 @interface GameObjective : NSObject<NSCoding>
 {
-    NSString*   _desc;
+    NSString*   _objectiveId;
     NSUInteger   _type;
     unsigned int _flags;
     CGPoint     _screenPoint;
     MKMapPoint  _mapPoint;
     BOOL        _isCompleted;
-    NSString*   _imageName;
 }
-@property (nonatomic,strong) NSString* desc;
+@property (nonatomic,readonly) NSString* objectiveId;
 @property (nonatomic) NSUInteger type;
 @property (nonatomic) unsigned int flags;
 @property (nonatomic) CGPoint screenPoint;
 @property (nonatomic) MKMapPoint mapPoint;
 @property (nonatomic,readonly) BOOL isCompleted;
-@property (nonatomic,readonly) NSString* imageName;
 
 - (id) initWithDictionary:(NSDictionary*)dict;
 

@@ -50,15 +50,9 @@
 static const NSInteger kDisplayLinkFrameInterval = 1;
 static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
 
-enum kKnobSlices
-{
-    kKnobSliceScan = 0,
-    kKnobSliceFlyer,
-    kKnobSliceBeacon,
-    kKnobSlicePost,
-    
-    kKnobSliceNum
-};
+// by default, modal view keeps the Info button
+static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepInfoCircle;
+
 
 @interface GameViewController ()
 {
@@ -206,7 +200,6 @@ enum kKnobSlices
     
     // modal nav
     _modalView = nil;
-    _modalScrim = nil;
     _modalFlags = kGameViewModalFlag_None;
     
     _modalNav = [[ModalNavControl alloc] init];
@@ -238,7 +231,6 @@ enum kKnobSlices
 - (void) teardown
 {
     [self dismissModal];
-    _modalScrim = nil;
     _modalView = nil;
     [_reusableModals clearQueue];
     [self shutdownHud];
@@ -287,8 +279,12 @@ enum kKnobSlices
         [self displayPlayerSalesIfNecessary];
     });
     
-    // make sure knob is shown (in case view had been unloaded by memory warning)
-    [self showKnobAnimated:NO delay:0.0f];
+    if((![self modalView] || (kGameViewModalFlag_KeepKnob & [self modalFlags])) &&
+       ([self.modalNav.view isHidden]))
+    {
+        // make sure knob is shown (in case view had been unloaded by memory warning)
+        [self showKnobAnimated:NO delay:0.0f];
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -456,6 +452,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 
 - (void) showKnobAnimated:(BOOL)isAnimated delay:(NSTimeInterval)delay
 {
+    [self.knob setLocked:NO];
     if(![self.knob isEnabled])
     {
         CGAffineTransform showTransform = CGAffineTransformIdentity;
@@ -566,13 +563,13 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 - (void) showPostWheelAnimated:(BOOL)isAnimated
 {
     [self.postWheel showWheelAnimated:YES withDelay:0.0f];
-    [self.knob gotoSliceIndex:kKnobSlicePost];
+    [self.knob gotoSliceIndex:kKnobSlicePost animated:YES];
 }
 
 - (void) showFlyerWheelAnimated:(BOOL)isAnimated
 {
     [self.flyerWheel showWheelAnimated:YES withDelay:0.0f];
-    [self.knob gotoSliceIndex:kKnobSliceFlyer];
+    [self.knob gotoSliceIndex:kKnobSliceFlyer animated:NO];
 }
 
 - (void) setBeaconWheelText:(NSString*)new_text
@@ -594,6 +591,17 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     {
         [self.beaconWheel hideWheelAnimated:isAnimated withDelay:0.0f];
     }
+}
+
+- (void) lockKnobAtSlice:(unsigned int)sliceIndex
+{
+    [self.knob gotoSliceIndex:sliceIndex animated:NO];
+    [self.knob setLocked:YES];
+}
+
+- (void) unlockKnob
+{
+    [self.knob setLocked:NO];
 }
 
 - (IBAction)didPressDebug:(id)sender
@@ -834,23 +842,11 @@ static const float kMyPostMenuSize = 60.0f;
 
 - (void) showModalView:(UIView<ViewReuseDelegate>*)view animated:(BOOL)isAnimated
 {
-    [self showModalView:view options:kGameViewModalFlag_None animated:isAnimated];
-}
-
-- (void) hideModalViewAnimated:(BOOL)isAnimated
-{
-    [self closeModalViewWithOptions:kGameViewModalFlag_None animated:isAnimated];
+    [self showModalView:view options:kGameViewModalFlag_Default animated:isAnimated];
 }
 
 - (void) showModalView:(UIView *)view options:(unsigned int)options animated:(BOOL)isAnimated
 {
-    if(kGameViewModalFlag_Strict & options)
-    {
-        // if strict modal, insert a scrim to block all inputs
-        _modalScrim = [[UIView alloc] initWithFrame:self.view.bounds];
-        [_modalScrim setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.1f]];
-        [self.view insertSubview:_modalScrim aboveSubview:self.modalNav.view];
-    }
     _modalView = view;
     _modalFlags = options;
     [self.view insertSubview:view aboveSubview:self.modalNav.view];
@@ -865,23 +861,28 @@ static const float kMyPostMenuSize = 60.0f;
     {
         [view setTransform:CGAffineTransformIdentity];
     }
-    [self dismissKnobAnimated:YES];
+    
+    if(!(kGameViewModalFlag_KeepKnob & _modalFlags))
+    {
+        [self dismissKnobAnimated:isAnimated];
+    }
+    
+    if(!(kGameViewModalFlag_KeepInfoCircle & _modalFlags))
+    {
+        [self hideInfoCircleAnimated:isAnimated];
+    }
 }
 
-- (void) closeModalViewWithOptions:(unsigned int)options animated:(BOOL)isAnimated
+- (void) closeModalViewAnimated:(BOOL)isAnimated
 {
-    if(_modalView && (options == _modalFlags))
+    UIView* outgoingModalView = _modalView;
+    if(outgoingModalView)
     {
-        if(_modalScrim)
-        {
-            [_modalScrim removeFromSuperview];
-            _modalScrim = nil;
-        }
-        
-        UIView* outgoingModalView = _modalView;
-        [self showKnobAnimated:YES delay:0.2f];
+        [self showKnobAnimated:isAnimated delay:0.2f];
+        [self showInfoCircleAnimated:isAnimated];
         _modalView = nil;
-        /*
+        _modalFlags = kGameViewModalFlag_None;
+        
         if(isAnimated)
         {
             [UIView animateWithDuration:0.1f
@@ -892,17 +893,16 @@ static const float kMyPostMenuSize = 60.0f;
                                  [outgoingModalView removeFromSuperview];
                                  UIView<ViewReuseDelegate>* cur = (UIView<ViewReuseDelegate>*)outgoingModalView;
                                  [cur prepareForQueue];
-                                 [_reusableModals queueView:cur];            
+                                 [_reusableModals queueView:cur];
                              }];
         }
         else
-         */
         {
             [outgoingModalView setTransform:CGAffineTransformIdentity];
             [outgoingModalView removeFromSuperview];
             UIView<ViewReuseDelegate>* cur = (UIView<ViewReuseDelegate>*)outgoingModalView;
             [cur prepareForQueue];
-            [_reusableModals queueView:cur];            
+            [_reusableModals queueView:cur];
         }
     }
 }
@@ -1086,6 +1086,7 @@ static const float kMyPostMenuSize = 60.0f;
                                                    {
                                                        [self handleScanResultTradePosts:tradePosts atLoc:loc];
                                                    }
+                                                   [[ObjectivesMgr getInstance] playerDidPerformScan];
                                                    [_scanActivity stopAnimating];
                                                    [_scanActivity setHidden:YES];
                                                }];

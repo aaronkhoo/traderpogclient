@@ -13,9 +13,13 @@ extern NSString* const kPointObjectiveViewReuseIdentifier;
 
 @class GameObjective;
 @interface PointObjective : UIView<ViewReuseDelegate>
+{
+    CGPoint _screenPoint;
+}
 @property (strong, nonatomic) IBOutlet UIView *nibView;
 @property (weak, nonatomic) IBOutlet UIView *nibContentView;
 @property (weak, nonatomic) IBOutlet UILabel *descLabel;
+@property (nonatomic) CGPoint screenPoint;
 
 - (id) initWithGameObjective:(GameObjective*)objective;
 @end

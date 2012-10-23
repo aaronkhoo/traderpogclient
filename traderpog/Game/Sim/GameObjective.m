@@ -12,7 +12,10 @@
 NSString* const kKeyGameObjDesc = @"desc";
 NSString* const kKeyGameObjType = @"type";
 NSString* const kKeyGameObjImage = @"image";
+NSString* const kKeyGameObjId = @"id";
 NSString* const kKeyGameObjCompleted = @"completed";
+NSString* const kKeyGameObjPointX = @"pointX";
+NSString* const kKeyGameObjPointY = @"pointY";
 
 NSString* const kNameGameObjTypeBasic = @"basic";
 NSString* const kNameGameObjTypeScan = @"scan";
@@ -23,23 +26,21 @@ NSString* const kNameGameObjTypeScan = @"scan";
 @end
 
 @implementation GameObjective
-@synthesize desc = _desc;
+@synthesize objectiveId = _objectiveId;
 @synthesize type = _type;
 @synthesize flags = _flags;
 @synthesize screenPoint = _screenPoint;
 @synthesize mapPoint = _mapPoint;
 @synthesize isCompleted = _isCompleted;
-@synthesize imageName = _imageName;
 
 - (void) setInitVars
 {
-    _desc = @"";
+    _objectiveId = @"uninit";
     _type = kGameObjectiveType_Basic;
     _flags = kGameObjectiveFlag_None;
     _screenPoint = CGPointMake(0.5f, 0.8f);
     _mapPoint = MKMapPointForCoordinate([[CLLocation penang] coordinate]);
     _isCompleted = NO;
-    _imageName = nil;
 }
 
 - (unsigned int) typeFromName:(NSString*)name
@@ -78,11 +79,9 @@ NSString* const kNameGameObjTypeScan = @"scan";
     if(self)
     {
         [self setInitVars];
-        _desc = [dict objectForKey:kKeyGameObjDesc];
+        _objectiveId = [dict objectForKey:kKeyGameObjId];
         NSString* typeName = [dict objectForKey:kKeyGameObjType];
         _type = [self typeFromName:typeName];
-        
-        _imageName = [dict objectForKey:kKeyGameObjImage];
     }
     return self;
 }
@@ -95,21 +94,16 @@ NSString* const kNameGameObjTypeScan = @"scan";
 #pragma mark - NSCoding
 - (void) encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeObject:_desc forKey:kKeyGameObjDesc];
+    [aCoder encodeObject:_objectiveId forKey:kKeyGameObjId];
     [aCoder encodeInteger:_type forKey:kKeyGameObjType];
     [aCoder encodeBool:_isCompleted forKey:kKeyGameObjCompleted];
-    if(_imageName)
-    {
-        [aCoder encodeObject:_imageName forKey:kKeyGameObjImage];
-    }
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
-    _desc = [aDecoder decodeObjectForKey:kKeyGameObjDesc];
+    _objectiveId = [aDecoder decodeObjectForKey:kKeyGameObjId];
     _type = [aDecoder decodeIntegerForKey:kKeyGameObjType];
     _isCompleted = [aDecoder decodeBoolForKey:kKeyGameObjCompleted];
-    _imageName = [aDecoder decodeObjectForKey:kKeyGameObjImage];
     return self;
 }
 

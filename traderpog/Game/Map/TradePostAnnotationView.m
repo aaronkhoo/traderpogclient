@@ -11,10 +11,12 @@
 #import "MyTradePost.h"
 #import "TradePost.h"
 #import "TradePost+Render.h"
+#import "TradeManager.h"
 #import "GameManager.h"
 #import "TradeManager.h"
 #import "Flyer.h"
 #import "FlyerPath.h"
+#import "FlyerMgr.h"
 #import "GameNotes.h"
 #import "GameColors.h"
 #import "MapControl.h"
@@ -343,6 +345,13 @@ static const float kAccelViewYOffset = -94.0f;
                                                       otherButtonTitles:nil];
                 [alert show];
             }
+            else if(1 == [[FlyerMgr getInstance].playerFlyers count])
+            {
+                // if the player only has one flyer, skip the flyer wheel and send the flyer straight away
+                Flyer* flyer = [[FlyerMgr getInstance].playerFlyers objectAtIndex:0];
+                [[TradeManager getInstance] flyer:flyer buyFromPost:destPost numItems:[destPost supplyLevel]];
+                [[GameManager getInstance] flyer:flyer departForTradePost:destPost];
+            }
             else
             {
                 // player can order
@@ -522,7 +531,7 @@ static const float kBuyViewCenterYOffset = -10.0f;
 
 - (void)didDeselectAnnotationViewInMap:(MKMapView*) mapView;
 {
-    [[[GameManager getInstance] gameViewController] hideModalViewAnimated:YES];
+    [[[GameManager getInstance] gameViewController] closeModalViewAnimated:NO];
     TradePost* post = (TradePost*)[self annotation];
     [post refreshRenderForAnnotationView:self];
 

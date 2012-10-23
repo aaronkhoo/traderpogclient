@@ -7,20 +7,28 @@
 //
 
 #import "ObjectivesMgr.h"
+#import "ObjectivesMgr+Render.h"
 #import "GameManager.h"
+#import "NSDictionary+Pog.h"
 
 static NSString* const kObjectivesMgrFilename = @"objectives.sav";
 static NSString* const kKeyObjectives = @"objectives";
+static NSString* const kKeyVersion = @"version";
+
+static NSString* const kObjectivesMgrFileVersion = @"0.1";
 
 @interface ObjectivesMgr ()
 {
     NSUInteger _nextIndex;
+    
+    NSMutableDictionary* _registry;
 }
 - (void) updateNextIndex;
 @end
 
 @implementation ObjectivesMgr
 @synthesize outObjective = _outObjective;
+@synthesize fileversion = _fileversion;
 
 - (id) init
 {
@@ -30,20 +38,25 @@ static NSString* const kKeyObjectives = @"objectives";
         NSString* filepath = [[NSBundle mainBundle] pathForResource:@"gameobjectives" ofType:@"plist"];
         NSArray* plistArray = [NSArray arrayWithContentsOfFile:filepath];
         
+        _registry = [NSMutableDictionary dictionaryWithCapacity:[plistArray count]];
         _objectives = [NSMutableArray arrayWithCapacity:[plistArray count]];
         for(NSDictionary* cur in plistArray)
         {
+            // GameObjective tracking array
             GameObjective* newObjective = [[GameObjective alloc] initWithDictionary:cur];
             [_objectives addObject:newObjective];
+            
+            // registry for objective info (like imagename, desc, etc.)
+            [_registry setObject:cur forKey:[cur objectForKey:kKeyGameObjId]];
         }
-        
+        _fileversion = [NSString stringWithString:kObjectivesMgrFileVersion];
         _nextIndex = 0;
         _outObjective = nil;
     }
     return self;
 }
 
-#pragma mark - next objective
+#pragma mark - objective operations
 
 - (GameObjective*) getNextObjective
 {
@@ -59,9 +72,54 @@ static NSString* const kKeyObjectives = @"objectives";
 
 - (void) setCompletedForObjective:(GameObjective *)objective
 {
+    // dismiss any objective view
+    [self dismissOutObjectiveView];
+
+    // mark objective as completed
     [objective setCompleted];
+    
+    // clear outstanding objective field
+    self.outObjective = nil;
+    
+    // update the next index
     [self updateNextIndex];
 }
+
+- (NSString* const) descForObjective:(GameObjective *)objective
+{
+    NSDictionary* lookup = [_registry objectForKey:[objective objectiveId]];
+    NSString* result = [lookup objectForKey:kKeyGameObjDesc];
+    return result;
+}
+
+- (NSString* const) imageNameForObjective:(GameObjective *)objective
+{
+    NSDictionary* lookup = [_registry objectForKey:[objective objectiveId]];
+    NSString* result = [lookup objectForKey:kKeyGameObjImage];
+    return result;    
+}
+
+- (CGPoint) pointForObjective:(GameObjective *)objective
+{
+    NSDictionary* lookup = [_registry objectForKey:[objective objectiveId]];
+    float pointX = [lookup getFloatForKey:kKeyGameObjPointX withDefault:0.5f];
+    float pointY = [lookup getFloatForKey:kKeyGameObjPointY withDefault:0.5f];
+    return CGPointMake(pointX, pointY);
+}
+
+#pragma mark - user events or actions
+- (void) playerDidPerformScan
+{
+    if([self outObjective])
+    {
+        if([self.outObjective type] == kGameObjectiveType_Scan)
+        {
+            // mark this objective as completed
+            [self setCompletedForObjective:[self outObjective]];
+        }
+    }
+}
+
 
 #pragma mark - internal
 
@@ -86,11 +144,23 @@ static NSString* const kKeyObjectives = @"objectives";
 - (void) encodeWithCoder:(NSCoder *)aCoder
 {
     [aCoder encodeObject:_objectives forKey:kKeyObjectives];
+    [aCoder encodeObject:_fileversion forKey:kKeyVersion];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
     _objectives = [aDecoder decodeObjectForKey:kKeyObjectives];
+    _fileversion = [aDecoder decodeObjectForKey:kKeyVersion];
+    
+    // load up registry
+    NSString* filepath = [[NSBundle mainBundle] pathForResource:@"gameobjectives" ofType:@"plist"];
+    NSArray* plistArray = [NSArray arrayWithContentsOfFile:filepath];
+    _registry = [NSMutableDictionary dictionaryWithCapacity:[plistArray count]];
+    for(NSDictionary* cur in plistArray)
+    {
+        [_registry setObject:cur forKey:[cur objectForKey:kKeyGameObjId]];
+    }
+    
     [self updateNextIndex];
     _outObjective = nil;
 
@@ -117,6 +187,13 @@ static NSString* const kKeyObjectives = @"objectives";
         if(readData)
         {
             current_mgr = [NSKeyedUnarchiver unarchiveObjectWithData:readData];
+            
+            if(![kObjectivesMgrFileVersion isEqualToString:[current_mgr fileversion]])
+            {
+                // if version doesn't match, remove the data file so that it gets re-created
+                [current_mgr removeObjectivesData];
+                current_mgr = nil;
+            }
         }
     }
     return current_mgr;

@@ -17,9 +17,20 @@
 enum kGameViewModalFlags
 {
     kGameViewModalFlag_None = 0,
-    kGameViewModalFlag_Strict = 1 << 0,
+    kGameViewModalFlag_KeepKnob = (1 << 0),         // don't dismiss the knob
+    kGameViewModalFlag_KeepInfoCircle = (1 << 1),   // don't hide Info button
+    kGameViewModalFlag_NoGameEvent = (1 << 2),      // don't dequeue game-event when modal is up
+    kGameViewModalFlag_Objective = (1 << 3)         // this is an objective message
+};
+
+enum kKnobSlices
+{
+    kKnobSliceScan = 0,
+    kKnobSliceFlyer,
+    kKnobSliceBeacon,
+    kKnobSlicePost,
     
-    kGameViewModalFlag_All = 0xffffffff
+    kKnobSliceNum
 };
 
 @class MKMapView;
@@ -37,7 +48,6 @@ enum kGameViewModalFlags
     ViewReuseQueue* _reusableModals;
     UIView* _modalView;
     unsigned int _modalFlags;
-    UIView* _modalScrim;
     ModalNavControl* _modalNav;
 }
 @property (nonatomic, strong) MapControl* mapControl;
@@ -46,6 +56,7 @@ enum kGameViewModalFlags
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
+@property (nonatomic,readonly) unsigned int modalFlags;
 @property (nonatomic,strong) ModalNavControl* modalNav;
 
 - (id) init;
@@ -60,13 +71,14 @@ enum kGameViewModalFlags
 - (void) setBeaconWheelText:(NSString*)new_text;
 - (IBAction)didPressDebug:(id)sender;
 - (void) dismissActiveWheelAnimated:(BOOL)isAnimated;
+- (void) lockKnobAtSlice:(unsigned int)sliceIndex;
+- (void) unlockKnob;
 
 // modal ui
 - (UIView*) dequeueModalViewWithIdentifier:(NSString*)identifier;
 - (void) showModalView:(UIView *)view options:(unsigned int)options animated:(BOOL)isAnimated;
-- (void) closeModalViewWithOptions:(unsigned int)options animated:(BOOL)isAnimated;
 - (void) showModalView:(UIView*)view animated:(BOOL)isAnimated;
-- (void) hideModalViewAnimated:(BOOL)isAnimated;
+- (void) closeModalViewAnimated:(BOOL)isAnimated;
 - (void) showModalNavViewController:(UIViewController*)controller
                          completion:(ModalNavCompletionBlock)completion;
 - (void) dismissInfo;

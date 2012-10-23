@@ -15,17 +15,26 @@
 @interface ObjectivesMgr : NSObject<NSCoding>
 {
     NSMutableArray* _objectives;
+    NSString*  _fileversion;
     
     // current outstanding objective
     GameObjective* _outObjective;
 }
 @property (nonatomic,strong) GameObjective* outObjective;
+@property (nonatomic,readonly) NSString* fileversion;
 
 - (void) saveObjectivesData;
 - (void) removeObjectivesData;
 
+// objective operations
 - (GameObjective*) getNextObjective;
 - (void) setCompletedForObjective:(GameObjective*)objective;
+- (NSString* const) descForObjective:(GameObjective*)objective;
+- (NSString* const) imageNameForObjective:(GameObjective*)objective;
+- (CGPoint) pointForObjective:(GameObjective*)objective;
+
+// the game calls these to inform the manager of events user has performed
+- (void) playerDidPerformScan;
 
 // singleton
 +(ObjectivesMgr*) getInstance;

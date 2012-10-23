@@ -758,7 +758,6 @@ typedef enum {
     BOOL result = YES;
     
     // condition 1: don't show if explicitly halted
-    @synchronized(self)
     {
         if(_calloutHaltBegin)
         {

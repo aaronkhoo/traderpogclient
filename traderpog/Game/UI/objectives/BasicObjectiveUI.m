@@ -90,11 +90,11 @@ static const float kBorderCornerRadius = 8.0f;
 - (void) setupContent
 {
     NSString* myNewLineStr = @"\n";
-    NSString* newDesc = [[_gameObjective desc] stringByReplacingOccurrencesOfString:@"\\n" withString:myNewLineStr];    
+    NSString* newDesc = [[[ObjectivesMgr getInstance] descForObjective:_gameObjective] stringByReplacingOccurrencesOfString:@"\\n" withString:myNewLineStr];
     [self.descLabel setText:newDesc];
     [self.descLabel sizeToFit];
     
-    NSString* imageName = [_gameObjective imageName];
+    NSString* imageName = [[ObjectivesMgr getInstance] imageNameForObjective:_gameObjective];
     if(imageName)
     {
         // check animated images first

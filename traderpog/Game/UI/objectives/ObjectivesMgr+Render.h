@@ -11,4 +11,5 @@
 @class GameViewController;
 @interface ObjectivesMgr (Render)
 - (BOOL) updateGameViewController:(GameViewController*)game;
+- (void) dismissOutObjectiveView;
 @end
