@@ -13,6 +13,9 @@
 #import "FlyerLabFactory.h"
 #import "FlyerUpgradePack.h"
 #import "GameAnim.h"
+#import "GameManager.h"
+#import "GameViewController.h"
+#import "GuildMembershipUI.h"
 #import "PogUIUtility.h"
 #import "ImageManager.h"
 #import "Player.h"
@@ -22,6 +25,7 @@
 
 static const float kContentBorderWidth = 6.0f;
 static const float kContentBorderCornerRadius = 8.0f;
+static const NSUInteger kMembershipOnlyTier = 3;
 
 @interface FlyerUpgrade ()
 - (void) setupContent;
@@ -100,7 +104,20 @@ static const float kContentBorderCornerRadius = 8.0f;
 - (void) didPressBuy:(id)sender
 {
     unsigned int nextTier = [_flyer nextUpgradeTier];
-    if([[Player getInstance] canAffordFlyerUpgradeTier:nextTier])
+    BOOL isMember = [[Player getInstance] isMember];
+    if (nextTier >= kMembershipOnlyTier && !isMember)
+    {
+        NSLog(@"Purchase membership experience");
+        
+        // Pop the modal flyerbuyconfirmation screen
+        [self.navigationController popToRootViewControllerAnimated:NO];
+        
+        // Push the guildmembershipui screen onto the stack
+        GuildMembershipUI* guildmembership = [[GuildMembershipUI alloc] initWithNibName:@"GuildMembershipUI" bundle:nil];
+        GameViewController* game = [[GameManager getInstance] gameViewController];
+        [game.navigationController pushFromRightViewController:guildmembership animated:YES];
+    }
+    else if([[Player getInstance] canAffordFlyerUpgradeTier:nextTier])
     {
         [[Player getInstance] buyUpgradeTier:nextTier forFlyer:_flyer];
         [self didPressClose:sender];
@@ -117,12 +134,33 @@ static const float kContentBorderCornerRadius = 8.0f;
     }
 }
 
+- (BOOL)maxUpgradeReached
+{
+    return ([_flyer curUpgradeTier] == [[FlyerLabFactory getInstance] maxUpgradeTier]);
+}
+
 - (void) setupContent
 {
     unsigned int nextTier = [_flyer nextUpgradeTier];
-
-    // title
-    NSString* titleText = [NSString stringWithFormat:@"Tier %d Upgrade", nextTier];
+    BOOL isMember = [[Player getInstance] isMember];
+    NSString* titleText = @"Max upgrade reached!";
+    if (![self maxUpgradeReached])
+    {
+        if (nextTier >= kMembershipOnlyTier && !isMember)
+        {
+            titleText = [NSString stringWithFormat:@"Members Only Upgrade"];
+            [self.buyLabel setText:@"JOIN"];
+            [self.titleView setBackgroundColor:[GameColors flyerBuyTier2ColorWithAlpha:1.0]];
+            [self.membershipLabel setHidden:FALSE];
+        }
+        else
+        {
+            titleText = [NSString stringWithFormat:@"Tier %d Upgrade", nextTier];
+            [self.buyLabel setText:@"BUY"];
+            [self.titleView setBackgroundColor:[GameColors borderColorScanWithAlpha:1.0f]];
+            [self.membershipLabel setHidden:TRUE];
+        }
+    }
     [self.titleLabel setText:titleText];
     
     // pack info

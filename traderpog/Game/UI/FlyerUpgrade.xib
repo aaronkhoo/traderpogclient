@@ -259,6 +259,21 @@
 										<reference key="IBUIFont" ref="956816341"/>
 										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 									</object>
+									<object class="IBUIImageView" id="796882841">
+										<reference key="NSNextResponder" ref="650364377"/>
+										<int key="NSvFlags">-2147483356</int>
+										<string key="NSFrame">{{175, 77}, {65, 64}}</string>
+										<reference key="NSSuperview" ref="650364377"/>
+										<reference key="NSWindow"/>
+										<string key="NSReuseIdentifierKey">_NS:9</string>
+										<float key="IBUIAlpha">0.40000000596046448</float>
+										<bool key="IBUIUserInteractionEnabled">NO</bool>
+										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+										<object class="NSCustomResource" key="IBUIImage">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">icon_contract_signed.png</string>
+										</object>
+									</object>
 								</array>
 								<string key="NSFrame">{{16, 185}, {240, 139}}</string>
 								<reference key="NSSuperview" ref="927170386"/>
@@ -537,6 +552,14 @@
 					</object>
 					<int key="connectionID">34</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">membershipLabel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="796882841"/>
+					</object>
+					<int key="connectionID">36</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -608,6 +631,7 @@
 							<reference ref="566901994"/>
 							<reference ref="589614855"/>
 							<reference ref="574344479"/>
+							<reference ref="796882841"/>
 						</array>
 						<reference key="parent" ref="927170386"/>
 					</object>
@@ -675,6 +699,11 @@
 						<reference key="object" ref="680563229"/>
 						<reference key="parent" ref="390467129"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">35</int>
+						<reference key="object" ref="796882841"/>
+						<reference key="parent" ref="650364377"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -697,6 +726,7 @@
 				<string key="26.CustomClassName">CircleButton</string>
 				<string key="26.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="27.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="35.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.CustomClassName">CircleButton</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -706,7 +736,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">34</int>
+			<int key="maxID">36</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -730,6 +760,7 @@
 						<string key="contentSubView">UIView</string>
 						<string key="contentView">UIView</string>
 						<string key="imageView">UIImageView</string>
+						<string key="membershipLabel">UIImageView</string>
 						<string key="priceLabel">UILabel</string>
 						<string key="secondaryTitleLabel">UILabel</string>
 						<string key="speedLevel">UILabel</string>
@@ -767,6 +798,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="imageView">
 							<string key="name">imageView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="membershipLabel">
+							<string key="name">membershipLabel</string>
 							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="priceLabel">
@@ -807,6 +842,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="flyer_landed.png">{512, 512}</string>
+			<string key="icon_contract_signed.png">{89, 89}</string>
 			<string key="x.png">{50, 50}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1929</string>
