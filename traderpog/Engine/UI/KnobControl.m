@@ -39,7 +39,7 @@ static const float kKnobButtonHeight = 0.7f;
 - (void) createCenterButton;
 - (float) distFromCenter:(CGPoint)point;
 - (void) refreshSliceViewDidSelectWithDelay:(NSTimeInterval)delay;
-- (void) refreshSliceViewDidBeginTouch;
+- (void) refreshSliceViewDidBeginTouchAnimated:(BOOL)animated;
 - (void) refreshSliceTitles;
 - (void) didPressCenterButton:(id)sender;
 @end
@@ -256,35 +256,37 @@ static const float kKnobButtonHeight = 0.7f;
     [self.circle showBigBorder];
 }
 
-- (void) refreshSliceViewDidBeginTouch
+- (void) refreshSliceViewDidBeginTouchAnimated:(BOOL)animated
 {
     // unhide all slices and make them the same size
     unsigned int sliceIndex = 0;
     for(KnobSlice* cur in _slices)
     {
-        UIColor* color = [self.delegate knob:self colorAtIndex:sliceIndex];
-        UIColor* borderColor = [self.delegate knob:self borderColorAtIndex:sliceIndex];
-        //if([self selectedSlice] == sliceIndex)
+        if(animated)
         {
-            [UIView animateWithDuration:0.2f 
+            UIColor* color = [self.delegate knob:self colorAtIndex:sliceIndex];
+            UIColor* borderColor = [self.delegate knob:self borderColorAtIndex:sliceIndex];
+            [UIView animateWithDuration:0.2f
                              animations:^(void){
                                  [cur usePopoutWithColor:color borderColor:borderColor];
                              }
-                             completion:nil];            
+                             completion:nil];
         }
         [cur.view setHidden:NO];
         ++sliceIndex;
     }
-    
-    [UIView animateWithDuration:0.2f
-                     animations:^(void){
-                         self.circle.borderCircle.backgroundColor = [UIColor grayColor];
-                         self.circle.coloredView.layer.shadowColor = [UIColor grayColor].CGColor;
-                         self.circle.layer.borderColor = [UIColor darkGrayColor].CGColor;
-                         [self.circle setAlpha:0.2f];
-                     }
-                     completion:nil];
-    
+
+    if(animated)
+    {
+        [UIView animateWithDuration:0.2f
+                         animations:^(void){
+                             self.circle.borderCircle.backgroundColor = [UIColor grayColor];
+                             self.circle.coloredView.layer.shadowColor = [UIColor grayColor].CGColor;
+                             self.circle.layer.borderColor = [UIColor darkGrayColor].CGColor;
+                             [self.circle setAlpha:0.2f];
+                         }
+                         completion:nil];
+    }
     [self.circle showSmallBorder];
 }
 
@@ -352,7 +354,7 @@ static const float kKnobButtonHeight = 0.7f;
                 _startTransform = _logicalTransform;
                 beginTracking = YES;
                 
-                [self refreshSliceViewDidBeginTouch];
+                [self refreshSliceViewDidBeginTouchAnimated:YES];
             }
         }
     }
@@ -463,10 +465,7 @@ static const float kKnobButtonHeight = 0.7f;
 {
     if(index < [self.slices count])
     {
-        if(isAnimated)
-        {
-            [self refreshSliceViewDidBeginTouch];
-        }
+        [self refreshSliceViewDidBeginTouchAnimated:isAnimated];
         KnobSlice* cur = [self.slices objectAtIndex:index];
         self.selectedSlice = index;
         CGFloat radians = atan2f(_logicalTransform.b, _logicalTransform.a);
@@ -496,7 +495,7 @@ static const float kKnobButtonHeight = 0.7f;
 {
     if(index < [self.slices count])
     {
-        [self refreshSliceViewDidBeginTouch];
+        [self refreshSliceViewDidBeginTouchAnimated:animated];
         
         KnobSlice* cur = [self.slices objectAtIndex:index];
         self.selectedSlice = index;

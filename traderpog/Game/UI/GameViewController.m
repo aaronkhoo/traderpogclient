@@ -279,8 +279,12 @@ static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepIn
         [self displayPlayerSalesIfNecessary];
     });
     
-    // make sure knob is shown (in case view had been unloaded by memory warning)
-    [self showKnobAnimated:NO delay:0.0f];
+    if((![self modalView] || (kGameViewModalFlag_KeepKnob & [self modalFlags])) &&
+       ([self.modalNav.view isHidden]))
+    {
+        // make sure knob is shown (in case view had been unloaded by memory warning)
+        [self showKnobAnimated:NO delay:0.0f];
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
