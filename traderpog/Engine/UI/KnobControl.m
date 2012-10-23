@@ -316,38 +316,39 @@ static const float kKnobButtonHeight = 0.7f;
         float rightx = self.bounds.size.width * (1.0f - kKnobRotateBeginX);
         if((touchPoint.x <= leftx) || (touchPoint.x >= rightx))
         {
-            unsigned int beginIndex = self.selectedSlice;
-            if(touchPoint.x <= leftx)
-            {
-                // start one slot on the left
-                if(0 == beginIndex)
-                {
-                    beginIndex = self.numSlices - 1;
-                }
-                else
-                {
-                    beginIndex -= 1;
-                }
-            }
-            else
-            {
-                // one slot on the right
-                beginIndex++;
-                if([self numSlices] <= beginIndex)
-                {
-                    beginIndex = 0;
-                }
-            }
-            [self beginWithSliceIndex:beginIndex animated:YES];
             float dist = [self distFromCenter:touchPoint];
             float minDist = self.bounds.size.width * 0.5f * kKnobDragFrac;
             float maxDist = self.bounds.size.width * 0.5f;
             if((minDist <= dist) && (dist <= maxDist))
             {
+                // start out with the next index (either to the left or right)
+                unsigned int beginIndex = self.selectedSlice;
+                if(touchPoint.x <= leftx)
+                {
+                    // start one slot on the left
+                    if(0 == beginIndex)
+                    {
+                        beginIndex = self.numSlices - 1;
+                    }
+                    else
+                    {
+                        beginIndex -= 1;
+                    }
+                }
+                else
+                {
+                    // one slot on the right
+                    beginIndex++;
+                    if([self numSlices] <= beginIndex)
+                    {
+                        beginIndex = 0;
+                    }
+                }
+                [self beginWithSliceIndex:beginIndex animated:YES];
+
+                // angle at start
                 float dx = touchPoint.x - self.container.center.x;
                 float dy = touchPoint.y - self.container.center.y;
-                
-                // angle at start
                 _deltaAngle = atan2(dy,dx);
                 
                 // transform at start
