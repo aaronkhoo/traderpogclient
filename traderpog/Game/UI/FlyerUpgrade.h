@@ -27,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *capacityLevel;
 @property (weak, nonatomic) IBOutlet UIImageView *coinImageView;
 @property (weak, nonatomic) IBOutlet UILabel *priceLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *membershipLabel;
 
 
 - (id) initWithFlyer:(Flyer*)flyer;
