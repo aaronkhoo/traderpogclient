@@ -49,6 +49,14 @@ static const float kContentBorderCornerRadius = 8.0f;
     [self.contentView setBackgroundColor:[GameColors bubbleColorFlyersWithAlpha:1.0f]];
     [self.closeCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.closeCircle setButtonTarget:self action:@selector(didPressClose:)];
+    [self.buyCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
+    [self.buyCircle setButtonTarget:self action:@selector(didPressRestock:)];
+    [PogUIUtility setBorderOnView:self.contentSubView
+                            width:kContentBorderWidth * 0.5f
+                            color:[GameColors borderColorScanWithAlpha:1.0f]
+                     cornerRadius:0.5f];
+    [self.contentSubView setBackgroundColor:[GameColors gliderWhiteWithAlpha:1.0f]];
+    [self.titleView setBackgroundColor:[GameColors borderColorScanWithAlpha:1.0f]];
     
     // It cost 100 coins to restock
     if ([[Player getInstance] bucks] < 100)
@@ -74,6 +82,7 @@ static const float kContentBorderCornerRadius = 8.0f;
     [self.closeCircle removeButtonTarget];
     [self setContentView:nil];
     [self setCloseCircle:nil];
+    [self setBuyCircle:nil];
     [self setImageView:nil];
     [super viewDidUnload];
 }

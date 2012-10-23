@@ -20,6 +20,10 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
 @property (weak, nonatomic) IBOutlet UIButton *restockButton;
+@property (weak, nonatomic) IBOutlet CircleButton *buyCircle;
+@property (weak, nonatomic) IBOutlet UILabel *buyButtonLabel;
+@property (weak, nonatomic) IBOutlet UIView *contentSubView;
+@property (weak, nonatomic) IBOutlet UIView *titleView;
 
 - (IBAction)didPressRestock:(id)sender;
 
