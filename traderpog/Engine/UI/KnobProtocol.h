@@ -18,6 +18,7 @@
 - (UIImage*) knob:(KnobControl*)knob decalImageAtIndex:(unsigned int)index;
 
 - (void) knob:(KnobControl*)knob didSettleAt:(unsigned int)index;
-
+- (void) knobDidPressLeft;
+- (void) knobDidPressRight;
 @end
 

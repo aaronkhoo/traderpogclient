@@ -334,6 +334,7 @@ static const float kKnobButtonHeight = 0.7f;
                     {
                         beginIndex -= 1;
                     }
+                    [self.delegate knobDidPressLeft];
                 }
                 else
                 {
@@ -343,6 +344,7 @@ static const float kKnobButtonHeight = 0.7f;
                     {
                         beginIndex = 0;
                     }
+                    [self.delegate knobDidPressRight];
                 }
                 [self beginWithSliceIndex:beginIndex animated:YES];
 

@@ -768,6 +768,7 @@ static const float kBubbleBorderWidth = 1.5f;
             _previewMap = [[MapControl alloc] initWithMapView:result
                                                     andCenter:[initFlyer coord]
                                                   atZoomLevel:kFlyerPreviewZoomLevel];
+            _previewMap.isPreviewMap = YES;
             
         }
     }

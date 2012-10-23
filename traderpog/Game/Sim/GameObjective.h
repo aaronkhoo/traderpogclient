@@ -28,6 +28,8 @@ enum kGameObjectiveFlag {
 enum kGameObjectiveTypes {
     kGameObjectiveType_Basic = 0,
     kGameObjectiveType_Scan,
+    kGameObjectiveType_KnobLeft,
+    kGameObjectiveType_KnobRight,
     
     kGameObjectiveType_Num
 };

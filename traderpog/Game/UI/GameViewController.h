@@ -55,7 +55,6 @@ enum kKnobSlices
 @property (nonatomic) CLLocationCoordinate2D coord;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
-@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (nonatomic,readonly) unsigned int modalFlags;
 @property (nonatomic,strong) ModalNavControl* modalNav;
 
@@ -69,10 +68,11 @@ enum kKnobSlices
 - (void) showPostWheelAnimated:(BOOL)isAnimated;
 - (void) showFlyerWheelAnimated:(BOOL)isAnimated;
 - (void) setBeaconWheelText:(NSString*)new_text;
-- (IBAction)didPressDebug:(id)sender;
 - (void) dismissActiveWheelAnimated:(BOOL)isAnimated;
 - (void) lockKnobAtSlice:(unsigned int)sliceIndex;
 - (void) unlockKnob;
+- (void) disableKnobButton;
+- (void) enableKnobButton;
 
 // modal ui
 - (UIView*) dequeueModalViewWithIdentifier:(NSString*)identifier;

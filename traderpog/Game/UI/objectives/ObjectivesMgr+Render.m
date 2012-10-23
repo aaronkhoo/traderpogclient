@@ -17,34 +17,46 @@
 @implementation ObjectivesMgr (Render)
 - (BOOL) updateGameViewController:(GameViewController *)game
 {
-    BOOL addedNew = NO;
-    
-    GameObjective* next = [self getNextObjective];
-    if(next && ![self outObjective])
+    [self checkCompletion];
+    if(![self outObjective])
     {
-        switch ([next type])
+        GameObjective* next = [self getNextObjective];
+        if(next)
         {
-            case kGameObjectiveType_Scan:
-                [self showScanObjective:next inGame:game];
-                self.outObjective = next;
-                addedNew = YES;
-                break;
-                
-            default:
-            case kGameObjectiveType_Basic:
+            switch ([next type])
             {
-                UIViewController* basicUI = [self controllerForBasic:next];
-                [game showModalNavViewController:basicUI completion:nil];
-                addedNew = YES;
+                case kGameObjectiveType_Scan:
+                    [self showScanObjective:next inGame:game];
+                    self.outObjective = next;
+                    break;
+                    
+                case kGameObjectiveType_KnobLeft:
+                case kGameObjectiveType_KnobRight:
+                    if([self shouldTriggerKnobObjective])
+                    {
+                        [self showKnobLeftRightObjective:next inGame:game];
+                        self.outObjective = next;
+                    }
+                    break;
+                    
+                default:
+                case kGameObjectiveType_Basic:
+                {
+                    UIViewController* basicUI = [self controllerForBasic:next];
+                    [game showModalNavViewController:basicUI completion:nil];
+                    self.outObjective = next;
+                }
+                    break;
             }
-                break;
         }
     }
-    else if([self outObjective])
+    
+    BOOL hasOutstanding = NO;
+    if([self outObjective])
     {
-        addedNew = YES;
+        hasOutstanding = YES;
     }
-    return addedNew;
+    return hasOutstanding;
 }
 
 - (void) dismissOutObjectiveView
@@ -53,6 +65,10 @@
     {
         switch([self.outObjective type])
         {
+            case kGameObjectiveType_KnobLeft:
+            case kGameObjectiveType_KnobRight:
+                [self dismissKnobLeftRightObjective:[self outObjective] inGame:[[GameManager getInstance] gameViewController]];
+                break;
             case kGameObjectiveType_Scan:
                 [self dismissScanObjective:[self outObjective] inGame:[[GameManager getInstance] gameViewController]];
                 break;
@@ -123,9 +139,100 @@
 {
     if([game modalFlags] & kGameViewModalFlag_Objective)
     {
-        [game closeModalViewAnimated:NO];        
+        [game closeModalViewAnimated:NO];
     }
     [game unlockKnob];
+}
+
+- (void) showKnobLeftRightObjective:(GameObjective*)objective inGame:(GameViewController*)game
+{
+    PointObjective* popup = (PointObjective*)[game dequeueModalViewWithIdentifier:kPointObjectiveViewReuseIdentifier];
+    if(!popup)
+    {
+        UIView* parent = [game view];
+        popup = [[PointObjective alloc] initWithGameObjective:objective];
+        CGRect popFrame = [PogUIUtility createCenterFrameWithSize:popup.nibView.bounds.size
+                                                          inFrame:parent.bounds
+                                                    withFrameSize:popup.nibView.bounds.size];
+        //popFrame.origin.y += kAccelViewYOffset;
+        [popup setFrame:popFrame];
+    }
+    
+    // setup the content of the view
+    [self setupPointObjective:popup forGameObjective:objective inGame:game];
+    
+    // show it
+    [game showModalView:popup
+                options:(kGameViewModalFlag_KeepKnob|kGameViewModalFlag_Objective)
+               animated:NO];
+    
+    // disable knob button; user is only allowed to rotate on knob under this objective;
+    [game disableKnobButton];
+}
+
+- (void) dismissKnobLeftRightObjective:(GameObjective*)objective inGame:(GameViewController*)game
+{
+    if([game modalFlags] & kGameViewModalFlag_Objective)
+    {
+        [game closeModalViewAnimated:NO];        
+    }
+    [game enableKnobButton];
+}
+
+- (BOOL) shouldTriggerKnobObjective
+{
+    BOOL result = NO;
+    if([self homeNotVisibleCount] &&
+       ((![self knobLeftCount]) || (![self knobRightCount])))
+    {
+        result = YES;
+    }
+    return result;
+}
+
+- (void) checkCompletion
+{
+    if([self outObjective])
+    {
+        GameObjective* cur = [self outObjective];
+        switch([cur type])
+        {
+            case kGameObjectiveType_Scan:
+                if([self scanCount])
+                {
+                    [self setCompletedForObjective:cur];
+                }
+                break;
+                
+            case kGameObjectiveType_KnobLeft:
+                if([self knobLeftCount])
+                {
+                    [self setCompletedForObjective:cur];
+                }
+                break;
+                
+            case kGameObjectiveType_KnobRight:
+                if([self knobRightCount])
+                {
+                    [self setCompletedForObjective:cur];
+                }
+                break;
+                
+            case kGameObjectiveType_Basic:
+            default:
+                // do nothing; completion checked outside of this loop
+                break;
+        }
+    }
+}
+
+
+// this function restores all the modifications that had been set
+// on GameViewController for Objective-displays
+// call this function when outObjective goes from non-nil to nil;
+- (void) restoreToNormalGame:(GameViewController*)game
+{
+    
 }
 
 @end

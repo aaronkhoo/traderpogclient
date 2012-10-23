@@ -19,6 +19,8 @@ NSString* const kKeyGameObjPointY = @"pointY";
 
 NSString* const kNameGameObjTypeBasic = @"basic";
 NSString* const kNameGameObjTypeScan = @"scan";
+NSString* const kNameGameObjTypeKnobLeft = @"knob_left";
+NSString* const kNameGameObjTypeKnobRight = @"knob_right";
 
 @interface GameObjective ()
 - (void) setInitVars;
@@ -48,7 +50,9 @@ NSString* const kNameGameObjTypeScan = @"scan";
     NSString* lut[kGameObjectiveType_Num] =
     {
         kNameGameObjTypeBasic,
-        kNameGameObjTypeScan
+        kNameGameObjTypeScan,
+        kNameGameObjTypeKnobLeft,
+        kNameGameObjTypeKnobRight
     };
     unsigned int type = kGameObjectiveType_Basic;
     for(unsigned int i = 0; i < kGameObjectiveType_Num; ++i)

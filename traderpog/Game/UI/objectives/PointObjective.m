@@ -48,7 +48,7 @@ static const float kBorderCornerRadius = 8.0f;
     NSLog(@"dealloc PointObjective");
 }
 
-static const float kTriangleWidth = 10.0f;
+static const float kTriangleWidth = 20.0f;
 static const float kTriangleHeight = 80.0f;
 - (void)drawRect:(CGRect)rect
 {
@@ -101,6 +101,7 @@ static const float kTriangleHeight = 80.0f;
         newFrame.size = CGSizeMake(newFrame.size.width, ydiff);
         [self setFrame:newFrame];
     }
+    [self setNeedsDisplay];
 }
 
 #pragma mark - ViewReuseDelegate

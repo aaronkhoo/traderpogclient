@@ -23,6 +23,7 @@
 #import "SoundManager.h"
 #import "GameManager.h"
 #import "GameViewController.h"
+#import "ObjectivesMgr.h"
 
 enum kMapAvailCoordShift
 {
@@ -76,6 +77,7 @@ static const float kBrowseAreaRadius = 500.0f;
 @synthesize pinchRecognizer = _pinchRecognizer;
 @synthesize pinchHandler = _pinchHandler;
 @synthesize trackedAnnotation;
+@synthesize isPreviewMap = _isPreviewMap;
 
 - (NSUInteger) zoomLevel
 {
@@ -206,7 +208,7 @@ const float kNewPostOffsetMeters = 100.0f;
     
     self.trackedAnnotation = nil;
     _isViewingRoute = NO;
-    
+    _isPreviewMap = NO;
     _availCoordShiftDir = kMapAvailCoordShiftRight;
 }
 
@@ -510,7 +512,10 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
-    // do nothing
+    if(![self isPreviewMap])
+    {
+        [[ObjectivesMgr getInstance] playerDidChangeMapCenterTo:self.view.centerCoordinate];
+    }
 }
 
 - (void)mapView:(MKMapView*)mapView didSelectAnnotationView:(MKAnnotationView *)annotationView

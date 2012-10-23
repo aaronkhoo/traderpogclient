@@ -77,10 +77,6 @@ static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepIn
     CGRect _myPostMenuRect;
     PlayerPostViewController* _myPostMenu;
     
-    // Initial y positions
-    CGFloat _debugmenu_y_origin;
-    CGFloat _versionlabel_y_origin;
-    
     // HACK
     UILabel* _labelScan;
     UIActivityIndicatorView* _scanActivity;
@@ -604,10 +600,14 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     [self.knob setLocked:NO];
 }
 
-- (IBAction)didPressDebug:(id)sender
+- (void) disableKnobButton
 {
-    DebugMenu* menu = [[DebugMenu alloc] initWithNibName:@"DebugMenu" bundle:nil];
-    [self.navigationController pushFromRightViewController:menu animated:YES];
+    [self.knob.centerButton setEnabled:NO];
+}
+
+- (void) enableKnobButton
+{
+    [self.knob.centerButton setEnabled:YES];
 }
 
 - (IBAction)didPressPop:(id)sender
@@ -950,8 +950,10 @@ static const float kMyPostMenuSize = 60.0f;
     }
     else if([modalId isEqualToString:kInfoMoreId])
     {
-        [self.info dismissAnimated:YES];
+        [self.info dismissAnimated:NO];
         [self showInfoCircleAnimated:YES];
+        DebugMenu* menu = [[DebugMenu alloc] initWithNibName:@"DebugMenu" bundle:nil];
+        [self.navigationController pushFromRightViewController:menu animated:YES];
     }
     else if([modalId isEqualToString:kMyPostMenuCloseId])
     {
@@ -976,7 +978,7 @@ static const float kMyPostMenuSize = 60.0f;
                        @"Scan",
                        @"Flyers",
                        @"Beacons",
-                       @"Posts",
+                       @"Home",
                        nil];
     if(index >= [titles count])
     {
@@ -1105,6 +1107,16 @@ static const float kMyPostMenuSize = 60.0f;
 - (void) knob:(KnobControl *)knob didSettleAt:(unsigned int)index
 {
     
+}
+
+- (void) knobDidPressLeft
+{
+    [[ObjectivesMgr getInstance] playerDidPerformKnobLeft];
+}
+
+- (void) knobDidPressRight
+{
+    [[ObjectivesMgr getInstance] playerDidPerformKnobRight];
 }
 
 #pragma mark - AdMob banner

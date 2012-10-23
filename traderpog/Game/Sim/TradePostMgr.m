@@ -692,6 +692,7 @@ static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total O
             TradePost* initPost = [_activePosts.allValues objectAtIndex:index];
             _previewMap = [[MapControl alloc] initWithMapView:result
                                                     andCenter:[initPost coord]];
+            _previewMap.isPreviewMap = YES;
         }
         _curBubbleIndex = index;
     }

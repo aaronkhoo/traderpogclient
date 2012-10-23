@@ -44,5 +44,29 @@
 		<key>pointY</key>
 		<real>0.9</real>
 	</dict>
+	<dict>
+		<key>id</key>
+		<string>knob_left</string>
+		<key>desc</key>
+		<string>Tap or hold here for more game functions</string>
+		<key>type</key>
+		<string>knob_left</string>
+		<key>pointX</key>
+		<real>0.2</real>
+		<key>pointY</key>
+		<real>0.95</real>
+	</dict>
+	<dict>
+		<key>id</key>
+		<string>knob_right</string>
+		<key>desc</key>
+		<string>Tap or hold here for more game functions</string>
+		<key>type</key>
+		<string>knob_right</string>
+		<key>pointX</key>
+		<real>0.8</real>
+		<key>pointY</key>
+		<real>0.95</real>
+	</dict>
 </array>
 </plist>

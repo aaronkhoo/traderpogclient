@@ -10,6 +10,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 #import "GameObjective.h"
 
 @interface ObjectivesMgr : NSObject<NSCoding>
@@ -20,8 +21,14 @@
     // current outstanding objective
     GameObjective* _outObjective;
 }
-@property (nonatomic,strong) GameObjective* outObjective;
 @property (nonatomic,readonly) NSString* fileversion;
+
+// objectives processing
+@property (nonatomic,strong) GameObjective* outObjective;
+@property (nonatomic,readonly) NSUInteger scanCount;
+@property (nonatomic,readonly) NSUInteger knobLeftCount;
+@property (nonatomic,readonly) NSUInteger knobRightCount;
+@property (nonatomic,readonly) NSUInteger homeNotVisibleCount;
 
 - (void) saveObjectivesData;
 - (void) removeObjectivesData;
@@ -35,6 +42,9 @@
 
 // the game calls these to inform the manager of events user has performed
 - (void) playerDidPerformScan;
+- (void) playerDidPerformKnobLeft;
+- (void) playerDidPerformKnobRight;
+- (void) playerDidChangeMapCenterTo:(CLLocationCoordinate2D)coord;
 
 // singleton
 +(ObjectivesMgr*) getInstance;

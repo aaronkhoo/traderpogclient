@@ -21,6 +21,10 @@ extern const float kNewPostOffsetMeters;
 @class TradePost;
 @class Flyer;
 @interface MapControl : NSObject<MKMapViewDelegate>
+{
+    BOOL _isPreviewMap;
+}
+@property (nonatomic) BOOL isPreviewMap;
 @property (nonatomic,strong) MKMapView* view;
 @property (nonatomic,strong) NSObject<MKAnnotation>* trackedAnnotation;
 

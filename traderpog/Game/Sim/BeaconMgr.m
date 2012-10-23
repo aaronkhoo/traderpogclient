@@ -203,7 +203,7 @@ static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
             _previewMap = [[MapControl alloc] initWithMapView:result
                                                     andCenter:[initBeacon coord]
                                                   atZoomLevel:kBeaconPreviewZoomLevel];
-            
+            _previewMap.isPreviewMap = YES;            
         }
     }
     else

@@ -10,6 +10,8 @@
 #import "ObjectivesMgr+Render.h"
 #import "GameManager.h"
 #import "NSDictionary+Pog.h"
+#import "TradePostMgr.h"
+#import "MyTradePost.h"
 
 static NSString* const kObjectivesMgrFilename = @"objectives.sav";
 static NSString* const kKeyObjectives = @"objectives";
@@ -19,16 +21,28 @@ static NSString* const kObjectivesMgrFileVersion = @"0.1";
 
 @interface ObjectivesMgr ()
 {
+    // objectives processing
     NSUInteger _nextIndex;
+    NSUInteger _scanCount;
+    NSUInteger _knobLeftCount;
+    NSUInteger _knobRightCount;
+    NSUInteger _homeNotVisibleCount;
+    CLLocation* _lastMapCenter;
+    CLLocationCoordinate2D _lastMapCenterTempCoord;
     
+    // look-up
     NSMutableDictionary* _registry;
 }
 - (void) updateNextIndex;
+- (void) resetAllCounts;
 @end
 
 @implementation ObjectivesMgr
-@synthesize outObjective = _outObjective;
 @synthesize fileversion = _fileversion;
+@synthesize outObjective = _outObjective;
+@synthesize scanCount = _scanCount;
+@synthesize knobLeftCount = _knobLeftCount;
+@synthesize knobRightCount = _knobRightCount;
 
 - (id) init
 {
@@ -52,6 +66,8 @@ static NSString* const kObjectivesMgrFileVersion = @"0.1";
         _fileversion = [NSString stringWithString:kObjectivesMgrFileVersion];
         _nextIndex = 0;
         _outObjective = nil;
+        
+        [self resetAllCounts];
     }
     return self;
 }
@@ -107,9 +123,29 @@ static NSString* const kObjectivesMgrFileVersion = @"0.1";
     return CGPointMake(pointX, pointY);
 }
 
+static const float kHomeNotVisibleDistMeters = 500.0f;
+- (NSUInteger) homeNotVisibleCount
+{
+    // do an as-needed update
+    if(_lastMapCenter)
+    {
+        _lastMapCenter = [[CLLocation alloc] initWithLatitude:_lastMapCenterTempCoord.latitude longitude:_lastMapCenterTempCoord.longitude];
+        MyTradePost* myPost = [[TradePostMgr getInstance] getFirstMyTradePost];
+        CLLocation* myLoc = [[CLLocation alloc] initWithLatitude:myPost.coord.latitude longitude:myPost.coord.longitude];
+        if([_lastMapCenter distanceFromLocation:myLoc] > kHomeNotVisibleDistMeters)
+        {
+            _homeNotVisibleCount++;
+        }
+    }
+    
+    return _homeNotVisibleCount;
+}
+
+
 #pragma mark - user events or actions
 - (void) playerDidPerformScan
 {
+    _scanCount++;
     if([self outObjective])
     {
         if([self.outObjective type] == kGameObjectiveType_Scan)
@@ -120,8 +156,35 @@ static NSString* const kObjectivesMgrFileVersion = @"0.1";
     }
 }
 
+- (void) playerDidPerformKnobLeft
+{
+    _knobLeftCount++;
+}
+
+- (void) playerDidPerformKnobRight
+{
+    _knobRightCount++;
+}
+
+- (void) playerDidChangeMapCenterTo:(CLLocationCoordinate2D)coord
+{
+    _lastMapCenterTempCoord = coord;
+    if(!_lastMapCenter)
+    {
+        _lastMapCenter = [[CLLocation alloc] initWithLatitude:coord.latitude longitude:coord.longitude];
+    }
+}
 
 #pragma mark - internal
+
+- (void) resetAllCounts
+{
+    _scanCount = 0;
+    _knobLeftCount = 0;
+    _knobRightCount = 0;
+    _homeNotVisibleCount = 0;
+    _lastMapCenter = nil;
+}
 
 // update the _nextIndex to point to the next incomplete objective
 // internally called when objective completion is set
@@ -163,6 +226,7 @@ static NSString* const kObjectivesMgrFileVersion = @"0.1";
     
     [self updateNextIndex];
     _outObjective = nil;
+    [self resetAllCounts];
 
     return self;
 }
