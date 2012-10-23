@@ -22,4 +22,5 @@ extern NSString* const kPointObjectiveViewReuseIdentifier;
 @property (nonatomic) CGPoint screenPoint;
 
 - (id) initWithGameObjective:(GameObjective*)objective;
+- (void) resetDescWidth;
 @end

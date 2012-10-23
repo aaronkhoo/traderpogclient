@@ -46,9 +46,23 @@
 	</dict>
 	<dict>
 		<key>id</key>
-		<string>knob_left</string>
+		<string>knob_right</string>
 		<key>desc</key>
-		<string>Tap or hold here for more game functions</string>
+		<string>Tap or hold here for more buttons</string>
+		<key>type</key>
+		<string>knob_right</string>
+		<key>pointX</key>
+		<real>0.8</real>
+		<key>pointY</key>
+		<real>0.95</real>
+	</dict>
+	<dict>
+		<key>id</key>
+		<string>knob_left_0</string>
+		<key>delay</key>
+		<real>0.5</real>
+		<key>desc</key>
+		<string>Tap here to go back to the previous button</string>
 		<key>type</key>
 		<string>knob_left</string>
 		<key>pointX</key>
@@ -58,15 +72,63 @@
 	</dict>
 	<dict>
 		<key>id</key>
-		<string>knob_right</string>
+		<string>knob_left_1</string>
+		<key>delay</key>
+		<real>0.5</real>
 		<key>desc</key>
-		<string>Tap or hold here for more game functions</string>
+		<string>Tap again</string>
 		<key>type</key>
-		<string>knob_right</string>
+		<string>knob_left</string>
 		<key>pointX</key>
-		<real>0.8</real>
+		<real>0.2</real>
 		<key>pointY</key>
 		<real>0.95</real>
+	</dict>
+	<dict>
+		<key>id</key>
+		<string>knob_left_2</string>
+		<key>desc</key>
+		<string>Good work!\nKeep tapping to cycle through the buttons.</string>
+		<key>type</key>
+		<string>knob_left</string>
+		<key>pointX</key>
+		<real>0.2</real>
+		<key>pointY</key>
+		<real>0.95</real>
+	</dict>
+	<dict>
+		<key>id</key>
+		<string>knob_left_3</string>
+		<key>desc</key>
+		<string>Good work!\nKeep tapping to cycle through the buttons.</string>
+		<key>type</key>
+		<string>knob_left</string>
+		<key>pointX</key>
+		<real>0.2</real>
+		<key>pointY</key>
+		<real>0.95</real>
+	</dict>
+	<dict>
+		<key>id</key>
+		<string>knob_left_4</string>
+		<key>desc</key>
+		<string>Good work!\nKeep tapping to cycle through the buttons.</string>
+		<key>type</key>
+		<string>knob_left</string>
+		<key>pointX</key>
+		<real>0.2</real>
+		<key>pointY</key>
+		<real>0.95</real>
+	</dict>
+	<dict>
+		<key>id</key>
+		<string>ready_knob</string>
+		<key>delay</key>
+		<real>0.5</real>
+		<key>desc</key>
+		<string>You are now ready to explore.\n\nGo outside.\nScan and Trade!</string>
+		<key>type</key>
+		<string>basic</string>
 	</dict>
 </array>
 </plist>

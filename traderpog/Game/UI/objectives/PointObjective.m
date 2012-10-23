@@ -18,6 +18,7 @@ static const float kBorderCornerRadius = 8.0f;
 @interface PointObjective ()
 {
     GameObjective* _gameObjective;
+    CGRect _originalDescFrame;
 }
 @end
 
@@ -39,6 +40,8 @@ static const float kBorderCornerRadius = 8.0f;
         
         _screenPoint = CGPointMake(0.5f, 0.5f);
         [self setBackgroundColor:[UIColor clearColor]];
+        
+        _originalDescFrame = [self.descLabel frame];
     }
     return self;
 }
@@ -52,7 +55,6 @@ static const float kTriangleWidth = 20.0f;
 static const float kTriangleHeight = 80.0f;
 - (void)drawRect:(CGRect)rect
 {
-    NSLog(@"rect is (%f, %f, %f, %f)", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
     CGRect contentFrame = self.nibContentView.frame;
     CGPoint contentMidBot = CGPointMake(contentFrame.origin.x + (0.5f * contentFrame.size.width),
                                         contentFrame.origin.y + (1.0f * contentFrame.size.height));
@@ -104,6 +106,14 @@ static const float kTriangleHeight = 80.0f;
     [self setNeedsDisplay];
 }
 
+- (void) resetDescWidth
+{
+    // after sizeToFit, need to set the width back to original width so that text aligns correctly
+    CGRect newFrame = self.descLabel.frame;
+    newFrame = CGRectMake(newFrame.origin.x, newFrame.origin.y,
+                          _originalDescFrame.size.width, newFrame.size.height);
+    [self.descLabel setFrame:newFrame];
+}
 #pragma mark - ViewReuseDelegate
 - (NSString*) reuseIdentifier
 {
@@ -112,6 +122,7 @@ static const float kTriangleHeight = 80.0f;
 
 - (void) prepareForQueue
 {
+    // do nothing
 }
 
 

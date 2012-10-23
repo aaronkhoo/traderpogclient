@@ -1082,13 +1082,13 @@ static const float kMyPostMenuSize = 60.0f;
             // TODO: make the visuals nicer?
             [_scanActivity setHidden:NO];
             [_scanActivity startAnimating];
-            [[ScanManager getInstance] locateAndScanInMap:[self mapControl] 
+            [[ObjectivesMgr getInstance] playerDidPerformScan];
+            [[ScanManager getInstance] locateAndScanInMap:[self mapControl]
                                                completion:^(BOOL finished, NSArray* tradePosts, CLLocation* loc){
                                                    if(finished)
                                                    {
                                                        [self handleScanResultTradePosts:tradePosts atLoc:loc];
                                                    }
-                                                   [[ObjectivesMgr getInstance] playerDidPerformScan];
                                                    [_scanActivity stopAnimating];
                                                    [_scanActivity setHidden:YES];
                                                }];

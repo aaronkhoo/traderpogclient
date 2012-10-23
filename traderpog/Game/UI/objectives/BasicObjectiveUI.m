@@ -23,6 +23,7 @@ static const float kBorderCornerRadius = 8.0f;
 @interface BasicObjectiveUI ()
 {
     __weak GameObjective* _gameObjective;
+    CGRect _originalDescFrame;
 }
 - (void) setupContent;
 - (void) didPressOk:(id)sender;
@@ -64,6 +65,9 @@ static const float kBorderCornerRadius = 8.0f;
     [self.okCircle setBorderColor:[GameColors borderColorPostsWithAlpha:1.0f]];
     [self.okCircle setBorderWidth:kOkCircleBorderWidth];
     [self.okCircle setButtonTarget:self action:@selector(didPressOk:)];
+    
+    // save the original label frame so that we can set the width
+    _originalDescFrame = self.descLabel.frame;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -94,6 +98,12 @@ static const float kBorderCornerRadius = 8.0f;
     [self.descLabel setText:newDesc];
     [self.descLabel sizeToFit];
     
+    // after sizeToFit, need to set the width back to original width so that text aligns correctly
+    CGRect newFrame = self.descLabel.frame;
+    newFrame = CGRectMake(newFrame.origin.x, newFrame.origin.y,
+                          _originalDescFrame.size.width, newFrame.size.height);
+    [self.descLabel setFrame:newFrame];
+    
     NSString* imageName = [[ObjectivesMgr getInstance] imageNameForObjective:_gameObjective];
     if(imageName)
     {
@@ -118,7 +128,7 @@ static const float kBorderCornerRadius = 8.0f;
 #pragma mark - button actions
 - (void) didPressOk:(id)sender
 {
-    [[ObjectivesMgr getInstance] setCompletedForObjective:_gameObjective];
+    [[ObjectivesMgr getInstance] setCompletedForObjective:_gameObjective hasView:YES];
     [UIView animateWithDuration:0.2f
                      animations:^(void){
                          self.view.alpha = 0.0f;

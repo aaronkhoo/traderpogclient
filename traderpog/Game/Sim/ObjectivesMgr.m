@@ -22,6 +22,7 @@ static NSString* const kObjectivesMgrFileVersion = @"0.1";
 @interface ObjectivesMgr ()
 {
     // objectives processing
+    NSDate* _lastCompletionDate;
     NSUInteger _nextIndex;
     NSUInteger _scanCount;
     NSUInteger _knobLeftCount;
@@ -40,6 +41,7 @@ static NSString* const kObjectivesMgrFileVersion = @"0.1";
 @implementation ObjectivesMgr
 @synthesize fileversion = _fileversion;
 @synthesize outObjective = _outObjective;
+@synthesize lastCompletionDate = _lastCompletionDate;
 @synthesize scanCount = _scanCount;
 @synthesize knobLeftCount = _knobLeftCount;
 @synthesize knobRightCount = _knobRightCount;
@@ -66,6 +68,7 @@ static NSString* const kObjectivesMgrFileVersion = @"0.1";
         _fileversion = [NSString stringWithString:kObjectivesMgrFileVersion];
         _nextIndex = 0;
         _outObjective = nil;
+        _lastCompletionDate = [NSDate date];
         
         [self resetAllCounts];
     }
@@ -86,14 +89,20 @@ static NSString* const kObjectivesMgrFileVersion = @"0.1";
     return result;
 }
 
-- (void) setCompletedForObjective:(GameObjective *)objective
+- (void) setCompletedForObjective:(GameObjective *)objective hasView:(BOOL)hasView
 {
     // dismiss any objective view
-    [self dismissOutObjectiveView];
-
+    if(hasView)
+    {
+        [self dismissOutObjectiveView];
+    }
+    
     // mark objective as completed
     [objective setCompleted];
-    
+
+    // update completion date
+    self.lastCompletionDate = [NSDate date];
+
     // clear outstanding objective field
     self.outObjective = nil;
     
@@ -123,6 +132,13 @@ static NSString* const kObjectivesMgrFileVersion = @"0.1";
     return CGPointMake(pointX, pointY);
 }
 
+- (NSTimeInterval) delayForObjective:(GameObjective *)objective
+{
+    NSDictionary* lookup = [_registry objectForKey:[objective objectiveId]];    
+    NSTimeInterval delay = [lookup getFloatForKey:kKeyGameObjDelay withDefault:0.0f];
+    return delay;
+}
+
 static const float kHomeNotVisibleDistMeters = 500.0f;
 - (NSUInteger) homeNotVisibleCount
 {
@@ -146,14 +162,6 @@ static const float kHomeNotVisibleDistMeters = 500.0f;
 - (void) playerDidPerformScan
 {
     _scanCount++;
-    if([self outObjective])
-    {
-        if([self.outObjective type] == kGameObjectiveType_Scan)
-        {
-            // mark this objective as completed
-            [self setCompletedForObjective:[self outObjective]];
-        }
-    }
 }
 
 - (void) playerDidPerformKnobLeft
@@ -184,6 +192,12 @@ static const float kHomeNotVisibleDistMeters = 500.0f;
     _knobRightCount = 0;
     _homeNotVisibleCount = 0;
     _lastMapCenter = nil;
+}
+
+- (void) resetKnobCounts
+{
+    _knobLeftCount = 0;
+    _knobRightCount = 0;
 }
 
 // update the _nextIndex to point to the next incomplete objective
@@ -226,6 +240,7 @@ static const float kHomeNotVisibleDistMeters = 500.0f;
     
     [self updateNextIndex];
     _outObjective = nil;
+    _lastCompletionDate = [NSDate date];
     [self resetAllCounts];
 
     return self;

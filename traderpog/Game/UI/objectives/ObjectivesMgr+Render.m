@@ -23,30 +23,50 @@
         GameObjective* next = [self getNextObjective];
         if(next)
         {
-            switch ([next type])
+            NSTimeInterval delay = [self delayForObjective:next];
+            if(delay <= -[self.lastCompletionDate timeIntervalSinceNow])
             {
-                case kGameObjectiveType_Scan:
-                    [self showScanObjective:next inGame:game];
-                    self.outObjective = next;
-                    break;
-                    
-                case kGameObjectiveType_KnobLeft:
-                case kGameObjectiveType_KnobRight:
-                    if([self shouldTriggerKnobObjective])
-                    {
-                        [self showKnobLeftRightObjective:next inGame:game];
-                        self.outObjective = next;
-                    }
-                    break;
-                    
-                default:
-                case kGameObjectiveType_Basic:
+                if([self hasMetCompletionInObjective:next])
                 {
-                    UIViewController* basicUI = [self controllerForBasic:next];
-                    [game showModalNavViewController:basicUI completion:nil];
-                    self.outObjective = next;
+                    // if this objective's completion conditions have all been met,
+                    // just skip it
+                    [self setCompletedForObjective:next hasView:NO];
                 }
-                    break;
+                else
+                {
+                    switch ([next type])
+                    {
+                        case kGameObjectiveType_Scan:
+                            [self showScanObjective:next inGame:game];
+                            self.outObjective = next;
+                            break;
+                            
+                        case kGameObjectiveType_KnobLeft:
+                            if([self shouldTriggerKnobLeftObjective])
+                            {
+                                [self showKnobLeftRightObjective:next inGame:game];
+                                self.outObjective = next;
+                            }
+                            break;
+                            
+                        case kGameObjectiveType_KnobRight:
+                            if([self shouldTriggerKnobRightObjective])
+                            {
+                                [self showKnobLeftRightObjective:next inGame:game];
+                                self.outObjective = next;
+                            }
+                            break;
+                            
+                        default:
+                        case kGameObjectiveType_Basic:
+                        {
+                            UIViewController* basicUI = [self controllerForBasic:next];
+                            [game showModalNavViewController:basicUI completion:nil];
+                            self.outObjective = next;
+                        }
+                            break;
+                    }
+                }
             }
         }
     }
@@ -99,6 +119,7 @@
     NSString* newDesc = [[self descForObjective:objective] stringByReplacingOccurrencesOfString:@"\\n" withString:myNewLineStr];
     [view.descLabel setText:newDesc];
     [view.descLabel sizeToFit];
+    [view resetDescWidth];
     
     // point
     CGPoint frac = [self pointForObjective:objective];
@@ -190,42 +211,79 @@
     return result;
 }
 
+- (BOOL) shouldTriggerKnobLeftObjective
+{
+    BOOL result = NO;
+    if([self homeNotVisibleCount] && (![self knobLeftCount]))
+    {
+        result = YES;
+    }
+    return result;
+}
+
+- (BOOL) shouldTriggerKnobRightObjective
+{
+    BOOL result = NO;
+    if([self homeNotVisibleCount] && (![self knobRightCount]))
+    {
+        result = YES;
+    }
+    return result;
+}
+
+
 - (void) checkCompletion
 {
     if([self outObjective])
     {
         GameObjective* cur = [self outObjective];
-        switch([cur type])
+        if([self hasMetCompletionInObjective:cur])
         {
-            case kGameObjectiveType_Scan:
-                if([self scanCount])
-                {
-                    [self setCompletedForObjective:cur];
-                }
-                break;
-                
-            case kGameObjectiveType_KnobLeft:
-                if([self knobLeftCount])
-                {
-                    [self setCompletedForObjective:cur];
-                }
-                break;
-                
-            case kGameObjectiveType_KnobRight:
-                if([self knobRightCount])
-                {
-                    [self setCompletedForObjective:cur];
-                }
-                break;
-                
-            case kGameObjectiveType_Basic:
-            default:
-                // do nothing; completion checked outside of this loop
-                break;
+            [self setCompletedForObjective:cur hasView:YES];
+            
+            if((kGameObjectiveType_KnobLeft == [cur type]) ||
+               (kGameObjectiveType_KnobRight == [cur type]))
+            {
+                [self resetKnobCounts];
+            }
         }
     }
 }
 
+- (BOOL) hasMetCompletionInObjective:(GameObjective*)objective
+{
+    BOOL result = NO;
+    switch([objective type])
+    {
+        case kGameObjectiveType_Scan:
+            if([self scanCount])
+            {
+                result = YES;
+            }
+            break;
+            
+        case kGameObjectiveType_KnobLeft:
+            if([self knobLeftCount])
+            {
+                result = YES;
+            }
+            break;
+            
+        case kGameObjectiveType_KnobRight:
+            if([self knobRightCount])
+            {
+                result = YES;
+            }
+            break;
+            
+        case kGameObjectiveType_Basic:
+        default:
+            // do nothing; completion checked outside of this loop
+            break;
+    }
+
+    return result;
+}
 
 // this function restores all the modifications that had been set
 // on GameViewController for Objective-displays

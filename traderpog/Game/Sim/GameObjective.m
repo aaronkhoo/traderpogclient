@@ -16,6 +16,7 @@ NSString* const kKeyGameObjId = @"id";
 NSString* const kKeyGameObjCompleted = @"completed";
 NSString* const kKeyGameObjPointX = @"pointX";
 NSString* const kKeyGameObjPointY = @"pointY";
+NSString* const kKeyGameObjDelay = @"delay";
 
 NSString* const kNameGameObjTypeBasic = @"basic";
 NSString* const kNameGameObjTypeScan = @"scan";
@@ -30,18 +31,14 @@ NSString* const kNameGameObjTypeKnobRight = @"knob_right";
 @implementation GameObjective
 @synthesize objectiveId = _objectiveId;
 @synthesize type = _type;
-@synthesize flags = _flags;
 @synthesize screenPoint = _screenPoint;
-@synthesize mapPoint = _mapPoint;
 @synthesize isCompleted = _isCompleted;
 
 - (void) setInitVars
 {
     _objectiveId = @"uninit";
     _type = kGameObjectiveType_Basic;
-    _flags = kGameObjectiveFlag_None;
     _screenPoint = CGPointMake(0.5f, 0.8f);
-    _mapPoint = MKMapPointForCoordinate([[CLLocation penang] coordinate]);
     _isCompleted = NO;
 }
 

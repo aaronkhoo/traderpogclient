@@ -25,6 +25,7 @@
 
 // objectives processing
 @property (nonatomic,strong) GameObjective* outObjective;
+@property (nonatomic,strong) NSDate* lastCompletionDate;
 @property (nonatomic,readonly) NSUInteger scanCount;
 @property (nonatomic,readonly) NSUInteger knobLeftCount;
 @property (nonatomic,readonly) NSUInteger knobRightCount;
@@ -35,10 +36,12 @@
 
 // objective operations
 - (GameObjective*) getNextObjective;
-- (void) setCompletedForObjective:(GameObjective*)objective;
+- (void) setCompletedForObjective:(GameObjective*)objective hasView:(BOOL)hasView;
 - (NSString* const) descForObjective:(GameObjective*)objective;
 - (NSString* const) imageNameForObjective:(GameObjective*)objective;
 - (CGPoint) pointForObjective:(GameObjective*)objective;
+- (NSTimeInterval) delayForObjective:(GameObjective*)objective;
+- (void) resetKnobCounts;
 
 // the game calls these to inform the manager of events user has performed
 - (void) playerDidPerformScan;
