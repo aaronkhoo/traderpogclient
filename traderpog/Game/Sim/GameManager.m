@@ -859,6 +859,7 @@ typedef enum {
         {
             NSLog(@"Done associating current account with server.");
             [self.gameViewController setBeaconWheelText:@"Invite Friends"];
+            [[ObjectivesMgr getInstance] setAllCompleted];
             
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Linked with Facebook!"
                                                             message:@"The current account has now been linked with Facebook"

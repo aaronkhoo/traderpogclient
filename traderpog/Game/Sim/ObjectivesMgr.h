@@ -34,6 +34,7 @@
 - (void) saveObjectivesData;
 - (void) removeObjectivesData;
 - (void) clearForQuitGame;
+- (void) setAllCompleted;
 
 // objective operations
 - (GameObjective*) getNextObjective;

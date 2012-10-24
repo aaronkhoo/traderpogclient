@@ -311,6 +311,13 @@ static const float kHomeNotVisibleDistMeters = 500.0f;
     self.outObjective = nil;
 }
 
+- (void) setAllCompleted
+{
+    for(GameObjective* cur in _objectives)
+    {
+        [self setCompletedForObjective:cur hasView:NO];
+    }
+}
 
 #pragma mark - Singleton
 static ObjectivesMgr* singleton = nil;
