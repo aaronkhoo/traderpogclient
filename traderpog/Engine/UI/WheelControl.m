@@ -305,9 +305,11 @@ static const float kPreviewButtonCloseYFrac = 0.66f;
 static const float kPreviewButtonBorderWidth = 1.8f;
 static const float kPreviewBorderWidth = 14.5f;
 static const float kPreviewLabelBgOriginY = 0.7f;
-static const float kPreviewLabelOriginY = 0.05f;
-static const float kPreviewLabelTextSize = 10.0f;
+static const float kPreviewLabelOriginY = 0.015f;
+static const float kPreviewLabelTextSize = 9.0f;
 static const float kPreviewCancelImageInset = 6.0f;
+static const float kPreviewLabelWidth = 0.45f;
+static const float kPreviewLabelHeight = 0.25f;
 - (void) createPreviewCircleWithFrame:(CGRect)previewFrame
 {
     _previewView = [[UIView alloc] initWithFrame:previewFrame];
@@ -361,13 +363,17 @@ static const float kPreviewCancelImageInset = 6.0f;
     [labelBg setBackgroundColor:borderColor];
     [_previewCircle addSubview:labelBg];
     self.previewLabelBg = labelBg;
-    CGRect labelFrame = labelBgFrame;
-    labelFrame.origin = CGPointMake(0.0f, -(kPreviewLabelOriginY * previewFrame.size.height));
+    CGRect labelFrame = CGRectMake(0.5f * (1.0f - kPreviewLabelWidth) * previewFrame.size.width,
+                                   -(kPreviewLabelOriginY * previewFrame.size.height),
+                                   kPreviewLabelWidth * previewFrame.size.width,
+                                   kPreviewLabelHeight * previewFrame.size.height);
     UILabel* label = [[UILabel alloc] initWithFrame:labelFrame];
     [label setBackgroundColor:[UIColor clearColor]];
     [label setFont:[UIFont fontWithName:@"Marker Felt" size:kPreviewLabelTextSize]];
     [label setTextColor:[UIColor whiteColor]];
     [label setTextAlignment:UITextAlignmentCenter];
+    [label setNumberOfLines:0];
+    [label setBackgroundColor:[UIColor clearColor]];
     [self.previewLabelBg addSubview:label];
     self.previewLabel = label;
     

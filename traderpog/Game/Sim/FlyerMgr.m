@@ -55,10 +55,15 @@ static const float kBubbleBorderWidth = 1.5f;
     
     // cached purchaseable flyer-type-indices
     NSArray* _cachedPurchaseables;
+    
+    // for wheel-preview countdown; only valid when Wheel is up
+    __weak UILabel* _previewLabel;
+    __weak Flyer* _previewFlyer;
 }
 - (TradePost*) tradePosts:(NSArray*)tradePosts withinMeters:(CLLocationDistance)meters fromCoord:(CLLocationCoordinate2D)coord;
 - (void) reconstructFlightPaths;
 - (void) refreshPreviewForWheel:(WheelControl*)wheel atIndex:(unsigned int)index;
+- (void) updatePreviewForFlyer:(Flyer*)flyer;
 @end
 
 @implementation FlyerMgr
@@ -74,6 +79,8 @@ static const float kBubbleBorderWidth = 1.5f;
         _lastUpdate = nil;
         _previewMap = nil;
         _cachedPurchaseables = nil;
+        _previewLabel = nil;
+        _previewFlyer = nil;
     }
     return self;
 }
@@ -93,6 +100,8 @@ static const float kBubbleBorderWidth = 1.5f;
     _lastUpdate = [aDecoder decodeObjectForKey:kKeyLastUpdated];
     _previewMap = nil;
     _cachedPurchaseables = nil;
+    _previewLabel = nil;
+    _previewFlyer = nil;
     
     return self;
 }
@@ -318,14 +327,6 @@ static const float kBubbleBorderWidth = 1.5f;
      ];
 }
 
-- (void) updateFlyersAtDate:(NSDate *)currentTime
-{
-    for (Flyer* cur in _playerFlyers)
-    {
-        [cur updateAtDate:currentTime];
-    }
-}
-
 // init existing flyers on the map (called when game reboots)
 - (void) initFlyersOnMap
 {
@@ -478,6 +479,60 @@ static const float kBubbleBorderWidth = 1.5f;
     self.previewMap = nil;
 }
 
+#pragma mark - updates
+
+- (void) updateFlyersAtDate:(NSDate *)currentTime
+{
+    for (Flyer* cur in _playerFlyers)
+    {
+        [cur updateAtDate:currentTime];
+        
+        // update preview if necessary
+        [self updatePreviewForFlyer:cur];
+    }
+}
+
+- (void) updatePreviewForFlyer:(Flyer *)flyer
+{
+    if(_previewLabel && _previewFlyer)
+    {
+        if([_previewFlyer isEqual:flyer])
+        {
+            unsigned int state = [_previewFlyer state];
+            NSString* stateText = [_previewFlyer displayNameOfFlyerState];
+            if(kFlyerStateEnroute == state)
+            {
+                // add 1 second as a fake roundup (so that when time is less than 1 second but larger than
+                // 0), user would see 1 sec
+                NSTimeInterval timeTillDest = [flyer timeTillDest] + 1.0f;
+                NSString* timerString = [PogUIUtility stringFromTimeInterval:timeTillDest];
+                NSString* text = [NSString stringWithFormat:@"%@ \n%@", stateText, timerString];
+                [_previewLabel setText:text];
+                [_previewLabel setNumberOfLines:0];
+            }
+            else if((kFlyerStateLoading == state) ||
+                    (kFlyerStateUnloading == state))
+            {
+                NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:[flyer stateBegin]];
+                NSTimeInterval remaining = [flyer getFlyerLoadDuration] - elapsed;
+                if(0.0f > remaining)
+                {
+                    remaining = 0.0f;
+                }
+                
+                NSString* timerString = [PogUIUtility stringFromTimeInterval:remaining];
+                NSString* text = [NSString stringWithFormat:@"%@ \n%@", stateText, timerString];
+                [_previewLabel setText:text];
+                [_previewLabel setNumberOfLines:0];
+            }
+            else
+            {
+                [_previewLabel setText:stateText];
+            }
+        }
+    }
+}
+
 #pragma mark - queries
 
 // returns an array of ids for tradeposts that has a Flyer
@@ -579,7 +634,18 @@ static const float kBubbleBorderWidth = 1.5f;
         // label
         [wheel.previewLabel setNumberOfLines:1];
         [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:22.0f]];
-        [wheel.previewLabel setText:[curFlyer displayNameOfFlyerState]];
+        if((kFlyerStateEnroute == [curFlyer state]) ||
+           (kFlyerStateLoading == [curFlyer state]) ||
+           (kFlyerStateUnloading == [curFlyer state]))
+        {
+            // mark flyer to be updated by update loop
+            _previewFlyer = curFlyer;
+        }
+        else
+        {
+            _previewFlyer = nil;
+            [wheel.previewLabel setText:[curFlyer displayNameOfFlyerState]];
+        }
         
         // image
         [wheel.previewImageView setImage:nil];
@@ -590,9 +656,8 @@ static const float kBubbleBorderWidth = 1.5f;
     else
     {
         // empty flyer slot
-        [wheel.previewLabel setNumberOfLines:1];
         [wheel.previewLabel setText:@"Buy Flyer!"];
-        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
+//        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
         
         NSArray* purchaseables = [self getPurchaseableFlyerTypeIndices];
         unsigned int lookupIndex = index - [_playerFlyers count];
@@ -607,6 +672,7 @@ static const float kBubbleBorderWidth = 1.5f;
             [wheel.previewImageView setHidden:NO];
         }
         [_previewMap.view setHidden:YES];
+        _previewFlyer = nil;
     }
 }
 
@@ -687,6 +753,30 @@ static const float kBubbleBorderWidth = 1.5f;
     }
     [[GameManager getInstance] selectNextGameUI];
 }
+
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+					  ofObject:(id)object
+						change:(NSDictionary *)change
+					   context:(void *)context
+{
+    if([object isMemberOfClass:[Flyer class]])
+    {
+        if(_previewLabel)
+        {
+            Flyer* flyer = (Flyer*)object;
+            if([keyPath isEqualToString:kKeyFlyerMetersToDest])
+            {
+                // add 1 second as a fake roundup (so that when time is less than 1 second but larger than
+                // 0), user would see 1 sec
+                NSTimeInterval timeTillDest = [flyer timeTillDest] + 1.0f;
+                NSString* timerString = [PogUIUtility stringFromTimeInterval:timeTillDest];
+                [_previewLabel setText:timerString];
+            }
+        }
+    }
+}
+
 
 #pragma mark - WheelDataSource
 - (unsigned int) numItemsInWheel:(WheelControl *)wheel
@@ -857,8 +947,11 @@ static const float kPreviewImageYOffset = -0.25f;
 
 - (void) wheel:(WheelControl*)wheel willShowAtIndex:(unsigned int)index
 {
-    // clear cache
+    // clear purchaseables cache
     _cachedPurchaseables = nil;
+    
+    // cache preview label
+    _previewLabel = [wheel previewLabel];
     
     [self wheel:wheel didMoveTo:index];
 
@@ -874,6 +967,8 @@ static const float kPreviewImageYOffset = -0.25f;
 {
     [_previewMap setTrackedAnnotation:nil];
     [_previewMap removeAllAnnotations];
+    _previewLabel = nil;
+    _previewFlyer = nil;
 }
 
 #pragma mark - Singleton
