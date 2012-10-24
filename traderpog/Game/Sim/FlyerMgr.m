@@ -567,7 +567,7 @@ static const float kBubbleBorderWidth = 1.5f;
         if([_previewMap trackedAnnotation] != curFlyer)
         {
             [_previewMap centerOn:[curFlyer coord] animated:YES];
-            [_previewMap startTrackingAnnotation:curFlyer];
+            //[_previewMap startTrackingAnnotation:curFlyer];
         }
         
         // label
@@ -873,6 +873,7 @@ static const float kPreviewImageYOffset = -0.25f;
 - (void) wheel:(WheelControl*)wheel willHideAtIndex:(unsigned int)index
 {
     [_previewMap stopTrackingAnnotation];
+    [_previewMap removeAllAnnotations];
 }
 
 #pragma mark - Singleton
