@@ -469,7 +469,24 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     if(![self.knob isEnabled])
     {
         // always switch back to Scan when we show a dismissed knob
-        [self.knob gotoSliceIndex:kKnobSliceScan animated:NO];
+        unsigned int knobIndex = kKnobSliceScan;
+        switch([[GameManager getInstance] gameState])
+        {
+            case kGameStateFlyerSelect:
+                knobIndex = kKnobSliceFlyer;
+                break;
+                
+            case kGameStateHomeSelect:
+                knobIndex = kKnobSlicePost;
+                break;
+                
+            case kGameStateGameLoop:
+            default:
+                break;
+        }
+        [self.knob gotoSliceIndex:knobIndex animated:NO];
+        
+        
         CGAffineTransform showTransform = CGAffineTransformIdentity;
         [self.knob setEnabled:YES];
         if(isAnimated)
