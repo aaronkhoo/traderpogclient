@@ -13,6 +13,7 @@
 #import "GameColors.h"
 #import "GameManager.h"
 #import "GameViewController.h"
+#import "ImageManager.h"
 
 const float kGameEventViewVisibleSecs = 5.0f;
 
@@ -22,9 +23,10 @@ static const float kGameEventViewHeight = 60.0f;
 static const float kGameEventViewHInset = 4.0f;
 static const float kGameEventViewWInset = 4.0f;
 static const float kGameEventLabelWInset = 10.0f;
-static const float kGameEventLabelHInset = 6.0f;
+static const float kGameEventLabelHInset = 0.0f;
 static const float kGameEventImageWHRatio = 1.3f;
-static const float kGameEventBorderWidth = 3.0f;
+static const float kGameEventBorderWidth = 4.0f;
+static const float kGameEventCornerRadius = 6.0f;
 
 static NSString* const kGameEventMessages[kGameEventTypesNum] =
 {
@@ -70,7 +72,7 @@ static NSString* const kGameEventMessages[kGameEventTypesNum] =
         
         [self setBackgroundColor:[UIColor blueColor]];
         [PogUIUtility setBorderOnView:self width:kGameEventBorderWidth color:[UIColor orangeColor]];
-        [PogUIUtility setRoundCornersForView:self withCornerRadius:4.0f];
+        [PogUIUtility setRoundCornersForView:self withCornerRadius:kGameEventCornerRadius];
         
         _targetMap = nil;
         _targetLocation = nil;
@@ -87,9 +89,10 @@ static NSString* const kGameEventMessages[kGameEventTypesNum] =
         _targetMap = map;
         _targetLocation = [[CLLocation alloc] initWithLatitude:gameEvent.coord.latitude longitude:gameEvent.coord.longitude];
         
-        // color
-        UIColor* borderColor = [GameColors borderColorFlyersWithAlpha:1.0f];
-        UIColor* infoColor = [GameColors bubbleColorFlyersWithAlpha:1.0f];
+        // color and image
+        NSString* imageName = @"gameeventnotice_loading.png";
+        UIColor* borderColor = [GameColors bubbleColorFlyersWithAlpha:1.0f];
+        UIColor* infoColor = [GameColors bgColorFlyersWithAlpha:1.0f];
         switch([gameEvent eventType])
         {
             case kGameEvent_PostNeedsRestocking:
@@ -103,16 +106,20 @@ static NSString* const kGameEventMessages[kGameEventTypesNum] =
                 break;
                 
             case kGameEvent_FlyerArrival:
+                imageName = @"gameeventnotice_flyarrived.png";
+                break;
+                
             case kGameEvent_LoadingCompleted:
             case kGameEvent_UnloadingCompleted:
             case kGameEvent_FlyerStormed:
             default:
-                // do nothing, use defaults from initializer
+                imageName = @"gameeventnotice_loading.png";
                 break;
         }
         [self setBackgroundColor:borderColor];
         [PogUIUtility setBorderOnView:self width:kGameEventBorderWidth color:borderColor];
         [self.infoView setBackgroundColor:infoColor];
+        [self.imageView setImage:[[ImageManager getInstance] getImage:imageName]];
     }
 }
 
@@ -130,11 +137,12 @@ static NSString* const kGameEventMessages[kGameEventTypesNum] =
     CGRect infoRect = CGRectMake(imageRect.origin.x + imageRect.size.width, 0.0f,
                                  kGameEventViewWidth - imageRect.size.width, kGameEventViewHeight);
     CGRect infoFrame = CGRectInset(infoRect, kGameEventViewWInset, kGameEventViewHInset);
-    CGRect labelRect = CGRectMake(0.0f, 0.0f, infoRect.size.width, infoRect.size.height);
+    CGRect labelRect = CGRectMake(infoRect.origin.x, infoRect.origin.y, infoRect.size.width, infoRect.size.height);
     CGRect labelFrame = CGRectInset(labelRect, kGameEventLabelWInset, kGameEventLabelHInset);
     
     self.imageView = [[UIImageView alloc] initWithFrame:imageFrame];
     [self.imageView setImage:[UIImage imageNamed:@"checkerboard.png"]];
+    [self.imageView setContentMode:UIViewContentModeScaleAspectFill];
     [self addSubview:[self imageView]];
     
     self.infoView = [[UIView alloc] initWithFrame:infoFrame];
@@ -143,14 +151,14 @@ static NSString* const kGameEventMessages[kGameEventTypesNum] =
     
     self.infoLabel = [[UILabel alloc] initWithFrame:labelFrame];
     [self.infoLabel setTextAlignment:UITextAlignmentLeft];
-    [self.infoLabel setFont:[UIFont fontWithName:@"Marker Felt" size:16.0f]];
+    [self.infoLabel setFont:[UIFont fontWithName:@"Marker Felt" size:20.0f]];
     [self.infoLabel setAdjustsFontSizeToFitWidth:YES];
     [self.infoLabel setNumberOfLines:2];
-    [self.infoLabel setText:@"Hello\nHello"];
+    [self.infoLabel setText:@""];
     [self.infoLabel setBackgroundColor:[UIColor clearColor]];
-    [self.infoLabel setTextColor:[UIColor whiteColor]];
+    [self.infoLabel setTextColor:[GameColors gliderWhiteWithAlpha:1.0f]];
     
-    [self.infoView addSubview:[self infoLabel]];
+    [self addSubview:[self infoLabel]];
     
     self.button = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.button setFrame:[self bounds]];
