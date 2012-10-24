@@ -711,13 +711,10 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 
 - (void) handleCoinsChanged:(NSNotification *)note
 {
-    if(![self.hud holdNextCoinsUpdate])
+    Player* player = (Player*)[note object];
+    if(player)
     {
-        Player* player = (Player*)[note object];
-        if(player)
-        {
-            [self hudSetCoins:[player bucks]];
-        }
+        [self hudSetCoins:[player bucks]];
     }
 }
 
@@ -782,21 +779,6 @@ static const float kMyPostMenuSize = 60.0f;
     
     [self.hud removeFromSuperview];
     self.hud = nil;
-}
-
-- (BOOL) isHeldHudCoinsUpdate
-{
-    return [self.hud holdNextCoinsUpdate];
-}
-
-- (void) setHoldHudCoinsUpdate:(BOOL)shouldHold
-{
-    if([self.hud holdNextCoinsUpdate] && !shouldHold)
-    {
-        NSString* coinsString = [PogUIUtility currencyStringForAmount:[[Player getInstance] bucks]];
-        [self.hud.coins.label setText:coinsString];
-    }
-    self.hud.holdNextCoinsUpdate = shouldHold;
 }
 
 - (void) showNotificationViewForGameEvent:(GameEvent*)gameEvent animated:(BOOL)isAnimated

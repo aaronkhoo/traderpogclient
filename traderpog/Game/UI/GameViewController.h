@@ -89,11 +89,6 @@ enum kKnobSlices
 - (void) dismissMyPostMenuAnimated:(BOOL)isAnimated;
 - (void) showInfoViewForFlyer:(Flyer*)flyer;
 
-
-// game-state driven display update
-- (BOOL) isHeldHudCoinsUpdate;
-- (void) setHoldHudCoinsUpdate:(BOOL)shouldHold;
-
 - (IBAction)didPressPop:(id)sender;
 
 

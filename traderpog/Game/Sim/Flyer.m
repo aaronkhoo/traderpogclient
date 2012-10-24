@@ -535,7 +535,6 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
     if([arrivalPost isMemberOfClass:[MyTradePost class]])
     {
         [self gotoState:kFlyerStateWaitingToUnload];
-        [[[GameManager getInstance] gameViewController] setHoldHudCoinsUpdate:YES];
     }
     else
     {
@@ -804,11 +803,6 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
         if(canChange)
         {
             NSLog(@"FlyerState Changed: %@ to %@", [self nameOfFlyerState:[self state]], [self nameOfFlyerState:newState]);
-            if(([self state] == kFlyerStateUnloading) && (newState == kFlyerStateIdle))
-            {                
-                // flyer finished unloading, release hold on hud coins
-                [[[GameManager getInstance] gameViewController] setHoldHudCoinsUpdate:NO];
-            }
             if((kFlyerStateLoading == newState) || (kFlyerStateUnloading == newState))
             {
                 _lastLoadTimerChanged = [NSDate date];
