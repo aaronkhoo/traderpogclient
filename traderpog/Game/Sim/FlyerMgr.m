@@ -627,7 +627,7 @@ static const float kBubbleBorderWidth = 1.5f;
             [_previewMap removeAllAnnotations];
             [_previewMap addAnnotationForFlyer:curFlyer];
             
-            [_previewMap centerOnFlyer:curFlyer animated:YES];
+            [_previewMap centerOnFlyer:curFlyer animated:NO];
             [_previewMap setTrackedAnnotation:curFlyer];
         }
         
