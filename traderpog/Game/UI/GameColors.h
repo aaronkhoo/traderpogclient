@@ -20,6 +20,7 @@
 + (UIColor*) borderColorScanWithAlpha:(CGFloat)alpha;
 
 + (UIColor*) bubbleBgColorWithAlpha:(CGFloat)alpha;
++ (UIColor*) bgColorFlyersWithAlpha:(CGFloat)alpha;
 + (UIColor*) gliderWhiteWithAlpha:(CGFloat)alpha;
 + (UIColor*) membershipCliponColorWithAlpha:(CGFloat)alpha;
 

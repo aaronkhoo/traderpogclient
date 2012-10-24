@@ -896,7 +896,7 @@ static const float kMyPostMenuSize = 60.0f;
     UIView* outgoingModalView = _modalView;
     if(outgoingModalView)
     {
-        [self showKnobAnimated:isAnimated delay:0.2f];
+        [self showKnobAnimated:YES delay:0.2f];
         [self showInfoCircleAnimated:isAnimated];
         _modalView = nil;
         _modalFlags = kGameViewModalFlag_None;

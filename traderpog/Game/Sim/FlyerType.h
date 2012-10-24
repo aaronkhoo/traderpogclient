@@ -32,6 +32,7 @@
 @property (nonatomic,strong) NSString* name;
 @property (nonatomic,strong) NSString* desc;
 @property (nonatomic) NSInteger price;
+@property (nonatomic,readonly) NSInteger capacity;
 @property (nonatomic) NSInteger tier;
 @property (nonatomic) NSInteger speed;
 @property (nonatomic,strong) NSString* topimg;

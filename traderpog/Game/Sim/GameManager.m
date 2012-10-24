@@ -755,7 +755,7 @@ typedef enum {
     }
 }
 
-- (BOOL) canShowMapAnnotationCallout
+- (BOOL) canShowPostAnnotationCallout
 {
     BOOL result = YES;
     
@@ -780,6 +780,30 @@ typedef enum {
     if(result)
     {
         result = [self mapIsInCalloutZoomLevelRange];
+    }
+    
+    return result;
+}
+
+- (BOOL) canShowFlyerAnnotationCallout
+{
+    BOOL result = YES;
+    
+    // condition 1: don't show if explicitly halted
+    {
+        if(_calloutHaltBegin)
+        {
+            NSTimeInterval elapsed = -[_calloutHaltBegin timeIntervalSinceNow];
+            if(elapsed < _calloutHaltDuration)
+            {
+                result = NO;
+            }
+            else
+            {
+                _calloutHaltBegin = nil;
+                _calloutHaltDuration = 0.0;
+            }
+        }
     }
     
     return result;

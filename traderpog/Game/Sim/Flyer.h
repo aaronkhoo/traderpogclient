@@ -99,6 +99,7 @@ enum _FlyerStates
 - (NSTimeInterval) timeTillDest;
 - (BOOL) gotoState:(unsigned int)newState;
 - (float) getFlyerLoadDuration;
+- (NSString*) displayNameOfFlyerState;
 
 // flyer attributes
 - (void) applyUpgradeTier:(unsigned int)tier;

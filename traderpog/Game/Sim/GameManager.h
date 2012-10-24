@@ -65,7 +65,8 @@ typedef enum _BrowseEnforcedType
 - (void) wheel:(WheelControl *)wheel commitOnFlyer:(Flyer *)flyer;
 - (void) popGameStateToLoop;
 - (void) haltMapAnnotationCalloutsForDuration:(NSTimeInterval)seconds;
-- (BOOL) canShowMapAnnotationCallout;
+- (BOOL) canShowPostAnnotationCallout;
+- (BOOL) canShowFlyerAnnotationCallout;
 - (BOOL) mapIsInCalloutZoomLevelRange;
 - (BOOL) mapIsZoomEnabled;
 - (BOOL) canProcessGameEventNotifications;

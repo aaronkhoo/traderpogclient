@@ -447,7 +447,7 @@ static const float kBuyViewCenterYOffset = -10.0f;
         centerCoord = [tradePost coord];
     }
     
-    if([[GameManager getInstance] canShowMapAnnotationCallout])
+    if([[GameManager getInstance] canShowPostAnnotationCallout])
     {
         if([tradePost isMemberOfClass:[MyTradePost class]])
         {

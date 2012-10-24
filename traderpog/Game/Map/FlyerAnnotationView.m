@@ -13,6 +13,7 @@
 #import "PogUIUtility.h"
 #import "CircleBarView.h"
 #import "Clockface.h"
+#import "FlyerInfoView.h"
 
 NSString* const kFlyerAnnotationViewReuseId = @"FlyerAnnotationView";
 NSString* const kFlyerAngleKey = @"angle";
@@ -209,6 +210,35 @@ static const float kFlyerCountdownHeight = 22.0f;
     [self.contentView addSubview:[self countdown]];
 }
 
+#pragma mark - flyer info
+- (void) handleModalClose:(id)sender
+{
+    [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
+}
+
+- (void) showInfoViewForFlyer:(Flyer*)flyer;
+{
+    GameViewController* controller = [[GameManager getInstance] gameViewController];
+    FlyerInfoView* popup = (FlyerInfoView*)[controller dequeueModalViewWithIdentifier:kFlyerInfoViewReuseIdentifier];
+    if(!popup)
+    {
+        UIView* parent = [controller view];
+        popup = [[FlyerInfoView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0.0f, 0.0f)];
+        CGRect popFrame = [PogUIUtility createCenterFrameWithSize:popup.nibContentView.bounds.size
+                                                          inFrame:parent.bounds
+                                                    withFrameSize:popup.nibView.bounds.size];
+        [popup setFrame:popFrame];
+    }
+    [popup addButtonTarget:self];
+    
+    // refresh content
+    [popup refreshViewForFlyer:flyer];
+    
+    // show it
+    [controller showModalView:popup animated:YES];
+}
+
+
 #pragma mark - MKAnnotationView
 - (void)setAnnotation:(id<MKAnnotation>)annotation
 {
@@ -247,8 +277,10 @@ static const float kFlyerCountdownHeight = 22.0f;
 #pragma mark - PogMapAnnotationViewProtocol
 - (void)didSelectAnnotationViewInMap:(MKMapView*) mapView;
 {
-    if([[GameManager getInstance] canShowMapAnnotationCallout])
+    if([[GameManager getInstance] canShowFlyerAnnotationCallout])
     {
+        Flyer* flyer = (Flyer*)[self annotation];
+        [self showInfoViewForFlyer:flyer];
     }
     else
     {
@@ -259,6 +291,7 @@ static const float kFlyerCountdownHeight = 22.0f;
 
 - (void)didDeselectAnnotationViewInMap:(MKMapView*) mapView;
 {
+    [[[GameManager getInstance] gameViewController] closeModalViewAnimated:NO];
 }
 
 

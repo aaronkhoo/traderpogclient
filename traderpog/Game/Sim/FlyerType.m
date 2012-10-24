@@ -31,6 +31,7 @@ static const float kFlyerDefaultLoadTime = 90.0f;   // seconds
 @synthesize name = _name;
 @synthesize desc = _desc;
 @synthesize price = _price;
+@synthesize capacity = _capacity;
 @synthesize tier = _tier;
 @synthesize speed = _speed;
 @synthesize topimg = _topimg;

@@ -75,6 +75,8 @@
 		38FCF705161522BC00540F34 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF703161522BB00540F34 /* README.txt */; };
 		38FCF7081615235900540F34 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38FCF7071615235900540F34 /* AudioToolbox.framework */; };
 		38FCF70A1615236C00540F34 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38FCF7091615236C00540F34 /* MessageUI.framework */; };
+		4202CCAB16377730007AF893 /* FlyerInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202CCAA16377730007AF893 /* FlyerInfoView.m */; };
+		4202CCAE16377748007AF893 /* FlyerInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202CCAD16377748007AF893 /* FlyerInfoView.xib */; };
 		42094DB615C9B236001FA77D /* WheelBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB015C9B235001FA77D /* WheelBubble.m */; };
 		42094DB715C9B236001FA77D /* WheelControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB215C9B236001FA77D /* WheelControl.m */; };
 		42094DB815C9B236001FA77D /* WheelSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42094DB515C9B236001FA77D /* WheelSlice.m */; };
@@ -551,6 +553,9 @@
 		38FCF703161522BB00540F34 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		38FCF7071615235900540F34 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		38FCF7091615236C00540F34 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		4202CCA916377730007AF893 /* FlyerInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerInfoView.h; path = Game/UI/FlyerInfoView.h; sourceTree = "<group>"; };
+		4202CCAA16377730007AF893 /* FlyerInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerInfoView.m; path = Game/UI/FlyerInfoView.m; sourceTree = "<group>"; };
+		4202CCAD16377748007AF893 /* FlyerInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerInfoView.xib; path = Game/UI/FlyerInfoView.xib; sourceTree = "<group>"; };
 		42094DAF15C9B235001FA77D /* WheelBubble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WheelBubble.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		42094DB015C9B235001FA77D /* WheelBubble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WheelBubble.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		42094DB115C9B235001FA77D /* WheelControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WheelControl.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -1760,6 +1765,9 @@
 				38FCF6D31610D05A00540F34 /* LeaderboardsScreen.xib */,
 				4254BDFC1617490D008FD41D /* GameEventView.h */,
 				4254BDFD1617490D008FD41D /* GameEventView.m */,
+				4202CCA916377730007AF893 /* FlyerInfoView.h */,
+				4202CCAA16377730007AF893 /* FlyerInfoView.m */,
+				4202CCAD16377748007AF893 /* FlyerInfoView.xib */,
 				426CA1AF16274358001BD905 /* PostAccelView.h */,
 				426CA1B016274358001BD905 /* PostAccelView.m */,
 				426CA1B316274408001BD905 /* PostAccelView.xib */,
@@ -2303,6 +2311,7 @@
 				42C4DF611635949C004B3F12 /* icon_blimp_c3.png in Resources */,
 				42C4DF621635949C004B3F12 /* icon_blimp.png in Resources */,
 				38744A4F1636F443001DB890 /* pog_manager.png in Resources */,
+				4202CCAE16377748007AF893 /* FlyerInfoView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2445,6 +2454,7 @@
 				4222587C163476BB00BE9AD4 /* BasicObjectiveUI.m in Sources */,
 				42225880163476E000BE9AD4 /* ObjectivesMgr+Render.m in Sources */,
 				422258831634AC3C00BE9AD4 /* PointObjective.m in Sources */,
+				4202CCAB16377730007AF893 /* FlyerInfoView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -651,6 +651,32 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
     return image;
 }
 
+- (NSString*) displayNameOfFlyerState
+{
+    NSString* result = nil;
+    unsigned int queryState = [self state];
+    if(kFlyerStateNum > queryState)
+    {
+        NSString* const names[kFlyerStateNum] =
+        {
+            @"Ready",
+            @"Enroute",
+            @"Waiting",
+            @"Loading",
+            @"Ready",
+            @"Waiting",
+            @"Unloading",
+        };
+        
+        result = names[queryState];
+    }
+    else
+    {
+        result = @"";
+    }
+    return result;
+}
+
 #pragma mark - flight private
 static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLLocationCoordinate2D destCoord)
 {
@@ -847,6 +873,8 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
     }
     return result;
 }
+
+
 
 #pragma mark - MKAnnotation delegate
 - (CLLocationCoordinate2D) coordinate
