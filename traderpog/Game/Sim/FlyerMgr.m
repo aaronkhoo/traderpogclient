@@ -754,30 +754,6 @@ static const float kBubbleBorderWidth = 1.5f;
     [[GameManager getInstance] selectNextGameUI];
 }
 
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-					  ofObject:(id)object
-						change:(NSDictionary *)change
-					   context:(void *)context
-{
-    if([object isMemberOfClass:[Flyer class]])
-    {
-        if(_previewLabel)
-        {
-            Flyer* flyer = (Flyer*)object;
-            if([keyPath isEqualToString:kKeyFlyerMetersToDest])
-            {
-                // add 1 second as a fake roundup (so that when time is less than 1 second but larger than
-                // 0), user would see 1 sec
-                NSTimeInterval timeTillDest = [flyer timeTillDest] + 1.0f;
-                NSString* timerString = [PogUIUtility stringFromTimeInterval:timeTillDest];
-                [_previewLabel setText:timerString];
-            }
-        }
-    }
-}
-
-
 #pragma mark - WheelDataSource
 - (unsigned int) numItemsInWheel:(WheelControl *)wheel
 {
