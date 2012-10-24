@@ -174,6 +174,7 @@ static NSString* const kGameEventMessages[kGameEventTypesNum] =
     {
         // dismiss any active wheel
         [[[GameManager getInstance] gameViewController] dismissActiveWheelAnimated:YES];
+        [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.1f];
 
         // center map
         [_targetMap defaultZoomCenterOn:[_targetLocation coordinate] animated:YES];
