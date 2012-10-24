@@ -68,6 +68,7 @@ static const float kBubbleBorderWidth = 1.5f;
 
 @implementation FlyerMgr
 @synthesize playerFlyers = _playerFlyers;
+@synthesize lastUpdate = _lastUpdate;
 @synthesize delegate = _delegate;
 
 - (id) init
@@ -174,7 +175,18 @@ static const float kBubbleBorderWidth = 1.5f;
 
 - (BOOL) needsRefresh
 {
-    return (!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime);
+    BOOL doRefresh = ((!_lastUpdate) || ([_lastUpdate timeIntervalSinceNow] < refreshTime));
+    if(!doRefresh)
+    {
+        NSDate* lastFlyerTypesUpdate = [[FlyerTypes getInstance] lastUpdate];
+        if([lastFlyerTypesUpdate compare:_lastUpdate] == NSOrderedDescending)
+        {
+            // there is a later FlyerTypes update; so, we should refresh user's flyers too
+            // to sync up flyerTypeIndex
+            doRefresh = YES;
+        }
+    }
+    return doRefresh;
 }
 
 - (BOOL) newPlayerFlyerAtTradePost:(TradePost*)tradePost firstFlyer:(NSInteger)flyerTypeIndex
@@ -296,6 +308,19 @@ static const float kBubbleBorderWidth = 1.5f;
             // old flyer info was either not there or removed; recreate from server
             Flyer* current = [[Flyer alloc] initWithDictionary:flyer];
             [self.playerFlyers addObject:current];
+        }
+        else
+        {
+            // keeping old flyer info; make sure we update the flyerTypeIndex
+            // so that it doesn't become out of sync if the flyer_infos (FlyerTypes) table
+            // changes
+            NSString* userFlyerId = [NSString stringWithFormat:@"%d", [[flyer valueForKeyPath:kKeyUserFlyerId] integerValue]];
+            Flyer* current = [self getFlyerById:userFlyerId];
+            if(current)
+            {
+                NSString* flyerTypeId = [NSString stringWithFormat:@"%d", [[flyer valueForKeyPath:kKeyFlyerTypeId] integerValue]];
+                [current refreshIndexFromFlyerTypeId:flyerTypeId];
+            }
         }
     }
 }

@@ -33,6 +33,7 @@
 
 static NSString* const kKeyUserFlyerId = @"id";
 static NSString* const kKeyFlyerId = @"flyer_info_id";
+NSString* const kKeyFlyerTypeId = @"flyer_info_id";
 static NSString* const kKeyFlyerTypeIndex = @"flyer_type_index";
 static NSString* const kKeyVersion = @"version";
 static NSString* const kKeyInventory = @"inventory";
@@ -353,6 +354,12 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
     // add rendering
     [[[[GameManager getInstance] gameViewController] mapControl] showFlightPathForFlyer:self];
 }
+
+- (void) refreshIndexFromFlyerTypeId:(NSString*)flyerTypeId
+{
+    _flyerTypeIndex = [[FlyerTypes getInstance] getFlyerIndexById:flyerTypeId];
+}
+
 
 #pragma mark - flyer attributes
 - (void) applyUpgradeTier:(unsigned int)tier

@@ -36,6 +36,7 @@ static NSString* const kDefaultFlyerTypeTopImg = @"flyer_glider";
 @implementation FlyerTypes
 @synthesize delegate = _delegate;
 @synthesize flyerTypes = _flyerTypes;
+@synthesize lastUpdate = _lastUpdate;
 
 - (id) init
 {

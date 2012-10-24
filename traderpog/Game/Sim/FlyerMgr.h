@@ -26,6 +26,7 @@ static NSString* const kFlyerMgr_ReceiveFlyers = @"FlyerMgr_ReceiveFlyers";
     __weak NSObject<HttpCallbackDelegate>* _delegate;
 }
 @property (nonatomic,strong) NSMutableArray* playerFlyers;
+@property (nonatomic,readonly) NSDate* lastUpdate;
 @property (nonatomic,strong) MapControl* previewMap;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 

@@ -17,6 +17,7 @@
 static NSString* const kFlyer_CreateNewFlyer = @"Flyer_CreateNewFlyer";
 static NSString* const kFlyer_CreateNewFlyerPath = @"Flyer_CreateNewFlyerPath";
 extern NSString* const kKeyFlyerState;
+extern NSString* const kKeyFlyerTypeId;
 
 enum _FlyerStates
 {
@@ -100,6 +101,7 @@ enum _FlyerStates
 - (BOOL) gotoState:(unsigned int)newState;
 - (float) getFlyerLoadDuration;
 - (NSString*) displayNameOfFlyerState;
+- (void) refreshIndexFromFlyerTypeId:(NSString*)flyerTypeId;
 
 // flyer attributes
 - (void) applyUpgradeTier:(unsigned int)tier;
