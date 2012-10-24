@@ -27,6 +27,8 @@
 #import "SoundManager.h"
 #import "Player.h"
 #import "Player+Shop.h"
+#import "FlyerInfoView.h"
+#import "CircleButton.h"
 #import <QuartzCore/QuartzCore.h>
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
@@ -418,6 +420,57 @@ static const float kAccelViewYOffset = -94.0f;
     }
 }
 
+- (void) handleGoHomeFromFlyerInfo:(id)sender
+{
+    TradePost* curPost = (TradePost*)[self annotation];
+    [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
+    if(curPost && [curPost flyerAtPost])
+    {
+        Flyer* flyer = [curPost flyerAtPost];
+        
+        // TODO: Commented out from now since there's only one post for this release. Just send the
+        //       flyer straight to that single post.
+        // [[GameManager getInstance] showHomeSelectForFlyer:flyer];
+        
+        BOOL goingHome = [[GameManager getInstance] sendFlyerHome:flyer];
+        if(!goingHome)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Home Occupied"
+                                                            message:@"Another Flyer is home or homebound. Send it somewhere else first."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+    }
+}
+
+#pragma mark - flyer info
+- (void) showInfoViewForFlyer:(Flyer*)flyer;
+{
+    GameViewController* controller = [[GameManager getInstance] gameViewController];
+    FlyerInfoView* popup = (FlyerInfoView*)[controller dequeueModalViewWithIdentifier:kFlyerInfoViewReuseIdentifier];
+    if(!popup)
+    {
+        UIView* parent = [controller view];
+        popup = [[FlyerInfoView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0.0f, 0.0f)];
+        CGRect popFrame = [PogUIUtility createCenterFrameWithSize:popup.nibContentView.bounds.size
+                                                          inFrame:parent.bounds
+                                                    withFrameSize:popup.nibView.bounds.size];
+        [popup setFrame:popFrame];
+    }
+    [popup.closeCircle setButtonTarget:self action:@selector(handleModalClose:)];
+    [popup.goCircle setButtonTarget:self action:@selector(handleGoHomeFromFlyerInfo:)];
+    
+    // refresh content
+    [popup refreshViewForFlyer:flyer];
+    
+    // show it
+    [controller showModalView:popup animated:YES];
+}
+
+
+
 #pragma mark - PogMapAnnotationViewProtocol
 static const float kBuyViewCenterYOffset = -10.0f;
 - (CLLocationCoordinate2D) buyViewCenterCoordForTradePost:(TradePost*)tradePost
@@ -426,9 +479,12 @@ static const float kBuyViewCenterYOffset = -10.0f;
     CLLocationCoordinate2D result = [tradePost coord];
     
     UIView* modalView = [[[GameManager getInstance] gameViewController] view];
-    CGPoint resultPoint = [mapView convertCoordinate:result toPointToView:modalView];
-    resultPoint.y += kBuyViewCenterYOffset;
-    result = [mapView convertPoint:resultPoint toCoordinateFromView:modalView];
+    if(modalView)
+    {
+        CGPoint resultPoint = [mapView convertCoordinate:result toPointToView:modalView];
+        resultPoint.y += kBuyViewCenterYOffset;
+        result = [mapView convertPoint:resultPoint toCoordinateFromView:modalView];
+    }
     return result;
 }
 
@@ -483,6 +539,13 @@ static const float kBuyViewCenterYOffset = -10.0f;
                 {
                     [flyer gotoState:kFlyerStateLoading];
                     [mapView deselectAnnotation:[self annotation] animated:NO];
+                }
+                else if(kFlyerStateLoaded == [flyer state])
+                {
+                    // flyer loaded and ready to go, show Flyer Info
+                    [self showInfoViewForFlyer:flyer];
+                    centerCoord = [self buyViewCenterCoordForTradePost:tradePost inMapView:mapView];
+                    doZoomAdjustment = YES;
                 }
                 else
                 {

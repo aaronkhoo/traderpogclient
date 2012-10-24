@@ -23,6 +23,7 @@
 NSString* const kFlyerInfoViewReuseIdentifier = @"FlyerInfoView";
 static const float kBorderWidth = 6.0f;
 static const float kCircleBorderWidth = 2.0f;
+static const float kGoBorderWidth = 6.0f;
 static const float kBorderCornerRadius = 8.0f;
 
 @interface FlyerInfoView ()
@@ -43,10 +44,13 @@ static const float kBorderCornerRadius = 8.0f;
                                 width:kBorderWidth
                                 color:[GameColors bubbleColorFlyersWithAlpha:1.0f]
                          cornerRadius:kBorderCornerRadius];
-        [self.contentScrim setBackgroundColor:[GameColors bgColorFlyersWithAlpha:0.95f]];
+        [self.contentScrim setBackgroundColor:[GameColors bgColorFlyersWithAlpha:0.85f]];
         [self.closeCircle setBorderWidth:kCircleBorderWidth];
         [self.closeCircle setBorderColor:[GameColors bubbleColorFlyersWithAlpha:1.0f]];
         [self.closeCircle setBackgroundColor:[GameColors bgColorFlyersWithAlpha:1.0f]];
+        [self.goCircle setBorderWidth:kGoBorderWidth];
+        [self.goCircle setBorderColor:[GameColors bubbleColorFlyersWithAlpha:1.0f]];
+        [self.goCircle setBackgroundColor:[GameColors bgColorFlyersWithAlpha:1.0f]];
         [self.nibTitleView setBackgroundColor:[GameColors bubbleColorFlyersWithAlpha:1.0f]];
 
         [self addSubview:self.nibView];
@@ -109,7 +113,17 @@ static const float kBorderCornerRadius = 8.0f;
     }
     
     // flyer state
-    [self.flyerStateLabel setText:[flyer displayNameOfFlyerState]];
+    if(kFlyerStateEnroute == [flyer state])
+    {
+        [self.goCircle setHidden:YES];
+        [self.flyerStateLabel setHidden:YES];
+    }
+    else
+    {
+        [self.goCircle setHidden:NO];
+        [self.flyerStateLabel setText:[flyer displayNameOfFlyerState]];
+        [self.flyerStateLabel setHidden:NO];
+    }
     
     // time till dest
     if(kFlyerStateEnroute == [flyer state])
@@ -154,6 +168,7 @@ static const float kBorderCornerRadius = 8.0f;
 - (void) prepareForQueue
 {
     [self.closeCircle removeButtonTarget];
+    [self.goCircle removeButtonTarget];
     if(_flyer)
     {
         [_flyer removeObserver:self forKeyPath:kKeyFlyerMetersToDest];
