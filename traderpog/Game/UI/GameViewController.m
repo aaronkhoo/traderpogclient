@@ -233,7 +233,6 @@ static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepIn
     [self shutdownHud];
     [self shutdownWheels];
     [self shutdownKnob];
-    [self.mapControl stopTrackingAnnotation];
     self.mapControl = nil;
 
     [self stopDisplayLink];

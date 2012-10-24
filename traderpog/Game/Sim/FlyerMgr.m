@@ -565,23 +565,21 @@ static const float kBubbleBorderWidth = 1.5f;
     if([_playerFlyers count] > index)
     {
         Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
+
         if([_previewMap trackedAnnotation] != curFlyer)
         {
-            [_previewMap centerOn:[curFlyer coord] animated:YES];
-            //[_previewMap startTrackingAnnotation:curFlyer];
+            // refresh previewMap
+            [_previewMap removeAllAnnotations];
+            [_previewMap addAnnotationForFlyer:curFlyer];
+            
+            [_previewMap centerOnFlyer:curFlyer animated:YES];
+            [_previewMap setTrackedAnnotation:curFlyer];
         }
         
         // label
         [wheel.previewLabel setNumberOfLines:1];
-        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
-        if([curFlyer state] == kFlyerStateEnroute)
-        {
-            [wheel.previewLabel setText:@"Enroute"];
-        }
-        else
-        {
-            [wheel.previewLabel setText:@"Ready"];
-        }
+        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:22.0f]];
+        [wheel.previewLabel setText:[curFlyer displayNameOfFlyerState]];
         
         // image
         [wheel.previewImageView setImage:nil];
@@ -865,16 +863,16 @@ static const float kPreviewImageYOffset = -0.25f;
     [self wheel:wheel didMoveTo:index];
 
     // refresh previewMap
-    [_previewMap removeAllAnnotations];
-    for(Flyer* cur in _playerFlyers)
+    if([_playerFlyers count] > index)
     {
-        [_previewMap addAnnotationForFlyer:cur];
+        Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
+        [_previewMap addAnnotationForFlyer:curFlyer];
     }
 }
 
 - (void) wheel:(WheelControl*)wheel willHideAtIndex:(unsigned int)index
 {
-    [_previewMap stopTrackingAnnotation];
+    [_previewMap setTrackedAnnotation:nil];
     [_previewMap removeAllAnnotations];
 }
 

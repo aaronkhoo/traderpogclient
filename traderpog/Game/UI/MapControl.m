@@ -241,7 +241,6 @@ const float kNewPostOffsetMeters = 100.0f;
 
 - (void) dealloc
 {
-    [self stopTrackingAnnotation];
     [self.view removeGestureRecognizer:[self pinchRecognizer]];
     [self.view removeGestureRecognizer:_panRecognizer];
 }
@@ -311,11 +310,11 @@ const float kNewPostOffsetMeters = 100.0f;
     if([flyer flightPathRender])
     {
         [self.view addOverlay:[flyer flightPathRender]];
-    }
-    FlyerAnnotationView* flyerAnnotView = (FlyerAnnotationView*)[self.view viewForAnnotation:flyer];
-    if(flyerAnnotView)
-    {
-        [flyerAnnotView showCountdown:YES];
+        FlyerAnnotationView* flyerAnnotView = (FlyerAnnotationView*)[self.view viewForAnnotation:flyer];
+        if(flyerAnnotView)
+        {
+            [flyerAnnotView showCountdown:YES];
+        }
     }
 }
 
@@ -329,9 +328,6 @@ const float kNewPostOffsetMeters = 100.0f;
 
 - (void) centerOn:(CLLocationCoordinate2D)coord animated:(BOOL)isAnimated
 {
-    // stop any ongoing tracking
-    [self stopTrackingAnnotation];
-    
     // center the map and browse area
     [self.view setCenterCoordinate:coord animated:isAnimated];
     [self.browseArea setCenterCoord:coord];
@@ -360,9 +356,6 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
 
 - (void) zoom:(NSUInteger) zoomLevel centerOn:(CLLocationCoordinate2D)coord modifyMap:(BOOL)modifyMap animated:(BOOL)isAnimated
 {
-    // stop any ongoing tracking
-    [self stopTrackingAnnotation];
-    
     // center the map and browse area
     if(modifyMap)
     {
@@ -370,7 +363,10 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
         [self.view setCenterCoordinate:coord zoomLevel:zoomLevel animated:isAnimated];
         dispatch_time_t flightPathsDelay = dispatch_time(DISPATCH_TIME_NOW, kFlightPathsDelay * NSEC_PER_SEC);
         dispatch_after(flightPathsDelay, dispatch_get_main_queue(), ^(void){
-            [self showAllFlightPaths];
+            if(![self isPreviewMap])
+            {
+                [self showAllFlightPaths];
+            }
         });
     }
     [self.browseArea setCenterCoord:coord];
@@ -411,11 +407,19 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
         CLLocationDistance heightMeters = MKMetersBetweenMapPoints(routeRect.origin, rectBL);
         [self.browseArea setRadius:heightMeters * 0.5f];
 
-        // start ambient wind when we're entering route view and there's more than 30 seconds of flighttime left
-        if([flyer timeTillDest] > kAmbientWindFlighttimeThreshold)
+        if([self isPreviewMap])
         {
-            [[SoundManager getInstance] playMusic:@"ambient_wind" doLoop:YES];
-            _isViewingRoute = YES;
+            // in previewMap, center on the flyer
+            [self.view setCenterCoordinate:[flyer coordinate] animated:YES];
+        }
+        else
+        {
+            // start ambient wind when we're entering route view and there's more than 30 seconds of flighttime left
+            if([flyer timeTillDest] > kAmbientWindFlighttimeThreshold)
+            {
+                [[SoundManager getInstance] playMusic:@"ambient_wind" doLoop:YES];
+                _isViewingRoute = YES;
+            }
         }
         
         // disable zoom for enroute Flyer
@@ -424,40 +428,25 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
     }
     else
     {
-        CLLocationCoordinate2D centerCoord = [flyer coordinate];
-        if([flyer.path curPostId])
+        if([self isPreviewMap])
         {
-            // if flyer is at a post, use the post's coord because it may have been
-            // shifted by mapControl to resolve overlaps
-            TradePost* post = [[TradePostMgr getInstance] getTradePostWithId:flyer.path.curPostId];
-            if(post)
-            {
-                centerCoord = [post coord];
-            }
+            [self defaultZoomCenterOn:[flyer coordinate] animated:isAnimated];
         }
-        [self defaultZoomCenterOn:centerCoord animated:isAnimated];
-    }
-}
-
-- (void) startTrackingAnnotation:(NSObject<MKAnnotation> *)annotation
-{
-    if([self trackedAnnotation] != annotation)
-    {
-        [self stopTrackingAnnotation];
-        
-        NSLog(@"start tracking");
-        [annotation addObserver:self forKeyPath:kKeyCoordinate options:0 context:nil];
-        self.trackedAnnotation = annotation;
-    }
-}
-
-- (void) stopTrackingAnnotation
-{
-    if([self trackedAnnotation])
-    {
-        NSLog(@"stop tracking");
-        [self.trackedAnnotation removeObserver:self forKeyPath:kKeyCoordinate];
-        self.trackedAnnotation = nil;
+        else
+        {
+            CLLocationCoordinate2D centerCoord = [flyer coordinate];
+            if([flyer.path curPostId])
+            {
+                // if flyer is at a post, use the post's coord because it may have been
+                // shifted by mapControl to resolve overlaps
+                TradePost* post = [[TradePostMgr getInstance] getTradePostWithId:flyer.path.curPostId];
+                if(post)
+                {
+                    centerCoord = [post coord];
+                }
+            }
+            [self defaultZoomCenterOn:centerCoord animated:isAnimated];
+        }
     }
 }
 

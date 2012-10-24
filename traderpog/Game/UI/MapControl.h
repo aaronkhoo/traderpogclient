@@ -52,8 +52,6 @@ extern const float kNewPostOffsetMeters;
 - (void) defaultZoomCenterOn:(CLLocationCoordinate2D)coord animated:(BOOL)isAnimated;
 - (void) defaultZoomCenterOn:(CLLocationCoordinate2D)coord modifyMap:(BOOL)modifyMap animated:(BOOL)isAnimated;
 - (void) prescanZoomCenterOn:(CLLocationCoordinate2D)coord modifyMap:(BOOL)modifyMap animated:(BOOL)isAnimated;
-- (void) startTrackingAnnotation:(NSObject<MKAnnotation>*)annotation;
-- (void) stopTrackingAnnotation;
 - (void) centerOnFlyer:(Flyer*)flyer animated:(BOOL)isAnimated;
 
 // deselect given annotation if it is selected;
