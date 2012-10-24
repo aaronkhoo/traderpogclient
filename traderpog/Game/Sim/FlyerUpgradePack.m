@@ -28,8 +28,17 @@ NSString* const kKeySecondaryTitle = @"second_title";
 
 - (id) init
 {
-    NSAssert(false, @"must use initDictionary to create FlyerUpgradePack");
-    return nil;
+    self = [super init];
+    if(self)
+    {
+        // by default, create an Identity upgrade pack
+        _tier = 0;
+        _capacityFactor = 1.0f;
+        _speedFactor = 1.0f;
+        _stormFactor = 1.0f;
+        _price = 0;
+    }
+    return self;
 }
 
 - (id) initWithDictionary:(NSDictionary*)dict

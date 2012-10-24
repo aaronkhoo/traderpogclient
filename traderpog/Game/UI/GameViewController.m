@@ -45,6 +45,7 @@
 #import "ObjectivesMgr.h"
 #import "ObjectivesMgr+Render.h"
 #import "GameObjective.h"
+#import "FlyerInfoView.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -865,6 +866,10 @@ static const float kMyPostMenuSize = 60.0f;
 
 - (void) showModalView:(UIView *)view options:(unsigned int)options animated:(BOOL)isAnimated
 {
+    if(_modalView)
+    {
+        [self closeModalViewAnimated:NO];
+    }
     _modalView = view;
     _modalFlags = options;
     [self.view insertSubview:view aboveSubview:self.modalNav.view];
@@ -923,6 +928,34 @@ static const float kMyPostMenuSize = 60.0f;
             [_reusableModals queueView:cur];
         }
     }
+}
+
+- (void) defaultHandleModalClose:(id)sender
+{
+    [[[GameManager getInstance] gameViewController] closeModalViewAnimated:NO];
+}
+
+- (void) showInfoViewForFlyer:(Flyer*)flyer;
+{
+    FlyerInfoView* popup = (FlyerInfoView*)[self dequeueModalViewWithIdentifier:kFlyerInfoViewReuseIdentifier];
+    if(!popup)
+    {
+        UIView* parent = [self view];
+        popup = [[FlyerInfoView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0.0f, 0.0f)];
+        CGRect popFrame = [PogUIUtility createCenterFrameWithSize:popup.nibContentView.bounds.size
+                                                          inFrame:parent.bounds
+                                                    withFrameSize:popup.nibView.bounds.size];
+        [popup setFrame:popFrame];
+    }
+    
+    // refresh content
+    [popup refreshViewForFlyer:flyer];
+    
+    // assign an action to the close button
+    [popup.closeCircle setButtonTarget:self action:@selector(defaultHandleModalClose:)];
+    
+    // show it
+    [self showModalView:popup animated:YES];
 }
 
 - (void) showModalNavViewController:(UIViewController*)controller

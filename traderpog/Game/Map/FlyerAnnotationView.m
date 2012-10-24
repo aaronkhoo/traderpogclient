@@ -13,6 +13,7 @@
 #import "PogUIUtility.h"
 #import "CircleBarView.h"
 #import "Clockface.h"
+#import "CircleButton.h"
 #import "FlyerInfoView.h"
 
 NSString* const kFlyerAnnotationViewReuseId = @"FlyerAnnotationView";
@@ -229,7 +230,7 @@ static const float kFlyerCountdownHeight = 22.0f;
                                                     withFrameSize:popup.nibView.bounds.size];
         [popup setFrame:popFrame];
     }
-    [popup addButtonTarget:self];
+    [popup.closeCircle setButtonTarget:self action:@selector(handleModalClose:)];
     
     // refresh content
     [popup refreshViewForFlyer:flyer];

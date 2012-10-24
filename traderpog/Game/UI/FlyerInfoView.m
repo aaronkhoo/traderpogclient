@@ -18,6 +18,7 @@
 #import "TradeItemTypes.h"
 #import "TradeItemType.h"
 #import "FlyerAnnotationView.h"
+#import "GameManager.h"
 
 NSString* const kFlyerInfoViewReuseIdentifier = @"FlyerInfoView";
 static const float kBorderWidth = 6.0f;
@@ -42,7 +43,7 @@ static const float kBorderCornerRadius = 8.0f;
                                 width:kBorderWidth
                                 color:[GameColors bubbleColorFlyersWithAlpha:1.0f]
                          cornerRadius:kBorderCornerRadius];
-        [self.nibContentView setBackgroundColor:[GameColors bgColorFlyersWithAlpha:1.0f]];
+        [self.contentScrim setBackgroundColor:[GameColors bgColorFlyersWithAlpha:0.95f]];
         [self.closeCircle setBorderWidth:kCircleBorderWidth];
         [self.closeCircle setBorderColor:[GameColors bubbleColorFlyersWithAlpha:1.0f]];
         [self.closeCircle setBackgroundColor:[GameColors bgColorFlyersWithAlpha:1.0f]];
@@ -54,14 +55,6 @@ static const float kBorderCornerRadius = 8.0f;
         _flyer = nil;
     }
     return self;
-}
-
-- (void) addButtonTarget:(id)target
-{
-    if([target respondsToSelector:@selector(handleModalClose:)])
-    {
-        [self.closeCircle setButtonTarget:target action:@selector(handleModalClose:)];
-    }
 }
 
 - (void) refreshViewForFlyer:(Flyer *)flyer
@@ -119,7 +112,17 @@ static const float kBorderCornerRadius = 8.0f;
     [self.flyerStateLabel setText:[flyer displayNameOfFlyerState]];
     
     // time till dest
-    [self.timeTillDestLabel setText:[PogUIUtility stringFromTimeInterval:[flyer timeTillDest]]];
+    if(kFlyerStateEnroute == [flyer state])
+    {
+        [self.timeTillDestLabel setHidden:NO];
+        [self.timeTillDestTitle setHidden:NO];
+        [self.timeTillDestLabel setText:[PogUIUtility stringFromTimeInterval:[flyer timeTillDest]]];
+    }
+    else
+    {
+        [self.timeTillDestLabel setHidden:YES];
+        [self.timeTillDestTitle setHidden:YES];
+    }
     [flyer addObserver:self forKeyPath:kKeyFlyerMetersToDest options:0 context:nil];
 }
 

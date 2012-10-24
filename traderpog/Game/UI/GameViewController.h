@@ -38,6 +38,7 @@ enum kKnobSlices
 @class ViewReuseQueue;
 @class GameHud;
 @class MyTradePost;
+@class Flyer;
 @interface GameViewController : UIViewController<KnobProtocol, GADBannerViewDelegate, ModalNavDelegate>
 {
     MapControl* _mapControl;
@@ -86,6 +87,7 @@ enum kKnobSlices
 - (void) dismissInfo;
 - (void) showMyPostMenuForPost:(MyTradePost*)myPost;
 - (void) dismissMyPostMenuAnimated:(BOOL)isAnimated;
+- (void) showInfoViewForFlyer:(Flyer*)flyer;
 
 
 // game-state driven display update

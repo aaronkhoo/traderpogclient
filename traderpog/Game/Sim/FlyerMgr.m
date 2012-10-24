@@ -10,6 +10,7 @@
 #import "FlyerMgr.h"
 #import "Flyer.h"
 #import "GameManager.h"
+#import "GameViewController.h"
 #import "Player.h"
 #import "TradePost.h"
 #import "TradePostMgr.h"
@@ -826,6 +827,7 @@ static const float kPreviewImageYOffset = -0.25f;
     {
         Flyer* curFlyer = [_playerFlyers objectAtIndex:index];
         [[GameManager getInstance] wheel:wheel commitOnFlyer:curFlyer];
+        //[[GameManager getInstance].gameViewController showInfoViewForFlyer:curFlyer];
     }
     else if(kGameStateGameLoop == [[GameManager getInstance] gameState])
     {

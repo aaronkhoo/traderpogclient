@@ -16,6 +16,7 @@ extern NSString* const kFlyerInfoViewReuseIdentifier;
 @interface FlyerInfoView : UIView<ViewReuseDelegate>
 @property (strong, nonatomic) IBOutlet UIView *nibView;
 @property (weak, nonatomic) IBOutlet UIView *nibContentView;
+@property (weak, nonatomic) IBOutlet UIView *contentScrim;
 @property (weak, nonatomic) IBOutlet UIView *nibTitleView;
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -23,9 +24,9 @@ extern NSString* const kFlyerInfoViewReuseIdentifier;
 @property (weak, nonatomic) IBOutlet UILabel *itemNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *itemNumLabel;
 @property (weak, nonatomic) IBOutlet UILabel *capacityLabel;
+@property (weak, nonatomic) IBOutlet UILabel *timeTillDestTitle;
 @property (weak, nonatomic) IBOutlet UILabel *timeTillDestLabel;
 @property (weak, nonatomic) IBOutlet UILabel *flyerStateLabel;
 
-- (void) addButtonTarget:(id)target;
 - (void) refreshViewForFlyer:(Flyer*)flyer;
 @end
