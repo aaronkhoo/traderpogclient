@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class CircleButton;
 @interface PlayerSalesScreen : UIViewController
+@property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UILabel* mainText;
 @property (weak, nonatomic) IBOutlet UILabel* fbName1;
 @property (weak, nonatomic) IBOutlet UILabel* fbName2;
@@ -21,5 +23,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView* fbImage4;
 @property (weak, nonatomic) IBOutlet UIImageView* fbImage5;
 @property (weak, nonatomic) IBOutlet UIButton* okButton;
+@property (weak, nonatomic) IBOutlet UILabel *earningsLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *coinImageView;
+@property (weak, nonatomic) IBOutlet CircleButton *okCircle;
 
 @end

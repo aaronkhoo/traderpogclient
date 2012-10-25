@@ -99,4 +99,16 @@
     UIColor* color = [UIColor colorWithRed:217.0f/255.0f green:208.0f/255.0f blue:190.0f/255.0f alpha:alpha];
     return color;
 }
+
++ (UIColor*) bgColorPlayerSalesWithAlpha:(CGFloat)alpha
+{
+    UIColor* color = [UIColor colorWithRed:128.0f/255.0f green:41.0f/255.0f blue:41.0f/255.0f alpha:alpha];
+    return color;
+}
+
++ (UIColor*) bgImageColorPlayerSalesWithAlpha:(CGFloat)alpha
+{
+    UIColor* color = [UIColor colorWithRed:217.0f/255.0f green:208.0f/255.0f blue:190.0f/255.0f alpha:alpha];
+    return color;
+}
 @end

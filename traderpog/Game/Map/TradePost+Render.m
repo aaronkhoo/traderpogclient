@@ -190,17 +190,22 @@
 - (void) refreshRenderForItemBuyView:(ItemBuyView *)buyView
 {
     // trade item info
-    NSString* itemImagePath = @"checkerboard.png";
     TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:[self itemId]];
     NSString* itemName = nil;
     if(itemType)
     {
-        itemImagePath = [itemType imgPath];
         itemName = [itemType name];
+
+        // item image
+        NSString* itemImagePath = [itemType imgPath];
+        UIImage* itemImage = [[ImageManager getInstance] getImage:itemImagePath];
+        [buyView.nibImageView setImage:itemImage];
+        [buyView.nibImageView setHidden:NO];
     }
-    // item image
-    UIImage* itemImage = [[ImageManager getInstance] getImage:itemImagePath];
-    [buyView.nibImageView setImage:itemImage];
+    else
+    {
+        [buyView.nibImageView setHidden:YES];
+    }
     
     // num player can buy
     unsigned int bucks = [[Player getInstance] bucks];

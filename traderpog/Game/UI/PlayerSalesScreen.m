@@ -12,8 +12,15 @@
 #import "PlayerSalesScreen.h"
 #import "UrlImage.h"
 #import "UrlImageManager.h"
+#import "CircleButton.h"
+#import "PogUIUtility.h"
+#import "GameColors.h"
+#import "GameAnim.h"
 
 static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
+static const float kBorderWidth = 6.0f;
+static const float kOkCircleBorderWidth = 6.0f;
+static const float kBorderCornerRadius = 8.0f;
 
 @interface PlayerSalesScreen ()
 
@@ -42,10 +49,28 @@ static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
     return self;
 }
 
+- (void) dealloc
+{
+    NSLog(@"PlayerSalesScreen dealloc");
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	
+    // layout
+    [PogUIUtility setBorderOnView:self.contentView
+                            width:kBorderWidth
+                            color:[GameColors bgColorPlayerSalesWithAlpha:1.0f]
+                     cornerRadius:kBorderCornerRadius];
+    [self.contentView setBackgroundColor:[GameColors bgColorPlayerSalesWithAlpha:1.0f]];
+    [self.okCircle setBorderColor:[GameColors bgColorPlayerSalesWithAlpha:1.0f]];
+    [self.okCircle setBorderWidth:kOkCircleBorderWidth];
+    [self.okCircle setButtonTarget:self action:@selector(didPressOK:)];
+    [[GameAnim getInstance] refreshImageView:[self coinImageView] withClipNamed:@"coin_shimmer"];
+    [self.coinImageView startAnimating];
+
+    // content
     NSArray* fbidArray = [[PlayerSales getInstance] fbidArray];
     if ([fbidArray count] > 0)
     {
@@ -130,24 +155,25 @@ static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
         NSUInteger otherSalesNum = [[PlayerSales getInstance] nonNamedCount];
         if (otherSalesNum > 0)
         {
-            mainText.text = [NSString stringWithFormat:@"and %d others traded with you. You earned %d bucks total!",
-                             otherSalesNum, [[PlayerSales getInstance] bucks]];
+            mainText.text = [NSString stringWithFormat:@"and %d others traded with you. \nYou earned a total of",
+                             otherSalesNum];
         }
         else
         {
-            mainText.text = [NSString stringWithFormat:@"traded with you. You earned %d bucks total!",
-                             [[PlayerSales getInstance] bucks]];
+            mainText.text = @"traded with you. \nYou earned a total of";
         }
     }
     else
     {
         NSUInteger otherSalesNum = [[PlayerSales getInstance] nonNamedCount];
-        mainText.text = [NSString stringWithFormat:@"%d players traded with you. You earned %d bucks total!",
-                         otherSalesNum, [[PlayerSales getInstance] bucks]];
+        mainText.text = [NSString stringWithFormat:@"%d players \ntraded with you. \nYou earned a total of",
+                         otherSalesNum];
     }
+    NSString* earningsText = [PogUIUtility commaSeparatedStringFromUnsignedInt:[[PlayerSales getInstance] bucks]];
+    [self.earningsLabel setText:earningsText];
 }
 
-- (IBAction)didPressOK:(id)sender
+- (void)didPressOK:(id)sender
 {
     [[PlayerSales getInstance] resolveSales];
     [self.navigationController popToRightViewControllerAnimated:YES];
@@ -159,4 +185,11 @@ static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidUnload {
+    [self setEarningsLabel:nil];
+    [self setCoinImageView:nil];
+    [self setOkCircle:nil];
+    [self setContentView:nil];
+    [super viewDidUnload];
+}
 @end

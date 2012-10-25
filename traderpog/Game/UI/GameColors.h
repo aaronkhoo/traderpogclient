@@ -23,6 +23,8 @@
 + (UIColor*) bgColorFlyersWithAlpha:(CGFloat)alpha;
 + (UIColor*) gliderWhiteWithAlpha:(CGFloat)alpha;
 + (UIColor*) membershipCliponColorWithAlpha:(CGFloat)alpha;
++ (UIColor*) bgColorPlayerSalesWithAlpha:(CGFloat)alpha;
++ (UIColor*) bgImageColorPlayerSalesWithAlpha:(CGFloat)alpha;
 
 + (UIColor*) flyerBuyTier1ColorWithAlpha:(CGFloat)alpha;
 + (UIColor*) flyerBuyTier2ColorWithAlpha:(CGFloat)alpha;

@@ -177,6 +177,7 @@
 		4237D4821620A40F009A29F1 /* FlyerCustomize.m in Sources */ = {isa = PBXBuildFile; fileRef = 4237D4801620A40F009A29F1 /* FlyerCustomize.m */; };
 		4237D4831620A40F009A29F1 /* FlyerCustomize.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4237D4811620A40F009A29F1 /* FlyerCustomize.xib */; };
 		4245A07B16005C9600AB14EB /* TradePost+Render.m in Sources */ = {isa = PBXBuildFile; fileRef = 4245A07A16005C9600AB14EB /* TradePost+Render.m */; };
+		424EC11A1639348500C62CA0 /* pog_sales.png in Resources */ = {isa = PBXBuildFile; fileRef = 424EC1191639348500C62CA0 /* pog_sales.png */; };
 		4254BDF31616C527008FD41D /* GameEventMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4254BDF21616C527008FD41D /* GameEventMgr.m */; };
 		4254BDF71616CE77008FD41D /* GameEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4254BDF61616CE77008FD41D /* GameEvent.m */; };
 		4254BDFE1617490D008FD41D /* GameEventView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4254BDFD1617490D008FD41D /* GameEventView.m */; };
@@ -679,6 +680,7 @@
 		4237D4811620A40F009A29F1 /* FlyerCustomize.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerCustomize.xib; path = Game/UI/FlyerCustomize.xib; sourceTree = "<group>"; };
 		4245A07916005C9600AB14EB /* TradePost+Render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TradePost+Render.h"; path = "Game/Map/TradePost+Render.h"; sourceTree = "<group>"; };
 		4245A07A16005C9600AB14EB /* TradePost+Render.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "TradePost+Render.m"; path = "Game/Map/TradePost+Render.m"; sourceTree = "<group>"; };
+		424EC1191639348500C62CA0 /* pog_sales.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pog_sales.png; path = assets/UI/pog_sales.png; sourceTree = SOURCE_ROOT; };
 		4254BDF11616C527008FD41D /* GameEventMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameEventMgr.h; path = Game/Sim/GameEventMgr.h; sourceTree = "<group>"; };
 		4254BDF21616C527008FD41D /* GameEventMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameEventMgr.m; path = Game/Sim/GameEventMgr.m; sourceTree = "<group>"; };
 		4254BDF51616CE77008FD41D /* GameEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameEvent.h; path = Game/Sim/GameEvent.h; sourceTree = "<group>"; };
@@ -1974,6 +1976,7 @@
 			isa = PBXGroup;
 			children = (
 				38744A4E1636F443001DB890 /* pog_manager.png */,
+				424EC1191639348500C62CA0 /* pog_sales.png */,
 				42FEF18F161CC5A900E7EB4E /* items */,
 				4254BE0B161817AF008FD41D /* x.png */,
 				42E92B0915D0E7AD0054686F /* startButton.png */,
@@ -2320,6 +2323,7 @@
 				4202CCAE16377748007AF893 /* FlyerInfoView.xib in Resources */,
 				42672CA3163827FE005A5027 /* gameeventnotice_flyarrived.png in Resources */,
 				42672CA4163827FE005A5027 /* gameeventnotice_loading.png in Resources */,
+				424EC11A1639348500C62CA0 /* pog_sales.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
