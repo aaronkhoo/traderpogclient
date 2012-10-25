@@ -641,6 +641,11 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     [self.knob setLocked:YES];
 }
 
+- (void) setKnobToSlice:(unsigned int)sliceIndex animated:(BOOL)animated
+{
+    [self.knob gotoSliceIndex:sliceIndex animated:animated];
+}
+
 - (void) unlockKnob
 {
     [self.knob setLocked:NO];

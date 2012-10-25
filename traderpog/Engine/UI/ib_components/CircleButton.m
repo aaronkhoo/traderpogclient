@@ -20,6 +20,7 @@ static const float kImageInset = 2.0f;
 @end
 
 @implementation CircleButton
+@synthesize isEnabled = _enabled;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -74,6 +75,23 @@ static const float kImageInset = 2.0f;
     }
 }
 
+- (void) disableCircle
+{
+    if([self.button isEnabled])
+    {
+        [self.button setEnabled:NO];
+    }
+    _enabled = NO;
+}
+
+- (void) enableCircle
+{
+    if(![self.button isEnabled])
+    {
+        [self.button setEnabled:YES];
+    }
+    _enabled = YES;
+}
 
 #pragma mark - default values
 + (UIColor*) defaultBgColor
@@ -108,6 +126,8 @@ static const float kImageInset = 2.0f;
     [self addSubview:self.button];
     [self.button setEnabled:NO];
     _closeSelector = nil;
+    
+    _enabled = YES;
 }
 
 @end

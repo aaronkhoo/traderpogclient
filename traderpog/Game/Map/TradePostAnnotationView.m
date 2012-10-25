@@ -13,6 +13,7 @@
 #import "TradePost+Render.h"
 #import "TradeManager.h"
 #import "GameManager.h"
+#import "GameViewController.h"
 #import "TradeManager.h"
 #import "Flyer.h"
 #import "FlyerPath.h"
@@ -428,6 +429,7 @@ static const float kAccelViewYOffset = -94.0f;
         BOOL goingHome = [[GameManager getInstance] sendFlyerHome:flyer];
         if(!goingHome)
         {
+            [[GameManager getInstance].gameViewController setKnobToSlice:kKnobSlicePost animated:YES];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Home Occupied"
                                                             message:@"Another Flyer is home or homebound. Send it somewhere else first."
                                                            delegate:nil

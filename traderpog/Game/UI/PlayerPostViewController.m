@@ -19,6 +19,7 @@
 #import "MapControl.h"
 #import "PostRestockConfirmScreen.h"
 #import "TradePostMgr.h"
+#import "FlyerMgr.h"
 
 NSString* const kMyPostMenuCloseId = @"MyPostMenuClose";
 
@@ -378,20 +379,24 @@ static const float kBubbleDisabledAlpha = 0.6f;
         if([self.myPost supplyLevel] > 0)
         {
             [self.restockCircle setAlpha:kBubbleDisabledAlpha];
+            [self.restockCircle disableCircle];
         }
         else
         {
             [self.restockCircle setAlpha:1.0f];
+            [self.restockCircle enableCircle];
         }
         
         // beacon
         if ([[TradePostMgr getInstance] isBeaconActive])
         {
             [self.beaconCircle setAlpha:kBubbleDisabledAlpha];
+            [self.beaconCircle disableCircle];
         }
         else
         {
             [self.beaconCircle setAlpha:1.0f];
+            [self.beaconCircle enableCircle];
         }
     }
 
@@ -433,10 +438,22 @@ static const float kBubbleDisabledAlpha = 0.6f;
         if([self.myPost flyerAtPost])
         {
             [self.flyerLabel setText:@"Flyer Lab"];
+            [self.flyerCircle enableCircle];
+            [self.flyerCircle setAlpha:1.0f];
+        }
+        else if([[FlyerMgr getInstance] homeOrHomeboundFlyer])
+        {
+            // if there is a home-bound flyer, don't allow Call Flyer
+            [self.flyerLabel setText:@"Waiting"];
+            [self.flyerCircle disableCircle];
+            [self.flyerCircle setAlpha:kBubbleDisabledAlpha];
         }
         else
         {
+            // otherwise, show Call Flyer
             [self.flyerLabel setText:@"Call Flyer"];
+            [self.flyerCircle enableCircle];
+            [self.flyerCircle setAlpha:1.0f];
         }
     }
 }

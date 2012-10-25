@@ -9,7 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface CircleButton : UIView
+{
+    BOOL _enabled;
+}
 @property (nonatomic,strong) UIButton* button;
+@property (nonatomic,readonly) BOOL isEnabled;
 
 + (UIColor*) defaultBgColor;
 + (UIColor*) defaultBorderColor;
@@ -18,4 +22,7 @@
 - (void) setBorderColor:(UIColor*)borderColor;
 - (void) setButtonTarget:(id)target action:(SEL)actionSelector;
 - (void) removeButtonTarget;
+
+- (void) disableCircle;
+- (void) enableCircle;
 @end

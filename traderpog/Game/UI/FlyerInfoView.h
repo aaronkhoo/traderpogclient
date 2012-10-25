@@ -28,6 +28,8 @@ extern NSString* const kFlyerInfoViewReuseIdentifier;
 @property (weak, nonatomic) IBOutlet UILabel *timeTillDestLabel;
 @property (weak, nonatomic) IBOutlet UILabel *flyerStateLabel;
 @property (weak, nonatomic) IBOutlet CircleButton *goCircle;
+@property (weak, nonatomic) IBOutlet UILabel *goLabel;
+@property (weak, nonatomic) IBOutlet UILabel *homeLabel;
 
 - (void) refreshViewForFlyer:(Flyer*)flyer;
 @end

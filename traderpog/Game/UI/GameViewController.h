@@ -73,6 +73,7 @@ enum kKnobSlices
 - (void) setBeaconWheelText:(NSString*)new_text;
 - (void) dismissActiveWheelAnimated:(BOOL)isAnimated;
 - (void) lockKnobAtSlice:(unsigned int)sliceIndex;
+- (void) setKnobToSlice:(unsigned int)sliceIndex animated:(BOOL)animated;
 - (void) unlockKnob;
 - (void) disableKnobButton;
 - (void) enableKnobButton;

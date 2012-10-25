@@ -19,12 +19,14 @@
 #import "TradeItemType.h"
 #import "FlyerAnnotationView.h"
 #import "GameManager.h"
+#import "FlyerMgr.h"
 
 NSString* const kFlyerInfoViewReuseIdentifier = @"FlyerInfoView";
 static const float kBorderWidth = 6.0f;
 static const float kCircleBorderWidth = 2.0f;
 static const float kGoBorderWidth = 6.0f;
 static const float kBorderCornerRadius = 8.0f;
+static const float kDisabledAlpha = 0.6f;
 
 @interface FlyerInfoView ()
 {
@@ -125,9 +127,20 @@ static const float kBorderCornerRadius = 8.0f;
         [self.goCircle setHidden:YES];
         [self.flyerStateLabel setHidden:YES];
     }
+    else if([[FlyerMgr getInstance] homeOrHomeboundFlyer])
+    {
+        // can't go home
+        [self.goCircle setHidden:NO];
+        [self.goLabel setAlpha:kDisabledAlpha];
+        [self.homeLabel setAlpha:kDisabledAlpha];
+        [self.flyerStateLabel setText:[flyer displayNameOfFlyerState]];
+        [self.flyerStateLabel setHidden:NO];
+    }
     else
     {
         [self.goCircle setHidden:NO];
+        [self.goLabel setAlpha:1.0f];
+        [self.homeLabel setAlpha:1.0f];
         [self.flyerStateLabel setText:[flyer displayNameOfFlyerState]];
         [self.flyerStateLabel setHidden:NO];
     }
