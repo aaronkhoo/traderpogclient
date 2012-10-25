@@ -331,17 +331,7 @@ static const float kAccelViewYOffset = -94.0f;
             {
                 // inform player they cannot afford the order
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Flyers busy"
-                                                                message:@"Need idle Flyer to place this order"
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"Ok"
-                                                      otherButtonTitles:nil];
-                [alert show];
-            }
-            else if(![[TradeManager getInstance] playerCanAffordItemsAtPost:destPost])
-            {
-                // inform player they cannot afford the order
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not enough coins"
-                                                                message:@"More coins needed to place this order"
+                                                                message:@"Need idle Flyer to visit this post"
                                                                delegate:nil
                                                       cancelButtonTitle:@"Ok"
                                                       otherButtonTitles:nil];

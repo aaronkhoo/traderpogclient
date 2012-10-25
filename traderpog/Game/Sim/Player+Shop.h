@@ -24,4 +24,7 @@
 - (unsigned int) priceForExtraHelp;
 - (BOOL) canAffordExtraHelp;
 - (void) buyExtraHelp;
+
+// miscellaneous fees
+- (unsigned int) goFee;
 @end

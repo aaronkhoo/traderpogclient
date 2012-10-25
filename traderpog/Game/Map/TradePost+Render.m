@@ -21,6 +21,7 @@
 #import "ItemBubble.h"
 #import "ItemBuyView.h"
 #import "Player.h"
+#import "Player+Shop.h"
 #import "PogUIUtility.h"
 #import "CircleButton.h"
 #import <QuartzCore/QuartzCore.h>
@@ -197,32 +198,55 @@
         itemImagePath = [itemType imgPath];
         itemName = [itemType name];
     }
+    // item image
+    UIImage* itemImage = [[ImageManager getInstance] getImage:itemImagePath];
+    [buyView.nibImageView setImage:itemImage];
     
     // num player can buy
     unsigned int bucks = [[Player getInstance] bucks];
     unsigned int numAfford = bucks / [itemType price];
-    unsigned int numCanBuy = MIN([self supplyLevel], numAfford);
-    if(numCanBuy)
+    unsigned int numSupply = [self supplyLevel];
+    unsigned int cost = 0;
+    unsigned int num = 0;
+    if(!numAfford || !numSupply)
     {
-        [buyView.buyCircle setHidden:NO];
-        [buyView.nibZeroStockView setHidden:YES];
-        [buyView.nibContentView setHidden:NO];
-        [buyView.numItemsLabel setText:[PogUIUtility commaSeparatedStringFromUnsignedInt:numCanBuy]];
-
-        // item image
-        UIImage* itemImage = [[ImageManager getInstance] getImage:itemImagePath];
-        [buyView.nibImageView setImage:itemImage];
-        [buyView.itemNameLabel setText:itemName];
-        
-        // cost to player
-        unsigned int cost = MIN(numCanBuy * [itemType price], bucks);
-        [buyView.costLabel setText:[PogUIUtility commaSeparatedStringFromUnsignedInt:cost]];
+        // if player can't afford any or if post has no supply, cost is the Go Fee
+        cost = [[Player getInstance] goFee];
+        num = 0;
     }
     else
     {
-        [buyView.buyCircle setHidden:YES];
-        [buyView.nibZeroStockView setHidden:NO];
-        [buyView.nibContentView setHidden:YES];
+        num = MIN([self supplyLevel], numAfford);
+        cost = num * [itemType price];
+    }
+    
+    [buyView.buyCircle setHidden:NO];
+    [buyView.nibZeroStockView setHidden:YES];
+    [buyView.nibContentView setHidden:NO];
+    [buyView.costLabel setText:[PogUIUtility commaSeparatedStringFromUnsignedInt:cost]];
+    
+    if(num)
+    {
+        [buyView.buyCircleLabel setText:@"BUY"];
+        [buyView.numItemsLabel setText:[PogUIUtility commaSeparatedStringFromUnsignedInt:num]];
+        [buyView.numItemsLabel setHidden:NO];
+        [buyView.smallFeeLabel setHidden:YES];
+        [buyView.itemNameLabel setText:itemName];
+    }
+    else
+    {
+        [buyView.buyCircleLabel setText:@"GO"];
+        [buyView.numItemsLabel setHidden:YES];
+        [buyView.smallFeeLabel setHidden:NO];
+        if(cost)
+        {
+            [buyView.smallFeeLabel setText:@"for a fee"];
+        }
+        else
+        {
+            [buyView.smallFeeLabel setText:@"for free"];
+        }
+        [buyView.itemNameLabel setText:@"Visit"];
     }
 }
 

@@ -10,6 +10,7 @@
 
 @class TradePostAnnotationView;
 @class ItemBuyView;
+@class Flyer;
 @interface TradePost (Render)
 - (void) refreshRenderForAnnotationView:(TradePostAnnotationView*)annotationView;
 - (void) refreshRenderForItemBuyView:(ItemBuyView*)buyView;

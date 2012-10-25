@@ -19,9 +19,11 @@ extern NSString* const kItemBuyViewReuseIdentifier;
 @property (weak, nonatomic) IBOutlet UIImageView *nibImageView;
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
 @property (weak, nonatomic) IBOutlet CircleButton *buyCircle;
+@property (weak, nonatomic) IBOutlet UILabel *buyCircleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *itemNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *numItemsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *costLabel;
+@property (weak, nonatomic) IBOutlet UILabel *smallFeeLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *coinImageView;
 
 - (void) addButtonTarget:(id)target;

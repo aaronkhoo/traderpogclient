@@ -121,4 +121,14 @@
     unsigned int price = [self priceForExtraHelp];
     [self deductBucks:price];
 }
+
+#pragma mark - miscellaneous fees
+static const float kGoFeeFrac = 0.2f;
+- (unsigned int) goFee
+{
+    float fee = kGoFeeFrac * ((float)[self bucks]);
+    return ((unsigned int)fee);
+}
+
+
 @end

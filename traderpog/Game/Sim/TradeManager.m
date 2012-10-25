@@ -14,6 +14,7 @@
 #import "TradeItemTypes.h"
 #import "TradeItemType.h"
 #import "Player.h"
+#import "Player+Shop.h"
 
 #define METERS_TO_KM(dist) ((dist) * 0.001f)
 
@@ -29,27 +30,42 @@ static const float kTradeDistanceFactor = 0.001f;
 
 - (void) flyer:(Flyer *)flyer buyFromPost:(TradePost *)post numItems:(unsigned int)numItems
 {
-    // if Flyer has another item type, ask user if they want to dump it
-    // TODO
-    
     // compute num items flyer can afford
     TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:[post itemId]];
     unsigned int bucks = [[Player getInstance] bucks];
     unsigned int numAfford = bucks / [itemType price];
-    unsigned int numToBuy = MIN([post supplyLevel], numAfford);
-    
-    // deduct num items from post
-    [post deductNumItems:numToBuy];
-    //NSLog(@"Trade: deduct %d items from post %@; post now has %d items", numToBuy, [post postId], [post supplyLevel]);
+    unsigned int numSupply = [post supplyLevel];
+    unsigned int cost = 0;
+    unsigned int num = 0;
+    unsigned int remCap = [flyer remainingCapacity];
+    if(!numAfford || !numSupply || !remCap ||
+       (![post.itemId isEqualToString:[flyer.inventory itemId]]))
+    {
+        // if player can't afford, OR
+        // no supply at post, OR
+        // flyer capacity is full, OR
+        // flyer is already carrying a different item than post item
+        // don't buy anything, just charge player the Go Fee
+        cost = [[Player getInstance] goFee];
+        num = 0;
+    }
+    else
+    {
+        num = MIN(numSupply, numAfford);
+        num = MIN(num, remCap);
+        cost = num * [itemType price];
+
+        // deduct num items from post
+        [post deductNumItems:num];
+
+        // place order in escrow
+        [[flyer inventory] orderItemId:[post itemId] num:num price:[itemType price]];
+        //NSLog(@"Trade: placed order for %d items of %@ at price %d", numToBuy, [post itemId], [itemType price]);
+    }
     
     // deduct player bucks
-    unsigned int cost = MIN(numToBuy * [itemType price], bucks);
     [[Player getInstance] deductBucks:cost];
-    //NSLog(@"Trade: deduct %d coins from player", cost);
 
-    // place order in escrow
-    [[flyer inventory] orderItemId:[post itemId] num:numToBuy price:[itemType price]];
-    //NSLog(@"Trade: placed order for %d items of %@ at price %d", numToBuy, [post itemId], [itemType price]);
 }
 
 - (void) flyer:(Flyer *)flyer didArriveAtPost:(TradePost *)post

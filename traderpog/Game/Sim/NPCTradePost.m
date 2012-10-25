@@ -52,11 +52,17 @@
 }
 
 #pragma mark - private functions
+static const unsigned int kMinSupplyLevel = 5;
 -(unsigned int) generateSupplyLevel:(TradeItemType*)itemType playerBucks:(unsigned int)playerBucks
 {
     // This function is used to generate a supply level for NPC posts
-    float randPriceFactor = MAX(0.2f,0.7f - (RandomFrac() * 0.5f));
-    return (playerBucks / [itemType price]) * randPriceFactor;
+    float randPriceFactor = MAX(0.2f,0.9f - (RandomFrac() * 0.5f));
+    unsigned int newSupply = (playerBucks / [itemType price]) * randPriceFactor;
+    if(kMinSupplyLevel > newSupply)
+    {
+        newSupply += (unsigned int)((float)kMinSupplyLevel *(1.0f + (2.0f * randPriceFactor)));
+    }
+    return newSupply;
 }
 
 #pragma mark - MapAnnotationProtocol
