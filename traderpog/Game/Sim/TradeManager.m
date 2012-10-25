@@ -38,8 +38,10 @@ static const float kTradeDistanceFactor = 0.001f;
     unsigned int cost = 0;
     unsigned int num = 0;
     unsigned int remCap = [flyer remainingCapacity];
+    NSString* flyerItemId = [flyer.inventory itemId];
     if(!numAfford || !numSupply || !remCap ||
-       (![post.itemId isEqualToString:[flyer.inventory itemId]]))
+       ((flyerItemId) &&
+        (![flyerItemId isEqualToString:[post itemId]])))
     {
         // if player can't afford, OR
         // no supply at post, OR
@@ -48,6 +50,12 @@ static const float kTradeDistanceFactor = 0.001f;
         // don't buy anything, just charge player the Go Fee
         cost = [[Player getInstance] goFee];
         num = 0;
+        
+        // deduct one item from post
+        // (if this is a foreign-post, that player gets some money, which is good)
+        // (otherwise, consider it another cost to the player if they keep flying around
+        // when they can't buy anything)
+        [post deductNumItems:1];
     }
     else
     {

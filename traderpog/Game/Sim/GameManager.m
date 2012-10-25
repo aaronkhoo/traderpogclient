@@ -710,7 +710,10 @@ typedef enum {
             // Flyer Select
             // send committed flyer to the given post that triggered the FlyerSelect state
             NSAssert(_contextPost, @"FlyerSelect needs a current post");
-            [[TradeManager getInstance] flyer:flyer buyFromPost:_contextPost numItems:[_contextPost supplyLevel]];
+            if(![_contextPost isMemberOfClass:[MyTradePost class]])
+            {
+                [[TradeManager getInstance] flyer:flyer buyFromPost:_contextPost numItems:[_contextPost supplyLevel]];
+            }
             [self flyer:flyer departForTradePost:_contextPost];
         }
         else

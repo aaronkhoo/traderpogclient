@@ -73,7 +73,6 @@ static const float kBorderCornerRadius = 8.0f;
     [self.imageView setImage:image];
 
     // trade item info
-    NSString* itemImagePath = @"checkerboard.png";
     NSString* itemId = [flyer.inventory itemId];
     if(!itemId)
     {
@@ -83,14 +82,22 @@ static const float kBorderCornerRadius = 8.0f;
     NSString* itemName = nil;
     if(itemType)
     {
-        itemImagePath = [itemType imgPath];
+        // item image
+        NSString* itemImagePath = [itemType imgPath];
         itemName = [itemType name];
+        UIImage* itemImage = [[ImageManager getInstance] getImage:itemImagePath];
+        [self.itemImageView setImage:itemImage];
+        [self.itemImageView setHidden:NO];
+        
+        // item name
+        [self.itemNameLabel setText:itemName];
+    }
+    else
+    {
+        [self.itemImageView setHidden:YES];
+        [self.itemNameLabel setText:@"No Item"];
     }
     
-    // item image
-    UIImage* itemImage = [[ImageManager getInstance] getImage:itemImagePath];
-    [self.itemImageView setImage:itemImage];
-    [self.itemNameLabel setText:itemName];
     
     // num items
     unsigned int numItems = [flyer.inventory orderNumItems] + [flyer.inventory numItems];
