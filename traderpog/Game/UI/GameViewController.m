@@ -269,12 +269,13 @@ static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepIn
 
 -(void) viewDidAppear:(BOOL)animated
 {
+    /*
     double delayInSeconds = 0.1;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [self displayPlayerSalesIfNecessary];
     });
-    
+    */
     if((![self modalView] || (kGameViewModalFlag_KeepKnob & [self modalFlags])) &&
        ([self.modalNav.view isHidden]))
     {
@@ -288,13 +289,17 @@ static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepIn
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)displayPlayerSalesIfNecessary
+- (BOOL)displayPlayerSalesIfNecessary
 {
+    BOOL shownScreen = NO;
     if ([[PlayerSales getInstance] hasSales])
     {
         PlayerSalesScreen* sales = [[PlayerSalesScreen alloc] initWithNibName:@"PlayerSalesScreen" bundle:nil];
-        [self.navigationController pushFromRightViewController:sales animated:YES];
+        [self showModalNavViewController:sales completion:nil];
+//        [self.navigationController pushViewController:sales animated:YES];
+        shownScreen = YES;
     }
+    return shownScreen;
 }
 
 - (void) disableMap
@@ -365,15 +370,21 @@ static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepIn
 
 - (void) updateSim:(NSTimeInterval)elapsed currenTime:(NSDate *)currentTime
 {
+    // tick the flyers
     [[FlyerMgr getInstance] updateFlyersAtDate:currentTime];
     
+    // process the menus that are gonna popup during the game
     if([[GameManager getInstance] canProcessGameEventNotifications])
     {
         if([self.modalNav.view isHidden])
         {
             // process objectives first
-            BOOL objectivePresented = [[ObjectivesMgr getInstance] updateGameViewController:self];
-            if(!objectivePresented)
+            BOOL newModalNavPresented = [[ObjectivesMgr getInstance] updateGameViewController:self];
+            if(!newModalNavPresented)
+            {
+                newModalNavPresented = [self displayPlayerSalesIfNecessary];
+            }
+            if(!newModalNavPresented)
             {
                 // then game event notifications
                 GameEvent* notify = [[GameEventMgr getInstance] dequeueEvent];

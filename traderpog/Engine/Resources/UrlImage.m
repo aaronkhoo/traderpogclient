@@ -23,6 +23,24 @@
         NSURL* url = [NSURL URLWithString:urlString];
         NSURLRequest* request = [NSURLRequest requestWithURL:url];
         _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        _completionBlock = nil;
+    }
+    return self;
+}
+
+- (id) initWithUrl:(NSString*)urlString completion:(LoadCompletionBlock)completion
+{
+    self = [super init];
+    if(self)
+    {
+        _imageView = nil;
+        _dataBuffer = [[NSMutableData alloc] init];
+        _image = nil;
+        
+        NSURL* url = [NSURL URLWithString:urlString];
+        NSURLRequest* request = [NSURLRequest requestWithURL:url];
+        _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        _completionBlock = completion;
     }
     return self;
 }
@@ -36,7 +54,14 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     _image = [UIImage imageWithData:_dataBuffer];
-    [_imageView setImage:_image];
+    if(_imageView)
+    {
+        [_imageView setImage:_image];
+    }
+    if(_completionBlock)
+    {
+        _completionBlock(self);
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error

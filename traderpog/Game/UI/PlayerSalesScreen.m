@@ -32,13 +32,10 @@ static const float kBorderCornerRadius = 8.0f;
 @synthesize fbName2;
 @synthesize fbName3;
 @synthesize fbName4;
-@synthesize fbName5;
 @synthesize fbImage1;
 @synthesize fbImage2;
 @synthesize fbImage3;
 @synthesize fbImage4;
-@synthesize fbImage5;
-@synthesize okButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -52,6 +49,12 @@ static const float kBorderCornerRadius = 8.0f;
 - (void) dealloc
 {
     NSLog(@"PlayerSalesScreen dealloc");
+}
+
+- (void)didLoadUrlImage:(UrlImage*)urlImage forImageView:(UIImageView*)imageView forFBId:(NSString*)fbid
+{
+    [imageView setImage:[urlImage image]];
+    [[UrlImageManager getInstance] insertImageToCache:fbid image:urlImage];
 }
 
 - (void)viewDidLoad
@@ -72,10 +75,12 @@ static const float kBorderCornerRadius = 8.0f;
 
     // content
     NSArray* fbidArray = [[PlayerSales getInstance] fbidArray];
-    if ([fbidArray count] > 0)
+    NSSet* fbidSet = [NSSet setWithArray:fbidArray];        // remove duplicates
+    NSUInteger fbNotShownCount = 0;
+    if ([fbidSet count] > 0)
     {
         NSUInteger index = 0;
-        for (NSString* fbid in fbidArray)
+        for (NSString* fbid in fbidSet)
         {
             NSString* fbName = [[Player getInstance] getFacebookNameByFbid:fbid];
             NSString* pictureUrlString = [NSString stringWithFormat:kFbPictureUrl,fbid];
@@ -86,12 +91,14 @@ static const float kBorderCornerRadius = 8.0f;
                     fbName1.text = fbName;
                     if (urlImage)
                     {
-                        [fbImage1 setImage:[urlImage image]];
+                        [fbImage1 setImage:[urlImage image]];                        
                     }
                     else
                     {
-                        urlImage = [[UrlImage alloc] initWithUrl:pictureUrlString forImageView:fbImage1];
-                        [[UrlImageManager getInstance] insertImageToCache:fbid image:urlImage];
+                        urlImage = [[UrlImage alloc] initWithUrl:pictureUrlString
+                                                      completion:^(UrlImage* image){
+                                                          [self didLoadUrlImage:image forImageView:fbImage1 forFBId:fbid];
+                                                      }];
                     }
                     break;
                     
@@ -103,8 +110,10 @@ static const float kBorderCornerRadius = 8.0f;
                     }
                     else
                     {
-                        urlImage = [[UrlImage alloc] initWithUrl:pictureUrlString forImageView:fbImage2];
-                        [[UrlImageManager getInstance] insertImageToCache:fbid image:urlImage];
+                        urlImage = [[UrlImage alloc] initWithUrl:pictureUrlString
+                                                      completion:^(UrlImage* image){
+                                                          [self didLoadUrlImage:image forImageView:fbImage2 forFBId:fbid];
+                                                      }];
                     }
                     break;
                     
@@ -116,8 +125,10 @@ static const float kBorderCornerRadius = 8.0f;
                     }
                     else
                     {
-                        urlImage = [[UrlImage alloc] initWithUrl:pictureUrlString forImageView:fbImage3];
-                        [[UrlImageManager getInstance] insertImageToCache:fbid image:urlImage];
+                        urlImage = [[UrlImage alloc] initWithUrl:pictureUrlString
+                                                      completion:^(UrlImage* image){
+                                                          [self didLoadUrlImage:image forImageView:fbImage3 forFBId:fbid];
+                                                      }];
                     }
                     break;
                     
@@ -129,25 +140,15 @@ static const float kBorderCornerRadius = 8.0f;
                     }
                     else
                     {
-                        urlImage = [[UrlImage alloc] initWithUrl:pictureUrlString forImageView:fbImage4];
-                        [[UrlImageManager getInstance] insertImageToCache:fbid image:urlImage];
-                    }
-                    break;
-                    
-                case 4:
-                    fbName5.text = fbName;
-                    if (urlImage)
-                    {
-                        [fbImage5 setImage:[urlImage image]];
-                    }
-                    else
-                    {
-                        urlImage = [[UrlImage alloc] initWithUrl:pictureUrlString forImageView:fbImage5];
-                        [[UrlImageManager getInstance] insertImageToCache:fbid image:urlImage];
+                        urlImage = [[UrlImage alloc] initWithUrl:pictureUrlString
+                                                      completion:^(UrlImage* image){
+                                                          [self didLoadUrlImage:image forImageView:fbImage4 forFBId:fbid];
+                                                      }];
                     }
                     break;
                     
                 default:
+                    fbNotShownCount++;
                     break;
             }
             index++;
@@ -156,7 +157,7 @@ static const float kBorderCornerRadius = 8.0f;
         if (otherSalesNum > 0)
         {
             mainText.text = [NSString stringWithFormat:@"and %d others traded with you. \nYou earned a total of",
-                             otherSalesNum];
+                             otherSalesNum + fbNotShownCount];
         }
         else
         {

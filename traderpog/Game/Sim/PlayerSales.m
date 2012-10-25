@@ -11,7 +11,7 @@
 #import "Player.h"
 #import "PlayerSales.h"
 
-static double const refreshTime = -(60 * 15);
+static double const refreshTime = -10;//-(60 * 15);
 static NSString* const kKeyVersion = @"version";
 static NSString* const kKeyBucks = @"bucks";
 static NSString* const kKeyHasSales = @"hassales";
@@ -84,8 +84,6 @@ static NSString* const kPlayerSalesFilename = @"playersales.sav";
 
 - (void) computeSales:(id)responseObject
 {
-    NSInteger friendCount = 0;
-    
     for (NSDictionary* sale in responseObject)
     {
         _bucks = _bucks + [[sale valueForKeyPath:@"amount"] integerValue];
@@ -102,16 +100,7 @@ static NSString* const kPlayerSalesFilename = @"playersales.sav";
             NSString* name = [[Player getInstance] getFacebookNameByFbid:fbid];
             if (name)
             {
-                if (friendCount < 5)
-                {
-                    [_fbidArray addObject:fbid];
-                    friendCount++;
-                }
-                else
-                {
-                    // Count the friend that traded with some post
-                    _nonNamedCount++;
-                }
+                [_fbidArray addObject:fbid];
             }
             else
             {
