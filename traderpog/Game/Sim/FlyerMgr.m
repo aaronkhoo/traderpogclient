@@ -848,6 +848,9 @@ static const float kBubbleBorderWidth = 1.5f;
             UIImage* image = [[ImageManager getInstance] getGrayscaleImage:imageName fallbackNamed:imageName];
             [contentView.imageView setImage:image];
         }
+        [contentView.exclamationView stopAnimating];
+        [contentView.exclamationView setAnimationImages:nil];
+        [contentView.exclamationView setHidden:YES];
     }
 
     return contentView;
