@@ -124,10 +124,12 @@
 
 #pragma mark - miscellaneous fees
 static const float kGoFeeFrac = 0.2f;
+static const float kGoFeeMax = 50;
 - (unsigned int) goFee
 {
     float fee = kGoFeeFrac * ((float)[self bucks]);
-    return ((unsigned int)fee);
+    unsigned int result = MIN(kGoFeeMax, ((unsigned int)fee));
+    return (result);
 }
 
 
