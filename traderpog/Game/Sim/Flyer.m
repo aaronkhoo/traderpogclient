@@ -30,6 +30,8 @@
 #import "GameEventMgr.h"
 #import "NSDictionary+Pog.h"
 #import "SoundManager.h"
+#import "ScanManager.h"
+#include "MathUtils.h"
 
 static NSString* const kKeyUserFlyerId = @"id";
 static NSString* const kKeyFlyerId = @"flyer_info_id";
@@ -443,7 +445,24 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
         if (_path.doneWithCurrentPath)
         {
             TradePost* curPost = [[TradePostMgr getInstance] getTradePostWithId:_path.curPostId];
-            
+            if([curPost flyerAtPost] ||
+               (([curPost isMemberOfClass:[MyTradePost class]]) &&
+                ([self.inventory numItems])))
+            {
+                // if current post already has a flyer, OR
+                // if my path is done at MyPost, but I still have items on my flyer for some reason,
+                // create an npc post near it and put me there
+                float curAngle = RandomFrac() * 2.0f * M_PI;
+                float randFrac = RandomFrac();
+                NPCTradePost* newPost = [[ScanManager getInstance] generateSinglePostAtCoordAndAngle:[curPost coord]
+                                                                                            curAngle:curAngle
+                                                                                            randFrac:randFrac];
+                
+                // Set the current path to use it
+                self.path.curPostId = [newPost postId];
+                self.path.srcCoord = newPost.coord;
+                curPost = newPost;
+            }
             [self setCoordinate:_path.srcCoord];
             
             // if state is invalid, this is a restore on a newly installed phone
@@ -457,16 +476,8 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
                 }
                 else
                 {
-                    if(_isNewlyPurchased)
-                    {
-                        // new flyer, make it ready to go
-                        [self gotoState:kFlyerStateLoaded];
-                    }
-                    else
-                    {
-                        // if restored flyer at foreign post, make player go through the loading motion again to make it interesting for them (we can go either way here at this point)
-                        [self gotoState:kFlyerStateWaitingToLoad];
-                    }
+                    // otherwise, skip to Loaded to keep it simple
+                    [self gotoState:kFlyerStateLoaded];
                 }
             }
             
