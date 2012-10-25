@@ -11,7 +11,7 @@
 #import "Player.h"
 #import "PlayerSales.h"
 
-static double const refreshTime = -10;//-(60 * 15);
+static double const refreshTime = -(60 * 15);
 static NSString* const kKeyVersion = @"version";
 static NSString* const kKeyBucks = @"bucks";
 static NSString* const kKeyHasSales = @"hassales";
