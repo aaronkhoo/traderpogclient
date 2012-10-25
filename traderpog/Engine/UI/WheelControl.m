@@ -201,6 +201,19 @@ static const int kLabelViewTag = 10;
     [_activeQueue removeObject:bubble];
 }
 
+#pragma mark - setters
+- (void) disableYesButton
+{
+    [_buttonOk setEnabled:NO];
+    [self.okView.label setTextColor:[UIColor lightGrayColor]];
+}
+
+- (void) enableYesButton
+{
+    [_buttonOk setEnabled:YES];
+    [self.okView.label setTextColor:[UIColor whiteColor]];
+}
+
 #pragma mark - queries
 - (float) sliceWidth
 {
@@ -392,6 +405,7 @@ static const float kPreviewLabelHeight = 0.25f;
     [_buttonOk setFrame:[self.okView bounds]];
     [_buttonOk addTarget:self action:@selector(didOkInPreview:) forControlEvents:UIControlEventTouchUpInside];
     [self.okView addSubview:_buttonOk];
+    [self enableYesButton];
     
     CGRect closeRect = CGRectMake(kPreviewButtonCloseXFrac * previewFrame.size.width,
                                   kPreviewButtonCloseYFrac * previewFrame.size.width,

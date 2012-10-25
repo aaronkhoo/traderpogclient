@@ -672,6 +672,20 @@ static const float kBubbleBorderWidth = 1.5f;
             [wheel.previewLabel setText:[curFlyer displayNameOfFlyerState]];
         }
         
+        // yes button
+        if((kGameStateFlyerSelect == [[GameManager getInstance] gameState]) &&
+           (kFlyerStateIdle != [curFlyer state]) &&
+           (kFlyerStateLoaded != [curFlyer state]))
+        {
+            // we are in flyer-select, do not let user press Yes if
+            // we are in a non-ready state
+            [wheel disableYesButton];
+        }
+        else
+        {
+            [wheel enableYesButton];            
+        }
+    
         // image
         [wheel.previewImageView setImage:nil];
         [wheel.previewImageView setHidden:YES];
@@ -682,7 +696,6 @@ static const float kBubbleBorderWidth = 1.5f;
     {
         // empty flyer slot
         [wheel.previewLabel setText:@"Buy Flyer!"];
-//        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
         
         NSArray* purchaseables = [self getPurchaseableFlyerTypeIndices];
         unsigned int lookupIndex = index - [_playerFlyers count];

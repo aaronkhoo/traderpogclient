@@ -327,26 +327,29 @@ static const float kAccelViewYOffset = -94.0f;
         else
         {
             // other's post
-            if(![[TradeManager getInstance] playerHasIdleFlyers])
-            {
-                // inform player they cannot afford the order
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Flyers busy"
-                                                                message:@"Need idle Flyer to visit this post"
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"Ok"
-                                                      otherButtonTitles:nil];
-                [alert show];
-            }
-            else if(1 == [[FlyerMgr getInstance].playerFlyers count])
+            if(1 == [[FlyerMgr getInstance].playerFlyers count])
             {
                 // if the player only has one flyer, skip the flyer wheel and send the flyer straight away
-                Flyer* flyer = [[FlyerMgr getInstance].playerFlyers objectAtIndex:0];
-                [[TradeManager getInstance] flyer:flyer buyFromPost:destPost numItems:[destPost supplyLevel]];
-                [[GameManager getInstance] flyer:flyer departForTradePost:destPost];
+                if(![[TradeManager getInstance] playerHasIdleFlyers])
+                {
+                    // inform player they cannot afford the order
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Flyers busy"
+                                                                    message:@"Need idle Flyer to visit this post"
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"Ok"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                }
+                else
+                {
+                    Flyer* flyer = [[FlyerMgr getInstance].playerFlyers objectAtIndex:0];
+                    [[TradeManager getInstance] flyer:flyer buyFromPost:destPost numItems:[destPost supplyLevel]];
+                    [[GameManager getInstance] flyer:flyer departForTradePost:destPost];
+                }
             }
             else
             {
-                // player can order
+                // multi-flyer, just show Flyer-Select
                 [[[[GameManager getInstance] gameViewController] mapControl] defaultZoomCenterOn:[destPost coord] animated:YES];
                 [[GameManager getInstance] showFlyerSelectForBuyAtPost:destPost];
             }

@@ -58,4 +58,6 @@
 - (void) hideWheelAnimated:(BOOL)isAnimated withDelay:(float)delay;
 - (BOOL) isWheelStateHidden;
 - (void) resetWheelToSliceIndex:(unsigned int)resetIndex;
+- (void) disableYesButton;
+- (void) enableYesButton;
 @end
