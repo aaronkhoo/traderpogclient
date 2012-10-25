@@ -66,7 +66,10 @@ static const float kBrowseAreaRadius = 500.0f;
 - (void) internalInitWithMapView:(MKMapView*)mapView
                           center:(CLLocationCoordinate2D)initCoord
                        zoomLevel:(unsigned int)zoomLevel;
-- (void) zoom:(NSUInteger) zoomLevel centerOn:(CLLocationCoordinate2D)coord modifyMap:(BOOL)modifyMap animated:(BOOL)isAnimated;
+- (void) zoom:(NSUInteger) zoomLevel centerOn:(CLLocationCoordinate2D)coord
+    modifyMap:(BOOL)modifyMap
+     animated:(BOOL)isAnimated
+   changeZoom:(BOOL)changeZoom;
 - (CGPoint) getShiftDir;
 @end
 
@@ -346,21 +349,36 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
 
 - (void) defaultZoomCenterOn:(CLLocationCoordinate2D)coord modifyMap:(BOOL)modifyMap animated:(BOOL)isAnimated
 {
-    [self zoom:kDefaultZoomLevel centerOn:coord modifyMap:modifyMap animated:isAnimated];
+    BOOL changeZoom = YES;
+    if(kDefaultZoomLevel <= [self zoomLevel])
+    {
+        changeZoom = NO;
+    }
+    [self zoom:kDefaultZoomLevel centerOn:coord modifyMap:modifyMap animated:isAnimated changeZoom:changeZoom];
 }
 
 - (void) prescanZoomCenterOn:(CLLocationCoordinate2D)coord modifyMap:(BOOL)modifyMap animated:(BOOL)isAnimated
 {
-    [self zoom:kDefaultZoomLevel-2 centerOn:coord modifyMap:modifyMap animated:isAnimated];
+    [self zoom:kDefaultZoomLevel-2 centerOn:coord modifyMap:modifyMap animated:isAnimated changeZoom:YES];
 }
 
-- (void) zoom:(NSUInteger) zoomLevel centerOn:(CLLocationCoordinate2D)coord modifyMap:(BOOL)modifyMap animated:(BOOL)isAnimated
+- (void) zoom:(NSUInteger) zoomLevel centerOn:(CLLocationCoordinate2D)coord
+    modifyMap:(BOOL)modifyMap
+     animated:(BOOL)isAnimated
+   changeZoom:(BOOL)changeZoom
 {
     // center the map and browse area
     if(modifyMap)
     {
         [self dismissAllFlightPaths];
-        [self.view setCenterCoordinate:coord zoomLevel:zoomLevel animated:isAnimated];
+        if(changeZoom)
+        {
+            [self.view setCenterCoordinate:coord zoomLevel:zoomLevel animated:isAnimated];
+        }
+        else
+        {
+            [self.view setCenterCoordinate:coord animated:isAnimated];
+        }
         dispatch_time_t flightPathsDelay = dispatch_time(DISPATCH_TIME_NOW, kFlightPathsDelay * NSEC_PER_SEC);
         dispatch_after(flightPathsDelay, dispatch_get_main_queue(), ^(void){
             if(![self isPreviewMap])
