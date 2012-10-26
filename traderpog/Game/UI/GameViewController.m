@@ -180,7 +180,7 @@ static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepIn
 - (void) setup
 {
     // create main mapview
-    self.mapControl = [[MapControl alloc] initWithMapView:[self mapView] andCenter:_initCoord];
+    self.mapControl = [[MapControl alloc] initWithMapView:[self mapView] andCenter:_initCoord atZoomLevel:kDefaultZoomLevel];
     self.trackedFlyer = nil;
     
     // add pre-existing objects in the world as annotations

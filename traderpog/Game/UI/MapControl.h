@@ -35,10 +35,12 @@ extern const float kNewPostOffsetMeters;
 - (NSSet*) visiblePostAnnotationsNearCoord:(CLLocationCoordinate2D)queryCoord radius:(float)radiusMeters;
 
 // creation
-- (id) initWithMapView:(MKMapView*)mapView andCenter:(CLLocationCoordinate2D)initCoord;
 - (id) initWithMapView:(MKMapView*)mapView
              andCenter:(CLLocationCoordinate2D)initCoord
            atZoomLevel:(unsigned int)zoomLevel;
+- (id) initWithPreviewMapView:(MKMapView*)mapView
+                    andCenter:(CLLocationCoordinate2D)initCoord
+                  atZoomLevel:(unsigned int)zoomLevel;
 
 // setters
 - (void) addAnnotationForTradePost:(TradePost*)tradePost isScan:(BOOL)isScan;

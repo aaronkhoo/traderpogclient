@@ -871,10 +871,9 @@ static const float kBubbleBorderWidth = 1.5f;
             result = [[MKMapView alloc] initWithFrame:superFrame];
             index = MIN(index, [_playerFlyers count]-1);
             Flyer* initFlyer = [_playerFlyers objectAtIndex:index];
-            _previewMap = [[MapControl alloc] initWithMapView:result
+            _previewMap = [[MapControl alloc] initWithPreviewMapView:result
                                                     andCenter:[initFlyer coord]
                                                   atZoomLevel:kFlyerPreviewZoomLevel];
-            _previewMap.isPreviewMap = YES;
             
         }
     }

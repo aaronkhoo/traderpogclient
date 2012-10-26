@@ -690,9 +690,9 @@ static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total O
             result = [[MKMapView alloc] initWithFrame:superFrame];
             index = MIN(index, [_activePosts count]-1);
             TradePost* initPost = [_activePosts.allValues objectAtIndex:index];
-            _previewMap = [[MapControl alloc] initWithMapView:result
-                                                    andCenter:[initPost coord]];
-            _previewMap.isPreviewMap = YES;
+            _previewMap = [[MapControl alloc] initWithPreviewMapView:result
+                                                    andCenter:[initPost coord]
+                                                         atZoomLevel:kDefaultZoomLevel];
         }
         _curBubbleIndex = index;
     }

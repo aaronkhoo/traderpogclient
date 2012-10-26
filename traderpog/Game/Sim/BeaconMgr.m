@@ -200,10 +200,9 @@ static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
             CGRect superFrame = wheel.previewView.bounds;
             result = [[MKMapView alloc] initWithFrame:superFrame];
             ForeignTradePost* initBeacon = [_activeBeacons.allValues objectAtIndex:index];
-            _previewMap = [[MapControl alloc] initWithMapView:result
+            _previewMap = [[MapControl alloc] initWithPreviewMapView:result
                                                     andCenter:[initBeacon coord]
                                                   atZoomLevel:kBeaconPreviewZoomLevel];
-            _previewMap.isPreviewMap = YES;            
         }
     }
     else

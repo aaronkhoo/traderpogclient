@@ -65,7 +65,8 @@ static const float kBrowseAreaRadius = 500.0f;
 
 - (void) internalInitWithMapView:(MKMapView*)mapView
                           center:(CLLocationCoordinate2D)initCoord
-                       zoomLevel:(unsigned int)zoomLevel;
+                       zoomLevel:(unsigned int)zoomLevel
+                       isPreview:(BOOL)isPreview;
 - (void) zoom:(NSUInteger) zoomLevel centerOn:(CLLocationCoordinate2D)coord
     modifyMap:(BOOL)modifyMap
      animated:(BOOL)isAnimated
@@ -192,10 +193,10 @@ const float kNewPostOffsetMeters = 100.0f;
 - (void) internalInitWithMapView:(MKMapView *)mapView
                           center:(CLLocationCoordinate2D)initCoord
                        zoomLevel:(unsigned int)zoomLevel
+                       isPreview:(BOOL)isPreview
 {
     self.view = mapView;
     mapView.delegate = self;
-    [mapView setCenterCoordinate:initCoord zoomLevel:zoomLevel animated:NO];
     
     _browseArea = [[BrowseArea alloc] initWithCenterLoc:initCoord radius:kBrowseAreaRadius];
     _regionSetFromCode = NO;
@@ -211,20 +212,10 @@ const float kNewPostOffsetMeters = 100.0f;
     
     self.trackedAnnotation = nil;
     _isViewingRoute = NO;
-    _isPreviewMap = NO;
+    _isPreviewMap = isPreview;
     _availCoordShiftDir = kMapAvailCoordShiftRight;
-}
 
-- (id) initWithMapView:(MKMapView *)mapView andCenter:(CLLocationCoordinate2D)initCoord
-{
-    self = [super init];
-    if(self)
-    {
-        [self internalInitWithMapView:mapView
-                               center:initCoord
-                            zoomLevel:kDefaultZoomLevel];
-    }
-    return self;
+    [mapView setCenterCoordinate:initCoord zoomLevel:zoomLevel animated:NO];
 }
 
 - (id) initWithMapView:(MKMapView*)mapView
@@ -236,7 +227,21 @@ const float kNewPostOffsetMeters = 100.0f;
     {
         [self internalInitWithMapView:mapView
                                center:initCoord
-                            zoomLevel:zoomLevel];
+                            zoomLevel:zoomLevel isPreview:NO];
+    }
+    return self;
+}
+
+- (id) initWithPreviewMapView:(MKMapView*)mapView
+             andCenter:(CLLocationCoordinate2D)initCoord
+           atZoomLevel:(unsigned int)zoomLevel
+{
+    self = [super init];
+    if(self)
+    {
+        [self internalInitWithMapView:mapView
+                               center:initCoord
+                            zoomLevel:zoomLevel isPreview:YES];
     }
     return self;
 }
