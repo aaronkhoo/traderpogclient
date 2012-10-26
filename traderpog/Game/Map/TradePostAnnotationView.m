@@ -441,7 +441,7 @@ static const float kAccelViewYOffset = -94.0f;
 }
 
 #pragma mark - flyer info
-- (void) showInfoViewForFlyer:(Flyer*)flyer;
+- (void) showInfoViewForFlyer:(Flyer*)flyer withTitle:(NSString*)title
 {
     GameViewController* controller = [[GameManager getInstance] gameViewController];
     FlyerInfoView* popup = (FlyerInfoView*)[controller dequeueModalViewWithIdentifier:kFlyerInfoViewReuseIdentifier];
@@ -459,6 +459,10 @@ static const float kAccelViewYOffset = -94.0f;
     
     // refresh content
     [popup refreshViewForFlyer:flyer];
+    if(title)
+    {
+        [popup.titleLabel setText:title];
+    }
     
     // show it
     [controller showModalView:popup animated:YES];
@@ -538,7 +542,7 @@ static const float kBuyViewCenterYOffset = -10.0f;
                 else if(kFlyerStateLoaded == [flyer state])
                 {
                     // flyer loaded and ready to go, show Flyer Info
-                    [self showInfoViewForFlyer:flyer];
+                    [self showInfoViewForFlyer:flyer withTitle:nil];
                     centerCoord = [self buyViewCenterCoordForTradePost:tradePost inMapView:mapView];
                     doZoomAdjustment = YES;
                 }
@@ -550,8 +554,17 @@ static const float kBuyViewCenterYOffset = -10.0f;
                 }
             }
         }
+        else if([tradePost getInboundFlyer])
+        {
+            // if there is a flyer inbound, show its Flyer Info instead and disallow
+            // player from sending another flyer
+            [self showInfoViewForFlyer:[tradePost getInboundFlyer] withTitle:@"Inbound"];
+            centerCoord = [self buyViewCenterCoordForTradePost:tradePost inMapView:mapView];
+            doZoomAdjustment = YES;            
+        }
         else
         {
+            // otherwise, let player Buy from this post
             [self showBuyViewForPost:tradePost];
             centerCoord = [self buyViewCenterCoordForTradePost:tradePost inMapView:mapView];
             doZoomAdjustment = YES;

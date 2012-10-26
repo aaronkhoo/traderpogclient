@@ -60,7 +60,7 @@
 									<object class="IBUILabel" id="980250667">
 										<reference key="NSNextResponder" ref="135623804"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{7, -2}, {150, 48}}</string>
+										<string key="NSFrame">{{7, -2}, {90, 48}}</string>
 										<reference key="NSSuperview" ref="135623804"/>
 										<reference key="NSNextKeyView" ref="280094833"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -79,7 +79,7 @@
 										</object>
 										<nil key="IBUIHighlightedColor"/>
 										<int key="IBUIBaselineAdjustment">0</int>
-										<float key="IBUIMinimumFontSize">15</float>
+										<float key="IBUIMinimumScaleFactor">0.5</float>
 										<bool key="IBUIAdjustsLetterSpacingToFitWidth">YES</bool>
 										<object class="IBUIFontDescription" key="IBUIFontDescription" id="822564480">
 											<string key="name">MarkerFelt-Thin</string>
@@ -590,6 +590,14 @@
 					</object>
 					<int key="connectionID">39</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">titleLabel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="980250667"/>
+					</object>
+					<int key="connectionID">40</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -779,7 +787,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">39</int>
+			<int key="maxID">40</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>

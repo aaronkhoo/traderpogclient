@@ -776,6 +776,25 @@ static const float kBubbleBorderWidth = 1.5f;
     return _cachedPurchaseables;
 }
 
+- (Flyer*) flyerInboundToPostId:(NSString *)postId
+{
+    Flyer* result = nil;
+    for(Flyer* cur in _playerFlyers)
+    {
+        if(kFlyerStateEnroute == [cur state])
+        {
+            // if enroute, check nextpost
+            if([postId isEqualToString:[cur.path nextPostId]])
+            {
+                result = cur;
+                break;
+            }
+        }
+    }
+    
+    return result;
+}
+
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {

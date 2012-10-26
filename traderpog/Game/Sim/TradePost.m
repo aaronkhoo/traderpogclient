@@ -12,6 +12,7 @@
 #import "TradePostAnnotationView.h"
 #import "GameNotes.h"
 #import "GameManager.h"
+#import "FlyerMgr.h"
 
 @implementation TradePost
 @synthesize postId = _postId;
@@ -30,6 +31,7 @@
     if(self)
     {
         _flyerAtPost = nil;
+        _cachedInboundFlyer = nil;
         _creationDate = [NSDate date];
         _gameEvent = nil;
     }
@@ -96,9 +98,24 @@
 
 - (void) setFlyerAtPost:(Flyer *)flyerAtPost
 {
+    // clear any cachedInbound anytime a change happens to flyerAtPost
+    _cachedInboundFlyer = nil;
+    
+    // set it
     _flyerAtPost = flyerAtPost;
+    
+    // broadcast
     [[NSNotificationCenter defaultCenter] postNotificationName:kGameNotePostFlyerChanged
                                                         object:self];
+}
+
+- (Flyer*) getInboundFlyer
+{
+    if(!_cachedInboundFlyer)
+    {
+        _cachedInboundFlyer = [[FlyerMgr getInstance] flyerInboundToPostId:[self postId]];
+    }
+    return _cachedInboundFlyer;
 }
 
 #pragma mark - MKAnnotation delegate

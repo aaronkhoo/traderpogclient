@@ -63,17 +63,36 @@ static const float kDisabledAlpha = 0.6f;
     return self;
 }
 
+static NSString* const kDefaultFlyerTypeName = @"flyer_glider";
+static const unsigned int kDefaultFlyerTypeCapacity = 80;
+static NSString* const kDefaultFlyerTypeTitle = @"Flyer";
+
 - (void) refreshViewForFlyer:(Flyer *)flyer
 {
     _flyer = flyer;
-    FlyerType* flyerType = [[FlyerTypes getInstance] getFlyerTypeAtIndex:[flyer flyerTypeIndex]];
+    
+    // info from FlyerType
+    NSString* flyerTypeName = kDefaultFlyerTypeName;
+    unsigned int flyerTypeCap = kDefaultFlyerTypeCapacity;
+    NSString* flyerTypeTitle = kDefaultFlyerTypeTitle;
+    {
+        FlyerType* flyerType = [[FlyerTypes getInstance] getFlyerTypeAtIndex:[flyer flyerTypeIndex]];
+        if(flyerType)
+        {
+            flyerTypeName = [flyerType sideimg];
+            flyerTypeCap = [flyerType capacity];
+            flyerTypeTitle = [flyerType name];
+        }
+    }
 
     // image
-    NSString* flyerTypeName = [flyerType sideimg];
     NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:flyerTypeName tier:[flyer curUpgradeTier] colorIndex:[flyer curColor]];
     UIImage* image = [[ImageManager getInstance] getImage:imageName];
     [self.imageView setImage:image];
 
+    // title
+    [self.titleLabel setText:flyerTypeTitle];
+    
     // trade item info
     NSString* itemId = [flyer.inventory itemId];
     if(!itemId)
@@ -108,7 +127,7 @@ static const float kDisabledAlpha = 0.6f;
 
     // capacity
     FlyerUpgradePack* curPack = [[FlyerLabFactory getInstance] upgradeForTier:[flyer curUpgradeTier]];
-    unsigned int cap = [flyerType capacity] * [curPack capacityFactor];
+    unsigned int cap = flyerTypeCap * [curPack capacityFactor];
     if(numItems < cap)
     {
         // show percentage

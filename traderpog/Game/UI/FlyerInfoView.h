@@ -18,6 +18,7 @@ extern NSString* const kFlyerInfoViewReuseIdentifier;
 @property (weak, nonatomic) IBOutlet UIView *nibContentView;
 @property (weak, nonatomic) IBOutlet UIView *contentScrim;
 @property (weak, nonatomic) IBOutlet UIView *nibTitleView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIImageView *itemImageView;

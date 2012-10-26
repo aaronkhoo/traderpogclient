@@ -32,6 +32,7 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
     __weak Flyer*      _flyerAtPost;
     NSDate* _creationDate;
     GameEvent* _gameEvent;
+    __weak Flyer* _cachedInboundFlyer;
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
@@ -57,4 +58,6 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 // helpers related to annotation view
 - (TradePostAnnotationView*) getAnnotationViewInstance:(MKMapView *)mapView;
 
+// queries
+- (Flyer*) getInboundFlyer;
 @end
