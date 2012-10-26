@@ -610,7 +610,6 @@ static const NSTimeInterval kMinFlightTime = 3; // seconds
             if(speed < [self getFlyerSpeed])
             {
                 // adjusts flight-time by changing elapsed
-                NSLog(@"elapsed mod by %f", (speed / [self getFlyerSpeed]));
                 elapsed *= (speed / [self getFlyerSpeed]);
             }
             CLLocationCoordinate2D curCoord = [self flyerCoordinateAtTimeSinceDeparture:elapsed];
