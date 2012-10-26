@@ -64,8 +64,15 @@
     }
     else if([self isMemberOfClass:[ForeignTradePost class]])
     {
+        NSString* fallbackName = @"b_homebase.png";
+        ForeignTradePost* thisPost = (ForeignTradePost*)self;
+        if([thisPost fbId])
+        {
+            // this post has an FB id; show it as a beacon
+            fallbackName = @"b_beacon.png";
+        }
         UIImage* image = [[ImageManager getInstance] getImage:[self imgPath]
-                                                fallbackNamed:@"b_homebase.png"];
+                                                fallbackNamed:fallbackName];
         [annotationView.imageView stopAnimating];
         [annotationView.imageView setImage:image];
         showItemBubble = YES;

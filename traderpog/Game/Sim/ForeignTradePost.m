@@ -26,7 +26,15 @@
     {
         // These two only matter in the context of a foreign beacon trade post
         _userId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:kKeyTradeUserId] integerValue]];
-        _fbId = [NSString stringWithFormat:@"%@", [dict valueForKeyPath:kKeyTradeFBId]];
+        NSNumber* facebookId = [dict valueForKeyPath:kKeyTradeFBId];
+        if(facebookId)
+        {
+            _fbId = [NSString stringWithFormat:@"%@", facebookId];
+        }
+        else
+        {
+            _fbId = nil;
+        }
         
         _supplyLevel = [self getForeignSupplyLevel];
     }
