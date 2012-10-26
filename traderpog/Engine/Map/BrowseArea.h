@@ -18,12 +18,10 @@
     CLLocation*             _center;
     CLLocationDistance      _radius;
     unsigned int            _minZoom;
-    unsigned int            _maxZoom;
 }
 @property (nonatomic,strong) CLLocation* center;
 @property (nonatomic) CLLocationDistance radius;
 @property (nonatomic) unsigned int minZoom;
-@property (nonatomic) unsigned int maxZoom;
 
 - (id) initWithCenterLoc:(CLLocationCoordinate2D)center radius:(CLLocationDistance)radius;
 - (void) setCenterCoord:(CLLocationCoordinate2D)coord;

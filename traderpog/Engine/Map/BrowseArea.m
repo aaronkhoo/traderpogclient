@@ -9,14 +9,12 @@
 #import "BrowseArea.h"
 #import <MapKit/MapKit.h>
 
-static const unsigned int kDefaultMinZoom = 15;
-static const unsigned int kDefaultMaxZoom = 18;
+static const unsigned int kDefaultMinZoom = 8;
 
 @implementation BrowseArea
 @synthesize center = _center;
 @synthesize radius = _radius;
 @synthesize minZoom = _minZoom;
-@synthesize maxZoom = _maxZoom;
 
 - (id) initWithCenterLoc:(CLLocationCoordinate2D)centerCoord radius:(CLLocationDistance)radius
 {
@@ -26,7 +24,6 @@ static const unsigned int kDefaultMaxZoom = 18;
         _center = [[CLLocation alloc] initWithLatitude:centerCoord.latitude longitude:centerCoord.longitude];
         _radius = radius;
         _minZoom = kDefaultMinZoom;
-        _maxZoom = kDefaultMaxZoom;
     }
     return self;
 }
