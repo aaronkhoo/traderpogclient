@@ -45,7 +45,6 @@
 								<int key="NSvFlags">274</int>
 								<string key="NSFrame">{{5, 5}, {50, 50}}</string>
 								<reference key="NSSuperview" ref="407106499"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="654123302"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -60,7 +59,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrameSize">{60, 60}</string>
 								<reference key="NSSuperview" ref="407106499"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="878382915"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -73,7 +71,6 @@
 						</array>
 						<string key="NSFrame">{{40, 73}, {60, 60}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="734132608"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -91,7 +88,6 @@
 								<int key="NSvFlags">274</int>
 								<string key="NSFrameSize">{60, 60}</string>
 								<reference key="NSSuperview" ref="878382915"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="609441145"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -104,7 +100,6 @@
 						</array>
 						<string key="NSFrame">{{44, 114}, {60, 60}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="207039785"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -122,7 +117,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{0, 8}, {60, 40}}</string>
 								<reference key="NSSuperview" ref="10110020"/>
-								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -156,7 +150,6 @@
 						</array>
 						<string key="NSFrame">{{85, 120}, {60, 60}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="692257128"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -174,7 +167,6 @@
 								<int key="NSvFlags">274</int>
 								<string key="NSFrame">{{5, 5}, {20, 20}}</string>
 								<reference key="NSSuperview" ref="609441145"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="10110020"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -187,7 +179,6 @@
 						</array>
 						<string key="NSFrame">{{85, 85}, {30, 30}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="704767146"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -199,7 +190,6 @@
 				</array>
 				<string key="NSFrameSize">{200, 200}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="407106499"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -367,50 +357,7 @@
 			<nil key="sourceID"/>
 			<int key="maxID">28</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">CircleButton</string>
-					<string key="superclassName">UIView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/CircleButton.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">InfoViewController</string>
-					<string key="superclassName">UIViewController</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="closeCircle">CircleButton</string>
-						<string key="leaderboardsCircle">CircleButton</string>
-						<string key="memberCircle">CircleButton</string>
-						<string key="moreCircle">CircleButton</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="closeCircle">
-							<string key="name">closeCircle</string>
-							<string key="candidateClassName">CircleButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="leaderboardsCircle">
-							<string key="name">leaderboardsCircle</string>
-							<string key="candidateClassName">CircleButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="memberCircle">
-							<string key="name">memberCircle</string>
-							<string key="candidateClassName">CircleButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="moreCircle">
-							<string key="name">moreCircle</string>
-							<string key="candidateClassName">CircleButton</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/InfoViewController.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>

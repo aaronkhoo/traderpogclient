@@ -226,7 +226,7 @@
 							<object class="IBUILabel" id="968019447">
 								<reference key="NSNextResponder" ref="462121562"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{16, 18}, {284, 49}}</string>
+								<string key="NSFrame">{{8, 0}, {171, 57}}</string>
 								<reference key="NSSuperview" ref="462121562"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="84171198"/>
@@ -236,7 +236,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">While you were away ...</string>
+								<string key="IBUIText">While you were away...</string>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MSAxIDEAA</bytes>
@@ -252,6 +252,8 @@
 								<string key="IBUIShadowOffset">{-1, -1}</string>
 								<int key="IBUIBaselineAdjustment">0</int>
 								<float key="IBUIMinimumScaleFactor">0.5</float>
+								<int key="IBUINumberOfLines">0</int>
+								<int key="IBUILineBreakMode">0</int>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
 									<string key="name">Courier-Bold</string>
 									<string key="family">Courier</string>
@@ -263,6 +265,7 @@
 									<double key="NSSize">22</double>
 									<int key="NSfFlags">16</int>
 								</object>
+								<double key="preferredMaxLayoutWidth">171</double>
 							</object>
 							<object class="IBUILabel" id="956219823">
 								<reference key="NSNextResponder" ref="462121562"/>
@@ -660,13 +663,13 @@
 						<reference key="parent" ref="1013802580"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">43</int>
-						<reference key="object" ref="968019447"/>
+						<int key="objectID">36</int>
+						<reference key="object" ref="468191123"/>
 						<reference key="parent" ref="462121562"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">36</int>
-						<reference key="object" ref="468191123"/>
+						<int key="objectID">43</int>
+						<reference key="object" ref="968019447"/>
 						<reference key="parent" ref="462121562"/>
 					</object>
 				</array>
