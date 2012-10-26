@@ -579,6 +579,20 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
     [[SoundManager getInstance] playMusic:@"background_default" doLoop:YES];
 }
 
+static const NSTimeInterval kMinFlightTime = 3; // seconds
+
+// returns a speed such that travel time is at least min-flighttime
+- (float) adjustedSpeedForRouteDist:(CLLocationDistance)dist
+{
+    float speed = [self getFlyerSpeed];
+    NSTimeInterval routeTime = dist / speed;
+    if(routeTime < kMinFlightTime)
+    {
+        speed = dist / ((float)kMinFlightTime);
+    }
+    return speed;
+}
+
 - (void) updateAtDate:(NSDate *)currentTime
 {
     if(!_initializeFlyerOnMap)
@@ -590,7 +604,16 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
         if(!_path.doneWithCurrentPath)
         {
             // enroute
-            CLLocationCoordinate2D curCoord = [self flyerCoordinateNow];
+            NSTimeInterval elapsed = -[_path.departureDate timeIntervalSinceNow];
+            CLLocationDistance routeDist = metersDistance([_path srcCoord], [_path destCoord]);
+            float speed = [self adjustedSpeedForRouteDist:routeDist];
+            if(speed < [self getFlyerSpeed])
+            {
+                // adjusts flight-time by changing elapsed
+                NSLog(@"elapsed mod by %f", (speed / [self getFlyerSpeed]));
+                elapsed *= (speed / [self getFlyerSpeed]);
+            }
+            CLLocationCoordinate2D curCoord = [self flyerCoordinateAtTimeSinceDeparture:elapsed];
             [self setCoordinate:curCoord];
             
             if([self flightPathRender])
@@ -598,8 +621,6 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
                 [self.flightPathRender setCurCoord:curCoord];
             }
             
-            NSTimeInterval elapsed = -[_path.departureDate timeIntervalSinceNow];
-            CLLocationDistance routeDist = metersDistance([_path srcCoord], [_path destCoord]);
             self.metersToDest = routeDist - (elapsed * [self getFlyerSpeed]);
             if(self.metersToDest <= 0.0)
             {
@@ -636,7 +657,8 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
 
 - (NSTimeInterval) timeTillDest
 {
-    NSTimeInterval time = [self metersToDest] / [self getFlyerSpeed];
+    CLLocationDistance routeDist = metersDistance([_path srcCoord], [_path destCoord]);
+    NSTimeInterval time = [self metersToDest] / [self adjustedSpeedForRouteDist:routeDist];
     if(time <= 0.0)
     {
         time = 0.0;
