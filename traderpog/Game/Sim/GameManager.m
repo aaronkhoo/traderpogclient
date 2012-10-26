@@ -639,7 +639,11 @@ typedef enum {
 {
     if([[flyer path] curPostId] != [tradePost postId])
     {
-        [flyer departForPostId:[tradePost postId]];
+        BOOL departed = [flyer departForPostId:[tradePost postId]];
+        if(departed)
+        {
+            [self.gameViewController.mapControl centerOnFlyer:flyer animated:YES];
+        }
     }
 }
 
@@ -715,11 +719,6 @@ typedef enum {
                 [[TradeManager getInstance] flyer:flyer buyFromPost:_contextPost numItems:[_contextPost supplyLevel]];
             }
             [self flyer:flyer departForTradePost:_contextPost];
-        }
-        else
-        {
-            // if flyer is busy, center map on committed flyer
-            [self.gameViewController.mapControl centerOnFlyer:flyer animated:YES];
         }
         
         _contextPost = nil;

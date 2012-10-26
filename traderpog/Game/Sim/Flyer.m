@@ -352,9 +352,6 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
     
     float angle = [MKMapView angleBetweenCoordinateA:[_path srcCoord] coordinateB:[_path destCoord]];
     [self setAngle:angle];
-    
-    // add rendering
-    [[[[GameManager getInstance] gameViewController] mapControl] showFlightPathForFlyer:self];
 }
 
 - (void) refreshIndexFromFlyerTypeId:(NSString*)flyerTypeId
@@ -506,11 +503,6 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
 {
     BOOL success = NO;
   
-    // HACK
-    // (Shu) I need to have the flyer-state properly restored first before
-    // this is enforced
-//    if(kFlyerStateIdle == [self state])
-    // HACK
     {
         success = [_path departForPostId:postId userFlyerId:_userFlyerId];
         if (success)

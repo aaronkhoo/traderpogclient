@@ -370,22 +370,20 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
     // center the map and browse area
     if(modifyMap)
     {
-        [self dismissAllFlightPaths];
         if(changeZoom)
         {
+            if(![self isZoomEnabled])
+            {
+                // map is not zoom-able only if we are in flight-path view; so, dismiss flight-paths
+                // as we are getting out of it
+                [[GameManager getInstance].gameViewController.mapControl dismissAllFlightPaths];
+            }
             [self.view setCenterCoordinate:coord zoomLevel:zoomLevel animated:isAnimated];
         }
         else
         {
             [self.view setCenterCoordinate:coord animated:isAnimated];
         }
-        dispatch_time_t flightPathsDelay = dispatch_time(DISPATCH_TIME_NOW, kFlightPathsDelay * NSEC_PER_SEC);
-        dispatch_after(flightPathsDelay, dispatch_get_main_queue(), ^(void){
-            if(![self isPreviewMap])
-            {
-                [self showAllFlightPaths];
-            }
-        });
     }
     [self.browseArea setCenterCoord:coord];
     [self.browseArea setRadius:kBrowseAreaRadius];
@@ -438,6 +436,8 @@ static const NSTimeInterval kFlightPathsDelay = 1.0;
                 [[SoundManager getInstance] playMusic:@"ambient_wind" doLoop:YES];
                 _isViewingRoute = YES;
             }
+            [self dismissAllFlightPaths];
+            [self showFlightPathForFlyer:flyer];
         }
         
         // disable zoom for enroute Flyer
