@@ -23,6 +23,8 @@ typedef void (^CompletionBlock)(BOOL finished);
 + (NSString*) commaSeparatedStringFromUnsignedInt:(unsigned int)number;
 + (NSString*) currencyStringForAmount:(unsigned int)amount;
 + (NSString*) stringTrimAllWhitespaces:(NSString*)src;
++ (NSString*) stringFromString:(NSString*)src looselyCapLength:(NSUInteger)max withSeparator:(NSString*)sep;
+
 + (NSDate*) getMondayOfTheWeek;
 + (NSString*)base64forData:(NSData*)theData;
 

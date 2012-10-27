@@ -143,6 +143,43 @@ static const float kSecondsPerMinute = 60.0;
     return result;
 }
 
++ (NSString*) stringFromString:(NSString*)src looselyCapLength:(NSUInteger)max withSeparator:(NSString*)sep
+{
+    NSArray* comps = [src componentsSeparatedByString:sep];
+    NSUInteger curLen = 0;
+    NSUInteger index = 0;
+    for(NSString* curStr in comps)
+    {
+        ++index;
+        curLen += [curStr length];
+        if(curLen > max)
+        {
+            break;
+        }
+    }
+
+    NSString* result = nil;
+    if([comps count])
+    {
+        result = [comps objectAtIndex:0];
+        for(NSUInteger i=1; i < index; ++i)
+        {
+            NSString* newComp = [comps objectAtIndex:i];
+            if(([newComp length] + [result length]) > max)
+            {
+                // if this would put the string over max, take it's first character
+                NSString* sub = [newComp substringToIndex:1];
+                result = [result stringByAppendingFormat:@" %@", sub];
+            }
+            else
+            {
+                result = [result stringByAppendingFormat:@" %@", newComp];
+            }
+        }
+    }
+    return result;
+}
+
 + (NSDate*) getMondayOfTheWeek
 {
     NSDate *today = [[NSDate alloc] init];

@@ -251,6 +251,7 @@ static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
 }
 
 #pragma mark - WheelProtocol
+static const NSUInteger kPreviewLabelStrLenMax = 12;
 - (void) wheel:(WheelControl*)wheel didMoveTo:(unsigned int)index
 {
     index = MIN(index, kBeaconNum - 1);
@@ -260,11 +261,29 @@ static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
         [_previewMap centerOn:[cur coord] animated:YES];
         [wheel.previewImageView setImage:nil];
         [wheel.previewImageView setHidden:YES];
-        [wheel.previewLabel setHidden:YES];
+        
+        NSString* fbName = nil;
+        if([cur fbId])
+        {
+            fbName = [[Player getInstance] getFacebookNameByFbid:[cur fbId]];
+        }
+        if(fbName)
+        {
+            NSLog(@"before %@", fbName);
+            fbName = [PogUIUtility stringFromString:fbName looselyCapLength:kPreviewLabelStrLenMax withSeparator:@" "];
+            NSLog(@"after %@", fbName);
+            [wheel.previewLabel setText:fbName];
+        }
+        else
+        {
+            [wheel.previewLabel setText:@"Friend Pog"];
+        }
+        [wheel.previewLabel setNumberOfLines:1];
+        [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
+        [wheel.previewLabel setAdjustsFontSizeToFitWidth:YES];
     }
     else
     {
-        [wheel.previewLabel setHidden:NO];
         if([[Player getInstance] isFacebookConnected])
         {
             [wheel.previewLabel setText:@"Invite Friends!"];
