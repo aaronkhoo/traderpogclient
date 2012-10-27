@@ -27,7 +27,7 @@ static const float kBubbleBorderWidth = 1.5f;
 
 @interface BeaconMgr ()
 {
-    NSMutableDictionary* _urlImages;
+    NSMutableDictionary* _cachedImages;
 }
 @end
 
@@ -43,7 +43,7 @@ static const float kBubbleBorderWidth = 1.5f;
     {
         _activeBeacons = [NSMutableDictionary dictionaryWithCapacity:10];
         _lastUpdate = nil;
-        _urlImages = [NSMutableDictionary dictionaryWithCapacity:10];
+        _cachedImages = [NSMutableDictionary dictionaryWithCapacity:10];
     }
     return self;
 }
@@ -158,27 +158,41 @@ static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
     {
         // request the FB picture for this beacon's owner
         ForeignTradePost* cur = [_activeBeacons.allValues objectAtIndex:index];
-        UrlImage* urlImage = [_urlImages objectForKey:[cur fbId]];
-        if(urlImage)
+        if([cur fbId])
         {
-            [contentView.imageView setImage:[urlImage image]];
+            UrlImage* urlImage = [_cachedImages objectForKey:[cur fbId]];
+            if(urlImage)
+            {
+                [contentView.imageView setImage:[urlImage image]];
+            }
+            else
+            {
+                NSString* pictureUrlString = [NSString stringWithFormat:kFbPictureUrl, [cur fbId]];
+                urlImage = [[UrlImage alloc] initWithUrl:pictureUrlString
+                                              completion:^(UrlImage* image){
+                                                  if([image image])
+                                                  {
+                                                      [contentView.imageView setImage:[image image]];
+                                                      [_cachedImages setObject:image forKey:[cur fbId]];
+                                                  }
+                                                  else
+                                                  {
+                                                      UIImage* image = [[ImageManager getInstance] getImage:@"bubble_beacon_g_001.png"];
+                                                      [contentView.imageView setImage:image];
+                                                  }
+                                              }];
+            }
         }
         else
         {
-            // set an image so that there's always something there when picture is being loaded
-            UIImage* image = [[ImageManager getInstance] getImage:@"bubble_beacon_fb.png"
-                                                    fallbackNamed:@"bubble_beacon_fb.png"];
+            // no fbid
+            UIImage* image = [[ImageManager getInstance] getImage:@"bubble_beacon_g_001.png"];
             [contentView.imageView setImage:image];
-
-            NSString* pictureUrlString = [NSString stringWithFormat:kFbPictureUrl, [cur fbId]];
-            UrlImage* urlImage = [[UrlImage alloc] initWithUrl:pictureUrlString forImageView:[contentView imageView]];
-            [_urlImages setObject:urlImage forKey:[cur fbId]];            
         }
     }
     else
     {
-        UIImage* image = [[ImageManager getInstance] getImage:@"bubble_beacon_g_001.png"
-                                                fallbackNamed:@"bubble_beacon_g_001.png"];
+        UIImage* image = [[ImageManager getInstance] getImage:@"bubble_beacon_fb.png"];
         [contentView.imageView setImage:image];
     }
     
@@ -246,9 +260,11 @@ static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
         [_previewMap centerOn:[cur coord] animated:YES];
         [wheel.previewImageView setImage:nil];
         [wheel.previewImageView setHidden:YES];
+        [wheel.previewLabel setHidden:YES];
     }
     else
     {
+        [wheel.previewLabel setHidden:NO];
         if([[Player getInstance] isFacebookConnected])
         {
             [wheel.previewLabel setText:@"Invite Friends!"];
@@ -260,6 +276,7 @@ static NSString* const kFbPictureUrl = @"https://graph.facebook.com/%@/picture";
         // empty flyer slot
         [wheel.previewLabel setNumberOfLines:1];
         [wheel.previewLabel setFont:[UIFont fontWithName:@"Marker Felt" size:19.0f]];
+        [wheel.previewLabel setAdjustsFontSizeToFitWidth:YES];
         UIImage* bgImage = [[ImageManager getInstance] getImage:@"bubble_beacon_fb.png" fallbackNamed:@"bubble_beacon_fb.png"];
         [wheel.previewImageView setImage:bgImage];
         [wheel.previewImageView setHidden:NO];
