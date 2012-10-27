@@ -696,6 +696,15 @@ static const float kBubbleBorderWidth = 1.5f;
     {
         // empty flyer slot
         [wheel.previewLabel setText:@"Buy Flyer!"];
+        if(kGameStateFlyerSelect == [[GameManager getInstance] gameState])
+        {
+            // we are in flyer-select, do not let user press Yes
+            [wheel disableYesButton];
+        }
+        else
+        {
+            [wheel enableYesButton];
+        }
         
         NSArray* purchaseables = [self getPurchaseableFlyerTypeIndices];
         unsigned int lookupIndex = index - [_playerFlyers count];
