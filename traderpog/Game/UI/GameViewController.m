@@ -47,6 +47,7 @@
 #import "GameObjective.h"
 #import "FlyerInfoView.h"
 #import "MBProgressHUD.h"
+#import "CreditsScreen.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -1019,8 +1020,10 @@ static const float kMyPostMenuSize = 60.0f;
     {
         [self.info dismissAnimated:NO];
         [self showInfoCircleAnimated:YES];
-        DebugMenu* menu = [[DebugMenu alloc] initWithNibName:@"DebugMenu" bundle:nil];
+        CreditsScreen* menu = [[CreditsScreen alloc] initWithNibName:@"CreditsScreen" bundle:nil];
         [self.navigationController pushFromRightViewController:menu animated:YES];
+//        DebugMenu* menu = [[DebugMenu alloc] initWithNibName:@"DebugMenu" bundle:nil];
+//        [self.navigationController pushFromRightViewController:menu animated:YES];
     }
     else if([modalId isEqualToString:kMyPostMenuCloseId])
     {
