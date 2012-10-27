@@ -10,7 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "HiAccuracyLocatorDelegate.h"
 extern NSString* const kUserLocated;
-extern NSString* const kUserLocationDenied;
+extern NSString* const kUserLocationFailed;
 
 @interface HiAccuracyLocator : NSObject<CLLocationManagerDelegate, UIAlertViewDelegate>
 {

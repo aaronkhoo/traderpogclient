@@ -135,7 +135,7 @@ typedef enum {
         _gameState = kGameStateNew;
         _loadingScreen = nil;
         _gameViewController = nil;
-        
+        _playerLocator = nil;
         _asyncHttpCallsCompleted = FALSE;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTradePogReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
@@ -392,8 +392,12 @@ typedef enum {
 
 - (void) locateNewPlayer
 {
-    _playerLocator = [[HiAccuracyLocator alloc] init];
-    [self.playerLocator startUpdatingLocation];
+    if(!_playerLocator)
+    {
+        _playerLocator = [[HiAccuracyLocator alloc] init];
+        _playerLocator.delegate = self;
+    }
+    [_playerLocator startUpdatingLocation];
 }
 
 - (void) registerAllNotificationHandlers
@@ -401,10 +405,6 @@ typedef enum {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleNewPlayerLocated:)
                                                  name:kUserLocated
-                                               object:[self playerLocator]];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleNewPlayerLocationDenied:)
-                                                 name:kUserLocationDenied
                                                object:[self playerLocator]];
 }
 
@@ -422,13 +422,6 @@ typedef enum {
     Player* current = [Player getInstance];
     current.lastKnownLocation = [self playerLocator].bestLocation.coordinate;
     current.lastKnownLocationValid = TRUE;
-    
-    [self selectNextGameUI];
-}
-
-- (void) handleNewPlayerLocationDenied:(NSNotification *)note 
-{
-    [self quitGame];
 }
 
 #pragma mark - public functions
@@ -885,6 +878,34 @@ typedef enum {
     pthread_rwlock_unlock(&_browseEnforcedLock);
     
     return result;
+}
+
+#pragma mark - HiAccuracyLocatorDelegate
+- (void) locator:(HiAccuracyLocator *)locator didLocateUser:(BOOL)didLocateUser
+{
+    // remove self as delegate and drop the locator, we only need to know once
+    locator.delegate = nil;
+    
+    if(didLocateUser)
+    {
+        // Store up the last known player location
+        Player* current = [Player getInstance];
+        current.lastKnownLocation = [self playerLocator].bestLocation.coordinate;
+        current.lastKnownLocationValid = TRUE;
+        
+        [self selectNextGameUI];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Cannot determine current location"
+                                                        message:@"TraderPog requires location services to discover trade posts. Please try again later"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Ok"
+                                              otherButtonTitles:nil];
+        [alert show];
+        [self quitGame];
+    }
+    _playerLocator = nil;
 }
 
 #pragma mark - HttpCallbackDelegate

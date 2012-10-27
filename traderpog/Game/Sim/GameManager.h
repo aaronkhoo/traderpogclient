@@ -10,6 +10,7 @@
 #import "AsyncHttpDelegate.h"
 #import "GameViewController.h"
 #import "HttpCallbackDelegate.h"
+#import "HiAccuracyLocatorDelegate.h"
 
 enum kGameStates
 {
@@ -40,7 +41,7 @@ typedef enum _BrowseEnforcedType
 @class Flyer;
 @class TradePost;
 @class WheelControl;
-@interface GameManager : NSObject<AsyncHttpDelegate,HttpCallbackDelegate>
+@interface GameManager : NSObject<AsyncHttpDelegate,HttpCallbackDelegate,HiAccuracyLocatorDelegate>
 {
     int _gameState;
 

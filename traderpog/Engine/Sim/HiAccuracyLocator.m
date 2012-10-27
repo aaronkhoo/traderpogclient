@@ -20,7 +20,7 @@ typedef enum
 } StopReason;
 
 NSString* const kUserLocated = @"UserLocated";
-NSString* const kUserLocationDenied = @"UserLocationDenied";
+NSString* const kUserLocationFailed = @"UserLocationFailed";
 
 static NSTimeInterval kLocationUpdateTimeout = 4.0;
 
@@ -113,12 +113,7 @@ static NSTimeInterval kLocationUpdateTimeout = 4.0;
                 
             case kStopReasonLocationUnknown:
                 NSLog(@"location unknown");
-                if(nil == [self bestLocation])
-                {
-                    // if timed-out and no location, default the Penang 
-                    self.bestLocation = [CLLocation penang];
-                }
-                [[NSNotificationCenter defaultCenter] postNotificationName:kUserLocated object:self];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kUserLocationFailed object:self];
                 if([self delegate])
                 {
                     [self.delegate locator:self didLocateUser:NO];
@@ -131,11 +126,14 @@ static NSTimeInterval kLocationUpdateTimeout = 4.0;
                 BOOL hasRealLocation = YES;
                 if(nil == [self bestLocation])
                 {
-                    // if timed-out and no location, default the Penang 
-                    self.bestLocation = [CLLocation penang];
                     hasRealLocation = NO;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kUserLocationFailed object:self];
                 }
-                [[NSNotificationCenter defaultCenter] postNotificationName:kUserLocated object:self];
+                else
+                {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kUserLocated object:self];
+                }
+                
                 if([self delegate])
                 {
                     [self.delegate locator:self didLocateUser:hasRealLocation];
@@ -227,7 +225,7 @@ static NSTimeInterval kLocationUpdateTimeout = 4.0;
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kUserLocationDenied object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kUserLocationFailed object:self];
     if([self delegate])
     {
         [self.delegate locator:self didLocateUser:NO];

@@ -46,6 +46,7 @@
 #import "ObjectivesMgr+Render.h"
 #import "GameObjective.h"
 #import "FlyerInfoView.h"
+#import "MBProgressHUD.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -170,6 +171,7 @@ static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepIn
 - (void) dealloc
 {
     _modalNav = nil;
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 
     // unload game resources
     [FlyerLabFactory destroyInstance];
@@ -1144,9 +1146,9 @@ static const float kMyPostMenuSize = 60.0f;
             // play sound
             [[SoundManager getInstance] playClip:@"Pog_SFX_Scanner"];
             
-            // TODO: make the visuals nicer?
-            [_scanActivity setHidden:NO];
-            [_scanActivity startAnimating];
+            MBProgressHUD *progress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            progress.labelText = @"Scanning for Trade Posts";
+
             [[ObjectivesMgr getInstance] playerDidPerformScan];
             [[ScanManager getInstance] locateAndScanInMap:[self mapControl]
                                                completion:^(BOOL finished, NSArray* tradePosts, CLLocation* loc){
@@ -1154,8 +1156,7 @@ static const float kMyPostMenuSize = 60.0f;
                                                    {
                                                        [self handleScanResultTradePosts:tradePosts atLoc:loc];
                                                    }
-                                                   [_scanActivity stopAnimating];
-                                                   [_scanActivity setHidden:YES];
+                                                   [MBProgressHUD hideHUDForView:self.view animated:YES];
                                                }];
             break;
     }

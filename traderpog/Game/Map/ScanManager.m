@@ -303,6 +303,13 @@ static const float kRetryAngleIncr = M_PI_2 * 0.5f;
     }
     else 
     {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Cannot determine current location"
+                                                        message:@"TraderPog requires location services to discover trade posts. Please try again later"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Ok"
+                                              otherButtonTitles:nil];
+        [alert show];
+        
         // location failed
         [self abortLocateScan];
     }
