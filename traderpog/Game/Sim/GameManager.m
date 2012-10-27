@@ -81,6 +81,9 @@ typedef enum {
     // Variables to track any outstanding async http calls that need to be completed
     BOOL _asyncHttpCallsCompleted;
     
+    // server reachability
+    Reachability* _traderpogServerReachability;
+    
     // Variables to track general game information
     NSDate* _gameInfoModifiedDateLastChecked;
     NSDate* _gameInfoModifiedDate;
@@ -105,6 +108,7 @@ typedef enum {
 - (void) locateNewPlayer;
 - (void) registerAllNotificationHandlers;
 - (void) popLoadingScreenToRootIfNecessary:(UINavigationController*)nav;
+- (void) handleTradePogReachabilityChanged:(NSNotification*)note;
 @end
 
 @implementation GameManager
@@ -133,6 +137,10 @@ typedef enum {
         _gameViewController = nil;
         
         _asyncHttpCallsCompleted = FALSE;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTradePogReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+        _traderpogServerReachability = [Reachability reachabilityWithHostname: [[AFClientManager sharedInstance] getTraderPogURL]];
+        [_traderpogServerReachability startNotifier];
         
         _gameInfoModifiedDateLastChecked = nil;
         _gameInfoModifiedDate = nil;
@@ -423,6 +431,8 @@ typedef enum {
     [self quitGame];
 }
 
+#pragma mark - public functions
+
 - (void) pushLoadingScreenIfNecessary:(UINavigationController*)nav message:(NSString*)message
 {
     // first check the view on the stack, if the top view is not LoadingScreen,
@@ -453,6 +463,7 @@ typedef enum {
 
 - (void) applicationWillEnterForeground
 {
+    [_traderpogServerReachability startNotifier];
     if (_gameState != kGameStateNew && ([_lastGameStateInitializeTime timeIntervalSinceNow] < timeTillReinitialize))
     {
         // if we are resuming the app after timeTillReinitialize has expired, just pop back to the
@@ -463,6 +474,7 @@ typedef enum {
 
 - (void) applicationDidEnterBackground
 {
+    [_traderpogServerReachability stopNotifier];
     if([self gameViewController])
     {
         [self.gameViewController.mapControl deselectAllAnnotations];
@@ -482,32 +494,19 @@ typedef enum {
     [[FlyerMgr getInstance] removeFlyerMgrData];
 }
 
+- (void) handleTradePogReachabilityChanged:(NSNotification*)note
+{
+    NSLog(@"Reachability changed to %d", [_traderpogServerReachability currentReachabilityStatus]);
+}
+
 - (void) validateConnectivity
 {
     // Get the navigation controller
     AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     UINavigationController* nav = appDelegate.navController;
-    [self pushLoadingScreenIfNecessary:nav message:@"Checking connectivity"];
     
     // Check if the TraderPog is reachable
-    Reachability* hostReach = [Reachability reachabilityWithHostname: [[AFClientManager sharedInstance] getTraderPogURL]];
-    // It looks like there are occasional transient errors, try a couple times before giving up.
-    BOOL noConnectivity = FALSE;
-    unsigned int retries = 0;
-    while ([hostReach currentReachabilityStatus] == NotReachable)
-    {
-        if (retries < 3)
-        {
-            retries++;
-            usleep(300);
-        }
-        else
-        {
-            noConnectivity = TRUE;
-            break;
-        }
-    }
-    if (noConnectivity)
+    if (![self isTraderPogServerReachable])
     {
         // No connectivity. Pop an error and return to root page.
         UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"No Connection"
@@ -521,9 +520,21 @@ typedef enum {
     }
     else
     {
+        [self pushLoadingScreenIfNecessary:nav message:@"Checking connectivity"];
+
         // We have connectivity; move onto the next steps
         [self selectNextGameUI];
     }
+}
+
+- (BOOL) isTraderPogServerReachable
+{
+    BOOL result = YES;
+    if([_traderpogServerReachability currentReachabilityStatus] == NotReachable)
+    {
+        result = NO;
+    }
+    return result;
 }
 
 - (void) selectNextGameUI

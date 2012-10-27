@@ -13,7 +13,10 @@
 
 NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
 
-@interface ProductManager (PrivateMethods)
+@interface ProductManager ()
+{
+    Reachability* _internetReachability;
+}
 - (void) deliverContentForProductIdentifier:(NSString*)productId receipt:(NSString*)receipt;
 @end
 
@@ -26,6 +29,8 @@ NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
     self = [super init];
     if(self)
     {
+        _internetReachability = [Reachability reachabilityForInternetConnection];
+        
         // register myself as an observer upon startup
         [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
         
@@ -56,9 +61,7 @@ NSString* const GUILD_MEMBERSHIP = @"com.geolopigs.traderpog.membership";
 - (BOOL)requestProductData
 {
     BOOL isInternetReachable = YES;
-    Reachability* internetReach = [Reachability reachabilityForInternetConnection];
-    NetworkStatus status = [internetReach currentReachabilityStatus];
-    if(NotReachable == status)
+    if(NotReachable == [_internetReachability currentReachabilityStatus])
     {
         isInternetReachable = NO;
     }

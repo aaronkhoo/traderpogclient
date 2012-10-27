@@ -14,6 +14,7 @@
 #import "GameColors.h"
 #import "PogUIUtility.h"
 #import "Player.h"
+#import "GameManager.h"
 
 @interface GuildMembershipUI ()
 - (void)didPressClose:(id)sender;
@@ -69,15 +70,19 @@
                                                  name:kProductManagerTransactionCanceledNotification
                                                object:nil];
     
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = @"Retrieving products";
-    
     if ([[ProductManager getInstance] needsRefresh])
     {
-        [[ProductManager getInstance] requestProductData];   
+        BOOL requestedStarted = [[ProductManager getInstance] requestProductData];
+        if(requestedStarted)
+        {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.labelText = @"Retrieving products";
+        }
     }
     else
     {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.labelText = @"Retrieving products";
         [self displayProducts];
     }
 }
