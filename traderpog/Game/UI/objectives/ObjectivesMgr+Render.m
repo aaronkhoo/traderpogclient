@@ -62,13 +62,17 @@ static const NSUInteger kObjViewBaseHeight = 480;
                             }
                             break;
                             
-                        default:
                         case kGameObjectiveType_Basic:
                         {
                             BasicObjectiveUI* basicUI = [self controllerForBasic:next];
                             [game showModalNavViewController:basicUI completion:nil];
                             self.outObjective = next;
                         }
+                            break;
+                            
+                        default:
+                            // unknown type, probably not yet implemented, just skip it
+                            self.outObjective = next;
                             break;
                     }
                 }
@@ -292,8 +296,12 @@ static const NSUInteger kObjViewBaseHeight = 480;
             break;
             
         case kGameObjectiveType_Basic:
-        default:
             // do nothing; completion checked outside of this loop
+            break;
+            
+        default:
+            // unknown type; probably not implemented, skip it
+            result = YES;
             break;
     }
 

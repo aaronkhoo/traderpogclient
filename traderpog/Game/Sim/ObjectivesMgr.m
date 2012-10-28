@@ -36,6 +36,7 @@ static NSString* const kObjectivesMgrFileVersion = @"0.1";
 }
 - (void) updateNextIndex;
 - (void) resetAllCounts;
+- (void) unsetCompletedForObjective:(GameObjective*)objective;
 @end
 
 @implementation ObjectivesMgr
@@ -89,6 +90,20 @@ static NSString* const kObjectivesMgrFileVersion = @"0.1";
     return result;
 }
 
+- (GameObjective*) gameObjectiveWithId:(NSString *)objectiveId
+{
+    GameObjective* result = nil;
+    for(GameObjective* cur in _objectives)
+    {
+        if([objectiveId isEqualToString:[cur objectiveId]])
+        {
+            result = cur;
+            break;
+        }
+    }
+    return result;
+}
+
 - (void) setCompletedForObjective:(GameObjective *)objective hasView:(BOOL)hasView
 {
     // dismiss any objective view
@@ -108,6 +123,11 @@ static NSString* const kObjectivesMgrFileVersion = @"0.1";
     
     // update the next index
     [self updateNextIndex];
+}
+
+- (void) unsetCompletedForObjective:(GameObjective*)objective
+{
+    [objective unsetCompleted];
 }
 
 - (NSString* const) descForObjective:(GameObjective *)objective
@@ -137,6 +157,20 @@ static NSString* const kObjectivesMgrFileVersion = @"0.1";
     NSDictionary* lookup = [_registry objectForKey:[objective objectiveId]];    
     NSTimeInterval delay = [lookup getFloatForKey:kKeyGameObjDelay withDefault:0.0f];
     return delay;
+}
+
+- (BOOL) isNewUserForObjective:(GameObjective *)objective
+{
+    NSDictionary* lookup = [_registry objectForKey:[objective objectiveId]];
+    BOOL result = [lookup getBoolForKey:kKeyGameObjIsNewUser];
+    return result;
+}
+
+- (BOOL) isRecurringForObjective:(GameObjective *)objective
+{
+    NSDictionary* lookup = [_registry objectForKey:[objective objectiveId]];
+    BOOL result = [lookup getBoolForKey:kKeyGameObjIsRecurring];
+    return result;
 }
 
 static const float kHomeNotVisibleDistMeters = 500.0f;
@@ -235,7 +269,15 @@ static const float kHomeNotVisibleDistMeters = 500.0f;
     _registry = [NSMutableDictionary dictionaryWithCapacity:[plistArray count]];
     for(NSDictionary* cur in plistArray)
     {
-        [_registry setObject:cur forKey:[cur objectForKey:kKeyGameObjId]];
+        NSString* objId = [cur objectForKey:kKeyGameObjId];
+        [_registry setObject:cur forKey:objId];
+        
+        // if this registry entry is new, add it into the user's objectives array
+        if(![self gameObjectiveWithId:objId])
+        {
+            GameObjective* newObjective = [[GameObjective alloc] initWithDictionary:cur];
+            [_objectives addObject:newObjective];
+        }
     }
     
     [self updateNextIndex];
@@ -311,12 +353,27 @@ static const float kHomeNotVisibleDistMeters = 500.0f;
     self.outObjective = nil;
 }
 
-- (void) setAllCompleted
+- (void) setAllNewUserCompleted
 {
     for(GameObjective* cur in _objectives)
     {
-        [self setCompletedForObjective:cur hasView:NO];
+        if([self isNewUserForObjective:cur])
+        {
+            [self setCompletedForObjective:cur hasView:NO];
+        }
     }
+}
+
+- (void) resetRecurringObjectives
+{
+    for(GameObjective* cur in _objectives)
+    {
+        if([self isRecurringForObjective:cur])
+        {
+            [self unsetCompletedForObjective:cur];
+        }
+    }    
+    [self updateNextIndex];
 }
 
 #pragma mark - Singleton

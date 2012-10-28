@@ -41,7 +41,7 @@
 #import "SignupScreen.h"
 
 // how often to reinitialize game since last server operations
-static double const timeTillReinitialize = -(60 * 30);
+static double const timeTillReinitialize = -5;//-(60 * 30);
 
 // How often to check if the gameinfo has been updated (2 hours)
 static double const gameinfoRefreshTime = -(60 * 60 * 2);
@@ -224,6 +224,9 @@ typedef enum {
             
             // Save the player state
             [[Player getInstance] savePlayerData];
+            
+            // reset all recurring objectives (things like the occassional set beacon tip)
+            [[ObjectivesMgr getInstance] resetRecurringObjectives];
             
             NSLog(@"start gameloop");
             [self.gameViewController showKnobAnimated:YES delay:0.5f];
@@ -917,7 +920,7 @@ typedef enum {
         {
             NSLog(@"Done associating current account with server.");
             [self.gameViewController setBeaconWheelText:@"Invite Friends"];
-            [[ObjectivesMgr getInstance] setAllCompleted];
+            [[ObjectivesMgr getInstance] setAllNewUserCompleted];
             
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Linked with Facebook!"
                                                             message:@"The current account has now been linked with Facebook"

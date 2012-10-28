@@ -11,6 +11,8 @@
 		<string>basic</string>
 		<key>image</key>
 		<string></string>
+		<key>is_newuser</key>
+		<true/>
 	</dict>
 	<dict>
 		<key>id</key>
@@ -21,6 +23,8 @@
 		<string>basic</string>
 		<key>image</key>
 		<string>flyer_landed.png</string>
+		<key>is_newuser</key>
+		<true/>
 	</dict>
 	<dict>
 		<key>id</key>
@@ -31,6 +35,8 @@
 		<string>basic</string>
 		<key>image</key>
 		<string>homebase_windy</string>
+		<key>is_newuser</key>
+		<true/>
 	</dict>
 	<dict>
 		<key>id</key>
@@ -43,6 +49,8 @@
 		<real>0.5</real>
 		<key>pointY</key>
 		<real>0.9</real>
+		<key>is_newuser</key>
+		<true/>
 	</dict>
 	<dict>
 		<key>id</key>
@@ -55,6 +63,8 @@
 		<real>0.8</real>
 		<key>pointY</key>
 		<real>0.95</real>
+		<key>is_newuser</key>
+		<true/>
 	</dict>
 	<dict>
 		<key>id</key>
@@ -69,6 +79,8 @@
 		<real>0.2</real>
 		<key>pointY</key>
 		<real>0.95</real>
+		<key>is_newuser</key>
+		<true/>
 	</dict>
 	<dict>
 		<key>id</key>
@@ -83,6 +95,8 @@
 		<real>0.2</real>
 		<key>pointY</key>
 		<real>0.95</real>
+		<key>is_newuser</key>
+		<true/>
 	</dict>
 	<dict>
 		<key>id</key>
@@ -95,6 +109,8 @@
 		<real>0.2</real>
 		<key>pointY</key>
 		<real>0.95</real>
+		<key>is_newuser</key>
+		<true/>
 	</dict>
 	<dict>
 		<key>id</key>
@@ -107,6 +123,8 @@
 		<real>0.2</real>
 		<key>pointY</key>
 		<real>0.95</real>
+		<key>is_newuser</key>
+		<true/>
 	</dict>
 	<dict>
 		<key>id</key>
@@ -119,6 +137,8 @@
 		<real>0.2</real>
 		<key>pointY</key>
 		<real>0.95</real>
+		<key>is_newuser</key>
+		<true/>
 	</dict>
 	<dict>
 		<key>id</key>
@@ -129,6 +149,22 @@
 		<string>You are now ready to explore.\n\nGo outside.\nScan and Trade!</string>
 		<key>type</key>
 		<string>basic</string>
+		<key>is_newuser</key>
+		<true/>
+	</dict>
+	<dict>
+		<key>id</key>
+		<string>beacon_tip_0</string>
+		<key>delay</key>
+		<real>0.5</real>
+		<key>desc</key>
+		<string>Tips:\n\nRemember to Set Beacon so that your friends can find your Home Trade Post.</string>
+		<key>type</key>
+		<string>tip_fb</string>
+		<key>is_newuser</key>
+		<false/>
+		<key>is_recurring</key>
+		<true/>
 	</dict>
 </array>
 </plist>

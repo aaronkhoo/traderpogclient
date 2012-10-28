@@ -34,16 +34,20 @@
 - (void) saveObjectivesData;
 - (void) removeObjectivesData;
 - (void) clearForQuitGame;
-- (void) setAllCompleted;
+- (void) setAllNewUserCompleted;
+- (void) resetRecurringObjectives;
+- (void) resetKnobCounts;
 
 // objective operations
 - (GameObjective*) getNextObjective;
+- (GameObjective*) gameObjectiveWithId:(NSString*)objectiveId;
 - (void) setCompletedForObjective:(GameObjective*)objective hasView:(BOOL)hasView;
 - (NSString* const) descForObjective:(GameObjective*)objective;
 - (NSString* const) imageNameForObjective:(GameObjective*)objective;
 - (CGPoint) pointForObjective:(GameObjective*)objective;
 - (NSTimeInterval) delayForObjective:(GameObjective*)objective;
-- (void) resetKnobCounts;
+- (BOOL) isNewUserForObjective:(GameObjective*)objective;
+- (BOOL) isRecurringForObjective:(GameObjective*)objective;
 
 // the game calls these to inform the manager of events user has performed
 - (void) playerDidPerformScan;

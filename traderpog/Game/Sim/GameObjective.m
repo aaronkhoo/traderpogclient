@@ -17,11 +17,14 @@ NSString* const kKeyGameObjCompleted = @"completed";
 NSString* const kKeyGameObjPointX = @"pointX";
 NSString* const kKeyGameObjPointY = @"pointY";
 NSString* const kKeyGameObjDelay = @"delay";
+NSString* const kKeyGameObjIsNewUser = @"is_newuser";
+NSString* const kKeyGameObjIsRecurring = @"is_recurring";
 
 NSString* const kNameGameObjTypeBasic = @"basic";
 NSString* const kNameGameObjTypeScan = @"scan";
 NSString* const kNameGameObjTypeKnobLeft = @"knob_left";
 NSString* const kNameGameObjTypeKnobRight = @"knob_right";
+NSString* const kNameGameObjTypeFbTip = @"tip_fb";
 
 @interface GameObjective ()
 - (void) setInitVars;
@@ -31,14 +34,12 @@ NSString* const kNameGameObjTypeKnobRight = @"knob_right";
 @implementation GameObjective
 @synthesize objectiveId = _objectiveId;
 @synthesize type = _type;
-@synthesize screenPoint = _screenPoint;
 @synthesize isCompleted = _isCompleted;
 
 - (void) setInitVars
 {
     _objectiveId = @"uninit";
     _type = kGameObjectiveType_Basic;
-    _screenPoint = CGPointMake(0.5f, 0.8f);
     _isCompleted = NO;
 }
 
@@ -49,7 +50,8 @@ NSString* const kNameGameObjTypeKnobRight = @"knob_right";
         kNameGameObjTypeBasic,
         kNameGameObjTypeScan,
         kNameGameObjTypeKnobLeft,
-        kNameGameObjTypeKnobRight
+        kNameGameObjTypeKnobRight,
+        kNameGameObjTypeFbTip
     };
     unsigned int type = kGameObjectiveType_Basic;
     for(unsigned int i = 0; i < kGameObjectiveType_Num; ++i)
@@ -90,6 +92,11 @@ NSString* const kNameGameObjTypeKnobRight = @"knob_right";
 - (void) setCompleted
 {
     _isCompleted = YES;
+}
+
+- (void) unsetCompleted
+{
+    _isCompleted = NO;
 }
 
 #pragma mark - NSCoding

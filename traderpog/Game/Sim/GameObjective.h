@@ -18,12 +18,15 @@ extern NSString* const kKeyGameObjCompleted;
 extern NSString* const kKeyGameObjPointX;
 extern NSString* const kKeyGameObjPointY;
 extern NSString* const kKeyGameObjDelay;
+extern NSString* const kKeyGameObjIsNewUser;
+extern NSString* const kKeyGameObjIsRecurring;
 
 enum kGameObjectiveTypes {
     kGameObjectiveType_Basic = 0,
     kGameObjectiveType_Scan,
     kGameObjectiveType_KnobLeft,
     kGameObjectiveType_KnobRight,
+    kGameObjectiveType_FbTip,
     
     kGameObjectiveType_Num
 };
@@ -32,12 +35,10 @@ enum kGameObjectiveTypes {
 {
     NSString*   _objectiveId;
     NSUInteger   _type;
-    CGPoint     _screenPoint;
     BOOL        _isCompleted;
 }
 @property (nonatomic,readonly) NSString* objectiveId;
 @property (nonatomic) NSUInteger type;
-@property (nonatomic) CGPoint screenPoint;
 @property (nonatomic,readonly) BOOL isCompleted;
 
 - (id) initWithDictionary:(NSDictionary*)dict;
@@ -45,4 +46,5 @@ enum kGameObjectiveTypes {
 // do NOT call this directly!
 // call [ObjectiveMgr setCompletedForObjective:] instead
 - (void) setCompleted;
+- (void) unsetCompleted;
 @end
