@@ -269,9 +269,7 @@ static const NSUInteger kPreviewLabelStrLenMax = 12;
         }
         if(fbName)
         {
-            NSLog(@"before %@", fbName);
             fbName = [PogUIUtility stringFromString:fbName looselyCapLength:kPreviewLabelStrLenMax withSeparator:@" "];
-            NSLog(@"after %@", fbName);
             [wheel.previewLabel setText:fbName];
         }
         else
@@ -323,6 +321,13 @@ static const NSUInteger kPreviewLabelStrLenMax = 12;
         {
             NSLog(@"Invite Friends!");
             [[Player getInstance] updateFacebookFeed:@"I'm playing Traderpog! Won't you come join me?" useTimer:FALSE];
+            UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Invite posted to your Facebook wall"
+                                                              message:@"When your friends play TraderPog, they will appear on this wheel. Watch this space."
+                                                             delegate:nil
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles:nil];
+            
+            [message show];
         }
         else
         {

@@ -685,7 +685,7 @@ static const float kPostTribute = 0.02;
         NSMutableDictionary* params1 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                         //appId, @"api_key",
                                         message, @"message",
-                                        @"http://www.traderpog.com", @"link",
+                                        @"https://itunes.apple.com/us/app/traderpog/id569329225?ls=1&mt=8", @"link",
                                         @"https://s3.amazonaws.com/traderpog/traderpog.png", @"picture",
                                         @"TraderPog", @"name",
                                         @"Pogs Can Fly", @"description",
