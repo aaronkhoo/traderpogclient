@@ -91,6 +91,7 @@ enum kKnobSlices
 - (void) showInfoViewForFlyer:(Flyer*)flyer;
 
 - (IBAction)didPressPop:(id)sender;
+- (IBAction)didPressDebug:(id)sender;
 
 
 @end

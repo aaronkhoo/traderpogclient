@@ -669,6 +669,12 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     [[GameManager getInstance] quitGame];
 }
 
+- (IBAction)didPressDebug:(id)sender
+{
+    DebugMenu* menu = [[DebugMenu alloc] initWithNibName:@"DebugMenu" bundle:nil];
+    [self.navigationController pushViewController:menu animated:YES];
+}
+
 - (void) didPressInfo:(id)sender
 {
     [self.mapControl deselectAllAnnotations];

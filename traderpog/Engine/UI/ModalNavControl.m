@@ -32,10 +32,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
     self.navRoot = [[ModalNavRoot alloc] initWithNibName:@"ModalNavRoot" bundle:nil];
     self.navController = [[UINavigationController alloc] initWithRootViewController:[self navRoot]];
     self.navController.delegate = self;
     [self.navController setNavigationBarHidden:YES];
+    [self.navController.view setContentMode:UIViewContentModeTop];
+    [self.navController.view setAutoresizingMask:UIViewAutoresizingNone];
+    
+    // set the new navController's frame to the container's bounds
+    // UINavigationController returns a larger view on Retina 4.5; so, that could
+    // cause the navController to be bigger than the container;
+    [self.navController.view setFrame:self.view.bounds];
     [self.view addSubview:self.navController.view];
 }
 

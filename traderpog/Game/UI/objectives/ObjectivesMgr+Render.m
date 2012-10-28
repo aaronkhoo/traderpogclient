@@ -14,6 +14,11 @@
 #import "PogUIUtility.h"
 #import "GameManager.h"
 
+// the screenPoints for PointObjectives are computed using this screen size
+// when we change it to support Retina 4.5, change it to use the game view's dimensions
+static const NSUInteger kObjViewBaseWidth = 320;
+static const NSUInteger kObjViewBaseHeight = 480;
+
 @implementation ObjectivesMgr (Render)
 - (BOOL) updateGameViewController:(GameViewController *)game
 {
@@ -60,7 +65,7 @@
                         default:
                         case kGameObjectiveType_Basic:
                         {
-                            UIViewController* basicUI = [self controllerForBasic:next];
+                            BasicObjectiveUI* basicUI = [self controllerForBasic:next];
                             [game showModalNavViewController:basicUI completion:nil];
                             self.outObjective = next;
                         }
@@ -102,10 +107,10 @@
 }
 
 #pragma mark - internals
-- (UIViewController*) controllerForBasic:(GameObjective *)objective
+- (BasicObjectiveUI*) controllerForBasic:(GameObjective *)objective
 {
     BasicObjectiveUI* screen = [[BasicObjectiveUI alloc] initWithGameObjective:objective];
-    
+
     return screen;
 }
 
@@ -123,7 +128,10 @@
     
     // point
     CGPoint frac = [self pointForObjective:objective];
-    CGSize screenSize = game.view.bounds.size;
+    
+    // use hardcoded screen-size here;
+    // when we start supporting Retina 4.5, change this to use game.view.bounds.size
+    CGSize screenSize = CGSizeMake(kObjViewBaseWidth, kObjViewBaseHeight);
     view.screenPoint = CGPointMake(frac.x * screenSize.width, frac.y * screenSize.height);
     
     // disable user interaction on point-objective views so that the player can
