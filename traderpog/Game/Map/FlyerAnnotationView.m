@@ -15,6 +15,7 @@
 #import "Clockface.h"
 #import "CircleButton.h"
 #import "FlyerInfoView.h"
+#import "SoundManager.h"
 
 NSString* const kFlyerAnnotationViewReuseId = @"FlyerAnnotationView";
 NSString* const kFlyerAngleKey = @"angle";
@@ -280,6 +281,7 @@ static const float kFlyerCountdownHeight = 22.0f;
 {
     if([[GameManager getInstance] canShowFlyerAnnotationCallout])
     {
+        [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level1"];
         Flyer* flyer = (Flyer*)[self annotation];
         [self showInfoViewForFlyer:flyer];
     }

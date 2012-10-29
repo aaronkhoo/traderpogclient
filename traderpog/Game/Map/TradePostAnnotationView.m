@@ -375,8 +375,13 @@ static const float kAccelViewYOffset = -94.0f;
             // [[GameManager getInstance] showHomeSelectForFlyer:flyer];
             
             BOOL goingHome = [[GameManager getInstance] sendFlyerHome:flyer];
-            if(!goingHome)
+            if(goingHome)
             {
+                [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
+            }
+            else
+            {
+                [[SoundManager getInstance] playClip:@"Pog_SFX_Select"];
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Home Occupied"
                                                                 message:@"Another Flyer is home or homebound. Send it somewhere else first."
                                                                delegate:nil
@@ -390,6 +395,7 @@ static const float kAccelViewYOffset = -94.0f;
             // extra help accelerated loading/unloading
             if([[Player getInstance] canAffordExtraHelp])
             {
+                [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
                 [[Player getInstance] buyExtraHelp];
                 if(kFlyerStateLoading == [flyer state])
                 {
@@ -403,6 +409,7 @@ static const float kAccelViewYOffset = -94.0f;
             else
             {
                 // player can't afford the extra help
+                [[SoundManager getInstance] playClip:@"Pog_SFX_Select"];
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not enough coins"
                                                                 message:@"Sorry, gotta do it yourself this time"
                                                                delegate:nil
@@ -427,8 +434,13 @@ static const float kAccelViewYOffset = -94.0f;
         // [[GameManager getInstance] showHomeSelectForFlyer:flyer];
         
         BOOL goingHome = [[GameManager getInstance] sendFlyerHome:flyer];
-        if(!goingHome)
+        if(goingHome)
         {
+            [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];           
+        }
+        else
+        {
+            [[SoundManager getInstance] playClip:@"Pog_SFX_Select"];
             [[GameManager getInstance].gameViewController setKnobToSlice:kKnobSlicePost animated:YES];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Home Occupied"
                                                             message:@"Another Flyer is home or homebound. Send it somewhere else first."
@@ -492,6 +504,8 @@ static const float kBuyViewCenterYOffset = -10.0f;
     TradePost* tradePost = (TradePost*) [self annotation];
     BOOL dismissGameEvent = YES;
     
+    [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level1"];
+
     CLLocationCoordinate2D centerCoord = [mapView centerCoordinate];
     BOOL doZoomAdjustment = NO;
     // if map not in callout zoom-level or not zoomEnabled, address that by setting the map to the necessary zoom-level
