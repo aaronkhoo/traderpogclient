@@ -103,34 +103,37 @@ static const NSUInteger kMembershipOnlyTier = 3;
 
 - (void) didPressBuy:(id)sender
 {
-    unsigned int nextTier = [_flyer nextUpgradeTier];
-    BOOL isMember = [[Player getInstance] isMember];
-    if (nextTier >= kMembershipOnlyTier && !isMember)
+    if(![self maxUpgradeReached])
     {
-        NSLog(@"Purchase membership experience");
-        
-        // Pop the modal flyerbuyconfirmation screen
-        [self.navigationController popToRootViewControllerAnimated:NO];
-        
-        // Push the guildmembershipui screen onto the stack
-        GuildMembershipUI* guildmembership = [[GuildMembershipUI alloc] initWithNibName:@"GuildMembershipUI" bundle:nil];
-        GameViewController* game = [[GameManager getInstance] gameViewController];
-        [game.navigationController pushFromRightViewController:guildmembership animated:YES];
-    }
-    else if([[Player getInstance] canAffordFlyerUpgradeTier:nextTier])
-    {
-        [[Player getInstance] buyUpgradeTier:nextTier forFlyer:_flyer];
-        [self didPressClose:sender];
-    }
-    else
-    {
-        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Not enough coins"
-                                                          message:@"Go out there and trade some more"
-                                                         delegate:nil
-                                                cancelButtonTitle:@"OK"
-                                                otherButtonTitles:nil];
-        
-        [message show];
+        unsigned int nextTier = [_flyer nextUpgradeTier];
+        BOOL isMember = [[Player getInstance] isMember];
+        if (nextTier >= kMembershipOnlyTier && !isMember)
+        {
+            NSLog(@"Purchase membership experience");
+            
+            // Pop the modal flyerbuyconfirmation screen
+            [self.navigationController popToRootViewControllerAnimated:NO];
+            
+            // Push the guildmembershipui screen onto the stack
+            GuildMembershipUI* guildmembership = [[GuildMembershipUI alloc] initWithNibName:@"GuildMembershipUI" bundle:nil];
+            GameViewController* game = [[GameManager getInstance] gameViewController];
+            [game.navigationController pushFromRightViewController:guildmembership animated:YES];
+        }
+        else if([[Player getInstance] canAffordFlyerUpgradeTier:nextTier])
+        {
+            [[Player getInstance] buyUpgradeTier:nextTier forFlyer:_flyer];
+            [self didPressClose:sender];
+        }
+        else
+        {
+            UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Not enough coins"
+                                                              message:@"Go out there and trade some more"
+                                                             delegate:nil
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles:nil];
+            
+            [message show];
+        }
     }
 }
 
@@ -183,7 +186,8 @@ static const NSUInteger kMembershipOnlyTier = 3;
     NSString* priceText = [PogUIUtility commaSeparatedStringFromUnsignedInt:pack.price];
     [self.priceLabel setText:priceText];
 
-    if([[Player getInstance] canAffordFlyerUpgradeTier:nextTier])
+    if(([[Player getInstance] canAffordFlyerUpgradeTier:nextTier]) &&
+       (![self maxUpgradeReached]))
     {
         [self.buyLabel setTextColor:[UIColor whiteColor]];
         [self.buyLabel setAlpha:1.0f];
