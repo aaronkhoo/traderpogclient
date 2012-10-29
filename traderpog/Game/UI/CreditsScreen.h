@@ -11,5 +11,6 @@
 @class CircleButton;
 @interface CreditsScreen : UIViewController
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
+@property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 
 @end

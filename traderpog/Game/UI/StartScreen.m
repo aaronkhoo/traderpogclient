@@ -14,17 +14,27 @@
 #import "PogUIUtility.h"
 #import "SoundManager.h"
 
-@interface StartScreen ()
+#if !defined(FINAL)
+static const float kVersionWidth = 80.0f;
+static const float kVersionHeight = 20.0f;
+static const float kVersionX = 0.7f;
 
+@interface StartScreen ()
+{
+    UILabel* _version;
+    UIButton* _debugButton;
+}
+- (void)didPressDebug:(id)sender;
 @end
+#endif
 
 @implementation StartScreen
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if (self)
+    {
     }
     return self;
 }
@@ -33,18 +43,29 @@
 {
     [super viewDidLoad];
 
+#if !defined(FINAL)
     // version string
-    [self.versionLabel setText:[PogUIUtility versionStringForCurConfig]];
+    CGRect versionRect = CGRectMake(kVersionX * self.view.bounds.size.width, 0.0f,
+                                    kVersionWidth, kVersionHeight);
+    _version = [[UILabel alloc] initWithFrame:versionRect];
+    [_version setText:[PogUIUtility versionStringForCurConfig]];
+    [_version setBackgroundColor:[UIColor clearColor]];
+    [_version setAdjustsFontSizeToFitWidth:YES];
+    [self.view addSubview:_version];
+    
+    _debugButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_debugButton setFrame:versionRect];
+    [_debugButton setBackgroundColor:[UIColor clearColor]];
+    [_debugButton addTarget:self action:@selector(didPressDebug:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_debugButton];
+#endif
     
     [RevMobAds showFullscreenAd];
 }
 
 - (void)viewDidUnload
 {
-    [self setVersionLabel:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -63,9 +84,11 @@
     [[GameManager getInstance] validateConnectivity];
 }
 
-- (IBAction)didPressDebug:(id)sender 
+#if !defined(FINAL)
+- (void)didPressDebug:(id)sender
 {
     DebugMenu* menu = [[DebugMenu alloc] initWithNibName:@"DebugMenu" bundle:nil];
     [self.navigationController pushFromRightViewController:menu animated:YES];
 }
+#endif
 @end

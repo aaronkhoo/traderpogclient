@@ -10,10 +10,8 @@
 #import <UIKit/UIKit.h>
 
 @interface StartScreen : UIViewController<RevMobAdsDelegate>
-@property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 
 
 - (IBAction)didPressStart:(id)sender;
-- (IBAction)didPressDebug:(id)sender;
 
 @end

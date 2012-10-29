@@ -455,10 +455,10 @@ static const float kFadeAlertHeight = 40.0f;
     NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
 #if DEBUG
     // if running from xcode, suffix a d
-    return [NSString stringWithFormat:@"%@d", versionString];
+    return [NSString stringWithFormat:@"v%@d", versionString];
 #else
     // version string
-    return [NSString stringWithFormat:@"%@", versionString];
+    return [NSString stringWithFormat:@"v%@", versionString];
 #endif
 }
 

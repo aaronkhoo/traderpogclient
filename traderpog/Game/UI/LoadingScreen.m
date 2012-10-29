@@ -10,7 +10,6 @@
 #import "GameColors.h"
 #import "ImageManager.h"
 #import "LoadingCircle.h"
-#import "PogUIUtility.h"
 
 static const float kRotationSpeed = M_PI * 1.4f;
 static const NSInteger kDisplayLinkFrameInterval = 1;
@@ -50,9 +49,6 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
     [_loadingCircle showAnimated:YES afterDelay:0.2f];
     [_bigLabel setHidden:NO];
     [_progressLabel setHidden:NO];
-
-    // version string
-    [self.versionLabel setText:[PogUIUtility versionStringForCurConfig]];
 }
 
 - (void)viewDidUnload
@@ -60,7 +56,6 @@ static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
     [_loadingCircle hideAnimated:NO completion:nil];
     _bigLabel = nil;
     _progressLabel = nil;
-    [self setVersionLabel:nil];
     [super viewDidUnload];
 }
 

@@ -17,7 +17,6 @@ typedef void (^LoadingDismissCompletion)(void);
 }
 @property (nonatomic, weak, readonly) UILabel* bigLabel;
 @property (nonatomic, weak, readonly) UILabel* progressLabel;
-@property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 
 - (void) dismissWithCompletion:(LoadingDismissCompletion)completion;
 @end

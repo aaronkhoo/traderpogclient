@@ -251,9 +251,6 @@ static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepIn
     [GameAnim getInstance];
     [FlyerLabFactory getInstance];
 
-    // version string
-    [self.versionLabel setText:[PogUIUtility versionStringForCurConfig]];
-    
     [self setup];
     [self hudSetCoins:[[Player getInstance] bucks]];
 }
@@ -266,19 +263,11 @@ static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepIn
     [FlyerLabFactory destroyInstance];
     [GameAnim destroyInstance];
     
-    [self setVersionLabel:nil];
     [super viewDidUnload];
 }
 
 -(void) viewDidAppear:(BOOL)animated
 {
-    /*
-    double delayInSeconds = 0.1;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        [self displayPlayerSalesIfNecessary];
-    });
-    */
     if((![self modalView] || (kGameViewModalFlag_KeepKnob & [self modalFlags])) &&
        ([self.modalNav.view isHidden]))
     {
@@ -299,7 +288,6 @@ static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepIn
     {
         PlayerSalesScreen* sales = [[PlayerSalesScreen alloc] initWithNibName:@"PlayerSalesScreen" bundle:nil];
         [self showModalNavViewController:sales completion:nil];
-//        [self.navigationController pushViewController:sales animated:YES];
         shownScreen = YES;
     }
     return shownScreen;
@@ -662,17 +650,6 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 - (void) enableKnobButton
 {
     [self.knob.centerButton setEnabled:YES];
-}
-
-- (IBAction)didPressPop:(id)sender
-{
-    [[GameManager getInstance] quitGame];
-}
-
-- (IBAction)didPressDebug:(id)sender
-{
-    DebugMenu* menu = [[DebugMenu alloc] initWithNibName:@"DebugMenu" bundle:nil];
-    [self.navigationController pushViewController:menu animated:YES];
 }
 
 - (void) didPressInfo:(id)sender

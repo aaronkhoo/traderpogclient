@@ -54,7 +54,6 @@ enum kKnobSlices
 @property (nonatomic, strong) MapControl* mapControl;
 @property (nonatomic,strong) GameHud* hud;
 @property (nonatomic) CLLocationCoordinate2D coord;
-@property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic,readonly) unsigned int modalFlags;
 @property (nonatomic,strong) ModalNavControl* modalNav;
@@ -89,9 +88,5 @@ enum kKnobSlices
 - (void) showMyPostMenuForPost:(MyTradePost*)myPost;
 - (void) dismissMyPostMenuAnimated:(BOOL)isAnimated;
 - (void) showInfoViewForFlyer:(Flyer*)flyer;
-
-- (IBAction)didPressPop:(id)sender;
-- (IBAction)didPressDebug:(id)sender;
-
 
 @end

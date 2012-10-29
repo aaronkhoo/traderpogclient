@@ -2560,6 +2560,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "traderpog/traderpog-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				INFOPLIST_FILE = "traderpog/traderpog-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -2634,6 +2635,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "traderpog/traderpog-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "FINAL=1";
 				INFOPLIST_FILE = "traderpog/traderpog-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
