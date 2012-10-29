@@ -38,6 +38,12 @@ static NSString* const kImageReservedWordDefault = @"default";
     return self;
 }
 
+- (void) handleMemoryWarning
+{
+    // clear cache so that any unused images would have 0 retention and get deleted
+    [_imageCache removeAllObjects];
+}
+
 #pragma mark - image accessors
 - (UIImage*) getImage:(NSString *)name
 {
@@ -102,27 +108,6 @@ static NSString* const kImageReservedWordDefault = @"default";
     return result;
 }
 
-#pragma mark - frontend menu
-- (void) loadFrontMenuBackgroundNamed:(NSString *)imageName
-{
-    if(![self frontMenuBgView])
-    {
-        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        NSString* backgroundImageName = imageName;
-        if([[UIScreen mainScreen] scale] > 1.0f)
-        {
-            backgroundImageName = [NSString stringWithFormat:@"%@@2x.%@", 
-                                   [imageName stringByDeletingPathExtension],
-                                   [imageName pathExtension]];
-        }
-        UIImage* backgroundImage = [UIImage imageNamed:backgroundImageName];
-        UIImageView* imageView = [[UIImageView alloc] initWithFrame:delegate.window.bounds];
-        imageView.image = backgroundImage;
-        [delegate.window addSubview:imageView];
-        [delegate.window sendSubviewToBack:imageView];
-        self.frontMenuBgView = imageView;
-    }
-}
 
 // reference: http://coffeeshopped.com/2010/09/iphone-how-to-dynamically-color-a-uiimage
 - (UIImage*) getImage:(NSString *)name fallbackNamed:(NSString *)fallback withColor:(UIColor *)color
@@ -168,7 +153,7 @@ static NSString* const kGrayscaleSuffix = @"_grayscale";
     NSString* filename = [name stringByDeletingPathExtension];
     NSString* grayScaleName = [filename stringByAppendingFormat:kGrayscaleSuffix];
     UIImage* resultUIImage = [self.imageCache objectForKey:grayScaleName];
-
+    
     // if not yet cached, generate it
     if(!resultUIImage)
     {
@@ -224,8 +209,8 @@ static NSString* const kGrayscaleSuffix = @"_grayscale";
         
         // make a new UIImage to return
         resultUIImage = [UIImage imageWithCGImage:image
-                                                     scale:img.scale
-                                               orientation:UIImageOrientationUp];
+                                            scale:img.scale
+                                      orientation:UIImageOrientationUp];
         
         // we're done with image now too
         CGImageRelease(image);
@@ -236,6 +221,30 @@ static NSString* const kGrayscaleSuffix = @"_grayscale";
     return resultUIImage;
 }
 
+
+
+#pragma mark - frontend menu
+- (void) loadFrontMenuBackgroundNamed:(NSString *)imageName
+{
+    if(![self frontMenuBgView])
+    {
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSString* backgroundImageName = imageName;
+        if([[UIScreen mainScreen] scale] > 1.0f)
+        {
+            backgroundImageName = [NSString stringWithFormat:@"%@@2x.%@", 
+                                   [imageName stringByDeletingPathExtension],
+                                   [imageName pathExtension]];
+        }
+        UIImage* backgroundImage = [UIImage imageNamed:backgroundImageName];
+        UIImageView* imageView = [[UIImageView alloc] initWithFrame:delegate.window.bounds];
+        imageView.image = backgroundImage;
+        [delegate.window addSubview:imageView];
+        [delegate.window sendSubviewToBack:imageView];
+        self.frontMenuBgView = imageView;
+    }
+}
+
 - (void) unloadFrontMenuBackground
 {
     if([self frontMenuBgView])
@@ -244,6 +253,7 @@ static NSString* const kGrayscaleSuffix = @"_grayscale";
         self.frontMenuBgView = nil;
     }
 }
+
 
 
 #pragma mark - Singleton

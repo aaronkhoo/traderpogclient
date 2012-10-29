@@ -178,6 +178,9 @@ static const CGFloat SOUNDLOOP_INTERVAL_SECS = 1.0f / 30.0f;
     {
         [[ImageManager getInstance] unloadFrontMenuBackground];
     }
+    
+    // clear image cache
+    [[ImageManager getInstance] handleMemoryWarning];
 }
 
 #pragma mark - private methods

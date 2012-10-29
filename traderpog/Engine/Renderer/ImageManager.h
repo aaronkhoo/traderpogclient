@@ -19,6 +19,8 @@
 - (UIImage*) getImage:(NSString *)name fallbackNamed:(NSString *)fallback withColor:(UIColor*)color;
 - (UIImage *) getGrayscaleImage:(NSString*)name fallbackNamed:(NSString*)fallback;
 
+- (void) handleMemoryWarning;
+
 // singleton
 +(ImageManager*) getInstance;
 +(void) destroyInstance;
