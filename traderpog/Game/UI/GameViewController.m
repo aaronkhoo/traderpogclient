@@ -50,7 +50,7 @@
 #import "CreditsScreen.h"
 #import <QuartzCore/QuartzCore.h>
 
-static const NSInteger kDisplayLinkFrameInterval = 1;
+static const NSInteger kDisplayLinkFrameInterval = 2;
 static const CFTimeInterval kDisplayLinkMaxFrametime = 1.0 / 20.0;
 
 // by default, modal view keeps the Info button
