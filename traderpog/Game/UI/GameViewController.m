@@ -654,6 +654,8 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 
 - (void) didPressInfo:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level1"];
+
     [self.mapControl deselectAllAnnotations];
     [self.info presentInView:self.view belowSubview:self.infoCircle animated:YES];
     [self hideInfoCircleAnimated:YES];

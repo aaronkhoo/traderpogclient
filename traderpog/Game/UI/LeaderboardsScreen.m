@@ -15,6 +15,7 @@
 #import "Player.h"
 #import "SingleLeaderboard.h"
 #import "GameColors.h"
+#import "SoundManager.h"
 
 static CGFloat const kRowHeight = 40.0;
 static CGFloat const kImageSize = 35.0;
@@ -64,6 +65,7 @@ static CGFloat const kImageSize = 35.0;
 
 - (void)didPressClose:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_up"];
     [self.navigationController popToRightViewControllerAnimated:YES];
 }
 
@@ -194,6 +196,7 @@ static CGFloat const kImageSize = 35.0;
 {
     if ((indexPath.row % 2) == 1)
     {
+        [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_Scroll"];
         SingleLeaderboard* leaderboard = [[SingleLeaderboard alloc] initWithNibNameAndIndex:@"SingleLeaderboard" bundle:nil     index:(indexPath.row / 2)];
         [self.navigationController pushFromRightViewController:leaderboard animated:YES];
         

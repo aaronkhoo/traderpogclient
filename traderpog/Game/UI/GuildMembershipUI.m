@@ -15,6 +15,7 @@
 #import "PogUIUtility.h"
 #import "Player.h"
 #import "GameManager.h"
+#import "SoundManager.h"
 
 @interface GuildMembershipUI ()
 - (void)didPressClose:(id)sender;
@@ -89,11 +90,13 @@
 
 - (void)didPressClose:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_up"];
     [self.navigationController popToRightViewControllerAnimated:YES];
 }
 
 - (IBAction)didPressBuy:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
     SKProduct* product = [[[ProductManager getInstance] productsArray] objectAtIndex:0];
     [[ProductManager getInstance] purchaseMembershipByProductID:[product productIdentifier]];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];

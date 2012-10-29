@@ -11,6 +11,7 @@
 #import "GameColors.h"
 #import "CircleButton.h"
 #import "PogUIUtility.h"
+#import "SoundManager.h"
 #import "DebugMenu.h"
 
 
@@ -62,6 +63,7 @@
 
 - (void)didPressClose:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_up"];
     [self.navigationController popToRightViewControllerAnimated:YES];
 }
 

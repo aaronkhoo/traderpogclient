@@ -12,6 +12,7 @@
 #import "LeaderboardsScreen.h"
 #import "GuildMembershipUI.h"
 #import "GameColors.h"
+#import "SoundManager.h"
 #import <QuartzCore/QuartzCore.h>
 
 NSString* const kInfoViewModalId = @"InfoViewModal";
@@ -343,21 +344,25 @@ static const float kBubbleInitScale = 0.1f;
 #pragma mark - button actions
 - (void) didPressClose:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_up"];
     [_delegate dismissModalView:self.view withModalId:kInfoCloseId];
 }
 
 - (void) didPressLeaderboard:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_Scroll"];
     [_delegate dismissModalView:self.view withModalId:kInfoLeaderboardId];
 }
 
 - (void) didPressMember:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_Scroll"];
     [_delegate dismissModalView:self.view withModalId:kInfoMembershipId];
 }
 
 - (void) didPressMore:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_Scroll"];
     [_delegate dismissModalView:self.view withModalId:kInfoMoreId];
 }
 

@@ -15,6 +15,7 @@
 #import "GameColors.h"
 #import "UrlImage.h"
 #import "UrlImageManager.h"
+#import "SoundManager.h"
 #import <QuartzCore/CAGradientLayer.h>
 
 static NSString* const kKeyIndex = @"index";
@@ -133,6 +134,7 @@ static CGFloat const kVerticalLineStartPos = 50.0;
 
 - (void)didPressClose:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_Scroll"];
     [self.navigationController popToRightViewControllerAnimated:YES];
 }
 
