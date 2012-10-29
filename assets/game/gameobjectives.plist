@@ -156,11 +156,13 @@
 		<key>id</key>
 		<string>beacon_tip_0</string>
 		<key>delay</key>
-		<real>0.5</real>
+		<integer>3</integer>
 		<key>desc</key>
-		<string>Tips:\n\nRemember to Set Beacon so that your friends can find your Home Trade Post.</string>
+		<string>Tips:\nRemember to tap your Home and Set Beacon so that your friends can find it.</string>
 		<key>type</key>
-		<string>tip_fb</string>
+		<string>tip_fb_beacon</string>
+		<key>image</key>
+		<string>homebase_windy</string>
 		<key>is_newuser</key>
 		<false/>
 		<key>is_recurring</key>

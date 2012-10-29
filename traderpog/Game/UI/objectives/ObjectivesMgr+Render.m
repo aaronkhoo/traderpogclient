@@ -13,6 +13,8 @@
 #import "PointObjective.h"
 #import "PogUIUtility.h"
 #import "GameManager.h"
+#import "Player.h"
+#import "TradePostMgr.h"
 
 // the screenPoints for PointObjectives are computed using this screen size
 // when we change it to support Retina 4.5, change it to use the game view's dimensions
@@ -59,6 +61,23 @@ static const NSUInteger kObjViewBaseHeight = 480;
                             {
                                 [self showKnobLeftRightObjective:next inGame:game];
                                 self.outObjective = next;
+                            }
+                            break;
+                            
+                        case kGameObjectiveType_FbTipBeacon:
+                            if(([[Player getInstance] isFacebookConnected]) &&
+                               (![[TradePostMgr getInstance] isBeaconActive]))
+                            {
+                                BasicObjectiveUI* basicUI = [self controllerForBasic:next];
+                                [game showModalNavViewController:basicUI completion:^(BOOL finished){
+                                    [game setKnobToSlice:kKnobSlicePost animated:NO];
+                                }];
+                                self.outObjective = next;
+                            }
+                            else
+                            {
+                                // skip it
+                                [self setCompletedForObjective:next hasView:NO];
                             }
                             break;
                             
@@ -294,7 +313,8 @@ static const NSUInteger kObjViewBaseHeight = 480;
                 result = YES;
             }
             break;
-            
+        
+        case kGameObjectiveType_FbTipBeacon:
         case kGameObjectiveType_Basic:
             // do nothing; completion checked outside of this loop
             break;

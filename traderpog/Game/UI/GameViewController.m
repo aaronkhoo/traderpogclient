@@ -962,6 +962,7 @@ static const float kMyPostMenuSize = 60.0f;
                          completion:(ModalNavCompletionBlock)completion
 {
     ModalNavControl* modal = self.modalNav;
+    modal.completionBlock = completion;
     [modal.view setHidden:NO];
     [modal.navController pushFadeInViewController:controller animated:YES];
     modal.delegate = self;

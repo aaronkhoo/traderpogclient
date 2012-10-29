@@ -26,7 +26,7 @@ enum kGameObjectiveTypes {
     kGameObjectiveType_Scan,
     kGameObjectiveType_KnobLeft,
     kGameObjectiveType_KnobRight,
-    kGameObjectiveType_FbTip,
+    kGameObjectiveType_FbTipBeacon,
     
     kGameObjectiveType_Num
 };

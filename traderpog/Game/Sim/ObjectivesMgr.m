@@ -373,6 +373,7 @@ static const float kHomeNotVisibleDistMeters = 500.0f;
             [self unsetCompletedForObjective:cur];
         }
     }    
+    self.lastCompletionDate = [NSDate date];
     [self updateNextIndex];
 }
 

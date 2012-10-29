@@ -24,7 +24,7 @@ NSString* const kNameGameObjTypeBasic = @"basic";
 NSString* const kNameGameObjTypeScan = @"scan";
 NSString* const kNameGameObjTypeKnobLeft = @"knob_left";
 NSString* const kNameGameObjTypeKnobRight = @"knob_right";
-NSString* const kNameGameObjTypeFbTip = @"tip_fb";
+NSString* const kNameGameObjTypeFbTipBeacon = @"tip_fb_beacon";
 
 @interface GameObjective ()
 - (void) setInitVars;
@@ -51,7 +51,7 @@ NSString* const kNameGameObjTypeFbTip = @"tip_fb";
         kNameGameObjTypeScan,
         kNameGameObjTypeKnobLeft,
         kNameGameObjTypeKnobRight,
-        kNameGameObjTypeFbTip
+        kNameGameObjTypeFbTipBeacon
     };
     unsigned int type = kGameObjectiveType_Basic;
     for(unsigned int i = 0; i < kGameObjectiveType_Num; ++i)
