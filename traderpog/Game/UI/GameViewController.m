@@ -1190,11 +1190,8 @@ static const float kMyPostMenuSize = 60.0f;
     _bannerView.rootViewController = self;
     [self.view addSubview:_bannerView];
     
-    // HACK TODO: Remove this before ship. Setting up test ads!
-    GADRequest *current_req = [GADRequest request];
-    current_req.testing = YES;
-    
     // Initiate a generic request to load it with an ad.
+    GADRequest *current_req = [GADRequest request];
     [_bannerView loadRequest:current_req];
 }
 

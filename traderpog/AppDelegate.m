@@ -71,8 +71,7 @@ static const CGFloat SOUNDLOOP_INTERVAL_SECS = 1.0f / 30.0f;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    //[RevMobAds startSessionWithAppID:@"5063b48ba0aeaf0800000034"];
-    [RevMobAds startSessionWithAppID:@"5063b48ba0aeaf0800000034" testingMode:RevMobAdsTestingModeWithAds];
+    [RevMobAds startSessionWithAppID:@"5063b48ba0aeaf0800000034"];
 
     [[LocalyticsSession sharedLocalyticsSession] startSession:@"bf2f53386fe1651bfdea3f1-5feaa8ac-044b-11e2-5623-00ef75f32667"];
     
