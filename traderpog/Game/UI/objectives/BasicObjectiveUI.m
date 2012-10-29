@@ -13,6 +13,7 @@
 #import "ObjectivesMgr.h"
 #import "ImageManager.h"
 #import "GameAnim.h"
+#import "SoundManager.h"
 
 static const float kContentBorderWidth = 6.0f;
 static const float kContentBorderCornerRadius = 8.0f;
@@ -128,6 +129,7 @@ static const float kBorderCornerRadius = 8.0f;
 #pragma mark - button actions
 - (void) didPressOk:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level1"];
     [[ObjectivesMgr getInstance] setCompletedForObjective:_gameObjective hasView:YES];
     [UIView animateWithDuration:0.2f
                      animations:^(void){

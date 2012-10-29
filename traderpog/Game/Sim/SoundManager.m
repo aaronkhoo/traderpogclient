@@ -537,7 +537,7 @@ static NSString* const SOUNDMANAGER_ENABLED_KEY = @"SoundManagerEnabled";
     [self addOneShotClip:@"Pog_SFX_Nav_Scroll" fromFile:[mainBundle pathForResource:@"Pog_SFX_Nav_Scroll" ofType:@"mp3"] defaultVolume:0.6f numAVPlayers:4];
     [self addOneShotClip:@"Pog_SFX_Nav_up" fromFile:[mainBundle pathForResource:@"Pog_SFX_Nav_up" ofType:@"mp3"] defaultVolume:0.6f numAVPlayers:1];
     [self addOneShotClip:@"Pog_SFX_Nav_UP_Longer" fromFile:[mainBundle pathForResource:@"Pog_SFX_Nav_UP_Longer" ofType:@"mp3"] defaultVolume:0.6f numAVPlayers:1];
-    [self addOneShotClip:@"Pog_SFX_PopUP_Level1" fromFile:[mainBundle pathForResource:@"Pog_SFX_PopUP_Level1" ofType:@"mp3"] defaultVolume:0.6f numAVPlayers:1];
+    [self addOneShotClip:@"Pog_SFX_PopUP_Level1" fromFile:[mainBundle pathForResource:@"Pog_SFX_PopUP_Level1" ofType:@"mp3"] defaultVolume:0.6f numAVPlayers:3];
     [self addOneShotClip:@"Pog_SFX_PopUP_Level2" fromFile:[mainBundle pathForResource:@"Pog_SFX_PopUP_Level2" ofType:@"mp3"] defaultVolume:0.6f numAVPlayers:1];
     [self addOneShotClip:@"Pog_SFX_Scanner" fromFile:[mainBundle pathForResource:@"Pog_SFX_Scanner" ofType:@"mp3"] defaultVolume:0.6f numAVPlayers:1];
     [self addOneShotClip:@"Pog_SFX_Select" fromFile:[mainBundle pathForResource:@"Pog_SFX_Select" ofType:@"mp3"] defaultVolume:0.6f numAVPlayers:1];

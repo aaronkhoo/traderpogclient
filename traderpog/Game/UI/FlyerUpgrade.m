@@ -22,6 +22,7 @@
 #import "Player+Shop.h"
 #import "FlyerType.h"
 #import "FlyerTypes.h"
+#import "SoundManager.h"
 
 static const float kContentBorderWidth = 6.0f;
 static const float kContentBorderCornerRadius = 8.0f;
@@ -98,6 +99,7 @@ static const NSUInteger kMembershipOnlyTier = 3;
 #pragma mark - internal methods
 - (void) didPressClose:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_Scroll"];
     [self.navigationController popFadeOutViewControllerAnimated:YES];
 }
 
@@ -110,6 +112,7 @@ static const NSUInteger kMembershipOnlyTier = 3;
         if (nextTier >= kMembershipOnlyTier && !isMember)
         {
             NSLog(@"Purchase membership experience");
+            [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
             
             // Pop the modal flyerbuyconfirmation screen
             [self.navigationController popToRootViewControllerAnimated:NO];
@@ -121,11 +124,13 @@ static const NSUInteger kMembershipOnlyTier = 3;
         }
         else if([[Player getInstance] canAffordFlyerUpgradeTier:nextTier])
         {
+            [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
             [[Player getInstance] buyUpgradeTier:nextTier forFlyer:_flyer];
             [self didPressClose:sender];
         }
         else
         {
+            [[SoundManager getInstance] playClip:@"Pog_SFX_Select"];
             UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Not enough coins"
                                                               message:@"Go out there and trade some more"
                                                              delegate:nil

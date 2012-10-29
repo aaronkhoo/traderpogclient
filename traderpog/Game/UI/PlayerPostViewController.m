@@ -20,6 +20,7 @@
 #import "PostRestockConfirmScreen.h"
 #import "TradePostMgr.h"
 #import "FlyerMgr.h"
+#import "SoundManager.h"
 
 NSString* const kMyPostMenuCloseId = @"MyPostMenuClose";
 
@@ -406,6 +407,7 @@ static const float kBubbleDisabledAlpha = 0.6f;
 {
     if([tradePost flyerAtPost])
     {
+        [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
         GameViewController* game = [[GameManager getInstance] gameViewController];
         FlyerLabViewController* next = [[FlyerLabViewController alloc] initWithNibName:@"FlyerLabViewController" bundle:nil];
         next.flyer = [tradePost flyerAtPost];
@@ -421,6 +423,7 @@ static const float kBubbleDisabledAlpha = 0.6f;
         }
         else
         {
+            [[SoundManager getInstance] playClip:@"Pog_SFX_Select"];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Flyers busy"
                                                             message:@"Flyers must be idle before they can be called back"
                                                            delegate:nil
@@ -469,6 +472,7 @@ static const float kBubbleDisabledAlpha = 0.6f;
     {
         if([self myPost])
         {
+            [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
             NSLog(@"Set Beacon for PostId %@", [self.myPost postId]);
             [self.myPost setBeacon];
         }
@@ -495,6 +499,7 @@ static const float kBubbleDisabledAlpha = 0.6f;
     {
         if(0 >= [self.myPost supplyLevel])
         {
+            [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
             GameViewController* game = [[GameManager getInstance] gameViewController];
             PostRestockConfirmScreen* next = [[PostRestockConfirmScreen alloc] initWithNibName:@"PostRestockConfirmScreen" bundle:nil];
             next.post = [self myPost];
@@ -505,6 +510,7 @@ static const float kBubbleDisabledAlpha = 0.6f;
 
 - (void) didPressClose:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_up"];
     // this will deselect the post, which will cause this view-controller to be dismissed
     [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
 }

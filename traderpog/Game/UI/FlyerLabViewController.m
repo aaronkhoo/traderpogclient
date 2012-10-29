@@ -17,6 +17,7 @@
 #import "ImageManager.h"
 #import "FlyerTypes.h"
 #import "FlyerType.h"
+#import "SoundManager.h"
 
 static const float kContentBorderWidth = 6.0f;
 static const float kContentBorderCornerRadius = 8.0f;
@@ -112,6 +113,7 @@ static const float kButtonViewBorderWidth = 4.0f;
 #pragma mark - button actions
 - (void) didPressClose:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_up"];
     self.flyer = nil;
     [UIView animateWithDuration:0.2f
                      animations:^(void){
@@ -126,6 +128,7 @@ static const float kButtonViewBorderWidth = 4.0f;
 {
     if([self flyer])
     {
+        [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level1"];
         FlyerCustomize* next = [[FlyerCustomize alloc] initWithFlyer:self.flyer];
         [self.navigationController pushFadeInViewController:next animated:YES];
     }
@@ -135,6 +138,7 @@ static const float kButtonViewBorderWidth = 4.0f;
 {
     if([self flyer])
     {
+        [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level1"];
         FlyerUpgrade* next = [[FlyerUpgrade alloc] initWithFlyer:self.flyer];
         [self.navigationController pushFadeInViewController:next animated:YES];
     }

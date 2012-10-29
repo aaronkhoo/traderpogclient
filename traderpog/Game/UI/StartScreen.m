@@ -84,6 +84,7 @@ static const float kVersionX = 0.7f;
 
 - (IBAction)didPressStart:(id)sender 
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_ArriveHome"];
     [[GameManager getInstance] validateConnectivity];
 }
 

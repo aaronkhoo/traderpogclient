@@ -12,6 +12,7 @@
 #import "UINavigationController+Pog.h"
 #import "GameManager.h"
 #import "Player.h"
+#import "SoundManager.h"
 
 @interface SignupScreen ()
 
@@ -45,6 +46,8 @@
 
 - (IBAction)createNewAccount
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
+
     // show loading screen and commence new player sequence
     LoadingScreen* loading = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
     loading.progressLabel.text = @"Creating Account";
@@ -55,6 +58,7 @@
 }
 
 - (IBAction)connectToFacebook:(id)sender {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
     [[Player getInstance] authorizeFacebook];
 }
 

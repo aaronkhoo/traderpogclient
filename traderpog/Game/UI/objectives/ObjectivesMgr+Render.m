@@ -15,6 +15,7 @@
 #import "GameManager.h"
 #import "Player.h"
 #import "TradePostMgr.h"
+#import "SoundManager.h"
 
 // the screenPoints for PointObjectives are computed using this screen size
 // when we change it to support Retina 4.5, change it to use the game view's dimensions
@@ -59,6 +60,7 @@ static const NSUInteger kObjViewBaseHeight = 480;
                         case kGameObjectiveType_KnobRight:
                             if([self shouldTriggerKnobRightObjective])
                             {
+                                [[SoundManager getInstance] playClip:@"Pog_SFX_ArriveHome"];
                                 [self showKnobLeftRightObjective:next inGame:game];
                                 self.outObjective = next;
                             }
@@ -68,6 +70,7 @@ static const NSUInteger kObjViewBaseHeight = 480;
                             if(([[Player getInstance] isFacebookConnected]) &&
                                (![[TradePostMgr getInstance] isBeaconActive]))
                             {
+                                [[SoundManager getInstance] playClip:@"Pog_SFX_ArriveHome"];
                                 BasicObjectiveUI* basicUI = [self controllerForBasic:next];
                                 [game showModalNavViewController:basicUI completion:^(BOOL finished){
                                     [game setKnobToSlice:kKnobSlicePost animated:NO];

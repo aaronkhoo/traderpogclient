@@ -21,6 +21,7 @@
 #import "GameManager.h"
 #import "GuildMembershipUI.h"
 #import "GameViewController.h"
+#import "SoundManager.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const float kContentBorderWidth = 6.0f;
@@ -149,6 +150,7 @@ enum kColorOptions
 #pragma mark - internal methods
 - (void) didPressClose:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_Scroll"];
     [self.navigationController popFadeOutViewControllerAnimated:YES];
 }
 
@@ -160,6 +162,7 @@ enum kColorOptions
         if (![[Player getInstance] isMember] && _curSelection >= kColorOption2)
         {
             NSLog(@"Purchase membership experience");
+            [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
             
             // Pop the modal flyerbuyconfirmation screen
             [self.navigationController popToRootViewControllerAnimated:NO];
@@ -173,11 +176,13 @@ enum kColorOptions
         {
             if([[Player getInstance] canAffordFlyerColor])
             {
+                [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
                 [[Player getInstance] buyColorCustomization:_curSelection forFlyer:_flyer];
                 [self didPressClose:sender];
             }
             else
             {
+                [[SoundManager getInstance] playClip:@"Pog_SFX_Select"];
                 UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Not enough coins"
                                                                   message:@"Go out there and trade some more"
                                                                  delegate:nil
@@ -357,24 +362,28 @@ enum kColorOptions
 
 - (IBAction)didPressOptionOriginal:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level1"];
     [self setCurSelection:0];
     [self setBuyButtonText:FALSE];
 }
 
 - (IBAction)didPressOption1:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level1"];
     [self setCurSelection:1];
     [self setBuyButtonText:FALSE];
 }
 
 - (IBAction)didPressOption2:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level1"];
     [self setCurSelection:2];
     [self setBuyButtonText:TRUE];
 }
 
 - (IBAction)didPressOption3:(id)sender
 {
+    [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level1"];
     [self setCurSelection:3];
     [self setBuyButtonText:TRUE];
 }
