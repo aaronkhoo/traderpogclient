@@ -11,8 +11,10 @@
 #import "AFJSONRequestOperation.h"
 
 static NSString* const kTraderPogBaseURLString = @"strong-rain-5460.herokuapp.com";
+//static NSString* const kTraderPogBaseURLString = @"safe-chamber-1004.herokuapp.com";
 static NSString* const kPogProfilePort = @"3000";
 static NSString* const kTraderPogPort = @"80";
+//static NSString* const kTraderPogPort = @"443";
 
 @implementation AFClientManager
 @synthesize traderPog = _traderPog;
@@ -46,6 +48,7 @@ static NSString* const kTraderPogPort = @"80";
         [_traderPog unregisterHTTPOperationClass:[AFJSONRequestOperation class]];
     }
     NSString* urlString = [NSString stringWithFormat:@"http://%@:%@/", serverIp, kTraderPogPort];
+    //NSString* urlString = [NSString stringWithFormat:@"https://%@:%@/", serverIp, kTraderPogPort];
     NSLog(@"traderpog client reset with server ip %@", urlString);    
     
     _traderPog = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:urlString]];
