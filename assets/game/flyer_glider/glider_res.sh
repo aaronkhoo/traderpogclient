@@ -20,7 +20,7 @@ sips -z 256 256 flyer_landed.png -o resized
 sips -z 256 256 flyer_landed_c1.png -o resized
 sips -z 256 256 flyer_landed_c2.png -o resized
 sips -z 256 256 flyer_landed_c3.png -o resized
-sips -z 256 256 flyer_blimp.png -o resized
+sips -z 256 256 flyer.png -o resized
 sips -z 256 256 flyer_c1.png -o resized
 sips -z 256 256 flyer_c2.png -o resized
 sips -z 256 256 flyer_c3.png -o resized
