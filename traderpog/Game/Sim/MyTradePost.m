@@ -50,6 +50,9 @@
     {
         _coord = coordinate;
         _itemId = [itemType itemId];
+        _supplyMaxLevel = [itemType supplymax];
+        _supplyRateLevel = [itemType supplyrate];
+        _supplyLevel = _supplyMaxLevel;
         _beacontime = nil;
         _preFlyerLab = NO;
         
@@ -90,6 +93,7 @@
                      _imgPath = [responseObject valueForKeyPath:kKeyTradeImgPath];
                      _supplyMaxLevel = [[responseObject valueForKeyPath:kKeyTradeSupplyMaxLevel] integerValue];
                      _supplyRateLevel = [[responseObject valueForKeyPath:kKeyTradeSupplyRateLevel] integerValue];
+                     _supplyLevel = _supplyMaxLevel;
                      [self.delegate didCompleteHttpCallback:kTradePost_CreateNewPost, TRUE];
                  }
                  failure:^(AFHTTPRequestOperation* operation, NSError* error){

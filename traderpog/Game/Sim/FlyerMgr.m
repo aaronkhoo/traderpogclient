@@ -208,9 +208,6 @@ static const float kBubbleBorderWidth = 1.5f;
         Flyer* newFlyer = [[Flyer alloc] initWithPost:tradePost flyerTypeIndex:flyerTypeIndex isNewPurchase:isNewPurchase];
         [newFlyer setDelegate:[FlyerMgr getInstance]];
         
-        // lande new flyer at post that creates it
-        tradePost.flyerAtPost = newFlyer;
-        
         // create it on server
         _tempFlyer = newFlyer;
         [_tempFlyer createNewUserFlyerOnServer];

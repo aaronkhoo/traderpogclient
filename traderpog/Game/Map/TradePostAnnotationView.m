@@ -526,6 +526,15 @@ static const float kBuyViewCenterYOffset = -10.0f;
                 centerCoord = [self buyViewCenterCoordForTradePost:tradePost inMapView:mapView];
                 doZoomAdjustment = YES;
             }
+            else
+            {
+                // should not get here, but if we somehow do, it's an error;
+                // show MyPost's menu anyway
+                MyTradePost* myPost = (MyTradePost*)tradePost;
+                [[GameManager getInstance].gameViewController showMyPostMenuForPost:myPost];
+                centerCoord = [tradePost coord];
+                doZoomAdjustment = YES;
+            }
         }
         else if([tradePost flyerAtPost])
         {

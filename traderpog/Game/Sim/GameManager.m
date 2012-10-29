@@ -614,7 +614,9 @@ typedef enum {
         // create player's first flyer
         NSArray* flyersArray = [[FlyerTypes getInstance] getFlyersForTier:1];
         NSInteger index = arc4random() % (flyersArray.count);
-        if (![[FlyerMgr getInstance] newPlayerFlyerAtTradePost:[[TradePostMgr getInstance] getFirstMyTradePost]                                    firstFlyer:index])
+        FlyerType* newFlyerType = [flyersArray objectAtIndex:index];
+        NSUInteger newFlyerTypeIndex = [[FlyerTypes getInstance] getFlyerIndexById:[newFlyerType flyerId]];
+        if (![[FlyerMgr getInstance] newPlayerFlyerAtTradePost:[[TradePostMgr getInstance] getFirstMyTradePost] firstFlyer:newFlyerTypeIndex])
         {
             // Something failed in the flyer creation, probably because another flyer
             // creation was already in flight. We should never get into this state. Log and
