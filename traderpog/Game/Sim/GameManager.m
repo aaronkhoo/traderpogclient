@@ -41,7 +41,7 @@
 #import "SignupScreen.h"
 
 // how often to reinitialize game since last server operations
-static double const timeTillReinitialize = -5;//-(60 * 30);
+static double const timeTillReinitialize = -(60 * 30);
 
 // How often to check if the gameinfo has been updated (2 hours)
 static double const gameinfoRefreshTime = -(60 * 60 * 2);
