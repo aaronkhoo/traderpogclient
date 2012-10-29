@@ -10,11 +10,14 @@
 #import "AFClientManager.h"
 #import "AFJSONRequestOperation.h"
 
+#if defined(FINAL) || defined(USE_PRODUCTION_SERVER)
+static NSString* const kTraderPogBaseURLString = @"safe-chamber-1004.herokuapp.com";
+static NSString* const kTraderPogPort = @"443";
+#else
 static NSString* const kTraderPogBaseURLString = @"strong-rain-5460.herokuapp.com";
-//static NSString* const kTraderPogBaseURLString = @"safe-chamber-1004.herokuapp.com";
-static NSString* const kPogProfilePort = @"3000";
 static NSString* const kTraderPogPort = @"80";
-//static NSString* const kTraderPogPort = @"443";
+#endif
+
 
 @implementation AFClientManager
 @synthesize traderPog = _traderPog;
@@ -47,9 +50,13 @@ static NSString* const kTraderPogPort = @"80";
     {
         [_traderPog unregisterHTTPOperationClass:[AFJSONRequestOperation class]];
     }
+
+#if defined(FINAL) || defined(USE_PRODUCTION_SERVER)
+    NSString* urlString = [NSString stringWithFormat:@"https://%@:%@/", serverIp, kTraderPogPort];
+#else
     NSString* urlString = [NSString stringWithFormat:@"http://%@:%@/", serverIp, kTraderPogPort];
-    //NSString* urlString = [NSString stringWithFormat:@"https://%@:%@/", serverIp, kTraderPogPort];
-    NSLog(@"traderpog client reset with server ip %@", urlString);    
+#endif
+    NSLog(@"traderpog client reset with server ip %@", urlString);
     
     _traderPog = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:urlString]];
     [_traderPog registerHTTPOperationClass:[AFJSONRequestOperation class]];
