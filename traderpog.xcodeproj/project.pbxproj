@@ -164,9 +164,6 @@
 		4290AB0F15EF3D06001FAF0B /* BrowsePinch.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0E15EF3D06001FAF0B /* BrowsePinch.m */; };
 		429A31D415F041DF00069CC7 /* CalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 429A31D315F041DF00069CC7 /* CalloutView.m */; };
 		429B154815F5CFAF00107D5F /* bubble_postmark_g.png in Resources */ = {isa = PBXBuildFile; fileRef = 429B154715F5CFAF00107D5F /* bubble_postmark_g.png */; };
-		429F9FAB1624D98900765580 /* flyer_landed_color1.png in Resources */ = {isa = PBXBuildFile; fileRef = 429F9FA81624D98900765580 /* flyer_landed_color1.png */; };
-		429F9FAC1624D98900765580 /* flyer_landed_color2.png in Resources */ = {isa = PBXBuildFile; fileRef = 429F9FA91624D98900765580 /* flyer_landed_color2.png */; };
-		429F9FAD1624D98900765580 /* flyer_landed_color3.png in Resources */ = {isa = PBXBuildFile; fileRef = 429F9FAA1624D98900765580 /* flyer_landed_color3.png */; };
 		42A0FA0C160E925200683B8A /* GameAnim.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A0FA0B160E925200683B8A /* GameAnim.m */; };
 		42A20BE5162BF53800C4B593 /* flyer_rang.png in Resources */ = {isa = PBXBuildFile; fileRef = 42A20BB8162BF53800C4B593 /* flyer_rang.png */; };
 		42A20BE6162BF53800C4B593 /* flyer_rang_aero.png in Resources */ = {isa = PBXBuildFile; fileRef = 42A20BB9162BF53800C4B593 /* flyer_rang_aero.png */; };
@@ -680,9 +677,6 @@
 		429A31D215F041DF00069CC7 /* CalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalloutView.h; path = Map/CalloutView.h; sourceTree = "<group>"; };
 		429A31D315F041DF00069CC7 /* CalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalloutView.m; path = Map/CalloutView.m; sourceTree = "<group>"; };
 		429B154715F5CFAF00107D5F /* bubble_postmark_g.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_postmark_g.png; path = assets/UI/bubble_postmark_g.png; sourceTree = SOURCE_ROOT; };
-		429F9FA81624D98900765580 /* flyer_landed_color1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer_landed_color1.png; path = assets/Map/flyer_landed_color1.png; sourceTree = SOURCE_ROOT; };
-		429F9FA91624D98900765580 /* flyer_landed_color2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer_landed_color2.png; path = assets/Map/flyer_landed_color2.png; sourceTree = SOURCE_ROOT; };
-		429F9FAA1624D98900765580 /* flyer_landed_color3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flyer_landed_color3.png; path = assets/Map/flyer_landed_color3.png; sourceTree = SOURCE_ROOT; };
 		42A0FA0A160E925200683B8A /* GameAnim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameAnim.h; path = Game/Sim/GameAnim.h; sourceTree = "<group>"; };
 		42A0FA0B160E925200683B8A /* GameAnim.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameAnim.m; path = Game/Sim/GameAnim.m; sourceTree = "<group>"; };
 		42A20BB8162BF53800C4B593 /* flyer_rang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_rang.png; sourceTree = "<group>"; };
@@ -1222,16 +1216,6 @@
 			path = assets/anim;
 			sourceTree = SOURCE_ROOT;
 		};
-		421A070D16285A1400D2FE9E /* placeholders */ = {
-			isa = PBXGroup;
-			children = (
-				429F9FA81624D98900765580 /* flyer_landed_color1.png */,
-				429F9FA91624D98900765580 /* flyer_landed_color2.png */,
-				429F9FAA1624D98900765580 /* flyer_landed_color3.png */,
-			);
-			name = placeholders;
-			sourceTree = "<group>";
-		};
 		4222585016330D8200BE9AD4 /* flyer_blimp */ = {
 			isa = PBXGroup;
 			children = (
@@ -1291,7 +1275,6 @@
 				42A20C1F162BF54F00C4B593 /* flyer_hornet */,
 				42A20BB7162BF53800C4B593 /* flyer_rang */,
 				42A20BD0162BF53800C4B593 /* flyer_wing */,
-				421A070D16285A1400D2FE9E /* placeholders */,
 				429F9FA71624D97200765580 /* flyer_glider */,
 			);
 			name = flyers;
@@ -2123,9 +2106,6 @@
 				38AAEF19162379290056C9F2 /* icon_lboard_travelled.png in Resources */,
 				38AAEF1A162379290056C9F2 /* tearoffpage.png in Resources */,
 				38AAEF2B1625B5DE0056C9F2 /* GuildMembershipUI.xib in Resources */,
-				429F9FAB1624D98900765580 /* flyer_landed_color1.png in Resources */,
-				429F9FAC1624D98900765580 /* flyer_landed_color2.png in Resources */,
-				429F9FAD1624D98900765580 /* flyer_landed_color3.png in Resources */,
 				42A4B7FD1626A8E1009622D0 /* pog_moderate.mp3 in Resources */,
 				42A4B8011626AB25009622D0 /* ambient1.m4a in Resources */,
 				42A4B809162716BC009622D0 /* icon_alert_flyer_001.png in Resources */,
