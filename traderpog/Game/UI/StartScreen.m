@@ -13,6 +13,7 @@
 #import "GameManager.h"
 #import "PogUIUtility.h"
 #import "SoundManager.h"
+#import "ObjectivesMgr.h"
 
 #if !defined(FINAL)
 static const float kVersionWidth = 80.0f;
@@ -59,8 +60,6 @@ static const float kVersionX = 0.7f;
     [_debugButton addTarget:self action:@selector(didPressDebug:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_debugButton];
 #endif
-    
-    [RevMobAds showFullscreenAd];
 }
 
 - (void)viewDidUnload
@@ -71,6 +70,10 @@ static const float kVersionX = 0.7f;
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    if([[ObjectivesMgr getInstance] hasCompletedNewUserObjectives])
+    {
+        [RevMobAds showFullscreenAd];
+    }
     [[SoundManager getInstance] playMusic:@"background_default" doLoop:YES];
 }
 

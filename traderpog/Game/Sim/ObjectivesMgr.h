@@ -37,6 +37,7 @@
 - (void) setAllNewUserCompleted;
 - (void) resetRecurringObjectives;
 - (void) resetKnobCounts;
+- (BOOL) hasCompletedNewUserObjectives;
 
 // objective operations
 - (GameObjective*) getNextObjective;

@@ -348,6 +348,8 @@ static const float kHomeNotVisibleDistMeters = 500.0f;
     }
 }
 
+#pragma mark - manager operations
+
 - (void) clearForQuitGame
 {
     self.outObjective = nil;
@@ -375,6 +377,23 @@ static const float kHomeNotVisibleDistMeters = 500.0f;
     }    
     self.lastCompletionDate = [NSDate date];
     [self updateNextIndex];
+}
+
+- (BOOL) hasCompletedNewUserObjectives
+{
+    BOOL result = YES;
+    for(GameObjective* cur in _objectives)
+    {
+        if([self isNewUserForObjective:cur])
+        {
+            if(![cur isCompleted])
+            {
+                result = NO;
+                break;
+            }
+        }
+    }
+    return result;
 }
 
 #pragma mark - Singleton
