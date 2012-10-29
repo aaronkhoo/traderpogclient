@@ -50,7 +50,7 @@ static const float kPostBubbleBorderWidth = 1.5f;
 static const float kPreviewPostWidth = 120.0f;
 static const float kPreviewPostHeight = 120.0f;
 static NSString* const kNPCPost_prepend = @"NPCPost";
-static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total Other Posts we want to keep in the
+static const int kDesiredOtherPostNumInWorld = 10;  // number of total Other Posts we want to keep in the
                                                             // world at any one time
 
 @interface TradePostMgr ()
@@ -380,6 +380,7 @@ static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total O
     // make a list of existing posts
     NSMutableArray* existingPosts = [NSMutableArray arrayWithArray:[_foundPosts allValues]];
     [existingPosts addObjectsFromArray:[_npcPosts allValues]];
+    [existingPosts addObjectsFromArray:[_foundPosts allValues]];
     
     NSMutableSet* exclusionSet = [NSMutableSet setWithSet:excludeSet];
 
@@ -437,8 +438,8 @@ static const unsigned int kDesiredOtherPostNumInWorld = 5;  // number of total O
     [existingPosts removeObjectsInArray:retiredPosts];
     
     // then if we still have excessive num with respect to kDesiredOtherPostsNumInWorld, remove the excessive ones
-    int numToRetire = MAX(0, kDesiredOtherPostNumInWorld - [self numOtherPosts] - [retiredPosts count]);
-    if(numToRetire)
+    int numToRetire = [self numOtherPosts] - [retiredPosts count] - kDesiredOtherPostNumInWorld;
+    if(0 < numToRetire)
     {
         for(TradePost* cur in existingPosts)
         {
