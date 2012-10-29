@@ -24,15 +24,7 @@
 #import "GameManager.h"
 #import "GameViewController.h"
 #import "ObjectivesMgr.h"
-
-enum kMapAvailCoordShift
-{
-    kMapAvailCoordShiftRight = 0,
-    kMapAvailCoordShiftLeft,
-    kMapAvailCoordShiftDown,
-    
-    kMapAvailCoordShiftNum
-};
+#include "MathUtils.h"
 
 const NSUInteger kDefaultZoomLevel = 15;
 const NSUInteger kNoCalloutZoomLevel = kDefaultZoomLevel - 2;
@@ -53,10 +45,10 @@ static const float kBrowseAreaRadius = 500.0f;
     MapGestureHandler* _gestureHandler;
     UIPanGestureRecognizer* _panRecognizer;
     BOOL _isViewingRoute;
-    
-    // this number just cycles through so that every time we return an avail coord
-    // it's shifted in a different direction; just to delay clogging up one direction
-    unsigned int _availCoordShiftDir;
+
+    // angle in which post is shifted to resolve collision
+    // this angle rotates by PI/4 each time it's used (with a slight random offset)
+    float _shiftAngle;
 }
 @property (nonatomic,strong) BrowseArea* browseArea;
 @property (nonatomic) BOOL regionSetFromCode;
@@ -93,28 +85,17 @@ static const float kBrowseAreaRadius = 500.0f;
     return [self.view isZoomEnabled];
 }
 
+static const float kShiftAngleOffsetRange = M_PI_4 * 0.2f;
 - (CGPoint) getShiftDir
 {
     CGPoint result = CGPointMake(1.0f, 0.0f);
-    switch(_availCoordShiftDir)
+    float randOffset = ((RandomFrac() - 0.5f) * kShiftAngleOffsetRange);
+    CGAffineTransform t = CGAffineTransformMakeRotation(randOffset + _shiftAngle);
+    result = CGPointApplyAffineTransform(result, t);
+    _shiftAngle += (kShiftAngleOffsetRange + randOffset + ((1.0f + RandomFrac()) * M_PI_2 * 0.3f));
+    if((2.0f * M_PI) <= _shiftAngle)
     {
-        case kMapAvailCoordShiftLeft:
-            result = CGPointMake(-1.0f, 0.0f);
-            break;
-            
-        case kMapAvailCoordShiftDown:
-            result = CGPointMake(0.0f, 1.0f);
-            break;
-            
-        default:
-        case kMapAvailCoordShiftRight:
-            // do nothing; default;
-            break;
-    }
-    ++_availCoordShiftDir;
-    if(kMapAvailCoordShiftNum <= _availCoordShiftDir)
-    {
-        _availCoordShiftDir = 0;
+        _shiftAngle -= (2.0f * M_PI);
     }
     return result;
 }
@@ -133,7 +114,7 @@ const float kNewPostOffsetMeters = 100.0f;
             CLLocation* loc = [[CLLocation alloc] initWithLatitude:cur.coordinate.latitude longitude:cur.coordinate.longitude];
             [locationsSet addObject:loc];
         }
-        CLLocation* center = [MKMapView centerOfLocationsInSet:locationsSet];
+        CLLocation* center = [[CLLocation alloc] initWithLatitude:targetCoord.latitude longitude:targetCoord.longitude];//[MKMapView centerOfLocationsInSet:locationsSet];
         CLLocation* farthest = [MKMapView farthestLocInSet:locationsSet fromCoord:center.coordinate];
         CLLocationDistance farDist = [center distanceFromLocation:farthest];
         
@@ -164,14 +145,7 @@ const float kNewPostOffsetMeters = 100.0f;
     NSMutableSet* result = [NSMutableArray arrayWithCapacity:10];
     CLLocation* queryLoc = [[CLLocation alloc] initWithLatitude:queryCoord.latitude longitude:queryCoord.longitude];
     NSSet* domainAnnotations = nil;
-    if(visibleOnly)
-    {
-        domainAnnotations = [self.view annotationsInMapRect:[self.view visibleMapRect]];
-    }
-    else
-    {
-        domainAnnotations = [NSSet setWithArray:[self.view annotations]];
-    }
+    domainAnnotations = [NSSet setWithArray:[self.view annotations]];
     for(NSObject<MKAnnotation>* cur in domainAnnotations)
     {
         if([cur isKindOfClass:[TradePost class]])
@@ -213,7 +187,7 @@ const float kNewPostOffsetMeters = 100.0f;
     self.trackedAnnotation = nil;
     _isViewingRoute = NO;
     _isPreviewMap = isPreview;
-    _availCoordShiftDir = kMapAvailCoordShiftRight;
+    _shiftAngle = 0.0f;
 
     [mapView setCenterCoordinate:initCoord zoomLevel:zoomLevel animated:NO];
 }
