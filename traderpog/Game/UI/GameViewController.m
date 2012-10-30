@@ -686,6 +686,15 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     }
 }
 
+- (void) dismissInfoNotAnimated
+{
+    if([self.infoCircle isHidden] && [self.info.view superview])
+    {
+        [self.info dismissAnimated:NO];
+        [self showInfoCircleAnimated:NO];
+    }
+}
+
 - (void) showMyPostMenuForPost:(MyTradePost *)myPost
 {
     self.myPostMenu.myPost = myPost;
@@ -809,7 +818,7 @@ static const float kMyPostMenuSize = 60.0f;
     self.gameEventNote = nil;
     
     self.myPostMenu = nil;
-    [self dismissInfo];
+    [self dismissInfoNotAnimated];
     self.info = nil;
     [self.infoCircle removeFromSuperview];
     self.infoCircle = nil;
@@ -1236,6 +1245,9 @@ static const float kMyPostMenuSize = 60.0f;
 - (void) shiftUIElements:(CGFloat)delta
 {
     [[self hud] shiftHudPosition:delta];
+    
+    // must dismiss info immediately prior to making any changes to its frame
+    [self dismissInfoNotAnimated];
     CGRect shiftedInfoRect = CGRectMake(_infoRect.origin.x, _infoRect.origin.y + delta,
                                         _infoRect.size.width, _infoRect.size.height);
     [self.infoCircle setFrame:shiftedInfoRect];
