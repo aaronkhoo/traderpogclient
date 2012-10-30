@@ -109,6 +109,8 @@
 		4237D4821620A40F009A29F1 /* FlyerCustomize.m in Sources */ = {isa = PBXBuildFile; fileRef = 4237D4801620A40F009A29F1 /* FlyerCustomize.m */; };
 		4237D4831620A40F009A29F1 /* FlyerCustomize.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4237D4811620A40F009A29F1 /* FlyerCustomize.xib */; };
 		4245A07B16005C9600AB14EB /* TradePost+Render.m in Sources */ = {isa = PBXBuildFile; fileRef = 4245A07A16005C9600AB14EB /* TradePost+Render.m */; };
+		4246B8DE164024E700D42796 /* b_flyerlab.png in Resources */ = {isa = PBXBuildFile; fileRef = 4246B8DD164024E700D42796 /* b_flyerlab.png */; };
+		4246B8E0164024F700D42796 /* bubble_postmark_g.png in Resources */ = {isa = PBXBuildFile; fileRef = 4246B8DF164024F700D42796 /* bubble_postmark_g.png */; };
 		424EC11A1639348500C62CA0 /* pog_sales.png in Resources */ = {isa = PBXBuildFile; fileRef = 424EC1191639348500C62CA0 /* pog_sales.png */; };
 		4254BDF31616C527008FD41D /* GameEventMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4254BDF21616C527008FD41D /* GameEventMgr.m */; };
 		4254BDF71616CE77008FD41D /* GameEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4254BDF61616CE77008FD41D /* GameEvent.m */; };
@@ -126,7 +128,6 @@
 		4277D994160C5908008AD767 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4277D993160C5908008AD767 /* Default-568h@2x.png */; };
 		4290AB0F15EF3D06001FAF0B /* BrowsePinch.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290AB0E15EF3D06001FAF0B /* BrowsePinch.m */; };
 		429A31D415F041DF00069CC7 /* CalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 429A31D315F041DF00069CC7 /* CalloutView.m */; };
-		429B154815F5CFAF00107D5F /* bubble_postmark_g.png in Resources */ = {isa = PBXBuildFile; fileRef = 429B154715F5CFAF00107D5F /* bubble_postmark_g.png */; };
 		42A0FA0C160E925200683B8A /* GameAnim.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A0FA0B160E925200683B8A /* GameAnim.m */; };
 		42A2989115B5F1E700384A52 /* KnobControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2988D15B5F1E700384A52 /* KnobControl.m */; };
 		42A2989215B5F1E700384A52 /* KnobSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A2989015B5F1E700384A52 /* KnobSlice.m */; };
@@ -402,7 +403,6 @@
 		C4D5DDDA15B3155B00D5A746 /* TradeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDD915B3155B00D5A746 /* TradeItem.m */; };
 		C4D5DDDD15B3168100D5A746 /* TradeItemType.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDDC15B3168100D5A746 /* TradeItemType.m */; };
 		C4D5DDEA15B3CF0800D5A746 /* TradePostAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D5DDE915B3CF0800D5A746 /* TradePostAnnotationView.m */; };
-		C4D9B07315E3DE160096448E /* b_flyerlab.png in Resources */ = {isa = PBXBuildFile; fileRef = C4D9B07215E3DE160096448E /* b_flyerlab.png */; };
 		C4E3819D15AA0C5B00924A86 /* StartScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E3819B15AA0C5B00924A86 /* StartScreen.m */; };
 		C4E3819E15AA0C5B00924A86 /* StartScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E3819C15AA0C5B00924A86 /* StartScreen.xib */; };
 		C4E381AB15AA381F00924A86 /* ImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E381AA15AA381F00924A86 /* ImageManager.m */; };
@@ -609,6 +609,8 @@
 		4237D4811620A40F009A29F1 /* FlyerCustomize.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerCustomize.xib; path = Game/UI/FlyerCustomize.xib; sourceTree = "<group>"; };
 		4245A07916005C9600AB14EB /* TradePost+Render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TradePost+Render.h"; path = "Game/Map/TradePost+Render.h"; sourceTree = "<group>"; };
 		4245A07A16005C9600AB14EB /* TradePost+Render.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "TradePost+Render.m"; path = "Game/Map/TradePost+Render.m"; sourceTree = "<group>"; };
+		4246B8DD164024E700D42796 /* b_flyerlab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = b_flyerlab.png; path = assets/Map/resized/b_flyerlab.png; sourceTree = SOURCE_ROOT; };
+		4246B8DF164024F700D42796 /* bubble_postmark_g.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_postmark_g.png; path = assets/UI/resized/bubble_postmark_g.png; sourceTree = SOURCE_ROOT; };
 		424EC1191639348500C62CA0 /* pog_sales.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pog_sales.png; path = assets/UI/pog_sales.png; sourceTree = SOURCE_ROOT; };
 		4254BDF11616C527008FD41D /* GameEventMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameEventMgr.h; path = Game/Sim/GameEventMgr.h; sourceTree = "<group>"; };
 		4254BDF21616C527008FD41D /* GameEventMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameEventMgr.m; path = Game/Sim/GameEventMgr.m; sourceTree = "<group>"; };
@@ -636,7 +638,6 @@
 		4290AB0E15EF3D06001FAF0B /* BrowsePinch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrowsePinch.m; path = Game/Map/BrowsePinch.m; sourceTree = "<group>"; };
 		429A31D215F041DF00069CC7 /* CalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalloutView.h; path = Map/CalloutView.h; sourceTree = "<group>"; };
 		429A31D315F041DF00069CC7 /* CalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalloutView.m; path = Map/CalloutView.m; sourceTree = "<group>"; };
-		429B154715F5CFAF00107D5F /* bubble_postmark_g.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble_postmark_g.png; path = assets/UI/bubble_postmark_g.png; sourceTree = SOURCE_ROOT; };
 		42A0FA0A160E925200683B8A /* GameAnim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameAnim.h; path = Game/Sim/GameAnim.h; sourceTree = "<group>"; };
 		42A0FA0B160E925200683B8A /* GameAnim.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameAnim.m; path = Game/Sim/GameAnim.m; sourceTree = "<group>"; };
 		42A2988C15B5F1E700384A52 /* KnobControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobControl.h; sourceTree = "<group>"; };
@@ -989,7 +990,6 @@
 		C4D5DDE015B3B34A00D5A746 /* MapProtocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MapProtocols.h; path = Map/MapProtocols.h; sourceTree = "<group>"; };
 		C4D5DDE815B3CF0700D5A746 /* TradePostAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TradePostAnnotationView.h; path = Game/Map/TradePostAnnotationView.h; sourceTree = "<group>"; };
 		C4D5DDE915B3CF0800D5A746 /* TradePostAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TradePostAnnotationView.m; path = Game/Map/TradePostAnnotationView.m; sourceTree = "<group>"; };
-		C4D9B07215E3DE160096448E /* b_flyerlab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = b_flyerlab.png; path = assets/Map/b_flyerlab.png; sourceTree = SOURCE_ROOT; };
 		C4E3819A15AA0C5B00924A86 /* StartScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartScreen.h; path = Game/UI/StartScreen.h; sourceTree = "<group>"; };
 		C4E3819B15AA0C5B00924A86 /* StartScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartScreen.m; path = Game/UI/StartScreen.m; sourceTree = "<group>"; };
 		C4E3819C15AA0C5B00924A86 /* StartScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StartScreen.xib; path = Game/UI/StartScreen.xib; sourceTree = "<group>"; };
@@ -1702,11 +1702,11 @@
 		C4D5DDEC15B3D05600D5A746 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				4246B8DD164024E700D42796 /* b_flyerlab.png */,
 				42AB2222163F10A4008C926F /* b_beacon.png */,
 				42AB2223163F10A4008C926F /* b_homebase.png */,
 				42AB2224163F10A4008C926F /* b_tradepost.png */,
-				429B154715F5CFAF00107D5F /* bubble_postmark_g.png */,
-				C4D9B07215E3DE160096448E /* b_flyerlab.png */,
+				4246B8DF164024F700D42796 /* bubble_postmark_g.png */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -2062,12 +2062,10 @@
 				C4FA8F5C15B54A7200E82A93 /* FBSignIn.png in Resources */,
 				C4BBE44915B7E7C600F582DE /* SignupBackground.png in Resources */,
 				38B6DAEF15C85A9D00F37BD9 /* FBDialog.bundle in Resources */,
-				C4D9B07315E3DE160096448E /* b_flyerlab.png in Resources */,
 				42F692D115F1E1B60002B1B2 /* bubble_restock.png in Resources */,
 				42F692D215F1E1B60002B1B2 /* bubble_set_beacon.png in Resources */,
 				42F692D315F1E1B60002B1B2 /* icon_removepost.png in Resources */,
 				42FA1A5A15F55EBA00EB2433 /* checkerboard.png in Resources */,
-				429B154815F5CFAF00107D5F /* bubble_postmark_g.png in Resources */,
 				42D90A0115F81A3800BBE992 /* coin_001.png in Resources */,
 				42D90A0215F81A3800BBE992 /* coin_002.png in Resources */,
 				42D90A0315F81A3800BBE992 /* coin_003.png in Resources */,
@@ -2305,6 +2303,8 @@
 				42E6B149163F979C00062F02 /* b_flyerlab_001.png in Resources */,
 				42E6B14A163F979C00062F02 /* b_flyerlab_002.png in Resources */,
 				42E6B14B163F979C00062F02 /* b_flyerlab_003.png in Resources */,
+				4246B8DE164024E700D42796 /* b_flyerlab.png in Resources */,
+				4246B8E0164024F700D42796 /* bubble_postmark_g.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
