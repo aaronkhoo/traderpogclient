@@ -34,7 +34,7 @@ static NSString* const keyCurCoord = @"curCoord";
     {
         [self.flightPathOverlay addObserver:self forKeyPath:keySrcCoord options:0 context:nil];
         [self.flightPathOverlay addObserver:self forKeyPath:keyDestCoord options:0 context:nil];
-        [self.flightPathOverlay addObserver:self forKeyPath:keyCurCoord options:0 context:nil];
+        //[self.flightPathOverlay addObserver:self forKeyPath:keyCurCoord options:0 context:nil];
         _mapView = nil;
     }
     return self;
@@ -46,7 +46,7 @@ static NSString* const keyCurCoord = @"curCoord";
 
     [self.flightPathOverlay removeObserver:self forKeyPath:keySrcCoord];
     [self.flightPathOverlay removeObserver:self forKeyPath:keyDestCoord];
-    [self.flightPathOverlay removeObserver:self forKeyPath:keyCurCoord];
+    //[self.flightPathOverlay removeObserver:self forKeyPath:keyCurCoord];
 }
 
 #pragma mark - MKOverlayPathView
@@ -144,7 +144,7 @@ static BOOL lineIntersectsRect(MKMapPoint p0, MKMapPoint p1, MKMapRect r) {
     //[flightPath lockForReading];
     MKMapPoint srcPoint = MKMapPointForCoordinate(flightPath.srcCoord);
     MKMapPoint destPoint = MKMapPointForCoordinate(flightPath.destCoord);
-    MKMapPoint curPoint = MKMapPointForCoordinate(flightPath.curCoord);
+    //MKMapPoint curPoint = MKMapPointForCoordinate(flightPath.curCoord);
     //[flightPath unlockForReading];
     if(lineIntersectsRect(srcPoint, destPoint, clipRect))
     {
@@ -155,10 +155,12 @@ static BOOL lineIntersectsRect(MKMapPoint p0, MKMapPoint p1, MKMapRect r) {
         CGPathMoveToPoint(drawPath, NULL, srcDrawPoint.x, srcDrawPoint.y);
         CGPathAddLineToPoint(drawPath, NULL, destDrawPoint.x, destDrawPoint.y);
 
+        /*
         CGMutablePathRef solidPath = CGPathCreateMutable();
         CGPoint curDrawPoint = [self pointForMapPoint:curPoint];
         CGPathMoveToPoint(solidPath, NULL, srcDrawPoint.x, srcDrawPoint.y);
         CGPathAddLineToPoint(solidPath, NULL, curDrawPoint.x, curDrawPoint.y);
+        */
         
         CGContextSaveGState(context);
         CGContextAddPath(context, drawPath);
@@ -173,7 +175,7 @@ static BOOL lineIntersectsRect(MKMapPoint p0, MKMapPoint p1, MKMapRect r) {
         CGContextStrokePath(context);
         CGPathRelease(drawPath);
         CGContextRestoreGState(context);
-
+/*
         CGContextSaveGState(context);
         CGContextAddPath(context, solidPath);
         CGContextSetRGBStrokeColor(context, 237.0f/255.0f, 28.0f/255.0f, 36.0f/255.0f, 1.0);
@@ -183,6 +185,7 @@ static BOOL lineIntersectsRect(MKMapPoint p0, MKMapPoint p1, MKMapRect r) {
         CGContextStrokePath(context);
         CGPathRelease(solidPath);
         CGContextRestoreGState(context);
+ */
     }
 }
 
@@ -195,6 +198,7 @@ static BOOL lineIntersectsRect(MKMapPoint p0, MKMapPoint p1, MKMapRect r) {
     {
         [self setNeedsDisplayInMapRect:self.flightPathOverlay.boundingMapRect];
     }
+    /*
     else if([keyPath isEqualToString:keyCurCoord])
     {
         // update only the bounding rect around curCoord
@@ -205,6 +209,7 @@ static BOOL lineIntersectsRect(MKMapPoint p0, MKMapPoint p1, MKMapRect r) {
             [self setNeedsDisplayInMapRect:intersectRect];
         }
     }
+     */
 }
 
 
