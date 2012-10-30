@@ -691,6 +691,8 @@ typedef enum {
 }
 
 #pragma mark - in-game UI
+// DISABLE_POSTWHEEL
+/*
 - (void) showHomeSelectForFlyer:(Flyer *)flyer
 {
     if(kGameStateGameLoop == _gameState)
@@ -702,7 +704,7 @@ typedef enum {
         [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
     }
 }
-
+*/
 - (void) showFlyerSelectForBuyAtPost:(TradePost *)post
 {
     if(kGameStateGameLoop == _gameState)

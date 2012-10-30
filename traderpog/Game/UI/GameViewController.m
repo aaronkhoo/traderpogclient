@@ -67,7 +67,9 @@ static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepIn
     CLLocationCoordinate2D _initCoord;
     KnobControl* _knob;
     WheelControl* _flyerWheel;
-    WheelControl* _postWheel;
+
+    // DISABLE_POSTWHEEL
+    //WheelControl* _postWheel;
     WheelControl* _beaconWheel;
     Flyer* _trackedFlyer;
     
@@ -87,7 +89,8 @@ static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepIn
 }
 @property (nonatomic,strong) KnobControl* knob;
 @property (nonatomic,strong) WheelControl* flyerWheel;
-@property (nonatomic,strong) WheelControl* postWheel;
+// DISABLE_POSTWHEEL
+//@property (nonatomic,strong) WheelControl* postWheel;
 @property (nonatomic,strong) WheelControl* beaconWheel;
 @property (nonatomic,strong) Flyer* trackedFlyer;
 @property (nonatomic,strong) CircleButton* infoCircle;
@@ -123,7 +126,8 @@ static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepIn
 @synthesize mapControl = _mapControl;
 @synthesize knob = _knob;
 @synthesize flyerWheel = _flyerWheel;
-@synthesize postWheel = _postWheel;
+// DISABLE_POSTWHEEL
+//@synthesize postWheel = _postWheel;
 @synthesize beaconWheel = _beaconWheel;
 @synthesize coord = _initCoord;
 @synthesize trackedFlyer = _trackedFlyer;
@@ -564,6 +568,9 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
                                              previewFrame:previewFrame
                                                 numSlices:12];
     [self.view addSubview:[self flyerWheel]];
+
+    // DISABLE_POSTWHEEL
+    /*
     self.postWheel = [[WheelControl alloc] initWithFrame:self.view.bounds
                                                  delegate:[TradePostMgr getInstance]
                                                dataSource:[TradePostMgr getInstance]
@@ -572,7 +579,7 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
                                              previewFrame:previewFrame
                                                 numSlices:12];
     [self.view addSubview:[self postWheel]];
-
+     */
     self.beaconWheel = [[WheelControl alloc] initWithFrame:self.view.bounds
                                                 delegate:[BeaconMgr getInstance]
                                               dataSource:[BeaconMgr getInstance]
@@ -587,17 +594,23 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 {
     [self.flyerWheel removeFromSuperview];
     self.flyerWheel = nil;
-    [self.postWheel removeFromSuperview];
-    self.postWheel = nil;
+
+    // DISABLE_POSTWHEEL
+    //[self.postWheel removeFromSuperview];
+    //self.postWheel = nil;
+    
     [self.beaconWheel removeFromSuperview];
     self.beaconWheel = nil;
 }
 
+// DISABLE_POSTWHEEL
+/*
 - (void) showPostWheelAnimated:(BOOL)isAnimated
 {
     [self.postWheel showWheelAnimated:YES withDelay:0.0f];
     [self.knob gotoSliceIndex:kKnobSlicePost animated:YES];
 }
+ */
 
 - (void) showFlyerWheelAnimated:(BOOL)isAnimated
 {
@@ -612,11 +625,15 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
 
 - (void) dismissActiveWheelAnimated:(BOOL)isAnimated
 {
+    // DISABLE_POSTWHEEL
+    /*
     if(![self.postWheel isWheelStateHidden])
     {
         [self.postWheel hideWheelAnimated:isAnimated withDelay:0.0f];
     }
-    else if(![self.flyerWheel isWheelStateHidden])
+    else
+     */
+    if(![self.flyerWheel isWheelStateHidden])
     {
         [self.flyerWheel hideWheelAnimated:isAnimated withDelay:0.0f];
     }
@@ -1123,6 +1140,7 @@ static const float kMyPostMenuSize = 60.0f;
         case kKnobSlicePost:
             [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level1"];
             
+            // DISABLE_POSTWHEEL
             // TODO: Disable wheel for posts. Just zoom straight to the single post owned by the player
             // instead. Leave this in place for possible future enhancement.
             //[self.postWheel showWheelAnimated:YES withDelay:0.0f];

@@ -61,7 +61,8 @@ typedef enum _BrowseEnforcedType
 - (BOOL) isTraderPogServerReachable;
 
 // in-game UI
-- (void) showHomeSelectForFlyer:(Flyer*)flyer;
+// DISABLE_POSTWHEEL
+//- (void) showHomeSelectForFlyer:(Flyer*)flyer;
 - (void) showFlyerSelectForBuyAtPost:(TradePost*)post;
 - (void) wheel:(WheelControl*)wheel commitOnTradePost:(TradePost*)tradePost;
 - (void) wheel:(WheelControl *)wheel commitOnFlyer:(Flyer *)flyer;

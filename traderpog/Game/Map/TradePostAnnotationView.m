@@ -370,6 +370,7 @@ static const float kAccelViewYOffset = -94.0f;
         if((kFlyerStateLoaded == [flyer state]) ||
                 (kFlyerStateIdle == [flyer state]))
         {
+            // DISABLE_POSTWHEEL
             // TODO: Commented out from now since there's only one post for this release. Just send the
             //       flyer straight to that single post.
             // [[GameManager getInstance] showHomeSelectForFlyer:flyer];
@@ -429,6 +430,7 @@ static const float kAccelViewYOffset = -94.0f;
     {
         Flyer* flyer = [curPost flyerAtPost];
         
+        // DISABLE_POSTWHEEL
         // TODO: Commented out from now since there's only one post for this release. Just send the
         //       flyer straight to that single post.
         // [[GameManager getInstance] showHomeSelectForFlyer:flyer];

@@ -67,7 +67,8 @@ enum kKnobSlices
 // knob and wheel
 - (void) showKnobAnimated:(BOOL)isAnimated delay:(NSTimeInterval)delay;
 - (void) dismissKnobAnimated:(BOOL)isAnimated;
-- (void) showPostWheelAnimated:(BOOL)isAnimated;
+// DISABLE_POSTWHEEL
+//- (void) showPostWheelAnimated:(BOOL)isAnimated;
 - (void) showFlyerWheelAnimated:(BOOL)isAnimated;
 - (void) setBeaconWheelText:(NSString*)new_text;
 - (void) dismissActiveWheelAnimated:(BOOL)isAnimated;
