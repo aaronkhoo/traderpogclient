@@ -35,6 +35,7 @@
 #import "SoundManager.h"
 #import "ScanManager.h"
 #import "ObjectivesMgr.h"
+#import "MBProgressHUD.h"
 #import <CoreLocation/CoreLocation.h>
 
 // List of Game UI screens that GameManager can kick off
@@ -434,21 +435,34 @@ typedef enum {
     // first check the view on the stack, if the top view is not LoadingScreen,
     // then push that onto the stack
     UIViewController* current = [nav visibleViewController];
-    if(![current isMemberOfClass:[LoadingScreen class]])
+    if([current isMemberOfClass:[GameViewController class]])
+    {
+        [MBProgressHUD hideHUDForView:current.view animated:NO];
+        MBProgressHUD* progHud = [MBProgressHUD showHUDAddedTo:current.view animated:YES];
+        progHud.labelText = message;
+    }
+    else if(![current isMemberOfClass:[LoadingScreen class]])
     {
         LoadingTransition* transition = [[LoadingTransition alloc] initWithNibName:@"LoadingTransition" bundle:nil];
         [nav pushFadeInViewController:transition animated:YES];
         current = [[LoadingScreen alloc] initWithNibName:@"LoadingScreen" bundle:nil];
         [nav pushFadeInViewController:current animated:YES];
     }
-    LoadingScreen* loading = (LoadingScreen*)current;
-    loading.progressLabel.text = message;
+    else if([current isMemberOfClass:[LoadingScreen class]])
+    {
+        LoadingScreen* loading = (LoadingScreen*)current;
+        loading.progressLabel.text = message;
+    }
 }
 
 - (void) popLoadingScreenToRootIfNecessary:(UINavigationController*)nav
 {
     UIViewController* current = [nav visibleViewController];
-    if([current isMemberOfClass:[LoadingScreen class]])
+    if([current isMemberOfClass:[GameViewController class]])
+    {
+        [MBProgressHUD hideHUDForView:current.view animated:NO];
+    }
+    else if([current isMemberOfClass:[LoadingScreen class]])
     {
         LoadingScreen* loadingScreen = (LoadingScreen*)current;
         [loadingScreen dismissWithCompletion:^(void){
@@ -636,6 +650,11 @@ typedef enum {
                 [nav popFadeOutViewControllerAnimated:NO];
                 [self startGame];
             }];
+        }
+        else if([current isMemberOfClass:[GameViewController class]])
+        {
+            [MBProgressHUD hideHUDForView:current.view animated:YES];
+            [self startGame];
         }
         else
         {
