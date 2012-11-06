@@ -26,10 +26,12 @@ static const float kCloseBorderWidth = 4.0f;
 static const float kBorderWidth = 5.0f;
 static const float kBubbleOutScale = 1.4f;
 static const float kBubbleInitScale = 0.1f;
+static const float kCloseRectInset = -14.0f;
 
 @interface InfoViewController ()
 {
     __weak NSObject<ModalNavDelegate>* _delegate;
+    UIButton* _closeButton;
 }
 - (void) didPressLeaderboard:(id)sender;
 - (void) didPressMember:(id)sender;
@@ -60,22 +62,19 @@ static const float kBubbleInitScale = 0.1f;
 {
     [super viewDidLoad];
     
-    // set up the frame so that it places right where the info button is
-    //CGRect infoRect = [PogUIUtility createCenterFrameWithSize:self.view.bounds.size inFrame:_centerFrame];
-    //self.view.frame = infoRect;
-    
-    [self.closeCircle setButtonTarget:self action:@selector(didPressClose:)];
     [self.leaderboardsCircle setButtonTarget:self action:@selector(didPressLeaderboard:)];
     [self.memberCircle setButtonTarget:self action:@selector(didPressMember:)];
     [self.moreCircle setButtonTarget:self action:@selector(didPressMore:)];
     
+    // create a bigger close button where the close cicle is to make it easier for the user to tap
+    CGRect closeRect = CGRectInset(self.closeCircle.frame, kCloseRectInset, kCloseRectInset);
+    _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_closeButton setFrame:closeRect];
+    [_closeButton setBackgroundColor:[UIColor clearColor]];
+    [_closeButton addTarget:self action:@selector(didPressClose:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_closeButton];
+    
     // distribute sub-circles equidistance from center
-    /*
-    CGRect subCircleFrame = [PogUIUtility createCenterFrameWithSize:self.leaderboardsCircle.frame.size inFrame:self.closeCircle.frame];
-    [self.leaderboardsCircle setFrame:subCircleFrame];
-    [self.memberCircle setFrame:subCircleFrame];
-    [self.moreCircle setFrame:subCircleFrame];
-    */
     [self refreshSubframesWithFrame:_centerFrame];
     
     [self.closeCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
@@ -103,6 +102,7 @@ static const float kBubbleInitScale = 0.1f;
     [self setLeaderboardsCircle:nil];
     [self setMemberCircle:nil];
     [self setMoreCircle:nil];
+    _closeButton = nil;
     [super viewDidUnload];
 }
 
