@@ -900,7 +900,7 @@ static const float kMyPostMenuSize = 60.0f;
     }
     _modalView = view;
     _modalFlags = options;
-    [self.view insertSubview:view aboveSubview:self.modalNav.view];
+    [self.view insertSubview:view belowSubview:self.modalNav.view];
     if(isAnimated)
     {
         [view setTransform:CGAffineTransformMakeScale(0.1f, 0.1f)];
@@ -992,7 +992,7 @@ static const float kMyPostMenuSize = 60.0f;
     ModalNavControl* modal = self.modalNav;
     modal.completionBlock = completion;
     [modal.view setHidden:NO];
-    [modal.navController pushFadeInViewController:controller animated:YES];
+    [modal.navController pushFromLeftViewController:controller animated:YES];
     modal.delegate = self;
     
     [self dismissKnobAnimated:YES];

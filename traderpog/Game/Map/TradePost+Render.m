@@ -91,24 +91,24 @@
     {
         Flyer* flyer = [self flyerAtPost];
         if(kFlyerStateLoading == [flyer state])
-        {
+        {/*
             BOOL anim = [[GameAnim getInstance] refreshImageView:annotationView.frontLeftView withClipNamed:@"loading"];
             if(anim)
             {
                 [annotationView.frontLeftView startAnimating];
                 [annotationView.frontLeftView setHidden:NO];
-            }
+            }*/
             [annotationView.countdownView setHidden:NO];
             showItemBubbleFull = YES;
         }
         else if(kFlyerStateUnloading == [flyer state])
-        {
+        {/*
             BOOL anim = [[GameAnim getInstance] refreshImageView:annotationView.frontLeftView withClipNamed:@"unloading"];
             if(anim)
             {
                 [annotationView.frontLeftView startAnimating];
                 [annotationView.frontLeftView setHidden:NO];
-            }
+            }*/
             [annotationView.countdownView setHidden:NO];
             showItemBubbleFull = YES;
         }

@@ -30,6 +30,8 @@
 #import "Player+Shop.h"
 #import "FlyerInfoView.h"
 #import "CircleButton.h"
+#import "GameAnim.h"
+#import "FlyerGo.h"
 #import <QuartzCore/QuartzCore.h>
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
@@ -301,6 +303,30 @@ static const float kAccelViewYOffset = -94.0f;
     // show it
     [controller showModalView:popup animated:YES];
     
+    // show anim
+    if([tradePost flyerAtPost])
+    {
+        Flyer* flyer = [tradePost flyerAtPost];
+        if(kFlyerStateLoading == [flyer state])
+        {
+            BOOL anim = [[GameAnim getInstance] refreshImageView:self.frontLeftView withClipNamed:@"loading"];
+            if(anim)
+            {
+                [self.frontLeftView startAnimating];
+                [self.frontLeftView setHidden:NO];
+            }
+        }
+        else if(kFlyerStateUnloading == [flyer state])
+        {
+            BOOL anim = [[GameAnim getInstance] refreshImageView:self.frontLeftView withClipNamed:@"unloading"];
+            if(anim)
+            {
+                [self.frontLeftView startAnimating];
+                [self.frontLeftView setHidden:NO];
+            }
+        }
+    }
+    
     // adjust annotation view
     [self.itemBubble setHidden:YES];
     _frontImageView.layer.anchorPoint = CGPointMake(0.3f, 0.5f);
@@ -328,6 +354,11 @@ static const float kAccelViewYOffset = -94.0f;
         else
         {
             // other's post
+            [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
+            GameViewController* game = [[GameManager getInstance] gameViewController];
+            FlyerGo* next = [[FlyerGo alloc] initWithNibName:@"FlyerGo" bundle:nil];
+            [game showModalNavViewController:next completion:nil];
+/*
             if(1 == [[FlyerMgr getInstance].playerFlyers count])
             {
                 // if the player only has one flyer, skip the flyer wheel and send the flyer straight away
@@ -354,10 +385,10 @@ static const float kAccelViewYOffset = -94.0f;
                 [[[[GameManager getInstance] gameViewController] mapControl] defaultZoomCenterOn:[destPost coord] animated:YES];
                 [[GameManager getInstance] showFlyerSelectForBuyAtPost:destPost];
             }
-            
+ */            
         }
     }
-    [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
+//    [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.5];
 }
 
 - (void) handleAccelOk:(id)sender
@@ -630,6 +661,10 @@ static const float kBuyViewCenterYOffset = -10.0f;
     [[[GameManager getInstance] gameViewController] closeModalViewAnimated:NO];
     TradePost* post = (TradePost*)[self annotation];
     [post refreshRenderForAnnotationView:self];
+
+    [self.frontLeftView stopAnimating];
+    [self.frontLeftView setAnimationImages:nil];
+    [self.frontLeftView setHidden:YES];
 
     if([post isMemberOfClass:[MyTradePost class]])
     {
