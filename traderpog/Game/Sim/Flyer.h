@@ -115,4 +115,5 @@ enum _FlyerStates
 // map
 - (void) refreshImageInAnnotationView:(FlyerAnnotationView*)annotationView;
 - (UIImage*) imageForCurrentState;
+- (UIImage*) imageForState:(unsigned int)givenState;
 @end

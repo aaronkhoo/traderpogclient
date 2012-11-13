@@ -93,6 +93,10 @@
 		42172FFB1631DDB700652009 /* PlayerPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42172FF91631DDB600652009 /* PlayerPostViewController.xib */; };
 		421A0715162A026100D2FE9E /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 421A0713162A025B00D2FE9E /* InfoViewController.m */; };
 		421A0716162A026100D2FE9E /* InfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 421A0714162A025F00D2FE9E /* InfoViewController.xib */; };
+		421FFA111652A2B500F4AF97 /* FlyerGo.m in Sources */ = {isa = PBXBuildFile; fileRef = 421FFA0E1652A2B500F4AF97 /* FlyerGo.m */; };
+		421FFA121652A2B500F4AF97 /* FlyerGo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 421FFA0F1652A2B500F4AF97 /* FlyerGo.xib */; };
+		421FFA131652A2B500F4AF97 /* FlyerGoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 421FFA101652A2B500F4AF97 /* FlyerGoCell.xib */; };
+		421FFA161652A2E800F4AF97 /* FlyerGoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 421FFA151652A2E800F4AF97 /* FlyerGoCell.m */; };
 		4222586B1634503E00BE9AD4 /* ObjectivesMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 4222586A1634503E00BE9AD4 /* ObjectivesMgr.m */; };
 		4222586E1634510000BE9AD4 /* GameObjective.m in Sources */ = {isa = PBXBuildFile; fileRef = 4222586D163450FF00BE9AD4 /* GameObjective.m */; };
 		4222587016345D0200BE9AD4 /* gameobjectives.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4222586F16345D0200BE9AD4 /* gameobjectives.plist */; };
@@ -150,9 +154,6 @@
 		42AB223E163F125A008C926F /* item_pie.png in Resources */ = {isa = PBXBuildFile; fileRef = 42AB2235163F125A008C926F /* item_pie.png */; };
 		42AB223F163F125A008C926F /* item_rice.png in Resources */ = {isa = PBXBuildFile; fileRef = 42AB2236163F125A008C926F /* item_rice.png */; };
 		42B28E2F15E99E5A0008901C /* NSArray+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B28E2E15E99E5A0008901C /* NSArray+Pog.m */; };
-		42B343281649D67800A158FD /* FlyerGo.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B343261649D67800A158FD /* FlyerGo.m */; };
-		42B343291649D67800A158FD /* FlyerGo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42B343271649D67800A158FD /* FlyerGo.xib */; };
-		42B34333164A26C800A158FD /* FlyerGoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42B34332164A26C800A158FD /* FlyerGoCell.xib */; };
 		42B5DC95162354F90099DE6E /* FlyerLabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B5DC93162354F90099DE6E /* FlyerLabViewController.m */; };
 		42B5DC96162354F90099DE6E /* FlyerLabViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42B5DC94162354F90099DE6E /* FlyerLabViewController.xib */; };
 		42B61A62163F3BEB0029D684 /* pogresting_001.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B61A5A163F3BEB0029D684 /* pogresting_001.png */; };
@@ -588,6 +589,12 @@
 		421A0712162A025900D2FE9E /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InfoViewController.h; path = Game/UI/InfoViewController.h; sourceTree = "<group>"; };
 		421A0713162A025B00D2FE9E /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InfoViewController.m; path = Game/UI/InfoViewController.m; sourceTree = "<group>"; };
 		421A0714162A025F00D2FE9E /* InfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InfoViewController.xib; path = Game/UI/InfoViewController.xib; sourceTree = "<group>"; };
+		421FFA0D1652A2B500F4AF97 /* FlyerGo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerGo.h; path = Game/UI/flyers/FlyerGo.h; sourceTree = "<group>"; };
+		421FFA0E1652A2B500F4AF97 /* FlyerGo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerGo.m; path = Game/UI/flyers/FlyerGo.m; sourceTree = "<group>"; };
+		421FFA0F1652A2B500F4AF97 /* FlyerGo.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerGo.xib; path = Game/UI/flyers/FlyerGo.xib; sourceTree = "<group>"; };
+		421FFA101652A2B500F4AF97 /* FlyerGoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerGoCell.xib; path = Game/UI/flyers/FlyerGoCell.xib; sourceTree = "<group>"; };
+		421FFA141652A2E800F4AF97 /* FlyerGoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerGoCell.h; path = Game/UI/flyers/FlyerGoCell.h; sourceTree = "<group>"; };
+		421FFA151652A2E800F4AF97 /* FlyerGoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerGoCell.m; path = Game/UI/flyers/FlyerGoCell.m; sourceTree = "<group>"; };
 		422258691634503D00BE9AD4 /* ObjectivesMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectivesMgr.h; path = Game/Sim/ObjectivesMgr.h; sourceTree = "<group>"; };
 		4222586A1634503E00BE9AD4 /* ObjectivesMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjectivesMgr.m; path = Game/Sim/ObjectivesMgr.m; sourceTree = "<group>"; };
 		4222586C163450FF00BE9AD4 /* GameObjective.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameObjective.h; path = Game/Sim/GameObjective.h; sourceTree = "<group>"; };
@@ -668,10 +675,6 @@
 		42AB2236163F125A008C926F /* item_rice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = item_rice.png; path = resized/item_rice.png; sourceTree = "<group>"; };
 		42B28E2D15E99E5A0008901C /* NSArray+Pog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+Pog.h"; path = "traderpog/Engine/Sim/NSArray+Pog.h"; sourceTree = SOURCE_ROOT; };
 		42B28E2E15E99E5A0008901C /* NSArray+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Pog.m"; path = "traderpog/Engine/Sim/NSArray+Pog.m"; sourceTree = SOURCE_ROOT; };
-		42B343251649D67700A158FD /* FlyerGo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerGo.h; path = Game/UI/FlyerGo.h; sourceTree = "<group>"; };
-		42B343261649D67800A158FD /* FlyerGo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerGo.m; path = Game/UI/FlyerGo.m; sourceTree = "<group>"; };
-		42B343271649D67800A158FD /* FlyerGo.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerGo.xib; path = Game/UI/FlyerGo.xib; sourceTree = "<group>"; };
-		42B34332164A26C800A158FD /* FlyerGoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerGoCell.xib; path = Game/UI/FlyerGoCell.xib; sourceTree = "<group>"; };
 		42B5DC8B162354AE0099DE6E /* FlyerColorPack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerColorPack.h; path = Game/Sim/FlyerColorPack.h; sourceTree = "<group>"; };
 		42B5DC8C162354AE0099DE6E /* FlyerColorPack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerColorPack.m; path = Game/Sim/FlyerColorPack.m; sourceTree = "<group>"; };
 		42B5DC8D162354AE0099DE6E /* FlyerUpgradePack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerUpgradePack.h; path = Game/Sim/FlyerUpgradePack.h; sourceTree = "<group>"; };
@@ -1214,6 +1217,19 @@
 			path = assets/anim;
 			sourceTree = SOURCE_ROOT;
 		};
+		421FFA0C1652A1F600F4AF97 /* flyers */ = {
+			isa = PBXGroup;
+			children = (
+				421FFA0D1652A2B500F4AF97 /* FlyerGo.h */,
+				421FFA0E1652A2B500F4AF97 /* FlyerGo.m */,
+				421FFA0F1652A2B500F4AF97 /* FlyerGo.xib */,
+				421FFA101652A2B500F4AF97 /* FlyerGoCell.xib */,
+				421FFA141652A2E800F4AF97 /* FlyerGoCell.h */,
+				421FFA151652A2E800F4AF97 /* FlyerGoCell.m */,
+			);
+			name = flyers;
+			sourceTree = "<group>";
+		};
 		4222585016330D8200BE9AD4 /* flyer_blimp */ = {
 			isa = PBXGroup;
 			children = (
@@ -1732,6 +1748,7 @@
 		C4E3819915AA0BF400924A86 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				421FFA0C1652A1F600F4AF97 /* flyers */,
 				42225871163469AF00BE9AD4 /* objectives */,
 				C462694C1603FF63002F1626 /* LoadingScreen.h */,
 				C462694D1603FF63002F1626 /* LoadingScreen.m */,
@@ -1780,10 +1797,6 @@
 				42172FF11630D09C00652009 /* FlyerBuyConfirmScreen.h */,
 				42172FF21630D09C00652009 /* FlyerBuyConfirmScreen.m */,
 				42172FF31630D09C00652009 /* FlyerBuyConfirmScreen.xib */,
-				42B343251649D67700A158FD /* FlyerGo.h */,
-				42B343261649D67800A158FD /* FlyerGo.m */,
-				42B343271649D67800A158FD /* FlyerGo.xib */,
-				42B34332164A26C800A158FD /* FlyerGoCell.xib */,
 				38A31CF3161CDE1B009FC64A /* SingleLeaderboard.h */,
 				38A31CF4161CDE1C009FC64A /* SingleLeaderboard.m */,
 				38A31CF0161CB7C0009FC64A /* SingleLeaderboard.xib */,
@@ -2316,8 +2329,8 @@
 				4246B8EA16402B6E00D42796 /* icon_alert_post_001.png in Resources */,
 				4246B8EB16402B6E00D42796 /* icon_alert_post_002.png in Resources */,
 				4246B8EC16402B6E00D42796 /* icon_alert_post_003.png in Resources */,
-				42B343291649D67800A158FD /* FlyerGo.xib in Resources */,
-				42B34333164A26C800A158FD /* FlyerGoCell.xib in Resources */,
+				421FFA121652A2B500F4AF97 /* FlyerGo.xib in Resources */,
+				421FFA131652A2B500F4AF97 /* FlyerGoCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2462,7 +2475,8 @@
 				422258831634AC3C00BE9AD4 /* PointObjective.m in Sources */,
 				4202CCAB16377730007AF893 /* FlyerInfoView.m in Sources */,
 				426451AC163C4B70008EAEE0 /* CreditsScreen.m in Sources */,
-				42B343281649D67800A158FD /* FlyerGo.m in Sources */,
+				421FFA111652A2B500F4AF97 /* FlyerGo.m in Sources */,
+				421FFA161652A2E800F4AF97 /* FlyerGoCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

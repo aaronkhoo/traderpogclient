@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "CircleButton.h"
 
+@class FlyerGoCell;
 @interface FlyerGo : UIViewController<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) IBOutlet FlyerGoCell *goCell;
 
 @end

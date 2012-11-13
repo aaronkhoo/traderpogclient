@@ -680,8 +680,13 @@ static const NSTimeInterval kMinFlightTime = 3; // seconds
 
 - (UIImage*) imageForCurrentState
 {
+    return [self imageForState:[self state]];
+}
+
+- (UIImage*) imageForState:(unsigned int)givenState
+{
     NSString* imageName;
-    if(kFlyerStateEnroute == [self state])
+    if(kFlyerStateEnroute == givenState)
     {
         NSString* flyerTypeName = [[FlyerTypes getInstance] topImgForFlyerTypeAtIndex:[self flyerTypeIndex]];
         imageName = [[FlyerLabFactory getInstance] topImageForFlyerTypeNamed:flyerTypeName tier:[self curUpgradeTier] colorIndex:[self curColor]];

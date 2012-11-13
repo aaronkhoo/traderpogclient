@@ -12,9 +12,15 @@
 #import "UINavigationController+Pog.h"
 #import "FlyerMgr.h"
 #import "Flyer.h"
+#import "FlyerGoCell.h"
+
+static const NSInteger kGoCellTagImage = 10;
+static const NSInteger kGoCellTagDistance = 11;
 
 @interface FlyerGo ()
-
+{
+    NSMutableArray* _availableFlyers;
+}
 @end
 
 @implementation FlyerGo
@@ -48,7 +54,21 @@
 - (void)viewDidUnload {
     [self setCloseCircle:nil];
     [self setTableView:nil];
+    [self setGoCell:nil];
     [super viewDidUnload];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    _availableFlyers = [NSMutableArray arrayWithCapacity:5];
+    for(Flyer* cur in [[FlyerMgr getInstance] playerFlyers])
+    {
+        if((kFlyerStateIdle == [cur state]) ||
+           (kFlyerStateLoaded == [cur state]))
+        {
+            [_availableFlyers addObject:cur];
+        }
+    }
 }
 
 #pragma mark - button actions
@@ -68,7 +88,7 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[[FlyerMgr getInstance] playerFlyers] count] + 1;
+    return [_availableFlyers count] + 1;
 }
 
 /*
@@ -84,12 +104,23 @@
 {
     static NSString *CellIdentifier = @"FlyerGoCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    FlyerGoCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)
     {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        UINib *goCellNib = [UINib nibWithNibName:@"FlyerGoCell" bundle:nil];
+        [goCellNib instantiateWithOwner:self options:nil];
+        cell = self.goCell;
+        self.goCell = nil;
     }
+    
+    if([indexPath row] < [_availableFlyers count])
+    {
+        Flyer* flyer = [_availableFlyers objectAtIndex:[indexPath row]];
 
+        // image
+        UIImageView* imageView = cell.imageView;
+        [imageView setImage:[flyer imageForState:kFlyerStateIdle]];
+    }
     return cell;
 }
 
