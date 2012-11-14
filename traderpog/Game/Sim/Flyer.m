@@ -417,15 +417,21 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
 - (unsigned int) remainingCapacity
 {
     unsigned int totalNum = [self.inventory numItems] + [self.inventory orderNumItems];
-    FlyerUpgradePack* upgrade = [[FlyerLabFactory getInstance] upgradeForTier:[self curUpgradeTier]];
-    FlyerType* flyerType = [[FlyerTypes getInstance] getFlyerTypeAtIndex:[self flyerTypeIndex]];
-    unsigned int cap = ((float)[flyerType capacity]) * [upgrade capacityFactor];
+    unsigned int cap = [self capacity];
     unsigned int result = 0;
     if(totalNum < cap)
     {
         result = cap - totalNum;
     }
     return result;
+}
+
+- (unsigned int) capacity
+{
+    FlyerUpgradePack* upgrade = [[FlyerLabFactory getInstance] upgradeForTier:[self curUpgradeTier]];
+    FlyerType* flyerType = [[FlyerTypes getInstance] getFlyerTypeAtIndex:[self flyerTypeIndex]];
+    unsigned int cap = ((float)[flyerType capacity]) * [upgrade capacityFactor];
+    return cap;
 }
 
 #pragma mark - flight public

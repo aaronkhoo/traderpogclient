@@ -13,6 +13,7 @@
 #import "FlyerMgr.h"
 #import "Flyer.h"
 #import "FlyerGoCell.h"
+#import "TradePost.h"
 
 static const NSInteger kGoCellTagImage = 10;
 static const NSInteger kGoCellTagDistance = 11;
@@ -20,6 +21,7 @@ static const NSInteger kGoCellTagDistance = 11;
 @interface FlyerGo ()
 {
     NSMutableArray* _availableFlyers;
+    TradePost* _tradePost;
 }
 @end
 
@@ -27,9 +29,16 @@ static const NSInteger kGoCellTagDistance = 11;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    NSAssert(false, @"Call initWithPost to create FlyerGo instead");
+    return nil;
+}
+
+- (id)initWithPost:(TradePost *)post
+{
+    self = [super initWithNibName:@"FlyerGo" bundle:nil];
     if (self)
     {
+        _tradePost = post;
     }
     return self;
 }
@@ -120,6 +129,42 @@ static const NSInteger kGoCellTagDistance = 11;
         // image
         UIImageView* imageView = cell.imageView;
         [imageView setImage:[flyer imageForState:kFlyerStateIdle]];
+        
+        // distance from post
+        CLLocation* postLoc = [[CLLocation alloc] initWithLatitude:_tradePost.coord.latitude longitude:_tradePost.coord.longitude];
+        CLLocation* flyerLoc = [[CLLocation alloc] initWithLatitude:flyer.coord.latitude longitude:flyer.coord.longitude];
+        CLLocationDistance dist = [postLoc distanceFromLocation:flyerLoc];
+        if(1000.0 < dist)
+        {
+            // kilometers
+            [cell.distLabel setText:[NSString stringWithFormat:@"%.0fkm", dist / 1000.0]];
+        }
+        else
+        {
+            // meters
+            [cell.distLabel setText:[NSString stringWithFormat:@"%.0fm", dist]];
+        }
+        
+        // capacity
+        unsigned int remainingCap = [flyer remainingCapacity];
+        unsigned int cap = [flyer capacity];
+        if(remainingCap)
+        {
+            NSString* capacityString = [NSString stringWithFormat:@"%d/%d", cap - remainingCap, cap];
+            [cell.capLabel setText:capacityString];
+        }
+        else
+        {
+            [cell.capLabel setText:@"FULL"];
+        }
+        
+        [cell.goSubview setHidden:NO];
+        [cell.addFlyerSubview setHidden:YES];
+    }
+    else
+    {
+        [cell.goSubview setHidden:YES];
+        [cell.addFlyerSubview setHidden:NO];
     }
     return cell;
 }

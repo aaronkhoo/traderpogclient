@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *distLabel;
 @property (weak, nonatomic) IBOutlet UILabel *capLabel;
-@property (weak, nonatomic) IBOutlet UILabel *numLabel;
+@property (weak, nonatomic) IBOutlet UIView* goSubview;
+@property (weak, nonatomic) IBOutlet UIView* addFlyerSubview;
 
 @end

@@ -111,6 +111,7 @@ enum _FlyerStates
 - (void) applyColor:(unsigned int)colorIndex;
 - (unsigned int) curColor;
 - (unsigned int) remainingCapacity;
+- (unsigned int) capacity;
 
 // map
 - (void) refreshImageInAnnotationView:(FlyerAnnotationView*)annotationView;
