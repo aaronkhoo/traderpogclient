@@ -14,6 +14,10 @@
 #import "Flyer.h"
 #import "FlyerGoCell.h"
 #import "TradePost.h"
+#import "TradeItemTypes.h"
+#import "TradeItemType.h"
+#import "ImageManager.h"
+#import "GameManager.h"
 
 static const NSInteger kGoCellTagImage = 10;
 static const NSInteger kGoCellTagDistance = 11;
@@ -85,6 +89,7 @@ static const NSInteger kGoCellTagDistance = 11;
 {
     [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_up"];
     [self.navigationController popViewControllerAnimated:NO];
+    [[GameManager getInstance] popGameStateToLoop];
 }
 
 #pragma mark - UITableViewDataSource
@@ -126,8 +131,8 @@ static const NSInteger kGoCellTagDistance = 11;
     {
         Flyer* flyer = [_availableFlyers objectAtIndex:[indexPath row]];
 
-        // image
-        UIImageView* imageView = cell.imageView;
+        // flyer image
+        UIImageView* imageView = cell.flyerImageView;
         [imageView setImage:[flyer imageForState:kFlyerStateIdle]];
         
         // distance from post
@@ -157,6 +162,54 @@ static const NSInteger kGoCellTagDistance = 11;
         {
             [cell.capLabel setText:@"FULL"];
         }
+
+        NSString* postItemId = [_tradePost itemId];
+        NSString* flyerItemId = [flyer.inventory itemId];
+        if(!flyerItemId)
+        {
+            flyerItemId = [flyer.inventory orderItemId];
+        }
+        
+        if(flyerItemId)
+        {
+            TradeItemType* itemType = [[TradeItemTypes getInstance] getItemTypeForId:flyerItemId];
+            
+            // item image
+            if(cap == remainingCap)
+            {
+                [cell.itemImageView setImage:nil];
+                [cell.itemImageView setHidden:YES];
+            }
+            else
+            {
+                [cell.itemImageView setHidden:NO];
+                NSString* itemName = nil;
+                if(itemType)
+                {
+                    itemName = [itemType name];
+                    NSString* itemImagePath = [itemType imgPath];
+                    UIImage* itemImage = [[ImageManager getInstance] getImage:itemImagePath];
+                    [cell.itemImageView setImage:itemImage];
+                }
+            }
+        }
+        else
+        {
+            [cell.itemImageView setImage:nil];
+            [cell.itemImageView setHidden:YES];
+        }
+        
+        // if FULL or different item, gray out cell
+        if((!remainingCap) ||
+           ((flyerItemId) && (![flyerItemId isEqualToString:postItemId])))
+        {
+            [cell.contentView setBackgroundColor:[UIColor lightGrayColor]];
+        }
+        else
+        {
+            [cell.contentView setBackgroundColor:[UIColor whiteColor]];
+        }
+        
         
         [cell.goSubview setHidden:NO];
         [cell.addFlyerSubview setHidden:YES];
@@ -165,10 +218,26 @@ static const NSInteger kGoCellTagDistance = 11;
     {
         [cell.goSubview setHidden:YES];
         [cell.addFlyerSubview setHidden:NO];
+        [cell.flyerImageView setHidden:YES];
+        [cell.itemImageView setHidden:YES];
     }
     return cell;
 }
 
 #pragma mark - UITableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if([indexPath row] < [_availableFlyers count])
+    {
+        [self.navigationController popToRootViewControllerAnimated:NO];
+        [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.1f];
 
+        Flyer* flyer = [_availableFlyers objectAtIndex:[indexPath row]];
+        [[GameManager getInstance] wheel:nil commitOnFlyer:flyer];
+    }
+    else
+    {
+        // TODO: buy new flyer
+    }
+}
 @end

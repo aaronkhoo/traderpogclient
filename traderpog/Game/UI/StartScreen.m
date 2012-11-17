@@ -70,10 +70,13 @@ static const float kVersionX = 0.7f;
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+#if !defined(DEBUG)
     if([[ObjectivesMgr getInstance] hasCompletedNewUserObjectives])
     {
         [RevMobAds showFullscreenAd];
     }
+#endif
     [[SoundManager getInstance] playMusic:@"background_default" doLoop:YES];
 }
 

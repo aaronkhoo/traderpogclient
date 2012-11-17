@@ -327,6 +327,7 @@
 		42C766B31607900900D21354 /* LoadingTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C766B11607900900D21354 /* LoadingTransition.m */; };
 		42C766B41607900900D21354 /* LoadingTransition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C766B21607900900D21354 /* LoadingTransition.xib */; };
 		42CBADDC1621DB3300BA7363 /* NSDictionary+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CBADDB1621DB3300BA7363 /* NSDictionary+Pog.m */; };
+		42D5158A165614710041AF9E /* icon_disclosure.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D51589165614710041AF9E /* icon_disclosure.png */; };
 		42D909F915F801E700BBE992 /* GameHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D909F815F801E700BBE992 /* GameHud.m */; };
 		42D90A0115F81A3800BBE992 /* coin_001.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909FC15F81A3800BBE992 /* coin_001.png */; };
 		42D90A0215F81A3800BBE992 /* coin_002.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909FD15F81A3800BBE992 /* coin_002.png */; };
@@ -863,6 +864,7 @@
 		42C766B21607900900D21354 /* LoadingTransition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingTransition.xib; sourceTree = "<group>"; };
 		42CBADDA1621DB3300BA7363 /* NSDictionary+Pog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Pog.h"; sourceTree = "<group>"; };
 		42CBADDB1621DB3300BA7363 /* NSDictionary+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Pog.m"; sourceTree = "<group>"; };
+		42D51589165614710041AF9E /* icon_disclosure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_disclosure.png; path = assets/UI/icon_disclosure.png; sourceTree = SOURCE_ROOT; };
 		42D909F715F801E700BBE992 /* GameHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameHud.h; path = Game/UI/GameHud.h; sourceTree = "<group>"; };
 		42D909F815F801E700BBE992 /* GameHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameHud.m; path = Game/UI/GameHud.m; sourceTree = "<group>"; };
 		42D909FC15F81A3800BBE992 /* coin_001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin_001.png; sourceTree = "<group>"; };
@@ -2016,6 +2018,7 @@
 				42B61A78163F3E080029D684 /* icon_shop_upgrade.png */,
 				42B61A73163F3D530029D684 /* gameeventnotice_flyarrived.png */,
 				42B61A74163F3D540029D684 /* gameeventnotice_loading.png */,
+				42D51589165614710041AF9E /* icon_disclosure.png */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -2331,6 +2334,7 @@
 				4246B8EC16402B6E00D42796 /* icon_alert_post_003.png in Resources */,
 				421FFA121652A2B500F4AF97 /* FlyerGo.xib in Resources */,
 				421FFA131652A2B500F4AF97 /* FlyerGoCell.xib in Resources */,
+				42D5158A165614710041AF9E /* icon_disclosure.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

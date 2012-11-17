@@ -31,7 +31,6 @@
 #import "FlyerInfoView.h"
 #import "CircleButton.h"
 #import "GameAnim.h"
-#import "FlyerGo.h"
 #import <QuartzCore/QuartzCore.h>
 
 NSString* const kTradePostAnnotationViewReuseId = @"PostAnnotationView";
@@ -355,9 +354,7 @@ static const float kAccelViewYOffset = -94.0f;
         {
             // other's post
             [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
-            GameViewController* game = [[GameManager getInstance] gameViewController];
-            FlyerGo* next = [[FlyerGo alloc] initWithPost:destPost];
-            [game showModalNavViewController:next completion:nil];
+            [[GameManager getInstance] showFlyerSelectForBuyAtPost:destPost];
 /*
             if(1 == [[FlyerMgr getInstance].playerFlyers count])
             {

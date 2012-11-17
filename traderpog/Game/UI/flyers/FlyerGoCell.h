@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface FlyerGoCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIImageView* flyerImageView;
+@property (weak, nonatomic) IBOutlet UIImageView* itemImageView;
 @property (weak, nonatomic) IBOutlet UILabel *distLabel;
 @property (weak, nonatomic) IBOutlet UILabel *capLabel;
 @property (weak, nonatomic) IBOutlet UIView* goSubview;

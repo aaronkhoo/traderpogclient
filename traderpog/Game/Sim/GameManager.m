@@ -36,6 +36,7 @@
 #import "ScanManager.h"
 #import "ObjectivesMgr.h"
 #import "MBProgressHUD.h"
+#import "FlyerGo.h"
 #import <CoreLocation/CoreLocation.h>
 
 // List of Game UI screens that GameManager can kick off
@@ -711,7 +712,10 @@ typedef enum {
     {
         _gameState = kGameStateFlyerSelect;
         _contextPost = post;
-        [self.gameViewController showFlyerWheelAnimated:YES];
+//        [self.gameViewController showFlyerWheelAnimated:YES];
+        GameViewController* game = [self gameViewController];
+        FlyerGo* next = [[FlyerGo alloc] initWithPost:post];
+        [game showModalNavViewController:next completion:nil];
         
         [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
     }
