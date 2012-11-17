@@ -564,7 +564,7 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
     TradePost* arrivalPost = [[TradePostMgr getInstance] getTradePostWithId:[_path nextPostId]];
     if([arrivalPost isMemberOfClass:[MyTradePost class]])
     {
-        [self gotoState:kFlyerStateWaitingToUnload];
+        [self gotoState:kFlyerStateIdle];
     }
     else
     {
@@ -799,6 +799,7 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
         {
             case kFlyerStateIdle:
                 if((kFlyerStateUnloading == [self state]) ||
+                   (kFlyerStateEnroute == [self state]) ||
                    (kFlyerStateInvalid == [self state]))
                 {
                     canChange = YES;
@@ -870,13 +871,16 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
             {                
                 self.gameEvent = [[GameEventMgr getInstance] queueEventWithType:kGameEvent_LoadingCompleted atCoord:[self coord]];
             }
+            /*
             else if((kFlyerStateIdle == newState) && (kFlyerStateUnloading == [self state]))
             {
                 // display notification, but don't show alert icon (so, set gameEvent as nil)
                 [[GameEventMgr getInstance] queueEventWithType:kGameEvent_UnloadingCompleted atCoord:[self coord]];
                 self.gameEvent = nil;
             }
-            else if((kFlyerStateWaitingToLoad == newState) || (kFlyerStateWaitingToUnload == newState))
+             */
+            else if((kFlyerStateWaitingToLoad == newState) ||
+                    ((kFlyerStateIdle == newState) && (kFlyerStateEnroute == [self state])))
             {
                 self.gameEvent = [[GameEventMgr getInstance] queueEventWithType:kGameEvent_FlyerArrival atCoord:[self coord]];
             }
