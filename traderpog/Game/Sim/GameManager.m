@@ -681,7 +681,7 @@ typedef enum {
 - (BOOL) sendFlyerHome:(Flyer *)flyer
 {
     BOOL goingHome = NO;
-    if(![[FlyerMgr getInstance] homeOrHomeboundFlyer])
+//    if(![[FlyerMgr getInstance] homeOrHomeboundFlyer])
     {
         [self flyer:flyer departForTradePost:[[TradePostMgr getInstance] getFirstMyTradePost]];
         goingHome = YES;

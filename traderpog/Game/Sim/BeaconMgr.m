@@ -118,6 +118,7 @@ static const float kBubbleBorderWidth = 1.5f;
         if(flyerAtPost)
         {
             cur.flyerAtPost = flyerAtPost;
+            [cur addArrivingFlyer:flyerAtPost];
         }
     }
 }

@@ -486,6 +486,7 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
             
             // attach myself to the post I'm at
             curPost.flyerAtPost = self;
+            [curPost addArrivingFlyer:self];
         }
         else
         {
@@ -515,6 +516,7 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
         {
             TradePost* curPost = [[TradePostMgr getInstance] getTradePostWithId:_path.curPostId];
             curPost.flyerAtPost = nil;
+            [curPost removeDepartingFlyer:self];
             
             [_inventory updateFlyerInventoryOnServer:_userFlyerId];
             [self createFlightPathRenderingForFlyer];
@@ -580,6 +582,7 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
     self.flightPathRender = nil;
     [mapControl dismissAnnotationForFlyer:self];
     arrivalPost.flyerAtPost = self;
+    [arrivalPost addArrivingFlyer:self];
     
     // restore to background_default music
     [[SoundManager getInstance] playMusic:@"background_default" doLoop:YES];

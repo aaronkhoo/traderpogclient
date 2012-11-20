@@ -24,6 +24,7 @@
 @synthesize delegate = _delegate;
 @synthesize creationDate = _creationDate;
 @synthesize gameEvent = _gameEvent;
+@synthesize flyersArray = _flyersArray;
 
 - (id) init
 {
@@ -34,6 +35,7 @@
         _cachedInboundFlyer = nil;
         _creationDate = [NSDate date];
         _gameEvent = nil;
+        _flyersArray = [NSMutableArray arrayWithCapacity:6];
     }
     return self;
 }
@@ -116,6 +118,27 @@
         _cachedInboundFlyer = [[FlyerMgr getInstance] flyerInboundToPostId:[self postId]];
     }
     return _cachedInboundFlyer;
+}
+
+#pragma mark - flyer arrival/departure
+- (void) addArrivingFlyer:(Flyer *)flyer
+{
+    if(![_flyersArray containsObject:flyer])
+    {
+        [_flyersArray insertObject:flyer atIndex:0];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kGameNotePostFlyersArrivalDeparture
+                                                            object:self];
+    }
+}
+
+- (void) removeDepartingFlyer:(Flyer *)flyer
+{
+    if([_flyersArray containsObject:flyer])
+    {
+        [_flyersArray removeObject:flyer];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kGameNotePostFlyersArrivalDeparture
+                                                            object:self];
+    }
 }
 
 #pragma mark - MKAnnotation delegate

@@ -146,6 +146,7 @@ static NSString* const kDefaultFlyerTypeTitle = @"Flyer";
         [self.goCircle setHidden:YES];
         [self.flyerStateLabel setHidden:YES];
     }
+    /*
     else if([[FlyerMgr getInstance] homeOrHomeboundFlyer])
     {
         // can't go home
@@ -155,6 +156,7 @@ static NSString* const kDefaultFlyerTypeTitle = @"Flyer";
         [self.flyerStateLabel setText:[flyer displayNameOfFlyerState]];
         [self.flyerStateLabel setHidden:NO];
     }
+     */
     else
     {
         [self.goCircle setHidden:NO];

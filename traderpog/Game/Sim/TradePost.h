@@ -33,6 +33,7 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
     NSDate* _creationDate;
     GameEvent* _gameEvent;
     __weak Flyer* _cachedInboundFlyer;
+    NSMutableArray* _flyersArray;
     
     // Delegate for callbacks to inform interested parties of completion
     __weak NSObject<HttpCallbackDelegate>* _delegate;
@@ -48,6 +49,7 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 @property (nonatomic,readonly) NSDate* creationDate;
 @property (nonatomic) GameEvent* gameEvent;
+@property (nonatomic, strong) NSMutableArray* flyersArray;
 
 // sort comparison functions
 - (NSComparisonResult) compareSupplyThenDate:(TradePost*)theOtherPost;
@@ -60,4 +62,8 @@ static NSString* const kTradePost_CreateNewPost = @"CreateNewPost";
 
 // queries
 - (Flyer*) getInboundFlyer;
+
+// flyer arrival/departure
+- (void) addArrivingFlyer:(Flyer*)flyer;
+- (void) removeDepartingFlyer:(Flyer*)flyer;
 @end

@@ -328,6 +328,10 @@
 		42C766B41607900900D21354 /* LoadingTransition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C766B21607900900D21354 /* LoadingTransition.xib */; };
 		42CBADDC1621DB3300BA7363 /* NSDictionary+Pog.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CBADDB1621DB3300BA7363 /* NSDictionary+Pog.m */; };
 		42D5158A165614710041AF9E /* icon_disclosure.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D51589165614710041AF9E /* icon_disclosure.png */; };
+		42D515921659AF080041AF9E /* FlyerDashboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D515901659AF070041AF9E /* FlyerDashboard.m */; };
+		42D515931659AF080041AF9E /* FlyerDashboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D515911659AF080041AF9E /* FlyerDashboard.xib */; };
+		42D515961659C6DF0041AF9E /* FlyerDashboardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D515951659C6DF0041AF9E /* FlyerDashboardCell.m */; };
+		42D515981659C70D0041AF9E /* FlyerDashboardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D515971659C70D0041AF9E /* FlyerDashboardCell.xib */; };
 		42D909F915F801E700BBE992 /* GameHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D909F815F801E700BBE992 /* GameHud.m */; };
 		42D90A0115F81A3800BBE992 /* coin_001.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909FC15F81A3800BBE992 /* coin_001.png */; };
 		42D90A0215F81A3800BBE992 /* coin_002.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D909FD15F81A3800BBE992 /* coin_002.png */; };
@@ -865,6 +869,12 @@
 		42CBADDA1621DB3300BA7363 /* NSDictionary+Pog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Pog.h"; sourceTree = "<group>"; };
 		42CBADDB1621DB3300BA7363 /* NSDictionary+Pog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Pog.m"; sourceTree = "<group>"; };
 		42D51589165614710041AF9E /* icon_disclosure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_disclosure.png; path = assets/UI/icon_disclosure.png; sourceTree = SOURCE_ROOT; };
+		42D5158F1659AF070041AF9E /* FlyerDashboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerDashboard.h; path = Game/UI/flyers/FlyerDashboard.h; sourceTree = "<group>"; };
+		42D515901659AF070041AF9E /* FlyerDashboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerDashboard.m; path = Game/UI/flyers/FlyerDashboard.m; sourceTree = "<group>"; };
+		42D515911659AF080041AF9E /* FlyerDashboard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerDashboard.xib; path = Game/UI/flyers/FlyerDashboard.xib; sourceTree = "<group>"; };
+		42D515941659C6DF0041AF9E /* FlyerDashboardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlyerDashboardCell.h; path = Game/UI/flyers/FlyerDashboardCell.h; sourceTree = "<group>"; };
+		42D515951659C6DF0041AF9E /* FlyerDashboardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlyerDashboardCell.m; path = Game/UI/flyers/FlyerDashboardCell.m; sourceTree = "<group>"; };
+		42D515971659C70D0041AF9E /* FlyerDashboardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlyerDashboardCell.xib; path = Game/UI/flyers/FlyerDashboardCell.xib; sourceTree = "<group>"; };
 		42D909F715F801E700BBE992 /* GameHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameHud.h; path = Game/UI/GameHud.h; sourceTree = "<group>"; };
 		42D909F815F801E700BBE992 /* GameHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameHud.m; path = Game/UI/GameHud.m; sourceTree = "<group>"; };
 		42D909FC15F81A3800BBE992 /* coin_001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin_001.png; sourceTree = "<group>"; };
@@ -1228,6 +1238,12 @@
 				421FFA101652A2B500F4AF97 /* FlyerGoCell.xib */,
 				421FFA141652A2E800F4AF97 /* FlyerGoCell.h */,
 				421FFA151652A2E800F4AF97 /* FlyerGoCell.m */,
+				42D5158F1659AF070041AF9E /* FlyerDashboard.h */,
+				42D515901659AF070041AF9E /* FlyerDashboard.m */,
+				42D515911659AF080041AF9E /* FlyerDashboard.xib */,
+				42D515971659C70D0041AF9E /* FlyerDashboardCell.xib */,
+				42D515941659C6DF0041AF9E /* FlyerDashboardCell.h */,
+				42D515951659C6DF0041AF9E /* FlyerDashboardCell.m */,
 			);
 			name = flyers;
 			sourceTree = "<group>";
@@ -2335,6 +2351,8 @@
 				421FFA121652A2B500F4AF97 /* FlyerGo.xib in Resources */,
 				421FFA131652A2B500F4AF97 /* FlyerGoCell.xib in Resources */,
 				42D5158A165614710041AF9E /* icon_disclosure.png in Resources */,
+				42D515931659AF080041AF9E /* FlyerDashboard.xib in Resources */,
+				42D515981659C70D0041AF9E /* FlyerDashboardCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2481,6 +2499,8 @@
 				426451AC163C4B70008EAEE0 /* CreditsScreen.m in Sources */,
 				421FFA111652A2B500F4AF97 /* FlyerGo.m in Sources */,
 				421FFA161652A2E800F4AF97 /* FlyerGoCell.m in Sources */,
+				42D515921659AF080041AF9E /* FlyerDashboard.m in Sources */,
+				42D515961659C6DF0041AF9E /* FlyerDashboardCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

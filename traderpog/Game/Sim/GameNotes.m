@@ -13,6 +13,7 @@ NSString* const kGameNoteFlyerDidArrive = @"FlyerDidArrive";
 NSString* const kGameNoteFlyerStateChanged = @"FlyerStateChanged";
 NSString* const kGameNoteFlyerLoadTimerChanged = @"FlyerLoadTimerChanged";
 NSString* const kGameNotePostFlyerChanged = @"PostFlyerChanged";
+NSString* const kGameNotePostFlyersArrivalDeparture = @"PostFlyersArrivalDeparture";
 
 // user-info
 NSString* const kGameNoteInfoFlyerSrcPost = @"FlyerSrcPost";

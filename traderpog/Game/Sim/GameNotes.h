@@ -13,6 +13,7 @@ extern NSString* const kGameNoteFlyerDidArrive;
 extern NSString* const kGameNoteFlyerStateChanged;
 extern NSString* const kGameNoteFlyerLoadTimerChanged;
 extern NSString* const kGameNotePostFlyerChanged;
+extern NSString* const kGameNotePostFlyersArrivalDeparture;
 
 // user-info keys
 extern NSString* const kGameNoteInfoFlyerSrcPost;
