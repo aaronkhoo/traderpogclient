@@ -48,6 +48,7 @@
 #import "FlyerInfoView.h"
 #import "MBProgressHUD.h"
 #import "CreditsScreen.h"
+#import "FlyerDashboard.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSInteger kDisplayLinkFrameInterval = 2;
@@ -1137,8 +1138,13 @@ static const float kMyPostMenuSize = 60.0f;
     switch(index)
     {
         case kKnobSliceFlyer:
+        {
             [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level1"];
-            [self.flyerWheel showWheelAnimated:YES withDelay:0.0f];
+            FlyerDashboard* next = [[FlyerDashboard alloc] initWithNibName:@"FlyerDashboard" bundle:nil];
+            [[[GameManager getInstance] gameViewController] showModalNavViewController:next completion:nil];
+
+            //[self.flyerWheel showWheelAnimated:YES withDelay:0.0f];
+        }
             break;
                   
         case kKnobSliceBeacon:
