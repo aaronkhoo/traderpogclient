@@ -231,7 +231,7 @@ typedef enum {
             [[ObjectivesMgr getInstance] resetRecurringObjectives];
             
             NSLog(@"start gameloop");
-            [self.gameViewController showKnobAnimated:YES delay:0.5f];
+            [self.gameViewController showKnobIndex:kKnobSliceScan animated:YES delay:0.5f];
             
             [[Player getInstance] resetBucksIfNecessary];
             break;

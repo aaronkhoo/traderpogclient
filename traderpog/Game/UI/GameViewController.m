@@ -108,7 +108,6 @@ static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepIn
 
 - (void) initKnob;
 - (void) shutdownKnob;
-- (void) didPressShowKnob:(id)sender;
 - (void) handleScanResultTradePosts:(NSArray*)tradePosts atLoc:(CLLocation*)loc;
 - (void) initWheels;
 - (void) shutdownWheels;
@@ -277,7 +276,7 @@ static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepIn
        ([self.modalNav.view isHidden]))
     {
         // make sure knob is shown (in case view had been unloaded by memory warning)
-        [self showKnobAnimated:NO delay:0.0f];
+        [self showKnobIndex:kKnobSliceScan animated:NO delay:0.0f];
     }
 }
 
@@ -469,13 +468,13 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     self.knob = nil;    
 }
 
-- (void) showKnobAnimated:(BOOL)isAnimated delay:(NSTimeInterval)delay
+- (void) showKnobIndex:(NSInteger)givenIndex animated:(BOOL)isAnimated delay:(NSTimeInterval)delay
 {
     [self.knob setLocked:NO];
     if(![self.knob isEnabled])
     {
         // always switch back to Scan when we show a dismissed knob
-        unsigned int knobIndex = kKnobSliceScan;
+        unsigned int knobIndex = givenIndex;
         switch([[GameManager getInstance] gameState])
         {
             case kGameStateFlyerSelect:
@@ -519,6 +518,11 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
     }
 }
 
+- (void) showKnobAnimated:(BOOL)isAnimated delay:(NSTimeInterval)delay
+{
+    [self showKnobIndex:[self.knob selectedSlice] animated:isAnimated delay:delay];
+}
+
 - (void) dismissKnobAnimated:(BOOL)isAnimated
 {
     if([self.knob isEnabled])
@@ -541,11 +545,6 @@ static const float kWheelPreviewSizeFrac = 0.35f * 2.5f; // in terms of wheel ra
             [self.knob setEnabled:NO];
         }
     }
-}
-
-- (void) didPressShowKnob:(id)sender
-{
-    [self showKnobAnimated:YES delay:0.0f];
 }
 
 - (void) initWheels
