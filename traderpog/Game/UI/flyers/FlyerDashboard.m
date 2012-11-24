@@ -31,9 +31,14 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        [[GameManager getInstance] addObserver:self forKeyPath:kGameManagerPerSecondElapsed options:0 context:nil];
     }
     return self;
+}
+
+- (void) dealloc
+{
+    [[GameManager getInstance] removeObserver:self forKeyPath:kGameManagerPerSecondElapsed];
 }
 
 - (void)viewDidLoad
@@ -69,6 +74,17 @@
     }
 }
 
+#pragma mark - updates from game sim
+- (void)observeValueForKeyPath:(NSString *)keyPath
+					  ofObject:(id)object
+						change:(NSDictionary *)change
+					   context:(void *)context
+{
+    if([keyPath isEqualToString:kGameManagerPerSecondElapsed])
+    {
+        NSLog(@"flyer dashboard one second");
+    }
+}
 
 #pragma mark - button actions
 - (void) didPressClose:(id)sender
@@ -161,6 +177,26 @@
             [cell.itemImageView setHidden:YES];
         }
         
+        // flyer status
+        switch ([flyer state])
+        {
+            case kFlyerStateEnroute:
+                [cell.statusLabel setText:@"Enroute"];
+                break;
+                
+            case kFlyerStateLoading:
+                [cell.statusLabel setText:@"Loading"];
+                break;
+                
+            case kFlyerStateWaitingToLoad:
+                [cell.statusLabel setText:@"Awaiting Loader"];
+                break;
+                
+            default:
+                [cell.statusLabel setText:@"Ready"];
+                break;
+        }
+        [cell.timeLabel setHidden:YES];
         [cell.goSubview setHidden:NO];
         [cell.addFlyerSubview setHidden:YES];
     }

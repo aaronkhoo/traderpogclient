@@ -363,10 +363,12 @@ static const unsigned int kGameViewModalFlag_Default = kGameViewModalFlag_KeepIn
     [self updateRender:displayElapsed currentTime:currentTime];
 }
 
-- (void) updateSim:(NSTimeInterval)elapsed currenTime:(NSDate *)currentTime
+- (void) updateSim:(NSTimeInterval)elapsed currenTime:(NSDate*)currentTime
 {
     // tick the flyers
     [[FlyerMgr getInstance] updateFlyersAtDate:currentTime];
+    
+    [[GameManager getInstance] updateSim:elapsed currentTime:currentTime];
     
     // process the menus that are gonna popup during the game
     if([[GameManager getInstance] canProcessGameEventNotifications])

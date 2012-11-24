@@ -156,7 +156,7 @@
 									<object class="IBUILabel" id="234966114">
 										<reference key="NSNextResponder" ref="211721824"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{76, 0}, {96, 21}}</string>
+										<string key="NSFrame">{{75, 0}, {100, 21}}</string>
 										<reference key="NSSuperview" ref="211721824"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="868593672"/>
@@ -167,7 +167,7 @@
 										<int key="IBUITag">1</int>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<string key="IBUIText">Distance</string>
+										<string key="IBUIText">Ready</string>
 										<reference key="IBUITextColor" ref="716493665"/>
 										<reference key="IBUIHighlightedColor" ref="110193887"/>
 										<int key="IBUIBaselineAdjustment">0</int>
@@ -179,9 +179,10 @@
 									<object class="IBUILabel" id="868593672">
 										<reference key="NSNextResponder" ref="211721824"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{76, 20}, {96, 21}}</string>
+										<string key="NSFrame">{{75, 20}, {96, 21}}</string>
 										<reference key="NSSuperview" ref="211721824"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -189,7 +190,7 @@
 										<int key="IBUITag">1</int>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<string key="IBUIText">away</string>
+										<string key="IBUIText">00:00:00</string>
 										<reference key="IBUITextColor" ref="716493665"/>
 										<reference key="IBUIHighlightedColor" ref="110193887"/>
 										<int key="IBUIBaselineAdjustment">0</int>
@@ -199,7 +200,7 @@
 										<reference key="IBUIFont" ref="232154673"/>
 									</object>
 								</array>
-								<string key="NSFrame">{{108, 0}, {193, 43}}</string>
+								<string key="NSFrame">{{96, 0}, {174, 43}}</string>
 								<reference key="NSSuperview" ref="132954283"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="687910266"/>
@@ -208,7 +209,7 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
 						</array>
-						<string key="NSFrameSize">{320, 43}</string>
+						<string key="NSFrameSize">{270, 43}</string>
 						<reference key="NSSuperview" ref="47301923"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="232978509"/>
@@ -221,7 +222,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</array>
-				<string key="NSFrameSize">{320, 44}</string>
+				<string key="NSFrameSize">{270, 44}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="132954283"/>
@@ -259,14 +260,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">distLabel</string>
-						<reference key="source" ref="47301923"/>
-						<reference key="destination" ref="234966114"/>
-					</object>
-					<int key="connectionID">14</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">flyerImageView</string>
 						<reference key="source" ref="47301923"/>
 						<reference key="destination" ref="232978509"/>
@@ -288,6 +281,22 @@
 						<reference key="destination" ref="231186106"/>
 					</object>
 					<int key="connectionID">17</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">statusLabel</string>
+						<reference key="source" ref="47301923"/>
+						<reference key="destination" ref="234966114"/>
+					</object>
+					<int key="connectionID">20</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">timeLabel</string>
+						<reference key="source" ref="47301923"/>
+						<reference key="destination" ref="868593672"/>
+					</object>
+					<int key="connectionID">21</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -359,16 +368,19 @@
 						<int key="objectID">9</int>
 						<reference key="object" ref="868593672"/>
 						<reference key="parent" ref="211721824"/>
+						<string key="objectName">Time</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">10</int>
 						<reference key="object" ref="687910266"/>
 						<reference key="parent" ref="211721824"/>
+						<string key="objectName">Capacity</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">11</int>
 						<reference key="object" ref="234966114"/>
 						<reference key="parent" ref="211721824"/>
+						<string key="objectName">Status</string>
 					</object>
 				</array>
 			</object>
@@ -392,7 +404,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">19</int>
+			<int key="maxID">21</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -437,10 +449,11 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="addFlyerSubview">UIView</string>
 						<string key="capLabel">UILabel</string>
-						<string key="distLabel">UILabel</string>
 						<string key="flyerImageView">UIImageView</string>
 						<string key="goSubview">UIView</string>
 						<string key="itemImageView">UIImageView</string>
+						<string key="statusLabel">UILabel</string>
+						<string key="timeLabel">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="addFlyerSubview">
@@ -449,10 +462,6 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="capLabel">
 							<string key="name">capLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="distLabel">
-							<string key="name">distLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="flyerImageView">
@@ -466,6 +475,14 @@
 						<object class="IBToOneOutletInfo" key="itemImageView">
 							<string key="name">itemImageView</string>
 							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="statusLabel">
+							<string key="name">statusLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="timeLabel">
+							<string key="name">timeLabel</string>
+							<string key="candidateClassName">UILabel</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">

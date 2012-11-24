@@ -11,8 +11,9 @@
 @interface FlyerDashboardCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView* flyerImageView;
 @property (weak, nonatomic) IBOutlet UIImageView* itemImageView;
-@property (weak, nonatomic) IBOutlet UILabel *distLabel;
-@property (weak, nonatomic) IBOutlet UILabel *capLabel;
+@property (weak, nonatomic) IBOutlet UILabel* capLabel;
+@property (weak, nonatomic) IBOutlet UILabel* statusLabel;
+@property (weak, nonatomic) IBOutlet UILabel* timeLabel;
 @property (weak, nonatomic) IBOutlet UIView* goSubview;
 @property (weak, nonatomic) IBOutlet UIView* addFlyerSubview;
 

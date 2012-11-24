@@ -49,6 +49,8 @@ static double const timeTillReinitialize = -(60 * 30);
 static double const gameinfoRefreshTime = -(60 * 60 * 2);
 static NSString* const kKeyLastUpdated = @"lastupdated";
 
+// sim updates
+NSString* const kGameManagerPerSecondElapsed = @"perSecondElapsed";
 
 typedef enum {
     serverCallType_none = 0,
@@ -100,7 +102,9 @@ typedef enum {
     NSDate*         _calloutHaltBegin;
     BrowseEnforcedType _browseEnforced;
     pthread_rwlock_t _browseEnforcedLock;
-
+    
+    // sim update timers
+    NSDate* _lastPerSecondUpdate;
 }
 @property (nonatomic,strong) HiAccuracyLocator* playerLocator;
 
@@ -118,6 +122,7 @@ typedef enum {
 @synthesize loadingScreen = _loadingScreen;
 @synthesize gameViewController = _gameViewController;
 @synthesize playerLocator = _playerLocator;
+@synthesize perSecondElapsed = _perSecondElapsed;
 
 #pragma mark - initialization
 - (id) init
@@ -154,6 +159,10 @@ typedef enum {
         _calloutHaltDuration = 0.0;
         _browseEnforced = kBrowseEnforcedNone;
         pthread_rwlock_init(&_browseEnforcedLock, NULL);
+        
+        // timers
+        _perSecondElapsed = 0.0;
+        _lastPerSecondUpdate = [NSDate date];
         
         [self registerAllNotificationHandlers];
     }
@@ -689,6 +698,16 @@ typedef enum {
     _gameState = kGameStateGameLoop;
     
     return goingHome;
+}
+
+static const NSTimeInterval kPerSecondInterval = 1.0;
+- (void) updateSim:(NSTimeInterval)elapsed currentTime:(NSDate *)currentTime
+{
+    if(kPerSecondInterval <= [currentTime timeIntervalSinceDate:_lastGameStateInitializeTime])
+    {
+        self.perSecondElapsed = [currentTime timeIntervalSinceDate:_lastGameStateInitializeTime];
+        _lastGameStateInitializeTime = currentTime;
+    }
 }
 
 #pragma mark - in-game UI

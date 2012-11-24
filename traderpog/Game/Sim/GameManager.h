@@ -12,6 +12,8 @@
 #import "HttpCallbackDelegate.h"
 #import "HiAccuracyLocatorDelegate.h"
 
+extern NSString* const kGameManagerPerSecondElapsed;
+
 enum kGameStates
 {
     kGameStateNew = 0,
@@ -50,6 +52,7 @@ typedef enum _BrowseEnforcedType
 @property (nonatomic,readonly) int gameState;
 @property (nonatomic,weak) LoadingScreen* loadingScreen;
 @property (nonatomic,strong) GameViewController* gameViewController;
+@property (nonatomic) NSTimeInterval perSecondElapsed;
 
 // public methods
 - (void) resetData;
@@ -59,6 +62,7 @@ typedef enum _BrowseEnforcedType
 - (void) flyer:(Flyer*)flyer departForTradePost:(TradePost*)tradePost;
 - (BOOL) sendFlyerHome:(Flyer *)flyer;
 - (BOOL) isTraderPogServerReachable;
+- (void) updateSim:(NSTimeInterval)elapsed currentTime:(NSDate*)currentTime;
 
 // in-game UI
 // DISABLE_POSTWHEEL
