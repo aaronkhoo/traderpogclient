@@ -18,6 +18,7 @@
 #import "TradeItemType.h"
 #import "ImageManager.h"
 #import "GameManager.h"
+#import "PogUIUtility.h"
 
 @interface FlyerDashboard ()
 {
@@ -63,15 +64,7 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    _availableFlyers = [NSMutableArray arrayWithCapacity:5];
-    for(Flyer* cur in [[FlyerMgr getInstance] playerFlyers])
-    {
-//        if((kFlyerStateIdle == [cur state]) ||
-//           (kFlyerStateLoaded == [cur state]))
-        {
-            [_availableFlyers addObject:cur];
-        }
-    }
+    _availableFlyers = [NSMutableArray arrayWithArray:[[FlyerMgr getInstance] playerFlyers]];
 }
 
 #pragma mark - updates from game sim
@@ -82,8 +75,31 @@
 {
     if([keyPath isEqualToString:kGameManagerPerSecondElapsed])
     {
-        NSLog(@"flyer dashboard one second");
+        BOOL shouldReload = NO;
+        for(Flyer* cur in _availableFlyers)
+        {
+            if(kFlyerStateEnroute == [cur state])
+            {
+                shouldReload = YES;
+                break;
+            }
+        }
+        if(shouldReload)
+        {
+            [self.tableView reloadData];
+        }
     }
+}
+
+- (NSTimeInterval) getRemainingLoadTimeForFlyer:(Flyer*)flyer
+{
+    NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:[flyer stateBegin]];
+    NSTimeInterval remaining = [flyer getFlyerLoadDuration] - elapsed;
+    if(0.0f > remaining)
+    {
+        remaining = 0.0f;
+    }
+    return remaining;
 }
 
 #pragma mark - button actions
@@ -182,21 +198,26 @@
         {
             case kFlyerStateEnroute:
                 [cell.statusLabel setText:@"Enroute"];
+                [cell.timeLabel setHidden:NO];
+                [cell.timeLabel setText:[PogUIUtility stringFromTimeInterval:[flyer timeTillDest]]];
                 break;
                 
             case kFlyerStateLoading:
                 [cell.statusLabel setText:@"Loading"];
+                [cell.timeLabel setHidden:NO];
+                [cell.timeLabel setText:[PogUIUtility stringFromTimeInterval:[self getRemainingLoadTimeForFlyer:flyer]]];
                 break;
                 
             case kFlyerStateWaitingToLoad:
                 [cell.statusLabel setText:@"Awaiting Loader"];
+                [cell.timeLabel setHidden:YES];
                 break;
                 
             default:
                 [cell.statusLabel setText:@"Ready"];
+                [cell.timeLabel setHidden:YES];
                 break;
         }
-        [cell.timeLabel setHidden:YES];
         [cell.goSubview setHidden:NO];
         [cell.addFlyerSubview setHidden:YES];
     }
