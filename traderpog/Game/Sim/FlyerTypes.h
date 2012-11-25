@@ -23,6 +23,7 @@ static NSString* const kFlyerTypes_ReceiveFlyers = @"FlyerTypes_ReceiveFlyers";
     __weak NSObject<HttpCallbackDelegate>* _delegate;
 }
 @property (nonatomic,strong) NSMutableArray* flyerTypes;
+@property (nonatomic, strong) NSMutableArray* sortedTypes;
 @property (nonatomic,weak) NSObject<HttpCallbackDelegate>* delegate;
 @property (nonatomic,readonly) NSDate* lastUpdate;
 

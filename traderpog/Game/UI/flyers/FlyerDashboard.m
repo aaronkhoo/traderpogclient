@@ -19,8 +19,8 @@
 #import "ImageManager.h"
 #import "GameManager.h"
 #import "PogUIUtility.h"
-#import "FlyerBuyConfirmScreen.h"
 #import "FlyerTypes.h"
+#import "FlyerTypeSelect.h"
 
 @interface FlyerDashboard ()
 {
@@ -255,9 +255,14 @@
         {
 //            unsigned int flyerTypeIndex = [[purchaseables objectAtIndex:lookupIndex] unsignedIntValue];
 //            unsigned int flyerTypeIndex = [flyer flyerTypeIndex];
-            NSArray* flyerTypes = [[FlyerTypes getInstance] getFlyersForTier:1];
-            FlyerType* flyerType = [flyerTypes objectAtIndex:0];
-            FlyerBuyConfirmScreen* next = [[FlyerBuyConfirmScreen alloc] initWithFlyerType:flyerType];
+            
+            
+//            NSArray* flyerTypes = [[FlyerTypes getInstance] getFlyersForTier:1];
+//            FlyerType* flyerType = [flyerTypes objectAtIndex:0];
+//            FlyerBuyConfirmScreen* next = [[FlyerBuyConfirmScreen alloc] initWithFlyerType:flyerType];
+//            [[GameManager getInstance].gameViewController pushModalNavViewController:next];
+            
+            FlyerTypeSelect* next = [[FlyerTypeSelect alloc] initWithNibName:@"FlyerTypeSelect" bundle:nil];
             [[GameManager getInstance].gameViewController pushModalNavViewController:next];
         }
     }

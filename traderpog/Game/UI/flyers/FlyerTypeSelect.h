@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CircleButton.h"
 
 @class FlyerTypeSelectCell;
 @interface FlyerTypeSelect : UIViewController<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet FlyerTypeSelectCell* flyerCell;
 @property (weak, nonatomic) IBOutlet UITableView* tableView;
+@property (weak, nonatomic) IBOutlet CircleButton* closeCircle;
 @end

@@ -25,9 +25,10 @@ static NSString* const kDefaultFlyerTypeTopImg = @"flyer_glider";
     NSString* _createdVersion;
     
     NSMutableArray* _flyerTypes;
+    NSMutableArray* _sortedTypes;   // from low-tier to high-tier, low-price to high-price
     NSDate* _lastUpdate;
 }
-
+- (void) refreshSortedTypesArray;
 #if defined(USE_FALLBACKS)
 - (void) fillMissingFlyerTypesFromFallback;
 #endif
@@ -36,6 +37,7 @@ static NSString* const kDefaultFlyerTypeTopImg = @"flyer_glider";
 @implementation FlyerTypes
 @synthesize delegate = _delegate;
 @synthesize flyerTypes = _flyerTypes;
+@synthesize sortedTypes = _sortedTypes;
 @synthesize lastUpdate = _lastUpdate;
 
 - (id) init
@@ -45,6 +47,7 @@ static NSString* const kDefaultFlyerTypeTopImg = @"flyer_glider";
     {
         _lastUpdate = nil;
         _flyerTypes = [[NSMutableArray alloc] init];
+        _sortedTypes = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -63,6 +66,7 @@ static NSString* const kDefaultFlyerTypeTopImg = @"flyer_glider";
     _createdVersion = [aDecoder decodeObjectForKey:kKeyVersion];
     _lastUpdate = [aDecoder decodeObjectForKey:kKeyLastUpdate];
     _flyerTypes = [aDecoder decodeObjectForKey:kKeyFlyerTypes];
+    [self refreshSortedTypesArray];
     
 #if defined(USE_FALLBACKS)
     [self fillMissingFlyerTypesFromFallback];
@@ -150,6 +154,38 @@ static NSString* const kDefaultFlyerTypeTopImg = @"flyer_glider";
     }
 }
 
+- (void) refreshSortedTypesArray
+{
+    _sortedTypes = [NSMutableArray arrayWithArray:_flyerTypes];
+    [_sortedTypes sortUsingComparator:^NSComparisonResult(FlyerType* flyer1, FlyerType* flyer2){
+        NSComparisonResult result = NSOrderedAscending;
+        if([flyer1 tier] > [flyer2 tier])
+        {
+            result = NSOrderedDescending;
+        }
+        else if([flyer1 tier] < [ flyer2 tier])
+        {
+            result = NSOrderedAscending;
+        }
+        else
+        {
+            if([flyer1 price] > [flyer2 price])
+            {
+                result = NSOrderedDescending;
+            }
+            else if([flyer1 price] < [flyer2 price])
+            {
+                result = NSOrderedAscending;
+            }
+            else
+            {
+                result = NSOrderedSame;
+            }
+        }
+        return result;
+    }];
+}
+
 #pragma mark - public functions
 - (BOOL) needsRefresh:(NSDate*) lastModifiedDate
 {
@@ -163,6 +199,8 @@ static NSString* const kDefaultFlyerTypeTopImg = @"flyer_glider";
         FlyerType* current = [[FlyerType alloc] initWithDictionary:flyer];
         [_flyerTypes addObject:current];
     }
+    
+    [self refreshSortedTypesArray];
     
 #if defined(USE_FALLBACKS)
     [self fillMissingFlyerTypesFromFallback];
@@ -178,6 +216,7 @@ static NSString* const kDefaultFlyerTypeTopImg = @"flyer_glider";
                 success:^(AFHTTPRequestOperation *operation, id responseObject){                     
                     NSLog(@"Retrieved: %@", responseObject);
                     [_flyerTypes removeAllObjects];
+                    [_sortedTypes removeAllObjects];
                     [self createFlyerArray:responseObject];
                     _lastUpdate = [NSDate date];
                     [self saveFlyerTypesData];
