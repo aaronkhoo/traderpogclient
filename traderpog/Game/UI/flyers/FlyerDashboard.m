@@ -19,6 +19,8 @@
 #import "ImageManager.h"
 #import "GameManager.h"
 #import "PogUIUtility.h"
+#import "FlyerBuyConfirmScreen.h"
+#import "FlyerTypes.h"
 
 @interface FlyerDashboard ()
 {
@@ -244,7 +246,20 @@
     }
     else
     {
-        // TODO: buy new flyer
+        // TODO: add a flyer-type selection screen;
+        // currently only allows purchase of Flyer 0
+        //NSArray* purchaseables = [[FlyerMgr getInstance] getPurchaseableFlyerTypeIndices];
+//        Flyer* flyer = [_availableFlyers objectAtIndex:0];
+        //unsigned int lookupIndex = [flyer flyerTypeIndex];
+        //if(lookupIndex < [purchaseables count])
+        {
+//            unsigned int flyerTypeIndex = [[purchaseables objectAtIndex:lookupIndex] unsignedIntValue];
+//            unsigned int flyerTypeIndex = [flyer flyerTypeIndex];
+            NSArray* flyerTypes = [[FlyerTypes getInstance] getFlyersForTier:1];
+            FlyerType* flyerType = [flyerTypes objectAtIndex:0];
+            FlyerBuyConfirmScreen* next = [[FlyerBuyConfirmScreen alloc] initWithFlyerType:flyerType];
+            [[GameManager getInstance].gameViewController pushModalNavViewController:next];
+        }
     }
 }
 

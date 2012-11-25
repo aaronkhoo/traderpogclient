@@ -1001,6 +1001,11 @@ static const float kMyPostMenuSize = 60.0f;
     [self hideInfoCircleAnimated:NO];
 }
 
+- (void) pushModalNavViewController:(UIViewController*)controller
+{
+    [self.modalNav.navController pushFromRightViewController:controller animated:YES];
+}
+
 #pragma mark - ModalNavDelegate
 - (void) dismissModal
 {

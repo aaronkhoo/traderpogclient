@@ -86,6 +86,7 @@ enum kKnobSlices
 - (void) closeModalViewAnimated:(BOOL)isAnimated;
 - (void) showModalNavViewController:(UIViewController*)controller
                          completion:(ModalNavCompletionBlock)completion;
+- (void) pushModalNavViewController:(UIViewController*)controller;
 - (void) dismissInfo;
 - (void) dismissInfoNotAnimated;
 - (void) showMyPostMenuForPost:(MyTradePost*)myPost;
