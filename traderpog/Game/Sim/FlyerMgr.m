@@ -801,6 +801,20 @@ static const float kBubbleBorderWidth = 1.5f;
     return result;
 }
 
+- (NSInteger) numFlyersOfFlyerType:(FlyerType*)flyerType
+{
+    NSInteger num = 0;
+    for(Flyer* cur in _playerFlyers)
+    {
+        if([cur.flyerTypeStringId isEqualToString:[flyerType flyerId]])
+        {
+            ++num;
+        }
+    }
+    return num;
+}
+
+
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {

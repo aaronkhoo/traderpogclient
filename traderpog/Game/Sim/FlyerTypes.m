@@ -10,6 +10,7 @@
 #import "FlyerTypes.h"
 #import "GameManager.h"
 #import "FlyerLabFactory.h"
+#import "Player.h"
 
 static NSString* const kKeyVersion = @"version";
 static NSString* const kKeyLastUpdate = @"lastUpdate";
@@ -329,6 +330,17 @@ static NSString* const kDefaultFlyerTypeTopImg = @"flyer_glider";
         }
     }
     return (NSArray*)flyerArray;
+}
+
+#pragma mark - Game Configurations
++ (NSInteger) maxFlyersForFlyerTypeId:(NSString *)flyerTypeId
+{
+    NSInteger maxFlyers = 2;
+    if([[Player getInstance] isMember])
+    {
+        maxFlyers += 2;
+    }
+    return maxFlyers;
 }
 
 #pragma mark - Singleton

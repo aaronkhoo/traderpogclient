@@ -52,6 +52,7 @@ static NSString* const kFlyerMgr_ReceiveFlyers = @"FlyerMgr_ReceiveFlyers";
 - (Flyer*) homeOrHomeboundFlyer;
 - (NSArray*) getPurchaseableFlyerTypeIndices;
 - (Flyer*) flyerInboundToPostId:(NSString*)postId;
+- (NSInteger) numFlyersOfFlyerType:(FlyerType*)flyerType;
 
 // singleton
 +(FlyerMgr*) getInstance;

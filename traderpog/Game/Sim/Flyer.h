@@ -43,6 +43,7 @@ enum _FlyerStates
 {
     BOOL _initializeFlyerOnMap;
     NSInteger _flyerTypeIndex;
+    NSString* _flyerTypeStringId;
     NSString* _userFlyerId;
     CLLocationDistance _metersToDest;
     
@@ -74,6 +75,7 @@ enum _FlyerStates
     __weak NSObject<HttpCallbackDelegate>* _delegate;
 }
 @property (nonatomic,readonly) NSInteger flyerTypeIndex;
+@property (nonatomic,readonly) NSString* flyerTypeStringId;
 @property (nonatomic,readonly) NSString* userFlyerId;
 @property (nonatomic,strong) FlightPathOverlay* flightPathRender;
 @property (nonatomic) CLLocationCoordinate2D coord;

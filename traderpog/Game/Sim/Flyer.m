@@ -37,6 +37,8 @@ static NSString* const kKeyUserFlyerId = @"id";
 static NSString* const kKeyFlyerId = @"flyer_info_id";
 NSString* const kKeyFlyerTypeId = @"flyer_info_id";
 static NSString* const kKeyFlyerTypeIndex = @"flyer_type_index";
+static NSString* const kKeyFlyerTypeStringId = @"flyer_type_string_id"; // this value is the FlyerType's id
+                                                                        // which is kKeyFlyerId from the dictionary
 static NSString* const kKeyVersion = @"version";
 static NSString* const kKeyInventory = @"inventory";
 static NSString* const kKeyPath = @"path";
@@ -60,6 +62,7 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
 
 @implementation Flyer
 @synthesize flyerTypeIndex = _flyerTypeIndex;
+@synthesize flyerTypeStringId = _flyerTypeStringId;
 @synthesize userFlyerId = _userFlyerId;
 @synthesize flightPathRender = _flightPathRender;
 @synthesize coord = _coord;
@@ -80,6 +83,8 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
     _initializeFlyerOnMap = FALSE;
     
     _flyerTypeIndex = flyerTypeIndex;
+    FlyerType* flyerType = [[FlyerTypes getInstance] getFlyerTypeAtIndex:flyerTypeIndex];
+    _flyerTypeStringId = [flyerType flyerId];
     
     _metersToDest = 0.0;
     
@@ -132,6 +137,7 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
         _userFlyerId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:kKeyUserFlyerId] integerValue]];
         NSString* flyerTypeId = [NSString stringWithFormat:@"%d", [[dict valueForKeyPath:kKeyFlyerId] integerValue]];
         _flyerTypeIndex = [[FlyerTypes getInstance] getFlyerIndexById:flyerTypeId];
+        _flyerTypeStringId = flyerTypeId;
         
         NSArray* paths_array = [dict valueForKeyPath:@"flyer_paths"];
         NSDictionary* path_dict = [paths_array objectAtIndex:0];
@@ -200,6 +206,7 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
 {
     [aCoder encodeObject:_createdVersion forKey:kKeyVersion];
     [aCoder encodeInteger:_flyerTypeIndex forKey:kKeyFlyerTypeIndex];
+    [aCoder encodeObject:_flyerTypeStringId forKey:kKeyFlyerTypeStringId];
     [aCoder encodeObject:_userFlyerId forKey:kKeyUserFlyerId];
     
     [aCoder encodeObject:_inventory forKey:kKeyInventory];
@@ -215,6 +222,12 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
 {
     _createdVersion = [aDecoder decodeObjectForKey:kKeyVersion];
     _flyerTypeIndex = [aDecoder decodeIntegerForKey:kKeyFlyerTypeIndex];
+    _flyerTypeStringId = [aDecoder decodeObjectForKey:kKeyFlyerTypeStringId];
+    if(!_flyerTypeStringId)
+    {
+        FlyerType* flyerType = [[FlyerTypes getInstance] getFlyerTypeAtIndex:_flyerTypeIndex];
+        _flyerTypeStringId = [flyerType flyerId];
+    }
     _userFlyerId = [aDecoder decodeObjectForKey:kKeyUserFlyerId];
     _inventory = [aDecoder decodeObjectForKey:kKeyInventory];
     _path = [aDecoder decodeObjectForKey:kKeyPath];

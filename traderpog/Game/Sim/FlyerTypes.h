@@ -38,6 +38,9 @@ static NSString* const kFlyerTypes_ReceiveFlyers = @"FlyerTypes_ReceiveFlyers";
 - (NSString*) sideImgForFlyerTypeAtIndex:(NSInteger)index;
 - (NSString*) topImgForFlyerTypeAtIndex:(NSInteger)index;
 
+// Game configurations
++ (NSInteger) maxFlyersForFlyerTypeId:(NSString*)flyerTypeId;
+
 // Returns an array of FlyerType
 - (NSArray*) getFlyersForTier:(unsigned int)tier;
 

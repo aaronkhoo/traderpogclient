@@ -15,8 +15,13 @@
 #import "SoundManager.h"
 #import "GameManager.h"
 #import "GameColors.h"
+#import "FlyerBuyConfirmScreen.h"
+#import "FlyerMgr.h"
 
 @interface FlyerTypeSelect ()
+{
+    NSMutableArray* _flyerTypes;
+}
 @end
 
 @implementation FlyerTypeSelect
@@ -34,6 +39,16 @@
 {
     [super viewDidLoad];
     [self.closeCircle setButtonTarget:self action:@selector(didPressClose:)];
+    
+    NSArray* sortedFlyerTypes = [[FlyerTypes getInstance] sortedTypes];
+    _flyerTypes = [NSMutableArray arrayWithCapacity:[sortedFlyerTypes count]];
+    for(FlyerType* cur in sortedFlyerTypes)
+    {
+        if([FlyerTypes maxFlyersForFlyerTypeId:[cur flyerId]] > [[FlyerMgr getInstance] numFlyersOfFlyerType:cur])
+        {
+            [_flyerTypes addObject:cur];
+        }
+    }
 }
 
 - (void)viewDidUnload {
@@ -68,7 +83,7 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger num = [[[FlyerTypes getInstance] sortedTypes] count];
+    NSInteger num = [_flyerTypes count];
     return num;
 }
 
@@ -94,11 +109,10 @@
         self.flyerCell = nil;
     }
     
-    NSArray* flyerTypes = [[FlyerTypes getInstance] sortedTypes];
     NSInteger index = [indexPath row];
-    if(index < [flyerTypes count])
+    if(index < [_flyerTypes count])
     {
-        FlyerType* flyerType = [flyerTypes objectAtIndex:index];
+        FlyerType* flyerType = [_flyerTypes objectAtIndex:index];
         
         // flyer image
         NSString* flyerTypeName = [flyerType sideimg];
@@ -113,6 +127,11 @@
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSInteger index = [indexPath row];
+    FlyerType* flyerType = [_flyerTypes objectAtIndex:index];
+    
+    FlyerBuyConfirmScreen* next = [[FlyerBuyConfirmScreen alloc] initWithFlyerType:flyerType];
+    [[GameManager getInstance].gameViewController pushModalNavViewController:next];
 }
 
 @end
