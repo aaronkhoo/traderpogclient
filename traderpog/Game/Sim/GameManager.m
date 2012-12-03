@@ -734,7 +734,9 @@ static const NSTimeInterval kPerSecondInterval = 1.0;
 //        [self.gameViewController showFlyerWheelAnimated:YES];
         GameViewController* game = [self gameViewController];
         FlyerGo* next = [[FlyerGo alloc] initWithPost:post];
-        [game showModalNavViewController:next completion:nil];
+        [game showModalNavViewController:next completion:^(BOOL finished){
+            [self popGameStateToLoop];
+        }];
         
         [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level2"];
     }

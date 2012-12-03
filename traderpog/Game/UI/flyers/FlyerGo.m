@@ -18,6 +18,8 @@
 #import "TradeItemType.h"
 #import "ImageManager.h"
 #import "GameManager.h"
+#import "FlyerTypes.h"
+#import "FlyerTypeSelect.h"
 
 static const NSInteger kGoCellTagImage = 10;
 static const NSInteger kGoCellTagDistance = 11;
@@ -110,7 +112,6 @@ static const NSInteger kGoCellTagDistance = 11;
 {
     [[SoundManager getInstance] playClip:@"Pog_SFX_Nav_up"];
     [self.navigationController popViewControllerAnimated:NO];
-    [[GameManager getInstance] popGameStateToLoop];
 }
 
 #pragma mark - UITableViewDataSource
@@ -264,11 +265,25 @@ static const NSInteger kGoCellTagDistance = 11;
 {
     if([indexPath row] < [_availableFlyers count])
     {
-        [self.navigationController popToRootViewControllerAnimated:NO];
-        [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.1f];
-
         Flyer* flyer = [self getFlyerAtIndex:[indexPath row]];
-        [[GameManager getInstance] wheel:nil commitOnFlyer:flyer];
+        
+        NSString* postItemId = [_tradePost itemId];
+        NSString* flyerItemId = [flyer.inventory itemId];
+        if(!flyerItemId)
+        {
+            flyerItemId = [flyer.inventory orderItemId];
+        }
+        if(!flyerItemId || ([flyerItemId isEqualToString:postItemId]))
+        {
+            [self.navigationController popToRootViewControllerAnimated:NO];
+            [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.1f];
+            [[GameManager getInstance] wheel:nil commitOnFlyer:flyer];
+        }
+        else
+        {
+            // flyer already has a different item; don't select it
+            [tableView deselectRowAtIndexPath:indexPath animated:NO];
+        }
     }
     else if([indexPath row] < ([_availableFlyers count] + [_busyFlyers count]))
     {
@@ -277,8 +292,9 @@ static const NSInteger kGoCellTagDistance = 11;
     }
     else
     {
-        // TODO: buy new flyer
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
+        FlyerTypeSelect* next = [[FlyerTypeSelect alloc] initWithNibName:@"FlyerTypeSelect" bundle:nil];
+        [[GameManager getInstance].gameViewController pushModalNavViewController:next];
     }
 }
 @end
