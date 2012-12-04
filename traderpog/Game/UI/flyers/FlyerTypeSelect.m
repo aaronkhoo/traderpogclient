@@ -41,14 +41,7 @@
     [self.closeCircle setButtonTarget:self action:@selector(didPressClose:)];
     
     NSArray* sortedFlyerTypes = [[FlyerTypes getInstance] sortedTypes];
-    _flyerTypes = [NSMutableArray arrayWithCapacity:[sortedFlyerTypes count]];
-    for(FlyerType* cur in sortedFlyerTypes)
-    {
-        if([FlyerTypes maxFlyersForFlyerTypeId:[cur flyerId]] > [[FlyerMgr getInstance] numFlyersOfFlyerType:cur])
-        {
-            [_flyerTypes addObject:cur];
-        }
-    }
+    _flyerTypes = [NSMutableArray arrayWithArray:sortedFlyerTypes];
 }
 
 - (void)viewDidUnload {
@@ -119,6 +112,15 @@
         NSString* imageName = [[FlyerLabFactory getInstance] sideImageForFlyerTypeNamed:flyerTypeName tier:1 colorIndex:0];
         UIImage* flyerImage = [[ImageManager getInstance] getImage:imageName];
         [cell.flyerImageView setImage:flyerImage];
+        
+        if([FlyerTypes maxFlyersForFlyerTypeId:[flyerType flyerId]] <= [[FlyerMgr getInstance] numFlyersOfFlyerType:flyerType])
+        {
+            [cell.contentView setBackgroundColor:[UIColor darkGrayColor]];
+        }
+        else
+        {
+            [cell.contentView setBackgroundColor:[UIColor whiteColor]];
+        }
     }
     
     return cell;
@@ -130,8 +132,13 @@
     NSInteger index = [indexPath row];
     FlyerType* flyerType = [_flyerTypes objectAtIndex:index];
     
-    FlyerBuyConfirmScreen* next = [[FlyerBuyConfirmScreen alloc] initWithFlyerType:flyerType];
-    [[GameManager getInstance].gameViewController pushModalNavViewController:next];
+    if([FlyerTypes maxFlyersForFlyerTypeId:[flyerType flyerId]] > [[FlyerMgr getInstance] numFlyersOfFlyerType:flyerType])
+    {
+        FlyerBuyConfirmScreen* next = [[FlyerBuyConfirmScreen alloc] initWithFlyerType:flyerType];
+        [[GameManager getInstance].gameViewController pushModalNavViewController:next];
+    }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

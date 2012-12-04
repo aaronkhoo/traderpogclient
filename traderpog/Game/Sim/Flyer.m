@@ -884,7 +884,7 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
             // game events
             if(kFlyerStateLoaded == newState)
             {                
-                self.gameEvent = [[GameEventMgr getInstance] queueEventWithType:kGameEvent_LoadingCompleted atCoord:[self coord]];
+                [[GameEventMgr getInstance] queueEventWithType:kGameEvent_LoadingCompleted atCoord:[self coord]];
             }
             /*
             else if((kFlyerStateIdle == newState) && (kFlyerStateUnloading == [self state]))
@@ -894,10 +894,13 @@ static CLLocationDistance metersDistance(CLLocationCoordinate2D originCoord, CLL
                 self.gameEvent = nil;
             }
              */
-            else if((kFlyerStateWaitingToLoad == newState) ||
-                    ((kFlyerStateIdle == newState) && (kFlyerStateEnroute == [self state])))
+            else if(kFlyerStateWaitingToLoad == newState)
             {
-                self.gameEvent = [[GameEventMgr getInstance] queueEventWithType:kGameEvent_FlyerArrival atCoord:[self coord]];
+                self.gameEvent = [[GameEventMgr getInstance] queueEventWithType:kGameEvent_FlyerArrival atCoord:[self coord]];                
+            }
+            else if((kFlyerStateIdle == newState) && (kFlyerStateEnroute == [self state]))
+            {
+                [[GameEventMgr getInstance] queueEventWithType:kGameEvent_FlyerArrival atCoord:[self coord]];
             }
             else
             {
