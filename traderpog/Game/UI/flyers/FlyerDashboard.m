@@ -13,6 +13,7 @@
 #import "FlyerMgr.h"
 #import "Flyer.h"
 #import "FlyerDashboardCell.h"
+#import "TradePostMgr.h"
 #import "TradePost.h"
 #import "TradeItemTypes.h"
 #import "TradeItemType.h"
@@ -217,7 +218,15 @@
                 
             default:
                 [cell.statusLabel setText:@"Ready"];
-                [cell.timeLabel setHidden:YES];
+                if([[TradePostMgr getInstance] isFlyerAtHome:flyer])
+                {
+                    [cell.timeLabel setHidden:NO];
+                    [cell.timeLabel setText:@"At Home"];
+                }
+                else
+                {
+                    [cell.timeLabel setHidden:YES];
+                }
                 break;
         }
         [cell.goSubview setHidden:NO];

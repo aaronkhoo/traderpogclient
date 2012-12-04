@@ -461,9 +461,8 @@ static NSString* const kKeyCurColorIndex = @"colorindex";
         if (_path.doneWithCurrentPath)
         {
             TradePost* curPost = [[TradePostMgr getInstance] getTradePostWithId:_path.curPostId];
-            if([curPost flyerAtPost] ||
-               (([curPost isMemberOfClass:[MyTradePost class]]) &&
-                ([self.inventory numItems])))
+            if(([curPost flyerAtPost] && (![curPost isMemberOfClass:[MyTradePost class]])) ||
+               (([curPost isMemberOfClass:[MyTradePost class]]) && ([self.inventory numItems])))
             {
                 // if current post already has a flyer, OR
                 // if my path is done at MyPost, but I still have items on my flyer for some reason,

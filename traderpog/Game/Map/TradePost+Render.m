@@ -120,9 +120,19 @@
             [annotationView.countdownView setHidden:YES];
             showItemBubble = NO;
         }
-        UIImage* image = [flyer imageForCurrentState];
-        [annotationView.frontImageView setImage:image];
-        [annotationView.frontImageView setHidden:NO];
+        
+        if([self isMemberOfClass:[MyTradePost class]])
+        {
+            // don't show flyer on annotation if my-post
+            // because my-post can have multiple flyers
+            [annotationView.frontImageView setHidden:YES];
+        }
+        else
+        {
+            UIImage* image = [flyer imageForCurrentState];
+            [annotationView.frontImageView setImage:image];
+            [annotationView.frontImageView setHidden:NO];            
+        }
         
         if([flyer gameEvent])
         {

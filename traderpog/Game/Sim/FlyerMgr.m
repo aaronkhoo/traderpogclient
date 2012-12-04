@@ -814,7 +814,6 @@ static const float kBubbleBorderWidth = 1.5f;
     return num;
 }
 
-
 #pragma mark - HttpCallbackDelegate
 - (void) didCompleteHttpCallback:(NSString*)callName, BOOL success
 {

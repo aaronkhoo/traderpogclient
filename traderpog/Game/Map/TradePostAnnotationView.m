@@ -592,7 +592,7 @@ static const float kBuyViewCenterYOffset = -10.0f;
                     [flyer gotoState:kFlyerStateLoading];
                     [mapView deselectAnnotation:[self annotation] animated:NO];
                 }
-                else if(kFlyerStateLoaded == [flyer state])
+                else if((kFlyerStateLoaded == [flyer state]) || (kFlyerStateIdle == [flyer state]))
                 {
                     // flyer loaded and ready to go, show Flyer Info
                     [self showInfoViewForFlyer:flyer withTitle:nil];

@@ -478,6 +478,20 @@ static const int kDesiredOtherPostNumInWorld = 10;  // number of total Other Pos
     self.previewMap = nil;
 }
 
+- (BOOL)isFlyerAtHome:(Flyer*)flyer
+{
+    BOOL result = NO;
+    TradePost* myPost = [self getFirstMyTradePost];
+    if(myPost)
+    {
+        if([myPost.flyersArray containsObject:flyer])
+        {
+            result = YES;
+        }
+    }
+    return result;
+}
+
 #pragma mark - retrieve data from server
 - (void) createPostsArray:(id)responseObject
 {
