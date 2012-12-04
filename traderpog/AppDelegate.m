@@ -73,7 +73,7 @@ static const CGFloat SOUNDLOOP_INTERVAL_SECS = 1.0f / 30.0f;
 {
     [RevMobAds startSessionWithAppID:@"5063b48ba0aeaf0800000034"];
 
-    #if defined(FINAL) || defined(USE_PRODUCTION_SERVER)
+    #if defined(FINAL) && (!defined(USE_DEV_SERVER))
         [[LocalyticsSession sharedLocalyticsSession] startSession:@"6d25957a3894cd318228a88-604ef63c-0445-11e2-5622-00ef75f32667"];
     #else
         [[LocalyticsSession sharedLocalyticsSession] startSession:@"bf2f53386fe1651bfdea3f1-5feaa8ac-044b-11e2-5623-00ef75f32667"];

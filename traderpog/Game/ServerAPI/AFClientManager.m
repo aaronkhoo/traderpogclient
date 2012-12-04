@@ -10,7 +10,7 @@
 #import "AFClientManager.h"
 #import "AFJSONRequestOperation.h"
 
-#if defined(FINAL) || defined(USE_PRODUCTION_SERVER)
+#if defined(FINAL) && (!defined(USE_DEV_SERVER))
 static NSString* const kTraderPogBaseURLString = @"safe-chamber-1004.herokuapp.com";
 static NSString* const kTraderPogPort = @"443";
 #else
@@ -51,7 +51,7 @@ static NSString* const kTraderPogPort = @"80";
         [_traderPog unregisterHTTPOperationClass:[AFJSONRequestOperation class]];
     }
 
-#if defined(FINAL) || defined(USE_PRODUCTION_SERVER)
+#if defined(FINAL) && (!defined(USE_DEV_SERVER))
     NSString* urlString = [NSString stringWithFormat:@"https://%@:%@/", serverIp, kTraderPogPort];
 #else
     NSString* urlString = [NSString stringWithFormat:@"http://%@:%@/", serverIp, kTraderPogPort];
