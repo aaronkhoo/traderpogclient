@@ -155,7 +155,8 @@
         // flyer image
         UIImageView* imageView = cell.flyerImageView;
         [imageView setImage:[flyer imageForState:kFlyerStateIdle]];
-        
+        [cell.flyerImageView setHidden:NO];
+
         // capacity
         unsigned int remainingCap = [flyer remainingCapacity];
         unsigned int cap = [flyer capacity];
