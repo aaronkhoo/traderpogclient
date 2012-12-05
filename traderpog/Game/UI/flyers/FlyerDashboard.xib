@@ -44,8 +44,9 @@
 							<object class="IBUITableView" id="823140599">
 								<reference key="NSNextResponder" ref="51962218"/>
 								<int key="NSvFlags">274</int>
-								<string key="NSFrame">{{0, 40}, {270, 335}}</string>
+								<string key="NSFrame">{{0, 40}, {270, 270}}</string>
 								<reference key="NSSuperview" ref="51962218"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="45302941"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor">
@@ -67,6 +68,7 @@
 								<int key="NSvFlags">274</int>
 								<string key="NSFrameSize">{270, 40}</string>
 								<reference key="NSSuperview" ref="51962218"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="823140599"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor">
@@ -80,6 +82,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{2, 1}, {250, 42}}</string>
 								<reference key="NSSuperview" ref="51962218"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1006922953"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -114,8 +117,9 @@
 								</object>
 							</object>
 						</array>
-						<string key="NSFrame">{{25, 53}, {270, 375}}</string>
+						<string key="NSFrame">{{25, 130}, {270, 310}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="588286983"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -133,6 +137,7 @@
 								<int key="NSvFlags">301</int>
 								<string key="NSFrame">{{3, 3}, {24, 24}}</string>
 								<reference key="NSSuperview" ref="1006922953"/>
+								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="301077666">
 									<int key="NSColorSpace">3</int>
@@ -146,8 +151,9 @@
 								</object>
 							</object>
 						</array>
-						<string key="NSFrame">{{277, 38}, {30, 30}}</string>
+						<string key="NSFrame">{{277, 115}, {30, 30}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="676696352"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<string key="NSHuggingPriority">{250, 250}</string>
@@ -160,6 +166,7 @@
 				</array>
 				<string key="NSFrameSize">{320, 480}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="51962218"/>
 				<reference key="IBUIBackgroundColor" ref="301077666"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -299,7 +306,92 @@
 			<nil key="sourceID"/>
 			<int key="maxID">13</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">CircleButton</string>
+					<string key="superclassName">UIView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/CircleButton.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">FlyerDashboard</string>
+					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="closeCircle">CircleButton</string>
+						<string key="flyerCell">FlyerDashboardCell</string>
+						<string key="tableView">UITableView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="closeCircle">
+							<string key="name">closeCircle</string>
+							<string key="candidateClassName">CircleButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="flyerCell">
+							<string key="name">flyerCell</string>
+							<string key="candidateClassName">FlyerDashboardCell</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="tableView">
+							<string key="name">tableView</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/FlyerDashboard.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">FlyerDashboardCell</string>
+					<string key="superclassName">UITableViewCell</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="addFlyerSubview">UIView</string>
+						<string key="capLabel">UILabel</string>
+						<string key="flyerImageView">UIImageView</string>
+						<string key="goSubview">UIView</string>
+						<string key="itemImageView">UIImageView</string>
+						<string key="statusLabel">UILabel</string>
+						<string key="timeLabel">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="addFlyerSubview">
+							<string key="name">addFlyerSubview</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="capLabel">
+							<string key="name">capLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="flyerImageView">
+							<string key="name">flyerImageView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="goSubview">
+							<string key="name">goSubview</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="itemImageView">
+							<string key="name">itemImageView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="statusLabel">
+							<string key="name">statusLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="timeLabel">
+							<string key="name">timeLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/FlyerDashboardCell.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>

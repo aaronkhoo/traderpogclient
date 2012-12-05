@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class Flyer;
 @interface FlyerDashboardCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView* flyerImageView;
 @property (weak, nonatomic) IBOutlet UIImageView* itemImageView;
@@ -16,5 +17,11 @@
 @property (weak, nonatomic) IBOutlet UILabel* timeLabel;
 @property (weak, nonatomic) IBOutlet UIView* goSubview;
 @property (weak, nonatomic) IBOutlet UIView* addFlyerSubview;
+@property (weak, nonatomic) IBOutlet UIView* expandedSubview;
 
+@property (strong, nonatomic) Flyer* flyer;
+@property (weak, nonatomic) UINavigationController* navController;
+
+- (IBAction)didPressUpgrade:(id)sender;
+- (IBAction)didPressMap:(id)sender;
 @end

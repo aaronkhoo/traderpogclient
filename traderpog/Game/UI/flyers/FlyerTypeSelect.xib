@@ -44,7 +44,7 @@
 							<object class="IBUITableView" id="1027494520">
 								<reference key="NSNextResponder" ref="989526341"/>
 								<int key="NSvFlags">274</int>
-								<string key="NSFrame">{{0, 40}, {270, 335}}</string>
+								<string key="NSFrame">{{0, 40}, {270, 270}}</string>
 								<reference key="NSSuperview" ref="989526341"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="384745913"/>
@@ -117,7 +117,7 @@
 								</object>
 							</object>
 						</array>
-						<string key="NSFrame">{{25, 53}, {270, 375}}</string>
+						<string key="NSFrame">{{25, 130}, {270, 310}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1015843981"/>
@@ -152,7 +152,7 @@
 								</object>
 							</object>
 						</array>
-						<string key="NSFrame">{{277, 38}, {30, 30}}</string>
+						<string key="NSFrame">{{277, 115}, {30, 30}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="604817131"/>

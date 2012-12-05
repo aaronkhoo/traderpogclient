@@ -23,9 +23,13 @@
 #import "FlyerTypes.h"
 #import "FlyerTypeSelect.h"
 
+static const CGFloat kRowHeight = 44.0f;
+static const CGFloat kRowHeightSelected = 100.0f;
+
 @interface FlyerDashboard ()
 {
     NSMutableArray* _availableFlyers;
+    NSInteger _selectedRow;
 }
 @end
 
@@ -51,6 +55,9 @@
     
     [self.closeCircle setBorderColor:[GameColors borderColorScanWithAlpha:1.0f]];
     [self.closeCircle setButtonTarget:self action:@selector(didPressClose:)];
+
+    _availableFlyers = [NSMutableArray arrayWithArray:[[FlyerMgr getInstance] playerFlyers]];
+    _selectedRow = -1;
 }
 
 - (void)viewDidUnload {
@@ -67,7 +74,7 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    _availableFlyers = [NSMutableArray arrayWithArray:[[FlyerMgr getInstance] playerFlyers]];
+    [self.tableView reloadData];
 }
 
 #pragma mark - updates from game sim
@@ -126,12 +133,17 @@
     return [_availableFlyers count] + 1;
 }
 
-/*
- - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
- {
- return kRowHeight;
- }
- */
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat height = kRowHeight;
+    if([indexPath row] == _selectedRow)
+    {
+        height = kRowHeightSelected;
+    }
+    return height;
+}
+
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -151,6 +163,8 @@
     if([indexPath row] < [_availableFlyers count])
     {
         Flyer* flyer = [_availableFlyers objectAtIndex:[indexPath row]];
+        cell.flyer = flyer;
+        cell.navController = self.navigationController;
         
         // flyer image
         UIImageView* imageView = cell.flyerImageView;
@@ -248,11 +262,11 @@
 {
     if([indexPath row] < [_availableFlyers count])
     {
-        [self.navigationController popToRootViewControllerAnimated:NO];
-        [[GameManager getInstance] haltMapAnnotationCalloutsForDuration:0.1f];
+        _selectedRow = [indexPath row];
         
-        Flyer* flyer = [_availableFlyers objectAtIndex:[indexPath row]];
-        [[GameManager getInstance] wheel:nil commitOnFlyer:flyer];
+        // this animates row height changes
+        [tableView beginUpdates];
+        [tableView endUpdates];
     }
     else
     {
@@ -275,6 +289,7 @@
             FlyerTypeSelect* next = [[FlyerTypeSelect alloc] initWithNibName:@"FlyerTypeSelect" bundle:nil];
             [[GameManager getInstance].gameViewController pushModalNavViewController:next];
         }
+        _selectedRow = -1;
     }
 }
 
