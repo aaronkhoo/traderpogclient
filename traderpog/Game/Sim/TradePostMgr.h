@@ -46,6 +46,7 @@ static NSString* const kTradePostMgr_ScanForPosts = @"TradePostMgr_ScanForPosts"
 - (void) retrievePostsFromServer;
 - (NSInteger) postsCount;
 - (BOOL) isBeaconActive;
+- (void)checkAndRenewBeacons;
 - (void) annotatePostsOnMap:(MapControl*)map;
 - (NPCTradePost*) newNPCTradePostAtCoord:(CLLocationCoordinate2D)coord
                                    bucks:(unsigned int)bucks;

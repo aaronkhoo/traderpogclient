@@ -21,8 +21,6 @@ extern NSString* const kMyPostMenuCloseId;
 @property (nonatomic) CGRect centerFrame;
 @property (nonatomic,weak) MyTradePost* myPost;
 @property (weak, nonatomic) IBOutlet CircleButton *closeCircle;
-@property (weak, nonatomic) IBOutlet CircleButton *beaconCircle;
-@property (weak, nonatomic) IBOutlet CircleButton *flyerCircle;
 @property (weak, nonatomic) IBOutlet CircleButton *restockCircle;
 @property (weak, nonatomic) IBOutlet UIView *beaconBar;
 @property (weak, nonatomic) IBOutlet UIView *flyerBar;

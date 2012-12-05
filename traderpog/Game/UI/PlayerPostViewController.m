@@ -70,8 +70,6 @@ static const float kBubbleDisabledAlpha = 0.6f;
     [super viewDidLoad];
     
     [self.closeCircle setButtonTarget:self action:@selector(didPressClose:)];
-    [self.beaconCircle setButtonTarget:self action:@selector(didPressBeacon:)];
-    [self.flyerCircle setButtonTarget:self action:@selector(didPressFlyer:)];
     [self.restockCircle setButtonTarget:self action:@selector(didPressRestock:)];
     [self.closeCircle setBackgroundColor:[UIColor clearColor]];
     [self.closeCircle setBorderWidth:0.0f];
@@ -94,12 +92,8 @@ static const float kBubbleDisabledAlpha = 0.6f;
 - (void)viewDidUnload
 {
     [self.closeCircle removeButtonTarget];
-    [self.beaconCircle removeButtonTarget];
-    [self.flyerCircle removeButtonTarget];
     [self.restockCircle removeButtonTarget];
     [self setCloseCircle:nil];
-    [self setBeaconCircle:nil];
-    [self setFlyerCircle:nil];
     [self setRestockCircle:nil];
     [self setBeaconBar:nil];
     [self setFlyerBar:nil];
@@ -123,13 +117,13 @@ static const float kBubbleDisabledAlpha = 0.6f;
     
     CGPoint downVec = CGPointMake(0.0f, -kCircleDist * 1.1f);
     CGPoint downVec2 = CGPointMake(0.0f, -kCircleDist);
-    CGAffineTransform leaderTransform = CGAffineTransformMakeRotation(-1.75f * M_PI_4);
-    CGAffineTransform memberTransform = CGAffineTransformMakeRotation(0.0f);
+    //CGAffineTransform leaderTransform = CGAffineTransformMakeRotation(-1.75f * M_PI_4);
+    //CGAffineTransform memberTransform = CGAffineTransformMakeRotation(0.0f);
     CGAffineTransform moreTransform = CGAffineTransformMakeRotation(1.75f * M_PI_4);
-    CGPoint leaderVec = CGPointApplyAffineTransform(downVec, leaderTransform);
-    CGPoint leaderVec2 = CGPointApplyAffineTransform(downVec2, leaderTransform);
-    CGPoint memberVec = CGPointApplyAffineTransform(downVec, memberTransform);
-    CGPoint memberVec2 = CGPointApplyAffineTransform(downVec2, memberTransform);
+    //CGPoint leaderVec = CGPointApplyAffineTransform(downVec, leaderTransform);
+    //CGPoint leaderVec2 = CGPointApplyAffineTransform(downVec2, leaderTransform);
+    //CGPoint memberVec = CGPointApplyAffineTransform(downVec, memberTransform);
+    //CGPoint memberVec2 = CGPointApplyAffineTransform(downVec2, memberTransform);
     CGPoint moreVec = CGPointApplyAffineTransform(downVec, moreTransform);
     CGPoint moreVec2 = CGPointApplyAffineTransform(downVec2, moreTransform);
     
@@ -145,55 +139,7 @@ static const float kBubbleDisabledAlpha = 0.6f;
                              [self.closeCircle setTransform:CGAffineTransformMakeScale(1.0f, 1.0f)];
                          }
                          completion:nil];
-        
-        [self.beaconCircle setTransform:CGAffineTransformMakeScale(kBubbleInitScale, kBubbleInitScale)];
-        [UIView animateWithDuration:kOutwardDur
-                              delay:0.0f
-                            options:UIViewAnimationCurveEaseIn
-                         animations:^(void){
-                             CGAffineTransform s = CGAffineTransformMakeScale(kBubbleOutScale, kBubbleOutScale);
-                             CGAffineTransform t = CGAffineTransformTranslate(s, leaderVec.x, leaderVec.y);
-                             [self.beaconCircle setTransform:t];
-                         }
-                         completion:^(BOOL finished){
-                             if(finished)
-                             {
-                                 [UIView animateWithDuration:kBounceDur
-                                                       delay:0.0f
-                                                     options:UIViewAnimationCurveEaseIn
-                                                  animations:^(void){
-                                                      CGAffineTransform s = CGAffineTransformMakeScale(1.0f, 1.0f);
-                                                      CGAffineTransform t = CGAffineTransformTranslate(s, leaderVec2.x, leaderVec2.y);
-                                                      [self.beaconCircle setTransform:t];
-                                                  }
-                                                  completion:nil];
-                             }
-                         }];
-        
-        [self.flyerCircle setTransform:CGAffineTransformMakeScale(kBubbleInitScale, kBubbleInitScale)];
-        [UIView animateWithDuration:kOutwardDur
-                              delay:kSpacingDur
-                            options:UIViewAnimationCurveEaseIn
-                         animations:^(void){
-                             CGAffineTransform s = CGAffineTransformMakeScale(kBubbleOutScale, kBubbleOutScale);
-                             CGAffineTransform t = CGAffineTransformTranslate(s, memberVec.x, memberVec.y);
-                             [self.flyerCircle setTransform:t];
-                         }
-                         completion:^(BOOL finished){
-                             if(finished)
-                             {
-                                 [UIView animateWithDuration:kBounceDur
-                                                       delay:0.0f
-                                                     options:UIViewAnimationCurveEaseIn
-                                                  animations:^(void){
-                                                      CGAffineTransform s = CGAffineTransformMakeScale(1.0f, 1.0f);
-                                                      CGAffineTransform t = CGAffineTransformTranslate(s, memberVec2.x, memberVec2.y);
-                                                      [self.flyerCircle setTransform:t];
-                                                  }
-                                                  completion:nil];
-                             }
-                         }];
-        
+                
         [self.restockCircle setTransform:CGAffineTransformMakeScale(kBubbleInitScale, kBubbleInitScale)];
         [UIView animateWithDuration:kOutwardDur
                               delay:kSpacingDur * 2.0f
@@ -223,8 +169,6 @@ static const float kBubbleDisabledAlpha = 0.6f;
         [self.closeCircle setTransform:CGAffineTransformMakeScale(1.0f, 1.0f)];
         
         CGAffineTransform s = CGAffineTransformMakeScale(1.0f, 1.0f);
-        [self.beaconCircle setTransform:CGAffineTransformTranslate(s, leaderVec2.x, leaderVec2.y)];
-        [self.flyerCircle setTransform:CGAffineTransformTranslate(s, memberVec2.x, memberVec2.y)];
         [self.restockCircle setTransform:CGAffineTransformTranslate(s, moreVec2.x, moreVec2.y)];
     }
 }
@@ -234,11 +178,11 @@ static const float kBubbleDisabledAlpha = 0.6f;
     if([self.view superview])
     {
         CGPoint downVec = CGPointMake(0.0f, -kCircleDist * 1.1f);
-        CGAffineTransform leaderTransform = CGAffineTransformMakeRotation(-1.75f * M_PI_4);
-        CGAffineTransform memberTransform = CGAffineTransformMakeRotation(0.0f);
+        //CGAffineTransform leaderTransform = CGAffineTransformMakeRotation(-1.75f * M_PI_4);
+        //CGAffineTransform memberTransform = CGAffineTransformMakeRotation(0.0f);
         CGAffineTransform moreTransform = CGAffineTransformMakeRotation(1.75f * M_PI_4);
-        CGPoint leaderVec = CGPointApplyAffineTransform(downVec, leaderTransform);
-        CGPoint memberVec = CGPointApplyAffineTransform(downVec, memberTransform);
+        //CGPoint leaderVec = CGPointApplyAffineTransform(downVec, leaderTransform);
+        //CGPoint memberVec = CGPointApplyAffineTransform(downVec, memberTransform);
         CGPoint moreVec = CGPointApplyAffineTransform(downVec, moreTransform);
         
         if(isAnimated)
@@ -253,50 +197,6 @@ static const float kBubbleDisabledAlpha = 0.6f;
                              }
                              completion:^(BOOL finished){
                                  [self.view removeFromSuperview];
-                             }];
-            
-            [UIView animateWithDuration:kBounceDur
-                                  delay:0.0f
-                                options:UIViewAnimationCurveEaseIn
-                             animations:^(void){
-                                 CGAffineTransform s = CGAffineTransformMakeScale(kBubbleOutScale, kBubbleOutScale);
-                                 CGAffineTransform t = CGAffineTransformTranslate(s, leaderVec.x, leaderVec.y);
-                                 [self.beaconCircle setTransform:t];
-                             }
-                             completion:^(BOOL finished){
-                                 if(finished)
-                                 {
-                                     [UIView animateWithDuration:kOutwardDur
-                                                           delay:0.0f
-                                                         options:UIViewAnimationCurveEaseIn
-                                                      animations:^(void){
-                                                          CGAffineTransform s = CGAffineTransformMakeScale(0.1f, 0.1f);
-                                                          [self.beaconCircle setTransform:s];
-                                                      }
-                                                      completion:nil];
-                                 }
-                             }];
-            
-            [UIView animateWithDuration:kBounceDur
-                                  delay:kSpacingDur
-                                options:UIViewAnimationCurveEaseIn
-                             animations:^(void){
-                                 CGAffineTransform s = CGAffineTransformMakeScale(kBubbleOutScale, kBubbleOutScale);
-                                 CGAffineTransform t = CGAffineTransformTranslate(s, memberVec.x, memberVec.y);
-                                 [self.flyerCircle setTransform:t];
-                             }
-                             completion:^(BOOL finished){
-                                 if(finished)
-                                 {
-                                     [UIView animateWithDuration:kOutwardDur
-                                                           delay:0.0f
-                                                         options:UIViewAnimationCurveEaseIn
-                                                      animations:^(void){
-                                                          CGAffineTransform s = CGAffineTransformMakeScale(0.1f, 0.1f);
-                                                          [self.flyerCircle setTransform:s];
-                                                      }
-                                                      completion:nil];
-                                 }
                              }];
             
             [UIView animateWithDuration:kBounceDur
@@ -324,8 +224,6 @@ static const float kBubbleDisabledAlpha = 0.6f;
         else
         {
             CGAffineTransform s = CGAffineTransformMakeScale(0.1f, 0.1f);
-            [self.beaconCircle setTransform:s];
-            [self.flyerCircle setTransform:s];
             [self.restockCircle setTransform:s];
             
             [self.view removeFromSuperview];
@@ -347,31 +245,19 @@ static const float kBubbleDisabledAlpha = 0.6f;
     self.view.frame = infoRect;
     
     // distribute sub-circles equidistance from center
-    CGRect subCircleFrame = [PogUIUtility createCenterFrameWithSize:self.beaconCircle.frame.size inFrame:self.closeCircle.frame];
-    [self.beaconCircle setFrame:subCircleFrame];
-    [self.beaconCircle setTransform:CGAffineTransformIdentity];
-    [self.flyerCircle setFrame:subCircleFrame];
+    CGRect subCircleFrame = [PogUIUtility createCenterFrameWithSize:self.restockCircle.frame.size inFrame:self.closeCircle.frame];
     [self.restockCircle setFrame:subCircleFrame];
 }
 
 - (void) setupContent
 {
     // colors
-    [self.beaconCircle setBackgroundColor:[GameColors bubbleBgColorWithAlpha:1.0f]];
-    [self.beaconCircle setBorderColor:[GameColors borderColorBeaconsWithAlpha:1.0f]];
-    [self.beaconCircle setBorderWidth:kBorderWidth];
     [self.beaconBar setBackgroundColor:[GameColors borderColorBeaconsWithAlpha:1.0f]];
-    [self.flyerCircle setBackgroundColor:[GameColors bubbleBgColorWithAlpha:1.0f]];
-    [self.flyerCircle setBorderColor:[GameColors borderColorFlyersWithAlpha:1.0f]];
-    [self.flyerCircle setBorderWidth:kBorderWidth];
     [self.flyerBar setBackgroundColor:[GameColors borderColorFlyersWithAlpha:1.0f]];
     [self.restockCircle setBackgroundColor:[GameColors bubbleBgColorWithAlpha:1.0f]];
     [self.restockCircle setBorderColor:[GameColors borderColorPostsWithAlpha:1.0f]];
     [self.restockCircle setBorderWidth:kBorderWidth];
     [self.restockBar setBackgroundColor:[GameColors borderColorPostsWithAlpha:1.0f]];
-    
-    // label
-    [self changeFlyerLabLabelIfNecessary];
     
     // semi-transparent restock and beacon if necessary
     if([self myPost])
@@ -386,18 +272,6 @@ static const float kBubbleDisabledAlpha = 0.6f;
         {
             [self.restockCircle setAlpha:1.0f];
             [self.restockCircle enableCircle];
-        }
-        
-        // beacon
-        if ([[TradePostMgr getInstance] isBeaconActive])
-        {
-            [self.beaconCircle setAlpha:kBubbleDisabledAlpha];
-            [self.beaconCircle disableCircle];
-        }
-        else
-        {
-            [self.beaconCircle setAlpha:1.0f];
-            [self.beaconCircle enableCircle];
         }
     }
 
@@ -430,33 +304,6 @@ static const float kBubbleDisabledAlpha = 0.6f;
                                                   cancelButtonTitle:@"Ok"
                                                   otherButtonTitles:nil];
             [alert show];
-        }
-    }
-}
-
-- (void)changeFlyerLabLabelIfNecessary
-{
-    if([self myPost])
-    {
-        if([self.myPost flyerAtPost])
-        {
-            [self.flyerLabel setText:@"Flyer Lab"];
-            [self.flyerCircle enableCircle];
-            [self.flyerCircle setAlpha:1.0f];
-        }
-        else if([[FlyerMgr getInstance] homeOrHomeboundFlyer])
-        {
-            // if there is a home-bound flyer, don't allow Call Flyer
-            [self.flyerLabel setText:@"Waiting"];
-            [self.flyerCircle disableCircle];
-            [self.flyerCircle setAlpha:kBubbleDisabledAlpha];
-        }
-        else
-        {
-            // otherwise, show Call Flyer
-            [self.flyerLabel setText:@"Call Flyer"];
-            [self.flyerCircle enableCircle];
-            [self.flyerCircle setAlpha:1.0f];
         }
     }
 }

@@ -149,6 +149,17 @@ static const int kDesiredOtherPostNumInWorld = 10;  // number of total Other Pos
     return FALSE;
 }
 
+- (void)checkAndRenewBeacons
+{
+    for (MyTradePost* post in [_activePosts allValues])
+    {
+        if (![post beaconActive])
+        {
+            [post setBeacon];
+        }
+    }
+}
+
 // this method performs linkage on variables that need to be resolved when
 // all data in all managers (FlyerMgr, TradePostMgr, etc.) has been loaded
 // specifically, it adds all the loaded posts as annotations in the game map

@@ -484,6 +484,9 @@ typedef enum {
 - (void) applicationWillEnterForeground
 {
     [_traderpogServerReachability startNotifier];
+    
+    // automatically renew expired beacons
+    [[TradePostMgr getInstance] checkAndRenewBeacons];
     if (_gameState != kGameStateNew && ([_lastGameStateInitializeTime timeIntervalSinceNow] < timeTillReinitialize))
     {
         // if we are resuming the app after timeTillReinitialize has expired, just pop back to the
