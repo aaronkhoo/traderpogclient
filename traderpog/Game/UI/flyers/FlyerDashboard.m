@@ -262,6 +262,7 @@ static const CGFloat kRowHeightSelected = 100.0f;
 {
     if([indexPath row] < [_availableFlyers count])
     {
+        [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level1"];
         _selectedRow = [indexPath row];
         
         // this animates row height changes
@@ -270,25 +271,9 @@ static const CGFloat kRowHeightSelected = 100.0f;
     }
     else
     {
-        // TODO: add a flyer-type selection screen;
-        // currently only allows purchase of Flyer 0
-        //NSArray* purchaseables = [[FlyerMgr getInstance] getPurchaseableFlyerTypeIndices];
-//        Flyer* flyer = [_availableFlyers objectAtIndex:0];
-        //unsigned int lookupIndex = [flyer flyerTypeIndex];
-        //if(lookupIndex < [purchaseables count])
-        {
-//            unsigned int flyerTypeIndex = [[purchaseables objectAtIndex:lookupIndex] unsignedIntValue];
-//            unsigned int flyerTypeIndex = [flyer flyerTypeIndex];
-            
-            
-//            NSArray* flyerTypes = [[FlyerTypes getInstance] getFlyersForTier:1];
-//            FlyerType* flyerType = [flyerTypes objectAtIndex:0];
-//            FlyerBuyConfirmScreen* next = [[FlyerBuyConfirmScreen alloc] initWithFlyerType:flyerType];
-//            [[GameManager getInstance].gameViewController pushModalNavViewController:next];
-            
-            FlyerTypeSelect* next = [[FlyerTypeSelect alloc] initWithNibName:@"FlyerTypeSelect" bundle:nil];
-            [[GameManager getInstance].gameViewController pushModalNavViewController:next];
-        }
+        [[SoundManager getInstance] playClip:@"Pog_SFX_PopUP_Level1"];
+        FlyerTypeSelect* next = [[FlyerTypeSelect alloc] initWithNibName:@"FlyerTypeSelect" bundle:nil];
+        [[GameManager getInstance].gameViewController pushModalNavViewController:next];
         _selectedRow = -1;
     }
 }
