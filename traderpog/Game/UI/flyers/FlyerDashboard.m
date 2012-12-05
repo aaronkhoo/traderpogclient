@@ -81,7 +81,7 @@
         BOOL shouldReload = NO;
         for(Flyer* cur in _availableFlyers)
         {
-            if(kFlyerStateEnroute == [cur state])
+            if((kFlyerStateEnroute == [cur state]) || (kFlyerStateLoading == [cur state]))
             {
                 shouldReload = YES;
                 break;
